@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────
+#  JAMAIS EN LIGNE
+# ─────────────────────────────────────────────────────────────
+# Les textes et les images en clair des études protégées.
+# Si ce dossier part une seule fois sur GitHub, il reste dans
+# l'historique même après suppression : le chiffrement ne sert
+# alors plus à rien. C'est la ligne la plus importante du fichier.
+verrou-source/
+
+# Copies de travail, jamais destinées au public
+apercu-local.html
+diagnostic-eau.html
+*.command
+
+# ─────────────────────────────────────────────────────────────
+#  BRUIT DE MACHINE
+# ─────────────────────────────────────────────────────────────
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
