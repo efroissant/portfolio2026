@@ -147,6 +147,40 @@
     background: var(--backdrop);
   }
 
+  /* ================= LECTEUR SPOTIFY =================
+     Aucun habillage : le lecteur de Spotify est déjà une carte, avec son
+     fond, son rayon et sa typographie. L'encadrer dans une fenêtre blanche
+     revenait à poser un cadre autour d'un cadre.
+
+     352 est la hauteur à laquelle Spotify affiche la liste des titres ;
+     en dessous il replie tout sur une seule ligne. 380 de large est le
+     seuil sous lequel il tronque les noms de morceaux. Ces deux nombres
+     viennent de Spotify, pas de la maquette. */
+  .spot {
+    position: fixed;
+    z-index: 27;
+    top: 64px;                       /* sous la barre de menus, 20 d'écart */
+    right: 20px;
+    width: 380px;
+    height: 352px;
+    border-radius: 12px;             /* le même que celui du lecteur */
+    overflow: hidden;
+    /* Une ombre courte, sinon la carte paraît collée sur la photo. C'est le
+       seul ornement que je me suis permis. */
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+  }
+  .spot iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+  /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
+     marges décider, et on s'ancre au-dessus du dock. */
+  @media (max-width: 720px) {
+    .spot {
+      top: auto; left: 12px; right: 12px;
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+      width: auto;
+    }
+  }
+
   /* ================= SCÈNE PARTAGÉE ================= */
   .stage {
     position: relative;
@@ -579,6 +613,15 @@
   /* Icône d'une vignette du bureau. Toutes sont aujourd'hui des caractères
      emoji : dessinés par la police système, donc par Apple sur un Mac. Zéro
      octet, nets à toute taille, et une seule main pour les cinq. */
+  /* Un SVG de vignette suit la même règle qu'une image : la taille vient de
+     --mini-icon, jamais du fichier. */
+  .mini__icon svg { display: block; width: var(--mini-icon); height: var(--mini-icon); }
+
+  /* Les trois vignettes réservées au téléphone. Sur grand écran elles
+     n'existent pas : leur contenu est déjà dans le dock, et les répéter
+     sur le bureau ferait deux portes sans raison. */
+  .mini--mobile { display: none; }
+
   /* Une vignette porte soit un caractère emoji, soit une image. Les deux
      occupent la même boîte de 64 et s'appuient sur la même ligne de sol —
      c'est ce qui permet de remplacer les unes par les autres sans toucher
@@ -1162,21 +1205,6 @@
     }
     .mhead__plus:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 8px; }
 
-    /* --- le lecteur passe en bandeau sous l'en-tête --- */
-    .player {
-      top: calc(env(safe-area-inset-top, 0px) + 96px);
-      left: 24px; right: 24px;
-      width: auto;
-      cursor: default;
-    }
-    .player__titlebar { display: none; }
-    .player__body { flex-direction: column; gap: 12px; padding: 16px 0; }
-    .player__cover { display: none; }
-    .player__meta { order: -1; }
-    .player__track  { font-size: 16px; line-height: 24px; }
-    .player__artist { font-size: 14px; line-height: 24px; }
-    .player__controls { gap: 40px; }
-
     /* --- les vignettes deviennent une grille --- */
     .minis {
       position: absolute;
@@ -1216,9 +1244,20 @@
        changent, le rayon vient de la règle commune. */
     .dock__pill { width: 100%; justify-content: center; padding: 12px 16px; }
     .dock__items { gap: 0; justify-content: space-around; width: 100%; }
-    /* Les outils quittent le dock : ils vivront dans une vignette
-       « Logiciels » de la grille. Le dock garde ce qui sert à joindre. */
-    .dock__item[data-groupe="tech"], .dock__sep { display: none; }
+    /* Le partage change de sens au doigt.
+
+       Sur grand écran, le dock porte tout : les outils d'un côté, ce qui
+       s'ouvre de l'autre. Sur téléphone il ne tient que cinq icônes à 56px,
+       alors il faut choisir. Restent en bas les outils — ils énoncent, ils
+       n'ouvrent rien. Ce qui s'ouvre remonte sur le bureau, là où le pouce
+       va naturellement.
+
+       Une seule icône figure aux deux endroits, Spotify : en bas elle
+       nomme un outil, en haut elle ouvre la playlist. */
+    .dock__item[data-groupe="social"],
+    .dock__item[data-groupe="notes"],
+    .dock__sep { display: none; }
+    .mini--mobile { display: flex; }
     /* 56 et non 60 : quatre icônes de 56 plus leurs écarts tiennent dans
        les plus petits iPhone sans que le dock touche les bords. */
     .dock__item { width: 56px; height: 56px; }
@@ -2005,134 +2044,6 @@
   }
 
 
-  /* ================= LECTEUR — Module_Musique 418:452 =================
-     264x388, rayon 16, verre + ombre r55. Il n'apparaît qu'une fois une
-     musique lancée : tant que rien ne joue, il n'a rien à dire. */
-  .player {
-    position: absolute;
-    /* 16px sous la barre de menu — calculé depuis --bar-h, pas recopié :
-       si la hauteur de barre change, le lecteur suit. */
-    top: calc(var(--bar-h) + 16px);
-    right: 16px;
-    z-index: 25;
-    width: 264px;
-    display: flex;
-    flex-direction: column;
-    padding: 8px 16px 0;
-    border-radius: 16px;
-    /* Verre sombre, et non le panneau blanc des fenêtres : ce n'est pas un
-       document, c'est un objet posé sur le bureau. La pochette y est la
-       seule source de couleur, comme dans un vrai lecteur.
-
-       Le noir n'est pas un choix d'humeur, c'est le seul qui tienne : mesuré
-       sur les deux fonds d'écran, un verre blanc à 35 % laisse le texte
-       sous le seuil AA sur plus de la moitié du panneau de nuit. Le noir à
-       60 % passe partout — pire cas 15,4:1 sur Minuit, 6,4:1 sur Midi.
-
-       saturate : c'est ce qui distingue le verre de la simple opacité. La
-       couleur du fond continue de vivre à travers le panneau. */
-    background: rgba(0, 0, 0, 0.60);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    backdrop-filter: blur(30px) saturate(180%);
-    /* Le liseré clair est ce qui donne une épaisseur au verre : sans lui, le
-       panneau flotte sans bord et redevient un rectangle sombre. */
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-    color: #fff;
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
-  }
-  .player[hidden] { display: none; }
-  /* Le lecteur appartient au bureau. Il est enfant de .stage pour rester
-     au-dessus des vues, il faut donc le masquer explicitement en veille. */
-  .stage[data-state="lock"] .player { display: none; }
-  .player:active { cursor: grabbing; }
-
-  .player__titlebar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    height: 30px;
-    padding: 8px 0;
-    flex-shrink: 0;
-  }
-  /* Mêmes valeurs que le titre de la fenêtre Finder : deux fenêtres du même
-     bureau ne titrent pas dans deux tailles différentes. */
-  /* Centré dans la barre et non ferré après le bouton, comme le titre de la
-     fenêtre Finder. En absolu plutôt qu'en flex : le titre se centre alors
-     sur la fenêtre entière, pas sur l'espace qui reste à droite du bouton
-     de fermeture — sans quoi il paraîtrait décalé de la moitié du bouton. */
-  .player__title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: 13px;
-    font-weight: 590;
-    color: rgba(255, 255, 255, 0.92);
-  }
-
-  .player__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 0 0 16px;
-  }
-
-  .player__cover {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-  }
-  .player__cover img {
-    width: 100%; height: 100%; display: block; object-fit: cover;
-    -webkit-user-drag: none;
-    pointer-events: none;
-  }
-
-  .player__controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 26px;
-    height: 28px;
-  }
-  .player__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: rgba(255, 255, 255, 0.85);
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  .player__btn svg { display: block; fill: currentColor; }
-  .player__btn:hover { color: #fff; }
-  /* Un bouton bascule doit dire s'il est actif autrement que par la couleur
-     seule — l'opacité change aussi, et aria-pressed porte l'information. */
-  .player__btn[aria-pressed="true"] { color: #fff; }
-  .player__btn[aria-pressed="true"]::after {
-    content: "";
-    position: absolute;
-    margin-top: 22px;
-    width: 3px; height: 3px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-  .player__btn--toggle { position: relative; }
-  .player__btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-
-  .player__meta { text-align: center; display: flex; flex-direction: column; gap: 2px; }
-  .player__track  { font-size: 12px; font-weight: 590; color: #fff; }
-  .player__artist { font-size: 10px; font-weight: 510; color: rgba(255, 255, 255, 0.82); }
 
 
   /* ================= DOCK — Tech_Dock 423:155 =================
@@ -2210,7 +2121,17 @@
     /* Le grossissement part du bas : une icône de dock monte, elle ne
        s'étale pas de part et d'autre de son centre. */
     transform-origin: bottom center;
-    will-change: transform;
+    /* Pas de will-change ici, volontairement.
+
+       will-change: transform promeut chaque icône en calque GPU. Le calque
+       est rastérisé UNE FOIS, à la taille au repos — 36 px —, puis étiré
+       jusqu'à 55,8 px par le grossissement au survol. Soit une image de
+       36 pixels agrandie de 55 %, ce qui se voit immédiatement sur un écran
+       sans densité double.
+
+       Sans la promotion, le navigateur redessine le SVG à chaque changement
+       d'échelle : le vecteur est recalculé, pas étiré. Sept icônes de moins
+       de 60 px, c'est un coût de peinture négligeable. */
     /* Transition courte : elle lisse le retour au repos quand le curseur
        quitte le dock, sans retarder le suivi pendant le survol. */
     transition: transform 160ms cubic-bezier(.22,.61,.36,1);
@@ -2532,13 +2453,6 @@
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: auto;
   }
-  /* Le lecteur est sur fond sombre : le lissage plein y épaissit le texte.
-     C'est l'inverse de la règle qui vaut pour les panneaux blancs. */
-  .player {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-shadow: none;
-  }
   /* Le lecteur étant repassé au verre, son backdrop-filter recompose la
      couche et le lissage sous-pixel y reste indisponible malgré la règle
      ci-dessus. Son texte sera donc un peu plus dense que celui des autres
@@ -2601,6 +2515,19 @@
     <p class="finder__status" id="finder-status"></p>
   </div>
 
+  <!-- Spotify — le lecteur seul, sans habillage.
+
+       L'iframe n'est PAS écrite ici : elle est fabriquée au premier clic et
+       détruite à la fermeture. Le lecteur vient d'un autre domaine, on ne
+       peut rien lui commander depuis cette page — ni pause, ni volume.
+       Retirer l'élément est la seule façon d'arrêter le son. Le même geste
+       sert la vie privée : tant que personne ne clique, Spotify ignore que
+       ce site existe.
+
+       Fermeture : la même icône du dock, ou Échap. -->
+  <div class="spot" id="spot" aria-label="Playlist Spotify" hidden></div>
+
+
   <div class="stage__bg"></div>
   <div class="stage__tint"></div>
   <div class="stage__scrim"></div>
@@ -2647,39 +2574,6 @@
         </div>
         </div>
 
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Lecteur — Module_Musique 418:452 -->
-  <!-- Masqué au départ : il apparaît à la première lecture, et plLoad le
-       réaffiche s'il avait été fermé. Un lecteur vide et permanent occupait
-       le coin de l'écran sans rien dire. -->
-  <div class="player" id="player" aria-label="Lecteur de musiques" hidden>
-    <div class="player__titlebar">
-      <div class="modal__lights">
-        <button type="button" class="modal__light modal__light--close" id="player-close" aria-label="Fermer le lecteur"></button>
-      </div>
-      <span class="player__title">Lecteur mp3</span>
-    </div>
-
-    <div class="player__body">
-      <div class="player__cover">
-        <img id="player-cover" draggable="false" src="cover-danslebleu-223.jpg" alt="" width="223" height="223">
-      </div>
-
-      <div class="player__controls">
-        <button type="button" class="player__btn player__btn--toggle" id="player-shuffle" aria-pressed="false" aria-label="Lecture aléatoire"><svg width="14" height="11" viewBox="0 0 14 11" aria-hidden="true"><path d="M9.6 0 14 2.6 9.6 5.2V3.4H8.2c-.9 0-1.4.4-2.1 1.3l-.4.5-1.1-1.4.4-.5C5.9 2.1 6.8 1.4 8.2 1.4h1.4V0Zm0 5.8L14 8.4 9.6 11V9.2H8.2c-1.4 0-2.3-.7-3.2-1.9l-1-1.3c-.7-.9-1.2-1.3-2-1.3H0V2.9h2c1.4 0 2.3.7 3.2 1.9l1 1.3c.7.9 1.2 1.3 2 1.3h1.4V5.8Z"/><path d="M0 7.7h2c.5 0 .9-.1 1.3-.5l.9 1.2c-.7.6-1.4.8-2.2.8H0V7.7Z"/></svg></button>
-        <button type="button" class="player__btn" id="player-prev" aria-label="Piste précédente"><svg width="10" height="11" viewBox="0 0 10 11" aria-hidden="true"><path d="M0 .5h1.8v10H0zM10 .5v10L2.6 5.5z"/></svg></button>
-        <button type="button" class="player__btn" id="player-play" aria-label="Pause"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 0a14 14 0 1 0 0 28 14 14 0 0 0 0-28Zm-4 8h3v12h-3V8Zm7 0h3v12h-3V8Z"/></svg></button>
-        <button type="button" class="player__btn" id="player-next" aria-label="Piste suivante"><svg width="10" height="11" viewBox="0 0 10 11" aria-hidden="true"><path d="M8.2.5H10v10H8.2zM0 .5v10l7.4-5z"/></svg></button>
-        <button type="button" class="player__btn player__btn--toggle" id="player-repeat" aria-pressed="false" aria-label="Répéter"><svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true"><path d="M3.5 0v1.7h7c.9 0 1.7.8 1.7 1.7v2.2l-1.5-1.5-1.2 1.2 3.5 3.5L14 5.3l-1.2-1.2v-.7C12.8 1.5 11.3 0 9.5 0H3.5Zm-2 2.4L0 6.7l1.2 1.2v.7c0 1.9 1.5 3.4 3.3 3.4h6v-1.7h-7c-.9 0-1.7-.8-1.7-1.7V6.4l1.5 1.5 1.2-1.2L1.5 2.4Z"/></svg></button>
-      </div>
-
-      <div class="player__meta">
-        <span class="player__track" id="player-track">—</span>
-        <span class="player__artist" id="player-artist">—</span>
       </div>
     </div>
   </div>
@@ -3115,11 +3009,6 @@
         <span class="mini__label">Photos</span>
       </button>
 
-      <button type="button" class="mini" data-folder="musiques"
-              aria-label="Musiques — ouvrir">
-        <span class="mini__icon" aria-hidden="true">🎹</span>
-        <span class="mini__label">Musiques</span>
-      </button>
 
       <button type="button" class="mini" data-folder="case-studies"
               aria-label="Portfolio — ouvrir">
@@ -3131,6 +3020,44 @@
               aria-label="Curriculum Vitae — ouvrir">
         <span class="mini__icon" aria-hidden="true">📄</span>
         <span class="mini__label">Curriculum Vitae</span>
+      </button>
+
+      <!-- Spotify vit sur le bureau, aux deux tailles : c'est la seule
+           porte vers la playlist depuis que l'icône a quitté le dock.
+
+           LinkedIn et Notes, en revanche, n'apparaissent qu'au doigt. Sur
+           grand écran ils sont déjà dans le dock, et les répéter ferait
+           deux portes sans raison. Sur téléphone le dock ne tient que les
+           outils — ils énoncent, ils n'ouvrent rien — et ce qui s'ouvre
+           remonte sur le bureau, là où le pouce va naturellement. -->
+      <button type="button" class="mini" data-action="spotify"
+              aria-label="Spotify — voir ma playlist">
+        <span class="mini__icon" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="black"/><g clip-path="url(#msp0)"><path d="M18 3.46875C9.71976 3.46875 3 9.97852 3 18C3 26.0215 9.71976 32.5312 18 32.5312C26.2802 32.5312 33 26.0215 33 18C33 9.97852 26.2802 3.46875 18 3.46875Z" fill="#1ED760"/><path d="M27.593 16.541C27.2785 16.541 27.0849 16.4648 26.8127 16.3125C22.5063 13.8223 14.8067 13.2246 9.82282 14.5723C9.60508 14.6309 9.3329 14.7246 9.04258 14.7246C8.24419 14.7246 7.6333 14.1211 7.6333 13.3418C7.6333 12.5449 8.14137 12.0938 8.68572 11.9414C10.8148 11.3379 13.1978 11.0508 15.7926 11.0508C20.2079 11.0508 24.8349 11.9414 28.216 13.8516C28.6877 14.1152 28.9962 14.4785 28.9962 15.1758C28.9962 15.9727 28.3309 16.541 27.593 16.541ZM25.718 21.0059C25.4035 21.0059 25.1918 20.8711 24.974 20.7598C21.1938 18.5918 15.5567 17.7188 10.5426 19.0371C10.2523 19.1133 10.095 19.1895 9.82282 19.1895C9.17564 19.1895 8.64943 18.6797 8.64943 18.0527C8.64943 17.4258 8.96395 17.0098 9.58693 16.8398C11.2684 16.3828 12.9861 16.043 15.5023 16.043C19.4277 16.043 23.22 16.9863 26.2079 18.709C26.6978 18.9902 26.8914 19.3535 26.8914 19.8633C26.8853 20.4961 26.3773 21.0059 25.718 21.0059ZM24.091 24.8496C23.8369 24.8496 23.6797 24.7734 23.4438 24.6387C19.6696 22.4355 15.2785 22.3418 10.9418 23.2031C10.7059 23.2617 10.3974 23.3555 10.222 23.3555C9.63532 23.3555 9.26637 22.9043 9.26637 22.4297C9.26637 21.8262 9.63532 21.5391 10.0889 21.4453C15.0426 20.3848 20.1051 20.4785 24.4236 22.9805C24.7926 23.209 25.0103 23.4141 25.0103 23.9473C25.0103 24.4805 24.5809 24.8496 24.091 24.8496Z" fill="black"/></g><defs><clipPath id="msp0"><rect width="30" height="30" fill="white" transform="translate(3 3)"/></clipPath></defs></svg></span>
+        <span class="mini__label">Spotify</span>
+      </button>
+
+      <a class="mini mini--mobile" href="https://www.linkedin.com/in/efroissant/"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="LinkedIn — ouvrir mon profil dans un nouvel onglet">
+        <span class="mini__icon" aria-hidden="true"><svg viewBox="0 0 72 72" role="img" focusable="false">
+            <!-- #0A66C2 : le bleu de marque LinkedIn. Rayon 12 sur ce viewBox de 72,
+                     soit 6px une fois rendu à 36 — la valeur des icônes Figma,
+                     Claude et Lovable juste à côté. -->
+                <rect x="0" y="0" width="72" height="72" rx="12" fill="#0a66c2"/>
+                <!-- svg imbriqué : le cadrage vient des marges de la maquette
+                     (16,67 % en haut, 13,89 % à droite…), preserveAspectRatio
+                     fait l'ajustement sans que j'aie à calculer une échelle. -->
+                <svg x="14" y="12" width="48" height="47.35" viewBox="-0.02 1 22.43 22" preserveAspectRatio="xMidYMid meet">
+                  <path d="M4.98 3.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zM.22 8.98h4.52V23H.22zM8.34 8.98h4.33v1.92h.06c.6-1.14 2.07-2.34 4.27-2.34 4.57 0 5.41 3 5.41 6.9V23h-4.51v-6.72c0-1.6-.03-3.66-2.23-3.66-2.23 0-2.57 1.74-2.57 3.54V23H8.34z" fill="#ffffff"/>
+                </svg>
+          </svg></span>
+        <span class="mini__label">LinkedIn</span>
+      </a>
+
+      <button type="button" class="mini mini--mobile" data-action="notes"
+              aria-label="Notes — ouvrir Pourquoi_je_design?">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="notes-192.webp" type="image/webp"><img src="notes-192.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">Notes</span>
       </button>
 
       
@@ -3145,7 +3072,6 @@
           <div class="ctxmenu__sub" id="wall-sub" data-liste-fonds role="menu" aria-label="Fonds d’écran" hidden></div>
         </div>
         <div class="ctxmenu__sep" role="separator"></div>
-        <button type="button" class="ctxmenu__item" role="menuitem" data-action="stop">Arrêter la lecture</button>
       </div>
     </div>
 
@@ -3198,11 +3124,6 @@
                aria-label="GitHub — ouvrir mon profil dans un nouvel onglet">
             <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="#7633B1"/><path d="M17.9685 2C26.8121 2 34 9.22001 34 18.0648C33.9999 25.0655 29.5622 30.7222 23.9061 32.8788C22.9686 33.2538 22.1871 32.7224 22.1871 31.7848V28.5346C22.1871 26.8158 21.4687 25.3156 20.4063 24.628C24.5936 24.0966 27.4994 21.1901 27.4995 17.3461C27.4995 15.7209 26.9683 14.1267 25.9683 12.9391C26.3745 11.8765 26.3121 9.68912 25.8747 8.84512C24.6249 8.68888 22.9063 9.3447 21.9375 10.2197C20.8125 9.87591 19.5621 9.68893 18.0309 9.68893C16.4997 9.68895 15.2499 9.87646 14.0625 10.2515C13.0625 9.34511 11.3746 8.68886 10.1246 8.84512C9.65607 9.75166 9.59371 11.9389 9.99983 12.9702C9.06234 14.0953 8.49982 15.7834 8.49982 17.3461C8.49996 21.1902 11.4064 24.159 15.5313 24.6591C15.1563 24.9716 14.7497 25.4408 14.2184 25.9721C13.4998 26.6908 12.9998 26.9721 12.2187 26.9721C11.4374 26.9721 10.7815 26.5654 10.1565 25.6591C9.34399 24.5027 8.56246 23.9404 7.65623 23.9404C7.03123 23.9404 6.40645 24.2218 6.40645 24.5969C6.40654 24.7843 6.53137 24.9402 6.90623 24.9714C7.62498 25.0652 8.00012 25.5658 8.34385 26.4096C9.21884 28.5034 10.4377 29.6286 12.5001 29.6286C13 29.6286 13.5627 29.5038 14.0001 29.3162V31.8166C13.9999 32.6603 13.1871 33.2224 12.3434 32.9099C6.40617 30.7533 2.00006 25.0029 2 18.0648C2 9.22005 9.12486 2.00007 17.9685 2Z" fill="url(#gh0)"/><defs><linearGradient id="gh0" x1="18.0277" y1="36.6249" x2="18.0277" y2="2" gradientUnits="userSpaceOnUse"><stop stop-color="#EAEAEA"/><stop offset="0.432692" stop-color="#F3F3F3"/><stop offset="0.995192" stop-color="white"/></linearGradient></defs></svg>
             </a>
-          </li>
-          <li class="dock__item" data-groupe="tech" data-hovered="false">
-            <span class="dock__name">Spotify</span>
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="black"/><g clip-path="url(#sp0)"><path d="M18 3.46875C9.71976 3.46875 3 9.97852 3 18C3 26.0215 9.71976 32.5312 18 32.5312C26.2802 32.5312 33 26.0215 33 18C33 9.97852 26.2802 3.46875 18 3.46875Z" fill="#1ED760"/><path d="M27.593 16.541C27.2785 16.541 27.0849 16.4648 26.8127 16.3125C22.5063 13.8223 14.8067 13.2246 9.82282 14.5723C9.60508 14.6309 9.3329 14.7246 9.04258 14.7246C8.24419 14.7246 7.6333 14.1211 7.6333 13.3418C7.6333 12.5449 8.14137 12.0938 8.68572 11.9414C10.8148 11.3379 13.1978 11.0508 15.7926 11.0508C20.2079 11.0508 24.8349 11.9414 28.216 13.8516C28.6877 14.1152 28.9962 14.4785 28.9962 15.1758C28.9962 15.9727 28.3309 16.541 27.593 16.541ZM25.718 21.0059C25.4035 21.0059 25.1918 20.8711 24.974 20.7598C21.1938 18.5918 15.5567 17.7188 10.5426 19.0371C10.2523 19.1133 10.095 19.1895 9.82282 19.1895C9.17564 19.1895 8.64943 18.6797 8.64943 18.0527C8.64943 17.4258 8.96395 17.0098 9.58693 16.8398C11.2684 16.3828 12.9861 16.043 15.5023 16.043C19.4277 16.043 23.22 16.9863 26.2079 18.709C26.6978 18.9902 26.8914 19.3535 26.8914 19.8633C26.8853 20.4961 26.3773 21.0059 25.718 21.0059ZM24.091 24.8496C23.8369 24.8496 23.6797 24.7734 23.4438 24.6387C19.6696 22.4355 15.2785 22.3418 10.9418 23.2031C10.7059 23.2617 10.3974 23.3555 10.222 23.3555C9.63532 23.3555 9.26637 22.9043 9.26637 22.4297C9.26637 21.8262 9.63532 21.5391 10.0889 21.4453C15.0426 20.3848 20.1051 20.4785 24.4236 22.9805C24.7926 23.209 25.0103 23.4141 25.0103 23.9473C25.0103 24.4805 24.5809 24.8496 24.091 24.8496Z" fill="black"/></g><defs><clipPath id="sp0"><rect width="30" height="30" fill="white" transform="translate(3 3)"/></clipPath></defs></svg>
-            <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__sep" role="presentation" aria-hidden="true"></li>
           <li class="dock__item dock__item--link" data-groupe="social" data-hovered="false">
@@ -3365,8 +3286,6 @@ const dire = (function () {
      4 px — en dessous c'est un clic, au-dessus c'est un déplacement. */
   const minisEl = document.getElementById('minis');
   const DRAG_THRESHOLD = 4;
-  let audioEl = null;
-  let playingMini = null;
 
   /* Dispersion aléatoire autour du centre, rejouée à chaque chargement.
      Deux garde-fous : un rayon borné pour que le groupe reste lu comme un
@@ -3382,10 +3301,18 @@ const dire = (function () {
     return Math.abs(a.l - b.l) < w + MIN_GAP && Math.abs(a.t - b.t) < hgt + MIN_GAP;
   }
 
+  /* Les vignettes réservées au téléphone sont en display:none sur grand
+     écran. Les compter ici réserverait une deuxième rangée pour des icônes
+     invisibles, et le bloc se poserait de travers. offsetParent vaut null
+     dès qu'un élément n'est pas rendu : c'est le test le plus sûr, il suit
+     la feuille de style sans que le script ait à connaître le seuil. */
+  const minisAffichees = () =>
+    [...minisEl.querySelectorAll('.mini')].filter((m) => m.offsetParent !== null);
+
   function placeInitial() {
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
-    const items = [...minisEl.querySelectorAll('.mini')];
+    const items = minisAffichees();
     const w = items[0] ? items[0].offsetWidth : 121;
     const hgt = items[0] ? items[0].offsetHeight : 129;
     const placed = [];
@@ -3414,16 +3341,6 @@ const dire = (function () {
     ];
   }
 
-  function stopAudio() {
-    if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
-    if (playingMini) { playingMini.dataset.playing = 'false'; playingMini = null; }
-    // plRender est une déclaration de fonction, donc hissée ; elle n'est
-    // appelée qu'au clic, quand pl est initialisé. Pas de garde typeof ici :
-    // sur une const en zone morte temporelle, typeof lève au lieu de
-    // renvoyer 'undefined'.
-    plRender();
-  }
-
   // Un document s'ouvre dans un onglet : le PDF garde sa pagination, son
   // texte sélectionnable et son bouton d'impression, ce qu'aucune fenêtre
   // que je dessinerais ne saurait rendre.
@@ -3433,7 +3350,7 @@ const dire = (function () {
   function openFolder(m) {
     const f = m.dataset.folder;
     if (f === 'case-studies' && !deverrouille && !VERROU_OUVERT) { openVerrou(null, m); return; }
-    if (f === 'musiques' || f === 'photos' || f === 'case-studies') finderOpen(f);
+    if (f === 'photos' || f === 'case-studies') finderOpen(f);
   }
 
   /* ---------- études de cas ----------
@@ -4203,13 +4120,6 @@ const dire = (function () {
 
   function plural(n, un, plusieurs) { return n + ' ' + (n > 1 ? plusieurs : un); }
 
-  /* Le dossier Musiques. Les pistes ne sont pas sur le bureau : des fichiers
-     audio rangés dans un dossier sont plus crédibles que des fichiers posés
-     au milieu de l'écran. Le lecteur, lui, est indépendant. */
-  const MUSIQUES = [
-    { src: 'dans-le-bleu.mp3',      nom: 'Positive Childhood Music.mp3', cover: 'mini-danslebleu' }
-  ];
-
   /* Les cinq rayons de l'étagère. Pour en remplir un, remplacer `vides: 4`
      par un tableau d'objets { img, titre, sous } — la mise en page ne
      changera pas, seuls les visuels et les textes apparaîtront. */
@@ -4246,56 +4156,6 @@ const dire = (function () {
       { img: 'disque-debbii', ratio: '1000 / 1000', titre: 'Chemical Reaction', auteur: 'Debbii Dawson' }
     ] }
   ];
-
-  function finderMusiques() {
-    fTitle.textContent = 'Musiques';
-    fBody.replaceChildren();
-
-    const list = document.createElement('div');
-    list.className = 'ffiles';
-
-    MUSIQUES.forEach((t) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'ffile';
-      b.dataset.audio = t.src;              // c'est cet attribut, et lui seul,
-      b.dataset.playing = 'false';          // que le lecteur va chercher
-      b.setAttribute('aria-label', t.nom + ', fichier audio — lire');
-
-      const art = document.createElement('span');
-      art.className = 'ffile__art';
-      const img = document.createElement('img');
-      img.src = t.cover + '-93.jpg';
-      img.srcset = t.cover + '-186.jpg 2x';
-      img.alt = '';
-      img.draggable = false;
-      const badge = document.createElement('span');
-      badge.className = 'ffile__badge';
-      badge.textContent = '⏸';
-      badge.setAttribute('aria-hidden', 'true');
-      art.append(img, badge);
-
-      const nom = document.createElement('span');
-      nom.className = 'ffile__name';
-      nom.textContent = t.nom;
-
-      b.append(art, nom);
-      b.addEventListener('click', () => toggleAudio(b));
-      list.appendChild(b);
-    });
-
-    fBody.appendChild(list);
-    fStatus.textContent = plural(MUSIQUES.length, 'élément', 'éléments');
-    fBody.scrollTop = 0;
-
-    // La fenêtre vient d'être reconstruite : si une piste tourne déjà, son
-    // fichier doit reprendre son état actif au lieu de paraître à l'arrêt.
-    const enCours = audioEl && !audioEl.paused ? PLAYLIST[plIndex] : null;
-    if (enCours) {
-      const cible = list.querySelector('[data-audio="' + enCours.src + '"]');
-      if (cible) { cible.dataset.playing = 'true'; playingMini = cible; }
-    }
-  }
 
   /* Surface de référence par type de rayon, en pixels carrés : celle qu'aurait
      un objet au format nominal de la rangée. Sert à égaliser le poids visuel
@@ -4451,9 +4311,8 @@ const dire = (function () {
     // Le contenu d'abord, la position ensuite. Mesurer avant de remplir
     // donnait la hauteur de la vue précédente — ou zéro à la première
     // ouverture — et la fenêtre se posait de travers. La Bibliothèque, bien
-    // plus haute que le dossier Musiques, en souffrait le plus.
-    if (quoi === 'musiques') finderMusiques();
-    else if (quoi === 'photos') finderPhotos();
+    // plus haute que le dossier Photos, en souffrait le plus.
+    if (quoi === 'photos') finderPhotos();
     else if (quoi === 'case-studies') finderEtudes();
     else finderEtagere();
 
@@ -4515,12 +4374,13 @@ const dire = (function () {
     window.open(m.dataset.href, '_blank', 'noopener');
   }
 
-  function toggleAudio(m) {
-    const src = m.dataset.audio;
-    if (!src) return;
-    if (playingMini === m && audioEl && !audioEl.paused) { stopAudio(); return; }
-    const i = PLAYLIST.findIndex((t) => t.src === src);
-    plLoad(i >= 0 ? i : 0, true);
+  /* Les vignettes de téléphone n'ouvrent pas de dossier : elles rejouent une
+     action qui existe déjà ailleurs. Un seul aiguillage, pour que le jour où
+     l'une d'elles change de destination il n'y ait qu'un endroit à corriger. */
+  function miniAction(m) {
+    const quoi = m.dataset.action;
+    if (quoi === 'spotify') ouvrirSpotify();
+    else if (quoi === 'notes') openNotes(m);
   }
 
   minisEl.addEventListener('dragstart', (e) => e.preventDefault());
@@ -4565,7 +4425,7 @@ const dire = (function () {
       m.dataset.dragged = moved ? 'true' : 'false';
       if (m.tagName === 'A') return;
       if (!moved) {                 // geste court = clic
-        if (m.dataset.audio) toggleAudio(m);
+        if (m.dataset.action) miniAction(m);
         else if (m.dataset.cv) openCV(m);
         else if (m.dataset.href) openDoc(m);
         else if (m.dataset.folder) openFolder(m);
@@ -4596,7 +4456,7 @@ const dire = (function () {
       } else if (e.key === 'Enter' || e.key === ' ') {
         if (m.tagName === 'A') return;   // Entrée suit le lien tout seul
         e.preventDefault();
-        if (m.dataset.audio) toggleAudio(m);
+        if (m.dataset.action) miniAction(m);
         else if (m.dataset.cv) openCV(m);
         else if (m.dataset.href) openDoc(m);
         else if (m.dataset.folder) openFolder(m);
@@ -4653,9 +4513,6 @@ const dire = (function () {
     });
   });
 
-  // Revenir en veille coupe la musique : elle appartient au bureau.
-  document.addEventListener('portfolio:relock', stopAudio);
-
 
   /* ---------- rangement en grille + menu contextuel ----------
      macOS range ses icônes depuis le coin HAUT DROIT, en colonnes qui
@@ -4673,7 +4530,7 @@ const dire = (function () {
 
   function tidy() {
     const r = minisEl.getBoundingClientRect();
-    const items = [...minisEl.querySelectorAll('.mini')];
+    const items = minisAffichees();
     if (!items.length || !r.width) return;
 
     const w = items[0].offsetWidth;
@@ -4854,17 +4711,7 @@ const dire = (function () {
     ctxOpener = null;
   }
 
-  // Un seul élément <audio> sert la vignette et le lecteur : son état dit
-  // tout. `paused` plutôt qu'un drapeau maison — un morceau arrivé à sa fin
-  // met l'élément en pause tout seul, et l'entrée doit se griser avec lui.
-  const enLecture = () => !!audioEl && !audioEl.paused && !audioEl.ended;
-
   function openCtx(x, y) {
-    // Grisée plutôt que masquée : le menu garde sa forme d'une fois sur
-    // l'autre, et l'entrée absente n'oblige pas à relire la liste entière
-    // pour comprendre ce qui a bougé.
-    const stop = ctx.querySelector('[data-action="stop"]');
-    if (stop) stop.disabled = !enLecture();
     ctx.hidden = false;
     const host = minisEl.getBoundingClientRect();
     // on garde le menu dans l'écran plutôt que de le laisser déborder
@@ -4889,8 +4736,7 @@ const dire = (function () {
     if (!b || b.disabled) return;
     const fn = {
       tidy: () => { minisLibres = false; tidy(); },
-      scatter: () => { minisLibres = true; placeInitial(); },
-      stop: stopAudio
+      scatter: () => { minisLibres = true; placeInitial(); }
     }[b.dataset.action];
     if (!fn) return;          // « Changer le fond d'écran » déplie, il n'agit pas
     fn();
@@ -5071,137 +4917,6 @@ const dire = (function () {
   })();
 
 
-  /* ---------- lecteur Module_Musique ----------
-     Le lecteur EST l'interface de l'élément audio déjà utilisé par les
-     vignettes : un seul <audio> pour tout le site, sinon deux morceaux
-     pourraient jouer en même temps. Le lecteur n'apparaît qu'une fois une
-     piste lancée — tant que rien ne joue, il n'aurait rien à afficher. */
-  const PLAYLIST = [
-    { src: 'dans-le-bleu.mp3',      cover: 'danslebleu', titre: 'Dans le bleu',                artiste: 'Anne Meson' }
-  ];
-  const ICON_PLAY = `<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 0a14 14 0 1 0 0 28 14 14 0 0 0 0-28Zm-3 8.4 9 5.6-9 5.6V8.4Z"/></svg>`;
-  const ICON_PAUSE = `<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 0a14 14 0 1 0 0 28 14 14 0 0 0 0-28Zm-4 8h3v12h-3V8Zm7 0h3v12h-3V8Z"/></svg>`;
-
-  const pl = {
-    root:    document.getElementById('player'),
-    cover:   document.getElementById('player-cover'),
-    track:   document.getElementById('player-track'),
-    artist:  document.getElementById('player-artist'),
-    play:    document.getElementById('player-play'),
-    prev:    document.getElementById('player-prev'),
-    next:    document.getElementById('player-next'),
-    shuffle: document.getElementById('player-shuffle'),
-    repeat:  document.getElementById('player-repeat'),
-    close:   document.getElementById('player-close')
-  };
-  let plIndex = 0, plShuffle = false, plRepeat = false;
-
-  function plRender() {
-    const t = PLAYLIST[plIndex];
-    pl.cover.src = `cover-${t.cover}-223.jpg`;
-    pl.cover.srcset = `cover-${t.cover}-446.jpg 2x`;
-    pl.track.textContent = t.titre;
-    pl.artist.textContent = t.artiste;
-    const playing = audioEl && !audioEl.paused;
-    pl.play.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
-    pl.play.setAttribute('aria-label', playing ? 'Pause' : 'Lecture');
-  }
-
-  function plLoad(i, autoplay) {
-    plIndex = (i + PLAYLIST.length) % PLAYLIST.length;
-    const t = PLAYLIST[plIndex];
-    if (!audioEl) { audioEl = new Audio(); audioEl.addEventListener('ended', plEnded); }
-    const canOpus = audioEl.canPlayType('audio/ogg; codecs=opus');
-    audioEl.src = canOpus ? t.src.replace(/\.mp3$/, '.ogg') : t.src;
-    audioEl.volume = 0.9;
-    pl.root.hidden = false;   // réaffiche si l'utilisateur l'avait fermé
-    if (autoplay) {
-      const p = audioEl.play();
-      if (p && p.catch) p.catch(() => {});
-    }
-    // Les pistes ne sont plus sur le bureau mais dans le dossier Musiques :
-    // on interroge tout ce qui porte data-audio, où que ça se trouve.
-    document.querySelectorAll('[data-audio]').forEach((m) => {
-      m.dataset.playing = (m.dataset.audio === t.src && autoplay) ? 'true' : 'false';
-    });
-    playingMini = document.querySelector('[data-audio="' + t.src + '"]') || null;
-    plRender();
-  }
-
-  function plEnded() {
-    if (plRepeat) { audioEl.currentTime = 0; audioEl.play(); return; }
-    plNext();
-  }
-  function plNext() {
-    plLoad(plShuffle ? Math.floor(Math.random() * PLAYLIST.length) : plIndex + 1, true);
-  }
-
-  pl.play.addEventListener('click', () => {
-    if (!audioEl) { plLoad(plIndex, true); return; }
-    if (audioEl.paused) audioEl.play(); else audioEl.pause();
-    if (playingMini) playingMini.dataset.playing = audioEl.paused ? 'false' : 'true';
-    plRender();
-  });
-  pl.next.addEventListener('click', plNext);
-  pl.prev.addEventListener('click', () => {
-    // réflexe de lecteur : revenir au début avant de changer de piste
-    if (audioEl && audioEl.currentTime > 3) { audioEl.currentTime = 0; return; }
-    plLoad(plShuffle ? Math.floor(Math.random() * PLAYLIST.length) : plIndex - 1, true);
-  });
-  pl.shuffle.addEventListener('click', () => {
-    plShuffle = !plShuffle;
-    pl.shuffle.setAttribute('aria-pressed', String(plShuffle));
-  });
-  pl.repeat.addEventListener('click', () => {
-    plRepeat = !plRepeat;
-    pl.repeat.setAttribute('aria-pressed', String(plRepeat));
-  });
-  pl.close.addEventListener('click', () => {
-    stopAudio();
-    pl.root.hidden = true;
-  });
-
-  // Déplacement, comme la fenêtre et les vignettes.
-  (function () {
-    let sx = 0, sy = 0, bl = 0, bt = 0, pid = null;
-    pl.root.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('button')) return;
-      pid = e.pointerId;
-      pl.root.setPointerCapture(pid);
-      const r = pl.root.getBoundingClientRect();
-      sx = e.clientX; sy = e.clientY; bl = r.left; bt = r.top;
-      pl.root.style.left = bl + 'px';
-      pl.root.style.top = bt + 'px';
-      pl.root.style.bottom = 'auto';
-    });
-    pl.root.addEventListener('pointermove', (e) => {
-      if (pid === null || e.pointerId !== pid) return;
-      const r = pl.root.getBoundingClientRect();
-      const M = 60;
-      pl.root.style.left = Math.min(Math.max(bl + e.clientX - sx, M - r.width), innerWidth - M) + 'px';
-      pl.root.style.top = Math.min(Math.max(0, bt + e.clientY - sy), innerHeight - 40) + 'px';
-    });
-    const rel = (e) => {
-      if (pid === null || (e && e.pointerId !== pid)) return;
-      try { pl.root.releasePointerCapture(pid); } catch (err) {}
-      pid = null;
-    };
-    pl.root.addEventListener('pointerup', rel);
-    pl.root.addEventListener('pointercancel', rel);
-  })();
-
-  // Le lecteur est visible en permanence : on l'amorce donc sur la première
-  // piste sans la lancer, pour qu'il affiche une pochette et un titre plutôt
-  // qu'un cadre vide.
-  (function () {
-    const t = PLAYLIST[0];
-    pl.cover.src = `cover-${t.cover}-223.jpg`;
-    pl.cover.srcset = `cover-${t.cover}-446.jpg 2x`;
-    pl.track.textContent = t.titre;
-    pl.artist.textContent = t.artiste;
-    pl.play.innerHTML = ICON_PLAY;
-    pl.play.setAttribute('aria-label', 'Lecture');
-  })();
 
 
   /* ---------- dock : magnification macOS ----------
@@ -5637,6 +5352,51 @@ const dire = (function () {
   // de son utile. Déjà au niveau d'un son d'interface, donc lu sans
   // atténuation. Baisser cette valeur si besoin ; pour le monter il faudrait
   // amplifier le fichier, l'API audio ne dépasse pas 1.
+  /* ================= SPOTIFY =================
+     Une playlist publique, montrée dans le lecteur officiel de Spotify.
+
+     L'iframe naît au premier clic et meurt à la fermeture. Ce n'est pas une
+     optimisation : c'est le seul moyen d'arrêter le son. Le lecteur vient
+     d'un autre domaine, on ne peut rien lui commander depuis ici — pas de
+     pause, pas de volume. Retirer l'élément est la seule commande dont on
+     dispose. Le même geste sert la vie privée : tant que personne ne clique,
+     Spotify ignore que ce site existe.
+
+     « autoplay » est volontairement absent de la liste des permissions.
+     Un son qui démarre sans qu'on l'ait demandé fait fermer l'onglet. */
+  const SPOTIFY_PLAYLIST = '7H8UVvbjFYuzW0GUx3ekiU';
+  const spot = document.getElementById('spot');
+
+  function ouvrirSpotify() {
+    if (!spot.hidden) { fermerSpotify(); return; }
+    if (!spot.firstChild) {
+      const cadre = document.createElement('iframe');
+      cadre.src = 'https://open.spotify.com/embed/playlist/' + SPOTIFY_PLAYLIST
+                + '?utm_source=generator&theme=0';
+      cadre.title = 'Playlist Spotify d\u2019Emmanuel Froissant';
+      cadre.loading = 'lazy';
+      cadre.allow = 'clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      cadre.setAttribute('frameborder', '0');
+      spot.appendChild(cadre);
+    }
+    spot.hidden = false;
+    if (!reducedMotion()) {
+      spot.animate([{ transform: 'translateX(24px)', opacity: 0 },
+                    { transform: 'none', opacity: 1 }],
+                   { duration: 260, easing: MODAL_EASE });
+    }
+  }
+
+  function fermerSpotify() {
+    if (spot.hidden) return;
+    spot.hidden = true;
+    spot.replaceChildren();        // le son s'arrête avec l'iframe
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !spot.hidden) { e.stopPropagation(); fermerSpotify(); }
+  });
+
   const SFX_VOLUME = 1;
   const sfx = document.getElementById('sfx-unlock');
   sfx.volume = SFX_VOLUME;
