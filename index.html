@@ -617,9 +617,13 @@
      --mini-icon, jamais du fichier. */
   .mini__icon svg { display: block; width: var(--mini-icon); height: var(--mini-icon); }
 
-  /* Les trois vignettes réservées au téléphone. Sur grand écran elles
-     n'existent pas : leur contenu est déjà dans le dock, et les répéter
-     sur le bureau ferait deux portes sans raison. */
+  /* Les vignettes réservées au téléphone. Sur grand écran elles n'existent
+     pas : leur contenu est déjà dans le dock, et les répéter sur le bureau
+     ferait deux portes sans raison.
+
+     Seul `display` change, et il doit reprendre la valeur d'origine — grid.
+     J'avais écrit `flex` : la grille de deux rangées disparaissait, et le
+     libellé se retrouvait à côté du dessin au lieu d'être dessous. */
   .mini--mobile { display: none; }
 
   /* Une vignette porte soit un caractère emoji, soit une image. Les deux
@@ -634,12 +638,6 @@
     object-fit: contain;
     -webkit-user-drag: none;
   }
-  /* Une image plus large que haute ne peut pas tenir dans le carré de 80 sans
-     y perdre de la matière : à 80 de large elle ne ferait que 65 de haut, et
-     paraîtrait plus petite que les emoji voisins. On l'élargit jusqu'à ce que
-     sa surface égale celle du carré — 89 x 72 pour un rapport de 1,23. */
-  .mini__icon--large picture,
-  .mini__icon--large img { width: 89px; height: 72px; }
   .mini__icon {
     position: relative;
     display: flex;
@@ -1237,9 +1235,12 @@
       transform: none;
       gap: 0;
     }
-    /* Les intitulés de groupe n'ont plus de sens : le dock ne porte plus
-       qu'une seule famille. */
-    .dock__label { display: none; }
+    /* Le dock ne porte plus qu'une famille : son intitulé n'a plus besoin
+       d'être calculé, il se centre. Le script s'en abstient sur petit écran
+       (voir placerIntitules) pour ne pas réécrire un `left` en pixels
+       par-dessus. */
+    .dock__label[data-groupe="social"] { display: none; }
+    .dock__label[data-groupe="tech"] { left: 50%; }
     /* Même forme que sur ordinateur : seules la largeur et la garniture
        changent, le rayon vient de la règle commune. */
     .dock__pill { width: 100%; justify-content: center; padding: 12px 16px; }
@@ -1257,11 +1258,23 @@
     .dock__item[data-groupe="social"],
     .dock__item[data-groupe="notes"],
     .dock__sep { display: none; }
-    .mini--mobile { display: flex; }
+    .mini--mobile { display: grid; }
     /* 56 et non 60 : quatre icônes de 56 plus leurs écarts tiennent dans
-       les plus petits iPhone sans que le dock touche les bords. */
-    .dock__item { width: 56px; height: 56px; }
-    .dock__link, .dock__link > svg, .dock__link picture, .dock__link img { width: 100%; height: 100%; }
+       les plus petits iPhone sans que le dock touche les bords.
+
+       La valeur est posée UNE fois, dans la variable, et tout s'y règle.
+       Je réglais avant chaque élément séparément, en pourcentages : les
+       icônes simples restaient à 36 tandis que leur case passait à 56, et
+       GitHub — dont le dessin est enveloppé dans un lien — se retrouvait
+       calé en haut à gauche de sa case au lieu d'être centré. C'était le
+       « en dehors du cadre » que tu as vu. */
+    .dock { --dock-icon: 56px; }
+    .dock__item { width: var(--dock-icon); height: var(--dock-icon); }
+    .dock__link { width: var(--dock-icon); height: var(--dock-icon); }
+    .dock__item svg,
+    .dock__link > svg,
+    .dock__link picture,
+    .dock__link img { width: var(--dock-icon); height: var(--dock-icon); }
     .dock__dot { display: none; }
 
     /* --- ce qui n'existe pas au doigt --- */
@@ -2999,20 +3012,20 @@
 
       <button type="button" class="mini" data-etagere="1"
               aria-label="Bibliothèque — ouvrir">
-        <span class="mini__icon" aria-hidden="true">📚</span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-tastes-160.webp" type="image/webp"><img src="ic-tastes-160.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Bibliothèque</span>
       </button>
 
       <button type="button" class="mini" data-folder="photos"
               aria-label="Photos — ouvrir">
-        <span class="mini__icon" aria-hidden="true">📷</span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-photos-160.webp" type="image/webp"><img src="ic-photos-160.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Photos</span>
       </button>
 
 
       <button type="button" class="mini" data-folder="case-studies"
               aria-label="Portfolio — ouvrir">
-        <span class="mini__icon mini__icon--large" aria-hidden="true"><picture><source srcset="ic-portfolio-160.webp" type="image/webp"><img src="ic-portfolio-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-folder-160.webp" type="image/webp"><img src="ic-folder-160.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Portfolio</span>
       </button>
 
@@ -3020,6 +3033,18 @@
               aria-label="Curriculum Vitae — ouvrir">
         <span class="mini__icon" aria-hidden="true">📄</span>
         <span class="mini__label">Curriculum Vitae</span>
+      </button>
+
+      <button type="button" class="mini" data-action="mail"
+              aria-label="Mail — m’écrire un message">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-160.webp" type="image/webp"><img src="ic-mail-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">Mail</span>
+      </button>
+
+      <button type="button" class="mini" data-action="apropos"
+              aria-label="À propos — qui je suis">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-contact-160.webp" type="image/webp"><img src="ic-contact-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">À propos</span>
       </button>
 
       <!-- Spotify vit sur le bureau, aux deux tailles : c'est la seule
@@ -3032,7 +3057,7 @@
            remonte sur le bureau, là où le pouce va naturellement. -->
       <button type="button" class="mini" data-action="spotify"
               aria-label="Spotify — voir ma playlist">
-        <span class="mini__icon" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="black"/><g clip-path="url(#msp0)"><path d="M18 3.46875C9.71976 3.46875 3 9.97852 3 18C3 26.0215 9.71976 32.5312 18 32.5312C26.2802 32.5312 33 26.0215 33 18C33 9.97852 26.2802 3.46875 18 3.46875Z" fill="#1ED760"/><path d="M27.593 16.541C27.2785 16.541 27.0849 16.4648 26.8127 16.3125C22.5063 13.8223 14.8067 13.2246 9.82282 14.5723C9.60508 14.6309 9.3329 14.7246 9.04258 14.7246C8.24419 14.7246 7.6333 14.1211 7.6333 13.3418C7.6333 12.5449 8.14137 12.0938 8.68572 11.9414C10.8148 11.3379 13.1978 11.0508 15.7926 11.0508C20.2079 11.0508 24.8349 11.9414 28.216 13.8516C28.6877 14.1152 28.9962 14.4785 28.9962 15.1758C28.9962 15.9727 28.3309 16.541 27.593 16.541ZM25.718 21.0059C25.4035 21.0059 25.1918 20.8711 24.974 20.7598C21.1938 18.5918 15.5567 17.7188 10.5426 19.0371C10.2523 19.1133 10.095 19.1895 9.82282 19.1895C9.17564 19.1895 8.64943 18.6797 8.64943 18.0527C8.64943 17.4258 8.96395 17.0098 9.58693 16.8398C11.2684 16.3828 12.9861 16.043 15.5023 16.043C19.4277 16.043 23.22 16.9863 26.2079 18.709C26.6978 18.9902 26.8914 19.3535 26.8914 19.8633C26.8853 20.4961 26.3773 21.0059 25.718 21.0059ZM24.091 24.8496C23.8369 24.8496 23.6797 24.7734 23.4438 24.6387C19.6696 22.4355 15.2785 22.3418 10.9418 23.2031C10.7059 23.2617 10.3974 23.3555 10.222 23.3555C9.63532 23.3555 9.26637 22.9043 9.26637 22.4297C9.26637 21.8262 9.63532 21.5391 10.0889 21.4453C15.0426 20.3848 20.1051 20.4785 24.4236 22.9805C24.7926 23.209 25.0103 23.4141 25.0103 23.9473C25.0103 24.4805 24.5809 24.8496 24.091 24.8496Z" fill="black"/></g><defs><clipPath id="msp0"><rect width="30" height="30" fill="white" transform="translate(3 3)"/></clipPath></defs></svg></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-160.webp" type="image/webp"><img src="ic-musique-160.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Spotify</span>
       </button>
 
@@ -3104,17 +3129,17 @@
         <ul class="dock__items" id="dock-items" aria-label="Technologies maîtrisées">
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Figma</span>
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="black"/><path d="M9 27.5C9 25.0147 11.0147 23 13.5 23H18V27.5C18 29.9853 15.9853 32 13.5 32C11.0147 32 9 29.9853 9 27.5Z" fill="#24CB71"/><path d="M18 4V13H22.5C24.9853 13 27 10.9853 27 8.5C27 6.01474 24.9853 4 22.5 4H18Z" fill="#FF7237"/><path d="M22.5 22C24.9853 22 27 19.9853 27 17.5C27 15.0147 24.9853 13 22.5 13C20.0147 13 18 15.0147 18 17.5C18 19.9853 20.0147 22 22.5 22Z" fill="#00B6FF"/><path d="M9 8.5C9 10.9853 11.0147 13 13.5 13H18V4H13.5C11.0147 4 9 6.01474 9 8.5Z" fill="#FF3737"/><path d="M9 18C9 20.7614 11.0147 23 13.5 23H18V13H13.5C11.0147 13 9 15.2386 9 18Z" fill="#874FFF"/></svg>
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path d="M15 42.5C15 38.3579 18.3579 35 22.5 35H30V42.5C30 46.6421 26.6421 50 22.5 50C18.3579 50 15 46.6421 15 42.5Z" fill="#24CB71"/><path d="M29 6V21H36.5C40.6421 21 44 17.6421 44 13.5C44 9.3579 40.6421 6 36.5 6H29Z" fill="#FF7237"/><path d="M37 35C40.866 35 44 31.866 44 28C44 24.134 40.866 21 37 21C33.134 21 30 24.134 30 28C30 31.866 33.134 35 37 35Z" fill="#00B6FF"/><path d="M15 13.5C15 17.6421 18.3579 21 22.5 21H30V6H22.5C18.3579 6 15 9.3579 15 13.5Z" fill="#FF3737"/><path d="M15 28C15 31.866 18.3579 35 22.5 35H30V21H22.5C18.3579 21 15 24.134 15 28Z" fill="#874FFF"/></svg>
             <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Claude</span>
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="#D97757"/><path d="M8.88609 22.9444L14.7873 19.6355L14.8861 19.3471L14.7873 19.1877H14.4987L13.5113 19.127L10.1393 19.0359L7.2152 18.9145L4.3823 18.7628L3.66838 18.6109L3 17.7306L3.0683 17.2904L3.66838 16.8881L4.52653 16.9641L6.42535 17.0931L9.27338 17.2904L11.3392 17.4119L14.4 17.7306H14.8861L14.9544 17.5333L14.7873 17.4119L14.6582 17.2904L11.7115 15.2945L8.52156 13.1846L6.8508 11.9704L5.94699 11.3556L5.49126 10.7789L5.29386 9.51912L6.11411 8.616L7.21532 8.69188L7.49628 8.76775L8.61276 9.62525L10.9976 11.4695L14.1116 13.7615L14.5673 14.1409L14.7495 14.0119L14.7723 13.9209L14.5671 13.5793L12.8735 10.5209L11.0659 7.40925L10.2609 6.11925L10.0482 5.345C9.97229 5.02625 9.91912 4.76075 9.91912 4.43438L10.8533 3.16688L11.3696 3L12.6152 3.167L13.1393 3.62225L13.9139 5.39063L15.1671 8.17587L17.1115 11.9629L17.681 13.086L17.9849 14.1258L18.0987 14.4445H18.2962V14.2624L18.4557 12.1299L18.7519 9.5115L19.0405 6.14188L19.1392 5.19325L19.6101 4.05488L20.5443 3.44013L21.2734 3.78925L21.8734 4.64675L21.7899 5.20088L21.433 7.5155L20.7342 11.1431L20.2785 13.5718H20.5443L20.8482 13.2681L22.0785 11.6365L24.1443 9.05613L25.0557 8.03163L26.119 6.90088L26.8025 6.362H28.0937L29.0431 7.77363L28.6178 9.23075L27.2887 10.9155L26.1873 12.3422L24.6076 14.4673L23.6203 16.1672L23.7115 16.3039L23.9469 16.281L27.5165 15.5223L29.4456 15.173L31.7468 14.7784L32.7873 15.2641L32.9012 15.7574L32.4911 16.7668L30.0305 17.3739L27.1443 17.9506L22.8456 18.9676L22.7924 19.0056L22.8532 19.0815L24.7899 19.2636L25.6178 19.3091H27.6456L31.4203 19.59L32.4076 20.2425L33 21.0395L32.9012 21.6466L31.3823 22.4208L29.3316 21.935L24.5467 20.7966L22.9063 20.3868H22.6784V20.5234L24.0456 21.8591L26.5519 24.1206L29.6886 27.0349L29.8481 27.7559L29.4456 28.3251L29.0202 28.2644L26.2633 26.1925L25.2 25.259L22.7924 23.2327H22.6329V23.4452L23.1873 24.2572L26.119 28.659L26.2709 30.0099L26.0582 30.45L25.2988 30.7156L24.4633 30.5639L22.7468 28.1581L20.9773 25.4487L19.5494 23.0203L19.3747 23.119L18.5315 32.188L18.1367 32.6509L17.2253 33L16.4658 32.4233L16.0633 31.4897L16.4658 29.6456L16.952 27.2399L17.3469 25.3274L17.7038 22.9519L17.9164 22.1626L17.9013 22.1095L17.7265 22.1322L15.9342 24.5913L13.2076 28.272L11.0506 30.579L10.5342 30.784L9.63803 30.321L9.72147 29.4937L10.2229 28.7576L13.2076 24.963L15.0076 22.6105L16.1697 21.252L16.162 21.0546H16.0937L8.16454 26.2001L6.75185 26.3822L6.14426 25.813L6.22032 24.8796L6.50891 24.576L8.89372 22.9368L8.88609 22.9444Z" fill="#FAF9F5"/></svg>
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path d="M12.6139 35.5758L22.2526 30.1713L22.414 29.7003L22.2526 29.44H21.7812L20.1685 29.3408L14.6608 29.1919L9.88482 28.9937L5.25775 28.7458L4.09169 28.4978L3 27.06L3.11156 26.3409L4.09169 25.6839L5.49334 25.8081L8.59473 26.0188L13.2465 26.3409L16.6207 26.5394L21.62 27.06H22.414L22.5256 26.7376L22.2526 26.5394L22.0418 26.3409L17.2288 23.081L12.0186 19.6349L9.28963 17.6516L7.81341 16.6475L7.06907 15.7055L6.74665 13.6479L8.08638 12.1728L9.88503 12.2967L10.3439 12.4207L12.1675 13.8212L16.0627 16.8335L21.1489 20.5771L21.8932 21.1968L22.1909 20.9861L22.2281 20.8374L21.893 20.2794L19.1267 15.2841L16.1742 10.2018L14.8594 8.09477L14.5121 6.83017C14.3881 6.30954 14.3012 5.87589 14.3012 5.34281L15.8271 3.27256L16.6703 3L18.7048 3.27277L19.5609 4.01634L20.826 6.90469L22.8729 11.4539L26.0487 17.6394L26.979 19.4738L27.4753 21.1721L27.6612 21.6927H27.9838V21.3952L28.2443 17.9121L28.7282 13.6355L29.1995 8.13173L29.3608 6.58231L30.1298 4.72296L31.6557 3.71887L32.8465 4.28911L33.8266 5.68969L33.6901 6.59476L33.1072 10.3753L31.9659 16.3004L31.2215 20.2672H31.6557L32.152 19.7713L34.1615 17.1063L37.5357 12.8917L39.0244 11.2183L40.7611 9.37143L41.8775 8.49127H43.9863L45.5371 10.7969L44.8424 13.1769L42.6715 15.9286L40.8726 18.259L38.2925 21.7298L36.6798 24.5065L36.8287 24.7297L37.2132 24.6923L43.0436 23.453L46.1944 22.8826L49.9531 22.238L51.6527 23.0314L51.8386 23.837L51.1688 25.4857L47.1498 26.4773L42.4357 27.4194L35.4144 29.0805L35.3276 29.1425L35.4269 29.2665L38.5902 29.5639L39.9424 29.6382H43.2544L49.4198 30.097L51.0323 31.1628L52 32.4645L51.8386 33.4562L49.3577 34.7206L46.0083 33.9272L38.193 32.0678L35.5137 31.3984H35.1414V31.6215L37.3745 33.8032L41.468 37.497L46.5914 42.257L46.8519 43.4346L46.1944 44.3644L45.4997 44.2651L40.9967 40.8811L39.2599 39.3564L35.3276 36.0468H35.0671V36.3939L35.9726 37.7202L40.7611 44.9097L41.0091 47.1161L40.6618 47.835L39.4213 48.2689L38.0567 48.021L35.2532 44.0916L32.3629 39.6663L30.0307 35.6997L29.7453 35.861L28.3682 50.6737L27.7233 51.4298L26.2346 52L24.9942 51.058L24.3367 49.5333L24.9942 46.5212L25.7882 42.5918L26.4332 39.468L27.0162 35.5881L27.3635 34.299L27.3388 34.2122L27.0534 34.2493L24.1258 38.2657L19.6724 44.2776L16.1493 48.0457L15.3059 48.3805L13.8421 47.6243L13.9784 46.2731L14.7973 45.0708L19.6724 38.8729L22.6124 35.0305L24.5106 32.8116L24.4979 32.4892H24.3863L11.4354 40.8935L9.12801 41.191L8.13562 40.2612L8.25985 38.7367L8.73122 38.2408L12.6264 35.5634L12.6139 35.5758Z" fill="#D97757"/></svg>
             <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Lovable</span>
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M13.0681 3.9834C17.5502 3.9834 21.1836 7.58852 21.1836 12.0357V15.096H23.8844C28.3665 15.096 32 18.7012 32 23.1483C32 27.5954 28.3665 31.2005 23.8844 31.2005H4.95264V12.0357C4.95264 7.58852 8.58606 3.9834 13.0681 3.9834Z" fill="url(#lv0)"/><defs><linearGradient id="lv0" x1="14.0545" y1="8.76634" x2="22.1439" y2="31.2447" gradientUnits="userSpaceOnUse"><stop offset="0.025" stop-color="#FF8E63"/><stop offset="0.56" stop-color="#FF7EB0"/><stop offset="0.95" stop-color="#4B73FF"/></linearGradient></defs></svg>
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path fill-rule="evenodd" clip-rule="evenodd" transform="translate(6.2 6.2) scale(1.5556)" d="M13.0681 3.9834C17.5502 3.9834 21.1836 7.58852 21.1836 12.0357V15.096H23.8844C28.3665 15.096 32 18.7012 32 23.1483C32 27.5954 28.3665 31.2005 23.8844 31.2005H4.95264V12.0357C4.95264 7.58852 8.58606 3.9834 13.0681 3.9834Z" fill="url(#lv0)"/><defs><linearGradient id="lv0" x1="14.0545" y1="8.76634" x2="22.1439" y2="31.2447" gradientUnits="userSpaceOnUse"><stop offset="0.025" stop-color="#FF8E63"/><stop offset="0.56" stop-color="#FF7EB0"/><stop offset="0.95" stop-color="#4B73FF"/></linearGradient></defs></svg>
             <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__item dock__item--link" data-groupe="tech" data-hovered="false">
@@ -3122,7 +3147,7 @@
             <a class="dock__link" href="https://github.com/efroissant"
                target="_blank" rel="noopener noreferrer"
                aria-label="GitHub — ouvrir mon profil dans un nouvel onglet">
-            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="36" height="36" rx="8" fill="#7633B1"/><path d="M17.9685 2C26.8121 2 34 9.22001 34 18.0648C33.9999 25.0655 29.5622 30.7222 23.9061 32.8788C22.9686 33.2538 22.1871 32.7224 22.1871 31.7848V28.5346C22.1871 26.8158 21.4687 25.3156 20.4063 24.628C24.5936 24.0966 27.4994 21.1901 27.4995 17.3461C27.4995 15.7209 26.9683 14.1267 25.9683 12.9391C26.3745 11.8765 26.3121 9.68912 25.8747 8.84512C24.6249 8.68888 22.9063 9.3447 21.9375 10.2197C20.8125 9.87591 19.5621 9.68893 18.0309 9.68893C16.4997 9.68895 15.2499 9.87646 14.0625 10.2515C13.0625 9.34511 11.3746 8.68886 10.1246 8.84512C9.65607 9.75166 9.59371 11.9389 9.99983 12.9702C9.06234 14.0953 8.49982 15.7834 8.49982 17.3461C8.49996 21.1902 11.4064 24.159 15.5313 24.6591C15.1563 24.9716 14.7497 25.4408 14.2184 25.9721C13.4998 26.6908 12.9998 26.9721 12.2187 26.9721C11.4374 26.9721 10.7815 26.5654 10.1565 25.6591C9.34399 24.5027 8.56246 23.9404 7.65623 23.9404C7.03123 23.9404 6.40645 24.2218 6.40645 24.5969C6.40654 24.7843 6.53137 24.9402 6.90623 24.9714C7.62498 25.0652 8.00012 25.5658 8.34385 26.4096C9.21884 28.5034 10.4377 29.6286 12.5001 29.6286C13 29.6286 13.5627 29.5038 14.0001 29.3162V31.8166C13.9999 32.6603 13.1871 33.2224 12.3434 32.9099C6.40617 30.7533 2.00006 25.0029 2 18.0648C2 9.22005 9.12486 2.00007 17.9685 2Z" fill="url(#gh0)"/><defs><linearGradient id="gh0" x1="18.0277" y1="36.6249" x2="18.0277" y2="2" gradientUnits="userSpaceOnUse"><stop stop-color="#EAEAEA"/><stop offset="0.432692" stop-color="#F3F3F3"/><stop offset="0.995192" stop-color="white"/></linearGradient></defs></svg>
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path d="M27.9507 3C41.769 3 53 14.4123 53 28.3927C52.9999 39.4584 46.066 48.3997 37.2283 51.8084C35.7635 52.4012 34.5423 51.5612 34.5423 50.0792V44.9419C34.5423 42.225 33.4198 39.8537 31.7599 38.7668C38.3025 37.9268 42.8428 33.3327 42.843 27.2567C42.843 24.6879 42.0129 22.168 40.4505 20.2908C41.0852 18.6113 40.9877 15.1538 40.3042 13.8197C38.3513 13.5727 35.6661 14.6094 34.1524 15.9924C32.3946 15.449 30.4408 15.1535 28.0482 15.1535C25.6558 15.1535 23.703 15.4499 21.8476 16.0426C20.2851 14.61 17.6478 13.5727 15.6947 13.8197C14.9626 15.2526 14.8652 18.7098 15.4997 20.34C14.0349 22.1184 13.156 24.7867 13.156 27.2567C13.1562 33.3328 17.6975 38.0255 24.1426 38.816C23.5567 39.31 22.9214 40.0516 22.0913 40.8914C20.9685 42.0274 20.1872 42.472 18.9666 42.472C17.7459 42.472 16.7211 41.8292 15.7445 40.3966C14.475 38.5688 13.2538 37.6799 11.8379 37.6799C10.8613 37.6799 9.88508 38.1248 9.88508 38.7176C9.88521 39.0139 10.0803 39.2603 10.666 39.3097C11.789 39.4579 12.3752 40.2491 12.9123 41.5829C14.2794 44.8925 16.1839 46.671 19.4064 46.671C20.1876 46.671 21.0667 46.4737 21.7501 46.1773V50.1294C21.7498 51.463 20.4798 52.3515 19.1616 51.8575C9.88463 48.4488 3.0001 39.3595 3 28.3927C3 14.4123 14.1326 3.00011 27.9507 3Z" fill="#7633B1"/></svg>
             </a>
           </li>
           <li class="dock__sep" role="presentation" aria-hidden="true"></li>
@@ -4381,6 +4406,11 @@ const dire = (function () {
     const quoi = m.dataset.action;
     if (quoi === 'spotify') ouvrirSpotify();
     else if (quoi === 'notes') openNotes(m);
+    // Le composeur existe déjà, appelé par le menu de la barre : on émet le
+    // même événement plutôt que de l'ouvrir une deuxième façon.
+    else if (quoi === 'mail') document.dispatchEvent(
+      new CustomEvent('portfolio:contact', { detail: { opener: m } }));
+    else if (quoi === 'apropos') openAbout(m);
   }
 
   minisEl.addEventListener('dragstart', (e) => e.preventDefault());
@@ -4969,6 +4999,10 @@ const dire = (function () {
       const rowW = acc - GAP;
       const pad = (dockList.offsetWidth - rowW) / 2;
       dockList.parentElement.querySelectorAll('.dock__label').forEach((lab) => {
+        // Au doigt, le dock répartit ses icônes en space-around et n'a qu'un
+        // seul groupe : le calcul ci-dessus ne correspond plus à rien. On
+        // efface le style en ligne et la feuille centre l'intitulé.
+        if (petitEcran.matches) { lab.hidden = false; lab.style.left = ''; return; }
         const b = bornes[lab.dataset.groupe];
         if (!b) { lab.hidden = true; return; }
         lab.hidden = false;
