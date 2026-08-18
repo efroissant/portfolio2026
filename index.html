@@ -517,6 +517,47 @@
      redessiner deux fonds à chaque bascule, et le mouvement dit ce qui se
      passe. Le libellé actif passe en encre sombre sur le curseur clair, les
      deux restant lisibles quel que soit le ciel derrière la barre. */
+  /* --- le coupe-son de la barre de menus -----------------------------
+     Quatre barres d'égaliseur. Elles ondulent quand la musique joue et
+     s'aplatissent quand elle est coupée : l'état se lit sans légende, et
+     sans le trait oblique qui alourdirait une barre déjà chargée. */
+  .son {
+    display: flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    padding: 0; border: 0; background: none;
+    color: currentColor; cursor: default;
+    opacity: 0.55;
+    transition: opacity 200ms ease;
+  }
+  .son:hover, .son:focus-visible { opacity: 1; }
+  .son[disabled] { opacity: 0.25; }
+  .son__barres { display: block; width: 16px; height: 16px; filter: var(--sky-shadow-svg); }
+  .son__barres rect {
+    fill: currentColor;
+    /* Sans fill-box, l'origine est celle du viewBox entier et les barres
+       partent en biais au lieu de battre sur place. */
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 260ms cubic-bezier(.22,.61,.36,1);
+  }
+  /* Coupé : tout s'écrase à la même hauteur. */
+  .son[aria-pressed="false"] .son__barres rect { transform: scaleY(0.28); }
+
+  .son[aria-pressed="true"]  .son__barres rect { animation: battement 1.1s ease-in-out infinite; }
+  .son[aria-pressed="true"]  .son__barres rect:nth-child(2) { animation-duration: 0.85s; animation-delay: -0.35s; }
+  .son[aria-pressed="true"]  .son__barres rect:nth-child(3) { animation-duration: 1.35s; animation-delay: -0.7s;  }
+  .son[aria-pressed="true"]  .son__barres rect:nth-child(4) { animation-duration: 0.95s; animation-delay: -0.2s;  }
+  @keyframes battement {
+    0%, 100% { transform: scaleY(0.42); }
+    50%      { transform: scaleY(1);    }
+  }
+  /* Le son reste, le mouvement part : couper la musique n'est pas ce qu'on
+     demande ici, seulement d'arrêter de faire bouger l'écran. */
+  @media (prefers-reduced-motion: reduce) {
+    .son[aria-pressed="true"] .son__barres rect { animation: none; transform: none; }
+    .son__barres rect { transition: none; }
+  }
+
   .menubar__clock {
     display: flex;
     align-items: center;
@@ -2417,6 +2458,16 @@
     white-space: nowrap;
     cursor: default;
   }
+  /* Le crédit n'est pas une action du bureau : il se lit, il ne s'utilise
+     pas. Plus petit et plus pâle, il descend d'un cran dans la hiérarchie
+     sans quitter le menu — et reste cliquable pour remonter à la source. */
+  .navmenu__item--note {
+    font-size: 11px;
+    line-height: 16px;
+    opacity: 0.62;
+  }
+  .navmenu__item--note em { font-style: italic; }
+
   .navmenu__item:hover,
   .navmenu__item:focus-visible {
     background: rgba(255, 255, 255, 0.22);
@@ -2599,29 +2650,36 @@
   }
   .menubar :focus-visible { outline-offset: 1px; }
   /* ================= ESSAI : BUREAU NU =================
-     La barre de menus et le dock sont retirés pour voir ce que donne un
-     ciel où ne flottent que les objets.
+     La barre de menus et le dock sont revenus. Ce qui reste de l'essai :
 
-     Deux pertes, assumées mais réelles :
-     — ton nom et ton rôle n'apparaissent plus qu'à l'écran de veille ;
-     — LinkedIn et Notes n'étaient accessibles QUE par le dock sur grand
-       écran. On les remonte donc sur le bureau : cacher une porte est un
-       choix, laisser un contenu inatteignable est un défaut.
+     — les objets ne dérivent plus (AMP, TANGAGE et FUITE sont à zéro dans
+       le script ; les valeurs d'origine sont notées en commentaire) ;
+     — le bloc « DESIGNER UI/UX » du haut à gauche est toujours retiré.
 
-     Le fond d'écran se change encore par clic droit sur le bureau.
-     Pour tout remettre : supprimer ce bloc. */
-  .menubar { display: none; }
-  .dock    { display: none; }
-  /* Plus aucune réaction au survol non plus : l'inclinaison tirée au sort
-     est un mouvement, elle part avec les autres. Le soulèvement discret
-     reste — sans lui, rien ne dirait que l'objet est cliquable. */
+     Les deux vignettes LinkedIn et Notes restent sur le bureau. Le dock les
+     porte de nouveau, donc elles font doublon — mais un doublon ne coûte
+     qu'un peu de place, alors qu'une porte manquante coûte un contenu. */
+  /* Plus aucune réaction au survol : l'inclinaison tirée au sort est un
+     mouvement, elle part avec les autres. Le soulèvement discret reste —
+     sans lui, rien ne dirait que l'objet est cliquable. */
   .mini:hover .mini__icon { transform: translateY(-6px); }
-  /* Le bloc « DESIGNER UI/UX » et sa phrase d'accroche, en haut à gauche.
-     Il partait avec l'avatar de la barre : sans elle, il flottait seul. */
+  /* Le bloc « DESIGNER UI/UX » et sa phrase d'accroche, en haut à gauche. */
   .resume  { display: none; }
-  /* Les deux vignettes réservées au doigt deviennent visibles partout,
-     puisque le dock ne les porte plus. */
-  .mini--mobile { display: grid; }
+
+  /* Le CV est une feuille, donc plus haut que large — 145 × 176, rapport
+     0,82. Contraint dans la boîte carrée des autres icônes, il tomberait à
+     92 px de large et paraîtrait plus petit qu'eux. On l'égalise donc par
+     l'aire, comme le buste : la hauteur sort de la boîte, la largeur suit,
+     et l'objet occupe la même surface que les icônes carrées. */
+  .mini[data-cv] .mini__icon { height: auto; }
+  .mini[data-cv] .mini__icon img {
+    width: auto;
+    height: calc(var(--mini-icon) * 1.1);
+  }
+  /* LinkedIn et Notes étaient remontés sur le bureau parce que le dock ne
+     les portait plus. Le dock est revenu : ils y retournent, et les deux
+     vignettes redeviennent ce qu'elles étaient — réservées au mobile,
+     où il n'y a pas de dock. La règle vit à sa place, dans le @media. */
 
   /* Le buste d'argile, sur l'écran de veille.
 
@@ -3654,8 +3712,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="R6zVstbX98MLGtOY">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="ONynxan2666yNKo3">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="g3IGMVG9Oj/lTXoQ">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="d1+AkeJ3zZJXugpX">+BRnLXYIY+wwvYnkib9Y99lVDY37xYnroQTP89nzwL1avdGhC/ZG/y9i558C75dda8ipdZUjEoGTHHHimG11IMc3jK/GfJVf41dRreWaoNXrzOAslXQTp8ei+CcVRB3PONVCzWGvI6xbBD0BVm3vT167jeoFEDMKd07uhVFiU/+F64zUWpYtL+TaV+wzr0hwPyXyDFZPpa/lmW4NQzW7/F23b7+ZIlwcaTmpolsc+9zj6t7Dv3cf0ZoeViLX6j0my4lXhAZ/OsJTEPStPdIDRAuYKY2HxdBPq6lKCLq7OBsbxiHwiZ7DickV+l0CbuaqGR1nUwIV0zOWYAs8ZDjMLDTjSWvuA4zSJeJtBEcxYUk9Ht1sYibTz7YtY9kTn5LRsQtnMANQT0EX9zK6KWZB6hgP+h/jblENZcH+NWRn0ekwgT29u5rWrQO7MUVo/1hwJepmfDDh/o6anMLsgHhkAYNH9DiOKOkP2ay0HE6KyH785fB9OCEtSBNjuSDCbXMfJCYp29Y/iiNnb5+OESY9wbySp9+AXHtDfBIVD11BNDiuDkMAeF+TkBz1FKEVx7AID2Hrnpy0huGTUCFtQN79dLSb20Nyrzz+eUxlIXZvOOV5C9Lkmv3s0DksHD+FxpytQ5WCvobyAC+qN5YtXQt/dj34MRJTSZbs7MX+VSiRVXN22T2KQTR4bk5o1vssHOeboEVXlYpImkWlrwqrUrdb7bvEnwN0m931rdsTxDrnrOTx6bls/OZ9AhPFrGfpY2aAQASXnnSGImLOhgk4AWOCgA5SMFgpvvpxMrHhGrZwzbAWujg6dYFxDyQ+u3ChamoKQJUgssCMEITgj+zwOcpDFas7EGq0TwYZEDW5G/OrNJPw1TjY2JsbCfaLPpv2vpY++MkymzdD+tD6jxQpL54eIimtWWGc992dxVC98ynVylZVvkhSmuvloKFV0413J1q4nIiykW24zi4WbIs7MwCks0q5Q6E0bKZfVE6c1YNNvoGeQ68rQStaTCJmJEba8NEoKVRGYTJcEN5TXLrbI2G+T7ZTZwwU4THZYVuD+mttbibVa1KPbRc2gPwg8MOjxY/nwrFfV4klauVcAhNrkeAWFrpgukzLvsH5K4EiWXFycYE1hwChzOnqn873RVrUl2YDE2BbkHFI0t9SJ/0xrdij5qmnkg8smLomhfzzEkZkXeBxJwdd/IoCo6OYorCDPZirbYM7z7ZgMuNVegbRraTWYFWL4Dm7fyC9CPrbeh7a17nWBNNFbu/X0p7gefrlpPHAAYstpJciidfMjO6kWcRi6miiA/BO96MZRSZFdNYn8kv8McO+zluXO1B5q3T1dPbYBqutfMwZh4M/1NxtaxDWlRCLyNukFBqrBu0RcBTdj4LORKTgRQxJm3Lo9nlcEpDDHg1l7DmqWxS3KZb7XVPmWTStEcY/319PV0itzDWjA6PY7sH88pJacx085467/kBrfT+DZbKPN7LQtNbJqMMBR1Q4ySY+fvGrIsZY+SVNSsYIKQ/9pSYCKwquhqKs9f+BkvmPEWXK5aOYFBRfeo+B4EUf5HxLfanJSmlWtKIszRxlmxjA2y3porCX7+96hZrEfftgiGpXRD+rDmmnDkDIZewAMxAFEL3w5sl4kyKy76BOHPNnKldDLll4+2XowBR5W55ktvw8hDNCQQUy+HFKhzJbWXxXk+Tg4H3/8cRadJ9k72+P2gzVP1aVi7fVcXXUOjv3oRnETZ1wgJahewsArhskqUsgC1gO6W72jrKJ8YFq+8oWvAnQVnXa56oMNp5ucl2bC1RLU5NfBUMAlb3XVCaCGI2TtZVxTTyn64YOY0icmbmxwNAmJeR7jT+L0ggoYo3gtiHKZZ/tIkIrscKSETX4y9v3Ff/HW0LmJHwsWg5aNcbDmz0Av1RMnmjWDPQTp3IyCITva56OaKp5kSoRaBoysiaH8x+2Hgzr+48AqbwXsMYBuxzpYYi4zUxPJFiXf6STOS+wjdUtgnF881PhGwtUiMIpCVOQpUL/a9r8Jhu52f4IvsilHos/UclJCHomycqE6OTU31DtllgFt7mrTLhT8LiK5AViTV4UkyToq7ysuRG8xKL3VOQjlHfzX60/p3apxA96r931XG5+EyvB34Us5DCFHeACsUKQq0rvIglL1Fsst3cwzbuChNp6praBT99XIeTPA8HcGM25OWKvXiH1RrFGHBtGd0VqXwEu6DCLPg7ydIULPo6kDGFRBdrWON+2JsJm8aK8smib4h/eaLMHVLEVupxBqkGJTB+mnRO8ttP70x86fNIXb4RaGJFbX2pk7AtXcLgbmN7gaPL53Ku6MK547e4hGnPv4k0yRvCtk4Mh63f/+h+JGr4BZBvKJicie96VKCIMoKfbuHrVXcKyc2q7Ij659xfu3Uu/XuukiR9RTNNGWuJGQN9YUX+iOWRI5EW1MYY64oOq5+lGf/C3rna+TuUlE79LqbhyVEO5oRJDjXRyH7Va9SzIZC8aAJigZlhfyG7Yd2P4jzqvGjsS109maSKDgsa/6+IE3oYe+ZOrlBP8x1Hcbn5EG4/obS2z+bPxViPDIL5Mp7WmgpuU/ULMn6Eko230Gkv3WyTW/5aP6CzKcSLwHCxjzzdKVKqPQvVRXkrqx1vqvG9uNOqdxipGIOfv6tdpuTpT91Tz8NpWlWvDy7ZIIbrQARuVLwvSz7bUlT4m2M8jbRjh0qhSKxnBOmNPAsigXnKRp2VurD1eRHu56WziZ9uYLBHWaFfbkNowdDaNbwnOENwjZarJ+aQoZX4S2iNz4WY3u8Qz4M5DDVB3KYhuUDieRX4tF6e1NJHLTM29S2WfhNqyXO0JUbqL67i0TJE/VFxEC2hFnn3XBR7Cuj1UIn8DYPKI+ncDhvJSfteLnvrobadHVAzMBM7Yve1CD+82bQidAOtGMeRfmgLwpdHMVYVo0YAsH5fPKWul3D0Qg7tlZBtI6ZM2VcNTtTPBMSAq22op2lRbHj0kHek13eYwix8mPeZCrSEjdQgWkbREwzzOOA3/pnlWo4xkDhnhZTUx0fnRapEG80iRNaIGkGEjbCAqP4TTKLzYkQ4LcXI1xGEeFSKByqA6KX/SNB0crRqARtyWA1awgJqg6WzBydRy3ET5yiPPrHTXkSzMDFUR30a4uCeafVmL4SWmR+52lXc6TCQFCVSt6uLSf5FNQLQ5XAw40Ad4CeUBQ4tdsquIpmQNJflwHv4J4NL2SPxpOs9nnFNemovwDjPyP6Duo6ZsbqWOf92fA+r/+QZtL58sgueRVkV0lAJpwx5nFXGyEox3622t4zaxa1U000n0OKwiOCTXZIuWRDwURrD4v+0lBqoMMJbQrLNncLwxihXDm/slgzN9VmdYoND7yID3+DgXmtkfL8fxOj5LdQs7g3tAtuGp83YrdeSAceNrXARBU9nc2P32y6HmBSbusqz2mdcfmnAvecaRS1K1lKTxdwQ/vdfT6VyY8/8hr2o=</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -3689,6 +3747,15 @@
       <source src="unlock.ogg" type="audio/ogg; codecs=opus">
       <source src="unlock.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Musique d'ambiance. preload="none" : contrairement au son de
+         déverrouillage qui pèse 2 Ko, une boucle musicale fait plusieurs
+         centaines de kilo-octets. On ne l'appelle qu'au moment où elle
+         servira — inutile de la faire payer à qui coupera le son. -->
+    <audio id="ambiance" loop preload="none">
+      <source src="ambiance.ogg" type="audio/ogg; codecs=opus">
+      <source src="ambiance.mp3" type="audio/mpeg">
+    </audio>
   </section>
 
   <!-- ============ BUREAU ============ -->
@@ -3720,6 +3787,20 @@
       </div>
 
       <div class="menubar__trailing" data-node-id="118:195">
+        <!-- Coupe-son. aria-pressed dit l'état à un lecteur d'écran ; le
+             titre visible au survol le dit à tout le monde. Le bouton reste
+             présent même si le fichier manque — il se désactive alors tout
+             seul, plutôt que de mentir. -->
+        <button type="button" class="son" id="son" aria-pressed="false"
+                aria-label="Musique d’ambiance — couper le son" title="Couper le son">
+          <svg class="son__barres" viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+            <rect x="1"    y="4.5" width="2" height="7" rx="1"/>
+            <rect x="5"    y="2"   width="2" height="12" rx="1"/>
+            <rect x="9"    y="3.5" width="2" height="9" rx="1"/>
+            <rect x="13"   y="5.5" width="2" height="5" rx="1"/>
+          </svg>
+        </button>
+
                         <div class="menubar__clock" data-node-id="118:205">
           <span id="bar-date" data-node-id="118:206">Mer 9 Sep</span>
           <time id="bar-time" datetime="08:15" data-node-id="118:207">08:15</time>
@@ -3771,7 +3852,7 @@
 
       <button type="button" class="mini" data-node-id="483:573" data-cv="1"
               aria-label="Curriculum Vitae — ouvrir">
-        <span class="mini__icon" aria-hidden="true">📄</span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-145.webp" type="image/webp"><img src="ic-cv-145.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Curriculum Vitae</span>
       </button>
 
@@ -3855,6 +3936,15 @@
       <button type="button" class="navmenu__item" role="menuitem" data-action="about">À propos</button>
       <div class="navmenu__sep" role="separator"></div>
       <button type="button" class="navmenu__item" role="menuitem" data-action="contact">Contacter</button>
+      <div class="navmenu__sep" role="separator"></div>
+      <!-- Attribution de la musique d'ambiance. La licence Free To Use
+           demande un crédit ; il vit ici plutôt qu'en pied de page, parce
+           qu'un bureau macOS n'a pas de pied de page. L'entrée est un lien :
+           créditer sans permettre de remonter à la source ne crédite rien. -->
+      <a class="navmenu__item navmenu__item--note" role="menuitem"
+         href="https://freetouse.com/music" target="_blank" rel="noopener noreferrer">
+        Musique : <em>Glass Shop</em> — Calima
+      </a>
     </div>
 
     <!-- Dock — Tech_Dock 423:155 -->
@@ -4277,10 +4367,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'hO+0IMKLv8R8nxHOlv/dDg==',
+    sel: 'GXUWmUhW/WJzDbwI56kxaQ==',
     iter: 250000,
-    jetonIv: 'ddH3HDccDaXnGOqb',
-    jeton: '3FOwyINmNbP4D002EjMsh/WSLrbW5oTG5+l1qw==',
+    jetonIv: 'KjMSc55eXEUZEz2i',
+    jeton: 'DYwpKladbzpoiblTOCHK1QHII7tuBj7y6SX5yQ==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -6449,8 +6539,95 @@ const dire = (function () {
     } catch (e) { /* audio indisponible */ }
   }
 
+  /* ── musique d'ambiance ───────────────────────────────────────────────
+     Elle démarre au clic sur « Entrer » — un geste de l'utilisateur, donc
+     le navigateur l'autorise. Trois précautions :
+
+     1. VOLUME BAS ET FONDU. 0,18 au lieu de 1, atteint en deux secondes et
+        demie. Une musique qui surgit à plein volume fait fermer l'onglet
+        avant qu'on ait lu une ligne — et le son de déverrouillage joue au
+        même instant, il ne faut pas qu'ils se télescopent.
+     2. LE REFUS EST MÉMORISÉ. Qui a coupé le son ne se le voit pas
+        réimposer à la visite suivante. C'est la moindre des choses.
+     3. LE FICHIER PEUT MANQUER. Tant qu'aucune piste n'est déposée, le
+        bouton se désactive au lieu de faire semblant. */
+  const VOL_AMBIANCE = 0.18;
+  const MONTEE_MS    = 2500;
+  const CLE_SON      = 'portfolio:son';
+
+  const ambiance = document.getElementById('ambiance');
+  const boutonSon = document.getElementById('son');
+  let fonduTimer = null;
+
+  function sonRefuse() {
+    try { return localStorage.getItem(CLE_SON) === 'off'; } catch (e) { return false; }
+  }
+  function memoriser(actif) {
+    try { localStorage.setItem(CLE_SON, actif ? 'on' : 'off'); } catch (e) {}
+  }
+
+  function marquerSon(actif) {
+    if (!boutonSon) return;
+    boutonSon.setAttribute('aria-pressed', actif ? 'true' : 'false');
+    boutonSon.setAttribute('aria-label',
+      actif ? 'Musique d’ambiance — couper le son' : 'Musique d’ambiance — remettre le son');
+    boutonSon.title = actif ? 'Couper le son' : 'Remettre le son';
+  }
+
+  /* Montée progressive par petits paliers. Un fondu au volume, et non un
+     fade-in de fichier : on garde la maîtrise et ça marche sur tout. */
+  function monterLeSon() {
+    clearInterval(fonduTimer);
+    const pas = 50, etapes = Math.max(1, Math.round(MONTEE_MS / pas));
+    let i = 0;
+    ambiance.volume = 0;
+    fonduTimer = setInterval(() => {
+      i += 1;
+      ambiance.volume = Math.min(VOL_AMBIANCE, VOL_AMBIANCE * (i / etapes));
+      if (i >= etapes) clearInterval(fonduTimer);
+    }, pas);
+  }
+
+  function jouerAmbiance() {
+    if (!ambiance || sonRefuse()) return;
+    try {
+      const p = ambiance.play();
+      if (p && typeof p.then === 'function') {
+        p.then(() => { marquerSon(true); memoriser(true); monterLeSon(); })
+         .catch(() => { marquerSon(false); });   // refus du navigateur : on n'insiste pas
+      } else { marquerSon(true); monterLeSon(); }
+    } catch (e) { marquerSon(false); }
+  }
+
+  function couperAmbiance() {
+    clearInterval(fonduTimer);
+    if (ambiance) ambiance.pause();
+    marquerSon(false);
+    memoriser(false);
+  }
+
+  if (boutonSon && ambiance) {
+    /* Aucune source lisible = aucun fichier déposé. On désactive plutôt que
+       d'offrir un bouton qui ne fera jamais rien. */
+    const sources = ambiance.querySelectorAll('source');
+    let lisible = false;
+    sources.forEach((s) => {
+      if (ambiance.canPlayType && ambiance.canPlayType(s.type)) lisible = true;
+    });
+    if (!lisible) {
+      boutonSon.disabled = true;
+      boutonSon.title = 'Aucune musique n’est encore installée';
+      boutonSon.setAttribute('aria-label', 'Musique d’ambiance — indisponible');
+    }
+
+    boutonSon.addEventListener('click', () => {
+      if (ambiance.paused) jouerAmbiance(); else couperAmbiance();
+    });
+  }
+
   document.getElementById('unlock').addEventListener('click', () => {
     playUnlockSound();
+    jouerAmbiance();
     show('desktop');
   });
 
