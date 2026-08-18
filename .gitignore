@@ -9,7 +9,7 @@ verrou-source/
 
 # Copies de travail, jamais destinées au public
 apercu-local.html
-diagnostic-eau.html
+diagnostic-*.html
 *.command
 
 # ─────────────────────────────────────────────────────────────

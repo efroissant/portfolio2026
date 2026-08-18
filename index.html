@@ -107,8 +107,19 @@
      mesuré, le texte sombre y tient au-dessus de 4,5:1 sur la totalité de la
      surface, quel que soit le fond d'écran choisi. Une nouvelle fenêtre
      n'a qu'à lire ces trois jetons. */
-  --panel-bg: #ffffff;
-  --panel-blur: 4px;
+  /* Verre, pas blanc opaque.
+
+     0,86 et pas moins, et ce n'est pas un goût. Le texte secondaire du site
+     est écrit en rgba(58,0,30,0.62) : il se compose SUR la plaque, donc il
+     pâlit deux fois — une fois par la transparence de la plaque, une fois
+     par la sienne. C'est LUI qui fixe le plancher, pas l'encre pleine.
+     Mesuré sur la Voie lactée floutée : 3,7:1 à 0,65 — sous le seuil ;
+     4,7:1 à 0,86 — au-dessus. L'encre pleine, elle, passe dès 0,55.
+
+     Le flou monte de 4 à 24 : à 4 on ne voyait pas du verre, on voyait une
+     fenêtre sale. C'est le flou qui fait la matière, pas la transparence. */
+  --panel-bg: rgba(255, 255, 255, 0.86);
+  --panel-blur: 24px;
   --panel-shadow: 0 4px 55px rgba(0, 0, 0, 0.25);
   --transition: 420ms;
   }
@@ -146,6 +157,27 @@
     color: var(--text);
     background: var(--backdrop);
   }
+
+  /* ================= CIEL ANIMÉ =================
+     La vidéo occupe le même cadre que la photo et se cadre pareil —
+     object-fit: cover est l'équivalent de background-size: cover.
+
+     Elle apparaît en fondu quand elle a de quoi jouer : sans ça, on verrait
+     le premier chargement se substituer d'un coup à l'affiche. */
+  .stage__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 900ms ease;
+    pointer-events: none;
+  }
+  .stage__video[data-prete="1"] { opacity: 1; }
+  /* Elle n'existe pas quand le système demande le calme : la photo suffit. */
+  @media (prefers-reduced-motion: reduce) { .stage__video { display: none; } }
 
   /* ================= LECTEUR SPOTIFY =================
      Aucun habillage : le lecteur de Spotify est déjà une carte, avec son
@@ -194,25 +226,54 @@
   .stage__bg {
     position: absolute;
     inset: 0;
-    /* Valeur de départ seulement : le script la remplace dès qu'un fond a été
-       choisi. On la laisse en dur pour que l'image s'affiche même si le
-       script ne tourne pas. */
-    background-image: url("night-1280.jpg");
+    /* Valeur de départ, et elle doit être CELLE DU DÉFAUT, pas une autre.
+       Elle doit suivre WALL_DEFAUT à chaque changement : sinon le navigateur
+       télécharge un fond, l'affiche, puis le script en demande un autre —
+       deux images à la file et une arrivée qui traîne. Ici c'est l'affiche
+       de la Voie lactée, celle que la vidéo recouvre une fois prête. */
+    background-image: url("mer-1280.jpg");
     background-image: image-set(
-      url("night-1280.webp") type("image/webp"),
-      url("night-1280.jpg")  type("image/jpeg")
+      url("mer-1280.webp") type("image/webp"),
+      url("mer-1280.jpg")  type("image/jpeg")
     );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    /* Le ciel dérive.
+
+       Plutôt que de poser de faux nuages par-dessus une photo de nuages, on
+       fait bouger la photo. Ce sont donc de VRAIS nuages qui se déplacent,
+       avec leur vraie lumière et leur vrai grain — aucun dessin ne peut
+       rivaliser avec ça, et on l'a vérifié aux dépens des étincelles.
+
+       L'agrandissement de 6 % est ce qui rend la dérive possible : sans lui,
+       le bord de l'image entrerait dans le cadre dès le premier pixel de
+       déplacement. On se donne de la marge, puis on se promène dedans.
+
+       Deux minutes vingt pour un aller, autant pour le retour. À cette
+       vitesse — moins d'un pixel par seconde — personne ne voit l'image
+       bouger : on constate qu'elle a bougé. C'est exactement ce qu'on
+       cherche, et c'est l'inverse d'un effet. */
+    transform: scale(1.06);
+    animation: derive 280s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes derive {
+    0%   { transform: scale(1.06) translate(0, 0); }
+    30%  { transform: scale(1.06) translate(-0.9%, -0.4%); }
+    60%  { transform: scale(1.065) translate(-1.5%, 0.35%); }
+    100% { transform: scale(1.07) translate(-0.6%, 0.9%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage__bg { animation: none; transform: none; }
   }
 
   @media (min-width: 1281px), (min-width: 768px) and (min-resolution: 1.5dppx) {
     .stage__bg {
-      background-image: url("night-1920.jpg");
+      background-image: url("mer-1920.jpg");
       background-image: image-set(
-        url("night-1920.webp") type("image/webp"),
-        url("night-1920.jpg")  type("image/jpeg")
+        url("mer-1920.webp") type("image/webp"),
+        url("mer-1920.jpg")  type("image/jpeg")
       );
     }
   }
@@ -525,7 +586,9 @@
 
   .mini {
     position: absolute;
-    width: 112px;
+    /* La boîte est plus large que le dessin : c'est le libellé qui décide,
+       « Curriculum Vitae » doit tenir sur une ligne. */
+    width: 148px;
     display: grid;
     grid-template-rows: var(--mini-canvas) auto;
     /* end et non center : les dessins s'appuient sur une ligne de sol commune.
@@ -653,11 +716,33 @@
     text-shadow: none;
     -webkit-user-select: none;
     user-select: none;
-    transition: transform 140ms ease, filter 140ms ease;
+    /* Le retour est plus lent que l'aller : 700 contre 480. C'est ce qui
+       donne le poids. Un objet en apesanteur qu'on lâche ne revient pas
+       aussi vite qu'il a réagi — il dérive jusqu'à sa position.
+       140ms partout, c'était le réglage d'un bouton, pas d'un objet. */
+    transition: transform 700ms cubic-bezier(.22, .61, .36, 1),
+                filter 300ms ease;
   }
+  /* L'inclinaison est tirée au sort à chaque survol, donc le script la pose
+     dans --tilt et la feuille de style s'en sert. Elle vit sur .mini__icon,
+     l'enfant, pendant que le flottement vit sur .mini, le parent : les deux
+     transformations se composent au lieu de s'écraser. */
   .mini:hover .mini__icon {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.34));
+    /* La courbe d'entrée démarre doucement au lieu de partir sec : c'est
+       ce départ brutal qu'on lisait comme un à-coup, pas la durée. */
+    transition: transform 480ms cubic-bezier(.33, .1, .18, 1),
+                filter 300ms ease;
+    /* 14 px et non 4 : sur un bureau où tout flotte, un soulèvement de
+       quatre pixels se confond avec la dérive elle-même. Il faut sortir du
+       bruit de fond pour que le survol se lise comme une réponse.
+       L'ombre s'éloigne d'autant — c'est elle qui dit la hauteur. */
+    transform: translateY(-14px) rotate(var(--tilt, 0deg)) scale(1.09);
+    filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.45));
+  }
+  /* Sans transition, la bascule serait un saut. On garde donc le mouvement
+     court, et on l'annule entièrement si le système demande le calme. */
+  @media (prefers-reduced-motion: reduce) {
+    .mini:hover .mini__icon { transform: none; }
   }
   .mini:focus-visible .mini__icon {
     outline: 2px solid #fff;
@@ -2275,8 +2360,12 @@
        Ce n'est plus la taille du dock — un objet posé sur le bureau n'a pas
        le même rôle qu'un raccourci d'application, et la comparaison directe
        ne se fait jamais, les deux ne se touchent pas à l'écran. */
-    --mini-icon: 80px;
-    --mini-canvas: 80px;
+    /* Deux chiffres pour une seule idée : la boîte du dessin. Les objets
+       flottent maintenant dans un ciel, ils ne sont plus rangés en grille
+       serrée — ils peuvent respirer. Monter cette valeur suffit, la
+       dispersion et le rangement se recalculent sur offsetWidth. */
+    --mini-icon: 112px;
+    --mini-canvas: 112px;
     /* Le dessin Noto montre une comète qui tombe : tête en bas à gauche,
        traînée vers le haut à droite. Un demi-tour inverse la course sans
        toucher au dessin — elle monte au lieu de chuter. Un seul nombre à
@@ -2509,6 +2598,646 @@
     outline-offset: 3px;
   }
   .menubar :focus-visible { outline-offset: 1px; }
+  /* ================= ESSAI : BUREAU NU =================
+     La barre de menus et le dock sont retirés pour voir ce que donne un
+     ciel où ne flottent que les objets.
+
+     Deux pertes, assumées mais réelles :
+     — ton nom et ton rôle n'apparaissent plus qu'à l'écran de veille ;
+     — LinkedIn et Notes n'étaient accessibles QUE par le dock sur grand
+       écran. On les remonte donc sur le bureau : cacher une porte est un
+       choix, laisser un contenu inatteignable est un défaut.
+
+     Le fond d'écran se change encore par clic droit sur le bureau.
+     Pour tout remettre : supprimer ce bloc. */
+  .menubar { display: none; }
+  .dock    { display: none; }
+  /* Plus aucune réaction au survol non plus : l'inclinaison tirée au sort
+     est un mouvement, elle part avec les autres. Le soulèvement discret
+     reste — sans lui, rien ne dirait que l'objet est cliquable. */
+  .mini:hover .mini__icon { transform: translateY(-6px); }
+  /* Le bloc « DESIGNER UI/UX » et sa phrase d'accroche, en haut à gauche.
+     Il partait avec l'avatar de la barre : sans elle, il flottait seul. */
+  .resume  { display: none; }
+  /* Les deux vignettes réservées au doigt deviennent visibles partout,
+     puisque le dock ne les porte plus. */
+  .mini--mobile { display: grid; }
+
+  /* Le buste d'argile, sur l'écran de veille.
+
+     Il n'entre pas dans le médaillon rond : ce n'est pas un portrait cadré,
+     c'est un objet. On enlève donc le cercle, le liseré et le débordement
+     masqué, et on le laisse se poser.
+
+     Le buste est presque blanc — RGB 219 — et les deux fonds actuels sont
+     clairs : mesuré, il n'en détache qu'à 1,45:1 sur Calm Sea. L'ombre
+     portée est donc structurelle, pas décorative : sans elle, la silhouette
+     disparaît dans le ciel. Elle suit la forme du sujet, pas une boîte,
+     grâce à drop-shadow. */
+  .avatar--buste {
+    width: 96px;
+    height: auto;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    filter: drop-shadow(0 6px 14px rgba(20, 30, 60, 0.42))
+            drop-shadow(0 1px 2px rgba(20, 30, 60, 0.30));
+  }
+  .avatar--buste img,
+  .avatar--buste picture { display: block; width: 100%; height: auto; }
+
+  /* Le buste est presque blanc, et les deux fonds sont clairs : mesuré, il
+     ne se détache qu'à 1,5:1. L'ombre commune des vignettes (0,3 d'opacité)
+     ne suffit pas ici — on la renforce pour cette icône seule. C'est la
+     silhouette qui doit se lire, pas la matière. */
+  .mini[data-action="apropos"] .mini__icon {
+    filter: drop-shadow(0 4px 10px rgba(20, 30, 60, 0.45))
+            drop-shadow(0 1px 2px rgba(20, 30, 60, 0.35));
+  }
+  .mini[data-action="apropos"]:hover .mini__icon {
+    filter: drop-shadow(0 10px 18px rgba(20, 30, 60, 0.5))
+            drop-shadow(0 1px 2px rgba(20, 30, 60, 0.35));
+  }
+
+  /* Le buste ne suit pas la règle du carré, et c'est volontaire.
+
+     Un objet debout enfermé dans un carré perd la moitié de sa surface : à
+     rapport 0,59, il ne remplissait que 15 200 pixels carrés contre 21 900
+     pour ses voisins — 30 % plus petit à l'œil. On l'égalise donc sur la
+     HAUTEUR plutôt que sur la surface : 1,45 fois la boîte commune.
+
+     La grille des vignettes aligne ses contenus par le bas (align-items:
+     end), donc le buste grandit vers le haut et repose sur la même ligne
+     de sol que le dossier ou l'appareil photo. C'est cette ligne partagée
+     qui fait qu'une rangée d'objets de tailles différentes tient debout. */
+  .mini[data-action="apropos"] .mini__icon { height: auto; }
+  .mini[data-action="apropos"] .mini__icon picture,
+  .mini[data-action="apropos"] .mini__icon img {
+    width: auto;
+    height: calc(var(--mini-icon) * 1.45);
+  }
+
+  /* ================= ÉTUDE DE CAS, GABARIT V2 =================
+     D'après la maquette Pharmaprix. Trois idées structurelles :
+
+     1. UNE IMAGE D'OUVERTURE pleine largeur. Elle donne un lieu avant de
+        donner un propos — on sait où on est avant de savoir ce qu'on lit.
+     2. LE TITRE ET SA DESCRIPTION SUR UNE MÊME LIGNE. Le nom du client
+        pèse, la phrase qui l'explique accompagne. Sur écran étroit ils
+        s'empilent.
+     3. LE MANDAT DANS UNE CARTE. Un bloc gris qui se détache du fil :
+        c'est le seul endroit du document où l'on résume tout.
+
+     Rien ici ne touche aux trois autres études : tout est préfixé .doc--v2. */
+
+  /* ══════════════════════════════════════════════════════════════════
+     GABARIT v3 — la maquette Figma « Portfolio Été 2026 » (853:131).
+
+     Trois différences de fond avec v2 :
+
+     1. LA FENÊTRE PASSE DE 1080 À 900. Le contenu tient sur une colonne
+        unique de 772 px, avec 64 px de gouttière de chaque côté. Il n'y a
+        plus de colonne de repère à gauche : les intitulés de chapitre
+        reviennent au-dessus de leur titre.
+     2. LE RYTHME EST CONSTANT. 64 px entre chaque section, filets compris,
+        posés par un simple row-gap plutôt que par des marges accumulées.
+     3. LES ENCRES SONT NEUTRES. La maquette abandonne le prune du bureau
+        (#3a001e) pour un gris typographique. Elles sont déclarées une fois
+        ci-dessous et jamais réécrites ailleurs.
+
+     Comme v2, tout est préfixé .doc--v3 : GVQ et Roche n'y touchent pas. */
+
+  .doc--v3 {
+    --v3-titre:  #0b0b0b;   /* le nom du projet, 56 px          */
+    --v3-encre:  #1a1a1a;   /* le texte courant                 */
+    --v3-sous:   #4e4c4e;   /* la ligne de description          */
+    --v3-gris:   #625f61;   /* intitulés, légendes, secondaire  */
+    --v3-bord:   #e8e6e3;   /* filets et contours de carte      */
+    --v3-doux:   #faf9f6;   /* fond de citation                 */
+    --v3-vide:   #f1f0ee;   /* emplacement d'image en attente   */
+  }
+
+  /* --- la fenêtre et la colonne ------------------------------------- */
+  .doc--v3 .doc__win { width: min(900px, 100%); }
+  /* 48 px comme la maquette. Elle y dessine les trois pastilles macOS ;
+     on n'en garde qu'une, la seule qui fasse quelque chose. Réduire et
+     agrandir seraient inertes au clic — un bouton qui ne répond pas coûte
+     plus en confiance qu'il ne rapporte en ressemblance. */
+  .doc--v3 .doc__bar { height: 48px; padding: 0 16px; }
+
+  /* La grille garde les noms de lignes de v1 pour que les règles
+     existantes (.doc__fig--pleine notamment) continuent de résoudre. Mais
+     les deux pistes latérales deviennent des gouttières fixes de 64, et
+     libellé + texte fusionnent en une seule colonne de 772. */
+  .doc--v3 .doc__page {
+    grid-template-columns:
+      [pleine-debut] minmax(16px, 64px)
+      [libelle-debut texte-debut] minmax(0, 772px)
+      [texte-fin] minmax(16px, 64px)
+      [pleine-fin];
+    column-gap: 0;
+    row-gap: 64px;
+    justify-content: center;
+    padding: 64px 0 96px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--v3-encre);
+  }
+  .doc--v3 .doc__page > *,
+  .doc--v3 .doc__fig--pleine { grid-column: libelle-debut / texte-fin; }
+
+  /* v1 posait une sous-grille « repère | contenu » dans chaque section.
+     v3 n'en a plus besoin : tout coule sur une seule colonne. */
+  .doc--v3 .doc__page > header,
+  .doc--v3 .doc__bloc,
+  .doc--v3 .doc__decision { display: block; }
+  .doc--v3 .doc__page > header > *,
+  .doc--v3 .doc__bloc > *,
+  .doc--v3 .doc__decision > * { grid-column: auto; }
+
+  /* row-gap gère tout l'espacement vertical entre sections. Les marges des
+     éléments de tête et de queue s'annuleraient sinon en double. */
+  .doc--v3 .doc__page > * > :first-child { margin-top: 0; }
+  .doc--v3 .doc__page > * > :last-child  { margin-bottom: 0; }
+
+  /* --- le filet de séparation --------------------------------------- */
+  .doc--v3 .doc__filet {
+    height: 0; margin: 0; border: 0;
+    border-top: 1px solid var(--v3-bord);
+  }
+
+  /* --- l'image d'ouverture ------------------------------------------ */
+  .doc--v3 .doc__hero {
+    position: relative;
+    margin: 0;
+    /* 16/9 et non le 772/360 de la maquette : tous les autres emplacements
+       sont en 16/9, et le portrait d'ouverture perdait 58 % de sa hauteur
+       au recadrage. Un seul rapport pour toute l'étude. */
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--v3-vide);
+  }
+  .doc--v3 .doc__hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* --- le titre et sa description ----------------------------------- */
+  .doc--v3 .doc__entete { display: block; margin: 0 0 24px; }
+  .doc--v3 .doc__titre {
+    margin: 0 0 8px;
+    font-size: 56px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--v3-titre);
+  }
+  .doc--v3 .doc__client {
+    margin: 0;
+    max-width: none;
+    text-align: left;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--v3-sous);
+  }
+
+  /* --- les étiquettes ------------------------------------------------ */
+  .doc--v3 .doc__tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 0; padding: 0; list-style: none;
+  }
+  .doc--v3 .doc__tags li {
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: #f3f1ed;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 590;
+    color: var(--v3-gris);
+  }
+
+  /* --- l'en-tête de section ------------------------------------------
+     L'intitulé revient au-dessus du titre : plus de colonne de repère. */
+  .doc--v3 .doc__eyebrow,
+  .doc--v3 .doc__num {
+    grid-column: auto; grid-row: auto;
+    margin: 0 0 16px; padding: 0;
+    text-align: left;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--v3-gris);
+  }
+  .doc--v3 .doc__bloc h2,
+  .doc--v3 .doc__carte h2 {
+    margin: 0 0 16px;
+    font-size: 36px;
+    line-height: 1.15;
+    font-weight: 510;
+    letter-spacing: -0.02em;
+    color: var(--v3-encre);
+  }
+  /* La phrase qui suit le titre de chapitre : même corps que le texte,
+     mais elle respire davantage parce qu'elle porte l'argument. */
+  .doc--v3 .doc__bloc > p,
+  .doc--v3 .doc__carte > p { margin: 0 0 16px; }
+
+  /* Mesuré dans la maquette : un paragraphe suit son titre à 16 px, mais un
+     bloc structuré — deux colonnes, trois relevés, bandeaux — s'en détache à
+     32. Les marges fusionnent, donc 32 l'emporte sur le 16 du titre. */
+  .doc--v3 .doc__duo,
+  .doc--v3 .doc__releves,
+  .doc--v3 .doc__gravites { margin-top: 32px; }
+
+  /* v1 donnait 14 px aux h3 parce qu'ils vivaient dans la marge. Ici ils
+     coiffent une grille de trois colonnes et doivent s'entendre. */
+  .doc--v3 .doc__bloc h3 {
+    margin: 0 0 24px;
+    font-size: 18px; line-height: 1.3; font-weight: 700;
+    color: var(--v3-encre);
+  }
+
+  /* --- le mandat en deux colonnes ------------------------------------ */
+  .doc--v3 .doc__carte {
+    margin: 0; padding: 0;
+    border-radius: 0; background: none;
+  }
+  .doc--v3 .doc__duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    margin: 0 0 32px;
+  }
+  .doc--v3 .doc__duo > * { margin: 0; }
+  .doc--v3 .doc__duo .doc__liste { margin: 0; padding-left: 18px; }
+  .doc--v3 .doc__duo .doc__liste li + li { margin-top: 12px; }
+
+  /* --- la bande rôle / focus / livrables ----------------------------- */
+  .doc--v3 .doc__trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--v3-bord);
+    border-bottom: 0;
+  }
+  .doc--v3 .doc__trio dt {
+    margin: 0 0 8px;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--v3-gris);
+  }
+  .doc--v3 .doc__trio dd { margin: 0; font-size: 15px; line-height: 1.5; }
+  .doc--v3 .doc__trio dd + dd { margin-top: 4px; }
+
+  /* --- les trois relevés de l'audit ----------------------------------
+     La maquette pose un fond bleu très pâle sous ce bloc, avec 4 px de
+     retrait horizontal. À 4 px le texte touche le bord de l'aplat : je
+     monte à 20/16, c'est le seul écart volontaire avec le dessin. */
+  .doc--v3 .doc__bloc--releves {
+    padding: 20px 16px;
+    border-radius: 6px;
+    background: #f1f3ff;
+  }
+  .doc--v3 .doc__bloc--releves h3 {
+    margin: 0 0 16px;
+    font-size: 20px; line-height: 1.25; font-weight: 510;
+  }
+  .doc--v3 .doc__bloc--releves .doc__releves { margin-top: 0; }
+  .doc--v3 .doc__releves {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0; padding: 0; list-style: none;
+  }
+  .doc--v3 .doc__releves li { margin: 0; font-size: 14px; line-height: 1.5; color: var(--v3-gris); }
+  .doc--v3 .doc__releves strong {
+    display: block; margin: 0 0 8px;
+    font-size: 15px; line-height: 1.3; font-weight: 700;
+    color: var(--v3-encre);
+  }
+
+  /* --- les bandeaux de sévérité --------------------------------------
+     Le fond, le contour et le badge changent ensemble : trois variables
+     par bandeau, une seule règle de mise en forme. */
+  .doc--v3 .doc__gravites { display: grid; gap: 16px; margin: 0; }
+  .doc--v3 .doc__gravite {
+    display: flex; gap: 24px; align-items: flex-start;
+    padding: 16px;
+    border: 1px solid var(--g-bord);
+    border-radius: 8px;
+    background: var(--g-fond);
+  }
+  .doc--v3 .doc__gravite > span:first-child {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--g-badge);
+    color: var(--g-texte);
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .doc--v3 .doc__gravite ul {
+    margin: 0; padding-left: 18px; list-style: disc;
+    font-size: 14px; line-height: 1.5;
+  }
+  /* #4a0b07 et non le blanc de la maquette : blanc sur #ff5f56 mesure
+     2,96:1, sous le seuil de 4,5. Le brun rouge remonte à 5,23:1 en
+     restant dans la famille du feu de circulation macOS. */
+  .doc--v3 .doc__gravite--critique { --g-fond: #fff8f8; --g-bord: #fee2e2; --g-badge: #ff5f56; --g-texte: #4a0b07; }
+  .doc--v3 .doc__gravite--moderee  { --g-fond: #fffbf2; --g-bord: #fef3c7; --g-badge: #ffbd2e; --g-texte: #623f00; }
+  .doc--v3 .doc__gravite--mineure  { --g-fond: #fafaf9; --g-bord: #e5e5e4; --g-badge: #625f61; --g-texte: #fefefe; }
+
+  /* --- les figures ---------------------------------------------------- */
+  /* Une capture d'interface sur fond blanc n'a pas de bord à elle : sans ce
+     contour, un écran clair se dissout dans la page. Mesuré dans la
+     maquette — 1 px #dcd9d5, rayon 6. */
+  .doc--v3 .doc__fig { margin: 0; }
+  .doc--v3 .doc__fig > img,
+  .doc--v3 .doc__fig > .doc__cadre {
+    display: block; width: 100%;
+    border: 1px solid #dcd9d5;
+    border-radius: 6px;
+    background: var(--v3-vide);
+  }
+  .doc--v3 .doc__fig figcaption {
+    max-width: none; margin: 12px 0 0;
+    font-size: 13px; line-height: 1.4;
+    color: var(--v3-gris);
+  }
+  /* Deux vignettes côte à côte, comme dans l'analyse heuristique. */
+  .doc--v3 .doc__paire {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+  }
+
+  /* L'emplacement en attente. Il porte son propre rapport d'image pour que
+     la page garde sa hauteur définitive avant même que l'image arrive —
+     sinon tout se décale au moment de l'intégration. */
+  .doc--v3 [data-attente] { position: relative; }
+  .doc--v3 [data-attente]:not(:has(img))::after {
+    content: attr(data-attente);
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: var(--ratio, 772 / 434);
+    border-radius: 8px;
+    background: var(--v3-vide);
+    font-size: 13px; color: rgba(26, 26, 26, 0.42);
+    text-align: center; padding: 0 24px;
+  }
+  .doc--v3 .doc__hero[data-attente]:not(:has(img))::after {
+    position: absolute; inset: 0; aspect-ratio: auto;
+  }
+
+  /* --- les deux décisions --------------------------------------------- */
+  .doc--v3 .doc__decision {
+    margin: 0;
+    padding: 24px;
+    border: 1px solid var(--v3-bord);
+    border-radius: 8px;
+  }
+  /* Pas de margin-top ici : les deux décisions sont enfants directs de la
+     grille, le row-gap de 64 px les sépare déjà. L'ajouter donnerait 88. */
+  .doc--v3 .doc__dtete {
+    display: flex; align-items: center; gap: 16px;
+    margin: 0 0 24px;
+  }
+  .doc--v3 .doc__decision .doc__num {
+    margin: 0; flex-shrink: 0;
+    font-size: 40px; line-height: 1;
+    font-weight: 700; letter-spacing: -0.02em;
+    text-transform: none; color: var(--v3-encre);
+  }
+  .doc--v3 .doc__decision h3 {
+    margin: 0 0 4px;
+    font-size: 18px; line-height: 1.25; font-weight: 700;
+  }
+  .doc--v3 .doc__dtete .doc__contrainte {
+    margin: 0; padding: 0; border: 0;
+    font-size: 14px; line-height: 1.4; font-style: normal;
+    color: var(--v3-gris);
+  }
+  .doc--v3 .doc__decision > p { margin: 0 0 24px; font-size: 15px; line-height: 1.6; }
+
+  /* Les deux encarts d'alerte : l'avertissement et le blocage. */
+  .doc--v3 .doc__alertes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 24px;
+  }
+  .doc--v3 .doc__alerte {
+    padding: 16px;
+    border: 1px solid var(--a-bord);
+    border-radius: 6px;
+    background: var(--a-fond);
+    color: var(--a-texte);
+    font-size: 13px; line-height: 1.5;
+  }
+  .doc--v3 .doc__alerte strong {
+    display: block; margin: 0 0 8px;
+    font-size: 14px; line-height: 1.2; font-weight: 700;
+  }
+  .doc--v3 .doc__alerte--avert   { --a-fond: #fffbeb; --a-bord: #fde68a; --a-texte: #92400e; }
+  .doc--v3 .doc__alerte--bloquant{ --a-fond: #fdf2f2; --a-bord: #fca5a5; --a-texte: #9b1c1c; }
+
+  /* Les trois définitions : sexe, genre, pronoms. */
+  .doc--v3 .doc__defs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+  }
+  .doc--v3 .doc__defs > div {
+    padding: 12px;
+    border-radius: 4px;
+    background: #f9fafb;
+  }
+  .doc--v3 .doc__defs dt {
+    margin: 0 0 4px;
+    font-size: 13px; line-height: 1.2; font-weight: 700;
+    letter-spacing: 0; text-transform: none;
+    color: var(--v3-encre);
+  }
+  .doc--v3 .doc__defs dd {
+    margin: 0;
+    font-size: 12px; line-height: 1.4;
+    color: var(--v3-gris);
+  }
+
+  /* --- la citation de clôture ----------------------------------------- */
+  .doc--v3 .doc__citation {
+    margin: 0 0 20px;
+    padding: 20px;
+    border-left: 4px solid var(--v3-bord);
+    background: var(--v3-doux);
+  }
+  .doc--v3 .doc__citation p {
+    margin: 0 0 12px;
+    font-size: 18px; line-height: 1.5;
+  }
+  .doc--v3 .doc__citation footer {
+    font-size: 13px; line-height: 1.2; font-weight: 700;
+    color: var(--v3-gris);
+  }
+  .doc--v3 .doc__recul {
+    margin: 0;
+    font-size: 15px; line-height: 1.6;
+    color: var(--v3-gris);
+  }
+
+  /* --- écran étroit ----------------------------------------------------
+     Une seule colonne partout. Les gouttières tombent à 16 px, et les
+     grilles à deux ou trois pistes s'empilent. */
+  @media (max-width: 720px) {
+    .doc--v3 .doc__page { row-gap: 40px; padding: 32px 0 64px; font-size: 15px; }
+    .doc--v3 .doc__titre { font-size: 34px; }
+    .doc--v3 .doc__client { font-size: 17px; }
+    .doc--v3 .doc__bloc h2,
+    .doc--v3 .doc__carte h2 { font-size: 26px; }
+    .doc--v3 .doc__duo,
+    .doc--v3 .doc__trio,
+    .doc--v3 .doc__releves,
+    .doc--v3 .doc__paire,
+    .doc--v3 .doc__alertes,
+    .doc--v3 .doc__defs { grid-template-columns: 1fr; gap: 20px; }
+    .doc--v3 .doc__gravite { flex-direction: column; gap: 12px; }
+    .doc--v3 .doc__decision { padding: 20px; }
+    .doc--v3 .doc__dtete { flex-wrap: wrap; gap: 12px; }
+    .doc--v3 .doc__decision .doc__num { font-size: 32px; }
+  }
+
+  .doc--v2 .doc__page { padding-top: 0; }
+
+  /* --- l'image d'ouverture --- */
+  .doc--v2 .doc__hero {
+    grid-column: pleine-debut / pleine-fin;
+    position: relative;
+    margin: 0 0 32px;
+    aspect-ratio: 16 / 9;
+    max-height: 420px;
+    overflow: hidden;
+    background: rgba(58, 0, 30, 0.06);
+  }
+  .doc--v2 .doc__hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Le repère « en attente » : une image manquante doit se voir en travail,
+     pas se deviner. Il disparaît dès qu'une image est posée. */
+  .doc--v2 .doc__hero:empty::after,
+  .doc--v2 .doc__hero:not(:has(img))::after {
+    content: attr(data-attente);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: rgba(58, 0, 30, 0.45);
+  }
+
+  /* --- le titre et sa description --- */
+  .doc--v2 .doc__entete {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 32px;
+    margin: 0 0 16px;
+  }
+  .doc--v2 .doc__titre {
+    font-size: 40px;
+    line-height: 44px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .doc--v2 .doc__client {
+    margin: 0;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 34ch;
+  }
+
+  /* --- les étiquettes --- */
+  .doc--v2 .doc__tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 0 0 32px; padding: 0; list-style: none;
+  }
+  .doc--v2 .doc__tags li {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(58, 0, 30, 0.07);
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  /* --- la carte du mandat --- */
+  .doc--v2 .doc__carte {
+    margin: 0 0 32px;
+    padding: 32px;
+    border-radius: 12px;
+    background: rgba(58, 0, 30, 0.045);
+  }
+  .doc--v2 .doc__carte h2 {
+    margin: 8px 0 16px;
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .doc--v2 .doc__carte > .doc__eyebrow {
+    grid-column: auto; grid-row: auto;      /* hors de la grille de repère */
+    margin: 0; padding: 0; text-align: left;
+  }
+
+  /* --- la bande rôle / focus / livrables --- */
+  .doc--v2 .doc__trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 0 0 40px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(58, 0, 30, 0.14);
+    border-bottom: 1px solid rgba(58, 0, 30, 0.14);
+  }
+  .doc--v2 .doc__trio dt {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(58, 0, 30, 0.5);
+  }
+  .doc--v2 .doc__trio dd { margin: 0; }
+  .doc--v2 .doc__trio dd + dd { margin-top: 4px; }
+
+  /* Les intitulés de section reprennent la même petite capitale grise que
+     dans la carte, au lieu de vivre dans la colonne de repère. */
+  .doc--v2 .doc__bloc--chapitre .doc__num {
+    grid-column: auto; grid-row: auto;
+    text-align: left;
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(58, 0, 30, 0.5);
+  }
+  .doc--v2 .doc__bloc--chapitre h2 {
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 720px) {
+    .doc--v2 .doc__entete { display: block; }
+    .doc--v2 .doc__client { text-align: left; margin-top: 8px; max-width: none; }
+    .doc--v2 .doc__titre { font-size: 28px; line-height: 32px; }
+    .doc--v2 .doc__carte h2,
+    .doc--v2 .doc__bloc--chapitre h2 { font-size: 22px; line-height: 28px; }
+    .doc--v2 .doc__trio { grid-template-columns: 1fr; gap: 20px; }
+    .doc--v2 .doc__carte { padding: 20px; }
+  }
+
 </style>
 </head>
 <body>
@@ -2542,6 +3271,13 @@
 
 
   <div class="stage__bg"></div>
+  <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
+       l'image reste dessous comme affiche et comme repli. Si la vidéo ne
+       peut pas jouer — économie d'énergie sur iOS, animations réduites,
+       codec absent — c'est elle qu'on voit, et personne ne sait qu'il
+       manque quelque chose. -->
+  <video class="stage__video" id="stage-video" muted loop playsinline
+         preload="none" aria-hidden="true"></video>
   <div class="stage__tint"></div>
   <div class="stage__scrim"></div>
 
@@ -2758,11 +3494,15 @@
    </div>
   </div>
 
-  <div class="doc" id="doc-loblaw" hidden>
+  <!-- doc--v2 : le gabarit de la maquette Pharmaprix. Il ne vaut QUE pour
+       cette étude tant que tu ne l'as pas validé — GVQ et Roche gardent
+       l'ancien. Deux gabarits coexistent donc un moment ; c'est le prix
+       d'un essai qu'on peut abandonner sans rien casser. -->
+  <div class="doc doc--v3" id="doc-loblaw" hidden>
    <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-loblaw-titre">
     <div class="doc__bar">
       <button type="button" class="modal__light modal__light--close" data-doc-close aria-label="Fermer l’étude de cas"></button>
-      <span class="doc__bartitle">Use Case 02</span>
+      <span class="doc__bartitle">Case 02</span>
     </div>
 
     <div class="doc__scroll">
@@ -2904,8 +3644,8 @@
         </div>
         <div class="modal__content">
           <picture>
-            <source srcset="ecosse-932.webp 2x, ecosse-466.webp 1x" type="image/webp">
-            <img draggable="false" src="ecosse-466.jpg" srcset="ecosse-932.jpg 2x" alt="Une personne de dos sur une plage, encadrant un phare entre ses mains">
+            <source srcset="vesuve-1200.webp 2x, vesuve-600.webp 1x" type="image/webp">
+            <img draggable="false" src="vesuve-600.jpg" srcset="vesuve-1200.jpg 2x" alt="">
           </picture>
         </div>
       </div>
@@ -2914,8 +3654,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="AvZD/Q7SFrpP6AxJ">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="4AKz435Or+ofr5Mz">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="R6zVstbX98MLGtOY">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="ONynxan2666yNKo3">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -2928,10 +3668,10 @@
 
     <div class="cluster" data-node-id="2:610">
       <div class="cluster__identity-group" data-node-id="28:870">
-        <div class="avatar" id="avatar-lock" data-node-id="340:272">
+        <div class="avatar avatar--buste" id="avatar-lock" data-node-id="340:272">
           <picture>
-            <source srcset="avatar-160.webp 2x, avatar-80.webp 1x" type="image/webp">
-            <img src="avatar-80.jpg" srcset="avatar-160.jpg 2x" alt="" width="80" height="80">
+            <source srcset="buste-192.webp 2x, buste-96.webp 1x" type="image/webp">
+            <img src="buste-96.png" srcset="buste-192.png 2x" alt="" width="96" height="162">
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
@@ -3011,15 +3751,15 @@
     <div class="minis" id="minis">
 
       <button type="button" class="mini" data-etagere="1"
-              aria-label="Bibliothèque — ouvrir">
+              aria-label="Ma bibliothèque — ouvrir">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-tastes-160.webp" type="image/webp"><img src="ic-tastes-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Bibliothèque</span>
+        <span class="mini__label">Ma bibliothèque</span>
       </button>
 
       <button type="button" class="mini" data-folder="photos"
-              aria-label="Photos — ouvrir">
+              aria-label="Voyage Italie 2026 — ouvrir">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-photos-160.webp" type="image/webp"><img src="ic-photos-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Photos</span>
+        <span class="mini__label">Voyage Italie 2026</span>
       </button>
 
 
@@ -3036,14 +3776,14 @@
       </button>
 
       <button type="button" class="mini" data-action="mail"
-              aria-label="Mail — m’écrire un message">
+              aria-label="Contact — m’écrire un message">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-160.webp" type="image/webp"><img src="ic-mail-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Mail</span>
+        <span class="mini__label">Contact</span>
       </button>
 
       <button type="button" class="mini" data-action="apropos"
               aria-label="À propos — qui je suis">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-contact-160.webp" type="image/webp"><img src="ic-contact-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-contact-200.webp 2x, ic-contact-100.webp 1x" type="image/webp"><img src="ic-contact-100.png" srcset="ic-contact-200.png 2x" alt="" draggable="false"></picture></span>
         <span class="mini__label">À propos</span>
       </button>
 
@@ -3056,9 +3796,9 @@
            outils — ils énoncent, ils n'ouvrent rien — et ce qui s'ouvre
            remonte sur le bureau, là où le pouce va naturellement. -->
       <button type="button" class="mini" data-action="spotify"
-              aria-label="Spotify — voir ma playlist">
+              aria-label="Musique — écouter ma playlist">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-160.webp" type="image/webp"><img src="ic-musique-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Spotify</span>
+        <span class="mini__label">Musique</span>
       </button>
 
       <a class="mini mini--mobile" href="https://www.linkedin.com/in/efroissant/"
@@ -3335,6 +4075,7 @@ const dire = (function () {
     [...minisEl.querySelectorAll('.mini')].filter((m) => m.offsetParent !== null);
 
   function placeInitial() {
+    minisEl.dataset.range = 'false';     // dispersées : elles flottent
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const items = minisAffichees();
@@ -3385,7 +4126,7 @@ const dire = (function () {
      l'écran de veille. */
   const ETUDES = [
     { id: 'gvq',    num: '01', titre: 'Outil de gestion d’événement',   client: 'Groupe Voyage Québec' },
-    { id: 'loblaw', num: '02', titre: 'Outil de gestion pharmaceutique', client: 'Loblaw' },
+    { id: 'loblaw', num: '02', titre: 'Outil de gestion pharmaceutique', client: 'Loblaw — Pharmaprix' },
     { id: 'roche',  num: '03', titre: 'Site pour campagne marketing',     client: 'Roche Diabetes Care' }
   ];
   let etudeOuverte = null;
@@ -3536,10 +4277,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'uMzdV+H/Ku5nSVEVIh3u1Q==',
+    sel: 'hO+0IMKLv8R8nxHOlv/dDg==',
     iter: 250000,
-    jetonIv: 'ITEEB528408Vi82w',
-    jeton: 'JL/pshmsiZUHhVI/6AZ4Rf41RTmErLbTEgB1yg==',
+    jetonIv: 'ddH3HDccDaXnGOqb',
+    jeton: '3FOwyINmNbP4D002EjMsh/WSLrbW5oTG5+l1qw==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -4194,7 +4935,7 @@ const dire = (function () {
   const REPERE = { livre: 80 * 120, affiche: 80 * 120, disque: 96 * 96, carre: 96 * 96 };
 
   function finderEtagere() {
-    fTitle.textContent = 'Bibliothèque';
+    fTitle.textContent = 'Ma bibliothèque';
     fBody.replaceChildren();
 
     const shelf = document.createElement('div');
@@ -4294,7 +5035,7 @@ const dire = (function () {
   }
 
   function finderPhotos() {
-    fTitle.textContent = 'Photos';
+    fTitle.textContent = 'Voyage Italie 2026';
     fBody.replaceChildren();
 
     const list = document.createElement('div');
@@ -4559,6 +5300,7 @@ const dire = (function () {
   const GRID_GAP_Y = 16;
 
   function tidy() {
+    minisEl.dataset.range = 'true';      // en grille : plus de flottement
     const r = minisEl.getBoundingClientRect();
     const items = minisAffichees();
     if (!items.length || !r.width) return;
@@ -4596,19 +5338,20 @@ const dire = (function () {
   // marche, dans le menu comme au chargement.
   // Rangés dans l'ordre de la journée.
   const WALLPAPERS = [
-    { id: 'night', nom: '🔭 Nuit', apercu: 'wall-night',
-      petit: 'night-1280', grand: 'night-1920' },
     { id: 'ciel',  nom: '🌤️ Ciel bleu', apercu: 'wall-ciel',
       petit: 'ciel-1280',  grand: 'ciel-1672' },
-    { id: 'mj',    nom: '🦄 Midjourney', apercu: 'wall-mj',
-      petit: 'mj-1280',    grand: 'mj-1920' }
+    { id: 'mer',   nom: '🌊 Calm Sea', apercu: 'wall-mer',
+      petit: 'mer-1280',   grand: 'mer-1920' }
   ];
 
   /* Le fond par défaut est nommé, il n'est plus « le premier de la liste ».
      Sans ça, ranger le menu dans l'ordre de la journée aurait fait de 3pm le
      défaut — c'est-à-dire le seul fond sur lequel le texte du bureau est
      illisible. Réordonner un menu ne doit pas changer un réglage. */
-  const WALL_DEFAUT = 'night';
+  /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
+     désormais la marche. Un visiteur qui a déjà choisi autre chose garde
+     son réglage — localStorage prime sur ce défaut. */
+  const WALL_DEFAUT = 'mer';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
@@ -4624,10 +5367,25 @@ const dire = (function () {
      595px, on ne peut pas en tirer un vrai 2x sans l'inventer. Le facteur du
      srcset est donc calculé, pas supposé. */
   const PHOTOS = [
-    { nom: 'Nouvelle Écosse 2024.jpg', vignette: 'mini-ecosse', grand: 'ecosse', tailles: [466, 932],
-      alt: 'Une personne de dos sur une plage, encadrant un phare entre ses mains' },
-    { nom: 'Déjà 2026', vignette: 'mini-deja', grand: 'deja', tailles: [466, 595],
-      alt: 'Portrait d’Emmanuel Froissant sur fond terracotta' }
+    /* Le texte alternatif décrit ce qu'on voit, pas ce que ça veut dire :
+       une personne qui ne voit pas l'image doit pouvoir rire de la même
+       chose. Dire « photo humoristique » lui volerait la chute. */
+    { nom: 'Ambiance un peu lourde à Pompéi aujourd’hui, sûrement l’humidité',
+      vignette: 'mini-vesuve', grand: 'vesuve', tailles: [600, 1200],
+      alt: 'Un chat blanc à chapeau de paille, allongé devant un ventilateur '
+         + 'avec un café glacé, pendant qu’un volcan entre en éruption derrière lui' },
+    { nom: 'J’avais pourtant commandé juste des sardines',
+      vignette: 'mini-amity', grand: 'amity', tailles: [600, 1200],
+      alt: 'Un chat blanc à lunettes de soleil et chapeau de paille sur une '
+         + 'planche de surf, la gueule d’un grand requin blanc jaillissant juste derrière' },
+    { nom: 'Jour 5 : correspondance pour la dolce vita',
+      vignette: 'mini-train', grand: 'train', tailles: [600, 1200],
+      alt: 'Un chat blanc en foulard rose et lunettes de soleil, lisant un '
+         + 'journal dans un train qui longe la côte' },
+    { nom: 'C’est ici que Garibaldi a débarqué en 1860, et franchement, je le comprends',
+      vignette: 'mini-sicile', grand: 'sicile', tailles: [600, 1200],
+      alt: 'Un chat blanc en lunettes de soleil et foulard rose, allongé dans '
+         + 'une bouée, flottant dans une crique devant un village méditerranéen' }
   ];
 
   const mSource = document.querySelector('#modal .modal__content source');
@@ -4648,6 +5406,60 @@ const dire = (function () {
   const wallSub = document.getElementById('wall-sub');
   let wallId = null;
 
+  /* Un fond peut être animé. Trois précautions, chacune pour un cas réel :
+
+     — la vidéo n'est chargée QUE si le fond choisi en a une, jamais « au
+       cas où » : un visiteur qui reste sur un fond fixe ne télécharge pas
+       1,4 Mo pour rien ;
+     — on attend qu'elle ait de quoi jouer avant de la montrer, sinon
+       l'affiche serait remplacée par du noir le temps du chargement ;
+     — si la lecture échoue — économie d'énergie sur iPhone, onglet muet,
+       codec absent —, on ne fait rien. La photo est déjà là, dessous. */
+  /* Ralentir se fait à la lecture, pas au réencodage : le fichier ne change
+     pas d'un octet. À 0,25 la boucle de 12 s en dure 48, et les étoiles
+     dérivent quatre fois moins vite qu'à l'origine.
+
+     C'est à peu près le plancher. La source est à 24 images par seconde :
+     à 0,25 on n'en affiche plus que 6 de nouvelles chaque seconde. Sur ce
+     ciel-là ça passe, parce que deux images voisines sont presque
+     identiques — sur un sujet plus mobile, on verrait les saccades. */
+  const VITESSE_CIEL = 0.25;
+  const videoEl = document.getElementById('stage-video');
+
+  function poserVideo(w, fichier) {
+    if (!videoEl) return;
+    if (!w.video) {                       // fond fixe : on libère tout
+      videoEl.dataset.prete = '0';
+      videoEl.removeAttribute('src');
+      videoEl.load();
+      return;
+    }
+    const src = fichier + '.mp4';
+    if (videoEl.getAttribute('src') === src) return;
+    videoEl.dataset.prete = '0';
+    videoEl.setAttribute('src', src);
+    videoEl.addEventListener('canplay', () => {
+      // Le taux se remet à 1 quand la source change : on le repose ici,
+      // une fois que le navigateur a de quoi lire.
+      videoEl.playbackRate = VITESSE_CIEL;
+      videoEl.dataset.prete = '1';
+    }, { once: true });
+    videoEl.playbackRate = VITESSE_CIEL;
+    const p = videoEl.play();
+    if (p && p.catch) p.catch(() => { videoEl.dataset.prete = '0'; });
+  }
+
+  // Onglet en arrière-plan : on arrête le décodage. C'est le poste le plus
+  // cher de toute la page, et personne ne regarde.
+  document.addEventListener('visibilitychange', () => {
+    if (!videoEl || !videoEl.getAttribute('src')) return;
+    if (document.hidden) videoEl.pause();
+    else {
+      videoEl.playbackRate = VITESSE_CIEL;
+      const p = videoEl.play(); if (p && p.catch) p.catch(() => {});
+    }
+  });
+
   function setWall(w) {
     const f = grandEcran.matches ? w.grand : w.petit;
     // Trois affectations : la dernière que le navigateur comprend gagne.
@@ -4655,6 +5467,7 @@ const dire = (function () {
     bgEl.style.backgroundImage = 'url("' + f + '.jpg")';
     bgEl.style.backgroundImage = '-webkit-image-set(url("' + f + '.webp") type("image/webp"), url("' + f + '.jpg") type("image/jpeg"))';
     bgEl.style.backgroundImage = 'image-set(url("' + f + '.webp") type("image/webp"), url("' + f + '.jpg") type("image/jpeg"))';
+    poserVideo(w, f);
     wallId = w.id;
     try { localStorage.setItem('portfolio:wall', w.id); } catch (e) { /* mode privé */ }
     document.querySelectorAll('[data-liste-fonds] .ctxwall').forEach((b) => {
@@ -5386,6 +6199,196 @@ const dire = (function () {
   // de son utile. Déjà au niveau d'un son d'interface, donc lu sans
   // atténuation. Baisser cette valeur si besoin ; pour le monter il faudrait
   // amplifier le fichier, l'API audio ne dépasse pas 1.
+  /* ---------- flottement des vignettes ----------
+     Les objets du bureau dérivent lentement, comme en apesanteur.
+
+     Trois principes, et chacun répond à un piège :
+
+     1. AUCUNE PHASE COMMUNE. Six icônes qui montent et descendent ensemble
+        font un métronome. Chaque vignette reçoit ses propres périodes et un
+        décalage tiré de l'angle d'or — le motif ne se referme jamais, l'œil
+        ne trouve pas la boucle.
+
+     2. UN TANGAGE, PAS UNE ROTATION. Ces dessins sont des rendus 3D éclairés
+        d'un côté. Les faire pivoter ferait tourner la lumière avec eux et le
+        volume s'effondrerait. Deux degrés d'oscillation suffisent à dire
+        « ça flotte » sans casser l'illusion.
+
+     3. LA CIBLE S'IMMOBILISE QUAND ON LA VISE. Une icône survolée s'arrête,
+        et revient doucement à zéro. Sans ça, cliquer devient une poursuite —
+        c'est le vrai risque de tout ce dispositif, pas l'esthétique.
+
+     Le mouvement ne vaut que pour les vignettes DISPERSÉES. Rangées en
+     grille par le clic droit, elles se figent : une grille, ça tient. */
+  (function () {
+    /* Essai « bureau nu » : tout mouvement des vignettes est suspendu.
+       Trois zéros suffisent — la mécanique reste en place, la boucle
+       s'endort d'elle-même faute d'énergie, et remettre les valeurs
+       d'origine (7 / 2.2 / 54) rallume tout sans rien réécrire.
+       Supprimer le code aurait fait perdre une heure de réglages. */
+    const AMP = 0;        // dérive horizontale — 7 à l'origine
+    const TANGAGE = 0;    // tangage en degrés — 2.2 à l'origine
+    const BASE = 9;       // seconde, période de référence
+
+    /* --- la fuite ------------------------------------------------------
+       Les objets s'écartent du curseur qui passe près d'eux.
+
+       LE PIÈGE, et il est fatal si on l'ignore : un objet qui fuit devient
+       impossible à attraper. On tomberait dans le gag du bouton qui se
+       dérobe — amusant trois secondes, insupportable ensuite, et ici il
+       s'agit des seules portes du site.
+
+       La règle qui l'évite : LA POUSSÉE EST NULLE AU CONTACT. Elle croît
+       depuis le centre de l'objet, culmine à mi-distance, puis retombe.
+       Concrètement : l'objet s'écarte quand le curseur le frôle, et se
+       laisse prendre dès qu'on le vise vraiment. La main tendue attrape,
+       la main qui balaie repousse. */
+    const RAYON = 190;    // portée de l'influence, en pixels
+    const FUITE = 0;      // fuite au curseur — 54 à l'origine
+    const CREUX = 0.32;   // part du rayon où la poussée reste nulle
+
+    /* La masse.
+
+       Je suivais d'abord une position : l'objet POURSUIVAIT sa cible, donc
+       il réagissait au pixel près, immédiatement. C'est le comportement
+       d'un curseur, pas d'un corps.
+
+       Un corps lourd n'a pas de position cible. Il a une vitesse, une
+       inertie et un frottement. On lui applique une force, il met du temps
+       à s'ébranler, il continue quand la force cesse, il dépasse, il
+       revient. Ce sont ces quatre choses qui font « lourd », et aucune ne
+       s'obtient en ralentissant le suivi — il faut changer d'équation.
+
+       PERIODE fixe le temps que met l'objet à répondre : à 3,4 s il lui
+       faut plus d'une seconde pour s'écarter vraiment. AMORTI règle le
+       dépassement : sous 1, l'objet va trop loin puis revient, comme une
+       masse au bout d'un élastique. C'est exactement ce dépassement qui
+       se lit comme du poids. */
+    const PERIODE = 3.4;   // secondes ; monter = plus lourd encore
+    const AMORTI  = 0.42;  // sous 1 : dépassement. 1 : retour sans excès.
+
+    const flottantes = [...minisEl.querySelectorAll('.mini')].map((el, i) => ({
+      el,
+      // Périodes volontairement irrationnelles entre elles : deux vignettes
+      // ne peuvent pas se retrouver en phase, même au bout de dix minutes.
+      px: BASE + i * 1.7,
+      py: BASE * 1.31 + i * 2.3,
+      pr: BASE * 0.83 + i * 1.1,
+      ph: i * 2.399,      // angle d'or en radians : la meilleure dispersion
+      poids: 0,           // 0 = immobile, 1 = pleine amplitude
+      fx: 0, fy: 0,       // écart de fuite
+      vx: 0, vy: 0        // vitesse : c'est elle qui porte l'inertie
+    }));
+
+    let survolee = null, anim = 0, t0 = 0;
+    let sx = -1e4, sy = -1e4;      // curseur hors de portée au départ
+
+    document.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      sx = e.clientX; sy = e.clientY;
+      reveiller();
+    }, { passive: true });
+    // Curseur sorti de la fenêtre : tout revient en place.
+    document.addEventListener('pointerleave', () => { sx = sy = -1e4; reveiller(); });
+
+    /* Un angle neuf à chaque survol, entre 4 et 8 degrés. Deux garde-fous :
+       jamais moins de 4, sinon l'inclinaison ne se lit pas ; et le signe
+       s'inverse d'un survol à l'autre pour la même vignette, sinon le hasard
+       peut tirer trois fois le même côté et l'objet paraît coincé. */
+    const sens = new WeakMap();
+    function incliner(m) {
+      const s = -(sens.get(m) || 1);
+      sens.set(m, s);
+      m.style.setProperty('--tilt', (s * (4 + Math.random() * 4)).toFixed(1) + 'deg');
+    }
+
+    minisEl.addEventListener('pointerover', (e) => {
+      const m = e.target.closest('.mini');
+      if (!m) return;
+      if (m !== survolee) incliner(m);
+      survolee = m;
+    });
+    minisEl.addEventListener('pointerout', (e) => {
+      const m = e.target.closest('.mini');
+      if (m && m === survolee) survolee = null;
+    });
+
+    const dort = () => petitEcran.matches || reducedMotion()
+                    || minisEl.dataset.range === 'true' || document.hidden;
+
+    let precedent = 0;
+    function boucle(t) {
+      if (!t0) t0 = t;
+      const s = (t - t0) / 1000;
+      // Le pas de temps réel, borné : un onglet qui revient au premier plan
+      // fournit un écart d'une seconde, et l'intégration exploserait.
+      const dt = Math.min(0.05, precedent ? (t - precedent) / 1000 : 0.016);
+      precedent = t;
+      const w = 6.283 / PERIODE;
+      let vivant = false;
+      for (const f of flottantes) {
+        // Le poids monte et descend en douceur : une icône ne s'arrête ni
+        // ne repart d'un coup quand le curseur la touche.
+        const attrape = survolee === f.el || f.el.dataset.dragging === 'true';
+        f.poids += ((attrape ? 0 : 1) - f.poids) * 0.045;
+        if (f.poids > 0.002) vivant = true;
+
+        // --- la fuite ---
+        let vx = 0, vy = 0;
+        if (!attrape) {
+          const r = f.el.getBoundingClientRect();
+          const dx = r.left + r.width / 2 - sx;
+          const dy = r.top + r.height / 2 - sy;
+          const d = Math.hypot(dx, dy);
+          if (d > 1 && d < RAYON) {
+            // Une cloche : nulle au centre, nulle au bord, maximale entre
+            // les deux. C'est le « nulle au centre » qui rend l'objet
+            // attrapable — sans lui, il se déroberait jusqu'au dernier pixel.
+            const t = d / RAYON;
+            const force = t < CREUX ? (t / CREUX) : (1 - (t - CREUX) / (1 - CREUX));
+            const k = FUITE * Math.sin(Math.max(0, force) * 1.5708);
+            vx = dx / d * k;
+            vy = dy / d * k;
+          }
+        }
+        /* Intégration d'un corps amorti. Deux termes seulement :
+           — un rappel vers l'écart voulu, proportionnel à la distance qui
+             l'en sépare — c'est le ressort ;
+           — un frein proportionnel à la vitesse — c'est le frottement.
+           La vitesse survit d'une image à l'autre : voilà l'inertie. */
+        f.vx += (w * w * (vx - f.fx) - 2 * AMORTI * w * f.vx) * dt;
+        f.vy += (w * w * (vy - f.fy) - 2 * AMORTI * w * f.vy) * dt;
+        f.fx += f.vx * dt;
+        f.fy += f.vy * dt;
+        if (Math.abs(f.fx) > 0.15 || Math.abs(f.fy) > 0.15 ||
+            Math.abs(f.vx) > 0.5 || Math.abs(f.vy) > 0.5) vivant = true;
+
+        const x = AMP * Math.sin(s / f.px * 6.283 + f.ph) * f.poids + f.fx;
+        const y = AMP * 0.7 * Math.sin(s / f.py * 6.283 + f.ph * 1.7) * f.poids + f.fy;
+        const rot = TANGAGE * Math.sin(s / f.pr * 6.283 + f.ph * 0.6) * f.poids;
+        f.el.style.transform =
+          `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+      }
+      anim = (dort() && !vivant) ? 0 : requestAnimationFrame(boucle);
+    }
+
+    function reveiller() {
+      if (anim || dort()) return;
+      t0 = 0;
+      anim = requestAnimationFrame(boucle);
+    }
+
+    // Onglet caché : on rend la main. Rien ne bouge, personne ne regarde.
+    document.addEventListener('visibilitychange', reveiller);
+    document.addEventListener('portfolio:desktop', reveiller);
+    petitEcran.addEventListener('change', reveiller);
+    // Le rangement et la dispersion changent l'état : on repart de zéro.
+    new MutationObserver(reveiller).observe(minisEl, {
+      attributes: true, attributeFilter: ['data-range']
+    });
+    reveiller();
+  })();
+
   /* ================= SPOTIFY =================
      Une playlist publique, montrée dans le lecteur officiel de Spotify.
 
