@@ -174,13 +174,24 @@
     :root { --size-clock: 96px; }
   }
 
+  /* Contraste augmenté — réglage courant sur iOS et macOS.
+
+     Ce bloc datait des fonds sombres : il posait un voile NOIR à 65 % et
+     des boutons blancs, pour détacher une encre claire. Sur les fonds
+     clairs d'aujourd'hui il produisait l'inverse de son intention — un
+     écran de veille assombri, presque illisible.
+
+     Il fait maintenant ce que son nom promet : il éclaircit le ciel pour
+     que l'encre noire s'en détache davantage, et il durcit l'encre et les
+     contours. */
   @media (prefers-contrast: more) {
     :root {
-      --scrim: rgba(0, 0, 0, 0.65);
-      --btn-bg: rgba(255, 255, 255, 0.22);
-      --btn-border: rgba(255, 255, 255, 0.85);
-      --bar-tint: 30, 32, 56;
-      --bar-alpha: 0.72;
+      --scrim: rgba(255, 255, 255, 0.30);
+      --text: #000000;
+      --btn-bg: rgba(255, 255, 255, 0.72);
+      --btn-border: rgba(0, 0, 0, 0.85);
+      --tint-lock: rgba(242, 218, 255, 0.04);
+      --sky-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
     }
   }
 
@@ -254,7 +265,7 @@
   /* Au doigt, le lecteur revient au centre comme les autres panneaux. Il
      était ancré en bas pour rester au pouce ; mais une fenêtre qui apparaît
      à un endroit différent des cinq autres oblige à la chercher. */
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .spot {
       top: 50%; left: 12px; right: 12px; bottom: auto;
       width: auto;
@@ -1136,7 +1147,7 @@
     padding: 5px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(42, 38, 44, 0.72);
+    background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
     backdrop-filter: blur(22px) saturate(1.6);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
@@ -1201,7 +1212,7 @@
     padding: 5px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(42, 38, 44, 0.72);
+    background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
     backdrop-filter: blur(22px) saturate(1.6);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
@@ -1371,7 +1382,7 @@
     color: rgba(var(--ink-rgb), 0.62);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .notes { width: calc(100% - 32px); height: calc(100% - 96px); }
     .notes__corps { flex-direction: column; }
     .notes__liste {
@@ -1389,7 +1400,7 @@
      glisser-déposer, grossissement du dock. */
   .mhead { display: none; }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     /* --- la barre de menu cède la place à un en-tête --- */
     .menubar { display: none; }
 
@@ -1425,36 +1436,77 @@
       pointer-events: auto;
     }
     .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 8px; }
+    .navmenu__item--mobile,
+    .navmenu__sep--mobile { display: block; }
 
-    /* --- les vignettes deviennent une grille --- */
+    /* Le dessin est calé sur la colonne, pas sur une valeur de bureau. En
+       deux colonnes la cellule fait 168 px sur un écran de 375 : 96 px de
+       dessin y laissent 36 px de marge de chaque côté et la place du
+       libellé sous lui. */
+    :root { --mini-icon: 96px; --mini-canvas: 96px; }
+
+    /* --- les vignettes deviennent une grille ---
+       DEUX colonnes, trois rangées, pour les six objets du bureau. Sur un
+       écran de 375, chaque cellule fait 168 px : l'icône peut doubler de
+       taille par rapport aux trois colonnes, et les libellés tiennent sur
+       une seule ligne — « Curriculum Vitae » compris.
+
+       Six cellules occupent alors la hauteur disponible sans défilement,
+       ce qui compte : un recruteur voit tout ce que le portfolio propose
+       sans avoir à faire un geste. */
     .minis {
       position: absolute;
-      inset: calc(env(safe-area-inset-top, 0px) + 240px) 16px 128px 16px;
+      inset: calc(env(safe-area-inset-top, 0px) + 200px) 20px 128px 20px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      align-content: start;
-      gap: 24px 8px;
+      grid-template-columns: repeat(2, 1fr);
+      /* « safe » centre tant que ça tient, puis bascule en alignement haut
+         plutôt que de couper la première rangée. Sans ce mot-clé, un
+         contenu plus haut que son cadre déborde des DEUX côtés et le haut
+         devient inatteignable, même en défilant. */
+      align-content: safe center;
+      gap: 20px 16px;
       pointer-events: auto;
       overflow-y: auto;
+      /* Défilement au doigt fluide, et rien qui déborde latéralement. */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
     /* position: static annule les coordonnées posées en ligne par le script
        de rangement — la grille reprend la main sans qu'on touche au code. */
     .mini {
       position: static;
       width: auto;
+      /* touch-action: none sert à capter le glisser à la souris ; au doigt
+         il confisque le défilement natif. La grille redevient scrollable. */
+      touch-action: manipulation;
       grid-template-rows: var(--mini-icon) auto;
       gap: 8px;
+      /* La cellule entière est la cible, pas seulement le dessin. */
+      min-height: 44px;
+      padding: 4px 0;
     }
     .mini__icon { height: var(--mini-icon); font-size: var(--mini-icon); }
     .mini__label {
-      font-size: 12px; line-height: 16px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      /* 13 et non 12 : un libellé lu à bout de bras sur un téléphone n'a
+         pas la même distance de lecture qu'un bureau à 60 cm. Une seule
+         ligne suffit désormais — la cellule fait 168 px, le plus long des
+         six libellés en demande 104. */
+      font-size: 13px; line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .mini__verrou { width: 20px; height: 20px; }
-    /* --- le dock se colle en bas, quatre icônes --- */
+    .mini__verrou { width: 24px; height: 24px; }
+    .mini[data-folder="case-studies"] .mini__verrou { width: 24px; height: 24px; }
+    /* --- le dock prend toute la largeur ---
+       Collé aux quatre bords du bas, sans marge latérale ni arrondi
+       extérieur : il cesse d'être une pilule flottante pour devenir une
+       barre système, comme celle d'un téléphone. La zone de sécurité du
+       bas est absorbée par sa garniture, pas par une marge — l'aplat va
+       donc jusqu'au bord de l'écran sur les appareils à encoche. */
     .dock {
-      left: 16px; right: 16px;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+      left: 0; right: 0;
+      bottom: 0;
       transform: none;
       gap: 0;
     }
@@ -1466,7 +1518,14 @@
     .dock__label[data-groupe="tech"] { left: 50%; }
     /* Même forme que sur ordinateur : seules la largeur et la garniture
        changent, le rayon vient de la règle commune. */
-    .dock__pill { width: 100%; justify-content: center; padding: 12px 16px; }
+    .dock__pill {
+      width: 100%;
+      justify-content: center;
+      /* L'arrondi ne reste qu'en haut : en bas il n'y a plus de vide à
+         longer, la barre s'appuie sur le bord de l'écran. */
+      border-radius: 20px 20px 0 0;
+      padding: 12px 12px calc(env(safe-area-inset-bottom, 0px) + 12px);
+    }
     .dock__items { gap: 0; justify-content: space-around; width: 100%; }
     /* Le partage change de sens au doigt.
 
@@ -1481,7 +1540,10 @@
     .dock__item[data-groupe="social"],
     .dock__item[data-groupe="notes"],
     .dock__sep { display: none; }
-    .mini--mobile { display: grid; }
+    /* LinkedIn et Notes restent hors du bureau au doigt. Le balisage est
+       conservé : les réintégrer plus tard ne demandera que de rétablir
+       cette ligne, il n'y a rien à réécrire. */
+    .mini--mobile { display: none; }
     /* 56 et non 60 : quatre icônes de 56 plus leurs écarts tiennent dans
        les plus petits iPhone sans que le dock touche les bords.
 
@@ -1491,18 +1553,50 @@
        GitHub — dont le dessin est enveloppé dans un lien — se retrouvait
        calé en haut à gauche de sa case au lieu d'être centré. C'était le
        « en dehors du cadre » que tu as vu. */
-    .dock { --dock-icon: 56px; }
+    .dock { --dock-icon: 52px; }
     .dock__item { width: var(--dock-icon); height: var(--dock-icon); }
     .dock__link { width: var(--dock-icon); height: var(--dock-icon); }
+    /* Le cadre clair est plus arrondi qu'à l'écran d'ordinateur : 9 px sur
+       36 devient 13 sur 52, la proportion est conservée. */
     .dock__item svg,
     .dock__link > svg,
     .dock__link picture,
-    .dock__link img { width: var(--dock-icon); height: var(--dock-icon); }
+    .dock__link img {
+      width: var(--dock-icon); height: var(--dock-icon);
+      border-radius: 13px;
+    }
+    /* Le séparateur ne sert plus : au doigt le dock ne porte qu'une famille
+       d'icônes, il n'y a plus deux groupes à distinguer. */
+    .dock__sep { display: none; }
+    /* La zone tactile déborde le dessin. 52 px de cadre plus 8 px de marge
+       invisible de chaque côté : la cible atteint 68 px, très au-dessus des
+       44 recommandés, sans que l'icône grossisse. */
+    .dock__item, .dock__link {
+      position: relative;
+    }
+    .dock__item::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      /* Il ne capte rien lui-même : c'est le bouton qui reste la cible.
+         Ce pseudo-élément ne fait qu'élargir sa surface utile. */
+    }
   
     /* --- ce qui n'existe pas au doigt --- */
     .resume { display: none; }
     .ctxmenu, .dock__tip { display: none !important; }
     .navmenu, #voirmenu { z-index: 24; }
+    /* Le sous-menu des fonds s'ouvre déplié et à côté de son parent sur
+       grand écran ; au doigt il n'y a pas de parent, il se pose sous le
+       panneau. Et les vignettes deviennent des cibles tactiles. */
+    #voirmenu { max-width: calc(100vw - 24px); }
+    #voir-sub {
+      position: static;
+      margin-top: 4px;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+    .ctxwall { padding: 10px 12px; min-height: 44px; }
   }
 
   
@@ -1724,7 +1818,7 @@
      de marges — et une capture d'interface peut les enjamber pour occuper
      toute la fenêtre.
 
-     C'est aussi ce qui rend le passage au mobile trivial : sous 720 px les
+     C'est aussi ce qui rend le passage au mobile trivial : sous 768 px les
      pistes latérales tombent à leur minimum, tout se retrouve dans une
      seule colonne sans qu'une seule règle change. */
   .doc__page {
@@ -1823,7 +1917,7 @@
     text-transform: uppercase; font-weight: 590;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .doc__page { padding: 32px 0 64px; }
     .doc__page {
       grid-template-columns:
@@ -1947,16 +2041,39 @@
 
      Le voile passe de 24 à 12 : sur mobile il ne sert plus à détacher la
      fenêtre du bureau, seulement à marquer le bord. */
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .modal-backdrop { padding: 12px; }
     .about, .cv, .mail, .verrou, .notes {
       width: 100%;
       max-width: none;
     }
+    /* Les boutons des fenêtres font 33 px de haut sur ordinateur, où l'on
+       vise à la souris. Au doigt il en faut 44 : on ne grossit pas le
+       dessin, on ajoute du rembourrage vertical. */
+    .mail__send, .verrou__ok {
+      padding: 13px 22px;
+      min-height: 44px;
+    }
+    .mail__cancel, .verrou__annuler {
+      padding: 13px 10px;
+      min-height: 44px;
+    }
+    .cv__dl { min-height: 44px; display: inline-flex; align-items: center; }
+    /* Les entrées de menu aussi : 5 px de rembourrage suffisaient à la
+       souris, pas au pouce. */
+    .navmenu__item, .ctxmenu__item {
+      padding: 12px 12px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .navmenu__item--note { min-height: 0; padding: 8px 12px; }
+    /* Le champ du verrou : 24 px de ligne plus les bordures faisaient 42. */
+    .verrou__champ { min-height: 48px; }
     .about { max-height: min(600px, 80vh); }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .doc { padding: 0; }
     .doc__win { border-radius: 0; }
   
@@ -1971,7 +2088,7 @@
      !important est ici nécessaire et non paresseux : le script écrit left
      et top en style inline, qui l'emporterait sinon sur toute règle. C'est
      du même coup ce qui neutralise le déplacement, ce qu'on cherche. */
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .finder {
       left: 50% !important;
       top: 50% !important;
@@ -2580,7 +2697,7 @@
     padding: 5px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(42, 38, 44, 0.72);
+    background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
     backdrop-filter: blur(22px) saturate(1.6);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
@@ -2614,6 +2731,11 @@
   /* Le crédit n'est pas une action du bureau : il se lit, il ne s'utilise
      pas. Plus petit et plus pâle, il descend d'un cran dans la hiérarchie
      sans quitter le menu — et reste cliquable pour remonter à la source. */
+  /* Réservées au doigt : sur grand écran, le clic droit ouvre déjà ce
+     menu-là, et le répéter ferait deux portes pour une seule pièce. */
+  .navmenu__item--mobile,
+  .navmenu__sep--mobile { display: none; }
+
   .navmenu__item--note {
     font-size: 11px;
     line-height: 16px;
@@ -2699,7 +2821,7 @@
   .about__fullname {
     font-size: 20px; font-weight: 590; color: var(--ink); line-height: 1.15;
   }
-  .about__role { font-size: 16px; font-weight: 510; color: rgba(0, 0, 0, 0.8); line-height: 1.2; }
+  .about__role { font-size: 16px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); line-height: 1.2; }
 
 
   .about__lead {
@@ -2728,9 +2850,9 @@
     color: #fff; font-size: 16px; font-weight: 510;
     flex-shrink: 0;
   }
-  .about__skill--produit   { background: #01a26c; }
-  .about__skill--web       { background: #4f8eec; }
-  .about__skill--marketing { background: #c77a66; }
+  .about__skill--produit   { background: #01865a; }
+  .about__skill--web       { background: #1f6fe7; }
+  .about__skill--marketing { background: #b55a42; }
 
   .about__text { margin: 8px 0 0; font-size: 12px; font-weight: 510; line-height: 1.25; }
   .about__text + .about__text { margin-top: 8px; }
@@ -2793,8 +2915,42 @@
   }
   .about__callout svg { flex-shrink: 0; display: block; }
   .about__callout p { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.3; }
-  .about__callout p + p { margin-top: 8px; font-weight: 510; color: rgba(0, 0, 0, 0.8); }
+  .about__callout p + p { margin-top: 8px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); }
 
+
+  /* ================= TABLETTE =================
+     768 à 1023 px. Le bureau reste un bureau — il y a la place — mais il
+     est serré : on retire ce qui suppose un curseur précis et on rapproche
+     les mesures de celles du téléphone.
+
+     Ce palier n'existait pas : le site passait de 767 à 1281 sans rien
+     entre les deux, et une tablette recevait la mise en page d'un grand
+     écran avec des cibles pensées pour une souris. */
+  /* Écrans courts — iPhone SE et compagnie. Six vignettes à pleine taille
+     demandent 406 px de haut ; il n'en reste que 339 sur un 375 × 667 et
+     240 sur un 320 × 568. On resserre plutôt que de laisser défiler : le
+     bureau doit se voir d'un coup d'œil, c'est son intérêt. */
+  @media (max-width: 767px) and (max-height: 720px) {
+    :root { --mini-icon: 68px; --mini-canvas: 68px; }
+    .minis {
+      inset: calc(env(safe-area-inset-top, 0px) + 148px) 20px 104px 20px;
+      gap: 12px 16px;
+    }
+    .mhead { padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 0; }
+    .mhead__nom  { font-size: 18px; line-height: 22px; }
+    .mhead__role { font-size: 13px; line-height: 20px; }
+    .dock { --dock-icon: 46px; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    :root { --mini-icon: 104px; --mini-canvas: 104px; }
+    .dock { --dock-icon: 44px; --dock-gap: 14px; }
+    .doc__win { width: 100%; border-radius: 0; }
+    .doc { padding: 0; }
+    /* Une tablette se tient au doigt : l'agrandissement du dock suppose un
+       survol continu qui n'existe pas. */
+    .dock__item { transform: none !important; }
+  }
 
   /* ================= FOCUS ================= */
   /* currentColor et non un blanc figé : le contour suit l'encre de son
@@ -3371,7 +3527,7 @@
   /* --- écran étroit ----------------------------------------------------
      Une seule colonne partout. Les gouttières tombent à 16 px, et les
      grilles à deux ou trois pistes s'empilent. */
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     /* Les gouttières de 64 px sont une mesure de bureau : sur un écran de
        375, elles mangeaient 128 px et ne laissaient que 247 px de texte.
        Elles tombent à 20, comme dans le gabarit d'origine.
@@ -3517,7 +3673,7 @@
     letter-spacing: -0.015em;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767px) {
     .doc--v2 .doc__entete { display: block; }
     .doc--v2 .doc__client { text-align: left; margin-top: 8px; max-width: none; }
     .doc--v2 .doc__titre { font-size: 28px; line-height: 32px; }
@@ -3950,8 +4106,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="+tgnzKvx0u9ZL2CP">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="BBhHcfXhhDSMUDBV">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="oiRgpUC3q/YL7vAb">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="E9i6Eju1U+3VJatt">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -4055,7 +4211,7 @@
     <!-- En-tête mobile. Elle remplace la barre de menu, qui n'a pas de sens
          au doigt : pas de survol, pas de menus déroulants en cascade. Le
          bouton « ••• » reprend ce que contenaient le menu de la barre et le
-         clic droit. Absente au-dessus de 720 px. -->
+         clic droit. Absente au-dessus de 767 px. -->
     <header class="mhead" id="mhead">
       <div class="mhead__id">
         <p class="mhead__nom">Emmanuel Froissant</p>
@@ -4177,6 +4333,13 @@
       <button type="button" class="navmenu__item" role="menuitem" data-action="about">À propos</button>
       <div class="navmenu__sep" role="separator"></div>
       <button type="button" class="navmenu__item" role="menuitem" data-action="contact">Contacter</button>
+      <!-- Le choix du fond d'écran vit au clic droit sur le bureau : un
+           geste qui n'existe pas au doigt. Cette entrée lui donne une porte
+           tactile, dans le seul menu qu'un téléphone puisse ouvrir. Elle
+           est masquée sur grand écran, où le clic droit reste le chemin. -->
+      <div class="navmenu__sep navmenu__sep--mobile" role="separator"></div>
+      <button type="button" class="navmenu__item navmenu__item--mobile"
+              role="menuitem" data-action="fonds">Changer le fond d’écran</button>
       <div class="navmenu__sep" role="separator"></div>
       <!-- Attribution de la musique d'ambiance. La licence Free To Use
            demande un crédit ; il vit ici plutôt qu'en pied de page, parce
@@ -4615,10 +4778,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'CLndWHIiTV84Ot29Nly96Q==',
+    sel: '18Zv0aIANeeIDHpzIybKWg==',
     iter: 250000,
-    jetonIv: 'ceXzRPH8re1V6HPJ',
-    jeton: 'hc+bIMTG5m6yv4CNru0IVrgVBiTgoHOzsJWKbg==',
+    jetonIv: '9o6dV49W9O1QkCt3',
+    jeton: 'iy8tUII9D8nL3qUhwEqGV4x7I8mnKIiyJGsYoQ==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -5494,6 +5657,15 @@ const dire = (function () {
 
   minisEl.addEventListener('dragstart', (e) => e.preventDefault());
 
+  /* Le glisser-déposer ne s'installe qu'avec un vrai curseur.
+
+     Au doigt il ne sert à rien — les vignettes passent en grille CSS sous
+     768 px, où left et top n'ont plus d'effet — mais il nuisait : la règle
+     touch-action: none, nécessaire pour capter le geste à la souris, coupe
+     le défilement natif. Sur un téléphone, la grille des icônes devenait
+     impossible à faire défiler dès que le doigt partait d'une vignette. */
+  const avecSouris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
   minisEl.querySelectorAll('.mini').forEach((m) => {
     let startX = 0, startY = 0, baseL = 0, baseT = 0, moved = false, pid = null;
 
@@ -5512,6 +5684,11 @@ const dire = (function () {
       if (pid === null || e.pointerId !== pid) return;
       const dx = e.clientX - startX, dy = e.clientY - startY;
       if (!moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      /* Au doigt on n'écrit rien : les vignettes sont en grille CSS sous
+         768 px, où left et top n'ont aucun effet. On garde en revanche
+         l'écoute intacte — c'est la fonction de relâchement qui ouvre la
+         fenêtre, la couper rendrait les icônes inertes. */
+      if (!avecSouris) return;
       moved = true;
       const [l, t] = clampInside(m, baseL + dx, baseT + dy);
       m.style.left = l + 'px';
@@ -5588,7 +5765,7 @@ const dire = (function () {
      écran ? Elle décide de la disposition, du grossissement du dock et de
      tout ce qui n'a pas d'équivalent au doigt. Un seul point à corriger si
      le seuil change un jour. */
-  const petitEcran = window.matchMedia('(max-width: 720px)');
+  const petitEcran = window.matchMedia('(max-width: 767px)');
 
   /* Sur ordinateur, les icônes sont dispersées autour du sujet du fond
      d'écran : c'est un bureau habité, pas une liste. Sur téléphone, la
@@ -6311,6 +6488,20 @@ const dire = (function () {
     if (!opts || opts.focus !== false) voirNest.focus();
   }
 
+  /* Le menu « ••• » du téléphone demande la même liste de fonds. On la lui
+     ouvre déjà dépliée et centrée : sur grand écran le sous-menu se pose
+     sous son parent, ici il n'y a pas de parent à suivre. */
+  document.addEventListener('portfolio:fonds', () => {
+    closeCtx();
+    voirMenu.hidden = false;
+    const host = desk.getBoundingClientRect();
+    const l = voirMenu.getBoundingClientRect();
+    voirMenu.style.left = Math.max(12, (host.width - l.width) / 2) + 'px';
+    voirMenu.style.top  = Math.max(72, (host.height - l.height) / 2 - 40) + 'px';
+    openVoirSub(true);
+    voirNest.focus();
+  });
+
   /* Sur téléphone, la barre de menu n'existe plus : le bouton « ••• » de
      l'en-tête devient la seule porte vers À propos et Contacter. */
   {
@@ -6406,6 +6597,14 @@ const dire = (function () {
       document.dispatchEvent(new CustomEvent('portfolio:about'));
     } else if (it.dataset.action === 'contact') {
       document.dispatchEvent(new CustomEvent('portfolio:contact', { detail: { opener: navBtn } }));
+    } else if (it.dataset.action === 'fonds') {
+      /* Au doigt, le choix du fond n'a pas d'autre porte : le clic droit
+         n'existe pas. On rouvre donc le même sous-menu que le menu « Voir »
+         du bureau, sans en fabriquer un second. */
+      navMenu.hidden = true;
+      navBtn.setAttribute('aria-expanded', 'false');
+      document.dispatchEvent(new CustomEvent('portfolio:fonds'));
+      return;
     }
     navMenu.hidden = true;
     navBtn.setAttribute('aria-expanded', 'false');
@@ -6822,8 +7021,14 @@ const dire = (function () {
      le grain ne rendait plus que 6 niveaux sur 255. À 0,16 il en rend 11 —
      la plage du grain argentique, perceptible de près, invisible de loin. */
   const GRAIN_OPACITY = 0.16;
-  const GRAIN_FPS     = 24;      // le tremblement de la pellicule
-  const GRAIN_SIZE    = 256;     // côté de la tuile, en pixels
+  /* Au doigt, la nappe coûte plus cher qu'elle ne rapporte : un écran de
+     téléphone est tenu à 30 cm, le grain s'y voit moins, et le GPU d'un
+     appareil d'entrée de gamme redessine 800 000 pixels douze fois par
+     seconde au lieu de vingt-quatre. La tuile descend aussi de 256 à 192,
+     ce qui divise le travail par pixel par 1,8. */
+  const PETIT_ECRAN   = window.matchMedia('(max-width: 767px)').matches;
+  const GRAIN_FPS     = PETIT_ECRAN ? 12 : 24;   // le tremblement de la pellicule
+  const GRAIN_SIZE    = PETIT_ECRAN ? 192 : 256; // côté de la tuile, en pixels
 
   (function grain() {
     const cv = document.getElementById('grain');
