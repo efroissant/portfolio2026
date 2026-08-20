@@ -170,9 +170,6 @@
   --transition: 420ms;
   }
 
-  @media (max-width: 379px) {
-    :root { --size-clock: 96px; }
-  }
 
   /* Contraste augmenté — réglage courant sur iOS et macOS.
 
@@ -262,16 +259,6 @@
 
   /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
      marges décider, et on s'ancre au-dessus du dock. */
-  /* Au doigt, le lecteur revient au centre comme les autres panneaux. Il
-     était ancré en bas pour rester au pouce ; mais une fenêtre qui apparaît
-     à un endroit différent des cinq autres oblige à la chercher. */
-  @media (max-width: 767px) {
-    .spot {
-      top: 50%; left: 12px; right: 12px; bottom: auto;
-      width: auto;
-      transform: translateY(-50%);
-    }
-  }
 
   /* ================= SCÈNE PARTAGÉE ================= */
   .stage {
@@ -562,13 +549,6 @@
 
   .menubar__items { display: flex; align-items: center; gap: var(--bar-gap); min-width: 0; }
 
-  /* Aucune maquette Active-Desktop-Mobile n'existe : la barre complète ne
-     tient pas dans 402px. Repli minimal non validé — on masque les menus
-     et on garde logo + nom + heure, plutôt que de laisser la barre déborder. */
-  @media (max-width: 767px) {
-    :root { --bar-pad-l: 12px; --bar-pad-r: 12px; --bar-inner-pad: 0px; }
-    .menubar__items { display: none; }
-  }
 
   /* Boutons de menu : pas encore de déroulant, mais focusables et annoncés
      comme ouvrant un menu. aria-expanded reste à false jusqu'à l'implémentation. */
@@ -1382,15 +1362,6 @@
     color: rgba(var(--ink-rgb), 0.62);
   }
 
-  @media (max-width: 767px) {
-    .notes { width: calc(100% - 32px); height: calc(100% - 96px); }
-    .notes__corps { flex-direction: column; }
-    .notes__liste {
-      width: 100%; max-height: 168px;
-      border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.20);
-    }
-    .notes__page { padding: 24px; }
-  }
 
   
   /* ================= MOBILE =================
@@ -1400,314 +1371,6 @@
      glisser-déposer, grossissement du dock. */
   .mhead { display: none; }
 
-  @media (max-width: 767px) {
-    /* --- la barre de menu cède la place à un en-tête --- */
-    .menubar { display: none; }
-
-    .mhead {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      z-index: 16;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      /* safe-area : sous l'encoche et la barre d'état du téléphone, jamais
-         dessous. C'est la seule façon de ne pas se battre avec le système. */
-      padding: calc(env(safe-area-inset-top, 0px) + 24px) 24px 0;
-      color: var(--text);
-      text-shadow: var(--sky-shadow);
-      pointer-events: none;
-    }
-    .mhead__id { pointer-events: none; }
-    .mhead__nom  { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -0.01em; }
-    .mhead__role { margin: 0; font-size: 14px; line-height: 24px; font-weight: 400; }
-    .mhead__plus {
-      flex-shrink: 0;
-      /* 44 px : la cible tactile minimale recommandée. Le glyphe fait 24, le
-         reste est de la marge invisible — on agrandit la cible, pas le
-         dessin. */
-      width: 44px; height: 44px;
-      margin: -8px -10px 0 0;
-      display: flex; align-items: center; justify-content: center;
-      border: 0; background: none; padding: 0;
-      color: inherit; font-size: 20px; line-height: 1;
-      text-shadow: inherit;
-      pointer-events: auto;
-    }
-    .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 8px; }
-    .navmenu__item--mobile,
-    .navmenu__sep--mobile { display: block; }
-
-    /* Le dessin est calé sur la colonne, pas sur une valeur de bureau. En
-       deux colonnes la cellule fait 168 px sur un écran de 375 : 96 px de
-       dessin y laissent 36 px de marge de chaque côté et la place du
-       libellé sous lui. */
-    :root { --mini-icon: 96px; --mini-canvas: 96px; }
-
-    /* --- les vignettes deviennent une grille ---
-       DEUX colonnes, trois rangées, pour les six objets du bureau. Sur un
-       écran de 375, chaque cellule fait 168 px : l'icône peut doubler de
-       taille par rapport aux trois colonnes, et les libellés tiennent sur
-       une seule ligne — « Curriculum Vitae » compris.
-
-       Six cellules occupent alors la hauteur disponible sans défilement,
-       ce qui compte : un recruteur voit tout ce que le portfolio propose
-       sans avoir à faire un geste. */
-    .minis {
-      position: absolute;
-      inset: calc(env(safe-area-inset-top, 0px) + 200px) 20px 128px 20px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* « safe » centre tant que ça tient, puis bascule en alignement haut
-         plutôt que de couper la première rangée. Sans ce mot-clé, un
-         contenu plus haut que son cadre déborde des DEUX côtés et le haut
-         devient inatteignable, même en défilant. */
-      align-content: safe center;
-      gap: 20px 16px;
-      pointer-events: auto;
-      overflow-y: auto;
-      /* Défilement au doigt fluide, et rien qui déborde latéralement. */
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-    }
-    /* position: static annule les coordonnées posées en ligne par le script
-       de rangement — la grille reprend la main sans qu'on touche au code. */
-    .mini {
-      position: static;
-      width: auto;
-      /* touch-action: none sert à capter le glisser à la souris ; au doigt
-         il confisque le défilement natif. La grille redevient scrollable. */
-      touch-action: manipulation;
-      grid-template-rows: var(--mini-icon) auto;
-      gap: 8px;
-      /* La cellule entière est la cible, pas seulement le dessin. */
-      min-height: 44px;
-      padding: 4px 0;
-    }
-    .mini__icon { height: var(--mini-icon); font-size: var(--mini-icon); }
-    .mini__label {
-      /* 13 et non 12 : un libellé lu à bout de bras sur un téléphone n'a
-         pas la même distance de lecture qu'un bureau à 60 cm. Une seule
-         ligne suffit désormais — la cellule fait 168 px, le plus long des
-         six libellés en demande 104. */
-      font-size: 13px; line-height: 18px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .mini__verrou { width: 24px; height: 24px; }
-    .mini[data-folder="case-studies"] .mini__verrou { width: 24px; height: 24px; }
-    /* --- le dock prend toute la largeur ---
-       Collé aux quatre bords du bas, sans marge latérale ni arrondi
-       extérieur : il cesse d'être une pilule flottante pour devenir une
-       barre système, comme celle d'un téléphone. La zone de sécurité du
-       bas est absorbée par sa garniture, pas par une marge — l'aplat va
-       donc jusqu'au bord de l'écran sur les appareils à encoche. */
-    .dock {
-      left: 0; right: 0;
-      bottom: 0;
-      transform: none;
-      gap: 0;
-      /* stretch et non center : sans cela le dock garde la largeur de son
-         contenu, et « width: 100 % » sur la pastille se mesure sur une
-         boîte déjà rétrécie. C'était la cause du dock resté étroit. */
-      align-items: stretch;
-    }
-    /* Le dock ne porte plus qu'une famille : son intitulé n'a plus besoin
-       d'être calculé, il se centre. Le script s'en abstient sur petit écran
-       (voir placerIntitules) pour ne pas réécrire un `left` en pixels
-       par-dessus. */
-    .dock__label[data-groupe="social"] { display: none; }
-    .dock__label[data-groupe="tech"] { left: 50%; }
-    /* Même forme que sur ordinateur : seules la largeur et la garniture
-       changent, le rayon vient de la règle commune. */
-    .dock__pill {
-      width: 100%;
-      /* L'arrondi ne reste qu'en haut : en bas il n'y a plus de vide à
-         longer, la barre s'appuie sur le bord de l'écran.
-         Aucune garniture ici — elle vivait en double avec celle de la
-         rangée, ce qui repoussait les icônes de 44 px de chaque bord. */
-      border-radius: 20px 20px 0 0;
-      padding: 0;
-    }
-    /* Les 32 px de côté du bureau n'ont plus lieu d'être : space-evenly
-       répartit lui-même les six icônes et leurs sept intervalles. La
-       garniture verticale absorbe la zone de sécurité du bas. */
-    .dock__items {
-      width: 100%;
-      gap: 0;
-      justify-content: space-evenly;
-      padding: 12px 8px calc(env(safe-area-inset-bottom, 0px) + 12px);
-    }
-    /* Le partage change de sens au doigt.
-
-       Sur grand écran, le dock porte tout : les outils d'un côté, ce qui
-       s'ouvre de l'autre. Sur téléphone il ne tient que cinq icônes à 56px,
-       alors il faut choisir. Restent en bas les outils — ils énoncent, ils
-       n'ouvrent rien. Ce qui s'ouvre remonte sur le bureau, là où le pouce
-       va naturellement.
-
-       Une seule icône figure aux deux endroits, Spotify : en bas elle
-       nomme un outil, en haut elle ouvre la playlist. */
-    .dock__item[data-groupe="social"],
-    .dock__item[data-groupe="notes"],
-    .dock__sep { display: none; }
-    /* LinkedIn et Notes restent hors du bureau au doigt. Le balisage est
-       conservé : les réintégrer plus tard ne demandera que de rétablir
-       cette ligne, il n'y a rien à réécrire. */
-    .mini--mobile { display: none; }
-    /* 56 et non 60 : quatre icônes de 56 plus leurs écarts tiennent dans
-       les plus petits iPhone sans que le dock touche les bords.
-
-       La valeur est posée UNE fois, dans la variable, et tout s'y règle.
-       Je réglais avant chaque élément séparément, en pourcentages : les
-       icônes simples restaient à 36 tandis que leur case passait à 56, et
-       GitHub — dont le dessin est enveloppé dans un lien — se retrouvait
-       calé en haut à gauche de sa case au lieu d'être centré. C'était le
-       « en dehors du cadre » que tu as vu. */
-    /* QUATRE icônes au doigt, pas six : LinkedIn et Notes sont masqués
-       douze lignes plus haut. Le calcul divisait par six et fabriquait des
-       icônes trop petites, noyées dans un dock trop large — c'est ce que
-       tu voyais.
-
-       Chaque cellule reçoit un quart de la largeur ; l'icône occupe 74 %
-       de sa cellule, le reste devient l'écart. Plafond à 64 px pour qu'une
-       icône de dock ne devienne pas une vignette de bureau. */
-    .dock { --dock-icon: min(64px, calc((100vw - 32px) / 4 * 0.74)); }
-    .dock__item { width: var(--dock-icon); height: var(--dock-icon); }
-    .dock__link {
-      width: var(--dock-icon); height: var(--dock-icon);
-      /* Le lien de GitHub n'était pas une boîte : display: block sans
-         alignement laissait son dessin se caler en haut à gauche au lieu
-         d'être centré, et déborder du cadre clair. Les trois autres icônes
-         sont des SVG posés directement dans la cellule, elles n'avaient
-         pas le problème. */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 13px;
-    }
-    /* Le cadre clair est plus arrondi qu'à l'écran d'ordinateur : 9 px sur
-       36 devient 13 sur 52, la proportion est conservée. */
-    .dock__item > svg,
-    .dock__link > svg,
-    .dock__link picture,
-    .dock__link img {
-      width: 100%; height: 100%;
-      border-radius: 13px;
-      /* Rien ne dépasse du cadre, quelle que soit la façon dont le dessin
-         est emballé. */
-      overflow: hidden;
-    }
-    /* Le séparateur ne sert plus : au doigt le dock ne porte qu'une famille
-       d'icônes, il n'y a plus deux groupes à distinguer. */
-    .dock__sep { display: none; }
-    /* La zone tactile déborde le dessin. 52 px de cadre plus 8 px de marge
-       invisible de chaque côté : la cible atteint 68 px, très au-dessus des
-       44 recommandés, sans que l'icône grossisse. */
-    .dock__item, .dock__link {
-      position: relative;
-    }
-    .dock__item::after {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      /* Il ne capte rien lui-même : c'est le bouton qui reste la cible.
-         Ce pseudo-élément ne fait qu'élargir sa surface utile. */
-    }
-  
-    /* --- ce qui n'existe pas au doigt --- */
-    .resume { display: none; }
-    .ctxmenu, .dock__tip { display: none !important; }
-    .navmenu, #voirmenu { z-index: 24; }
-    /* --- Ma bibliothèque : deux par rangée, légendes visibles ---
-       Trois corrections d'un coup.
-
-       1. DEUX COLONNES. Les objets ont des largeurs calculées en ligne par
-          le script — 80 à 128 px selon leur forme, pour qu'ils occupent la
-          même surface. Ce calcul suppose un mur libre ; dans une grille il
-          n'a plus d'objet, d'où le !important qui écrase le style en ligne.
-
-       2. LES LÉGENDES DEVIENNENT VISIBLES. Elles étaient en opacity: 0,
-          révélées au survol. Sur un téléphone il n'y a pas de survol : les
-          titres et auteurs étaient donc simplement inaccessibles. Elles
-          repassent dans le flux, sous leur couverture.
-
-       3. L'ÉCART SE RESSERRE. 56 px à la verticale servaient à loger la
-          légende flottante ; elle ne flotte plus, 20 suffisent. */
-    .shelf__row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      align-items: start;
-      gap: 24px 16px;
-      margin-top: 12px;
-      padding-bottom: 8px;
-    }
-    .shelf__slot {
-      width: 100% !important;
-      flex-direction: column;
-    }
-    .shelf__lien { display: block; width: 100%; }
-    .shelf__meta {
-      position: static;
-      width: 100%;
-      min-height: 0;
-      margin-top: 8px;
-      opacity: 1;
-      transform: none;
-      pointer-events: auto;
-    }
-    .shelf { gap: 20px; }
-    .shelf__label { font-size: 12px; }
-
-    /* --- Galerie : deux par rangée ---
-       Sur ordinateur, les vignettes sont un mur de petites cartes de 84 px
-       qui se répartit librement — la mise en page d'un Finder. Au doigt,
-       ce mur devient illisible : les images n'y sont plus des images, mais
-       des timbres.
-
-       Deux colonnes fixes, et la vignette prend toute la largeur de sa
-       cellule. Sur un écran de 375, elle passe de 84 à 148 px : presque le
-       double, et la photo redevient regardable.
-
-       flex laissait les cartes s'aligner à gauche et abandonner une rangée
-       incomplète au bord ; la grille les centre par construction. */
-    .ffiles {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px 16px;
-      justify-items: center;
-    }
-    .ffile {
-      width: 100%;
-      /* La ligne de la vignette n'est plus fixée à 84 px : elle suit la
-         largeur de la cellule et reste carrée. */
-      grid-template-rows: auto auto;
-      gap: 10px;
-    }
-    .ffile__art {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 6px;
-    }
-    .ffile__name { font-size: 13px; line-height: 17px; }
-    .finder__body { padding: 20px 16px 24px; }
-
-    /* Le sous-menu des fonds s'ouvre déplié et à côté de son parent sur
-       grand écran ; au doigt il n'y a pas de parent, il se pose sous le
-       panneau. Et les vignettes deviennent des cibles tactiles. */
-    #voirmenu { max-width: calc(100vw - 24px); }
-    #voir-sub {
-      position: static;
-      margin-top: 4px;
-      max-height: 50vh;
-      overflow-y: auto;
-    }
-    .ctxwall { padding: 10px 12px; min-height: 44px; }
-  }
 
   
 /* ================= VERROU =================
@@ -2027,29 +1690,6 @@
     text-transform: uppercase; font-weight: 590;
   }
 
-  @media (max-width: 767px) {
-    .doc__page { padding: 32px 0 64px; }
-    .doc__page {
-      grid-template-columns:
-        [pleine-debut] 20px [libelle-debut] 0 [texte-debut] minmax(0, 1fr) [texte-fin] 20px [pleine-fin];
-      column-gap: 0;
-    }
-    /* Sous 720 px la colonne de repère n'a plus la place d'exister : les
-       sections repassent en une colonne et les libellés reprennent leur
-       place au-dessus du titre, alignés à gauche. */
-    .doc__page > header,
-    .doc__bloc,
-    .doc__decision { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
-    .doc__page > header > *,
-    .doc__bloc > *,
-    .doc__decision > * { grid-column: 1; }
-    .doc__eyebrow,
-    .doc__num {
-      grid-column: 1; grid-row: auto;
-      text-align: left; padding-top: 0; margin-bottom: 8px;
-    }
-    .doc__resume { grid-template-columns: 1fr; gap: 16px; }
-  }
   .doc__page p { margin: 0 0 16px; }
   .doc__page a { color: var(--ink); text-underline-offset: 3px; }
 
@@ -2144,69 +1784,8 @@
     font-size: 12px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62);
   }
 
-  /* Au doigt, les fenêtres prennent la largeur disponible. Elles gardent
-     leur largeur de bureau sur grand écran — 359 px pour À propos, c'est
-     une mesure de lecture — mais sur un téléphone de 375 px, ces 359 plus
-     les 48 de gouttière laissaient une colonne de texte ridicule.
 
-     Le voile passe de 24 à 12 : sur mobile il ne sert plus à détacher la
-     fenêtre du bureau, seulement à marquer le bord. */
-  @media (max-width: 767px) {
-    .modal-backdrop { padding: 12px; }
-    .about, .cv, .mail, .verrou, .notes {
-      width: 100%;
-      max-width: none;
-    }
-    /* Les boutons des fenêtres font 33 px de haut sur ordinateur, où l'on
-       vise à la souris. Au doigt il en faut 44 : on ne grossit pas le
-       dessin, on ajoute du rembourrage vertical. */
-    .mail__send, .verrou__ok {
-      padding: 13px 22px;
-      min-height: 44px;
-    }
-    .mail__cancel, .verrou__annuler {
-      padding: 13px 10px;
-      min-height: 44px;
-    }
-    .cv__dl { min-height: 44px; display: inline-flex; align-items: center; }
-    /* Les entrées de menu aussi : 5 px de rembourrage suffisaient à la
-       souris, pas au pouce. */
-    .navmenu__item, .ctxmenu__item {
-      padding: 12px 12px;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-    .navmenu__item--note { min-height: 0; padding: 8px 12px; }
-    /* Le champ du verrou : 24 px de ligne plus les bordures faisaient 42. */
-    .verrou__champ { min-height: 48px; }
-    .about { max-height: min(600px, 80vh); }
-  }
 
-  @media (max-width: 767px) {
-    .doc { padding: 0; }
-    .doc__win { border-radius: 0; }
-  
-    .doc__meta { grid-template-columns: 1fr; }
-  }
-
-  /* Le Finder est la seule fenêtre placée par le script : il s'ouvre au
-     centre, puis garde la position où on l'a traînée. Au doigt, ce réglage
-     n'a plus de sens — on ne déplace pas une fenêtre sur un téléphone, et
-     une position héritée d'un autre écran la ferait s'ouvrir de travers.
-
-     !important est ici nécessaire et non paresseux : le script écrit left
-     et top en style inline, qui l'emporterait sinon sur toute règle. C'est
-     du même coup ce qui neutralise le déplacement, ce qu'on cherche. */
-  @media (max-width: 767px) {
-    .finder {
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%);
-      width: calc(100% - 24px);
-      max-height: calc(100% - 96px);
-    }
-  }
 
   /* ================= FICHIER TEXTE ================= */
   /* Chaque ligne est un paragraphe, sans espace entre elles : dans un
@@ -3043,31 +2622,7 @@
      Ce palier n'existait pas : le site passait de 767 à 1281 sans rien
      entre les deux, et une tablette recevait la mise en page d'un grand
      écran avec des cibles pensées pour une souris. */
-  /* Écrans courts — iPhone SE et compagnie. Six vignettes à pleine taille
-     demandent 406 px de haut ; il n'en reste que 339 sur un 375 × 667 et
-     240 sur un 320 × 568. On resserre plutôt que de laisser défiler : le
-     bureau doit se voir d'un coup d'œil, c'est son intérêt. */
-  @media (max-width: 767px) and (max-height: 720px) {
-    :root { --mini-icon: 68px; --mini-canvas: 68px; }
-    .minis {
-      inset: calc(env(safe-area-inset-top, 0px) + 148px) 20px 104px 20px;
-      gap: 12px 16px;
-    }
-    .mhead { padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 0; }
-    .mhead__nom  { font-size: 18px; line-height: 22px; }
-    .mhead__role { font-size: 13px; line-height: 20px; }
-    .dock { --dock-icon: 46px; }
-  }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    :root { --mini-icon: 104px; --mini-canvas: 104px; }
-    .dock { --dock-icon: 44px; --dock-gap: 14px; }
-    .doc__win { width: 100%; border-radius: 0; }
-    .doc { padding: 0; }
-    /* Une tablette se tient au doigt : l'agrandissement du dock suppose un
-       survol continu qui n'existe pas. */
-    .dock__item { transform: none !important; }
-  }
 
   /* ================= FOCUS ================= */
   /* currentColor et non un blanc figé : le contour suit l'encre de son
@@ -3641,40 +3196,6 @@
     color: var(--v3-gris);
   }
 
-  /* --- écran étroit ----------------------------------------------------
-     Une seule colonne partout. Les gouttières tombent à 16 px, et les
-     grilles à deux ou trois pistes s'empilent. */
-  @media (max-width: 767px) {
-    /* Les gouttières de 64 px sont une mesure de bureau : sur un écran de
-       375, elles mangeaient 128 px et ne laissaient que 247 px de texte.
-       Elles tombent à 20, comme dans le gabarit d'origine.
-
-       Les trois pistes sont redéclarées en entier — grid-template-columns
-       ne se modifie pas piste par piste, et les noms de lignes doivent
-       toutes exister sinon les figures pleine largeur ne résolvent plus. */
-    .doc--v3 .doc__page {
-      grid-template-columns:
-        [pleine-debut] 20px
-        [libelle-debut texte-debut] minmax(0, 1fr)
-        [texte-fin] 20px
-        [pleine-fin];
-    }
-    .doc--v3 .doc__page { row-gap: 40px; padding: 32px 0 64px; font-size: 15px; }
-    .doc--v3 .doc__titre { font-size: 34px; }
-    .doc--v3 .doc__client { font-size: 17px; }
-    .doc--v3 .doc__bloc h2,
-    .doc--v3 .doc__carte h2 { font-size: 26px; }
-    .doc--v3 .doc__duo,
-    .doc--v3 .doc__trio,
-    .doc--v3 .doc__releves,
-    .doc--v3 .doc__paire,
-    .doc--v3 .doc__alertes,
-    .doc--v3 .doc__defs { grid-template-columns: 1fr; gap: 20px; }
-    .doc--v3 .doc__gravite { flex-direction: column; gap: 12px; }
-    .doc--v3 .doc__decision { padding: 20px; }
-    .doc--v3 .doc__dtete { flex-wrap: wrap; gap: 12px; }
-    .doc--v3 .doc__decision .doc__num { font-size: 32px; }
-  }
 
   .doc--v2 .doc__page { padding-top: 0; }
 
@@ -3790,6 +3311,492 @@
     letter-spacing: -0.015em;
   }
 
+
+
+
+  /* ══════════════════════════════════════════════════════════
+     RESPONSIVE — EN DERNIER, ET C'EST ESSENTIEL
+
+     Une media query n'ajoute aucune spécificité : à sélecteur égal,
+     c'est la dernière règle écrite qui gagne. Ces blocs vivaient au
+     milieu de la feuille, avant les règles de bureau qu'ils étaient
+     censés remplacer — et se faisaient donc écraser en silence.
+
+     Tout ce qui dépend de la largeur d'écran vit désormais ici, à la
+     fin. Ordre : tablette, téléphone, écrans courts, très petits.
+     ══════════════════════════════════════════════════════════ */
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    :root { --mini-icon: 104px; --mini-canvas: 104px; }
+    .dock { --dock-icon: 44px; --dock-gap: 14px; }
+    .doc__win { width: 100%; border-radius: 0; }
+    .doc { padding: 0; }
+    /* Une tablette se tient au doigt : l'agrandissement du dock suppose un
+       survol continu qui n'existe pas. */
+    .dock__item { transform: none !important; }
+  }
+
+  /* Au doigt, le lecteur revient au centre comme les autres panneaux. Il
+     était ancré en bas pour rester au pouce ; mais une fenêtre qui apparaît
+     à un endroit différent des cinq autres oblige à la chercher. */
+  @media (max-width: 767px) {
+    .spot {
+      top: 50%; left: 12px; right: 12px; bottom: auto;
+      width: auto;
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Aucune maquette Active-Desktop-Mobile n'existe : la barre complète ne
+     tient pas dans 402px. Repli minimal non validé — on masque les menus
+     et on garde logo + nom + heure, plutôt que de laisser la barre déborder. */
+  @media (max-width: 767px) {
+    :root { --bar-pad-l: 12px; --bar-pad-r: 12px; --bar-inner-pad: 0px; }
+    .menubar__items { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    .notes { width: calc(100% - 32px); height: calc(100% - 96px); }
+    .notes__corps { flex-direction: column; }
+    .notes__liste {
+      width: 100%; max-height: 168px;
+      border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+    }
+    .notes__page { padding: 24px; }
+  }
+
+  @media (max-width: 767px) {
+    /* --- la barre de menu cède la place à un en-tête --- */
+    .menubar { display: none; }
+
+    .mhead {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 16;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      /* safe-area : sous l'encoche et la barre d'état du téléphone, jamais
+         dessous. C'est la seule façon de ne pas se battre avec le système. */
+      padding: calc(env(safe-area-inset-top, 0px) + 24px) 24px 0;
+      color: var(--text);
+      text-shadow: var(--sky-shadow);
+      pointer-events: none;
+    }
+    .mhead__id { pointer-events: none; }
+    .mhead__nom  { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -0.01em; }
+    .mhead__role { margin: 0; font-size: 14px; line-height: 24px; font-weight: 400; }
+    .mhead__plus {
+      flex-shrink: 0;
+      /* 44 px : la cible tactile minimale recommandée. Le glyphe fait 24, le
+         reste est de la marge invisible — on agrandit la cible, pas le
+         dessin. */
+      width: 44px; height: 44px;
+      margin: -8px -10px 0 0;
+      display: flex; align-items: center; justify-content: center;
+      border: 0; background: none; padding: 0;
+      color: inherit; font-size: 20px; line-height: 1;
+      text-shadow: inherit;
+      pointer-events: auto;
+    }
+    .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 8px; }
+    .navmenu__item--mobile,
+    .navmenu__sep--mobile { display: block; }
+
+    /* Le dessin est calé sur la colonne, pas sur une valeur de bureau. En
+       deux colonnes la cellule fait 168 px sur un écran de 375 : 96 px de
+       dessin y laissent 36 px de marge de chaque côté et la place du
+       libellé sous lui. */
+    :root { --mini-icon: 108px; --mini-canvas: 108px; }
+
+    /* --- les vignettes deviennent une grille ---
+       DEUX colonnes, trois rangées, pour les six objets du bureau. Sur un
+       écran de 375, chaque cellule fait 168 px : l'icône peut doubler de
+       taille par rapport aux trois colonnes, et les libellés tiennent sur
+       une seule ligne — « Curriculum Vitae » compris.
+
+       Six cellules occupent alors la hauteur disponible sans défilement,
+       ce qui compte : un recruteur voit tout ce que le portfolio propose
+       sans avoir à faire un geste. */
+    .minis {
+      position: absolute;
+      inset: calc(env(safe-area-inset-top, 0px) + 200px) 20px 128px 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* « safe » centre tant que ça tient, puis bascule en alignement haut
+         plutôt que de couper la première rangée. Sans ce mot-clé, un
+         contenu plus haut que son cadre déborde des DEUX côtés et le haut
+         devient inatteignable, même en défilant. */
+      align-content: safe center;
+      gap: 20px 16px;
+      pointer-events: auto;
+      overflow-y: auto;
+      /* Défilement au doigt fluide, et rien qui déborde latéralement. */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    /* position: static annule les coordonnées posées en ligne par le script
+       de rangement — la grille reprend la main sans qu'on touche au code. */
+    .mini {
+      position: static;
+      width: auto;
+      /* touch-action: none sert à capter le glisser à la souris ; au doigt
+         il confisque le défilement natif. La grille redevient scrollable. */
+      touch-action: manipulation;
+      grid-template-rows: var(--mini-icon) auto;
+      gap: 8px;
+      /* La cellule entière est la cible, pas seulement le dessin. */
+      min-height: 44px;
+      padding: 4px 0;
+    }
+    .mini__icon { height: var(--mini-icon); font-size: var(--mini-icon); }
+    .mini__label {
+      /* 13 et non 12 : un libellé lu à bout de bras sur un téléphone n'a
+         pas la même distance de lecture qu'un bureau à 60 cm. Une seule
+         ligne suffit désormais — la cellule fait 168 px, le plus long des
+         six libellés en demande 104. */
+      font-size: 13px; line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mini__verrou { width: 24px; height: 24px; }
+    .mini[data-folder="case-studies"] .mini__verrou { width: 24px; height: 24px; }
+    /* --- le dock prend toute la largeur ---
+       Collé aux quatre bords du bas, sans marge latérale ni arrondi
+       extérieur : il cesse d'être une pilule flottante pour devenir une
+       barre système, comme celle d'un téléphone. La zone de sécurité du
+       bas est absorbée par sa garniture, pas par une marge — l'aplat va
+       donc jusqu'au bord de l'écran sur les appareils à encoche. */
+    .dock {
+      left: 0; right: 0;
+      bottom: 0;
+      transform: none;
+      gap: 0;
+      /* stretch et non center : sans cela le dock garde la largeur de son
+         contenu, et « width: 100 % » sur la pastille se mesure sur une
+         boîte déjà rétrécie. C'était la cause du dock resté étroit. */
+      align-items: stretch;
+    }
+    /* Le dock ne porte plus qu'une famille : son intitulé n'a plus besoin
+       d'être calculé, il se centre. Le script s'en abstient sur petit écran
+       (voir placerIntitules) pour ne pas réécrire un `left` en pixels
+       par-dessus. */
+    .dock__label[data-groupe="social"] { display: none; }
+    .dock__label[data-groupe="tech"] { left: 50%; }
+    /* Même forme que sur ordinateur : seules la largeur et la garniture
+       changent, le rayon vient de la règle commune. */
+    .dock__pill {
+      width: 100%;
+      /* L'arrondi ne reste qu'en haut : en bas il n'y a plus de vide à
+         longer, la barre s'appuie sur le bord de l'écran.
+         Aucune garniture ici — elle vivait en double avec celle de la
+         rangée, ce qui repoussait les icônes de 44 px de chaque bord. */
+      border-radius: 20px 20px 0 0;
+      padding: 0;
+    }
+    /* Les 32 px de côté du bureau n'ont plus lieu d'être : space-evenly
+       répartit lui-même les six icônes et leurs sept intervalles. La
+       garniture verticale absorbe la zone de sécurité du bas. */
+    .dock__items {
+      width: 100%;
+      gap: 0;
+      justify-content: space-evenly;
+      padding: 12px 8px calc(env(safe-area-inset-bottom, 0px) + 12px);
+    }
+    /* Le partage change de sens au doigt.
+
+       Sur grand écran, le dock porte tout : les outils d'un côté, ce qui
+       s'ouvre de l'autre. Sur téléphone il ne tient que cinq icônes à 56px,
+       alors il faut choisir. Restent en bas les outils — ils énoncent, ils
+       n'ouvrent rien. Ce qui s'ouvre remonte sur le bureau, là où le pouce
+       va naturellement.
+
+       Une seule icône figure aux deux endroits, Spotify : en bas elle
+       nomme un outil, en haut elle ouvre la playlist. */
+    .dock__item[data-groupe="social"],
+    .dock__item[data-groupe="notes"],
+    .dock__sep { display: none; }
+    /* LinkedIn et Notes restent hors du bureau au doigt. Le balisage est
+       conservé : les réintégrer plus tard ne demandera que de rétablir
+       cette ligne, il n'y a rien à réécrire. */
+    .mini--mobile { display: none; }
+    /* 56 et non 60 : quatre icônes de 56 plus leurs écarts tiennent dans
+       les plus petits iPhone sans que le dock touche les bords.
+
+       La valeur est posée UNE fois, dans la variable, et tout s'y règle.
+       Je réglais avant chaque élément séparément, en pourcentages : les
+       icônes simples restaient à 36 tandis que leur case passait à 56, et
+       GitHub — dont le dessin est enveloppé dans un lien — se retrouvait
+       calé en haut à gauche de sa case au lieu d'être centré. C'était le
+       « en dehors du cadre » que tu as vu. */
+    /* QUATRE icônes au doigt, pas six : LinkedIn et Notes sont masqués
+       douze lignes plus haut. Le calcul divisait par six et fabriquait des
+       icônes trop petites, noyées dans un dock trop large — c'est ce que
+       tu voyais.
+
+       Chaque cellule reçoit un quart de la largeur ; l'icône occupe 74 %
+       de sa cellule, le reste devient l'écart. Plafond à 64 px pour qu'une
+       icône de dock ne devienne pas une vignette de bureau. */
+    .dock { --dock-icon: min(64px, calc((100vw - 32px) / 4 * 0.74)); }
+    .dock__item { width: var(--dock-icon); height: var(--dock-icon); }
+    .dock__link {
+      width: var(--dock-icon); height: var(--dock-icon);
+      /* Le lien de GitHub n'était pas une boîte : display: block sans
+         alignement laissait son dessin se caler en haut à gauche au lieu
+         d'être centré, et déborder du cadre clair. Les trois autres icônes
+         sont des SVG posés directement dans la cellule, elles n'avaient
+         pas le problème. */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 13px;
+    }
+    /* Le cadre clair est plus arrondi qu'à l'écran d'ordinateur : 9 px sur
+       36 devient 13 sur 52, la proportion est conservée. */
+    .dock__item > svg,
+    .dock__link > svg,
+    .dock__link picture,
+    .dock__link img {
+      width: 100%; height: 100%;
+      border-radius: 13px;
+      /* Rien ne dépasse du cadre, quelle que soit la façon dont le dessin
+         est emballé. */
+      overflow: hidden;
+    }
+    /* Le séparateur ne sert plus : au doigt le dock ne porte qu'une famille
+       d'icônes, il n'y a plus deux groupes à distinguer. */
+    .dock__sep { display: none; }
+    /* La zone tactile déborde le dessin. 52 px de cadre plus 8 px de marge
+       invisible de chaque côté : la cible atteint 68 px, très au-dessus des
+       44 recommandés, sans que l'icône grossisse. */
+    .dock__item, .dock__link {
+      position: relative;
+    }
+    .dock__item::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      /* Il ne capte rien lui-même : c'est le bouton qui reste la cible.
+         Ce pseudo-élément ne fait qu'élargir sa surface utile. */
+    }
+  
+    /* --- ce qui n'existe pas au doigt --- */
+    .resume { display: none; }
+    .ctxmenu, .dock__tip { display: none !important; }
+    .navmenu, #voirmenu { z-index: 24; }
+    /* --- Ma bibliothèque : deux par rangée, légendes visibles ---
+       Trois corrections d'un coup.
+
+       1. DEUX COLONNES. Les objets ont des largeurs calculées en ligne par
+          le script — 80 à 128 px selon leur forme, pour qu'ils occupent la
+          même surface. Ce calcul suppose un mur libre ; dans une grille il
+          n'a plus d'objet, d'où le !important qui écrase le style en ligne.
+
+       2. LES LÉGENDES DEVIENNENT VISIBLES. Elles étaient en opacity: 0,
+          révélées au survol. Sur un téléphone il n'y a pas de survol : les
+          titres et auteurs étaient donc simplement inaccessibles. Elles
+          repassent dans le flux, sous leur couverture.
+
+       3. L'ÉCART SE RESSERRE. 56 px à la verticale servaient à loger la
+          légende flottante ; elle ne flotte plus, 20 suffisent. */
+    .shelf__row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: start;
+      gap: 24px 16px;
+      margin-top: 12px;
+      padding-bottom: 8px;
+    }
+    .shelf__slot {
+      width: 100% !important;
+      flex-direction: column;
+    }
+    .shelf__lien { display: block; width: 100%; }
+    .shelf__meta {
+      position: static;
+      width: 100%;
+      min-height: 0;
+      margin-top: 8px;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .shelf { gap: 20px; }
+    .shelf__label { font-size: 12px; }
+
+    /* --- Galerie : deux par rangée ---
+       Sur ordinateur, les vignettes sont un mur de petites cartes de 84 px
+       qui se répartit librement — la mise en page d'un Finder. Au doigt,
+       ce mur devient illisible : les images n'y sont plus des images, mais
+       des timbres.
+
+       Deux colonnes fixes, et la vignette prend toute la largeur de sa
+       cellule. Sur un écran de 375, elle passe de 84 à 148 px : presque le
+       double, et la photo redevient regardable.
+
+       flex laissait les cartes s'aligner à gauche et abandonner une rangée
+       incomplète au bord ; la grille les centre par construction. */
+    .ffiles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 16px;
+      justify-items: center;
+    }
+    .ffile {
+      width: 100%;
+      /* La ligne de la vignette n'est plus fixée à 84 px : elle suit la
+         largeur de la cellule et reste carrée. */
+      grid-template-rows: auto auto;
+      gap: 10px;
+    }
+    .ffile__art {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+    }
+    .ffile__name { font-size: 13px; line-height: 17px; }
+    .finder__body { padding: 20px 16px 24px; }
+
+    /* Le sous-menu des fonds s'ouvre déplié et à côté de son parent sur
+       grand écran ; au doigt il n'y a pas de parent, il se pose sous le
+       panneau. Et les vignettes deviennent des cibles tactiles. */
+    #voirmenu { max-width: calc(100vw - 24px); }
+    #voir-sub {
+      position: static;
+      margin-top: 4px;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+    .ctxwall { padding: 10px 12px; min-height: 44px; }
+  }
+
+  @media (max-width: 767px) {
+    .doc__page { padding: 32px 0 64px; }
+    .doc__page {
+      grid-template-columns:
+        [pleine-debut] 20px [libelle-debut] 0 [texte-debut] minmax(0, 1fr) [texte-fin] 20px [pleine-fin];
+      column-gap: 0;
+    }
+    /* Sous 720 px la colonne de repère n'a plus la place d'exister : les
+       sections repassent en une colonne et les libellés reprennent leur
+       place au-dessus du titre, alignés à gauche. */
+    .doc__page > header,
+    .doc__bloc,
+    .doc__decision { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
+    .doc__page > header > *,
+    .doc__bloc > *,
+    .doc__decision > * { grid-column: 1; }
+    .doc__eyebrow,
+    .doc__num {
+      grid-column: 1; grid-row: auto;
+      text-align: left; padding-top: 0; margin-bottom: 8px;
+    }
+    .doc__resume { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Au doigt, les fenêtres prennent la largeur disponible. Elles gardent
+     leur largeur de bureau sur grand écran — 359 px pour À propos, c'est
+     une mesure de lecture — mais sur un téléphone de 375 px, ces 359 plus
+     les 48 de gouttière laissaient une colonne de texte ridicule.
+
+     Le voile passe de 24 à 12 : sur mobile il ne sert plus à détacher la
+     fenêtre du bureau, seulement à marquer le bord. */
+  @media (max-width: 767px) {
+    .modal-backdrop { padding: 12px; }
+    .about, .cv, .mail, .verrou, .notes {
+      width: 100%;
+      max-width: none;
+    }
+    /* Les boutons des fenêtres font 33 px de haut sur ordinateur, où l'on
+       vise à la souris. Au doigt il en faut 44 : on ne grossit pas le
+       dessin, on ajoute du rembourrage vertical. */
+    .mail__send, .verrou__ok {
+      padding: 13px 22px;
+      min-height: 44px;
+    }
+    .mail__cancel, .verrou__annuler {
+      padding: 13px 10px;
+      min-height: 44px;
+    }
+    .cv__dl { min-height: 44px; display: inline-flex; align-items: center; }
+    /* Les entrées de menu aussi : 5 px de rembourrage suffisaient à la
+       souris, pas au pouce. */
+    .navmenu__item, .ctxmenu__item {
+      padding: 12px 12px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .navmenu__item--note { min-height: 0; padding: 8px 12px; }
+    /* Le champ du verrou : 24 px de ligne plus les bordures faisaient 42. */
+    .verrou__champ { min-height: 48px; }
+    .about { max-height: min(600px, 80vh); }
+  }
+
+  @media (max-width: 767px) {
+    .doc { padding: 0; }
+    .doc__win { border-radius: 0; }
+  
+    .doc__meta { grid-template-columns: 1fr; }
+  }
+
+  /* Le Finder est la seule fenêtre placée par le script : il s'ouvre au
+     centre, puis garde la position où on l'a traînée. Au doigt, ce réglage
+     n'a plus de sens — on ne déplace pas une fenêtre sur un téléphone, et
+     une position héritée d'un autre écran la ferait s'ouvrir de travers.
+
+     !important est ici nécessaire et non paresseux : le script écrit left
+     et top en style inline, qui l'emporterait sinon sur toute règle. C'est
+     du même coup ce qui neutralise le déplacement, ce qu'on cherche. */
+  @media (max-width: 767px) {
+    .finder {
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 24px);
+      max-height: calc(100% - 96px);
+    }
+  }
+
+  /* --- écran étroit ----------------------------------------------------
+     Une seule colonne partout. Les gouttières tombent à 16 px, et les
+     grilles à deux ou trois pistes s'empilent. */
+  @media (max-width: 767px) {
+    /* Les gouttières de 64 px sont une mesure de bureau : sur un écran de
+       375, elles mangeaient 128 px et ne laissaient que 247 px de texte.
+       Elles tombent à 20, comme dans le gabarit d'origine.
+
+       Les trois pistes sont redéclarées en entier — grid-template-columns
+       ne se modifie pas piste par piste, et les noms de lignes doivent
+       toutes exister sinon les figures pleine largeur ne résolvent plus. */
+    .doc--v3 .doc__page {
+      grid-template-columns:
+        [pleine-debut] 20px
+        [libelle-debut texte-debut] minmax(0, 1fr)
+        [texte-fin] 20px
+        [pleine-fin];
+    }
+    .doc--v3 .doc__page { row-gap: 40px; padding: 32px 0 64px; font-size: 15px; }
+    .doc--v3 .doc__titre { font-size: 34px; }
+    .doc--v3 .doc__client { font-size: 17px; }
+    .doc--v3 .doc__bloc h2,
+    .doc--v3 .doc__carte h2 { font-size: 26px; }
+    .doc--v3 .doc__duo,
+    .doc--v3 .doc__trio,
+    .doc--v3 .doc__releves,
+    .doc--v3 .doc__paire,
+    .doc--v3 .doc__alertes,
+    .doc--v3 .doc__defs { grid-template-columns: 1fr; gap: 20px; }
+    .doc--v3 .doc__gravite { flex-direction: column; gap: 12px; }
+    .doc--v3 .doc__decision { padding: 20px; }
+    .doc--v3 .doc__dtete { flex-wrap: wrap; gap: 12px; }
+    .doc--v3 .doc__decision .doc__num { font-size: 32px; }
+  }
+
   @media (max-width: 767px) {
     .doc--v2 .doc__entete { display: block; }
     .doc--v2 .doc__client { text-align: left; margin-top: 8px; max-width: none; }
@@ -3798,6 +3805,26 @@
     .doc--v2 .doc__bloc--chapitre h2 { font-size: 22px; line-height: 28px; }
     .doc--v2 .doc__trio { grid-template-columns: 1fr; gap: 20px; }
     .doc--v2 .doc__carte { padding: 20px; }
+  }
+
+  /* Écrans courts — iPhone SE et compagnie. Six vignettes à pleine taille
+     demandent 406 px de haut ; il n'en reste que 339 sur un 375 × 667 et
+     240 sur un 320 × 568. On resserre plutôt que de laisser défiler : le
+     bureau doit se voir d'un coup d'œil, c'est son intérêt. */
+  @media (max-width: 767px) and (max-height: 720px) {
+    :root { --mini-icon: 76px; --mini-canvas: 76px; }
+    .minis {
+      inset: calc(env(safe-area-inset-top, 0px) + 140px) 20px 100px 20px;
+      gap: 10px 16px;
+    }
+    .mhead { padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 0; }
+    .mhead__nom  { font-size: 18px; line-height: 22px; }
+    .mhead__role { font-size: 13px; line-height: 20px; }
+    .dock { --dock-icon: 46px; }
+  }
+
+  @media (max-width: 379px) {
+    :root { --size-clock: 96px; }
   }
 
 </style>
@@ -4223,8 +4250,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="zqUa2u1cN8y7TWSV">6Dh4RoJeOuTZCwoNqgQGmkaPx3hXayCZpU+JLuipOVnl3f4cyJ28RmswKt8QhJ0WJz2nsowiK6t3gNf5FbMtfEcs7J+8IPaHrYQNYWj78+AfmWAbNq5/lcCjWiUxav4tPbbjuFKXRd6wc5lyExNr1JIMnC2QnzRu+pyg8Gb6QipoKZBUUW66vwMvx3+ZHx4D6jBzWEiO+civaJBYo0hLrYoO0srNGc91IEi18mTsDlbqfyk5xuiacKCBWHjg8DGgNSrOpd+34oy92bldHFjo24TXyaBn38Hay1DS6jTqj1sgi3941vZJiXgLkLGl725vH13uiljwsWURrjSrKdsF+gNPQXs2ye90XBSOZVaYXm/R9Z6nWgKz5Q4ohDVG8lAy534OHUJLNj9BuPXpjcIk4xptglqk1jI29ZFRB+czOOJ/nAt2ZigrQjYKOaxlBjuUVMuksF90n3piF1XbxnOOT0oilJG5diBxQaOL+RGCqw8raQioDJNxmz2lsX0u+fD7kXsqvLysDJLkZs1UVXh9DrYtqXre9VRXvJ16qbS+ctfkA4/GjqDwnTfqFKVG+9OKWyevZc+d4iae4l5bJa5SZy5QBvRQur2GIaSLffxlGInUQuvFhh39X3Je8k9nlPaZRTsM/rf1GABnlAQOEUE6WGNmFiEKEkqJZm1a7DgNStc2K1OGiA3sOxopApG3ERtVcg0qjd2Ve3R/m65CA3PmA+/nlKIg9ec4RKYcRnx0ioXb32fyR1mmgLJiZKebpf98DwjwM3cpxoYje4Qg+3mUWSa0OdcuOeFhjjBusmNVcFDmiMhk5ok8jCL4zpSRje91dpuQRWers7hA8TQP18tJTBlkwKVaCVv/N4CaMx80vkOX4MPCkEJQwGfhF08BCmLXL/o3phFjHuxubbJAhJoI4JZd9ZXFPaYs+abTmY18qH0TW57I97ycR865YKSEA5+RMPwyeOxUF/+9us6FFuKw3r5/RA68jtu8p/Kkgj/6kXz2OFPc1kc6QnuXHFutzmBGep7Mc3CItR2c7YlCqCfHdlektvdDAsV/a4Frz+uhoA7vvbZ8ul/GymXZr/2QEUsIshVXEI6gHPh/qo0KcBlci/DimwQdImT1OWaEJL915E2eErCEtZGboh/4TBp12ODwquMVw3zhI5FLCyjlyxhCJuO2+wiJ+NFokwMsUSQ8gMWnBp4RDXbPSV4d+1AFL7mV4EgXRORENblVwPFHyL0gJJa9s/cntZP2AB0r+Ct8z7aUQWAKZ+VykN1J977Xe/h+T1+8BUfqkEfXMsl1eor9Boejxy4ncVa/AkpbDks1Z4bCEgDK6UxjHKzAgF4hWHUhU+ZIc/S5S5pJx9gG95F9aAN0yDM+K6qdNFyGTtBItx9nI/Z+9IlYoBDBfj2nz2+0agYMLWGfaO5HMvG8io+aYpRH7u+M8RyJwBaIiG1QiBCkxS6pHjjY77lwQZywdL690m44WYAPm1drqzf2sjD4Vh6a85Huh2ItEb04bdKd4lWL00zi6R50EQGu4JP9LDzZR/XyUC76Aaqk35PcVYVwMq109DnqQ4aFEvroScJbtR1pRVjpooilCzR0f9kjoPIFu0dtEMuGcvNxDXAyrdpHwzQZ6arGaVLVKm870lgcW8CZ8SH16Jhg6tVY5b4EV7HwyifaeKrbE2I3ECccNPzUjZWlTJQ3z/XmlNo+NV5CtI4YjyZ5nFKstc0dgtLa+H+mBltSWvq+OsHlESeVW9gNMwz8k3a25yT4/4lcMjKBlwCEsQGVZhE6j0PksHtKSHoZqVQRYvpF84n2mYqvUbTGgGyj80vDJqCZ4RAWsckqvWDzCUzbnLvzsRq1wvC7fuHVuGsLTydEUedT9leGQ6S7TmUadYJYyCHfeA/XfSGDITXvYu6J6Y0Uvc6D4JaLbFtmVih89RWkZa49d75nciM0X9NFtwhOb1YpqtiVzGm0llkcAhsrXEy3lY0eEMW4ibgFMwANYA3mKi9Tk+tbGebslQ1rIg/Cxvg2Ez7NL1a1S5/9Zg/jeDcYHOZ07h8luKs95H46OkKslGHPMC2fcopaCVPE8EWXPy3YG6IoZhXuOhXjOHdICGzXsLLnc/V+XmzEdfUM0kCORVFRy/13U7s6Fq9rWLyWJf//O5Ifp/3FsNcqxLTSIjXakraQQpv+J8HVGtflqfFt5yhGUmDM0fzsirZOCW7mJFLKq4tK8AqAbLnBOnFREV/MPm/GPEotuuLBiDGjW3+hC8rRbwqwvQfPVkhMxGtDWa84KMEeCi9ZGD0r5AORMZUcX/+BIBzEFzjgq0I9O/BfwjZ9dLJ5lDV9aTW2V+ujuimCphUUAnEt/+88rn1jazRjtXLEqOY8+fi97785lYT1GFF0EF64aeahbl8bnOHKDM20D7YMErQPujp5L5uArXLZ5S7NNiiYIk6Ev2C+jH5xYvLxkVYxTyHLXNwajJw+u8lMGR6waJTqhlTxcNzkGe4/Ua8uaMnF5ddoMVdPQT+kAhr5uyhNc4aL7vFirvJBUeo+yeoSJPwZV6fAK8TPDBcIyiZuIECmmTSSVkHKYPPL3zmC2VrWp5rdAAVzP2DgkXObTdteAxxw08yTvn4PmIh6pttnU8zTb6HTnmMPmnEDyl9q+6TcT2PUlbVSWp/lv2s8Q57ujY+4kcduFCy6bIOCule9WVNO33UEP0IUJS07EfvNem0f06abI/srX6jUCY7XqQ5A7eCJW6+1lMA5WhFwRkOe9t+Gq7FLnpWPvpo/YM3r+z1XtrXg8SU3GFW8+2lKt4SLn4hJr6/hdmWiqJG/3Me0V+S+Pv0jA95V1poImQdyHqLHRoi26lHvA3FLGXNzVTO6DEZJ8w7LpLxKsc+KrAZq6s5ov7R4G0YvaQRZIbP2k1wtTEmB0zWo43vB2JmLENtQSSvLBkF72yfvgOgaF7+icvga9QX7xmfHdwu2PkjHtJ60T7/Qt2wqjCXUrAqte9oDDrgFTEU6PbOHhjJfGay72XNTuo+NPuur/XIAK/QpRAtCK6VHeXqiTQCY9zis4IylT8b2vcVnUWF5+rPeweNsZP/ZESUQYmvDpowtlCI9qlOtObu/uApWl5U/v3CyEauZ2msLYf0cEDoMMlcgH4rmUVkJGEqN6Dw0bWluZtiCmwLEqweU46r9aNOKkhfO/4+FEsqiP4ud86hH+ZtbTj96lNs5msvf8fXbSoOi3diNFPMfKs7KCV5nw/WCtOGKUE4kNLF8ggN7ErFvO6lhEtup+8tqVfJ2M93A5JALYQAcNSG7rw0iDOoXPttNE3jugLZtajOFXlflNUdg78WuSnM7kw3gzQb1a8auGC7VaUYwFLeD50ZEo44Mf1wfVwjc3s5QBIPaaz04EVANy54Br91Zd3qF69CfklxZ++ewwsbdyF6ViQHlDD4uA0KsSvnBW6t4PPaFendi8hqn2/TPKosAD+LhYkKw+HK+jAkkLmuIyJX1pAqvjUfVwnj+icS6IOupsXnoS0xnpnqAuURP0b81i0GeFMN87KKohhV1pfIbtzcNgvKg166js4eGCy/xM9ijO158JeGlG59ncHranibcJoad9CgXRFFqiztdi9KcRfe+HFMLg6IqgpHDJveLfBOhWg8RLPd1y/C3+aoXIa7mRFitnFqR+kPJOFLy6iJA7KNl1iRBvy4XiqglZUxAcDltnc9RMwibr6r7tSJxfLak7pfeA1ISdjSAUkMKaGjv3kF+BAr+65cyIbOF+1Bs/gSPAcahITxbqcAKw4hLX37vR2VOiyYauz51yzKQl45/15KT1IUxamhqJWNLTV78JgwoRhiBBjqKNidmPbMwZj6u5gFQsryHt/fhZ2ew1tUSm4+ETu7z+csthk/FFzQVj3FRQOnBEXw6XszITm5wfa/TIxQH2cljl6RGtU2Muq4fonA52Wik1b06V1/WpTo7ro5c2N0wN6eXb3ZcdNnx+OKTWhna6tl6TP2g2cKBpIJ/w9BT+V1+0BVmFm+RXaKjImrxme5ny9iCmw66Onyn7BCmZX7NPk3LSK6lHMrVuHjESZjHws3aaA7Kq1uOQ6pmGSeeJqGj5p1wENkFJ6OZgQ4CTeWeK0td7Q7mWoUS73i6F8GNsrkDmQkl+PcT9W8R9oS4Dlh1asIqtPEYcBxBw1MWcuTtYrkRWNMV/VFgQq9AnMHf+4gXA74I2289E1K5IzxTAD7IWVBZs3jF9PlghId4dGOHSfTqrQBCLk80gs4jKh/HEuGWF0oY34nxcu++UDCbC9rICZzq/Gw+ZVvxGA5OyAUofDbmQIPU0s8ToapybIQLAjHcQpnzCaCU7bwiBHx4jfP/fNKgQwiEuGUmsZL9sjzasfn+S9MHCMVtsKM2HWRiKHyE83V0wf2elpEAr8FD6tuT6P4gq7H/KpSxrzaMM8IRJQaEmSTQVStY2ADjiCQLxaN94unezK+Q8IxIeOvtRKgm+JKFgLvBFgx1Uh+p0f1lZpA/ST8UUaCDb+VpILAcA9u1YZIwcflDQzPAYb+75c7HSKWj6gfLI1k6VxjSZa2Ijc+q4aeurpOcre5n6cwDWHTIZwPZIeKH7be9EFISz2D7RI3tVcATqDboulxm0idrrUYJ4mPAnvxLFRj0ZVpFnsYfCJzlBRXBYHQ79FRhXOGzZyVLxXFNxcuZmbKowlIcotUrVO0HRO1ZUQO029I6KtxfH0Nf/8xsijRaRLawsmd9P61igiN9efozVqI4l54kHeQXqyWCMaXsjHDX02MkRP+wE6CqNdSGjM70Wq2DD+LXFhe7nWdtz43ysS9zhXAAIqlOhEt5Tfsfit+ogQKRQLUg3azvHI1U8Efktlyqqq46s9xImIhstZMKuDF4K2oaN810qxn0n1F3s2a5rhEglUF2YrctPlpudPCKDg4TZtMiZh0ile91FYwRfQW6/DEWZdWvjyLSoqerf5ybcYkiMMyR1mrNZgNJ7Nb9dHzCAegUvV3/RZMazyrR2x3Zkvqdl1cd2XJozqyTOOnOqVqxPgi04y2JbeC0aOWUKwPC0j8bKkN89usa57JLHl7d/aRKf3bMC8XMRHIJIzWRJ04oz0yKcW4yz76+rRIvPeqS86rjiKD0hzeSfna8O4UrET98vrgfpTI80a+xZ6igJ/7hi6rSgvKwrJDOzB6FqJ9WZ2Lt3kiA8g/39LTNeyCcH6SriJ6GiBsMhjCbbqEzXInFt53lnjmL7ODACWH16q34gC+94aPrUIM3jsT8AWYsE/LHqKZyQoEehEo0yqCTMfq8ijwEMZooll1QjqYBIqeZj7jn6tK2qEpWssTsiYboAbzsRzpwFAWKlAz/tn4P0v/rvrZYmojax/KS/FBfDKQiFfQt7TVOyF83LEr4yOzvgHnCOabA1Vjnl3E19YV1MGEyLsppC44K5RoxYdePp6lJfkzSu7RMAfo+Mi8E5MRmgTTHOUQz5HK7wjg5uB9t6Q0uaUMzvURZpvO5H0//zXaF6O6kppMo6cueYwTF40zuLLvJ3rFRGK1hqvETHssqPY07caaqJPrXRUyyqJGhfv5Fk9KtiduLsD9c5NMrXmvPlrxn1uiJIk5oQ5HUxMSwsPfuqVTL5ZdAt8IviBa6e0w=</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="HvOlPQ2uwCXRUmK9">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="aLaSJfCzCWcZBU7X">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="pcCxg0DRHlFOiZWR">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -4895,10 +4922,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: '4Vfh/h6wovdMXpaHn+ZOIA==',
+    sel: 'WpJzmcmvbcWG/Mq78XyS0A==',
     iter: 250000,
-    jetonIv: 'yCbtFqBgLJBLVgtQ',
-    jeton: 'gs58Bb7mAZyoUawZalimxmb+GXNEiO7PrZer1w==',
+    jetonIv: '81q3qU1Qm2RlCthV',
+    jeton: 'L94jwBrh0H2QE6YKRX5JBvcCM6Si92KDKmsUgA==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
