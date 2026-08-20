@@ -455,13 +455,17 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35),
                 0 2px 12px rgba(0, 0, 0, 0.25);
   }
+  /* Le médaillon rond disparaît : l'objet est détouré, un cercle le
+     rognerait aux bras et aux pieds. La boîte de 32 px ne bouge pas — c'est
+     elle qui nourrit --text-inset, donc tout le ferrage du bureau. */
   .menubar__logo > * {
     width: var(--logo-art);
-    height: var(--logo-art);
+    height: auto;
     flex-shrink: 0;
-    border-radius: 50%;
-    overflow: hidden;
+    border-radius: 0;
+    overflow: visible;
   }
+  .menubar__logo img { display: block; width: 100%; height: auto; }
   .avatar img,
   .menubar__logo img {
     width: 100%;
@@ -2826,37 +2830,35 @@
      Sans canal alpha, chaque image cesse de coûter 3 Ko incompressibles :
      on garde les 37 images à 40 i/s et la version en densité double. */
   .avatar--buste {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(20, 30, 60, 0.32),
-                0 1px 2px rgba(20, 30, 60, 0.24);
-    /* L'ombre est portée par la boîte : le drop-shadow d'un rectangle
-       plein ne dessinerait qu'un rectangle. */
-    filter: none;
+    /* Calé sur la HAUTEUR et non la largeur : l'homme au skate est plus
+       large que haut (0,895), le sauteur l'était moins. Fixer la largeur
+       aurait fait varier la hauteur d'un avatar à l'autre, et le bloc
+       nom + rôle en dessous aurait sauté. */
+    width: auto;
+    height: 132px;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    /* L'objet est détouré : l'ombre suit sa silhouette, pas une boîte.
+       Un box-shadow ne dessinerait que le rectangle qui l'entoure. */
+    filter: drop-shadow(0 6px 14px rgba(20, 30, 60, 0.42))
+            drop-shadow(0 1px 2px rgba(20, 30, 60, 0.30));
   }
   .avatar--buste img,
-  .avatar--buste picture { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .avatar--buste picture { display: block; width: 100%; height: auto; }
 
-  /* Le chat est debout : rapport 0,60. Enfermé dans la boîte carrée des
-     autres icônes il tomberait à 67 px de large et paraîtrait deux fois
-     plus petit qu'elles.
+  /* La cassette est couchée : rapport 1,345, la seule icône plus large que
+     haute. Calée sur sa masse encrée comme les autres tramées — 12 992 px
+     contre 12 974 en moyenne — elle occupe 0,956 fois la boîte commune en
+     largeur, et se contente de 114 px de haut.
 
-     On ne l'égalise ni sur la surface de sa boîte — qui compte le vide
-     entre les pattes et la queue — ni sur sa hauteur, qui l'étirerait.
-     On l'égalise sur sa MASSE ENCRÉE : la somme des opacités, mesurée à
-     13 532 px contre 12 974 en moyenne pour ses cinq voisines. Le facteur
-     qui égalise les deux est 1,267 fois la boîte commune en hauteur.
-
-     La grille aligne les vignettes par le bas, donc le chat grandit vers
-     le haut et pose ses pattes sur la même ligne de sol que la machine à
-     écrire ou le dossier. */
+     La grille aligne les vignettes par le bas : la cassette repose donc sur
+     la même ligne de sol que ses voisines, sans flotter. */
   .mini[data-action="spotify"] .mini__icon { height: auto; }
   .mini[data-action="spotify"] .mini__icon picture,
   .mini[data-action="spotify"] .mini__icon img {
-    width: auto;
-    height: calc(var(--mini-icon) * 1.267);
+    width: calc(var(--mini-icon) * 0.956);
+    height: auto;
   }
 
   /* Une main tenant un téléphone, debout : rapport 0,647. Même méthode que
@@ -2869,6 +2871,63 @@
     width: auto;
     height: calc(var(--mini-icon) * 1.150);
   }
+
+  /* Presque carrée — rapport 1,02 — mais bien plus dense que les icônes
+     3D : à taille égale elle pèserait deux fois leur poids visuel. Calée
+     sur la masse encrée comme ses deux voisines tramées, elle descend à
+     0,90 fois la boîte commune. C'est le seul cas où la mesure conduit à
+     RÉDUIRE une icône plutôt qu'à l'agrandir. */
+  .mini[data-folder="photos"] .mini__icon { height: auto; }
+  .mini[data-folder="photos"] .mini__icon picture,
+  .mini[data-folder="photos"] .mini__icon img {
+    width: auto;
+    height: calc(var(--mini-icon) * 0.900);
+  }
+
+  /* La machine à écrire est très dense — elle remplit sa boîte là où un
+     dossier en volume laisse du vide autour. Calée sur la masse encrée
+     comme ses voisines tramées, elle descend à 0,881 fois la boîte commune
+     en largeur. Rapport 1,074, donc elle reste presque carrée. */
+  .mini[data-cv] .mini__icon { height: auto; }
+  .mini[data-cv] .mini__icon picture,
+  .mini[data-cv] .mini__icon img {
+    width: calc(var(--mini-icon) * 0.881);
+    height: auto;
+  }
+
+  /* L'œil est couché — rapport 1,203 — et dense comme les autres trames.
+     Même méthode : calé sur la masse encrée, il occupe 0,887 fois la boîte
+     commune en largeur et se contente de 105 px de haut. */
+  .mini[data-etagere] .mini__icon { height: auto; }
+  .mini[data-etagere] .mini__icon picture,
+  .mini[data-etagere] .mini__icon img {
+    width: calc(var(--mini-icon) * 0.887);
+    height: auto;
+  }
+
+  /* Un document debout : rapport 0,792. Calé sur la masse encrée comme ses
+     voisines — 13 050 px contre 12 974 en moyenne — il occupe 0,656 fois la
+     boîte commune en largeur pour 168 px de haut.
+
+     Le cadenas est ajouté par le script au centre de .mini__icon. Sur un
+     document couvert de caviardages, un carré noir au milieu se confondrait
+     avec eux : on le décale en bas à droite, là où l'œil cherche un état,
+     et on lui donne un liseré clair pour qu'il se détache du noir. */
+  .mini[data-folder="case-studies"] .mini__icon { height: auto; }
+  .mini[data-folder="case-studies"] .mini__icon picture,
+  .mini[data-folder="case-studies"] .mini__icon img {
+    width: calc(var(--mini-icon) * 0.656);
+    height: auto;
+  }
+  .mini[data-folder="case-studies"] .mini__verrou {
+    inset: auto -2px -2px auto;
+    margin: 0;
+    width: 22px; height: 22px;
+    border-radius: 7px;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9),
+                0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+  .mini[data-folder="case-studies"] .mini__verrou svg { width: 13px; height: 13px; }
 
   /* ================= ÉTUDE DE CAS, GABARIT V2 =================
      D'après la maquette Pharmaprix. Trois idées structurelles :
@@ -3879,8 +3938,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="czplGXhmUtEs0SP6">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="T9Oow9ygsAZci8UM">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="HQ7A3g7O/phZ6akO">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="za5BIzFzvFjDrDIC">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -3895,8 +3954,8 @@
       <div class="cluster__identity-group" data-node-id="28:870">
         <div class="avatar avatar--buste" id="avatar-lock" data-node-id="340:272">
           <picture>
-            <source srcset="statue-192.webp 2x, statue-96.webp 1x" type="image/webp">
-            <img src="statue-96.gif" srcset="statue-192.gif 2x" alt="" width="96" height="96">
+            <source srcset="saut-244.webp 2x, saut-122.webp 1x" type="image/webp">
+            <img src="saut-122.png" srcset="saut-244.png 2x" alt="" width="122" height="132">
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
@@ -3936,8 +3995,8 @@
                 title="Retourner à l’écran de veille"
                 data-node-id="118:235">
           <picture>
-            <source srcset="avatar-80.webp" type="image/webp">
-            <img src="avatar-80.jpg" alt="" width="24" height="24">
+            <source srcset="saut-bar-48.webp 2x, saut-bar-24.webp 1x" type="image/webp">
+            <img src="saut-bar-24.png" srcset="saut-bar-48.png 2x" alt="" width="24" height="26">
           </picture>
         </button>
 
@@ -3998,29 +4057,29 @@
 
     <div class="minis" id="minis">
 
+      <!-- L'ordre du DOM EST l'ordre à l'écran : la grille remplit ligne
+           par ligne. Il est aussi l'ordre de tabulation au clavier, ce qui
+           n'était pas le cas avec la dispersion aléatoire — on tabulait
+           alors dans un ordre sans rapport avec ce qu'on voyait.
+
+           Portfolio vient en premier des deux côtés : c'est la porte vers
+           le travail. -->
+      <button type="button" class="mini" data-folder="case-studies"
+              aria-label="Portfolio — ouvrir">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-folder-105.webp" type="image/webp"><img src="ic-folder-105.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">Portfolio</span>
+      </button>
+
       <button type="button" class="mini" data-etagere="1"
               aria-label="Ma bibliothèque — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-tastes-160.webp" type="image/webp"><img src="ic-tastes-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-tastes-142.webp" type="image/webp"><img src="ic-tastes-142.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Ma bibliothèque</span>
       </button>
 
       <button type="button" class="mini" data-folder="photos"
               aria-label="Voyage Italie 2026 — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-photos-160.webp" type="image/webp"><img src="ic-photos-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-photos-147.webp" type="image/webp"><img src="ic-photos-147.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Voyage Italie 2026</span>
-      </button>
-
-
-      <button type="button" class="mini" data-folder="case-studies"
-              aria-label="Portfolio — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-folder-160.webp" type="image/webp"><img src="ic-folder-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Portfolio</span>
-      </button>
-
-      <button type="button" class="mini" data-node-id="483:573" data-cv="1"
-              aria-label="Curriculum Vitae — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-160.webp" type="image/webp"><img src="ic-cv-160.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Curriculum Vitae</span>
       </button>
 
       <button type="button" class="mini" data-action="mail"
@@ -4029,19 +4088,28 @@
         <span class="mini__label">Contact</span>
       </button>
 
-      <!-- Spotify vit sur le bureau, aux deux tailles : c'est la seule
-           porte vers la playlist depuis que l'icône a quitté le dock.
-
-           LinkedIn et Notes, en revanche, n'apparaissent qu'au doigt. Sur
-           grand écran ils sont déjà dans le dock, et les répéter ferait
-           deux portes sans raison. Sur téléphone le dock ne tient que les
-           outils — ils énoncent, ils n'ouvrent rien — et ce qui s'ouvre
-           remonte sur le bureau, là où le pouce va naturellement. -->
       <button type="button" class="mini" data-action="spotify"
               aria-label="Musique — écouter ma playlist">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-124.webp" type="image/webp"><img src="ic-musique-124.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-153.webp" type="image/webp"><img src="ic-musique-153.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Musique</span>
       </button>
+
+      <button type="button" class="mini" data-node-id="483:573" data-cv="1"
+              aria-label="Curriculum Vitae — ouvrir">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-141.webp" type="image/webp"><img src="ic-cv-141.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">Curriculum Vitae</span>
+      </button>
+
+      <!-- LinkedIn et Notes n'apparaissent qu'au doigt : sur grand écran
+           ils sont déjà dans le dock, et les répéter ferait deux portes
+           sans raison. -->
+
+
+
+
+
+
+
 
       <a class="mini mini--mobile" href="https://www.linkedin.com/in/efroissant/"
          target="_blank" rel="noopener noreferrer"
@@ -4310,11 +4378,17 @@ const dire = (function () {
      la contrainte plutôt que de boucler — mieux vaut deux vignettes proches
      qu'un écran figé. */
   const SCATTER_X = 0.30;   // amplitude horizontale, en fraction de la zone
-  const SCATTER_Y = 0.26;
-  const MIN_GAP   = 14;     // marge minimale entre deux vignettes, en px
+  const SCATTER_Y = 0.34;   // relevée de 0,26 pour loger deux rangées plus espacées
+  /* Deux écarts au lieu d'un seul. À l'horizontale, 14 px suffisent : les
+     vignettes sont larges et leurs libellés tiennent sur une ligne. À la
+     verticale il faut bien davantage — sous chaque icône vient un libellé,
+     et deux rangées trop proches donnent un bloc de texte compact où l'œil
+     ne sait plus quel nom va avec quel objet. */
+  const MIN_GAP_X = 14;
+  const MIN_GAP_Y = 46;
 
   function overlaps(a, b, w, hgt) {
-    return Math.abs(a.l - b.l) < w + MIN_GAP && Math.abs(a.t - b.t) < hgt + MIN_GAP;
+    return Math.abs(a.l - b.l) < w + MIN_GAP_X && Math.abs(a.t - b.t) < hgt + MIN_GAP_Y;
   }
 
   /* Les vignettes réservées au téléphone sont en display:none sur grand
@@ -4330,8 +4404,12 @@ const dire = (function () {
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const items = minisAffichees();
+    /* La hauteur MAXIMALE, pas celle de la première vignette. Les icônes
+       ont des rapports très différents — l'appareil photo est trapu, la
+       main au téléphone élancée — et mesurer la première laissait les plus
+       hautes se chevaucher. */
     const w = items[0] ? items[0].offsetWidth : 121;
-    const hgt = items[0] ? items[0].offsetHeight : 129;
+    const hgt = items.reduce((m, el) => Math.max(m, el.offsetHeight), 0) || 129;
     const placed = [];
 
     items.forEach((m) => {
@@ -4528,10 +4606,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'QEtGlOSbtJiIYOifELsdqA==',
+    sel: 'iuvhWTr9cHTwCe1vLSks8Q==',
     iter: 250000,
-    jetonIv: 'dB7GJGnqBdojTHpK',
-    jeton: 'ylS6R4GjTR1FYVCGGYbxIz1jIWY/3/hJpG3i9g==',
+    jetonIv: 'yniCo9JKf3jOdeXD',
+    jeton: '/nkFCpDLstKCiPwZ4b5dkYLbt9QwOFAZBSY9DQ==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -5547,8 +5625,9 @@ const dire = (function () {
      une colonne de fichiers.
      Si la rangée déborde, elle se replie sur plusieurs lignes, chacune
      centrée à son tour plutôt que ferrée à gauche. */
-  const GRID_GAP_X = 24;
-  const GRID_GAP_Y = 16;
+  const GRID_GAP_X = 40;
+  const GRID_GAP_Y = 56;   // plus large que l'horizontal : un libellé vit sous chaque icône
+  const PAR_RANGEE = 3;
 
   function tidy() {
     minisEl.dataset.range = 'true';      // en grille : plus de flottement
@@ -5557,9 +5636,12 @@ const dire = (function () {
     if (!items.length || !r.width) return;
 
     const w = items[0].offsetWidth;
-    const hgt = items[0].offsetHeight;
-    // Quatre au maximum, moins si la fenêtre est trop étroite pour les tenir.
-    const PAR_RANGEE = 4;
+    /* La hauteur MAXIMALE, pas celle de la première : une rangée se cale
+       sur sa vignette la plus haute, sinon les libellés ne s'alignent pas
+       d'une colonne à l'autre. */
+    const hgt = items.reduce((m, el) => Math.max(m, el.offsetHeight), 0);
+
+    // Trois au maximum, moins si la fenêtre est trop étroite pour les tenir.
     const perRow = Math.min(PAR_RANGEE,
       Math.max(1, Math.floor((r.width + GRID_GAP_X) / (w + GRID_GAP_X))));
     const rows = Math.ceil(items.length / perRow);
