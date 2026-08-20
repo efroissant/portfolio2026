@@ -22,28 +22,60 @@
          bureau  -> noir 10% en COLOR_BURN (densifie les ombres)
        Ce ne sont pas des opacités simples : luminosity ne garde que la
        luminance de la photo, color-burn creuse les valeurs sombres. */
-    --tint-lock: rgba(242, 218, 255, 0.20);
-    --tint-desktop: rgba(0, 0, 0, 0.10);
-    --scrim: rgba(0, 0, 0, 0.50);
+    /* La lavande en luminosity ne colore pas, elle désature. À 10 % elle
+       pose une nuance de repos sur la veille sans l'assombrir — c'est la
+       seule différence qui reste entre les deux écrans. */
+    --tint-lock: rgba(242, 218, 255, 0.10);
+    --tint-desktop: rgba(0, 0, 0, 0.04);
+    /* Transparent. Ce voile détachait du texte blanc d'un fond sombre ;
+       inversé en blanc pour le fond clair, il éclaircissait la veille de
+       9 % pendant que le bureau était densifié de 10 % — les deux écrans
+       partaient en sens contraires, et l'écart se voyait au passage de
+       l'un à l'autre. */
+    --scrim: rgba(255, 255, 255, 0);
 
-    --text: #ffffff;
+    /* Encre de tout ce qui est posé sur le ciel : barre de menus, libellés
+       de vignettes, dock, écran de veille.
+
+       Noire et non blanche, depuis que les fonds sont clairs. Mesuré sur les
+       deux : le blanc tombait entre 1,28 et 2,06:1, le noir monte entre 9,18
+       et 14,74:1, pour un seuil de 4,5. Ce n'est pas un ajustement, c'est
+       une inversion — aucune nuance de blanc ne pouvait tenir. */
+    --text: #111111;
     /* Encre des surfaces claires — fenêtres, lecteur, À propos.
        Bordeaux très sombre plutôt que noir : il s'accorde à la teinte
        brune du chrome sans perdre en lisibilité. */
-    --ink: #3a001e;
-    --btn-bg: rgba(255, 255, 255, 0.15);
+    /* L'encre des panneaux, en composantes séparées : la moitié des règles
+       l'utilise en rgba avec une opacité propre — texte secondaire, filets,
+       fonds de carte. Une seule couleur écrite 52 fois ne pouvait pas
+       basculer ; une variable, si. */
+    --ink-rgb: 235, 235, 235;
+    --ink: rgb(var(--ink-rgb));
+    /* Blanc translucide et non plus noir : le bouton s'éclaircit sur le
+       ciel au lieu de s'y creuser. C'est le contour qui le tient, pas le
+       fond. */
+    --btn-bg: rgba(255, 255, 255, 0.38);
     /* 0.55 et non 0.25 : à 25% le contour tombait à 1,82:1, sous le
        seuil de 3:1 exigé pour la limite d'un contrôle (WCAG 1.4.11). */
-    --btn-border: rgba(255, 255, 255, 0.55);
+    --btn-border: rgba(0, 0, 0, 0.50);
 
     --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
                "Helvetica Neue", system-ui, sans-serif;
 
-    /* SF Pro : 400 Regular, 510 Medium, 590 Semibold, 700 Bold */
-    --w-clock: 400;
+    /* SF Pro : 200 Ultralight, 300 Light, 400 Regular, 510 Medium,
+       590 Semibold, 700 Bold */
+    /* 200 et non 400. À 128 px, l'heure n'a aucun besoin de graisse pour
+       se lire — le corps fait tout le travail, et le regular l'alourdit.
+       Les graisses fines ne tiennent qu'en très grand : c'est exactement
+       le cas ici, et nulle part ailleurs sur le site. */
+    --w-clock: 200;
     --w-date: 700;
     --w-name: 700;
-    --w-role: 510;
+    /* 400 et non 510 : sur fond clair avec de l'encre noire, le contraste
+       monte à 14:1 — trois fois le seuil. Un texte aussi bien détaché n'a
+       plus besoin de graisse pour se lire, et le regular laisse le nom
+       au-dessus porter seul la hiérarchie. */
+    --w-role: 400;
     --w-btn: 700;
 
     --size-date: 18px;
@@ -56,7 +88,10 @@
     --size-avatar: 80px;
 
     /* --- barre de menu (Active-Desktop) --- */
-    --bar-h: 32px;
+    /* 38 et non 32. L'avatar est un personnage détouré de 24 × 26 : dans
+       une barre de 32 il ne restait que 3 px au-dessus de sa tête, et il
+       semblait cogner le bord de l'écran. À 38, il en reste 6. */
+    --bar-h: 38px;
     --size-menu: 13px;
     --w-menu: 400;      /* SF Pro Regular, comme le vrai menu bar macOS */
 
@@ -70,11 +105,11 @@
        Un seul token, donc les cinq ne peuvent plus diverger.
        Note : WCAG mesure le fond et non le halo, ces éléments restent
        formellement sous le seuil même s'ils sont confortables à lire. */
-    --sky-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    --sky-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
     /* Les icônes portent moins bien l'ombre que le texte : une forme pleine
        la reçoit sur tout son contour, un glyphe seulement sur ses jambages.
        D'où une valeur plus faible ici que pour le texte. */
-    --sky-shadow-svg: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.28));
+    --sky-shadow-svg: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.45));
 
     /* Taille ET interlignage communs à tout ce qui est posé sur le ciel :
        libellés de vignettes et bloc résumé. Un seul style, pas deux échelles.
@@ -89,7 +124,7 @@
        même si l'une de ces valeurs change. */
     --bar-pad-l: 21px;
     --bar-pad-r: 20px;
-    --bar-inner-pad: 16px;
+    --bar-inner-pad: 8px;
     --logo-size: 32px;
     /* Le dessin dans la boîte de 32. L'image remplit tout son cadre, sans
        marge interne : à 24 il affleurait le haut de la barre. */
@@ -97,8 +132,11 @@
        rester reconnaissable. La boîte de 32 ne bouge pas, donc la barre et
        le ferrage du bloc résumé restent identiques. */
     --logo-art: 24px;
-    --bar-gap: 16px;
-    --app-pad-l: 11px;
+    --bar-gap: 12px;
+    /* La chaîne bord → avatar → nom passe de 96 à 74 px. macOS place son
+       menu d'application à 68 : on s'en approche sans coller au bord.
+       --text-inset suit tout seul, le bloc résumé reste ferré au nom. */
+    --app-pad-l: 6px;
     --text-inset: calc(var(--bar-pad-l) + var(--bar-inner-pad)
                      + var(--logo-size) + var(--bar-gap) + var(--app-pad-l));
 
@@ -110,7 +148,7 @@
   /* Verre, pas blanc opaque.
 
      0,86 et pas moins, et ce n'est pas un goût. Le texte secondaire du site
-     est écrit en rgba(58,0,30,0.62) : il se compose SUR la plaque, donc il
+     est écrit en rgba(var(--ink-rgb), 0.62) : il se compose SUR la plaque, donc il
      pâlit deux fois — une fois par la transparence de la plaque, une fois
      par la sienne. C'est LUI qui fixe le plancher, pas l'encre pleine.
      Mesuré sur la Voie lactée floutée : 3,7:1 à 0,65 — sous le seuil ;
@@ -118,9 +156,17 @@
 
      Le flou monte de 4 à 24 : à 4 on ne voyait pas du verre, on voyait une
      fenêtre sale. C'est le flou qui fait la matière, pas la transparence. */
-  --panel-bg: rgba(255, 255, 255, 0.86);
+  /* #1f1f1f à 0,92. Le calcul ne s'inverse pas symétriquement : une plaque
+     claire posée sur un ciel clair reste claire, alors qu'une plaque sombre
+     laisse passer 8 % de ce ciel et remonte à 0,067 de luminance au lieu
+     des 0,020 du noir plein. D'où l'opacité relevée par rapport au 0,86 du
+     verre blanc qu'elle remplace.
+
+     Le seuil vient du texte secondaire, qui pâlit deux fois — par la plaque
+     puis par sa propre transparence : 5,05:1 ici. */
+  --panel-bg: rgba(31, 31, 31, 0.92);
   --panel-blur: 24px;
-  --panel-shadow: 0 4px 55px rgba(0, 0, 0, 0.25);
+  --panel-shadow: 0 4px 55px rgba(0, 0, 0, 0.45);
   --transition: 420ms;
   }
 
@@ -234,10 +280,10 @@
        télécharge un fond, l'affiche, puis le script en demande un autre —
        deux images à la file et une arrivée qui traîne. Ici c'est l'affiche
        de la Voie lactée, celle que la vidéo recouvre une fois prête. */
-    background-image: url("mer-1280.jpg");
+    background-image: url("nuage-1280.jpg");
     background-image: image-set(
-      url("mer-1280.webp") type("image/webp"),
-      url("mer-1280.jpg")  type("image/jpeg")
+      url("nuage-1280.webp") type("image/webp"),
+      url("nuage-1280.jpg")  type("image/jpeg")
     );
     background-size: cover;
     background-position: center;
@@ -273,10 +319,10 @@
 
   @media (min-width: 1281px), (min-width: 768px) and (min-resolution: 1.5dppx) {
     .stage__bg {
-      background-image: url("mer-1920.jpg");
+      background-image: url("nuage-1920.jpg");
       background-image: image-set(
-        url("mer-1920.webp") type("image/webp"),
-        url("mer-1920.jpg")  type("image/jpeg")
+        url("nuage-1920.webp") type("image/webp"),
+        url("nuage-1920.jpg")  type("image/jpeg")
       );
     }
   }
@@ -291,9 +337,12 @@
     mix-blend-mode: luminosity;
     transition: background-color var(--transition) ease;
   }
+  /* Rien du tout sur le bureau. La maquette y posait un noir en color-burn
+     pour densifier des fonds sombres ; sur un ciel clair, toute densité
+     ajoutée se lit comme un assombrissement. Le bureau est l'écran de
+     travail : c'est lui qui doit être le plus lumineux des deux. */
   .stage[data-state="desktop"] .stage__tint {
-    background: var(--tint-desktop);
-    mix-blend-mode: color-burn;
+    background: none;
   }
 
   .stage__scrim {
@@ -303,71 +352,6 @@
     background: var(--scrim);
     transition: opacity var(--transition) ease;
   }
-
-  /* --- étoiles décoratives ---------------------------------------------
-     Cinq étoiles semées dans le ciel. Purement décoratives :
-     pointer-events: none, aria-hidden, aucun rôle.
-
-     Le problème de cet objet, c'est le contraste. Mesuré sur Calm Sea, le
-     cyan de l'étoile tombe à 1,08:1 au centre de l'image — invisible. Un
-     précédent essai de scintillements avait échoué pour cette raison
-     exacte. D'où l'ombre portée : elle ne décore pas, elle rend l'objet
-     visible sur un fond clair. */
-  /* Le ciel s'arrête à l'horizon, mesuré à 66 % de la hauteur de l'image.
-     Mais le fond est en « cover » : sur un écran ultra-large, l'image est
-     ajustée en largeur, déborde en hauteur, et l'horizon descend jusqu'à
-     72 %. La zone s'arrête donc à 58 % — la marge qui tient dans tous les
-     cadrages plutôt que la valeur juste dans un seul. */
-  .etoiles {
-    position: absolute;
-    left: 0; right: 0; top: 0;
-    height: 58%;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .etoiles > i {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--t);
-    height: var(--t);
-    margin: calc(var(--t) / -2) 0 0 calc(var(--t) / -2);   /* centré sur le point */
-    background: var(--img) center / contain no-repeat;
-    /* Deux ombres : une proche qui dessine le contour, une lointaine qui
-       assoit la forme. Sans elles, l'objet disparaît dans le ciel. */
-    filter: drop-shadow(0 1px 1px rgba(20, 40, 70, 0.45))
-            drop-shadow(0 4px 10px rgba(20, 40, 70, 0.28));
-    /* Pleine opacité : les étoiles se posent franchement par-dessus le
-       grain au lieu de le laisser transparaître. */
-    opacity: 1;
-    /* La respiration porte donc sur l'échelle, pas sur la transparence.
-       ±6 % seulement — au-delà, l'objet ne respire plus, il grossit.
-
-       Le délai négatif désynchronise les cinq : sans lui elles battraient
-       ensemble et le ciel pulserait au lieu de scintiller. Chacune garde
-       aussi sa propre durée, entre 6 et 9 secondes. */
-    animation: souffle var(--d) ease-in-out infinite;
-    animation-delay: calc(var(--d) * -0.41);
-    /* La rotation est reprise dans les keyframes : une animation sur
-       « transform » écrase la propriété entière, elle ne s'y ajoute pas. */
-    transform: rotate(var(--r));
-    will-change: transform;
-  }
-  @keyframes souffle {
-    0%, 100% { transform: rotate(var(--r)) scale(0.94); }
-    50%      { transform: rotate(var(--r)) scale(1.06); }
-  }
-  /* Le mouvement part, l'étoile reste. */
-  @media (prefers-reduced-motion: reduce) {
-    .etoiles > i { animation: none; }
-  }
-  .e--etoile  { --img: url(etoile-128.webp); }
-
-  /* Ciel bleu : pas d'étoiles. Sur Calm Sea leur cyan pâle tient encore,
-     mais sur un ciel de plein jour elles ne seraient ni crédibles ni
-     visibles — mesuré à 1,3:1 sur ce fond. La règle vit ici, pas dans le
-     script : c'est un choix d'apparence, pas de comportement. */
-  .stage[data-wall="ciel"] .etoiles { display: none; }
 
   /* --- grain argentique ------------------------------------------------
      Une nappe de bruit très fin sur toute la scène, veille comprise.
@@ -485,10 +469,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 24px;
-
-    min-width: 158px;
-    border-radius: 20px;
+    padding: 7px 18px;
+    min-width: 130px;
+    border-radius: 18px;
     border: 1px solid var(--btn-border);
     background: var(--btn-bg);
     -webkit-backdrop-filter: blur(10px);
@@ -503,7 +486,7 @@
     -webkit-tap-highlight-color: transparent;
     transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
   }
-  .unlock:hover  { background: rgba(255, 255, 255, 0.25); border-color: rgba(255, 255, 255, 0.7); }
+  .unlock:hover  { background: rgba(255, 255, 255, 0.62); border-color: rgba(0, 0, 0, 0.7); }
   .unlock:active { transform: scale(0.97); }
 
   /* ================= ÉTAT BUREAU ================= */
@@ -521,9 +504,10 @@
     gap: 16px;
     height: var(--bar-h);
     padding: 0 var(--bar-pad-r) 0 var(--bar-pad-l);
-    background: rgba(var(--bar-tint), var(--bar-alpha));
-    -webkit-backdrop-filter: blur(var(--bar-blur));
-    backdrop-filter: blur(var(--bar-blur));
+    /* Plus de fond ni de flou : la barre se pose à même le ciel. Le flou
+       part avec le fond — un backdrop-filter sur une surface transparente
+       coûte une couche de composition pour un effet que rien ne révèle. */
+    background: none;
     font-size: var(--size-menu);
     flex-shrink: 0;
     text-shadow: var(--sky-shadow);
@@ -797,7 +781,7 @@
 
   .mini:hover .mini__thumb { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
   .mini:focus-visible { outline: none; }
-  .mini:focus-visible .mini__thumb { outline: 2px solid #fff; outline-offset: 3px; }
+  .mini:focus-visible .mini__thumb { outline: 2px solid var(--text); outline-offset: 3px; }
 
   .mini__label {
     /* Le libellé ne peut pas être plus large que sa vignette : à 120 pour une
@@ -807,7 +791,11 @@
        concurrencer. Le rapport tient autour d'un septième de la hauteur de
        l'icône — c'est lui qu'il faut conserver si la taille change. */
     font-size: 12px;
-    font-weight: 590;
+    /* 400 et non 590. Le semibold compensait un contraste faible sur les
+       anciens fonds sombres ; il n'a plus lieu d'être à 13:1. Six libellés
+       en gras sur un ciel clair tiraient l'œil vers le texte plutôt que
+       vers les objets — en regular, ils nomment sans réclamer. */
+    font-weight: 400;
     line-height: var(--lh-sky-text);
     text-align: center;
     word-break: break-word;
@@ -882,7 +870,12 @@
        bruit de fond pour que le survol se lise comme une réponse.
        L'ombre s'éloigne d'autant — c'est elle qui dit la hauteur. */
     transform: translateY(-14px) rotate(var(--tilt, 0deg)) scale(1.09);
-    filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.45));
+    /* Ombre allégée : 0,45 d'opacité et 22 px de flou venaient d'un bureau
+       sombre, où il fallait beaucoup pour se faire voir. Sur un ciel presque
+       blanc, une ombre aussi dense se lit comme une tache — d'autant que les
+       icônes sont maintenant des silhouettes noires, qui portent déjà leur
+       propre poids. */
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.22));
   }
   /* Sans transition, la bascule serait un saut. On garde donc le mouvement
      court, et on l'annule entièrement si le système demande le calme. */
@@ -890,7 +883,7 @@
     .mini:hover .mini__icon { transform: none; }
   }
   .mini:focus-visible .mini__icon {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--text);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -934,7 +927,7 @@
     height: 44px;
     flex-shrink: 0;
     padding: 0 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     cursor: grab;
     user-select: none;
     touch-action: none;
@@ -950,7 +943,7 @@
     flex: 1; overflow-y: auto; padding: 24px 24px 28px; cursor: auto;
     /* Firefox */
     scrollbar-width: thin;
-    scrollbar-color: rgba(58, 0, 30, 0.28) transparent;
+    scrollbar-color: rgba(var(--ink-rgb), 0.28) transparent;
   }
   /* WebKit dessine par défaut une gouttière blanche opaque, qui trace une
      bande verticale sur le bord de la fenêtre. On la rend transparente et on
@@ -958,16 +951,16 @@
   .finder__body::-webkit-scrollbar { width: 11px; }
   .finder__body::-webkit-scrollbar-track { background: transparent; }
   .finder__body::-webkit-scrollbar-thumb {
-    background: rgba(58, 0, 30, 0.28);
+    background: rgba(var(--ink-rgb), 0.28);
     border-radius: 999px;
     border: 3px solid transparent;
     background-clip: content-box;
   }
-  .finder__body::-webkit-scrollbar-thumb:hover { background: rgba(58, 0, 30, 0.45); background-clip: content-box; }
+  .finder__body::-webkit-scrollbar-thumb:hover { background: rgba(var(--ink-rgb), 0.45); background-clip: content-box; }
   .finder__status {
     flex-shrink: 0; padding: 6px 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.20);
-    font-size: 11px; color: rgba(58, 0, 30, 0.62);
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
+    font-size: 11px; color: rgba(var(--ink-rgb), 0.62);
   }
 
   /* Les fichiers audio. Colonnes de largeur fixe : les icônes tombent sur les
@@ -1000,7 +993,7 @@
   }
   .ffile__art img { width: 100%; height: 100%; display: block; object-fit: cover; }
   .ffile:hover .ffile__art, .ffile:focus-visible .ffile__art { transform: translateY(-3px) scale(1.04); }
-  .ffile:focus-visible { outline: 2px solid rgba(58, 0, 30, 0.6); outline-offset: 4px; border-radius: 4px; }
+  .ffile:focus-visible { outline: 2px solid rgba(var(--ink-rgb), 0.6); outline-offset: 4px; border-radius: 4px; }
   .ffile__badge {
     position: absolute; inset: 0; display: none;
     align-items: center; justify-content: center;
@@ -1022,7 +1015,7 @@
   .shelf__head { display: flex; flex-direction: column; }
   .shelf__label {
     flex-shrink: 0; font-size: 11px; letter-spacing: 0.14em;
-    color: rgba(58, 0, 30, 0.62); white-space: nowrap;
+    color: rgba(var(--ink-rgb), 0.62); white-space: nowrap;
   }
   /* Rangée en flux libre et non en colonnes de 1fr. La différence n'est pas
      technique : avec des colonnes égales, l'écart visible entre deux objets
@@ -1051,8 +1044,8 @@
   .shelf__art {
     width: 100%;
     display: block;
-    background: rgba(58, 0, 30, 0.07);
-    border: 1px solid rgba(58, 0, 30, 0.10);
+    background: rgba(var(--ink-rgb), 0.07);
+    border: 1px solid rgba(var(--ink-rgb), 0.10);
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   }
@@ -1091,7 +1084,7 @@
   .shelf__slot:hover .shelf__meta,
   .shelf__slot:focus-within .shelf__meta { opacity: 1; transform: none; }
   .shelf__metaTitre  { font-size: 11.5px; line-height: 1.25; color: var(--ink); }
-  .shelf__metaAuteur { font-size: 11px; line-height: 1.2; color: rgba(58, 0, 30, 0.62); }
+  .shelf__metaAuteur { font-size: 11px; line-height: 1.2; color: rgba(var(--ink-rgb), 0.62); }
 
   /* Au survol l'objet se soulève, comme les vignettes du bureau. */
   .shelf__art { transition: transform 170ms ease, box-shadow 170ms ease; }
@@ -1296,7 +1289,7 @@
     position: relative;
     display: flex; align-items: center;
     height: 40px; flex-shrink: 0; padding: 0 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     cursor: grab; user-select: none; touch-action: none;
   }
   .notes__bar:active { cursor: grabbing; }
@@ -1310,8 +1303,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 8px;
-    border-right: 1px solid rgba(0, 0, 0, 0.14);
-    background: rgba(255, 255, 255, 0.28);
+    border-right: 1px solid rgba(255, 255, 255, 0.20);
+    background: rgba(255, 255, 255, 0.04);
   }
   .notes__item {
     display: block; width: 100%;
@@ -1320,12 +1313,12 @@
     background: none; font: inherit; color: inherit;
     text-align: left; cursor: default;
   }
-  .notes__item:hover { background: rgba(255, 255, 255, 0.6); }
+  .notes__item:hover { background: rgba(255, 255, 255, 0.09); }
   /* La sélection est un voile de l'encre du site — le bordeaux de --ink, à
      14 %. Une couleur venue d'ailleurs (l'ambre de l'icône du dock) créait
      un accent que rien d'autre ne reprenait dans la page. Mesuré sur les
      deux fonds d'écran : le titre reste au-dessus de 9,9:1 par-dessus. */
-  .notes__item[aria-selected="true"] { background: rgba(58, 0, 30, 0.14); }
+  .notes__item[aria-selected="true"] { background: rgba(var(--ink-rgb), 0.14); }
   .notes__item:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .notes__nom {
     display: block;
@@ -1341,7 +1334,7 @@
        sélectionnée — sous le seuil avant même que j'aie ajouté le voile.
        À 66 il passe partout, sélection comprise, et reste nettement plus
        discret que le titre. */
-    color: rgba(58, 0, 30, 0.66);
+    color: rgba(var(--ink-rgb), 0.66);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
@@ -1375,7 +1368,7 @@
   .notes__page li::before {
     content: "•";
     position: absolute; left: 0;
-    color: rgba(58, 0, 30, 0.62);
+    color: rgba(var(--ink-rgb), 0.62);
   }
 
   @media (max-width: 720px) {
@@ -1383,7 +1376,7 @@
     .notes__corps { flex-direction: column; }
     .notes__liste {
       width: 100%; max-height: 168px;
-      border-right: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+      border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     }
     .notes__page { padding: 24px; }
   }
@@ -1431,7 +1424,7 @@
       text-shadow: inherit;
       pointer-events: auto;
     }
-    .mhead__plus:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 8px; }
+    .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 8px; }
 
     /* --- les vignettes deviennent une grille --- */
     .minis {
@@ -1505,8 +1498,7 @@
     .dock__link > svg,
     .dock__link picture,
     .dock__link img { width: var(--dock-icon); height: var(--dock-icon); }
-    .dock__dot { display: none; }
-
+  
     /* --- ce qui n'existe pas au doigt --- */
     .resume { display: none; }
     .ctxmenu, .dock__tip { display: none !important; }
@@ -1540,7 +1532,7 @@
     position: relative;
     display: flex; align-items: center;
     height: 40px; flex-shrink: 0; padding: 0 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     cursor: grab; user-select: none; touch-action: none;
   }
   .verrou__bar:active { cursor: grabbing; }
@@ -1555,12 +1547,12 @@
   .verrou__sceau {
     display: flex; align-items: center; justify-content: center;
     width: 48px; height: 48px; border-radius: 12px;
-    background: var(--ink); color: #fff;
+    background: var(--ink); color: #1f1f1f;
   }
   .verrou__sceau svg { width: 24px; height: 24px; }
 
   .verrou__titre { margin: 16px 0 0; font-size: 16px; line-height: 24px; font-weight: 590; }
-  .verrou__sous  { margin: 0; font-size: 13px; line-height: 16px; color: rgba(58, 0, 30, 0.62); }
+  .verrou__sous  { margin: 0; font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
   .verrou__texte { margin: 24px 0 0; font-size: 14px; line-height: 24px; text-align: left; }
 
   /* Souligné, et un bouton plutôt qu'un mailto : le composeur du bureau
@@ -1579,11 +1571,11 @@
   .verrou__champ {
     width: 100%; margin: 24px 0 0;
     padding: 12px 16px;
-    border: 1px solid rgba(58, 0, 30, 0.28); border-radius: 8px;
-    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(var(--ink-rgb), 0.28); border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
     font: inherit; font-size: 14px; line-height: 24px; color: var(--ink);
   }
-  .verrou__champ::placeholder { color: rgba(58, 0, 30, 0.42); }
+  .verrou__champ::placeholder { color: rgba(var(--ink-rgb), 0.42); }
   .verrou__champ:focus { outline: none; border-color: var(--ink); }
   .verrou__champ:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
   .verrou[data-etat="faux"] .verrou__champ { border-color: #b3261e; }
@@ -1595,22 +1587,31 @@
   }
   .verrou__erreur[hidden] { display: none; }
 
+  /* Même pied que le Contact : « Annuler » à gauche, l'action à droite,
+     séparés par un filet. Les deux boutons ne se partagent plus la largeur
+     en deux blocs égaux — une pilule pleine dit déjà qu'elle est l'action
+     principale, elle n'a pas besoin de la moitié de la fenêtre. */
   .verrou__pied {
-    display: flex; gap: 16px; flex-shrink: 0;
-    padding: 16px 32px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0; padding: 12px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
   }
-  .verrou__annuler, .verrou__ok {
-    flex: 1; padding: 12px 16px; border-radius: 8px;
-    font: inherit; font-size: 14px; line-height: 24px; font-weight: 590;
+  /* Mêmes boutons que le formulaire Contact : une pilule pleine pour
+     l'action, un mot nu pour le retrait. Deux fenêtres qui demandent la
+     même chose — valider ou renoncer — ne doivent pas le demander de deux
+     façons différentes. */
+  .verrou__ok {
+    padding: 8px 20px; border: 0; border-radius: 999px;
+    background: var(--ink); color: #1f1f1f;
+    font: inherit; font-size: 13px; font-weight: 590; cursor: default;
+  }
+  .verrou__ok:hover { background: #ffffff; }
+  .verrou__annuler {
+    padding: 6px 4px; border: 0; background: none;
+    font: inherit; font-size: 13px; color: rgba(var(--ink-rgb), 0.7);
     cursor: default;
   }
-  .verrou__annuler {
-    border: 1px solid rgba(58, 0, 30, 0.28);
-    background: rgba(255, 255, 255, 0.72); color: var(--ink);
-  }
-  .verrou__annuler:hover { background: #fff; }
-  .verrou__ok { border: 0; background: var(--ink); color: #fff; }
-  .verrou__ok:hover { background: #52022b; }
+  .verrou__annuler:hover { color: var(--ink); background: none; }
   .verrou__ok[disabled] { opacity: 0.6; }
   .verrou__annuler:focus-visible, .verrou__ok:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
@@ -1655,15 +1656,15 @@
   .etude {
     display: flex; flex-direction: column; gap: 4px;
     width: 100%; padding: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.14); border-radius: 8px;
-    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.20); border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
     font: inherit; color: inherit; text-align: left; cursor: default;
   }
-  .etude:hover { background: rgba(255, 255, 255, 0.7); }
+  .etude:hover { background: rgba(255, 255, 255, 0.10); }
   .etude:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .etude__num { font-size: 11px; line-height: 16px; letter-spacing: 0.14em; color: rgba(58, 0, 30, 0.62); }
+  .etude__num { font-size: 11px; line-height: 16px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb), 0.62); }
   .etude__titre { font-size: 14px; line-height: 24px; font-weight: 590; }
-  .etude__client { font-size: 13px; line-height: 16px; color: rgba(58, 0, 30, 0.62); }
+  .etude__client { font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
 
   .doc__win {
     width: min(1080px, 100%);
@@ -1677,7 +1678,7 @@
        fond translucide laisserait le fond d'écran transparaître sous le texte
        et fausserait les couleurs des maquettes. Le flou reste inutile puisque
        plus rien ne passe. */
-    background: #ffffff;
+    background: #1f1f1f;
     box-shadow: var(--panel-shadow);
     color: var(--ink);
     -webkit-font-smoothing: auto;
@@ -1692,7 +1693,7 @@
     height: 40px;
     flex-shrink: 0;
     padding: 0 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
   }
   .doc__bartitle {
     position: absolute; left: 50%; transform: translateX(-50%);
@@ -1708,12 +1709,12 @@
        C'est un filet de sécurité — la cause est traitée juste en dessous. */
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: rgba(58, 0, 30, 0.28) transparent;
+    scrollbar-color: rgba(var(--ink-rgb), 0.28) transparent;
   }
   .doc__scroll::-webkit-scrollbar { width: 11px; }
   .doc__scroll::-webkit-scrollbar-track { background: transparent; }
   .doc__scroll::-webkit-scrollbar-thumb {
-    background: rgba(58, 0, 30, 0.28); border-radius: 999px;
+    background: rgba(var(--ink-rgb), 0.28); border-radius: 999px;
     border: 3px solid transparent; background-clip: content-box;
   }
 
@@ -1777,7 +1778,7 @@
   .doc__temps {
     margin: 8px 0 0;
     font-size: 12px; line-height: 16px;
-    color: rgba(58, 0, 30, 0.62);
+    color: rgba(var(--ink-rgb), 0.62);
   }
   /* Les trois faits que quelqu'un doit pouvoir retenir en quinze secondes,
      avant même de décider s'il lit la suite. Aucun chiffre inventé : tout
@@ -1788,27 +1789,27 @@
     gap: 24px;
     margin: 32px 0 0;
     padding: 24px 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.14);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
   }
   .doc__resume > div { min-width: 0; }
   .doc__resume dt {
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: rgba(58, 0, 30, 0.62);
+    text-transform: uppercase; color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__resume dd { margin: 4px 0 0; font-size: 14px; line-height: 24px; font-weight: 510; }
 
   /* --- décisions ------------------------------------------------------ */
-  .doc__decision { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(0, 0, 0, 0.14); }
+  .doc__decision { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.20); }
   .doc__decision h3 { margin: 8px 0 16px; font-size: 16px; line-height: 24px; font-weight: 590; }
   /* La contrainte d'abord, en une ligne : c'est elle qui donne son poids à
      la décision qui suit. Une décision sans contrainte n'est qu'un goût. */
   .doc__contrainte {
     margin: 0 0 16px;
     padding-left: 16px;
-    border-left: 2px solid rgba(58, 0, 30, 0.35);
+    border-left: 2px solid rgba(var(--ink-rgb), 0.35);
     font-size: 13px; line-height: 24px;
-    color: rgba(58, 0, 30, 0.70);
+    color: rgba(var(--ink-rgb), 0.70);
   }
   /* Le concept mobilisé, en étiquette et non en citation : c'est une
      notion, pas une phrase à lire. */
@@ -1817,7 +1818,7 @@
     margin: 0 0 8px;
     padding: 4px 8px;
     border-radius: 4px;
-    background: rgba(58, 0, 30, 0.08);
+    background: rgba(var(--ink-rgb), 0.08);
     font-size: 11px; line-height: 16px; letter-spacing: 0.08em;
     text-transform: uppercase; font-weight: 590;
   }
@@ -1853,10 +1854,10 @@
   .doc__eyebrow {
     margin: 0 0 8px;
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
-    color: rgba(58, 0, 30, 0.62);
+    color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__titre { margin: 0; font-size: 24px; font-weight: 590; line-height: 32px; letter-spacing: -0.01em; }
-  .doc__client { margin: 4px 0 0; font-size: 14px; line-height: 24px; color: rgba(58, 0, 30, 0.62); }
+  .doc__client { margin: 4px 0 0; font-size: 14px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62); }
 
   /* min-width: 0 sur les cellules : par défaut une cellule de grille refuse
      de devenir plus étroite que son contenu, ce qui suffit à faire déborder
@@ -1864,12 +1865,12 @@
   .doc__meta > * { min-width: 0; }
   .doc__meta {
     margin: 24px 0 0; padding: 16px 0 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.14);
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px;
   }
   .doc__meta dt {
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
-    color: rgba(58, 0, 30, 0.62);
+    color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__meta dd { margin: 0; font-size: 13px; line-height: 16px; }
 
@@ -1885,11 +1886,11 @@
   /* Le numéro de chapitre n'est plus un grand chiffre gris mais une étiquette
      comme celles des rayons. Un chiffre de 48px introduisait un niveau
      hiérarchique de plus que le document n'en a besoin. */
-  .doc__bloc--chapitre { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(0, 0, 0, 0.14); }
+  .doc__bloc--chapitre { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.20); }
   .doc__num {
     margin: 0 0 8px;
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
-    color: rgba(58, 0, 30, 0.62);
+    color: rgba(var(--ink-rgb), 0.62);
   }
 
   .doc__liste { margin: 0 0 16px; padding-left: 20px; }
@@ -1901,7 +1902,7 @@
   .doc__cle {
     margin: 16px 0;
     padding: 0 0 0 16px;
-    border-left: 2px solid rgba(58, 0, 30, 0.35);
+    border-left: 2px solid rgba(var(--ink-rgb), 0.35);
     font-size: 14px; font-weight: 510; line-height: 24px;
   }
 
@@ -1917,26 +1918,26 @@
      qu'un manque se lise comme un manque et non comme une erreur. */
   .doc__fig[data-attente] {
     aspect-ratio: 16 / 9;
-    background: rgba(58, 0, 30, 0.05);
-    border: 1px dashed rgba(58, 0, 30, 0.22);
+    background: rgba(var(--ink-rgb), 0.05);
+    border: 1px dashed rgba(var(--ink-rgb), 0.22);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
   }
   .doc__fig[data-attente]::before {
     content: attr(data-attente);
     font-size: 12px; line-height: 16px; letter-spacing: 0.08em;
-    color: rgba(58, 0, 30, 0.42);
+    color: rgba(var(--ink-rgb), 0.42);
   }
   .doc__note {
     padding: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 8px;
-    font-size: 14px; line-height: 24px; color: rgba(58, 0, 30, 0.62);
+    font-size: 14px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__fig img { display: block; width: 100%; height: auto; border-radius: 4px; }
   .doc__fig figcaption {
     margin-top: 8px;
-    font-size: 12px; line-height: 16px; color: rgba(58, 0, 30, 0.62);
+    font-size: 12px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62);
   }
 
   /* Au doigt, les fenêtres prennent la largeur disponible. Elles gardent
@@ -2009,7 +2010,7 @@
     height: 44px;
     flex-shrink: 0;
     padding: 0 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     cursor: grab;
     user-select: none;
     touch-action: none;
@@ -2019,16 +2020,16 @@
   .cv__dl {
     margin-left: auto;
     padding: 4px 12px;
-    border: 1px solid rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
     font-size: 12px;
     font-weight: 510;
     color: var(--ink);
     text-decoration: none;
     white-space: nowrap;
   }
-  .cv__dl:hover { background: rgba(255, 255, 255, 0.75); }
+  .cv__dl:hover { background: rgba(255, 255, 255, 0.16); }
   .cv__dl:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .cv__body {
     flex: 1;
@@ -2039,12 +2040,12 @@
     gap: 24px;
     cursor: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(58, 0, 30, 0.28) transparent;
+    scrollbar-color: rgba(var(--ink-rgb), 0.28) transparent;
   }
   .cv__body::-webkit-scrollbar { width: 11px; }
   .cv__body::-webkit-scrollbar-track { background: transparent; }
   .cv__body::-webkit-scrollbar-thumb {
-    background: rgba(58, 0, 30, 0.28);
+    background: rgba(var(--ink-rgb), 0.28);
     border-radius: 999px;
     border: 3px solid transparent;
     background-clip: content-box;
@@ -2090,7 +2091,7 @@
     height: 38px;
     flex-shrink: 0;
     padding: 0 14px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
     cursor: grab;
     user-select: none;
     touch-action: none;
@@ -2106,16 +2107,16 @@
   .mail__row {
     display: flex; align-items: center; gap: 14px;
     padding: 10px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
   }
-  .mail__lab { width: 42px; flex-shrink: 0; font-size: 13px; color: rgba(58, 0, 30, 0.62); }
+  .mail__lab { width: 42px; flex-shrink: 0; font-size: 13px; color: rgba(var(--ink-rgb), 0.62); }
   /* Le destinataire est une pastille, pas un champ : il n'y a rien à saisir,
      et une pastille le dit mieux qu'un champ grisé. */
   .mail__chip {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 3px 12px 3px 3px;
     border-radius: 999px;
-    background: rgba(58, 0, 30, 0.07);
+    background: rgba(var(--ink-rgb), 0.07);
     font-size: 13px; font-weight: 510;
   }
   .mail__chip img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; display: block; }
@@ -2124,9 +2125,9 @@
     border: 0; background: none; padding: 3px 0;
     font: inherit; font-size: 13px; color: var(--ink);
   }
-  .mail__field::placeholder { color: rgba(58, 0, 30, 0.38); }
+  .mail__field::placeholder { color: rgba(var(--ink-rgb), 0.38); }
   .mail__field:focus { outline: none; }
-  .mail__row:focus-within { background: rgba(58, 0, 30, 0.035); }
+  .mail__row:focus-within { background: rgba(var(--ink-rgb), 0.035); }
   .mail__warn { flex-shrink: 0; font-size: 12px; color: #b3261e; }
   .mail__warn[hidden] { display: none; }
 
@@ -2141,19 +2142,19 @@
   .mail__foot {
     display: flex; align-items: center; justify-content: space-between;
     flex-shrink: 0; padding: 12px 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.20);
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
   }
   .mail__cancel {
     padding: 6px 4px; border: 0; background: none;
-    font: inherit; font-size: 13px; color: rgba(58, 0, 30, 0.7); cursor: default;
+    font: inherit; font-size: 13px; color: rgba(var(--ink-rgb), 0.7); cursor: default;
   }
   .mail__cancel:hover { color: var(--ink); }
   .mail__send {
     padding: 8px 20px; border: 0; border-radius: 999px;
-    background: var(--ink); color: #fff;
+    background: var(--ink); color: #1f1f1f;
     font: inherit; font-size: 13px; font-weight: 590; cursor: default;
   }
-  .mail__send:hover { background: #52022b; }
+  .mail__send:hover { background: #ffffff; }
   .mail__cancel:focus-visible, .mail__send:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .mail__field:focus-visible { outline: none; }
 
@@ -2352,7 +2353,9 @@
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.02em;
-    color: #eaeaea;
+    /* Il est posé sur le ciel, au-dessus de la pastille : il suit donc
+       l'encre du bureau et non celle du dock. */
+    color: var(--text);
     text-shadow: var(--sky-shadow);
   }
 
@@ -2365,9 +2368,13 @@
        C'est ce qui rapproche le plus les deux versions — la même forme, à
        deux échelles. */
     border-radius: 26px;
-    background: rgba(var(--bar-tint), var(--bar-alpha));
-    -webkit-backdrop-filter: blur(var(--bar-blur));
-    backdrop-filter: blur(var(--bar-blur));
+    /* Noir à 80 %. Le dock cesse d'être un voile posé sur le ciel pour
+       devenir un objet posé dessus — c'est le seul élément opaque du
+       bureau, et c'est ce qui l'ancre au bas de l'écran.
+
+       Le flou disparaît : à 80 % d'opacité, il ne reste presque rien à
+       flouter, et backdrop-filter coûte une couche de composition. */
+    background: rgba(0, 0, 0, 0.80);
   }
 
   .dock__items {
@@ -2375,23 +2382,28 @@
     align-items: flex-end;
     gap: var(--dock-gap);
     margin: 0;
-    /* 8 sur les quatre côtés. Le dock épouse alors ses icônes au lieu de
-       les encadrer — c'est ce qui le fait lire comme une barre plutôt que
-       comme un panneau. */
-    padding: 8px;
+    /* 8 en haut et en bas, 32 sur les côtés. Les 8 partout épousaient les
+       icônes tant qu'elles n'avaient pas de cadre ; depuis qu'elles en ont
+       un, deux bords se touchaient presque et la première icône semblait
+       collée à l'arrondi de la pastille.
+
+       Asymétrique, donc, et volontairement : la hauteur reste serrée pour
+       que le dock lise comme une barre, la largeur respire pour que le
+       premier et le dernier cadre aient leur marge. */
+    padding: 8px 32px;
     list-style: none;
   }
 
   .dock__item {
     position: relative;
     width: var(--dock-icon);
-    /* 36 d'icône + 3 d'écart + 4 de point : la hauteur vient de la maquette,
-       elle n'est pas arrondie au hasard. */
-    height: calc(var(--dock-icon) + 7px);
+    /* Carrée. Elle valait 36 + 7 tant qu'un point d'application ouverte se
+       logeait sous l'icône ; sans lui, ces 7 px devenaient un vide sous
+       chaque cadre et cassaient l'alignement sur la ligne de base. */
+    height: var(--dock-icon);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 3px;
+    justify-content: center;
     flex-shrink: 0;
     /* Le grossissement part du bas : une icône de dock monte, elle ne
        s'étale pas de part et d'autre de son centre. */
@@ -2411,7 +2423,23 @@
        quitte le dock, sans retarder le suivi pendant le survol. */
     transition: transform 160ms cubic-bezier(.22,.61,.36,1);
   }
-  .dock__item svg { display: block; width: var(--dock-icon); height: var(--dock-icon); }
+  /* Cadre clair sous chaque icône. Sur une pastille noire, les logos
+     sombres — GitHub, Claude — disparaissaient purement et simplement.
+     Le cadre leur rend un fond, et donne au dock la grille régulière
+     qu'une rangée de silhouettes n'avait pas.
+
+     Le rayon de 9 sur 36 reprend la proportion des icônes elles-mêmes,
+     dessinées avec un rayon de 8 sur un cadre de 36. */
+  .dock__item svg,
+  .dock__link img,
+  .dock__link > svg {
+    display: block;
+    width: var(--dock-icon);
+    height: var(--dock-icon);
+    border-radius: 9px;
+    background: #f2f0ec;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
 
   /* Point d'application ouverte, comme sous les icônes du dock macOS.
      Blanc translucide et non le gris #707070 de la maquette : celui-ci
@@ -2424,7 +2452,12 @@
   .dock__sep {
     position: relative;
     width: var(--dock-sep);
-    height: calc(var(--dock-icon) + 7px);
+    /* La même hauteur que les icônes. Il gardait les 36 + 7 de l'époque où
+       un point se logeait dessous : comme la rangée s'aligne par le bas,
+       le séparateur imposait sa hauteur à tout le monde et laissait 7 px
+       de vide au-dessus des cadres. C'est lui qui les poussait vers le
+       bas, pas leur propre alignement. */
+    height: var(--dock-icon);
     flex-shrink: 0;
     transform-origin: bottom center;
     will-change: transform;
@@ -2433,8 +2466,10 @@
     content: '';
     position: absolute;
     left: 50%;
+    /* Centré : le 11 du bas dégageait le point d'application, qui n'existe
+       plus. Le filet était donc plus court en bas qu'en haut. */
     top: 4px;
-    bottom: 11px;
+    bottom: 4px;
     width: 1px;
     background: rgba(255, 255, 255, 0.28);
   }
@@ -2453,27 +2488,6 @@
   .dock__link picture,
   .dock__link img { display: block; width: 100%; height: 100%; }
   .dock__link img { -webkit-user-drag: none; border-radius: 8px; }
-  /* Les images du dock se règlent sur la même variable que les SVG. Sans
-     ceci, Notes gardait la taille de ses attributs width/height et se
-     retrouvait plus petite que ses voisines dès que la variable changeait. */
-  .dock__link picture,
-  .dock__link img { width: var(--dock-icon); height: var(--dock-icon); }
-  /* Le raccourci n'a pas de pastille d'application ouverte : la place que
-     celle-ci occupe doit tout de même être réservée, sinon l'icône
-     LinkedIn descendrait de 7px sous ses voisines. */
-  .dock__item--link { justify-content: flex-start; }
-
-  .dock__dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.75);
-    flex-shrink: 0;
-    /* Contre-échelle : le point appartient au dock, pas à l'icône. Sur macOS
-       il garde sa taille pendant que l'icône grossit. Sans ça un point de 4px
-       en atteindrait 8 au survol. */
-    transform: scale(calc(1 / var(--s, 1)));
-  }
 
   /* Bulle du nom. Le texte est toujours dans le DOM — c'est le nom
      accessible de l'élément — et seulement révélé au survol. */
@@ -2526,8 +2540,11 @@
        d'elle la position de chaque icône pendant le grossissement et celle
        de la bulle d'aide. Les deux doivent rester d'accord. */
     --dock-icon: 36px;
-    --dock-gap: 16px;
-    --dock-sep: 13px;
+    --dock-gap: 12px;
+    /* 4 et non 13. La case du séparateur ajoutait 6,5 px de part et d'autre
+       du trait, par-dessus l'écart commun : 22,5 px de vide entre une icône
+       et un simple filet de 1 px. */
+    --dock-sep: 4px;
     /* Boîte commune à toutes les vignettes : c'est elle qui aligne les
        libellés entre eux, quelle que soit la forme qu'elle contient.
        Tout le pas de la grille du bureau est en multiples de 8 — 96 pour la
@@ -2541,8 +2558,8 @@
        flottent maintenant dans un ciel, ils ne sont plus rangés en grille
        serrée — ils peuvent respirer. Monter cette valeur suffit, la
        dispersion et le rangement se recalculent sur offsetWidth. */
-    --mini-icon: 112px;
-    --mini-canvas: 112px;
+    --mini-icon: 128px;
+    --mini-canvas: 128px;
     /* Le dessin Noto montre une comète qui tombe : tête en bas à gauche,
        traînée vers le haut à droite. Un demi-tour inverse la course sans
        toucher au dessin — elle monte au lieu de chuter. Un seul nombre à
@@ -2653,7 +2670,7 @@
     padding: 8px 16px;
     /* Le filet appartient à la barre, pas au premier bloc : sinon il
        descendrait avec le contenu au défilement. */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.20);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
   }
   .about__body > * { padding-left: 16px; padding-right: 16px; }
   .about__body {
@@ -2688,7 +2705,7 @@
   .about__lead {
     margin: 0;
     padding-top: 8px;
-    border-top: 1px solid rgba(0, 0, 0, 0.20);
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
     font-size: 14px; font-weight: 400; line-height: 1.3;
     /* Ce filet suit le texte, il ne traverse pas la fenêtre : seul celui
        de la barre de titre va d'un bord à l'autre. On remplace donc la
@@ -2751,7 +2768,7 @@
   /* ---- Modal_About 468:396 : encadré et deux colonnes ---- */
   /* Le fond bleu est désactivé dans la maquette et le filet est passé en
      haut : l'encadré devient un simple bloc introduit par un séparateur. */
-  .about__calloutWrap { padding-bottom: 16px; border-top: 1px solid rgba(0, 0, 0, 0.20);     /* Débordement de la gouttière de 16px de .about : sans lui le filet
+  .about__calloutWrap { padding-bottom: 16px; border-top: 1px solid rgba(255, 255, 255, 0.20);     /* Débordement de la gouttière de 16px de .about : sans lui le filet
        s'arrêtait à 16px de chaque bord et le bloc paraissait posé dans un
        cadre, au lieu d'être séparé par une ligne comme dans les autres
        fenêtres. Le contenu, lui, reste à sa place grâce au padding. */
@@ -2780,8 +2797,12 @@
 
 
   /* ================= FOCUS ================= */
+  /* currentColor et non un blanc figé : le contour suit l'encre de son
+     contexte. Blanc dans les panneaux sombres, noir sur le bureau clair,
+     sans une seule règle de plus. Un contour de focus invisible équivaut à
+     ne pas en avoir. */
   :where(button, a, [tabindex]):focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid currentColor;
     outline-offset: 3px;
   }
   .menubar :focus-visible { outline-offset: 1px; }
@@ -2839,10 +2860,11 @@
     border-radius: 0;
     overflow: visible;
     box-shadow: none;
-    /* L'objet est détouré : l'ombre suit sa silhouette, pas une boîte.
-       Un box-shadow ne dessinerait que le rectangle qui l'entoure. */
-    filter: drop-shadow(0 6px 14px rgba(20, 30, 60, 0.42))
-            drop-shadow(0 1px 2px rgba(20, 30, 60, 0.30));
+    /* Aucune ombre. Elle était bleutée — rgba(20,30,60) — pour détacher un
+       objet clair d'un ciel sombre. Sur un fond presque blanc, cette teinte
+       froide vire au mauve autour d'une silhouette noire, et la silhouette
+       se détache déjà seule à 14,5:1. */
+    filter: none;
   }
   .avatar--buste img,
   .avatar--buste picture { display: block; width: 100%; height: auto; }
@@ -2920,8 +2942,9 @@
     height: auto;
   }
   .mini[data-folder="case-studies"] .mini__verrou {
-    inset: auto -2px -2px auto;
-    margin: 0;
+    /* Au centre, comme les autres. Il garde son liseré blanc : sur un
+       document couvert de caviardages, un carré noir sans contour se
+       confondrait avec eux. */
     width: 22px; height: 22px;
     border-radius: 7px;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9),
@@ -2960,13 +2983,13 @@
      Comme v2, tout est préfixé .doc--v3 : GVQ et Roche n'y touchent pas. */
 
   .doc--v3 {
-    --v3-titre:  #0b0b0b;   /* le nom du projet, 56 px          */
-    --v3-encre:  #1a1a1a;   /* le texte courant                 */
-    --v3-sous:   #4e4c4e;   /* la ligne de description          */
-    --v3-gris:   #625f61;   /* intitulés, légendes, secondaire  */
-    --v3-bord:   #e8e6e3;   /* filets et contours de carte      */
-    --v3-doux:   #faf9f6;   /* fond de citation                 */
-    --v3-vide:   #f1f0ee;   /* emplacement d'image en attente   */
+    --v3-titre:  #f4f4f4;   /* le nom du projet, 56 px          */
+    --v3-encre:  #e8e8e8;   /* le texte courant                 */
+    --v3-sous:   #b4b2b4;   /* la ligne de description          */
+    --v3-gris:   #9a979a;   /* intitulés, légendes, secondaire  */
+    --v3-bord:   #2e2c2a;   /* filets et contours de carte      */
+    --v3-doux:   #1a1a19;   /* fond de citation                 */
+    --v3-vide:   #232323;   /* emplacement d'image en attente   */
   }
 
   /* --- la fenêtre et la colonne ------------------------------------- */
@@ -3153,7 +3176,7 @@
   .doc--v3 .doc__bloc--releves {
     padding: 20px 16px;
     border-radius: 6px;
-    background: #f1f3ff;
+    background: #1a1c26;
   }
   .doc--v3 .doc__bloc--releves h3 {
     margin: 0 0 16px;
@@ -3202,9 +3225,9 @@
   /* #4a0b07 et non le blanc de la maquette : blanc sur #ff5f56 mesure
      2,96:1, sous le seuil de 4,5. Le brun rouge remonte à 5,23:1 en
      restant dans la famille du feu de circulation macOS. */
-  .doc--v3 .doc__gravite--critique { --g-fond: #fff8f8; --g-bord: #fee2e2; --g-badge: #ff5f56; --g-texte: #4a0b07; }
-  .doc--v3 .doc__gravite--moderee  { --g-fond: #fffbf2; --g-bord: #fef3c7; --g-badge: #ffbd2e; --g-texte: #623f00; }
-  .doc--v3 .doc__gravite--mineure  { --g-fond: #fafaf9; --g-bord: #e5e5e4; --g-badge: #625f61; --g-texte: #fefefe; }
+  .doc--v3 .doc__gravite--critique { --g-fond: #2a1616; --g-bord: #4a2323; --g-badge: #ff5f56; --g-texte: #2a0604; }
+  .doc--v3 .doc__gravite--moderee  { --g-fond: #262112; --g-bord: #453a1c; --g-badge: #ffbd2e; --g-texte: #3d2700; }
+  .doc--v3 .doc__gravite--mineure  { --g-fond: #1e1e1e; --g-bord: #333331; --g-badge: #9a979a; --g-texte: #1f1f1f; }
 
   /* --- les figures ---------------------------------------------------- */
   /* Une capture d'interface sur fond blanc n'a pas de bord à elle : sans ce
@@ -3214,7 +3237,7 @@
   .doc--v3 .doc__fig > img,
   .doc--v3 .doc__fig > .doc__cadre {
     display: block; width: 100%;
-    border: 1px solid #dcd9d5;
+    border: 1px solid #33312e;
     border-radius: 6px;
     background: var(--v3-vide);
   }
@@ -3297,8 +3320,8 @@
     display: block; margin: 0 0 8px;
     font-size: 14px; line-height: 1.2; font-weight: 700;
   }
-  .doc--v3 .doc__alerte--avert   { --a-fond: #fffbeb; --a-bord: #fde68a; --a-texte: #92400e; }
-  .doc--v3 .doc__alerte--bloquant{ --a-fond: #fdf2f2; --a-bord: #fca5a5; --a-texte: #9b1c1c; }
+  .doc--v3 .doc__alerte--avert   { --a-fond: #262112; --a-bord: #5c4a1c; --a-texte: #f0b34a; }
+  .doc--v3 .doc__alerte--bloquant{ --a-fond: #2a1616; --a-bord: #6e2a2a; --a-texte: #f08a8a; }
 
   /* Les trois définitions : sexe, genre, pronoms. */
   .doc--v3 .doc__defs {
@@ -3310,7 +3333,7 @@
   .doc--v3 .doc__defs > div {
     padding: 12px;
     border-radius: 4px;
-    background: #f9fafb;
+    background: #1e1f21;
   }
   .doc--v3 .doc__defs dt {
     margin: 0 0 4px;
@@ -3390,7 +3413,7 @@
     aspect-ratio: 16 / 9;
     max-height: 420px;
     overflow: hidden;
-    background: rgba(58, 0, 30, 0.06);
+    background: rgba(var(--ink-rgb), 0.06);
   }
   .doc--v2 .doc__hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* Le repère « en attente » : une image manquante doit se voir en travail,
@@ -3400,7 +3423,7 @@
     content: attr(data-attente);
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; color: rgba(58, 0, 30, 0.45);
+    font-size: 13px; color: rgba(var(--ink-rgb), 0.45);
   }
 
   /* --- le titre et sa description --- */
@@ -3432,7 +3455,7 @@
   .doc--v2 .doc__tags li {
     padding: 4px 12px;
     border-radius: 999px;
-    background: rgba(58, 0, 30, 0.07);
+    background: rgba(var(--ink-rgb), 0.07);
     font-size: 12px;
     line-height: 18px;
   }
@@ -3442,7 +3465,7 @@
     margin: 0 0 32px;
     padding: 32px;
     border-radius: 12px;
-    background: rgba(58, 0, 30, 0.045);
+    background: rgba(var(--ink-rgb), 0.045);
   }
   .doc--v2 .doc__carte h2 {
     margin: 8px 0 16px;
@@ -3463,15 +3486,15 @@
     gap: 32px;
     margin: 0 0 40px;
     padding: 24px 0;
-    border-top: 1px solid rgba(58, 0, 30, 0.14);
-    border-bottom: 1px solid rgba(58, 0, 30, 0.14);
+    border-top: 1px solid rgba(var(--ink-rgb), 0.14);
+    border-bottom: 1px solid rgba(var(--ink-rgb), 0.14);
   }
   .doc--v2 .doc__trio dt {
     margin: 0 0 8px;
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(58, 0, 30, 0.5);
+    color: rgba(var(--ink-rgb), 0.5);
   }
   .doc--v2 .doc__trio dd { margin: 0; }
   .doc--v2 .doc__trio dd + dd { margin-top: 4px; }
@@ -3485,7 +3508,7 @@
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(58, 0, 30, 0.5);
+    color: rgba(var(--ink-rgb), 0.5);
   }
   .doc--v2 .doc__bloc--chapitre h2 {
     font-size: 28px;
@@ -3552,17 +3575,6 @@
        n'est nécessaire tant que rien ne s'insère entre les deux. -->
   <canvas class="grain" id="grain" aria-hidden="true"></canvas>
 
-  <!-- Étoiles décoratives. Les positions sont en pourcentage : les icônes
-       du bureau sont tirées au hasard à chaque chargement, il n'y a donc
-       aucun emplacement sûr à viser. On les sème plutôt vers les bords, où
-       les icônes vont rarement, et on les laisse passer dessous. -->
-  <div class="etoiles" aria-hidden="true">
-    <i class="e--etoile" style="--x: 8%;  --y: 26%; --t: 26px; --d: 7.5s; --r: -14deg"></i>
-    <i class="e--etoile" style="--x: 27%; --y: 62%; --t: 15px; --d: 6.2s; --r:  22deg"></i>
-    <i class="e--etoile" style="--x: 49%; --y: 15%; --t: 14px; --d: 9.1s; --r:  11deg"></i>
-    <i class="e--etoile" style="--x: 71%; --y: 48%; --t: 22px; --d: 8.0s; --r:  17deg"></i>
-    <i class="e--etoile" style="--x: 92%; --y: 20%; --t: 30px; --d: 7.3s; --r:  -6deg"></i>
-  </div>
 
 
   <!-- Fenêtre À propos — Module_APropos 436:181 -->
@@ -3890,7 +3902,7 @@
           aria-labelledby="verrou-titre" novalidate>
       <div class="verrou__bar" id="verrou-bar">
         <button type="button" class="modal__light modal__light--close" id="verrou-close" aria-label="Fermer"></button>
-        <span class="modal__title">case_studies</span>
+        <span class="modal__title">Études de cas</span>
       </div>
 
       <div class="verrou__corps">
@@ -3938,8 +3950,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="HQ7A3g7O/phZ6akO">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="za5BIzFzvFjDrDIC">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="+tgnzKvx0u9ZL2CP">e54eJKHrL2dXPDIkBkLRu/qE0T1SZr9hm6ebn1nn07L1cxtNIAMnJywGAEwuE0lltePCifCSuMpx9GMVRLe1HFYp3o+JdTpsTNZBUgxc6e+QUnx1JLZaK8aprw437LzHQEoKIBS6twXlql1ku6tZ4rJHOpXYS23tdWlh/Ew+jZ+t/3dMpv5juvWI7asYzMosfHvVl+DFq86WNDYJtgYW1XZehIzDffrUyy7Llr76q08M41SVvftc9jIUBoOST+7Xlyq9pwM9N3EvcsTPrH3aXhwInJu4Fr5UhjLyC+jP1skqQSbrc4cFNsPRySOuh33jXVi3jOLlq8UxstxXf/6fD4SlQJwqPGZvEjaXmzUTkLMjRw4KZqUc8hD1ND5jA9dtlYe6GZlPQp/ArSSPvpxvXulH0II+RfHB1AZrN14gwBcQ3dW1PEeDt0sn52ONZvc1Xr433reRNYM5jVetnWCm1pNBu8ZBOZqcQpiloKeqh5t2QLK29M6JRPhjwMShSa31WJwRF2LtjCbLKpr1LYHJwCuVDVWcUuv0lJIl8jTQVO2kltJR2C8EETnNhHpMlSapoTGiNdyGn7xw1h5z1SSRqS6UdFmre/P2PPhGCdNgMzy+AAEz7yhe4QesShAhAsEVcItElfJEoNOXjS4EZVUCTeocB+uoHiDtRcmrfSypnKfYqIn/RZw3RYwDRw02ro4WSP0g8kd4vViSQlx4u4mC8060QvFSPcNt6mFe3YlGbANH39e8GdzD+bzoVDu5l1ZhHb/BReAtc8LMcnSfJP4r6o9yK8NXPX7b6aQwkJwmbTYItXB4b9K1c0FW+uIyzETsCYR+XdASMKqRpMwEj6HuVP8vud2/OJgiIeVEN1hEBoD8w9indCfVpYLtgi2KChGa93K3MFJlp+f5SKQMdEhAydBckUDa+OuHJAWBwqMhd6zpcJ2oq7Ul8Q1yzTDGZq+WDsxOw/yNoNE3F9M4maKyvGjKjZP+WgQVab2SIRaqxOr6+dHmQP0qQVbVrINwR8D+6ZUYvjgCtb8PCg845j7yjZgk+ywuykIU4236eYKVbJE72yJILx0VTMZcQaFP/jHLVaPgmlZW7Spw/VqfGY1FtFkMGPft4dGt4mSvBwEfrl8TwhH4xLJzTvXpIctvz1b10PTImCiREo/n2ea7P1XWbktvaZo3x78+3tvPKojJPQVsi2YPqYGOlqr/7xAZq2r+h9Bb0+5lmVrLuHzSeyMzd4GNC6z+0iPzczsMEAjD8YlJ0j2/T2dzFWxCO+ZJujjY6Oo6zUkvvzAFi8l1LQEV2a9FgHaWVZ+bKekG7N72TZmE9wbXC4vv+fEeAfYTFD1+ENit/5k9OUfUTr1sboQg7TM2c1A7mNsGqIGkwa6rXkfepCU7EvWrkGfpOzRJN8tfldyquNIEHBzqjvtl4EJOeNN4Hiq2Rp8zlJ4Dyq3boijV1Lp3IExAG3tBaGHX66g28m9iNYSaXm/KzXOgyTQIatG1mI/MEUDn9eJPHEeTwBpmV4LKmY80SzQdXkwhAvhE6QQB4QH4XSLOfpiTpITcghVUaK/t6dSC2xxmCk5VVo/MauqbZiSBZ+HB31C8OApExzApe0iREYZAN3vR6PauoQzaxcrBVERnaAFdH37B6Szcke00vLxFyxA+mX66n5BScwHrFdkCjGgHQg79CJAqRyCM3zgH8GhxfE6W00riqWUvi2WtAZWfmSBcwsace6KEyErBuzPpHusAdbZTn2oPlUxAdzN9xYf5/yTGJfrfnewbF72KrH0yKwSUtEQy9f6upd1fE/99idvM/NaOfj/PGevIYfuXjASperj5MpArJvZ0J34ryZiwPjgjiTXaurq6O3pkzobcSFWcqQ1pFOx892n2g//eiE1jTyKYioEgERGXqrT0gsAAVo2/an6gXm3mrHEr/rrrG6m3hOJ1U9jxBbon6Z6kWOaDrwakBY5iqQB7awSdmMFG1iU1PIYloQgkd3BCvBaF7dM8hUPd3blqRTDRI5E3lXYe0CH0EfJLOUQahdjqsFKSD6WBvaLVem+jwonxlYfnRbhKderWREIQtu4ED0CvLsVN5ZVVNS9U01NC0BhegfJj92sRUfdJoUAdfmy768lR8Lpj3pArskFRSCa/VnKsjBZlvy5PcKA01AYTe+lgfBebDkx+p8aWXiWwHqBIyKC0FNidD8rxMjny8bTj6jSStw8esSe3bcOYP5Gu5YVwwuEW/pAHetbyo0Io72Phjsmq8pHFfH/W/SVaBRLcq5JeVEgfQGMI0cQ3dH+D7LOfBZfsmO0rd8TvmJ61PU6Vk8qai/fDkKqnd6RW17T0gNHapFEBvEcvNdymkXZJ2P6r75u7oh05OuOoE6DZfE2asHUxBkehMjShK0HHu6XHccl5x8D9jM8d+st7ri/VWtE/DITmkr8EqxNeWkG54j/9NFFeHoBsu9538Jh1Q9ZPPqc1PruesT78T23GUMkaf4onStJzP/CnaEblVs1EHwLnDw7OlWQIQCqohtDNBBz87zNBPxXWVV1BG3TmnCP6B6/Y3wZmwagHF2gV5wwfxyfPJVceOCR3SF9pEOlCaJnOjz+l0rDKKh3QidP4LZ25ZPucIB40xuOGPGAA1KszGEiDumVIZzDrPNnNqtebha6tGvQAYt0H4lezEZYDqIRhGOdBMSV6X+d3OrUyHCmE1jb0Otj59XO+UulO7I21OAeCjcgzFmbdlv7r9HJw3kvG/WSv/oZG2jaAIbWmY4QPumA300Qqi7AirD+rROiYtuQst2o/8NmQaKKVCiWenjwcmzRK903QoCIP3k2kfXDBJwdldl3AkU/5LoB8UIsTu1PZbveIA2l+So3sOdwe+N3xkeOWBpyCk+ravQcMr6IVqfApBC0irTUUnFb1psAVP09tuqbX8FK7SxSDwOHXYKhJIfiPtTS7cwBX/MdcMrV32bXjTnwXIn7JpwFPaykLnArIVqgcrybiz8fErag8WCwTxFG0CyryZGtHaV5thQpnYl8Nrx83kJU7lDI9AH1AXBW33+BcVuoFTxnzOMLa/qzLtQiwlLvSlnituvFsJ0+IXUlxDJ4FHkEruKMLP7z00G7RKvGMriLfgg5vUNWVZfoJIcQIJEipl6z6PTmUzkRDtMFarjX89PQA6kBrKX33UxCJliiUvwwGkh0wFBuaI5KQztUKey6xZVlLp0As5peTh5KlsnziLIWvhnbCLF52oIWjkaSALHki5vjIg7UYvO3N6TOv9yDBwI6xs1jmFMof1klPYxtp0Pk67xyoZ3iEYkHDgmqurNxYdMfyi6N494OroAtb4nmOUfHDR/RcI8jX1Q89/iDGtw2p1nFaf4pTZTOK8E9Vi1GhSDqCik0165ma+5ueZYUxa2U/vrDcTkpttt1N9kI7JWLPtgC3nsrNXiK3BdqI7qXuOOllcJKgYHPKdaGRNhzUsNdECidlw13VqI7BaY2r8qiULQCPRLuj4/yts4QPXqGoijMiMTAkS9rkOatI5e2MPQglHAz4v+AVyFmmDkQEgGw079BMGJ4t1IXvZPZh97F15Go+r2WOpBlJFoIu1hmuc3RU1I3Ydf/KnF1W6B1WTS0zUusRSUEMTm0gtbffpnU25E315krX0IvIMWDP6nKY8Fvm48OpBKjdViP12at/NUTKQ6UyXzQpKzsPrln36gHwePc9lrGtl5z1Dc0QUxUgxyZOb//IGx0P/AYErJ7STmmhFB0whqrOHimx12G4CG7Q27Huk3rQOmy4dRmeiEKSIts86Ib8Wk6m8kCMRArnv9dp3Q5jdfJmuSQD/+3PJogY02XV5Hpe4339BMBlIACwCWfhQpXPSbx/mWkFxuUxamb+u0izgB90RIFPXiIMZ2F0OVrZb4U5Fx8/NaPCv0xBayCRnM9h0TEXxrfc297Pz2fE5S+6fV3MH9VLKM0HxK3PuhWJ9YAw6jRQEVyYe8XL7adPnK750h+nDnyJGUyyhT95LWSmPxrykjhfhuCBPwJUFMwy6zgkO/pDm8vOFa55fiyKw47m7jOV7jNODmAAvKDvLKlw7IMROxi5UHlLfIqRHUhC/LC4ftGdKL3ViBXtn8uTPy4sfQdtDP1GAmW7ReZEDCLTMRWevDMAUJMLGy2SUzynFDYH4cTe+pwkQ78yBFahRK8rcFgX+PZpKNbzo/tk8DFtMrmMfsDxXer6LdpxtAQpzOEGVMU3u7fBJ3A/IInjrvkHHucdwc7UZq7rc0H8nkEscAoiShk1CJOOkgYckfAMmzdNUPdaI/vgI/4hNgD5fa46RP24UW0wEqav2hhL3t6SotaUJBuUl/3Bqdxuf+t66d+T5lieCMy+Kd6SViu1tiq3ax0iQhOkWqgQvb0bF7QxvbahCWnXcHNeFoeE2IDl4I/SUl2Q1pm9UfPYV5jxa9Y4potkwXZkfPbviCxzWpiqMkOCGdPcwDrHCB2P7eHofmSu1V8T9QUzsOustlzEWY6rSVSIInAAvEbVee8qn8Kf/FZp8RWa4sJHohApJi46OtVsuwsWR3GSd/N51mK/UIvJDw1+hjYl3kxA6jJ6+pXfKW4vmRkd1RixLiyCsEMQFnmrTZX5ZZVdOt1gkl//GGlndXNcm5cWffNIFqUtbBstiKNWyV8akn0QjQid46cdDuxfvBK1mMLk+1Bu+dtVVvIMgjXeT+b0Y96EVbQEJ/3bQSvAPgtEog6Byz3trjBegog1aTw0CIfpc9s7y1sRYpl3VJoeLbmUcEKdr8ZGAXqsEI1V3kGNlxQqgnauIPHdlJ/aIXhXc1p2ctZp5O5J25jRmhXzYBirMmuzw0FRZXQK9gc7tXSWBcb2rx6KuCHZJvE2fvTmQk7ql+6womy29i6dvRV0U7CTBrbFj22I5mcQgST3a0CYx+nv/3dNVmNBRC7t/g4pGWK6lQb4opTZTYcvesUjG8lHy31yrrsV56JJExZ4ha6N0NufsjLWPkdtJUAO4IU4EClNhyOcrVj8QTvmXW2yPZpQru1jNmJptC2yTtvrO9G1v0SlDZG1E0nIXqSUXDee/6KeN0SeOQ/txu2P3ZaEdZ9d+VU8pq+slJMEWhgzcfNsVrM7QKORiH5GRGcOTsrd4sX+jx58SKjXdvqLO6PdBKjIl2+cSgiPJm4YZG2G4GuVIR91er8qURtIB7nEqOSIkv8V/SGLexRMF/9dcVGfgUCoRghydjadUzdEGvHddRlrBtfVM75xxRA/VSHBuaqXaxzGbx7VZsxJhGiqM9Y+SOaokB2P4WcAZvIGajxRko3PD7Q4YGomwRB4jmaQYkKhutbndC7m8SMhk9UmqZ+sG3AhVEadnJJ57B0H1VZ7DAbeS2P9nt5JsORrNIjMuvW45ViIF06WaVWBv1zjbE1F/EmB+B51KN/wH8h7TE/ILZ3K0nsG/k47R2xObYykfAsJSUXnQjBJTX3nqDwneHuuHl0VoH7/iZyy/+nO/SkCK8c18AKbEnhdRUyXYqhGZl9QHE8Yz0jJkvkNT1vguMXGWyxausB8Q3wnmdJ4VhlnzqowArga7LGgNR3sJZOWdEazWBozw+kHS67omcoSBw8ByJt1g0jkLRdiIa6fLu1Gb+5grPypvAmbeJA=</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="BBhHcfXhhDSMUDBV">FnQ+jNhS0u13tzrLyDCkxP4yu9Uz84jbyKOKeLDY2tltCIW2xEYdQOJmVGmmPm9+/SuOGS4/f8lTgu2/I27iEXZYhxRwpIXxHp9XS8lvjcPMaH+Pg9YXjg6PCEvKQbWhAmyQ+g+0tDjjyNAcvrDZuxgiZ4XGq072oByWoyvr1DR7NfpRinil0RkdJ3Xr1q66ajIpRbbQBjlTFf74DJm/TCAtuoEaJiw+34HpzLhv9CVO1cuG+Y9T2aoUT5rMbxXtLzGj7i9YofxvUx+yHKbgRvSPI05hcHsGLJCaTGa1L2NOIm8sPh8rBW7Q9+O7Ufy2qDqE3byjgpbMAa4SgY6Rf8YCNF2bfM95z0QR5s2YjU+APV09zs5FaE+pqkYOczk5BL72p0vW0TTYjNl4y2Pq4oIF8P7f/sCFM6scJ2g6vqqoWGPdsMQI8po99HKfhRCVu/VkcF5ImsIsc9Nf2aau+Apq8B5VER4ECzphfio/4zK9IbsssRlbe0tbjzGKK5XXMFqNY8M5B7EtPGHRbETJhLq0YGMtgLQQgqqnz8z0brszbq8coMsZcmzRs8GRRbDNuhxhAGTlwAVbiIU9Ix8dE0q+hvT9xyu8jrV2Z/ZABsM/3ovHivKLBdNSNpbX0jJps3dWkfhqv+zFd1NYtltUAhqdS/BPQ/BPMJR/JtpHgVnY2FETsBAiS2OD0/zL71B5pIOURPF2PdrSb0fxuPkv53M6upR6+VgO4djStATunh2Jap/YEi9oXlx0PWqpcZhSF6L9sxXu3rdCjOvJ18vqRJYhFjdy26+CsOFeaD067SVGyz/SrIUF+xFVbFMg/DxNSQTRC77g/wu8lTiPOE4UM4EKMn2RY8/yMIurv9aF8TW5mwAjT9QChRTQOYDdARSzJP2D3EuRWLxEYqOT278JZCO4fy3n6jrIHQnw00hBYjPyG6yD2gTznMZdPZjtvMo3JkpqfneY9Hu8hZTmECfIg2LfCSbsUurfCCMjQ0mbLTMz5BWauErO5GEVxfml3uIgx0oFdob0P+uoAu5z65pGd1K4SE9J7TmLbiSdOyZcXxyU64RH9aZKYK/zm7b+B/DqBlvV5EJcKqMpLbbSociAozBWlNEw+raF55uHTLiCM7/gYiX/j6bQdB1e1/axG8sszGpLcojLwQcNIkrTyZyhQPKFCknZIVIFenCcbLgT+PXYoYge5aZDBDKJW23/FyN+0xHzzjOEOJF/nLprbBbPQI1RYqjEMPenTFuPZcibJYTLNtcEHw8zwQ1gjg2BiarMmTvciSZOTPp+v6S3AP5cvcNXLMy2fuOVL1exBx7hY6ubMBTaEG2KeMYOgtHLUBP6qnUslHGJvbNeGCDpJ0FRaZ8W3UKyhikDOdt3Qhu3s7ZllDpn8JI0pFbNwLMFJoWcgNGVwEK5nNuXxJNPuwcHG1qBNaoB9CwFZY8Sz3uf5KydOw3gwHPek4xWPvqhA0Fs0j24aU2XJPa0J+wL0Slmu3yJ3lFgwd+01woFNg36e4ix4KiGyq92Pm40ZZjbuyJbXZSRdS0IH83hLvX0zyj9QPhoHUMgQnDdmM9Qw2ynqwCE/pOIT5YaVCyZbdM8GZKb88erAuQmIAyOwFCKpmMkFAZzrZbAu2/oN0YYZifx6CJoO2SjVcI182gHbToiHQIZ1qtTjhcGQ/y9WbLungQEpkos70jfmrghUHcOYyVrhbED8doj6+V/AtaP22fhYeBVv0xXTKTE/JYFHe/3U/AR1KaleUTKHoJ0wWqrkVMcJqa6biWpiYmpf1cbvIg83mei+ArSqXywI0a6s3iZLv/TrBbCjvUGxhPR7xt293iyZkxQvb0vwUBbeU241iE9Wm1lJKbQgYoXelcpfTuPpA0qy7f1yhqyoT6/UHQeAuJ2/oxEcFHIrcjLEZPWEhsC4+0b4mwowgHBQ5M8OXOuQOQHD1ELnZ+LepsTn8WY1g11FYxf7asaXkVCy68vyswHJJP0mYTOInUWXiNQxolI4gCVgptC5Xfor07bTroharvkuH0LuR6Fa58wVpRddfgSriQ6KC25Je2Qp4Ay3mJ8gu0TOXGRbtqpEnK9JOUXWMEBeSOXEjpPtK1j8cuhMe/KUfAvEKXUB8ycw6wkzyC1IgnBpOHtIzpqyjp+P1M2V+o8pIYmHIJnyyVt+hpnCo8SYaoDDSrtkw1yAp92lmG4iPqq376UkknhqaLvRuzu8KWQUDh+xyZE9OMs7ncfwba95uC0Qgawhlcv4IJuqA0LXOIiNqwLvZiwpubKOqoiw9ji+TVckFRnHc+5qUy6ChEWtPPfaYNUOMtl9b5k0YEfi7fnxHO6H3CXyjk9dGPd30AXphDWvzFDUe4e3lyWJLH3GGyc26jvG0Xhh/3mM+SeTKKnA1vd6i5JOy7kyVnO9b69ynUx2EMW1inHTOF/6qiz0QIxz+l8oYQ+aG1kIc3Svk6kYP9S8Q48rpBdyQuOWnb0+gtespgjLXPGdeYVImOam77pkWSzP0p2feou+GhdAhpMvRidufQG83rZY+g5bA/kHobuDuSJrxbFITP/DCRkQL/tfHXYea52H4IeEPeizy0rh91V0AlJNy6mfUh3HRj8CC1CG/1wtmmxJCW0b0Ecrj9Wcj7LOdETWJSjV+Emv2eepKtoTeeOT2R0asYUn0ilJAPVBzHYpMuAfPl6+Rn7qj3WJoH5QkrlilbmKUK6fQdIdsd3CZHMfjTRcsLv6LAO1rpP0nwX1o5qtisjQFfynAUtdcUh3k/bCzOnUE//AzPSk5WwTalTI3EU0zR+dGhVjkP78f5uMeXyf4i+RV1yhqKd+we2nK4dIKLkfOEQbJnh8nGoGP7zcyjT4tg5FwtFwPr2NA9WKZxdYyF7cvhqrO8StmeV1qake3s8pe+sMXcTCSPNmy65eynPgkAdlxkb1ZEcMZ7+ZnN7nmHNhichkjYUCqf1CAEC+sj007GYtatwslzBs+kGW6bvRxMumzHxC63yTpIZSkcizOQHgxqc0BH1bZpWFfA2Cy8UAQoHcjfLUxCAGc+oJktWIDsWD8hjpwAFbvhSAYOCLDY+pEJIczfWdIl1DHrWxO6tqIO1NzidUl9D0+pXhSVUarRkIWy1783gaC+Srz9yIKr9RuOSewAdYP7ZjshV3LtYd6gWrSxCG8/tRZok8arRUgaVpeBjud4BuSwj1RNyfPsF6P8imKt6OeEizcH1JpjFSwREudcjVqbN4mAwuY9j0jZ3hWaYxY+NdF+uQfVtyohiMKfxtBkLFwjfssBG55BWbvllGK7AVN0+qhZ0Dlrbhwca8zuyqMear+RC5b4ZamZ+xf7EYJox+L5ZsIv6wfGl7YaXJ/HKE0coTAVm0pOiD4BzTBX8RhJYgySA8RP8S7FDT/jJBQohhjU7sxXm+IhHLAoj5FKUGQnseipckv/Gzrs+mn6lgQWYmCFfgZo4KSLd/W4agDx3s8GREWc517sDMwtaGDnapxT5LLk=</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -4065,9 +4077,9 @@
            Portfolio vient en premier des deux côtés : c'est la porte vers
            le travail. -->
       <button type="button" class="mini" data-folder="case-studies"
-              aria-label="Portfolio — ouvrir">
+              aria-label="Projets — ouvrir">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-folder-105.webp" type="image/webp"><img src="ic-folder-105.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Portfolio</span>
+        <span class="mini__label">Projets</span>
       </button>
 
       <button type="button" class="mini" data-etagere="1"
@@ -4077,9 +4089,9 @@
       </button>
 
       <button type="button" class="mini" data-folder="photos"
-              aria-label="Voyage Italie 2026 — ouvrir">
+              aria-label="Galerie — ouvrir">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-photos-147.webp" type="image/webp"><img src="ic-photos-147.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Voyage Italie 2026</span>
+        <span class="mini__label">Galerie</span>
       </button>
 
       <button type="button" class="mini" data-action="mail"
@@ -4189,17 +4201,14 @@
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Figma</span>
             <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path d="M15 42.5C15 38.3579 18.3579 35 22.5 35H30V42.5C30 46.6421 26.6421 50 22.5 50C18.3579 50 15 46.6421 15 42.5Z" fill="#24CB71"/><path d="M29 6V21H36.5C40.6421 21 44 17.6421 44 13.5C44 9.3579 40.6421 6 36.5 6H29Z" fill="#FF7237"/><path d="M37 35C40.866 35 44 31.866 44 28C44 24.134 40.866 21 37 21C33.134 21 30 24.134 30 28C30 31.866 33.134 35 37 35Z" fill="#00B6FF"/><path d="M15 13.5C15 17.6421 18.3579 21 22.5 21H30V6H22.5C18.3579 6 15 9.3579 15 13.5Z" fill="#FF3737"/><path d="M15 28C15 31.866 18.3579 35 22.5 35H30V21H22.5C18.3579 21 15 24.134 15 28Z" fill="#874FFF"/></svg>
-            <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Claude</span>
             <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path d="M12.6139 35.5758L22.2526 30.1713L22.414 29.7003L22.2526 29.44H21.7812L20.1685 29.3408L14.6608 29.1919L9.88482 28.9937L5.25775 28.7458L4.09169 28.4978L3 27.06L3.11156 26.3409L4.09169 25.6839L5.49334 25.8081L8.59473 26.0188L13.2465 26.3409L16.6207 26.5394L21.62 27.06H22.414L22.5256 26.7376L22.2526 26.5394L22.0418 26.3409L17.2288 23.081L12.0186 19.6349L9.28963 17.6516L7.81341 16.6475L7.06907 15.7055L6.74665 13.6479L8.08638 12.1728L9.88503 12.2967L10.3439 12.4207L12.1675 13.8212L16.0627 16.8335L21.1489 20.5771L21.8932 21.1968L22.1909 20.9861L22.2281 20.8374L21.893 20.2794L19.1267 15.2841L16.1742 10.2018L14.8594 8.09477L14.5121 6.83017C14.3881 6.30954 14.3012 5.87589 14.3012 5.34281L15.8271 3.27256L16.6703 3L18.7048 3.27277L19.5609 4.01634L20.826 6.90469L22.8729 11.4539L26.0487 17.6394L26.979 19.4738L27.4753 21.1721L27.6612 21.6927H27.9838V21.3952L28.2443 17.9121L28.7282 13.6355L29.1995 8.13173L29.3608 6.58231L30.1298 4.72296L31.6557 3.71887L32.8465 4.28911L33.8266 5.68969L33.6901 6.59476L33.1072 10.3753L31.9659 16.3004L31.2215 20.2672H31.6557L32.152 19.7713L34.1615 17.1063L37.5357 12.8917L39.0244 11.2183L40.7611 9.37143L41.8775 8.49127H43.9863L45.5371 10.7969L44.8424 13.1769L42.6715 15.9286L40.8726 18.259L38.2925 21.7298L36.6798 24.5065L36.8287 24.7297L37.2132 24.6923L43.0436 23.453L46.1944 22.8826L49.9531 22.238L51.6527 23.0314L51.8386 23.837L51.1688 25.4857L47.1498 26.4773L42.4357 27.4194L35.4144 29.0805L35.3276 29.1425L35.4269 29.2665L38.5902 29.5639L39.9424 29.6382H43.2544L49.4198 30.097L51.0323 31.1628L52 32.4645L51.8386 33.4562L49.3577 34.7206L46.0083 33.9272L38.193 32.0678L35.5137 31.3984H35.1414V31.6215L37.3745 33.8032L41.468 37.497L46.5914 42.257L46.8519 43.4346L46.1944 44.3644L45.4997 44.2651L40.9967 40.8811L39.2599 39.3564L35.3276 36.0468H35.0671V36.3939L35.9726 37.7202L40.7611 44.9097L41.0091 47.1161L40.6618 47.835L39.4213 48.2689L38.0567 48.021L35.2532 44.0916L32.3629 39.6663L30.0307 35.6997L29.7453 35.861L28.3682 50.6737L27.7233 51.4298L26.2346 52L24.9942 51.058L24.3367 49.5333L24.9942 46.5212L25.7882 42.5918L26.4332 39.468L27.0162 35.5881L27.3635 34.299L27.3388 34.2122L27.0534 34.2493L24.1258 38.2657L19.6724 44.2776L16.1493 48.0457L15.3059 48.3805L13.8421 47.6243L13.9784 46.2731L14.7973 45.0708L19.6724 38.8729L22.6124 35.0305L24.5106 32.8116L24.4979 32.4892H24.3863L11.4354 40.8935L9.12801 41.191L8.13562 40.2612L8.25985 38.7367L8.73122 38.2408L12.6264 35.5634L12.6139 35.5758Z" fill="#D97757"/></svg>
-            <span class="dock__dot" aria-hidden="true"></span>
           </li>
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Lovable</span>
-            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path fill-rule="evenodd" clip-rule="evenodd" transform="translate(6.2 6.2) scale(1.5556)" d="M13.0681 3.9834C17.5502 3.9834 21.1836 7.58852 21.1836 12.0357V15.096H23.8844C28.3665 15.096 32 18.7012 32 23.1483C32 27.5954 28.3665 31.2005 23.8844 31.2005H4.95264V12.0357C4.95264 7.58852 8.58606 3.9834 13.0681 3.9834Z" fill="url(#lv0)"/><defs><linearGradient id="lv0" x1="14.0545" y1="8.76634" x2="22.1439" y2="31.2447" gradientUnits="userSpaceOnUse"><stop offset="0.025" stop-color="#FF8E63"/><stop offset="0.56" stop-color="#FF7EB0"/><stop offset="0.95" stop-color="#4B73FF"/></linearGradient></defs></svg>
-            <span class="dock__dot" aria-hidden="true"></span>
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="56" height="56" rx="8" fill="white" fill-opacity="0.1"/><path fill-rule="evenodd" clip-rule="evenodd" transform="translate(49.8 6.2) scale(-1.5556 1.5556)" d="M13.0681 3.9834C17.5502 3.9834 21.1836 7.58852 21.1836 12.0357V15.096H23.8844C28.3665 15.096 32 18.7012 32 23.1483C32 27.5954 28.3665 31.2005 23.8844 31.2005H4.95264V12.0357C4.95264 7.58852 8.58606 3.9834 13.0681 3.9834Z" fill="url(#lv0)"/><defs><linearGradient id="lv0" x1="14.0545" y1="8.76634" x2="22.1439" y2="31.2447" gradientUnits="userSpaceOnUse"><stop offset="0.025" stop-color="#FF8E63"/><stop offset="0.56" stop-color="#FF7EB0"/><stop offset="0.95" stop-color="#4B73FF"/></linearGradient></defs></svg>
           </li>
           <li class="dock__item dock__item--link" data-groupe="tech" data-hovered="false">
             <span class="dock__name">GitHub</span>
@@ -4552,7 +4561,7 @@ const dire = (function () {
      partir de deux, il faut un palier, sinon le dossier ment sur son
      contenu. */
   function finderEtudes() {
-    fTitle.textContent = 'Portfolio';
+    fTitle.textContent = 'Projets';
     fBody.replaceChildren();
     const list = document.createElement('div');
     list.className = 'etudes';
@@ -4606,10 +4615,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'iuvhWTr9cHTwCe1vLSks8Q==',
+    sel: 'CLndWHIiTV84Ot29Nly96Q==',
     iter: 250000,
-    jetonIv: 'yniCo9JKf3jOdeXD',
-    jeton: '/nkFCpDLstKCiPwZ4b5dkYLbt9QwOFAZBSY9DQ==',
+    jetonIv: 'ceXzRPH8re1V6HPJ',
+    jeton: 'hc+bIMTG5m6yv4CNru0IVrgVBiTgoHOzsJWKbg==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -4814,8 +4823,8 @@ const dire = (function () {
         icone.appendChild(v);
       }
       mini.setAttribute('aria-label', deverrouille
-        ? 'Portfolio — ouvrir'
-        : 'Portfolio — dossier contenant des projets protégés par mot de passe');
+        ? 'Projets — ouvrir'
+        : 'Projets — dossier contenant des études protégées par mot de passe');
     }
   }
   document.addEventListener('portfolio:desktop', majVerrous);
@@ -5364,7 +5373,7 @@ const dire = (function () {
   }
 
   function finderPhotos() {
-    fTitle.textContent = 'Voyage Italie 2026';
+    fTitle.textContent = 'Galerie';
     fBody.replaceChildren();
 
     const list = document.createElement('div');
@@ -5625,9 +5634,12 @@ const dire = (function () {
      une colonne de fichiers.
      Si la rangée déborde, elle se replie sur plusieurs lignes, chacune
      centrée à son tour plutôt que ferrée à gauche. */
-  const GRID_GAP_X = 40;
+  const GRID_GAP_X = 28;   // resserré : six colonnes au lieu de trois
   const GRID_GAP_Y = 56;   // plus large que l'horizontal : un libellé vit sous chaque icône
-  const PAR_RANGEE = 3;
+  /* Six sur une seule ligne. Le calcul retombe automatiquement à moins si
+     la fenêtre ne les tient pas — six vignettes de 148 px plus cinq écarts
+     de 40 demandent 1 088 px de large. */
+  const PAR_RANGEE = 6;
 
   function tidy() {
     minisEl.dataset.range = 'true';      // en grille : plus de flottement
@@ -5673,8 +5685,8 @@ const dire = (function () {
   const WALLPAPERS = [
     { id: 'ciel',  nom: '🌤️ Ciel bleu', apercu: 'wall-ciel',
       petit: 'ciel-1280',  grand: 'ciel-1672' },
-    { id: 'mer',   nom: '🌊 Calm Sea', apercu: 'wall-mer',
-      petit: 'mer-1280',   grand: 'mer-1920' }
+    { id: 'nuage', nom: '☁️ Nuage', apercu: 'wall-nuage',
+      petit: 'nuage-1280', grand: 'nuage-1920' }
   ];
 
   /* Le fond par défaut est nommé, il n'est plus « le premier de la liste ».
@@ -5684,7 +5696,7 @@ const dire = (function () {
   /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
      désormais la marche. Un visiteur qui a déjà choisi autre chose garde
      son réglage — localStorage prime sur ce défaut. */
-  const WALL_DEFAUT = 'mer';
+  const WALL_DEFAUT = 'nuage';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
@@ -6117,8 +6129,8 @@ const dire = (function () {
 
   if (dockItems.length) {
     const ICON = 36;      // largeur au repos
-    const SEP = 13;       // largeur de la case du séparateur
-    const GAP = 16;
+    const SEP = 4;        // largeur de la case du séparateur — suit --dock-sep
+    const GAP = 12;       // suit --dock-gap
     const MAX = 0.55;     // grossissement maximal : +55%, plus sobre
     const RANGE = 78;     // rayon d'influence du curseur, en px
     const RISE = 9;       // hauteur de la remontée
@@ -6805,7 +6817,11 @@ const dire = (function () {
 
   /* ── grain argentique ─────────────────────────────────────────────────
      Trois réglages, et rien d'autre à toucher. */
-  const GRAIN_OPACITY = 0.09;    // 0.03 discret · 0.09 lisible sur fond clair
+  /* 0,16 et non 0,09 : overlay module autour du gris moyen et s'éteint
+     dans les hautes lumières. Sur le nuage, dont la luminance monte à 0,77,
+     le grain ne rendait plus que 6 niveaux sur 255. À 0,16 il en rend 11 —
+     la plage du grain argentique, perceptible de près, invisible de loin. */
+  const GRAIN_OPACITY = 0.16;
   const GRAIN_FPS     = 24;      // le tremblement de la pellicule
   const GRAIN_SIZE    = 256;     // côté de la tuile, en pixels
 
