@@ -205,11 +205,14 @@
 
   /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
      marges décider, et on s'ancre au-dessus du dock. */
+  /* Au doigt, le lecteur revient au centre comme les autres panneaux. Il
+     était ancré en bas pour rester au pouce ; mais une fenêtre qui apparaît
+     à un endroit différent des cinq autres oblige à la chercher. */
   @media (max-width: 720px) {
     .spot {
-      top: auto; left: 12px; right: 12px;
-      bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+      top: 50%; left: 12px; right: 12px; bottom: auto;
       width: auto;
+      transform: translateY(-50%);
     }
   }
 
@@ -359,6 +362,12 @@
     .etoiles > i { animation: none; }
   }
   .e--etoile  { --img: url(etoile-128.webp); }
+
+  /* Ciel bleu : pas d'étoiles. Sur Calm Sea leur cyan pâle tient encore,
+     mais sur un ciel de plein jour elles ne seraient ni crédibles ni
+     visibles — mesuré à 1,3:1 sur ce fond. La règle vit ici, pas dans le
+     script : c'est un choix d'apparence, pas de comportement. */
+  .stage[data-wall="ciel"] .etoiles { display: none; }
 
   /* --- grain argentique ------------------------------------------------
      Une nappe de bruit très fin sur toute la scène, veille comprise.
@@ -1926,11 +1935,45 @@
     font-size: 12px; line-height: 16px; color: rgba(58, 0, 30, 0.62);
   }
 
+  /* Au doigt, les fenêtres prennent la largeur disponible. Elles gardent
+     leur largeur de bureau sur grand écran — 359 px pour À propos, c'est
+     une mesure de lecture — mais sur un téléphone de 375 px, ces 359 plus
+     les 48 de gouttière laissaient une colonne de texte ridicule.
+
+     Le voile passe de 24 à 12 : sur mobile il ne sert plus à détacher la
+     fenêtre du bureau, seulement à marquer le bord. */
+  @media (max-width: 720px) {
+    .modal-backdrop { padding: 12px; }
+    .about, .cv, .mail, .verrou, .notes {
+      width: 100%;
+      max-width: none;
+    }
+    .about { max-height: min(600px, 80vh); }
+  }
+
   @media (max-width: 720px) {
     .doc { padding: 0; }
     .doc__win { border-radius: 0; }
   
     .doc__meta { grid-template-columns: 1fr; }
+  }
+
+  /* Le Finder est la seule fenêtre placée par le script : il s'ouvre au
+     centre, puis garde la position où on l'a traînée. Au doigt, ce réglage
+     n'a plus de sens — on ne déplace pas une fenêtre sur un téléphone, et
+     une position héritée d'un autre écran la ferait s'ouvrir de travers.
+
+     !important est ici nécessaire et non paresseux : le script écrit left
+     et top en style inline, qui l'emporterait sinon sur toute règle. C'est
+     du même coup ce qui neutralise le déplacement, ce qu'on cherche. */
+  @media (max-width: 720px) {
+    .finder {
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 24px);
+      max-height: calc(100% - 96px);
+    }
   }
 
   /* ================= FICHIER TEXTE ================= */
@@ -2115,14 +2158,12 @@
      elle se détache seule du bureau. Le flou avait été posé quand elle était
      en verre à 10 % et ne servait plus qu'à alourdir la composition. Le voile
      noir de 25 %, lui, reste — c'est lui qui signale qu'on est en modale. */
-  #about-backdrop {
-    /* Ferrée à gauche plutôt que centrée. Le retrait est calé sur
-       --text-inset, la même chaîne qui ferre le bloc CV sous « Emmanuel
-       Froissant » : la fenêtre s'ouvre donc dans l'axe du texte du bureau
-       au lieu de flotter à une distance arbitraire du bord. */
-    justify-content: flex-start;
-    padding-left: max(24px, var(--text-inset));
-  }
+  /* Elle était ferrée à gauche, calée sur --text-inset, pour s'ouvrir dans
+     l'axe du texte du bureau. Mais c'était la seule des sept à ne pas
+     s'ouvrir au centre : le visiteur qui vient d'ouvrir le CV puis À propos
+     doit déplacer son regard sans raison. La cohérence entre fenêtres
+     l'emporte sur l'alignement avec un texte qui, de toute façon, est
+     masqué depuis que le bloc « DESIGNER UI/UX » a été retiré. */
 
   /* Derrière une photo, le bureau doit rester reconnaissable : on doit voir
      qu'on a ouvert un fichier posé sur un bureau, pas basculé dans une
@@ -2757,24 +2798,6 @@
   /* Le bloc « DESIGNER UI/UX » et sa phrase d'accroche, en haut à gauche. */
   .resume  { display: none; }
 
-  /* Le buste tourne dans un cadre rose plein, sans détourage. Plutôt que
-     de poser un rectangle nu sur le ciel, on l'arrondit : une icône
-     d'application macOS est précisément un carré adouci. Le fond cesse
-     d'être un défaut d'export et devient la pastille de l'icône.
-
-     Rapport 1,095 — presque carré. On égalise par l'aire comme partout
-     ailleurs : 167 × 153 pour la même surface que les icônes de 160. */
-  .mini[data-cv] .mini__icon { height: auto; }
-  .mini[data-cv] .mini__icon img {
-    width: calc(var(--mini-icon) * 1.045);
-    height: auto;
-    border-radius: 22%;
-    /* L'ombre de .mini__icon porte sur la silhouette du glyphe ; ici la
-       silhouette est un rectangle plein, elle doublonnerait avec le
-       relief. On la remplace par une ombre de boîte, plus juste. */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
-  }
-  .mini[data-cv] .mini__icon { filter: none; }
   /* LinkedIn et Notes étaient remontés sur le bureau parce que le dock ne
      les portait plus. Le dock est revenu : ils y retournent, et les deux
      vignettes redeviennent ce qu'elles étaient — réservées au mobile,
@@ -2815,6 +2838,37 @@
   }
   .avatar--buste img,
   .avatar--buste picture { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Le chat est debout : rapport 0,60. Enfermé dans la boîte carrée des
+     autres icônes il tomberait à 67 px de large et paraîtrait deux fois
+     plus petit qu'elles.
+
+     On ne l'égalise ni sur la surface de sa boîte — qui compte le vide
+     entre les pattes et la queue — ni sur sa hauteur, qui l'étirerait.
+     On l'égalise sur sa MASSE ENCRÉE : la somme des opacités, mesurée à
+     13 532 px contre 12 974 en moyenne pour ses cinq voisines. Le facteur
+     qui égalise les deux est 1,267 fois la boîte commune en hauteur.
+
+     La grille aligne les vignettes par le bas, donc le chat grandit vers
+     le haut et pose ses pattes sur la même ligne de sol que la machine à
+     écrire ou le dossier. */
+  .mini[data-action="spotify"] .mini__icon { height: auto; }
+  .mini[data-action="spotify"] .mini__icon picture,
+  .mini[data-action="spotify"] .mini__icon img {
+    width: auto;
+    height: calc(var(--mini-icon) * 1.267);
+  }
+
+  /* Une main tenant un téléphone, debout : rapport 0,647. Même méthode que
+     le chat au banjo — on cale sur la masse encrée, pas sur la boîte. Le
+     fichier est déjà exporté à la bonne échelle (119 × 184, encre 12 981 px
+     contre 12 974 en moyenne), il ne reste qu'à libérer sa hauteur. */
+  .mini[data-action="mail"] .mini__icon { height: auto; }
+  .mini[data-action="mail"] .mini__icon picture,
+  .mini[data-action="mail"] .mini__icon img {
+    width: auto;
+    height: calc(var(--mini-icon) * 1.150);
+  }
 
   /* ================= ÉTUDE DE CAS, GABARIT V2 =================
      D'après la maquette Pharmaprix. Trois idées structurelles :
@@ -3236,6 +3290,20 @@
      Une seule colonne partout. Les gouttières tombent à 16 px, et les
      grilles à deux ou trois pistes s'empilent. */
   @media (max-width: 720px) {
+    /* Les gouttières de 64 px sont une mesure de bureau : sur un écran de
+       375, elles mangeaient 128 px et ne laissaient que 247 px de texte.
+       Elles tombent à 20, comme dans le gabarit d'origine.
+
+       Les trois pistes sont redéclarées en entier — grid-template-columns
+       ne se modifie pas piste par piste, et les noms de lignes doivent
+       toutes exister sinon les figures pleine largeur ne résolvent plus. */
+    .doc--v3 .doc__page {
+      grid-template-columns:
+        [pleine-debut] 20px
+        [libelle-debut texte-debut] minmax(0, 1fr)
+        [texte-fin] 20px
+        [pleine-fin];
+    }
     .doc--v3 .doc__page { row-gap: 40px; padding: 32px 0 64px; font-size: 15px; }
     .doc--v3 .doc__titre { font-size: 34px; }
     .doc--v3 .doc__client { font-size: 17px; }
@@ -3811,8 +3879,8 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="elwEfJS4+sRLoBAG">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="aftHM3+qPYLzh6ri">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="czplGXhmUtEs0SP6">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="T9Oow9ygsAZci8UM">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -3951,13 +4019,13 @@
 
       <button type="button" class="mini" data-node-id="483:573" data-cv="1"
               aria-label="Curriculum Vitae — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-167.webp" type="image/webp"><img src="ic-cv-167.gif" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-160.webp" type="image/webp"><img src="ic-cv-160.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Curriculum Vitae</span>
       </button>
 
       <button type="button" class="mini" data-action="mail"
               aria-label="Contact — m’écrire un message">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-160.webp" type="image/webp"><img src="ic-mail-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-119.webp" type="image/webp"><img src="ic-mail-119.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Contact</span>
       </button>
 
@@ -3971,7 +4039,7 @@
            remonte sur le bureau, là où le pouce va naturellement. -->
       <button type="button" class="mini" data-action="spotify"
               aria-label="Musique — écouter ma playlist">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-160.webp" type="image/webp"><img src="ic-musique-160.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-124.webp" type="image/webp"><img src="ic-musique-124.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Musique</span>
       </button>
 
@@ -4460,10 +4528,10 @@ const dire = (function () {
   const VERROU_MDP_TRAVAIL = '';
 
   const VERROU = {
-    sel: 'LFO3VperAAQ0HA0RA/eXgg==',
+    sel: 'QEtGlOSbtJiIYOifELsdqA==',
     iter: 250000,
-    jetonIv: 'Oe2NDNWnkU0s6ee+',
-    jeton: 'CevJbi60AIgQ0HcctBOc6CrbwYPwYMsvM5iQqQ==',
+    jetonIv: 'dB7GJGnqBdojTHpK',
+    jeton: 'ylS6R4GjTR1FYVCGGYbxIz1jIWY/3/hJpG3i9g==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -5652,6 +5720,11 @@ const dire = (function () {
     bgEl.style.backgroundImage = 'image-set(url("' + f + '.webp") type("image/webp"), url("' + f + '.jpg") type("image/jpeg"))';
     poserVideo(w, f);
     wallId = w.id;
+    /* Le fond choisi est inscrit sur la scène : c'est la feuille de style
+       qui décide ensuite quoi montrer avec lui. Les étoiles, par exemple,
+       n'ont pas de sens sur un ciel de plein jour. Ajouter une exception
+       plus tard ne demandera pas de toucher à ce script. */
+    stage.dataset.wall = w.id;
     try { localStorage.setItem('portfolio:wall', w.id); } catch (e) { /* mode privé */ }
     document.querySelectorAll('[data-liste-fonds] .ctxwall').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.wall === w.id));
@@ -6616,6 +6689,22 @@ const dire = (function () {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !spot.hidden) { e.stopPropagation(); fermerSpotify(); }
   });
+
+  /* Les sept fenêtres à voile se ferment déjà par un clic sur leur voile.
+     Le Finder et le lecteur Spotify n'en ont pas — ce sont des fenêtres
+     non modales, le bureau reste actif derrière. On écoute donc le clic
+     sur la scène et on ferme si le pointeur est tombé ailleurs.
+
+     La phase de capture est nécessaire : sans elle, l'icône du dock qui
+     vient d'ouvrir le lecteur le refermerait aussitôt. Et on ignore le
+     clic parti d'une barre de titre, sinon un déplacement de fenêtre qui
+     se termine hors du cadre passerait pour un clic extérieur. */
+  document.addEventListener('pointerdown', (e) => {
+    if (!fWin.hidden && !fWin.contains(e.target)
+        && !e.target.closest('.mini, .dock__item')) finderClose();
+    if (!spot.hidden && !spot.contains(e.target)
+        && !e.target.closest('.mini, .dock__item')) fermerSpotify();
+  }, true);
 
   const SFX_VOLUME = 1;
   const sfx = document.getElementById('sfx-unlock');
