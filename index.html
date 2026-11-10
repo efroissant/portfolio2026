@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#d2c4cb">
+<meta name="theme-color" content="#4A68E8">
 <title>Emmanuel Froissant — Designer UI/UX</title>
 <style>
   /* ================================================================
@@ -25,7 +25,7 @@
     /* La lavande en luminosity ne colore pas, elle désature. À 10 % elle
        pose une nuance de repos sur la veille sans l'assombrir — c'est la
        seule différence qui reste entre les deux écrans. */
-    --tint-lock: rgba(242, 218, 255, 0.10);
+    --tint-lock: transparent;   /* plus aucune teinte lavande */
     --tint-desktop: rgba(0, 0, 0, 0.04);
     /* Transparent. Ce voile détachait du texte blanc d'un fond sombre ;
        inversé en blanc pour le fond clair, il éclaircissait la veille de
@@ -54,13 +54,14 @@
     /* Blanc translucide et non plus noir : le bouton s'éclaircit sur le
        ciel au lieu de s'y creuser. C'est le contour qui le tient, pas le
        fond. */
-    --btn-bg: rgba(255, 255, 255, 0.38);
+    --btn-bg: rgba(255, 255, 255, 0.16);
     /* 0.55 et non 0.25 : à 25% le contour tombait à 1,82:1, sous le
        seuil de 3:1 exigé pour la limite d'un contrôle (WCAG 1.4.11). */
-    --btn-border: rgba(0, 0, 0, 0.50);
+    --btn-border: rgba(255, 255, 255, 0.75);
 
-    --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-               "Helvetica Neue", system-ui, sans-serif;
+    /* Arial partout où le site utilisait San Francisco (le nom de la
+       variable est resté, pour ne rien casser). */
+    --font-sf: Arial, "Helvetica Neue", Helvetica, sans-serif;
 
     /* SF Pro : 200 Ultralight, 300 Light, 400 Regular, 510 Medium,
        590 Semibold, 700 Bold */
@@ -105,11 +106,11 @@
        Un seul token, donc les cinq ne peuvent plus diverger.
        Note : WCAG mesure le fond et non le halo, ces éléments restent
        formellement sous le seuil même s'ils sont confortables à lire. */
-    --sky-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+    --sky-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 8px rgba(0, 0, 0, 0.15);
     /* Les icônes portent moins bien l'ombre que le texte : une forme pleine
        la reçoit sur tout son contour, un glyphe seulement sur ses jambages.
        D'où une valeur plus faible ici que pour le texte. */
-    --sky-shadow-svg: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.45));
+    --sky-shadow-svg: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
 
     /* Taille ET interlignage communs à tout ce qui est posé sur le ciel :
        libellés de vignettes et bloc résumé. Un seul style, pas deux échelles.
@@ -184,11 +185,11 @@
   @media (prefers-contrast: more) {
     :root {
       --scrim: rgba(255, 255, 255, 0.30);
-      --text: #000000;
-      --btn-bg: rgba(255, 255, 255, 0.72);
-      --btn-border: rgba(0, 0, 0, 0.85);
-      --tint-lock: rgba(242, 218, 255, 0.04);
-      --sky-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      --text: #ffffff;
+      --btn-bg: rgba(0, 0, 0, 0.35);
+      --btn-border: rgba(255, 255, 255, 0.95);
+      --tint-lock: transparent;
+      --sky-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3);
     }
   }
 
@@ -197,6 +198,77 @@
   }
 
   * { box-sizing: border-box; }
+  @font-face {
+    font-family: "Butterclub";
+    src: url("butterclub.woff2") format("woff2"),
+         url("butterclub.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Pudding Pop";
+    src: url("pudding-pop.woff2") format("woff2"),
+         url("pudding-pop.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  /* Space Grotesk (Florian Karsten, licence OFL, gratuite) : remplaçante
+     d'ABC Favorit, même grotesque aux formes un peu excentriques.
+     Sous-ensemble latin, 13 Ko. */
+  @font-face {
+    font-family: "Space Grotesk";
+    src: url("space-grotesk-400.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Plump Riot";
+    src: url("plump-riot.woff2") format("woff2"),
+         url("plump-riot.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Moldloaf";
+    src: url("moldloaf.woff2") format("woff2"),
+         url("moldloaf.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "They Ruined Garamond";
+    src: url("they-ruined-garamond.woff2") format("woff2"),
+         url("they-ruined-garamond.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  /* L'heure de l'écran verrouillé en They Ruined Garamond. La fonte n'a
+     qu'une graisse : on désactive le faux gras du navigateur. */
+  /* Heure et nom en Plump Riot ; le métier repasse en San Francisco,
+     comme la date. */
+  .clock .clock__time,
+  .identity .identity__name {
+    font-family: "Plump Riot", Georgia, serif;
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: 0;
+  }
+  /* L’heure repasse en San Francisco, dans sa graisse fine d’origine. */
+  .clock .clock__time { font-family: var(--font-sf); font-weight: var(--w-clock); letter-spacing: -2px; font-synthesis: weight; }
+  /* Moldloaf est une fonte d'affichage : en petit ses lettres se tassent.
+     Nom et métier sont donc nettement agrandis. */
+  .identity .identity__name { font-family: var(--font-sf); font-weight: var(--w-name); letter-spacing: -0.5px; font-size: 40px; line-height: 1.05; }
+  .identity .identity__role { font-family: var(--font-sf); margin-top: 4px; font-size: calc(var(--size-role) * 1.5); }
+  @media (max-width: 767px) {
+    .identity .identity__name { font-size: 32px; }
+  }
+
   html, body { height: 100%; }
 
   body {
@@ -257,6 +329,89 @@
   }
   .spot iframe { display: block; width: 100%; height: 100%; border: 0; }
 
+  /* ================= LECTEUR MP3 =================
+     Même matériau que l'éphéméride du bureau : fond blanc, trait noir de
+     1 px, coins de 8, ombre pleine décalée de 3 × 4, et un seul bandeau de
+     couleur en tête — le bleu-vert de la carte Musique, là où l'éphéméride
+     porte le corail. Le reste est noir et blanc : une couleur par objet,
+     pas davantage. Le bouton de fermeture est un rond noir, comme les
+     trous de reliure. */
+  .spot.lecteur {
+    height: auto;
+    width: 304px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #000000;
+    box-shadow: 3px 4px 0 #000000;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    text-shadow: none;
+  }
+  .lecteur__barre {
+    display: flex; align-items: center; gap: 8px;
+    height: 32px; padding: 0 12px;
+    background: #68BEC9;
+    border-bottom: 1px solid #000000;
+    font-size: 13px; font-weight: 700; letter-spacing: 0;
+    cursor: grab;            /* la barre de titre sert de poignée */
+    touch-action: none;
+    user-select: none;
+  }
+  .lecteur.is-deplace .lecteur__barre { cursor: grabbing; }
+  .lecteur__fermer {
+    width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%;
+    background: #000000; cursor: pointer; flex-shrink: 0;
+  }
+  .lecteur__fermer:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .lecteur__barre span { flex: 1; text-align: center; margin-right: 20px; }
+  .lecteur__haut { padding: 16px 16px 4px; }
+  .lecteur__titre { margin: 0; font-size: 24px; font-weight: 700; line-height: 28px; letter-spacing: -0.02em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lecteur__artiste { margin: 2px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; }
+  /* La barre de progression reprend le filet sous le chiffre du jour. */
+  .lecteur__progres {
+    position: relative; height: 8px; margin: 16px 0 6px;
+    border: 1px solid #000000; border-radius: 0; background: #FFFFFF;
+    cursor: pointer; overflow: hidden;
+  }
+  .lecteur__rempli { position: absolute; inset: 0 auto 0 0; width: 0; background: #000000; }
+  .lecteur__temps { display: flex; justify-content: space-between; font-size: 12px; font-weight: 500;
+    font-variant-numeric: tabular-nums; }
+  .lecteur__commandes { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 8px 0 16px; }
+  .lecteur__btn {
+    display: grid; place-items: center;
+    width: 40px; height: 40px; padding: 0;
+    border: 0; background: none; color: #000; cursor: pointer; border-radius: 50%;
+  }
+  .lecteur__btn svg { width: 20px; height: 20px; fill: currentColor; }
+  .lecteur__btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .lecteur__btn--lire {
+    width: 48px; height: 48px;
+    background: #68BEC9; border: 1px solid #000000;
+    box-shadow: 3px 4px 0 #000000;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .lecteur__btn--lire:active { transform: translate(3px, 4px); box-shadow: 0 0 0 #000; }
+  .lecteur__liste { list-style: none; margin: 0; padding: 8px; border-top: 2px solid #000000;
+    max-height: 200px; overflow-y: auto; }
+  .lecteur__piste {
+    display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 8px;
+    width: 100%; height: 40px; padding: 0 8px;
+    border: 1px solid transparent; border-radius: 4px; background: none; color: inherit;
+    font: inherit; text-align: left; cursor: pointer;
+  }
+  .lecteur__piste:hover { background: rgba(0,0,0,0.05); }
+  .lecteur__piste[aria-current="true"] { border-color: #000000; background: #FFFFFF; font-weight: 700; }
+  .lecteur__num, .lecteur__duree { font-size: 12px; font-variant-numeric: tabular-nums; }
+  .lecteur__nom { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 767px) { .spot.lecteur { width: auto; } }
+  /* Ouvert en permanence sur le bureau : en haut à droite, juste sous la
+     date de la barre de menus, aligné sur son bord droit. */
+  @media (min-width: 768px) { .spot.lecteur { top: calc(var(--bar-h) + 8px); bottom: auto; right: var(--bar-pad-r); } }
+
+
   /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
      marges décider, et on s'ancre au-dessus du dock. */
 
@@ -278,11 +433,7 @@
        télécharge un fond, l'affiche, puis le script en demande un autre —
        deux images à la file et une arrivée qui traîne. Ici c'est l'affiche
        de la Voie lactée, celle que la vidéo recouvre une fois prête. */
-    background-image: url("ciel-1280.jpg");
-    background-image: image-set(
-      url("ciel-1280.webp") type("image/webp"),
-      url("ciel-1280.jpg")  type("image/jpeg")
-    );
+    background-color: #4A68E8;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -301,9 +452,7 @@
        vitesse — moins d'un pixel par seconde — personne ne voit l'image
        bouger : on constate qu'elle a bougé. C'est exactement ce qu'on
        cherche, et c'est l'inverse d'un effet. */
-    transform: scale(1.06);
-    animation: derive 280s ease-in-out infinite alternate;
-    will-change: transform;
+    /* Fond fixe : plus de dérive. */
   }
   @keyframes derive {
     0%   { transform: scale(1.06) translate(0, 0); }
@@ -317,11 +466,7 @@
 
   @media (min-width: 1281px), (min-width: 768px) and (min-resolution: 1.5dppx) {
     .stage__bg {
-      background-image: url("ciel-1672.jpg");
-      background-image: image-set(
-        url("ciel-1672.webp") type("image/webp"),
-        url("ciel-1672.jpg")  type("image/jpeg")
-      );
+      background-color: #4A68E8;
     }
   }
 
@@ -342,47 +487,6 @@
   .stage[data-state="desktop"] .stage__tint {
     background: none;
   }
-
-  /* ══════════════════════════════════════════════════════════
-     PLASTIC — le seul fond sombre, et il inverse toute l'encre.
-
-     Mesuré : le noir y tombe à 1,16:1 au centre, le blanc y monte à 16,3.
-     Aucun ajustement ne sauve une encre noire sur un plastique noir ; il
-     faut changer de camp. C'est ce que permet stage.dataset.wall, posé par
-     setWall — une condition CSS, aucun script.
-
-     Tout ce qui vit sur le ciel bascule : l'encre, son ombre portée, le
-     bouton d'entrée, la pastille du dock qui deviendrait invisible. Ce qui
-     vit DANS les fenêtres ne bouge pas : elles ont leur propre matière,
-     indépendante du fond. */
-  /* Galop demande la même inversion que Plastic, pour une autre raison :
-     ce n'est pas un fond sombre mais un fond SATURÉ. Mesuré, le noir y
-     plafonne à 3,4:1 dans le ciel bleu, le blanc monte à 5. Aucune des deux
-     encres n'est confortable — c'est le prix d'une image aussi contrastée —
-     mais la claire passe le seuil là où la noire échoue. */
-  .stage[data-wall="cheval"],
-  .stage[data-wall="plastic"] {
-    --text: #f2f2f2;
-    --sky-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
-    --sky-shadow-svg: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
-    --btn-bg: rgba(255, 255, 255, 0.12);
-    --btn-border: rgba(255, 255, 255, 0.65);
-    --tint-lock: rgba(242, 218, 255, 0.06);
-    --scrim: rgba(0, 0, 0, 0.10);
-  }
-  /* La pastille du dock est noire à 80 % : sur un fond déjà noir elle
-     disparaît. Elle passe en verre clair — le dock reste un objet posé sur
-     le bureau, seule sa valeur s'inverse. */
-  .stage[data-wall="cheval"] .dock__pill,
-  .stage[data-wall="plastic"] .dock__pill {
-    background: rgba(255, 255, 255, 0.14);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-  }
-  .stage[data-wall="cheval"] .dock__sep::before,
-  .stage[data-wall="plastic"] .dock__sep::before { background: rgba(255, 255, 255, 0.22); }
-  .stage[data-wall="cheval"] .menuitem:hover,
-  .stage[data-wall="plastic"] .menuitem:hover    { background: rgba(255, 255, 255, 0.14); }
 
   .stage__scrim {
     position: absolute;
@@ -438,7 +542,7 @@
     user-select: none;
   }
   @media (min-width: 768px) {
-    .lock { padding: 130px 80px 80px; }
+    .lock { padding: 130px 80px; }
   }
 
   .clock { display: flex; flex-direction: column; gap: 8px; text-align: center; word-break: break-word; }
@@ -478,9 +582,6 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35),
                 0 2px 12px rgba(0, 0, 0, 0.25);
   }
-  @media (min-width: 768px) {
-    .avatar { border-radius: 20px; }
-  }
   /* Le médaillon rond disparaît : l'objet est détouré, un cercle le
      rognerait aux bras et aux pieds. La boîte de 32 px ne bouge pas — c'est
      elle qui nourrit --text-inset, donc tout le ferrage du bureau. */
@@ -505,6 +606,14 @@
   .identity { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; line-height: normal; }
   .identity__name { margin: 0; font-size: var(--size-name); font-weight: var(--w-name); letter-spacing: -0.3px; }
   .identity__role { margin: 0; font-size: var(--size-role); font-weight: var(--w-role); letter-spacing: 0.5px; }
+  /* La date reprend exactement le style du métier (« Designer UI/UX »). */
+  .clock .clock__date {
+    font-family: var(--font-sf);
+    font-size: calc(var(--size-role) * 1.5);   /* comme « Designer UI/UX » et Entrer */
+    font-weight: var(--w-role);
+    letter-spacing: 0.5px;
+    line-height: normal;
+  }
 
   .unlock {
     appearance: none;
@@ -530,6 +639,75 @@
   }
   .unlock:hover  { background: rgba(255, 255, 255, 0.62); border-color: rgba(0, 0, 0, 0.7); }
   .unlock:active { transform: scale(0.97); }
+  /* Entrer : corail, trait noir 1px, texte noir. Au survol, un rose pâle
+     le remplit de la gauche vers la droite (dégradé uni dont on fait
+     grandir la largeur). Placé après, pour l'emporter sur tous les fonds. */
+  .stage .unlock {
+    border: 1px solid #000000;
+    background-color: #FF6645;
+    background-image: linear-gradient(#FFD2C4, #FFD2C4);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    color: #000000;
+    text-shadow: none;
+    letter-spacing: 0;        /* même interlettrage que le nom */
+    font-size: calc(var(--size-role) * 1.5);   /* même taille que « Designer UI/UX » */
+    /* Ombre pleine décalée, sans flou : le bouton semble posé sur un
+       bloc noir, comme un autocollant épais. */
+    box-shadow: 3px 4px 0 #000000;
+    transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 120ms ease, box-shadow 120ms ease;
+  }
+  /* Au clic, le bouton s'enfonce dans son ombre. */
+  .stage .unlock:active {
+    transform: translate(3px, 4px);
+    box-shadow: 0 0 0 #000000;
+  }
+  .stage .unlock:hover,
+  .stage .unlock:focus-visible {
+    background-size: 100% 100%;
+    border-color: #000000;
+  }
+
+  /* Le bouton se triple au survol : deux copies blanches (le corail reste
+     le seul accent de l'écran) glissent en escalier
+     derrière lui, chacune cernée de noir. Ce sont des ombres portées et
+     non des éléments : elles suivent l'arrondi du bouton et restent sous
+     lui sans toucher au balisage. Même nombre d'ombres au repos et au
+     survol, pour que la transition interpole chaque copie.
+     Ordre : la première ombre est dessinée au-dessus des suivantes. */
+  .stage .lock .unlock {
+    box-shadow:
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      3px 4px 0 0 #000000;
+    transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stage .lock .unlock:hover,
+  .stage .lock .unlock:focus-visible {
+    transform: translate(-4px, -4px);
+    box-shadow:
+      8px 8px 0 0 #FFFFFF, 8px 8px 0 1px #000000,
+      16px 16px 0 0 #FFFFFF, 16px 16px 0 1px #000000,
+      19px 20px 0 1px #000000;
+  }
+  /* Au clic, la pile se referme et le bouton s'enfonce. */
+  .stage .lock .unlock:active {
+    transform: translate(3px, 4px);
+    box-shadow:
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      0 0 0 0 #000000;
+    transition-duration: 350ms, 120ms, 120ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage .lock .unlock { transition: background-size 350ms ease; }
+  }
 
   /* ================= ÉTAT BUREAU ================= */
   .desktop {
@@ -590,6 +768,9 @@
   }
   .menubar__logo picture, .menubar__logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
   .menubar__logo { filter: var(--sky-shadow-svg); }
+  /* Photo carrée, coins arrondis à 4 px, dans la barre. */
+  .menubar__logo > picture { height: var(--logo-art); border-radius: 4px; overflow: hidden; }
+  .menubar__logo > picture img { object-fit: cover; }
 
   .menubar__items { display: flex; align-items: center; gap: var(--bar-gap); min-width: 0; }
 
@@ -811,7 +992,7 @@
     pointer-events: none;
     opacity: 0.25;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url%28%23n%29'/%3E%3C/svg%3E");
   }
 
   .mini:hover .mini__thumb { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
@@ -2074,9 +2255,8 @@
   .modal__titlebar:active { cursor: grabbing; }
 
   .modal__lights { display: flex; align-items: center; gap: 9px; padding-right: 8px; flex-shrink: 0; }
-  /* Une seule pastille pour les cinq fenêtres : même taille, même rouge.
-     #FF5F57 est celui de macOS ; la page en portait deux variantes, assez
-     proches pour ne pas se voir isolément, assez différentes côte à côte. */
+  /* Une seule pastille pour toutes les fenêtres : même taille, même
+     couleur. */
   .modal__light {
     width: 12px; height: 12px;
     padding: 0;
@@ -2084,7 +2264,11 @@
     border-radius: 100px;
     cursor: default;
   }
-  .modal__light--close { background: #ff5f57; }
+  /* Point noir, comme celui de l'éphéméride et du lecteur de musique.
+     Seules les études de cas, sur fond sombre, gardent la pastille rouge :
+     un point noir y serait invisible. */
+  .modal__light--close { background: #000000; }
+  .doc .modal__light--close { background: #ff5f57; }
   /* Gris pâle : seule la fermeture est disponible sur ces fenêtres, et la
      couleur le dit. La rouge garde sa teinte, les deux autres s'effacent. */
   button.modal__light { cursor: pointer; }
@@ -2200,13 +2384,13 @@
     transform: translateX(-50%);
     pointer-events: none;
     white-space: nowrap;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    /* Il est posé sur le ciel, au-dessus de la pastille : il suit donc
-       l'encre du bureau et non celle du dock. */
+    /* Même typo que les menus de la barre (File, Edit, Voir…). */
+    font-size: var(--size-menu);
+    font-weight: var(--w-menu);
+    letter-spacing: normal;
+    line-height: 16px;
     color: var(--text);
-    text-shadow: var(--sky-shadow);
+    text-shadow: none;
   }
 
   /* Même fond que la barre de menu : mêmes tokens, donc les deux surfaces
@@ -2224,8 +2408,21 @@
 
        Le flou disparaît : à 80 % d'opacité, il ne reste presque rien à
        flouter, et backdrop-filter coûte une couche de composition. */
-    background: rgba(0, 0, 0, 0.80);
+    background: #000000;   /* noir plein */
   }
+  /* Dock dans la langue des cartes : rectangle blanc à coins arrondis,
+     trait noir de 1 px, ombre pleine décalée. */
+  .stage .dock__pill {
+    background: #A895F7;   /* mauve */
+    border: 1px solid #000000;
+    border-radius: 16px;
+    box-shadow: 4px 5px 0 #000000;
+  }
+  /* Icônes sans contour. */
+  .stage .dock__item svg,
+  .stage .dock__link img,
+  .stage .dock__link > svg { box-shadow: none; }
+  .stage .dock__sep::before { background: #000000; }
 
   .dock__items {
     display: flex;
@@ -2476,6 +2673,27 @@
     background: rgba(255, 255, 255, 0.22);
     outline: none;
   }
+  /* Menu sous le nom : blanc, texte noir, trait noir 1px et ombre pleine
+     décalée de 3 × 4 — le matériau de l'éphéméride et du lecteur. Le
+     survol prend la teinte corail claire du bouton Déverrouiller. */
+  #navmenu,
+  #navmenu .ctxmenu__sub {
+    background: #FFFFFF;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+  }
+  #navmenu .navmenu__item:hover,
+  #navmenu .navmenu__item:focus-visible,
+  #navmenu .ctxmenu__item:hover,
+  #navmenu .ctxmenu__item:focus-visible { background: #FFD2C4; color: #000000; }
+  #navmenu .navmenu__item:focus-visible { outline: 1px solid #000000; outline-offset: -1px; }
+  #navmenu .navmenu__sep,
+  #navmenu .ctxmenu__sep { background: #000000; margin: 5px 0; }
+  #navmenu .navmenu__item--note { opacity: 0.7; }
 
 
 
@@ -2483,6 +2701,154 @@
      408 de large, blanc opaque, rayon 16, ombre r55. Contenu long : la
      fenêtre est bornée en hauteur et son corps défile, sinon elle dépasse
      l'écran sur un portable. */
+  /* Fond blanc : le texte blanc y serait invisible, il repasse en noir. */
+  .stage[data-wall="blanc"] {
+    --text: #111111;
+    --btn-bg: rgba(0, 0, 0, 0.04);
+    --btn-border: rgba(0, 0, 0, 0.5);
+    --sky-shadow: none;
+    --sky-shadow-svg: none;
+    /* Le body a déjà résolu sa couleur en blanc : on la repose ici. */
+    color: var(--text);
+  }
+  /* Fond bleu : un léger grain posé par-dessus la couleur unie. Une tuile
+     de 256 px répétée, au pixel près, plutôt qu'une grande image. */
+  .stage[data-wall="bleu"] .stage__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("grain-tile.png") repeat;
+    background-size: 256px 256px;
+    image-rendering: pixelated;
+    pointer-events: none;
+    /* Grain adouci : les points sombres salissaient le bleu. */
+    opacity: 0.45;
+  }
+
+  /* Fond blanc : la fenêtre À propos s'ouvre sans voile, le fond reste blanc. */
+  /* À propos : un voile de la couleur du fond (script : fondAPropos) laisse
+     deviner le bureau. Sous la barre de menus seulement, qui reste visible
+     sur ordinateur. Le grain du fond bleu est reposé par-dessus. */
+  @media (min-width: 768px) { #about-backdrop { top: var(--bar-h); } }
+  #about-backdrop::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+  }
+  .stage[data-wall="bleu"] #about-backdrop::before {
+    background: url("grain-tile.png") repeat;
+    background-size: 128px 128px;
+    image-rendering: pixelated;
+    opacity: 0.22;
+  }
+  /* La page elle-même aussi, pour qu'aucun bord rosé n'apparaisse. */
+  html:has(.stage[data-wall="blanc"]), body:has(.stage[data-wall="blanc"]) { background: #ffffff; }
+  /* Ni teinte ni voile sur l'écran verrouillé : blanc à 100 %. */
+  .stage[data-wall="blanc"] .stage__tint,
+  .stage[data-wall="blanc"] .stage__scrim { background: none; transition: none; }
+
+  /* ---------- bulle de l'écran verrouillé ----------
+     Forme festonnée à huit lobes, remplie d'un dégradé irisé (blanc, bleu,
+     marine, prune, orange, crème) qui tourne lentement, recouvert d'un gros
+     grain. Deux astérisques font les yeux : ils suivent la souris et
+     clignent de temps en temps. Sur le fond blanc, le dessin la remplace. */
+  .stage:not([data-wall="blanc"]) #avatar-lock {
+    width: 140px; height: 140px;
+    border-radius: 0; overflow: visible; box-shadow: none;
+  }
+  .stage[data-wall="blanc"] .bulle { display: none; }
+  .bulle { position: relative; width: 140px; height: 140px; }
+  .bulle__clip {
+    position: absolute; inset: 0; overflow: hidden;
+    clip-path: path('M133.5 70.0 L133.4 71.7 L132.9 73.3 L132.3 74.9 L131.3 76.4 L130.2 77.9 L129.0 79.3 L127.6 80.7 L126.2 81.9 L124.7 83.1 L123.4 84.3 L122.1 85.4 L120.9 86.5 L119.9 87.7 L119.1 88.9 L118.5 90.1 L118.1 91.4 L117.8 92.8 L117.7 94.3 L117.7 95.9 L117.8 97.6 L118.0 99.4 L118.2 101.3 L118.3 103.2 L118.3 105.1 L118.2 107.0 L117.9 108.8 L117.5 110.6 L116.8 112.2 L116.0 113.6 L114.9 114.9 L113.6 116.0 L112.2 116.8 L110.6 117.5 L108.8 117.9 L107.0 118.2 L105.1 118.3 L103.2 118.3 L101.3 118.2 L99.4 118.0 L97.6 117.8 L95.9 117.7 L94.3 117.7 L92.8 117.8 L91.4 118.1 L90.1 118.5 L88.9 119.1 L87.7 119.9 L86.5 120.9 L85.4 122.1 L84.3 123.4 L83.1 124.7 L81.9 126.2 L80.7 127.6 L79.3 129.0 L77.9 130.2 L76.4 131.3 L74.9 132.3 L73.3 132.9 L71.7 133.4 L70.0 133.5 L68.3 133.4 L66.7 132.9 L65.1 132.3 L63.6 131.3 L62.1 130.2 L60.7 129.0 L59.3 127.6 L58.1 126.2 L56.9 124.7 L55.7 123.4 L54.6 122.1 L53.5 120.9 L52.3 119.9 L51.1 119.1 L49.9 118.5 L48.6 118.1 L47.2 117.8 L45.7 117.7 L44.1 117.7 L42.4 117.8 L40.6 118.0 L38.7 118.2 L36.8 118.3 L34.9 118.3 L33.0 118.2 L31.2 117.9 L29.4 117.5 L27.8 116.8 L26.4 116.0 L25.1 114.9 L24.0 113.6 L23.2 112.2 L22.5 110.6 L22.1 108.8 L21.8 107.0 L21.7 105.1 L21.7 103.2 L21.8 101.3 L22.0 99.4 L22.2 97.6 L22.3 95.9 L22.3 94.3 L22.2 92.8 L21.9 91.4 L21.5 90.1 L20.9 88.9 L20.1 87.7 L19.1 86.5 L17.9 85.4 L16.6 84.3 L15.3 83.1 L13.8 81.9 L12.4 80.7 L11.0 79.3 L9.8 77.9 L8.7 76.4 L7.7 74.9 L7.1 73.3 L6.6 71.7 L6.5 70.0 L6.6 68.3 L7.1 66.7 L7.7 65.1 L8.7 63.6 L9.8 62.1 L11.0 60.7 L12.4 59.3 L13.8 58.1 L15.3 56.9 L16.6 55.7 L17.9 54.6 L19.1 53.5 L20.1 52.3 L20.9 51.1 L21.5 49.9 L21.9 48.6 L22.2 47.2 L22.3 45.7 L22.3 44.1 L22.2 42.4 L22.0 40.6 L21.8 38.7 L21.7 36.8 L21.7 34.9 L21.8 33.0 L22.1 31.2 L22.5 29.4 L23.2 27.8 L24.0 26.4 L25.1 25.1 L26.4 24.0 L27.8 23.2 L29.4 22.5 L31.2 22.1 L33.0 21.8 L34.9 21.7 L36.8 21.7 L38.7 21.8 L40.6 22.0 L42.4 22.2 L44.1 22.3 L45.7 22.3 L47.2 22.2 L48.6 21.9 L49.9 21.5 L51.1 20.9 L52.3 20.1 L53.5 19.1 L54.6 17.9 L55.7 16.6 L56.9 15.3 L58.1 13.8 L59.3 12.4 L60.7 11.0 L62.1 9.8 L63.6 8.7 L65.1 7.7 L66.7 7.1 L68.3 6.6 L70.0 6.5 L71.7 6.6 L73.3 7.1 L74.9 7.7 L76.4 8.7 L77.9 9.8 L79.3 11.0 L80.7 12.4 L81.9 13.8 L83.1 15.3 L84.3 16.6 L85.4 17.9 L86.5 19.1 L87.7 20.1 L88.9 20.9 L90.1 21.5 L91.4 21.9 L92.8 22.2 L94.3 22.3 L95.9 22.3 L97.6 22.2 L99.4 22.0 L101.3 21.8 L103.2 21.7 L105.1 21.7 L107.0 21.8 L108.8 22.1 L110.6 22.5 L112.2 23.2 L113.6 24.0 L114.9 25.1 L116.0 26.4 L116.8 27.8 L117.5 29.4 L117.9 31.2 L118.2 33.0 L118.3 34.9 L118.3 36.8 L118.2 38.7 L118.0 40.6 L117.8 42.4 L117.7 44.1 L117.7 45.7 L117.8 47.2 L118.1 48.6 L118.5 49.9 L119.1 51.1 L119.9 52.3 L120.9 53.5 L122.1 54.6 L123.4 55.7 L124.7 56.9 L126.2 58.1 L127.6 59.3 L129.0 60.7 L130.2 62.1 L131.3 63.6 L132.3 65.1 L132.9 66.7 L133.4 68.3 Z');
+  }
+  .bulle__fond {
+    position: absolute; inset: -50%;
+    background:
+      /* Couleurs des cartes et du bouton : rose pâle, corail, orange,
+         jaune, menthe, bleu — la bulle parle la langue du bureau. */
+      linear-gradient(160deg,
+        #FBD8D4 0 30%, #FF6645 40%, #ff8a3d 48%, #ecec5e 57%,
+        #7fd99a 66%, #6b9cf5 76%, #FBD8D4 90%);
+    animation: bulle-tourne 24s linear infinite;
+  }
+  @keyframes bulle-tourne { to { transform: rotate(360deg); } }
+  .bulle__grain {
+    position: absolute; inset: 0;
+    background: url("grain-fort.png") repeat;
+    background-size: 64px 64px;
+    mix-blend-mode: overlay;
+    opacity: 0.45;          /* grain allégé : on se rapproche des aplats */
+    image-rendering: pixelated;
+  }
+  .bulle__bord { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  /* Trait noir de 1 px réel malgré la mise à l'échelle, comme les cartes. */
+  .bulle__bord path { fill: none; stroke: #000000; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  /* Ombre pleine décalée qui suit les lobes — posée sur le parent, non
+     réduit, pour garder les mêmes 4 × 5 px que les cartes. */
+
+  .bulle__yeux { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .bulle__yeux path { fill: none; stroke: #000000; stroke-width: 5; stroke-linecap: butt; }
+  .bulle__regard { transition: transform 180ms ease-out; }
+  .bulle__oeil { transform-box: fill-box; transform-origin: center; }
+  .bulle.is-cligne .bulle__oeil { animation: bulle-cligne 160ms ease-in-out; }
+  @keyframes bulle-cligne { 50% { transform: scaleY(0.1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .bulle__fond { animation: none; }
+    .bulle__regard { transition: none; }
+  }
+
+  /* Avatar dessiné : seulement sur le fond blanc, à la place de la photo
+     (écran verrouillé et barre du bureau). Sans cadre ni ombre. */
+  /* Préfixés par .stage : la règle « .menubar__logo picture { display:
+     block } » l'emportait, et le dessin s'affichait sur tous les fonds. */
+  .stage .avatar-blanc { display: none; }
+  .stage[data-wall="blanc"] .avatar-blanc { display: block; }
+  .stage[data-wall="blanc"] #avatar-lock > picture:not(.avatar-blanc),
+  .stage[data-wall="blanc"] .menubar__logo > picture:not(.avatar-blanc) { display: none; }
+  .stage[data-wall="blanc"] #avatar-lock { border-radius: 0; box-shadow: none; overflow: visible; }
+  .stage[data-wall="blanc"] .menubar__logo { filter: none; }
+  .stage[data-wall="blanc"] .menubar__logo > picture.avatar-blanc { border-radius: 0; }
+
+  /* Écran verrouillé sur fond blanc : tout le texte en noir pur. */
+  .stage[data-wall="blanc"] .lock {
+    --text: #000000;
+    color: #000000;
+  }
+
+  /* ---------- traînée de grimaces (fenêtre À propos) ----------
+     Tant que la fenêtre À propos est ouverte, le curseur sème derrière lui
+     des tuiles colorées portant une grimace. Elles passent PAR-DESSUS la
+     fenêtre, comme dans la référence ; elles ne captent aucun clic. */
+  .grimaces { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  /* La fenêtre passe devant la traînée : les emojis restent posés, ils ne
+     doivent pas finir par recouvrir le texte de l'À propos. */
+  .modal-backdrop > #about { z-index: 1; }
+  /* Néo-brutaliste, comme le reste du bureau : chaque photo est un carré
+     cadré d'un trait noir 1px, coins de 12, ombre pleine décalée 3 × 4. */
+  .grimace {
+    position: absolute;
+    left: 0; top: 0;
+    width: 120px; height: 120px;
+    margin: -60px 0 0 -60px;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    box-shadow: 3px 4px 0 #000000;
+    will-change: transform, opacity;
+  }
+  /* Les visuels sont livrés avec des coins arrondis transparents : un
+     léger agrandissement les fait sortir du cadre carré. */
+  .grimace img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.14); }
+  /* Emoji : un autocollant — tuile blanche, trait noir, ombre pleine. */
+  .grimace--emoji {
+    width: 56px; height: 56px;
+    margin: -28px 0 0 -28px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: 30px; line-height: 1;
+  }
+
   .about {
     position: relative;
     width: 359px;
@@ -2585,9 +2951,14 @@
     color: #fff; font-size: 16px; font-weight: 510;
     flex-shrink: 0;
   }
-  .about__skill--produit   { background: #01865a; }
-  .about__skill--web       { background: #1f6fe7; }
-  .about__skill--marketing { background: #b55a42; }
+  /* Couleurs reprises des cartes du bureau (Projets, Bibliothèque,
+     Galerie), avec le trait noir et le texte noir des cartes. */
+  .about__skill--produit   { background: #FF795C; }
+  .about__skill--web       { background: #7DA8F6; }
+  .about__skill--marketing { background: #8EDDA6; }
+  .about__skill { color: #000; border: 1px solid #000;
+    /* Même typo que le nom des cartes du bureau. */
+    font-size: 16px; font-weight: 700; letter-spacing: -0.4px; line-height: 24px; }
 
   .about__text { margin: 8px 0 0; font-size: 12px; font-weight: 510; line-height: 1.25; }
   .about__text + .about__text { margin-top: 8px; }
@@ -2651,6 +3022,96 @@
   .about__callout svg { flex-shrink: 0; display: block; }
   .about__callout p { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.3; }
   .about__callout p + p { margin-top: 8px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); }
+
+  /* ---- À propos : fond blanc, texte noir, seul un trait noir de 1px ----
+     L'encre passe au noir par la variable, donc titre, nom, rôle et textes
+     secondaires suivent tous. Plus de flou ni d'ombre portée. */
+  #about {
+    --ink-rgb: 0, 0, 0;
+    --ink: #000000;
+    background: #ffffff;
+    color: #000000;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    /* Ombre pleine décalée, comme les cartes du bureau. */
+    box-shadow: 6px 7px 0 #000000;
+    border: 1px solid #000000;
+    -webkit-font-smoothing: auto;
+  }
+  #about .modal__titlebar,
+  #about .about__lead,
+  #about .about__calloutWrap { border-color: #000000; }
+  /* Filets d'un bord à l'autre, comme dans le lecteur : la marge latérale
+     devient un retrait intérieur, le texte ne bouge pas. */
+  #about .about__lead,
+  #about .about__calloutWrap { margin-left: 0; margin-right: 0; padding-left: 16px; padding-right: 16px; }
+  #about .modal__title,
+  #about .about__fullname,
+  #about .about__text { color: #000000; }
+
+  /* ---- Fenêtres du bureau : couleur du bouton qui les ouvre ----
+     Même traitement que l'À propos (fond plein, texte noir, trait noir
+     1px, ni flou ni ombre), avec la couleur de la pilule correspondante.
+     Projets → dossier + verrou, Ma bibliothèque et Galerie → la même
+     fenêtre Finder selon sa vue, Contact → mail, Curriculum Vitae → CV. */
+  #finder[data-vue="case-studies"], #verrou { --fen: #FF795C; }
+  #finder[data-vue="passe-temps"]           { --fen: #F6ACCD; }
+  #finder[data-vue="photos"]                { --fen: #8EDDA6; }
+  #mail                                     { --fen: #ffffff; }   /* Contact : fond blanc */
+  #cv                                       { --fen: #FF9A57; }
+  #notes                                    { --fen: #FFD757; }
+
+  #finder, #verrou, #mail, #cv, #notes {
+    --ink-rgb: 0, 0, 0;
+    /* --ink est résolue une fois pour toutes sur :root : changer
+       --ink-rgb ici ne suffit pas, il faut la reposer. */
+    --ink: #000000;
+    background: var(--fen);
+    color: #000000;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: 6px 7px 0 #000000;
+    border: 1px solid #000000;
+    -webkit-font-smoothing: auto;
+  }
+  /* Les filets blancs translucides deviennent noirs translucides. */
+  :is(#finder, #verrou, #mail, #cv, #notes) :not(input, textarea, button) {
+    border-color: #000000;
+  }
+  /* Boutons pleins « encre » : l'encre est devenue noire, leur texte
+     sombre disparaîtrait. Il passe en blanc. */
+  #verrou .verrou__sceau { color: #ffffff; }
+  /* Envoyer / Déverrouiller : le style du bouton de l'écran verrouillé.
+     Corail, trait noir, texte noir, ombre décalée ; au survol, le rose pâle
+     remplit le bouton de gauche à droite. Avant, le survol passait le fond
+     en blanc sous un texte blanc : le bouton disparaissait. */
+  #mail .mail__send, #verrou .verrou__ok {
+    border: 1px solid #000000;
+    background-color: #FF6645;
+    background-image: linear-gradient(#FFD2C4, #FFD2C4);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    color: #000000;
+    box-shadow: 3px 4px 0 #000000;
+    cursor: pointer;
+    transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 120ms ease, box-shadow 120ms ease;
+  }
+  #mail .mail__send:hover, #mail .mail__send:focus-visible,
+  #verrou .verrou__ok:hover, #verrou .verrou__ok:focus-visible {
+    background-color: #FF6645;
+    background-size: 100% 100%;
+  }
+  /* Dans Projets, la fenêtre est déjà corail : le bouton corail s'y
+     fondait. Il prend le jaune de la palette pour ressortir. */
+  #verrou .verrou__ok,
+  #verrou .verrou__ok:hover,
+  #verrou .verrou__ok:focus-visible { background-color: #ecec5e; }
+  #mail .mail__send:active, #verrou .verrou__ok:active {
+    transform: translate(3px, 4px);
+    box-shadow: 0 0 0 #000000;
+  }
 
 
   /* ================= TABLETTE =================
@@ -2746,7 +3207,7 @@
   .mini[data-action="spotify"] .mini__icon { height: auto; }
   .mini[data-action="spotify"] .mini__icon picture,
   .mini[data-action="spotify"] .mini__icon img {
-    width: calc(var(--mini-icon) * 0.931);
+    width: calc(var(--mini-icon) * 0.956);
     height: auto;
   }
 
@@ -2757,8 +3218,8 @@
   .mini[data-action="mail"] .mini__icon { height: auto; }
   .mini[data-action="mail"] .mini__icon picture,
   .mini[data-action="mail"] .mini__icon img {
-    width: calc(var(--mini-icon) * 0.838);
-    height: auto;
+    width: auto;
+    height: calc(var(--mini-icon) * 1.150);
   }
 
   /* Presque carrée — rapport 1,02 — mais bien plus dense que les icônes
@@ -2777,14 +3238,17 @@
      dossier en volume laisse du vide autour. Calée sur la masse encrée
      comme ses voisines tramées, elle descend à 0,881 fois la boîte commune
      en largeur. Rapport 1,074, donc elle reste presque carrée. */
-  /* Les six icônes portent leur nom DANS le dessin, écrit à la main sur un
-     morceau de ruban adhésif. Le libellé HTML sous l'icône répéterait le
-     même mot, dans une autre typographie et à un autre endroit.
+  /* Galerie, Ma bibliothèque et Projets portent leur nom DANS le dessin,
+     écrit à la main sur un morceau de ruban adhésif. Le libellé HTML sous
+     l'icône répéterait le même mot, dans une autre typographie et à un
+     autre endroit.
 
      On le masque à l'œil, mais on le laisse dans le document : il reste le
      nom accessible du bouton, et c'est lui que lit une synthèse vocale. Le
      retirer du balisage rendrait ces trois icônes muettes. */
-  .mini__label {
+  .mini[data-folder="photos"] .mini__label,
+  .mini[data-etagere] .mini__label,
+  .mini[data-folder="case-studies"] .mini__label {
     position: absolute;
     width: 1px; height: 1px;
     margin: -1px; padding: 0;
@@ -2796,7 +3260,7 @@
   .mini[data-cv] .mini__icon { height: auto; }
   .mini[data-cv] .mini__icon picture,
   .mini[data-cv] .mini__icon img {
-    width: calc(var(--mini-icon) * 0.925);
+    width: calc(var(--mini-icon) * 0.881);
     height: auto;
   }
 
@@ -2834,6 +3298,211 @@
                 0 2px 5px rgba(0, 0, 0, 0.4);
   }
   .mini[data-folder="case-studies"] .mini__verrou svg { width: 13px; height: 13px; }
+
+  /* ================= ÉLÉMENTS DU BUREAU EN BOUTONS PILULE =================
+     Plus de vignettes : chaque élément devient une pilule colorée, trait
+     noir 1px et ombre pleine décalée, comme le bouton Entrer. Le balisage,
+     le glisser-déposer et le rangement ne changent pas : seule l'apparence
+     est remplacée. Sélecteurs préfixés par .stage .minis pour l'emporter
+     sur les règles des vignettes ci-dessus. */
+  .stage .minis .mini__icon { display: none; }
+  /* Cartes plutôt que pilules : elles occupent davantage le bureau. Le nom
+     est posé en bas à gauche, une flèche en haut à droite dit « ça s'ouvre ». */
+  .stage .minis .mini:not(.mini--mobile) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 170px;
+    height: 140px;
+    padding: 16px 16px;
+    border: 1px solid #000000;
+    border-radius: 16px;
+    background: var(--pill, #ff6645);
+    box-shadow: 4px 5px 0 #000000;
+    color: #000000;
+    text-align: left;
+    /* left/top : c'est ce qui rend le rangement fluide — chaque carte
+       glisse jusqu'à sa place au lieu d'y sauter. */
+    transition: left 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                top 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 120ms ease, box-shadow 120ms ease;
+  }
+  .stage .minis .mini:not(.mini--mobile)::after {
+    content: "↗";
+    position: absolute;
+    top: 12px; right: 14px;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .stage .minis .mini .mini__label {
+    position: static;
+    width: auto; height: auto;
+    margin: 0; padding: 0;
+    overflow: visible;
+    clip-path: none;
+    max-width: none;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+    white-space: normal;
+    text-align: left;
+    color: #000000;
+    text-shadow: none;
+  }
+  .stage .minis .mini:hover { transform: translate(-2px, -2px); box-shadow: 6px 7px 0 #000000; }
+  .stage .minis .mini:active { transform: translate(4px, 5px); box-shadow: 0 0 0 #000000; }
+  .stage .minis .mini[data-dragging="true"] { transition: none; }
+  .stage .minis .mini:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
+
+  /* Galerie masquée pour l'instant (balisage et fenêtre conservés). */
+  .stage .minis .mini[data-folder="photos"] { display: none !important; }
+
+  /* Une couleur par élément, tirée de la palette de la référence. */
+  /* Couleurs aux trois quarts des tons vifs, accordées au mauve du dock. */
+  .mini[data-folder="case-studies"] { --pill: #FF795C; }   /* corail pâle */
+  .mini[data-etagere]               { --pill: #F6ACCD; }   /* rose pâle */
+  .mini[data-folder="photos"]       { --pill: #8EDDA6; }   /* menthe pâle */
+  .mini[data-action="mail"]         { --pill: #EEED70; }   /* jaune pâle */
+  .mini[data-action="spotify"]      { --pill: #68BEC9; }   /* bleu-vert pâle */
+  .mini[data-cv]                    { --pill: #FF9A57; }   /* orange pâle */
+  .mini[data-action="notes"]        { --pill: #FFD757; }
+  a.mini--mobile                    { --pill: #79C7EA; }
+
+  @media (max-width: 767px) {
+    /* relative pour poser la flèche ; les coordonnées que le script écrit en
+       ligne sont neutralisées, c'est la grille qui place les cartes ici. */
+    .stage .minis .mini:not(.mini--mobile) {
+      position: relative; left: auto !important; top: auto !important;
+      width: 100%; height: 110px; padding: 12px 14px;
+    }
+    .stage .minis .mini .mini__label { font-size: 18px; }
+  }
+
+  /* ================= GRILLE DE 8 =================
+     Toutes les tailles de l'écran verrouillé et des cartes passent sur des
+     multiples de 8, avec des proportions proches d'un vrai écran de
+     verrouillage macOS : une heure qui domine, un avatar compact, un nom en
+     semi-gras de taille moyenne, le reste en texte courant. */
+  @media (min-width: 768px) {
+    .stage .lock { padding: 64px 80px 80px; }   /* date et heure rapprochées du haut */
+  }
+  .stage .clock { gap: 8px; }
+  .stage .clock .clock__time { line-height: 1; }                 /* 128 (96 sur mobile) */
+  .stage .clock .clock__date { font-size: 16px; line-height: 24px; }
+  .stage .cluster { gap: 32px; }
+  .stage .cluster__identity-group { gap: 16px; }
+  .stage:not([data-wall="blanc"]) .lock #avatar-lock { width: 64px; height: 48px; }
+  .stage .lock .yeux { display: block; width: 64px; height: 48px; overflow: visible; }
+  .stage[data-wall="blanc"] .yeux { display: none; }
+  /* Traits des yeux à 1 px réel, quelle que soit la taille d'affichage. */
+  .yeux [stroke="#000"] { stroke-width: 1; vector-effect: non-scaling-stroke; }
+  /* Ombre pleine décalée qui suit la forme des yeux, comme les boutons. */
+  .stage .lock .yeux { filter: drop-shadow(3px 4px 0 #000000); }
+  .menubar__logo > .yeux--barre { filter: drop-shadow(1px 2px 0 #000000); }
+  /* Version barre de menus : les mêmes yeux en 46 × 24. */
+  .stage:not([data-wall="blanc"]) .menubar__logo { width: auto; filter: none; }
+  .menubar__logo > .yeux--barre { display: block; width: 30px; height: 24px; overflow: visible; }
+  .yeux__pupille { will-change: transform; }   /* animé image par image en JS */
+  .yeux__oeil { transform-box: fill-box; transform-origin: center; }
+  @media (prefers-reduced-motion: reduce) { .yeux__pupille { transition: none; } }
+  .stage .lock .avatar-photo, .stage .lock .avatar-photo img { display: block; width: 96px; height: 96px; }
+  .stage .identity { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .stage .identity .identity__name { font-size: 20px; line-height: 24px; font-weight: 600; letter-spacing: -0.3px; }
+  .stage .identity .identity__role { font-size: 16px; line-height: 24px; margin-top: 0; }
+  /* Date et métier une graisse au-dessus du normal : Medium (500).
+     Arial n'a que Regular et Bold, d'où Helvetica Neue — quasi identique,
+     mais qui possède bien une graisse Medium. */
+  /* --- Date : feuille d'éphéméride néo-brutaliste ------------------
+     Aplats, trait noir 1px et ombre pleine décalée de 3 × 4, exactement
+     comme le bouton. Le corail du bandeau est le seul accent de l'écran ;
+     les feuilles du bloc, dessous, restent blanches. Tout est exprimé en
+     fonction de --f (l'échelle) pour réduire la feuille sans la déformer
+     et pour que la copie arrachée ait la même taille. Le trait reste à
+     1px quelle que soit l'échelle. */
+  .stage .feuille {
+    --f: 1;
+    --bande: 32px;                   /* la barre du lecteur de musique */
+    position: relative;
+    display: flex; flex-direction: column;
+    width: calc(192px * var(--f));
+    margin: 0;
+    padding: calc(var(--bande) + 12px * var(--f)) calc(16px * var(--f)) calc(14px * var(--f));
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: calc(8px * var(--f));
+    color: #000000;
+    text-align: left;
+    text-shadow: none;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0;
+    box-shadow:
+      0 4px 0 -1px #FFFFFF, 0 4px 0 0 #000000,
+      0 8px 0 -1px #FFFFFF, 0 8px 0 0 #000000,
+      3px 12px 0 0 #000000;
+    /* Barre de titre, la même que celle du lecteur : un aplat corail
+       coupé par un trait noir, un point noir à gauche, « Calendrier » au
+       centre. */
+    background-image: linear-gradient(#FF6645 0 calc(var(--bande) - 1px),
+      #000000 calc(var(--bande) - 1px) var(--bande),
+      transparent var(--bande));
+  }
+  .stage .feuille::before {
+    content: "";
+    position: absolute; left: 12px; top: calc((var(--bande) - 1px) / 2 - 6px);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #000000;
+  }
+  .stage .feuille::after {
+    content: "Calendrier";
+    position: absolute; left: 0; right: 0; top: 0;
+    height: calc(var(--bande) - 1px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; letter-spacing: 0;
+  }
+  .stage .feuille__jour {
+    font-size: calc(104px * var(--f)); font-weight: 700;
+    line-height: calc(88px * var(--f)); letter-spacing: calc(-6px * var(--f));
+    margin-left: calc(-4px * var(--f));
+    font-variant-numeric: tabular-nums;
+  }
+  .stage .feuille__pied {
+    display: flex; flex-direction: column;
+    margin-top: calc(8px * var(--f));
+    padding-top: calc(6px * var(--f));
+    border-top: calc(2px * var(--f)) solid #000000;
+  }
+  .stage .feuille__semaine { font-size: calc(24px * var(--f)); line-height: calc(26px * var(--f)); font-weight: 700; letter-spacing: -0.02em; }
+  .stage .feuille__mois { font-size: calc(16px * var(--f)); line-height: calc(24px * var(--f)); font-weight: 700; white-space: nowrap; }
+  .stage .feuille__an { font-weight: 400; }
+
+  .stage .lock .clock__date,
+  .stage .lock .identity__role {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+  }
+  .stage .lock .unlock {
+    height: 40px; min-width: 128px;
+    padding: 8px 24px;
+    border-radius: 24px;
+    /* Helvetica, comme la date et le métier. */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px; font-weight: 400; line-height: 22px;
+    color: #000;
+  }
+
+  /* Cartes du bureau : 168 × 136, marges de 16, libellé 16 / 24.
+     À 24 px, « Bibliothèque » ne tenait pas et se coupait en plein mot. */
+  .stage .minis .mini:not(.mini--mobile) { width: 168px; height: 136px; padding: 16px; }
+  .stage .minis .mini:not(.mini--mobile)::after { top: 16px; right: 16px; font-size: 16px; }
+  .stage .minis .mini .mini__label { font-size: 16px; line-height: 24px; }
+  @media (max-width: 767px) {
+    .stage .minis .mini:not(.mini--mobile) { width: 100%; height: 112px; padding: 16px; }
+    .stage .minis .mini .mini__label { font-size: 16px; line-height: 24px; }
+  }
 
   /* ================= ÉTUDE DE CAS, GABARIT V2 =================
      D'après la maquette Pharmaprix. Trois idées structurelles :
@@ -2917,6 +3586,51 @@
      éléments de tête et de queue s'annuleraient sinon en double. */
   .doc--v3 .doc__page > * > :first-child { margin-top: 0; }
   .doc--v3 .doc__page > * > :last-child  { margin-bottom: 0; }
+
+  /* --- Use Case 01 et 03 : la carrure de la 02 ----------------------
+     Elles gardent leur typographie, mais prennent la fenêtre de 900 et la
+     colonne unique de 772 de la 02. Avant, texte (530), repères (338) et
+     images (255) partaient de trois bords différents, et le surtitre
+     s'alignait à droite. Tout part maintenant du même bord gauche. Les ID
+     passent devant les règles v1 et leurs variantes mobiles. */
+  #doc-gvq .doc__win, #doc-roche .doc__win { width: min(900px, 100%); }
+  #doc-gvq .doc__bar, #doc-roche .doc__bar { height: 48px; }
+  #doc-gvq .doc__page, #doc-roche .doc__page {
+    grid-template-columns:
+      [pleine-debut] minmax(16px, 64px)
+      [libelle-debut texte-debut] minmax(0, 772px)
+      [texte-fin] minmax(16px, 64px)
+      [pleine-fin];
+    column-gap: 0;
+    justify-content: center;
+    padding: 64px 0 96px;
+  }
+  #doc-gvq .doc__page > *, #doc-roche .doc__page > *,
+  #doc-gvq .doc__fig--pleine, #doc-roche .doc__fig--pleine {
+    grid-column: texte-debut / texte-fin;
+    max-width: none;
+  }
+  #doc-gvq .doc__page > header, #doc-roche .doc__page > header,
+  #doc-gvq .doc__bloc, #doc-roche .doc__bloc,
+  #doc-gvq .doc__decision, #doc-roche .doc__decision { display: block; }
+  #doc-gvq .doc__eyebrow, #doc-roche .doc__eyebrow,
+  #doc-gvq .doc__num, #doc-roche .doc__num {
+    margin: 0 0 8px; padding-top: 0; text-align: left;
+  }
+  #doc-gvq .doc__fig, #doc-roche .doc__fig { margin: 32px 0; }
+  #doc-gvq .doc__fig--pleine figcaption,
+  #doc-roche .doc__fig--pleine figcaption { max-width: none; margin-inline: 0; }
+  /* Sur téléphone, gouttières de 20 comme la 02 au lieu de 64. */
+  @media (max-width: 767px) {
+    #doc-gvq .doc__page, #doc-roche .doc__page {
+      grid-template-columns:
+        [pleine-debut] 20px
+        [libelle-debut texte-debut] minmax(0, 1fr)
+        [texte-fin] 20px
+        [pleine-fin];
+      padding: 32px 0 64px;
+    }
+  }
 
   /* --- le filet de séparation --------------------------------------- */
   .doc--v3 .doc__filet {
@@ -3964,6 +4678,325 @@
     :root { --size-clock: 96px; }
   }
 
+  /* ================= ÉCRAN VERROUILLÉ — COMPOSITION =================
+     Trois zones et beaucoup d'air :
+       · l'éphéméride, petit et à peine incliné, dans le coin haut gauche ;
+       · l'heure, grande et légère, centrée dans le tiers supérieur ;
+       · un seul bloc — yeux, nom, métier, bouton — vers les deux tiers.
+     Une grille à cinq rangées place l'heure et le bloc : les rangées vides
+     se partagent la hauteur restante (1 / 1,4 / 0,9), ce qui pose le
+     centre de l'heure vers 25 % et celui du bloc vers 70 % de l'écran,
+     quelle que soit la hauteur. Les minimums en px garantissent qu'au
+     plus petit rien ne se chevauche et que tout tient sans défiler. */
+  .stage .lock {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows:
+      minmax(0, 1fr) auto minmax(32px, 1.4fr) auto minmax(32px, 0.9fr);
+    justify-items: center;
+    padding: 32px 24px;
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
+  .stage .lock .clock { grid-row: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  /* Jour, mois et année au-dessus de l'heure, en Helvetica Neue Medium
+     comme le métier. */
+  .stage .lock .clock .clock__date {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 20px; line-height: 28px; font-weight: 500; letter-spacing: 0;
+    color: #FFFFFF;
+  }
+  .stage[data-wall="blanc"] .lock .clock .clock__date { color: var(--text); }
+  @media (max-width: 767px) { .stage .lock .clock .clock__date { font-size: 18px; line-height: 24px; } }
+  @media (max-height: 600px) { .stage .lock .clock .clock__date { font-size: 16px; line-height: 22px; } }
+  .stage .lock .clock__time {
+    margin: 0;
+    font-size: clamp(72px, min(13vw, 18vh), 160px);
+    line-height: 1;
+    /* Arial n'a pas de graisse fine : Helvetica Neue Light d'abord. */
+    font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    font-weight: 300;
+    font-synthesis: none;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+  }
+  .stage[data-wall="blanc"] .lock .clock__time { color: var(--text); }
+
+  /* L'éphéméride vit sur le bureau, à droite sous le lecteur de musique
+     (le script l'y cale précisément ; ces valeurs servent de repli).
+     90 % de sa taille, incliné de 4° : assez pour paraître posé à
+     la main, pas assez pour paraître de travers. Il se déplace à la
+     souris ; la position choisie est gardée jusqu'au rechargement. */
+  .stage .desktop .feuille {
+    --f: 0.9;
+    position: absolute;
+    z-index: 26;                     /* sous le lecteur (27) et les fenêtres */
+    top: calc(var(--bar-h) + 400px); right: var(--bar-pad-r); left: auto;
+    rotate: -4deg;
+    cursor: grab;
+    touch-action: none;
+    user-select: none; -webkit-user-select: none;
+    transition: rotate 160ms ease;
+  }
+  .stage .desktop .feuille.is-tenu { cursor: grabbing; rotate: -1deg; }
+  /* La bulle qui apparaît quand on clique trop : même langue que le reste,
+     fond blanc, trait noir 1px, ombre pleine décalée. */
+  .stage .feuille-bulle {
+    position: absolute; z-index: 27;   /* au-dessus des cartes */
+    max-width: 220px;
+    margin: 0;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 16px 16px 16px 4px;
+    box-shadow: 3px 4px 0 #000000;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px; line-height: 22px; font-weight: 500;
+    text-shadow: none;
+    pointer-events: none;
+    animation: bulle-entree 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stage .feuille-bulle[hidden] { display: none; }
+  .stage .feuille-bulle--gauche { border-radius: 16px 16px 4px 16px; transform-origin: right center; }
+  .stage .feuille-bulle__mot {
+    display: inline-block;
+    animation: bulle-mot 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes bulle-mot {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .stage .feuille-bulle__mot { animation: none; } }
+  @keyframes bulle-entree {
+    from { opacity: 0; transform: translateY(6px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (max-width: 767px) { .stage .feuille-bulle { max-width: 180px; font-size: 15px; line-height: 20px; } }
+  @media (prefers-reduced-motion: reduce) { .stage .feuille-bulle { animation: none; } }
+  .stage .desktop .feuille:focus-visible { outline: 2px solid #000000; outline-offset: 4px; }
+  /* Téléphone : plus petit, posé dans l'espace libre entre l'en-tête
+     (72 px) et la grille des cartes. Pas de glisser au doigt, qui
+     volerait le défilement. */
+  @media (max-width: 767px) {
+    .stage .desktop .feuille {
+      --f: 0.5;
+      --bande: 24px;
+      top: 88px; left: 24px; right: auto;
+      cursor: auto; touch-action: auto;
+    }
+    /* Barre réduite : point et titre plus petits pour tenir sur 96 px. */
+    .stage .desktop .feuille::before { left: 8px; width: 8px; height: 8px; top: calc((var(--bande) - 1px) / 2 - 4px); }
+    .stage .desktop .feuille::after { font-size: 10px; padding-left: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage .desktop .feuille { transition: none; }
+  }
+
+  .stage .lock .cluster { grid-row: 4; gap: 32px; }
+  .stage .lock .cluster__identity-group { gap: 24px; }
+  .stage:not([data-wall="blanc"]) .lock #avatar-lock { width: 80px; height: 64px; }
+  .stage .lock .yeux { width: 80px; height: 64px; }
+  .stage .lock .identity { gap: 4px; }
+  .stage .lock .identity .identity__name {
+    font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .stage .lock .identity .identity__role {
+    font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0;
+  }
+  .stage .lock .unlock {
+    height: 48px;
+    padding: 12px 28px;
+    white-space: nowrap;
+  }
+
+  /* Clignement des yeux, joué au clic sur le bouton. */
+  @keyframes yeux-cligne {
+    0%, 100% { transform: scaleY(1); }
+    50%      { transform: scaleY(0.08); }
+  }
+  .yeux.is-cligne .yeux__oeil { animation: yeux-cligne 180ms ease-in-out; }
+
+  /* Tablette : même composition, éphéméride un peu plus petit. */
+  @media (max-width: 1024px) {
+    .stage .lock .clock__time { font-size: clamp(72px, min(17vw, 18vh), 160px); }
+  }
+
+  /* Téléphone : l'éphéméride reste dans son coin, plus petit, et la
+     première rangée lui réserve sa hauteur pour que l'heure passe dessous
+     sans le toucher. Tailles réduites d'un cran, mêmes proportions. */
+  @media (max-width: 767px) {
+    .stage .lock {
+      grid-template-rows:
+        minmax(24px, 1fr) auto minmax(24px, 1fr) auto minmax(24px, 0.6fr);
+      padding: 20px 20px max(24px, env(safe-area-inset-bottom));
+    }
+    .stage .lock .clock__time { font-size: clamp(64px, 22vw, 104px); }
+    .stage .lock .cluster { gap: 24px; }
+    .stage .lock .cluster__identity-group { gap: 20px; }
+    .stage:not([data-wall="blanc"]) .lock #avatar-lock,
+    .stage .lock .yeux { width: 72px; height: 58px; }
+    .stage .lock .identity .identity__name { font-size: 22px; line-height: 28px; }
+    .stage .lock .identity .identity__role { font-size: 18px; line-height: 24px; }
+  }
+
+  /* Écrans bas (téléphone à l'horizontale, petite fenêtre) : on resserre
+     tout pour que le bouton reste visible sans défiler. */
+  @media (max-height: 600px) {
+    .stage .lock {
+      grid-template-rows:
+        minmax(0, 1fr) auto minmax(12px, 1fr) auto minmax(12px, 0.6fr);
+      padding-top: 16px; padding-bottom: 16px;
+    }
+    .stage .lock .clock__time { font-size: clamp(48px, 16vh, 96px); }
+    .stage .lock .cluster { gap: 16px; }
+    .stage .lock .cluster__identity-group { gap: 12px; }
+    .stage:not([data-wall="blanc"]) .lock #avatar-lock,
+    .stage .lock .yeux { width: 56px; height: 45px; }
+    .stage .lock .identity .identity__name { font-size: 20px; line-height: 26px; }
+    .stage .lock .identity .identity__role { font-size: 16px; line-height: 22px; }
+    .stage .lock .unlock { height: 40px; padding: 8px 24px; }
+  }
+
+  /* Libellés des cartes : exactement le « Mardi » de l'éphéméride du
+     bureau — Helvetica Neue gras, 24 px × 0,9 (son échelle), même
+     interlettrage. Sur téléphone l'éphéméride est réduit de moitié ; les
+     cartes, elles, gardent une taille lisible au doigt. */
+  .stage .minis .mini .mini__label {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: calc(24px * 0.9); line-height: 24px;
+    font-weight: 700; letter-spacing: -0.02em;
+  }
+  @media (max-width: 767px) {
+    .stage .minis .mini .mini__label { font-size: 20px; line-height: 24px; }
+  }
+  /* Barre de menus, en-tête mobile, menus et légendes du dock : la même
+     Helvetica Neue que l'éphéméride et le lecteur. */
+  .stage .menubar, .stage .menubar *,
+  .stage .mhead, .stage .mhead *,
+  .stage .navmenu, .stage .navmenu *,
+  .stage .dock__label {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Icônes néo-brutalistes à la place de la flèche sur les cartes :
+     forme blanche, trait noir, ombre pleine décalée dessinée dans le SVG
+     (2 × 3), comme les cartes elles-mêmes. Enveloppe pour Contact, notes
+     pour Musique, livre ouvert pour Bibliothèque, dossier pour Projets,
+     feuille pour CV. */
+  .stage .minis .mini[data-action="mail"]::after,
+  .stage .minis .mini[data-action="spotify"]::after,
+  .stage .minis .mini[data-etagere]::after {
+    content: "";
+    top: 10px; right: 10px;
+    width: 44px; height: 44px;
+    background: center / contain no-repeat;
+  }
+  .stage .minis .mini[data-action="mail"]::after    { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Crect x='5' y='10' width='28' height='21' rx='3'/%3E%3Cpath d='M6 12 L19 22 L32 12' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+  .stage .minis .mini[data-action="spotify"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cellipse cx='11' cy='29' rx='5' ry='4'/%3E%3Cellipse cx='27' cy='26' rx='5' ry='4'/%3E%3Cpath d='M15.5 29 V10 L31.5 6 V26 H30 V12 L17 15.2 V29 Z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+  .stage .minis .mini[data-etagere]::after          { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M19 11 C14.5 8.5 9 8.5 4.5 10 V30 C9 29 14.5 29 19 32 Z'/%3E%3Cpath d='M19 11 C23.5 8.5 29 8.5 33.5 10 V30 C29 29 23.5 29 19 32 Z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+  .stage .minis .mini[data-folder="case-studies"]::after,
+  .stage .minis .mini[data-cv]::after {
+    content: "";
+    top: 10px; right: 10px;
+    width: 44px; height: 44px;
+    background: center / contain no-repeat;
+  }
+  /* Dossier pour Projets, feuille de CV pour CV. */
+  .stage .minis .mini[data-folder="case-studies"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M4 11 C4 9.9 4.9 9 6 9 H14 L17 12 H32 C33.1 12 34 12.9 34 14 V29 C34 30.1 33.1 31 32 31 H6 C4.9 31 4 30.1 4 29 Z'/%3E%3Cpath d='M4 16 H34' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+  .stage .minis .mini[data-cv]::after                    { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M9 5 H23 L31 13 V33 C31 34.1 30.1 35 29 35 H9 C7.9 35 7 34.1 7 33 V7 C7 5.9 7.9 5 9 5 Z'/%3E%3Cpath d='M23 5 V13 H31' fill='none'/%3E%3Cpath d='M12 19 H26 M12 24 H26 M12 29 H20' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+
+  /* ================= À PROPOS — STYLE ÉPHÉMÉRIDE =================
+     Même matériau que l'éphéméride et le lecteur : fond blanc, trait noir
+     1px, coins de 8, ombre pleine 3 × 4, barre de titre de 32 px en aplat
+     (jaune, la couleur de cette fenêtre) avec le point noir à gauche.
+     L'en-tête s'inspire d'une composition en deux cartes : un titre aux
+     graisses alternées sur fond crème, un autocollant incliné sur son
+     coin, et la photo dans un cadre voisin. */
+  /* Étroite et haute : une colonne de lecture pour le texte à venir. */
+  #about {
+    width: 480px;
+    max-height: min(840px, calc(100vh - var(--bar-h) - 48px));
+    border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+    overflow: hidden;
+    padding-bottom: 20px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  #about .modal__titlebar {
+    height: 32px; min-height: 32px;
+    padding: 0 12px;
+    background: #EEED70;
+    border-bottom: 1px solid #000000;
+  }
+  #about .modal__title { font-size: 13px; font-weight: 700; letter-spacing: 0; }
+  #about .about__body { gap: 20px; }
+  #about .about__body > * { padding-left: 20px; padding-right: 20px; }
+
+  #about .about__hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: 16px;
+    padding-top: 28px;       /* la place de l'autocollant qui dépasse */
+  }
+  #about .about__carte,
+  #about .about__photo {
+    position: relative;
+    margin: 0;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+  }
+  #about .about__carte {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: 200px;
+    padding: 16px;
+    background: #F7F4EF;
+  }
+  #about .about__titre {
+    margin: 0;
+    font-size: 22px; line-height: 26px;
+    font-weight: 400; letter-spacing: -0.02em;
+    color: #000000;
+  }
+  #about .about__titre b { font-weight: 700; }
+  /* L'autocollant : les yeux de l'avatar sur une tuile corail, incliné,
+     à cheval sur le coin haut droit de la carte. */
+  #about .about__sticker {
+    position: absolute; top: -22px; right: -14px;
+    display: grid; place-items: center;
+    width: 64px; height: 64px;
+    background: #FF6645;
+    border: 1px solid #000000;
+    border-radius: 14px;
+    box-shadow: 3px 4px 0 #000000;
+    rotate: 12deg;
+  }
+  /* Portrait 4:5, buste prolongé : la carte de titre prend la même hauteur. */
+  #about .about__photo { overflow: hidden; background: #E9A291; aspect-ratio: 4 / 5; }
+  #about .about__photo picture,
+  #about .about__photo img {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+  }
+  #about .about__lead { border-top: 0; padding-top: 4px; font-size: 16px; line-height: 24px; }
+  #about .about__skill { box-shadow: 3px 4px 0 #000000; }
+
+  @media (max-width: 767px) {
+    #about { width: 100%; }
+    #about .about__body > * { padding-left: 16px; padding-right: 16px; }
+    #about .about__hero { grid-template-columns: 1fr; gap: 20px; }
+    #about .about__carte { min-height: 0; padding-top: 48px; }
+    #about .about__sticker { right: 16px; }   /* pleine largeur : il ne doit pas déborder */
+    #about .about__titre { font-size: 24px; line-height: 28px; }
+    #about .about__photo { aspect-ratio: 4 / 5; max-height: 380px; }
+    #about .about__skill { width: 88px; height: 88px; }
+  }
+
+  /* Fond bleu : grain plus fin (tuile affichée à moitié de sa taille,
+     donc des points deux fois plus petits) et plus discret. */
+  .stage[data-wall="bleu"] .stage__bg::after { background-size: 128px 128px; opacity: 0.22; }
 </style>
 </head>
 <body>
@@ -3993,7 +5026,7 @@
        ce site existe.
 
        Fermeture : la même icône du dock, ou Échap. -->
-  <div class="spot" id="spot" aria-label="Playlist Spotify" hidden></div>
+  <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
 
   <div class="stage__bg"></div>
@@ -4007,12 +5040,15 @@
   <div class="stage__tint"></div>
   <div class="stage__scrim"></div>
 
-
+  <!-- Grain argentique. Posé ici et pas ailleurs : après le ciel et ses
+       voiles, avant tout le reste. L'ordre du DOM suffit — aucun z-index
+       n'est nécessaire tant que rien ne s'insère entre les deux. -->
 
 
 
   <!-- Fenêtre À propos — Module_APropos 436:181 -->
   <div class="modal-backdrop" id="about-backdrop" hidden>
+    <div class="grimaces" id="grimaces" aria-hidden="true"></div>
     <div class="about" id="about" role="dialog" aria-modal="true" aria-labelledby="about-title" data-node-id="436:181">
       <div class="modal__titlebar" id="about-titlebar">
         <div class="modal__lights">
@@ -4022,17 +5058,32 @@
       </div>
 
       <div class="about__body">
-        <div class="about__id">
-          <picture>
-            <source srcset="about-avatar-128.webp 2x, about-avatar-64.webp 1x" type="image/webp">
-            <img class="about__avatar" id="about-avatar" draggable="false"
-                 src="about-avatar-64.jpg" srcset="about-avatar-128.jpg 2x"
-                 alt="Portrait d’Emmanuel Froissant" width="64" height="64">
-          </picture>
-          <div class="about__name">
-            <span class="about__fullname">Emmanuel Froissant</span>
-            <span class="about__role">Designer UI/UX</span>
+        <!-- En-tête : deux cartes côte à côte. À gauche le titre, gras et
+             regular alternés, avec un autocollant incliné (les yeux de
+             l'avatar) sur le coin ; à droite la photo dans un cadre. -->
+        <div class="about__hero">
+          <div class="about__carte">
+            <span class="about__sticker" aria-hidden="true">
+              <svg viewBox="0 0 118 96" width="44" height="36">
+                <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="#fff" stroke="#000" stroke-width="4"/>
+                <ellipse cx="36" cy="54" rx="9" ry="14"/>
+                <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="#fff" stroke="#000" stroke-width="4"/>
+                <ellipse cx="89" cy="54" rx="9" ry="14"/>
+              </svg>
+            </span>
+            <h2 class="about__titre" id="about-nom">
+              <b>Emmanuel Froissant</b><br>
+              Designer UI/UX qui<br>
+              conçoit <b>avec l’IA</b>
+            </h2>
           </div>
+          <figure class="about__photo">
+            <picture>
+              <source srcset="about-photo-240.webp 1x, about-photo-480.webp 2x" type="image/webp">
+              <img id="about-avatar" src="about-photo-240.jpg" srcset="about-photo-480.jpg 2x"
+                   alt="Portrait d’Emmanuel Froissant" width="240" height="300" draggable="false">
+            </picture>
+          </figure>
         </div>
 
         <p class="about__lead">Je suis un designer multidisciplinaire avec 5 ans d’expérience en conception numérique en&nbsp;:</p>
@@ -4384,24 +5435,45 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="lML+M004wz4xs7LS">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</script>
-  <script type="application/octet-stream" data-paquet="roche" data-iv="6QfzYVLyHZYAreqi">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</script>
+  <script type="application/octet-stream" data-paquet="loblaw" data-iv="A6e6ir4LxxKG4pQy">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</script>
+  <script type="application/octet-stream" data-paquet="roche" data-iv="z6SyEi/YplAVrhQt">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
 
     <div class="clock" data-node-id="28:804">
-      <p class="clock__date" id="lock-date" data-node-id="2:608">Mercredi 9 Septembre</p>
+      <p class="clock__date" id="lock-jour">Mercredi 9 Septembre 2026</p>
       <p class="clock__time"><time id="lock-time" datetime="08:15" data-node-id="2:609">08:15</time></p>
     </div>
 
     <div class="cluster" data-node-id="2:610">
       <div class="cluster__identity-group" data-node-id="28:870">
         <div class="avatar" id="avatar-lock" data-node-id="340:272">
-          <picture>
-            <source srcset="avatar-80.webp 1x, avatar-160.webp 2x" type="image/webp">
-            <img src="avatar-80.jpg" srcset="avatar-80.jpg 1x, avatar-160.jpg 2x" alt="" width="80" height="80" draggable="false">
+          <!-- Bulle festonnée : dégradé irisé à gros grain, deux astérisques
+               pour les yeux. Remplace la photo sur l'écran verrouillé. -->
+          <!-- Avatar : des yeux rétro façon jumelles, qui suivent la souris. -->
+          <svg class="yeux" id="yeux" width="64" height="48" viewBox="0 0 118 96" aria-hidden="true">
+            <g class="yeux__oeil">
+              <clipPath id="forme1"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme1)"><g class="yeux__pupille" data-cx="32" data-cy="50">
+                <ellipse cx="32" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+            <g class="yeux__oeil">
+              <clipPath id="forme2"><path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z"/></clipPath>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme2)"><g class="yeux__pupille" data-cx="85" data-cy="50">
+                <ellipse cx="85" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+          </svg>
+          <picture class="avatar-blanc">
+            <source srcset="doodle-80.webp 1x, doodle-160.webp 2x" type="image/webp">
+            <img src="doodle-80.png" srcset="doodle-80.png 1x, doodle-160.png 2x" alt="" width="80" height="80">
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
@@ -4409,7 +5481,7 @@
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
-      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Entrer</button>
+      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller mon portfolio</button>
     </div>
 
     <!-- Son de déverrouillage. Opus d'abord (2,3 Ko), MP3 en repli pour
@@ -4440,9 +5512,27 @@
                 aria-label="Retourner à l’écran de veille"
                 title="Retourner à l’écran de veille"
                 data-node-id="118:235">
-          <picture>
-            <source srcset="saut-bar-48.webp 2x, saut-bar-24.webp 1x" type="image/webp">
-            <img src="saut-bar-24.png" srcset="saut-bar-48.png 2x" alt="" width="24" height="26">
+          <svg class="yeux yeux--barre" width="30" height="24" viewBox="0 0 118 96" aria-hidden="true">
+            <g class="yeux__oeil">
+              <clipPath id="forme3"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme3)"><g class="yeux__pupille" data-cx="32" data-cy="50">
+                <ellipse cx="32" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+            <g class="yeux__oeil">
+              <clipPath id="forme4"><path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z"/></clipPath>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme4)"><g class="yeux__pupille" data-cx="85" data-cy="50">
+                <ellipse cx="85" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+          </svg>
+          <picture class="avatar-blanc">
+            <source srcset="doodle-bar-48.webp 2x, doodle-bar-24.webp 1x" type="image/webp">
+            <img src="doodle-bar-24.png" srcset="doodle-bar-48.png 2x" alt="" width="24" height="24">
           </picture>
         </button>
 
@@ -4501,6 +5591,16 @@
       </button>
     </header>
 
+    <!-- Éphéméride du bureau : le script remplit chaque morceau ; il se
+       déplace à la souris comme le lecteur. -->
+    <p class="feuille" id="lock-date" data-node-id="2:608" aria-label="Mercredi 9 septembre">
+      <span class="feuille__jour" aria-hidden="true">9</span>
+      <span class="feuille__pied" aria-hidden="true">
+        <span class="feuille__semaine">Mercredi</span>
+        <span class="feuille__mois">Septembre <span class="feuille__an">2026</span></span>
+      </span>
+    </p>
+
     <div class="minis" id="minis">
 
       <!-- L'ordre du DOM EST l'ordre à l'écran : la grille remplit ligne
@@ -4517,9 +5617,9 @@
       </button>
 
       <button type="button" class="mini" data-etagere="1"
-              aria-label="Ma bibliothèque — ouvrir">
+              aria-label="Bibliothèque — ouvrir">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-tastes-124.webp" type="image/webp"><img src="ic-tastes-124.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Ma bibliothèque</span>
+        <span class="mini__label">Bibliothèque</span>
       </button>
 
       <button type="button" class="mini" data-folder="photos"
@@ -4530,20 +5630,20 @@
 
       <button type="button" class="mini" data-action="mail"
               aria-label="Contact — m’écrire un message">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-134.webp" type="image/webp"><img src="ic-mail-134.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-119.webp" type="image/webp"><img src="ic-mail-119.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Contact</span>
       </button>
 
       <button type="button" class="mini" data-action="spotify"
               aria-label="Musique — écouter ma playlist">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-149.webp" type="image/webp"><img src="ic-musique-149.png" alt="" draggable="false"></picture></span>
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-153.webp" type="image/webp"><img src="ic-musique-153.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Musique</span>
       </button>
 
       <button type="button" class="mini" data-node-id="483:573" data-cv="1"
-              aria-label="Curriculum Vitae — ouvrir">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-148.webp" type="image/webp"><img src="ic-cv-148.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Curriculum Vitae</span>
+              aria-label="CV — ouvrir">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-cv-141.webp" type="image/webp"><img src="ic-cv-141.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">CV</span>
       </button>
 
       <!-- LinkedIn et Notes n'apparaissent qu'au doigt : sur grand écran
@@ -4629,8 +5729,8 @@
              leur abscisse est calculée par le script à partir des mêmes
              largeurs que l'agrandissement, sinon il faudrait la recopier à
              la main à chaque icône ajoutée. -->
-        <span class="dock__label" data-groupe="tech">TECHNOLOGIES MAÎTRISÉES</span>
-        <span class="dock__label" data-groupe="social">SOCIAL</span>
+        <span class="dock__label" data-groupe="tech">Technologies maîtrisées</span>
+        <span class="dock__label" data-groupe="social">Social</span>
         <ul class="dock__items" id="dock-items" aria-label="Technologies maîtrisées">
           <li class="dock__item" data-groupe="tech" data-hovered="false">
             <span class="dock__name">Figma</span>
@@ -4744,13 +5844,32 @@ const dire = (function () {
     barTime:  document.getElementById('bar-time')
   };
 
+  /* Jours ajoutés en cliquant sur l'éphéméride du bureau (voir plus bas).
+     0 = aujourd'hui. */
+  let decalageJour = 0;
+
   function render() {
     const now = new Date();
     const time = fmtTime.format(now);
     const iso = now.toTimeString().slice(0, 5);
 
-    let d = fmtLockDate.format(now);
-    el.lockDate.textContent = CAPITALIZE_DATE ? cap(d) : d;
+    // Feuille d'éphéméride : jour, jour de la semaine, mois et année,
+    // décalés des jours ajoutés au clic. L'étiquette lue garde la phrase
+    // complète.
+    const jour = new Date(now);
+    jour.setDate(jour.getDate() + decalageJour);
+    el.lockDate.setAttribute('aria-label', fmtLockDate.format(jour));
+    const morceau = (c) => el.lockDate.querySelector('.feuille__' + c);
+    morceau('jour').textContent = jour.getDate();
+    morceau('semaine').textContent = cap(jour.toLocaleDateString('fr-FR', { weekday: 'long' }));
+    morceau('mois').firstChild.textContent = cap(jour.toLocaleDateString('fr-FR', { month: 'long' })) + ' ';
+    morceau('an').textContent = jour.getFullYear();
+    // Écran verrouillé : la date du jour en toutes lettres, avec l'année.
+    const jourTexte = document.getElementById('lock-jour');
+    if (jourTexte) {
+      const t = fmtLockDate.format(now) + ' ' + now.getFullYear();
+      jourTexte.textContent = CAPITALIZE_DATE ? cap(t) : t;
+    }
     el.lockTime.textContent = time;
     el.lockTime.setAttribute('datetime', iso);
 
@@ -4820,18 +5939,23 @@ const dire = (function () {
      une autre. Si le hasard ne trouve pas de place en 40 essais, on relâche
      la contrainte plutôt que de boucler — mieux vaut deux vignettes proches
      qu'un écran figé. */
-  const SCATTER_X = 0.30;   // amplitude horizontale, en fraction de la zone
+  const SCATTER_X = 0.36;   // amplitude horizontale, en fraction de la zone
   const SCATTER_Y = 0.34;   // relevée de 0,26 pour loger deux rangées plus espacées
   /* Deux écarts au lieu d'un seul. À l'horizontale, 14 px suffisent : les
      vignettes sont larges et leurs libellés tiennent sur une ligne. À la
      verticale il faut bien davantage — sous chaque icône vient un libellé,
      et deux rangées trop proches donnent un bloc de texte compact où l'œil
      ne sait plus quel nom va avec quel objet. */
-  const MIN_GAP_X = 14;
-  const MIN_GAP_Y = 46;
+  const MIN_GAP_X = 20;
+  const MIN_GAP_Y = 20;
 
-  function overlaps(a, b, w, hgt) {
-    return Math.abs(a.l - b.l) < w + MIN_GAP_X && Math.abs(a.t - b.t) < hgt + MIN_GAP_Y;
+  /* Chevauchement mesuré sur la taille RÉELLE de chaque élément : les
+     boutons pilule n'ont pas tous la même largeur (« Ma bibliothèque » est
+     deux fois plus long que « Projets »). Mesurer le premier et l'appliquer
+     à tous laissait les plus longs se chevaucher. */
+  function overlaps(a, b) {
+    return a.l < b.l + b.w + MIN_GAP_X && b.l < a.l + a.w + MIN_GAP_X
+        && a.t < b.t + b.h + MIN_GAP_Y && b.t < a.t + a.h + MIN_GAP_Y;
   }
 
   /* Les vignettes réservées au téléphone sont en display:none sur grand
@@ -4851,19 +5975,30 @@ const dire = (function () {
        ont des rapports très différents — l'appareil photo est trapu, la
        main au téléphone élancée — et mesurer la première laissait les plus
        hautes se chevaucher. */
-    const w = items[0] ? items[0].offsetWidth : 121;
-    const hgt = items.reduce((m, el) => Math.max(m, el.offsetHeight), 0) || 129;
     const placed = [];
+    // Le lecteur, ouvert d'office, est un obstacle : aucune carte dessous.
+    const lect = document.getElementById('spot');
+    if (lect && !lect.hidden) {
+      const sr = lect.getBoundingClientRect();
+      placed.push({ l: sr.left - r.left - 32, t: sr.top - r.top, w: sr.width + 32, h: sr.height });
+    }
+    // L'éphéméride aussi, avec une marge pour son ombre et son inclinaison.
+    const eph = document.getElementById('lock-date');
+    if (eph && eph.offsetParent) {
+      const er = eph.getBoundingClientRect();
+      placed.push({ l: er.left - r.left - 24, t: er.top - r.top - 24, w: er.width + 48, h: er.height + 48 });
+    }
 
     items.forEach((m) => {
+      const w = m.offsetWidth, hgt = m.offsetHeight;
       let pick = null;
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 300; i++) {
         const l = r.width  / 2 - w / 2   + (Math.random() * 2 - 1) * r.width  * SCATTER_X;
         const t = r.height / 2 - hgt / 2 + (Math.random() * 2 - 1) * r.height * SCATTER_Y;
         const [cl, ct] = clampInside(m, l, t);
-        const cand = { l: cl, t: ct };
-        if (!placed.some((q) => overlaps(cand, q, w, hgt))) { pick = cand; break; }
-        if (i === 39) pick = cand;
+        const cand = { l: cl, t: ct, w, h: hgt };
+        if (!placed.some((q) => overlaps(cand, q))) { pick = cand; break; }
+        if (i === 299) pick = cand;
       }
       m.style.left = pick.l + 'px';
       m.style.top = pick.t + 'px';
@@ -5041,18 +6176,18 @@ const dire = (function () {
      exécution. Comme tu dois le lancer pour poser ton vrai mot de passe,
      la version publiée sera verrouillée quoi qu'il arrive.
      ================================================================== */
-  const VERROU_OUVERT = false;
+  const VERROU_OUVERT = true;
   // Vide dans le fichier publié : le vrai mot de passe n'a rien à faire
   // ici. Pour travailler sans saisir la serrure, écris-le le temps de ta
   // séance et remets la chaîne vide avant d'envoyer. verrou.py refermera
   // VERROU_OUVERT de toute façon.
-  const VERROU_MDP_TRAVAIL = '';
+  const VERROU_MDP_TRAVAIL = 'travail-provisoire';
 
   const VERROU = {
-    sel: 'Hgxdgy+Z4NeAdbnoZe2szg==',
+    sel: '2j7LEZxpWac6BxvMvISCaw==',
     iter: 250000,
-    jetonIv: 'AnhIhPapFHM0EHVh',
-    jeton: 'yAS2iPW9ow9wK31RfyfdRaktCwdBQs2AvJ785g==',
+    jetonIv: 'MUrqC/VvRlwR8nJN',
+    jeton: 'fNMUsqsVMvPfm+5jOnNawGfmUkz17d2gE6uJRA==',
     // Vide : la porte est le dossier lui-même. Une fois franchie, les trois
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
@@ -6113,7 +7248,7 @@ const dire = (function () {
      Si la rangée déborde, elle se replie sur plusieurs lignes, chacune
      centrée à son tour plutôt que ferrée à gauche. */
   const GRID_GAP_X = 28;   // resserré : six colonnes au lieu de trois
-  const GRID_GAP_Y = 56;   // plus large que l'horizontal : un libellé vit sous chaque icône
+  const GRID_GAP_Y = 28;   // les cartes portent leur libellé : même écart qu'à l'horizontale
   /* Six sur une seule ligne. Le calcul retombe automatiquement à moins si
      la fenêtre ne les tient pas — six vignettes de 148 px plus cinq écarts
      de 40 demandent 1 088 px de large. */
@@ -6125,7 +7260,9 @@ const dire = (function () {
     const items = minisAffichees();
     if (!items.length || !r.width) return;
 
-    const w = items[0].offsetWidth;
+    // La colonne prend la largeur du PLUS LONG bouton ; chacun est centré
+    // dans la sienne, pour qu'aucun ne déborde sur son voisin.
+    const w = items.reduce((m, el) => Math.max(m, el.offsetWidth), 0);
     /* La hauteur MAXIMALE, pas celle de la première : une rangée se cale
        sur sa vignette la plus haute, sinon les libellés ne s'alignent pas
        d'une colonne à l'autre. */
@@ -6148,7 +7285,7 @@ const dire = (function () {
     items.forEach((m, i) => {
       const row = Math.floor(i / perRow);
       const col = i % perRow;
-      const [l, t] = clampInside(m, left0 + col * (w + GRID_GAP_X), top0 + row * (hgt + GRID_GAP_Y));
+      const [l, t] = clampInside(m, left0 + col * (w + GRID_GAP_X) + (w - m.offsetWidth) / 2, top0 + row * (hgt + GRID_GAP_Y));
       m.style.left = l + 'px';
       m.style.top = t + 'px';
     });
@@ -6161,8 +7298,14 @@ const dire = (function () {
   // marche, dans le menu comme au chargement.
   // Rangés dans l'ordre de la journée.
   const WALLPAPERS = [
-    { id: 'ciel',  nom: '🌤️ Ciel bleu', apercu: 'wall-ciel',
-      petit: 'ciel-1280',  grand: 'ciel-1672' }
+    { id: 'bleu',  nom: '🔵 Bleu', apercu: 'wall-bleu', couleur: '#4A68E8' },
+    { id: 'vert',  nom: '🟢 Dégradé vert', apercu: 'wall-vert',
+      petit: 'vert-1280',  grand: 'vert-1920' },
+    { id: 'blanc', nom: '⚪️ Blanc', apercu: 'wall-blanc', couleur: '#ffffff' },
+    { id: 'roses', nom: '🌸 Nuages roses', apercu: 'wall-roses',
+      petit: 'roses-1280', grand: 'roses-1920' },
+    { id: 'mer',   nom: '🌊 Mer et ciel bleu', apercu: 'wall-mer',
+      petit: 'mer-1280',   grand: 'mer-1920' }
   ];
 
   /* Le fond par défaut est nommé, il n'est plus « le premier de la liste ».
@@ -6172,7 +7315,7 @@ const dire = (function () {
   /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
      désormais la marche. Un visiteur qui a déjà choisi autre chose garde
      son réglage — localStorage prime sur ce défaut. */
-  const WALL_DEFAUT = 'ciel';
+  const WALL_DEFAUT = 'bleu';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
@@ -6283,11 +7426,18 @@ const dire = (function () {
 
   function setWall(w) {
     const f = grandEcran.matches ? w.grand : w.petit;
+    if (w.couleur) {
+      // Fond uni : aucune image à charger.
+      bgEl.style.backgroundImage = 'none';
+      bgEl.style.backgroundColor = w.couleur;
+    } else {
+    bgEl.style.backgroundColor = '';
     // Trois affectations : la dernière que le navigateur comprend gagne.
     // Safari ne connaît qu'image-set préfixé, Firefox que la forme standard.
     bgEl.style.backgroundImage = 'url("' + f + '.jpg")';
     bgEl.style.backgroundImage = '-webkit-image-set(url("' + f + '.webp") type("image/webp"), url("' + f + '.jpg") type("image/jpeg"))';
     bgEl.style.backgroundImage = 'image-set(url("' + f + '.webp") type("image/webp"), url("' + f + '.jpg") type("image/jpeg"))';
+    }
     poserVideo(w, f);
     wallId = w.id;
     /* Le fond choisi est inscrit sur la scène : c'est la feuille de style
@@ -6944,8 +8094,21 @@ const dire = (function () {
   const aWin = document.getElementById('about');
   let aOpener = null;
 
+  /* Pendant l'À propos, un voile de la couleur du fond d'écran (à 82 %)
+     recouvre le bureau : les cartes et le lecteur se devinent encore
+     derrière, mais ne se mêlent plus à la traînée de photos. La couleur
+     est relue à chaque ouverture, le fond a pu changer entre-temps. */
+  const VOILE = 0.82;
+  function fondAPropos() {
+    const bg = document.querySelector('.stage__bg');
+    if (!bg) return;
+    const m = getComputedStyle(bg).backgroundColor.match(/\d+(\.\d+)?/g) || [74, 104, 232];
+    aBackdrop.style.background = `rgba(${m[0]}, ${m[1]}, ${m[2]}, ${VOILE})`;
+  }
+
   function openAbout(opener) {
     aOpener = opener || navBtn;
+    fondAPropos();
     aBackdrop.hidden = false;
     aWin.style.position = '';
     aWin.style.left = '';
@@ -6955,7 +8118,7 @@ const dire = (function () {
       aWin.animate(
         [{ transform: 'scale(0.96)', opacity: 0 }, { transform: 'none', opacity: 1 }],
         { duration: 220, easing: MODAL_EASE });
-      aBackdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: 'ease' });
+      aBackdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease' });
     }
     const f = focusablesIn(aWin);
     if (f[0]) f[0].focus();
@@ -6978,6 +8141,100 @@ const dire = (function () {
   document.getElementById('about-close').addEventListener('click', closeAbout);
   aBackdrop.addEventListener('pointerdown', (e) => { if (e.target === aBackdrop) closeAbout(); });
   document.addEventListener('portfolio:about', () => openAbout(navBtn));
+
+  /* ---------- traînée de grimaces ----------
+     Une photo tous les 130 px de trajet du curseur, uniquement quand la
+     fenêtre À propos est ouverte. Chaque photo apparaît et reste posée
+     jusqu'à la fermeture. Pour ajouter des grimaces : déposer les images
+     et les ajouter à GRIMACES — elles sont tirées dans l'ordre, en boucle. */
+  (function grimaces() {
+    // Fichiers grimaces/<nom>-128.webp et -256.webp (écrans Retina).
+    // Photos seulement : les trois dessins (cœurs, câlin, WHY?) sont retirés.
+    const GRIMACES = ['w-12-bras', 'w-06-papa', 'w-13-dessin', 'w-07-lunettes',
+                      'w-14-friperie', 'w-08-sourire', 'w-15-rousse',
+                      'w-09-petit-chien', 'w-11-arbre'];
+    // Emojis glissés entre les photos (une sur deux). Ce sont de vrais
+    // caractères : sur Mac et iPhone ils s'affichent avec les emojis Apple.
+    const EMOJIS = ['☁️', '⚡️', '🌧️', '🍼', '🎨', '👶', '🏳️‍🌈', '🧠', '✈️'];   // nuage, éclair, pluie, biberon, peinture, bébé, drapeau LGBT, cerveau, avion
+    // Une photo tous les 130 px de trajet. Elles restent posées : 40 au
+    // plus, les plus anciennes laissent la place aux nouvelles.
+    const PAS = 130, MAX = 40;
+    const calque = document.getElementById('grimaces');
+    if (!calque) return;
+    // Préchargées : sinon la première tuile de chaque grimace apparaît vide.
+    GRIMACES.forEach((g) => { const i = new Image(); i.srcset = 'grimaces/' + g + '-256.webp 2x'; i.src = 'grimaces/' + g + '-128.webp'; });
+    /* Les emojis sont rares : un tous les 650 px de trajet environ, posés
+       à l'écart du curseur pour paraître parsemés plutôt qu'alignés, et
+       huit au plus restent sur l'écran. */
+    const PAS_EMOJI = 650, MAX_EMOJIS = 8;
+    let dernierPhoto = null, trajet = 0, precedent = null, np = 0, ne = 0;
+    const loin = (a, x, y, pas) => !a || Math.hypot(x - a.x, y - a.y) >= pas;
+
+    function poser(x, y, emoji) {
+      const t = document.createElement('div');
+      t.className = 'grimace';
+      if (emoji) {
+        t.classList.add('grimace--emoji');
+        t.textContent = EMOJIS[ne++ % EMOJIS.length];
+      } else {
+        const nom = GRIMACES[np++ % GRIMACES.length];
+        const g = 'grimaces/' + nom;
+        const img = document.createElement('img');
+        img.src = g + '-128.webp';
+        img.srcset = g + '-256.webp 2x';
+        img.alt = '';
+        img.draggable = false;
+        t.appendChild(img);
+      }
+      const rot = (Math.random() * (emoji ? 24 : 12) - (emoji ? 12 : 6)).toFixed(1);
+      const base = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+      calque.appendChild(t);
+      // Les photos passent et s'effacent ; les emojis apparaissent et restent
+      // posés tant que la fenêtre est ouverte (huit au plus, les plus anciens
+      // laissent la place).
+      if (emoji) {
+        const emojis = calque.querySelectorAll('.grimace--emoji');
+        if (emojis.length > MAX_EMOJIS) emojis[0].remove();
+        t.animate(reducedMotion()
+          ? [{ transform: base, opacity: 0 }, { transform: base, opacity: 1 }]
+          : [{ transform: base + ' scale(0.4)', opacity: 0 },
+             { transform: base + ' scale(1.15)', opacity: 1, offset: 0.6 },
+             { transform: base + ' scale(1)', opacity: 1 }],
+          { duration: 320, easing: 'ease-out', fill: 'forwards' });
+        return;
+      }
+      // Les photos apparaissent et restent posées, comme les emojis.
+      const photos = calque.querySelectorAll('.grimace:not(.grimace--emoji)');
+      if (photos.length > MAX) photos[0].remove();
+      t.animate(reducedMotion()
+        ? [{ transform: base, opacity: 0 }, { transform: base, opacity: 1 }]
+        : [{ transform: base + ' scale(0.5)', opacity: 0 },
+           { transform: base + ' scale(1.06)', opacity: 1, offset: 0.6 },
+           { transform: base + ' scale(1)', opacity: 1 }],
+        { duration: 300, easing: 'ease-out', fill: 'forwards' });
+    }
+
+    aBackdrop.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = aBackdrop.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      if (precedent) trajet += Math.hypot(x - precedent.x, y - precedent.y);
+      precedent = { x, y };
+      if (loin(dernierPhoto, x, y, PAS)) {
+        dernierPhoto = { x, y };
+        poser(x, y, false);
+      } else if (trajet >= PAS_EMOJI) {
+        trajet = 0;
+        // Décalé de 70 à 140 px dans une direction au hasard.
+        const a = Math.random() * Math.PI * 2, d = 70 + Math.random() * 70;
+        poser(x + Math.cos(a) * d, y + Math.sin(a) * d, true);
+      }
+    });
+    // On repart à zéro à chaque fermeture.
+    new MutationObserver(() => {
+      if (aBackdrop.hidden) { calque.replaceChildren(); dernierPhoto = precedent = null; trajet = 0; }
+    }).observe(aBackdrop, { attributes: true, attributeFilter: ['hidden'] });
+  })();
 
   document.addEventListener('keydown', (e) => {
     if (aBackdrop.hidden) return;
@@ -7231,18 +8488,135 @@ const dire = (function () {
   const SPOTIFY_PLAYLIST = '7H8UVvbjFYuzW0GUx3ekiU';
   const spot = document.getElementById('spot');
 
+  /* ---------- lecteur MP3 maison ----------
+     Pour ajouter un morceau : déposer le fichier dans le dossier musique/
+     puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
+  const PISTES = [
+    { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3' },
+    { titre: 'Ambiance',    artiste: 'Emmanuel Froissant', src: 'ambiance.mp3' }
+  ];
+  const ICONES = {
+    lire:  '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
+    prec:  '<svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>',
+    suiv:  '<svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>'
+  };
+  const audio = new Audio();
+  audio.preload = 'metadata';
+  let piste = 0;
+  let lecteurPret = false;
+  const mmss = (t) => isFinite(t) ? Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0') : '0:00';
+
+  function construireLecteur() {
+    spot.innerHTML = `
+      <div class="lecteur__barre">
+        <button type="button" class="lecteur__fermer" aria-label="Fermer le lecteur"></button>
+        <span>Musique</span>
+      </div>
+      <div class="lecteur__haut">
+        <p class="lecteur__titre"></p>
+        <p class="lecteur__artiste"></p>
+        <div class="lecteur__progres" role="slider" tabindex="0" aria-label="Position dans le morceau"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="lecteur__rempli"></div></div>
+        <div class="lecteur__temps"><span class="lecteur__ecoule">0:00</span><span class="lecteur__total">0:00</span></div>
+      </div>
+      <div class="lecteur__commandes">
+        <button type="button" class="lecteur__btn" data-cmd="prec" aria-label="Morceau précédent">${ICONES.prec}</button>
+        <button type="button" class="lecteur__btn lecteur__btn--lire" data-cmd="lire" aria-label="Lecture">${ICONES.lire}</button>
+        <button type="button" class="lecteur__btn" data-cmd="suiv" aria-label="Morceau suivant">${ICONES.suiv}</button>
+      </div>
+      <ol class="lecteur__liste"></ol>`;
+    const liste = spot.querySelector('.lecteur__liste');
+    PISTES.forEach((p, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<button type="button" class="lecteur__piste">
+          <span class="lecteur__num">${i + 1}</span>
+          <span class="lecteur__nom"></span>
+          <span class="lecteur__duree">–</span></button>`;
+      li.querySelector('.lecteur__nom').textContent = p.titre + ' — ' + p.artiste;
+      li.firstElementChild.addEventListener('click', () => { charger(i); audio.play(); });
+      liste.appendChild(li);
+      // Durée lue dans les métadonnées, sans télécharger le morceau entier.
+      const a = new Audio(); a.preload = 'metadata'; a.src = p.src;
+      a.addEventListener('loadedmetadata', () => { li.querySelector('.lecteur__duree').textContent = mmss(a.duration); });
+    });
+    spot.querySelector('.lecteur__fermer').addEventListener('click', fermerSpotify);
+
+    // Déplaçable par sa barre de titre, comme une vraie fenêtre. Une fois
+    // déplacé, il garde sa place (left/top) jusqu'au rechargement.
+    const poignee = spot.querySelector('.lecteur__barre');
+    let dx = 0, dy = 0, tenu = false;
+    poignee.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.lecteur__fermer') || e.button !== 0) return;
+      const r = spot.getBoundingClientRect();
+      dx = e.clientX - r.left; dy = e.clientY - r.top; tenu = true;
+      spot.style.left = r.left + 'px'; spot.style.top = r.top + 'px';
+      spot.style.right = 'auto'; spot.style.bottom = 'auto';
+      spot.style.transform = 'none';
+      spot.classList.add('is-deplace');
+      poignee.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    poignee.addEventListener('pointermove', (e) => {
+      if (!tenu) return;
+      const w = spot.offsetWidth, h = spot.offsetHeight;
+      const x = Math.max(0, Math.min(innerWidth - w, e.clientX - dx));
+      const y = Math.max(0, Math.min(innerHeight - h, e.clientY - dy));
+      spot.style.left = x + 'px'; spot.style.top = y + 'px';
+    });
+    const lacher = () => { tenu = false; spot.classList.remove('is-deplace'); };
+    poignee.addEventListener('pointerup', lacher);
+    poignee.addEventListener('pointercancel', lacher);
+    spot.querySelectorAll('[data-cmd]').forEach((b) => b.addEventListener('click', () => {
+      const c = b.dataset.cmd;
+      if (c === 'lire') { audio.paused ? audio.play() : audio.pause(); }
+      if (c === 'prec') { if (audio.currentTime > 3) audio.currentTime = 0; else { charger((piste - 1 + PISTES.length) % PISTES.length); audio.play(); } }
+      if (c === 'suiv') { charger((piste + 1) % PISTES.length); audio.play(); }
+    }));
+    const barre = spot.querySelector('.lecteur__progres');
+    const chercher = (x) => {
+      const r = barre.getBoundingClientRect();
+      if (isFinite(audio.duration)) audio.currentTime = Math.max(0, Math.min(1, (x - r.left) / r.width)) * audio.duration;
+    };
+    barre.addEventListener('pointerdown', (e) => { chercher(e.clientX); });
+    barre.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 5);
+      if (e.key === 'ArrowLeft')  audio.currentTime = Math.max(0, audio.currentTime - 5);
+    });
+    charger(piste);
+    lecteurPret = true;
+  }
+
+  function charger(i) {
+    piste = i;
+    const p = PISTES[i];
+    audio.src = p.src;
+    spot.querySelector('.lecteur__titre').textContent = p.titre;
+    spot.querySelector('.lecteur__artiste').textContent = p.artiste;
+    spot.querySelectorAll('.lecteur__piste').forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
+  }
+
+  function majEtat() {
+    if (!lecteurPret) return;
+    const b = spot.querySelector('[data-cmd="lire"]');
+    b.innerHTML = audio.paused ? ICONES.lire : ICONES.pause;
+    b.setAttribute('aria-label', audio.paused ? 'Lecture' : 'Pause');
+  }
+  audio.addEventListener('play', majEtat);
+  audio.addEventListener('pause', majEtat);
+  audio.addEventListener('ended', () => { charger((piste + 1) % PISTES.length); audio.play(); });
+  audio.addEventListener('loadedmetadata', () => { if (lecteurPret) spot.querySelector('.lecteur__total').textContent = mmss(audio.duration); });
+  audio.addEventListener('timeupdate', () => {
+    if (!lecteurPret) return;
+    const pc = audio.duration ? audio.currentTime / audio.duration * 100 : 0;
+    spot.querySelector('.lecteur__rempli').style.width = pc + '%';
+    spot.querySelector('.lecteur__ecoule').textContent = mmss(audio.currentTime);
+    spot.querySelector('.lecteur__progres').setAttribute('aria-valuenow', Math.round(pc));
+  });
+
   function ouvrirSpotify() {
     if (!spot.hidden) { fermerSpotify(); return; }
-    if (!spot.firstChild) {
-      const cadre = document.createElement('iframe');
-      cadre.src = 'https://open.spotify.com/embed/playlist/' + SPOTIFY_PLAYLIST
-                + '?utm_source=generator&theme=0';
-      cadre.title = 'Playlist Spotify d\u2019Emmanuel Froissant';
-      cadre.loading = 'lazy';
-      cadre.allow = 'clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-      cadre.setAttribute('frameborder', '0');
-      spot.appendChild(cadre);
-    }
+    if (!lecteurPret) construireLecteur();
     spot.hidden = false;
     if (!reducedMotion()) {
       spot.animate([{ transform: 'translateX(24px)', opacity: 0 },
@@ -7251,10 +8625,20 @@ const dire = (function () {
     }
   }
 
+  // Ouvert par défaut à chaque arrivée sur le bureau (grand écran). Au
+  // téléphone il recouvrirait les cartes : il reste derrière « Musique ».
+  document.addEventListener('portfolio:desktop', () => {
+    if (spot.hidden && window.matchMedia('(min-width: 768px)').matches) ouvrirSpotify();
+  });
+  new MutationObserver(() => {
+    if (document.getElementById('stage').dataset.state !== 'desktop') spot.hidden = true;
+  }).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['data-state'] });
+
+  // Fermer la fenêtre ne coupe pas la musique : on continue d'écouter en
+  // naviguant, et on la retrouve en rouvrant « Musique ».
   function fermerSpotify() {
     if (spot.hidden) return;
     spot.hidden = true;
-    spot.replaceChildren();        // le son s'arrête avec l'iframe
   }
 
   document.addEventListener('keydown', (e) => {
@@ -7273,8 +8657,6 @@ const dire = (function () {
   document.addEventListener('pointerdown', (e) => {
     if (!fWin.hidden && !fWin.contains(e.target)
         && !e.target.closest('.mini, .dock__item')) finderClose();
-    if (!spot.hidden && !spot.contains(e.target)
-        && !e.target.closest('.mini, .dock__item')) fermerSpotify();
   }, true);
 
   const SFX_VOLUME = 1;
@@ -7433,6 +8815,10 @@ const dire = (function () {
      3. LE FICHIER PEUT MANQUER. Tant qu'aucune piste n'est déposée, le
         bouton se désactive au lieu de faire semblant. */
   const VOL_AMBIANCE = 0.18;
+  /* Démarrage automatique coupé en attendant la nouvelle musique. Le bouton
+     son de la barre la lance toujours à la demande. Repasser à true pour
+     la relancer au déverrouillage. */
+  const AMBIANCE_AUTO = false;
   const MONTEE_MS    = 2500;
   const CLE_SON      = 'portfolio:son';
 
@@ -7535,9 +8921,246 @@ const dire = (function () {
     });
   }
 
+
+  /* ---------- yeux rétro : les pupilles suivent la souris ---------- */
+  (function yeux() {
+    // Deux paires : l'avatar de l'écran verrouillé et la barre du bureau.
+    const paires = [...document.querySelectorAll('svg.yeux')];
+    if (!paires.length) return;
+    const lent = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* Suivi fluide : la souris fixe une cible, et chaque image la pupille
+       parcourt 18 % du chemin restant. Réactif au départ, doux à l'arrivée,
+       sans à-coups même quand la souris saute. */
+    const pupilles = paires.flatMap((svg) => [...svg.querySelectorAll('.yeux__pupille')]
+      .map((p) => ({ svg, p, x: 0, y: 0, tx: 0, ty: 0 })));
+    document.addEventListener('pointermove', (e) => {
+      if (lent()) return;
+      pupilles.forEach((o) => {
+        if (!o.svg.getClientRects().length) return;
+        const r = o.svg.getBoundingClientRect();
+        const k = r.width / o.svg.viewBox.baseVal.width;   // unités SVG -> pixels
+        const cx = r.left + o.p.dataset.cx * k, cy = r.top + o.p.dataset.cy * k;
+        const dx = e.clientX - cx, dy = e.clientY - cy;
+        const d = Math.hypot(dx, dy) || 1;
+        const f = Math.min(1, d / 100);            // regard franc dès 100 px
+        o.tx = dx / d * 10 * f; o.ty = dy / d * 10 * f;
+      });
+    });
+    (function boucle() {
+      pupilles.forEach((o) => {
+        o.x += (o.tx - o.x) * 0.18; o.y += (o.ty - o.y) * 0.18;
+        o.p.style.transform = `translate(${o.x.toFixed(2)}px, ${o.y.toFixed(2)}px)`;
+      });
+      requestAnimationFrame(boucle);
+    })();
+  })();
+
+  /* ---------- bulle : regard qui suit la souris, clignement ---------- */
+  (function bulle() {
+    const b = document.getElementById('bulle');
+    if (!b) return;
+    const regard = b.querySelector('.bulle__regard');
+    const lent = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.addEventListener('pointermove', (e) => {
+      if (lent() || !b.offsetParent) return;
+      const r = b.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      const d = Math.hypot(dx, dy) || 1;
+      const k = Math.min(1, d / 300) * 4;        // 4 unités au plus
+      regard.style.transform = `translate(${(dx / d * k).toFixed(2)}px, ${(dy / d * k).toFixed(2)}px)`;
+    });
+    function cligne() {
+      if (!lent()) {
+        b.classList.remove('is-cligne');
+        void b.offsetWidth;                      // relance l'animation
+        b.classList.add('is-cligne');
+      }
+      setTimeout(cligne, 2500 + Math.random() * 3500);
+    }
+    setTimeout(cligne, 1800);
+  })();
+
+  /* Éphéméride du bureau : déplaçable à la souris (ou au stylet), et au
+     clavier avec les flèches une fois sélectionné (Maj pour aller plus
+     vite). Il reste dans les limites du bureau. Sur téléphone il est dans
+     le flux de la grille et ne bouge pas. */
+  (function ephemeride() {
+    const f = document.getElementById('lock-date');
+    const zone = document.getElementById('view-desktop');
+    if (!f || !zone) return;
+    f.tabIndex = 0;
+    const petit = matchMedia('(max-width: 767px)');
+    const flottant = () => !petit.matches;
+    function poser(x, y) {
+      const z = zone.getBoundingClientRect();
+      const bar = document.querySelector('.menubar');
+      const haut = bar ? bar.offsetHeight : 0;
+      x = Math.max(0, Math.min(z.width - f.offsetWidth, x));
+      y = Math.max(haut, Math.min(z.height - f.offsetHeight - 8, y));
+      f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.right = 'auto';
+    }
+    /* Place par défaut : sous le lecteur de musique, aligné sur son bord
+       droit, 40 px plus bas. Tant que le visiteur ne l'a pas déplacé, il
+       y revient à chaque arrivée sur le bureau et à chaque redimension. */
+    let deplace = false;
+    function caler() {
+      if (deplace || !flottant()) return;
+      const sp = document.getElementById('spot');
+      if (sp && !sp.hidden && sp.offsetWidth) {
+        // Position de mise en page (offset*), pas getBoundingClientRect :
+        // le lecteur entre en glissant, sa boîte bouge encore à cet instant.
+        const z = zone.getBoundingClientRect();
+        const droite = sp.offsetLeft + sp.offsetWidth - z.left;
+        const bas = sp.offsetTop + sp.offsetHeight - z.top;
+        // Rentré de quelques px : incliné, il déborderait sinon du bord.
+        f.style.left = Math.min(droite - f.offsetWidth - 12, z.width - f.offsetWidth - 32) + 'px';
+        f.style.top = (bas + 40) + 'px';
+        f.style.right = 'auto';
+      } else {
+        f.style.left = f.style.top = f.style.right = '';
+      }
+    }
+    // Écouté après celui qui ouvre le lecteur : il est déjà visible ici,
+    // et les cartes, dispersées à l'image suivante, évitent l'éphéméride.
+    document.addEventListener('portfolio:desktop', caler);
+    let dx = 0, dy = 0, tenu = false, x0 = 0, y0 = 0, glisse = false;
+    f.addEventListener('pointerdown', (e) => {
+      x0 = e.clientX; y0 = e.clientY; glisse = false;
+      if (!flottant() || e.button !== 0) return;
+      dx = e.clientX - f.offsetLeft; dy = e.clientY - f.offsetTop;
+      tenu = true;
+      f.classList.add('is-tenu');
+      f.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    f.addEventListener('pointermove', (e) => {
+      if (!tenu) return;
+      // Au-delà de 4 px c'est un déplacement, pas un clic.
+      if (Math.hypot(e.clientX - x0, e.clientY - y0) > 4) glisse = deplace = true;
+      poser(e.clientX - dx, e.clientY - dy);
+    });
+    const lacher = () => { tenu = false; f.classList.remove('is-tenu'); };
+    f.addEventListener('pointerup', lacher);
+    f.addEventListener('pointercancel', lacher);
+    f.addEventListener('keydown', (e) => {
+      if (!flottant()) return;
+      const pas = e.shiftKey ? 48 : 8;
+      const d = { ArrowLeft: [-pas, 0], ArrowRight: [pas, 0], ArrowUp: [0, -pas], ArrowDown: [0, pas] }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      deplace = true;
+      poser(f.offsetLeft + d[0], f.offsetTop + d[1]);
+    });
+    /* Chaque clic arrache une feuille : la date avance d'un jour. Au
+       quatrième clic d'affilée, une bulle demande si l'on a quelque chose
+       contre aujourd'hui ; au huitième, elle abandonne (« À demain,
+       alors. »). Puis la
+       feuille revient à aujourd'hui quand la bulle s'en va (sans bulle,
+       elle y revient seule après 2,5 s). Entrée et
+       Espace font la même chose au clavier. */
+    const SEUIL = 4;
+    let clics = 0, finSerie = null, finBulle = null;
+    const bulle = document.createElement('p');
+    bulle.className = 'feuille-bulle';
+    bulle.setAttribute('role', 'status');
+    bulle.hidden = true;
+    zone.appendChild(bulle);
+    /* La bulle se met du côté où il y a de la place : à gauche quand
+       l'éphéméride est contre le bord droit (sa place par défaut), à droite
+       sinon. La pointe (le coin peu arrondi) regarde l'éphéméride. */
+    function placerBulle() {
+      const r = f.getBoundingClientRect(), z = zone.getBoundingClientRect();
+      const ecart = petit.matches ? 12 : 16;
+      const aGauche = r.left - z.left > bulle.offsetWidth + ecart + 16;
+      bulle.classList.toggle('feuille-bulle--gauche', aGauche);
+      if (aGauche) {
+        bulle.style.left = 'auto';
+        bulle.style.right = (z.right - r.left + ecart) + 'px';
+      } else {
+        bulle.style.right = 'auto';
+        bulle.style.left = (r.right - z.left + ecart) + 'px';
+      }
+      bulle.style.top = (r.top - z.top + (petit.matches ? 8 : 16)) + 'px';
+    }
+    /* Le texte arrive mot à mot : chaque mot monte et apparaît avec un
+       léger décalage sur le précédent. Le texte entier reste dans
+       l'étiquette pour les lecteurs d'écran. */
+    function ecrire(texte, nouvelle) {
+      if (!nouvelle && bulle.dataset.texte === texte) return;   // déjà affiché
+      bulle.dataset.texte = texte;
+      bulle.setAttribute('aria-label', texte);
+      bulle.textContent = '';
+      texte.split(' ').forEach((mot, i, tous) => {
+        const m = document.createElement('span');
+        m.className = 'feuille-bulle__mot';
+        m.setAttribute('aria-hidden', 'true');
+        m.textContent = mot;
+        m.style.animationDelay = (120 + i * 70) + 'ms';
+        bulle.appendChild(m);
+        if (i < tous.length - 1) bulle.appendChild(document.createTextNode(' '));
+      });
+    }
+    function tourner() {
+      decalageJour++;
+      render();
+      if (!reduced) {
+        const j = f.querySelector('.feuille__jour');
+        j.animate([{ transform: 'translateY(-6px)', opacity: 0.2 }, { transform: 'none', opacity: 1 }],
+                  { duration: 160, easing: 'ease-out' });
+      }
+      clics++;
+      clearTimeout(finSerie);
+      // Moins de quatre clics : la feuille revient d'elle-même au présent.
+      finSerie = setTimeout(() => {
+        clics = 0;
+        if (bulle.hidden && decalageJour) { decalageJour = 0; render(); }
+      }, 2500);
+      if (clics >= SEUIL) {
+        // Premier avertissement, puis on abandonne si le visiteur insiste.
+        const texte = clics >= SEUIL * 2
+          ? 'OK. À demain, alors.'
+          : 'Vous avez quelque chose contre aujourd’hui\u202F?';
+        const nouvelle = bulle.hidden;
+        bulle.hidden = false;
+        ecrire(texte, nouvelle);
+        if (nouvelle) {                 // relance l'entrée de la bulle
+          bulle.style.animation = 'none';
+          void bulle.offsetWidth;
+          bulle.style.animation = '';
+        }
+        placerBulle();
+        clearTimeout(finBulle);
+        finBulle = setTimeout(() => {
+          bulle.hidden = true;
+          clics = 0;
+          decalageJour = 0;          // retour au présent
+          render();
+        }, 3200);
+      }
+    }
+    f.addEventListener('click', () => { if (!glisse) tourner(); });
+    f.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tourner(); }
+    });
+
+    // Fenêtre redimensionnée : on le ramène dans le cadre s'il a été déplacé.
+    addEventListener('resize', () => {
+      if (!flottant()) { f.style.left = f.style.top = f.style.right = ''; return; }
+      if (deplace) poser(f.offsetLeft, f.offsetTop); else caler();
+    });
+  })();
+
   document.getElementById('unlock').addEventListener('click', () => {
     playUnlockSound();
-    jouerAmbiance();
+    if (AMBIANCE_AUTO) jouerAmbiance();
+    // Les yeux clignent une fois, au moment où l'écran s'ouvre.
+    const yeux = document.getElementById('yeux');
+    if (yeux && !reduced) {
+      yeux.classList.remove('is-cligne');
+      void yeux.getBoundingClientRect();
+      yeux.classList.add('is-cligne');
+    }
     show('desktop');
   });
 
