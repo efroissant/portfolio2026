@@ -6165,22 +6165,17 @@ const dire = (function () {
 
      Pour changer le mot de passe : relancer verrou.py. Rien à modifier ici. */
   /* ==================================================================
-     INTERRUPTEUR DE TRAVAIL — à laisser sur false pour la mise en ligne.
+     PROJETS EN ACCÈS LIBRE — choix assumé, en ligne aussi.
 
-     À true : le dossier s'ouvre sans rien demander et les deux études
-     chiffrées sont déverrouillées toutes seules au chargement. Pratique
-     pour travailler, mais le mot de passe se trouve alors en clair dans
-     cette page — donc inutilisable en ligne.
+     À true : le dossier Projets s'ouvre sans rien demander et les études
+     chiffrées sont déchiffrées toutes seules avec la clé ci-dessous, qui
+     est volontairement publique. Le chiffrement ne protège donc plus rien :
+     tout le monde voit les études.
 
-     Tu n'as pas à y penser : verrou.py remet cette valeur à false à chaque
-     exécution. Comme tu dois le lancer pour poser ton vrai mot de passe,
-     la version publiée sera verrouillée quoi qu'il arrive.
+     ⚠️ Ne pas relancer verrou.py sans vouloir remettre un mot de passe :
+     il repasse VERROU_OUVERT à false et rechiffre avec une autre clé.
      ================================================================== */
   const VERROU_OUVERT = true;
-  // Vide dans le fichier publié : le vrai mot de passe n'a rien à faire
-  // ici. Pour travailler sans saisir la serrure, écris-le le temps de ta
-  // séance et remets la chaîne vide avant d'envoyer. verrou.py refermera
-  // VERROU_OUVERT de toute façon.
   const VERROU_MDP_TRAVAIL = 'travail-provisoire';
 
   const VERROU = {
@@ -6408,8 +6403,6 @@ const dire = (function () {
         deverrouille = true;
         await revelerEtudes();
         majVerrous();
-        dire.avertir('[verrou] mode travail : le mot de passe est désactivé et '
-          + 'présent en clair dans la page. Lance verrou.py avant toute mise en ligne.');
       } catch (e) {
         dire.erreur('[verrou] mode travail : le mot de passe intégré ne '
           + 'correspond plus au fichier. Relance verrou.py.', e);
