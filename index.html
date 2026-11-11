@@ -930,7 +930,7 @@
   .son__barres { display: block; width: 24px; height: 24px; overflow: visible; filter: drop-shadow(2px 2.5px 0 #000); }
   .son__barres rect {
     fill: #FFFFFF;
-    stroke: #000000; stroke-width: 1;
+    stroke: #000000; stroke-width: 0.67;   /* ≈ 1 px à 24 px de haut */
     /* Sans fill-box, l'origine est celle du viewBox entier et les barres
        partent en biais au lieu de battre sur place. */
     transform-box: fill-box;
@@ -3706,7 +3706,7 @@
   .menubar__logo > .perso--barre { filter: drop-shadow(2px 2.5px 0 #000); }
   .perso--barre .perso__forme {
     fill: #FFFFFF;            /* blanc, comme le fond des autres icônes */
-    stroke: #000000; stroke-width: 9; stroke-linejoin: round;
+    stroke: #000000; stroke-width: 6; stroke-linejoin: round;   /* ≈ 1 px */
   }
   .yeux__pupille { will-change: transform; }   /* animé image par image en JS */
   .yeux__oeil { transform-box: fill-box; transform-origin: center; }
@@ -6201,7 +6201,7 @@
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
            aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" data-bulle="LinkedIn">
           <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="0.85"/>
             <circle cx="6.6" cy="6.4" r="1.3" fill="#000"/>
             <rect x="5.5" y="8.6" width="2.2" height="6.6" rx="0.4" fill="#000"/>
             <path fill="#000" d="M9.4 15.2 V8.6 H11.4 V9.6 C11.9 8.9 12.7 8.45 13.7 8.45 C15.2 8.45 16 9.4 16 11.2 V15.2 H13.8 V11.6 C13.8 10.7 13.4 10.3 12.7 10.3 C11.9 10.3 11.6 10.9 11.6 11.7 V15.2 Z"/>
@@ -6212,7 +6212,7 @@
         <a class="barlien" href="https://ca.pinterest.com/efroissant/" target="_blank" rel="noopener"
            aria-label="Pinterest — ouvrir mon profil (nouvel onglet)" data-bulle="Pinterest">
           <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="0.85"/>
             <path fill="#000" fill-rule="evenodd" d="M7.4 5.6 H9.4 V15 H7.4 Z M9.4 5.6 H11.3 A2.9 2.9 0 0 1 11.3 11.4 H9.4 Z M9.4 7.4 H11.2 A1.1 1.1 0 0 1 11.2 9.6 H9.4 Z"/>
           </svg>
         </a>
