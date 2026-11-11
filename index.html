@@ -585,6 +585,16 @@
   }
   /* Le voile ne concerne que la veille : il s'efface en mode bureau. */
   .stage[data-state="desktop"] .stage__scrim { opacity: 0; }
+  /* Veille plus sombre : un voile bleu nuit sur le fond, qui se lève en
+     douceur au déverrouillage — on passe d'un bleu profond au bleu du
+     bureau. Le texte blanc de la veille y gagne aussi en contraste. */
+  .stage:not([data-wall="blanc"]) .stage__scrim {
+    background: rgba(8, 12, 48, 0.42);
+    transition: opacity 900ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage:not([data-wall="blanc"]) .stage__scrim { transition: opacity 200ms linear; }
+  }
 
   .view {
     position: absolute;
@@ -593,6 +603,10 @@
   }
   .view[hidden] { display: none; }
   .view[data-fade="out"] { opacity: 0; }
+  /* Pas de fondu enchaîné : l'écran qui part s'efface vite (140 ms), celui
+     qui arrive n'apparaît qu'ensuite. On ne voit jamais les deux à la fois. */
+  .view[data-fade="out"] { transition-duration: 140ms; transition-delay: 0ms; }
+  .view[data-fade="in"]  { transition-duration: 240ms; transition-delay: 130ms; }
 
   /* ================= ÉTAT VEILLE ================= */
   .lock {
@@ -3797,6 +3811,8 @@
     font-size: 16px; font-weight: 400; line-height: 22px;
     color: #000;
   }
+  /* Texte noir en Medium. */
+  .stage .lock .unlock { font-weight: 500; color: #000000; }
 
   /* Cartes du bureau : 168 × 136, marges de 16, libellé 16 / 24.
      À 24 px, « Bibliothèque » ne tenait pas et se coupait en plein mot. */
@@ -6126,7 +6142,7 @@
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
-      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller le desktop</button>
+      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller le portfolio</button>
     </div>
 
     <!-- Son de déverrouillage. Opus d'abord (2,3 Ko), MP3 en repli pour
