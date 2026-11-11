@@ -59,9 +59,9 @@
        seuil de 3:1 exigé pour la limite d'un contrôle (WCAG 1.4.11). */
     --btn-border: rgba(255, 255, 255, 0.75);
 
-    /* Arial partout où le site utilisait San Francisco (le nom de la
+    /* Helvetica Neue partout où le site utilisait San Francisco (le nom de la
        variable est resté, pour ne rien casser). */
-    --font-sf: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    --font-sf: "Helvetica Neue", Helvetica, sans-serif;
 
     /* SF Pro : 200 Ultralight, 300 Light, 400 Regular, 510 Medium,
        590 Semibold, 700 Bold */
@@ -198,6 +198,9 @@
   }
 
   * { box-sizing: border-box; }
+  /* Les contrôles de formulaire ont leur propre police système : ils
+     reprennent celle de la page, Helvetica Neue partout. */
+  button, input, textarea, select { font-family: inherit; }
   @font-face {
     font-family: "Butterclub";
     src: url("butterclub.woff2") format("woff2"),
@@ -254,7 +257,7 @@
      comme la date. */
   .clock .clock__time,
   .identity .identity__name {
-    font-family: "Plump Riot", Georgia, serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-weight: 400;
     font-synthesis: none;
     letter-spacing: 0;
@@ -345,7 +348,7 @@
     color: #000000;
     border: 1px solid #000000;
     box-shadow: 3px 4px 0 #000000;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 14px;
     text-shadow: none;
   }
@@ -360,13 +363,33 @@
     user-select: none;
   }
   .lecteur.is-deplace .lecteur__barre { cursor: grabbing; }
+  /* « Ranger » et « Disposer au hasard » : même glissement que les cartes. */
+  .spot.is-range,
+  .stage .desktop .feuille.is-range {
+    transition: left 650ms cubic-bezier(0.22, 1, 0.36, 1), top 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
   .lecteur__fermer {
-    width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%;
-    background: #000000; cursor: pointer; flex-shrink: 0;
+    width: 12px; height: 12px; padding: 0; border-radius: 50%;
+    /* Cerclé, pas rempli : même rond que celui des fenêtres. */
+    box-sizing: border-box; border: 1.5px solid #000000;
+    background: transparent; cursor: pointer; flex-shrink: 0;
   }
   .lecteur__fermer:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
   .lecteur__barre span { flex: 1; text-align: center; margin-right: 20px; }
   .lecteur__haut { padding: 16px 16px 4px; }
+  .lecteur__entete { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .lecteur__titres { min-width: 0; flex: 1; }
+  /* Pochette traitée comme la photo de l'À propos : carré cadré, trait noir
+     de 1 px, coins de 8, ombre pleine décalée de 3 × 4. Tant qu'il n'y a
+     pas d'image, une tuile bleu-vert avec une croche. */
+  .lecteur__pochette {
+    position: relative; flex: 0 0 72px; width: 72px; height: 72px;
+    border: 1px solid #000; border-radius: 8px; overflow: hidden;
+    box-shadow: 3px 4px 0 #000;
+    background: #68BEC9 center / 36px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 29 V6 H22 C23 11 31 13 30 23 C29 18 26 16 22 15 V29 Z' fill='%23fff' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cellipse cx='15.5' cy='29' rx='6.5' ry='4.8' transform='rotate(-20 15.5 29)' fill='%23fff' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  }
+  .lecteur__pochette img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lecteur__pochette img[hidden] { display: none; }
   .lecteur__titre { margin: 0; font-size: 24px; font-weight: 700; line-height: 28px; letter-spacing: -0.02em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .lecteur__artiste { margin: 2px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; }
@@ -379,7 +402,7 @@
   .lecteur__rempli { position: absolute; inset: 0 auto 0 0; width: 0; background: #000000; }
   .lecteur__temps { display: flex; justify-content: space-between; font-size: 12px; font-weight: 500;
     font-variant-numeric: tabular-nums; }
-  .lecteur__commandes { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 8px 0 16px; }
+  .lecteur__commandes { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 8px 0 24px; }
   .lecteur__btn {
     display: grid; place-items: center;
     width: 40px; height: 40px; padding: 0;
@@ -387,13 +410,52 @@
   }
   .lecteur__btn svg { width: 20px; height: 20px; fill: currentColor; }
   .lecteur__btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  /* Lecture : le geste des boutons d'action. Au survol il se soulève, se
+     remplit de gauche à droite et se triple en escalier, dans les teintes
+     de son bleu-vert ; au clic, la pile se referme et il s'enfonce. */
   .lecteur__btn--lire {
+    --teinte: #68BEC9;
+    /* Les copies prennent le jaune et le rose du bouton Déverrouiller. */
+    --copie1: #EEED70;
+    --copie2: #F6ACCD;
     width: 48px; height: 48px;
-    background: #68BEC9; border: 1px solid #000000;
-    box-shadow: 3px 4px 0 #000000;
-    transition: transform 120ms ease, box-shadow 120ms ease;
+    border: 1px solid #000000;
+    background-color: var(--teinte);
+    background-image: linear-gradient(color-mix(in srgb, var(--teinte) 45%, #FFFFFF), color-mix(in srgb, var(--teinte) 45%, #FFFFFF));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    box-shadow:
+      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
+      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
+      3px 4px 0 0 #000000;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                background-size 350ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .lecteur__btn--lire:active { transform: translate(3px, 4px); box-shadow: 0 0 0 #000; }
+  /* Escalier resserré (4 / 8 px au lieu de 8 / 16) : à 48 px de diamètre,
+     les grands décalages des boutons pilule débordaient sur le filet de la
+     liste en dessous. */
+  .lecteur__btn--lire:hover,
+  .lecteur__btn--lire:focus-visible {
+    transform: translate(-2px, -2px);
+    background-size: 100% 100%;
+    box-shadow:
+      4px 4px 0 0 var(--copie1), 4px 4px 0 1px #000000,
+      8px 8px 0 0 var(--copie2), 8px 8px 0 1px #000000,
+      11px 12px 0 1px #000000;
+  }
+  .lecteur__btn--lire:active {
+    transform: translate(3px, 4px);
+    box-shadow:
+      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
+      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
+      0 0 0 0 #000000;
+    transition-duration: 120ms, 120ms, 350ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lecteur__btn--lire { transition: background-size 350ms ease; }
+  }
   .lecteur__liste { list-style: none; margin: 0; padding: 8px; border-top: 2px solid #000000;
     max-height: 200px; overflow-y: auto; }
   .lecteur__piste {
@@ -409,7 +471,7 @@
   @media (max-width: 767px) { .spot.lecteur { width: auto; } }
   /* Ouvert en permanence sur le bureau : en haut à droite, juste sous la
      date de la barre de menus, aligné sur son bord droit. */
-  @media (min-width: 768px) { .spot.lecteur { top: calc(var(--bar-h) + 8px); bottom: auto; right: var(--bar-pad-r); } }
+  @media (min-width: 768px) { .spot.lecteur { top: calc(var(--bar-h) + 48px); bottom: auto; right: var(--bar-pad-r); } }
 
 
   /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
@@ -672,8 +734,8 @@
     border-color: #000000;
   }
 
-  /* Le bouton se triple au survol : deux copies blanches (le corail reste
-     le seul accent de l'écran) glissent en escalier
+  /* Le bouton se triple au survol : une copie jaune puis une rose
+     glissent en escalier
      derrière lui, chacune cernée de noir. Ce sont des ombres portées et
      non des éléments : elles suivent l'arrondi du bouton et restent sous
      lui sans toucher au balisage. Même nombre d'ombres au repos et au
@@ -681,8 +743,8 @@
      Ordre : la première ombre est dessinée au-dessus des suivantes. */
   .stage .lock .unlock {
     box-shadow:
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      0 0 0 0 #EEED70, 0 0 0 0 #000000,
+      0 0 0 0 #F6ACCD, 0 0 0 0 #000000,
       3px 4px 0 0 #000000;
     transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -692,16 +754,16 @@
   .stage .lock .unlock:focus-visible {
     transform: translate(-4px, -4px);
     box-shadow:
-      8px 8px 0 0 #FFFFFF, 8px 8px 0 1px #000000,
-      16px 16px 0 0 #FFFFFF, 16px 16px 0 1px #000000,
+      8px 8px 0 0 #EEED70, 8px 8px 0 1px #000000,
+      16px 16px 0 0 #F6ACCD, 16px 16px 0 1px #000000,
       19px 20px 0 1px #000000;
   }
   /* Au clic, la pile se referme et le bouton s'enfonce. */
   .stage .lock .unlock:active {
     transform: translate(3px, 4px);
     box-shadow:
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
+      0 0 0 0 #EEED70, 0 0 0 0 #000000,
+      0 0 0 0 #F6ACCD, 0 0 0 0 #000000,
       0 0 0 0 #000000;
     transition-duration: 350ms, 120ms, 120ms;
   }
@@ -823,11 +885,12 @@
      Les deux vivent dans la même barre, ils doivent réagir pareil. */
   .son {
     display: flex; align-items: center; justify-content: center;
-    width: 26px; height: 24px;
+    width: 34px; height: 34px;
     padding: 4px; border: 0; background: none;
     border-radius: 4px;
     color: currentColor; cursor: pointer;
-    opacity: 0.55;
+    /* Pleine opacité : l'état se lit aux barres (aplaties = coupé). */
+    opacity: 1;
     transition: background-color 120ms ease, opacity 200ms ease;
   }
   .son:hover, .son:focus-visible {
@@ -835,9 +898,39 @@
     background: rgba(255, 255, 255, 0.22);
   }
   .son[disabled] { opacity: 0.25; }
-  .son__barres { display: block; width: 16px; height: 16px; filter: var(--sky-shadow-svg); }
+  /* Lien de la barre (Pinterest) : le gabarit du coupe-son, pleine
+     opacité puisqu'il n'a pas d'état éteint. */
+  .barlien {
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; padding: 4px;
+    border-radius: 4px;
+    color: currentColor;
+    transition: background-color 120ms ease;
+  }
+  .barlien:hover, .barlien:focus-visible { background: rgba(255, 255, 255, 0.22); }
+  /* La même bulle que dans le dock, sous l'icône puisqu'on est en haut. */
+  .barlien { position: relative; }
+  .barlien[data-bulle]::after {
+    content: attr(data-bulle);
+    position: absolute; left: 50%; top: calc(100% + 6px);
+    transform: translateX(-50%) translateY(-4px);
+    padding: 3px 8px; border-radius: 200px;
+    background: #FFFFFF; border: 1px solid #000000; color: #000000;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px; font-weight: 500; line-height: 14px;
+    text-shadow: none; white-space: nowrap;
+    opacity: 0; pointer-events: none; z-index: 40;
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+  .barlien[data-bulle]:hover::after,
+  .barlien[data-bulle]:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+  /* Même langue que les icônes des cartes : fond blanc, trait noir, glyphe
+     noir et ombre pleine décalée. */
+  .barlien__icone { display: block; width: 26px; height: 26px; overflow: visible; filter: drop-shadow(2px 2.5px 0 #000); }
+  .son__barres { display: block; width: 24px; height: 24px; overflow: visible; filter: drop-shadow(2px 2.5px 0 #000); }
   .son__barres rect {
-    fill: currentColor;
+    fill: #FFFFFF;
+    stroke: #000000; stroke-width: 1;
     /* Sans fill-box, l'origine est celle du viewBox entier et les barres
        partent en biais au lieu de battre sur place. */
     transform-box: fill-box;
@@ -1110,7 +1203,9 @@
      matière, sinon chacun a l'air importé d'un endroit différent. */
   .finder {
     position: absolute;
-    z-index: 26;
+    /* 29 : au-dessus du calendrier (26) et du lecteur (27), sous le voile
+       des modales (30). Une fenêtre ouverte n'est jamais recouverte. */
+    z-index: 29;
     display: flex;
     flex-direction: column;
     /* 576, pour quatre objets par rangée partout. Le calcul doit retirer
@@ -1229,9 +1324,31 @@
      ni fausses couvertures. */
   .shelf { display: flex; flex-direction: column; gap: 8px; }
   .shelf__head { display: flex; flex-direction: column; }
+  /* Titres des rayons : Helvetica 16 Regular, sans espacement, en noir. */
   .shelf__label {
-    flex-shrink: 0; font-size: 11px; letter-spacing: 0.14em;
-    color: rgba(var(--ink-rgb), 0.62); white-space: nowrap;
+    flex-shrink: 0; margin: 0;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink); white-space: nowrap;
+  }
+  /* La Bibliothèque s'élargit pour garder quatre visuels par rangée. */
+  #finder[data-vue="passe-temps"] { width: min(720px, calc(100% - 48px)); }
+  /* Les pochettes carrées remplissent toute la largeur : quatre colonnes
+     égales, 24 px entre elles, la pochette prend sa colonne entière. */
+  @media (min-width: 768px) {
+    .shelf__row[data-forme="disque"],
+    .shelf__row[data-forme="carre"] {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 24px;
+    }
+    .shelf__row[data-forme="disque"] .shelf__slot,
+    .shelf__row[data-forme="carre"] .shelf__slot { width: 100% !important; }
+    .shelf__row[data-forme="disque"] .shelf__lien,
+    .shelf__row[data-forme="carre"] .shelf__lien { width: 100%; }
+    .shelf__row[data-forme="disque"] .shelf__art,
+    .shelf__row[data-forme="carre"] .shelf__art { width: 100%; }
   }
   /* Rangée en flux libre et non en colonnes de 1fr. La différence n'est pas
      technique : avec des colonnes égales, l'écart visible entre deux objets
@@ -1309,11 +1426,11 @@
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.26);
   }
   .shelf__row[data-forme="livre"] .shelf__slot,
-  .shelf__row[data-forme="affiche"] .shelf__slot { width: 80px; }
+  .shelf__row[data-forme="affiche"] .shelf__slot { width: 120px; }
   .shelf__row[data-forme="livre"] div.shelf__art,
   .shelf__row[data-forme="affiche"] div.shelf__art { aspect-ratio: 2 / 3; }
   .shelf__row[data-forme="disque"] .shelf__slot,
-  .shelf__row[data-forme="carre"] .shelf__slot { width: 96px; }
+  .shelf__row[data-forme="carre"] .shelf__slot { width: 144px; }
   .shelf__row[data-forme="disque"] .shelf__art,
   .shelf__row[data-forme="carre"] .shelf__art { aspect-ratio: 1 / 1; }
 
@@ -1347,7 +1464,8 @@
   /* Menu contextuel du bureau — clic droit, façon macOS. */
   .ctxmenu {
     position: absolute;
-    z-index: 20;
+    /* 35 : au-dessus de tout le bureau, comme les menus de la barre. */
+    z-index: 35;
     min-width: 184px;
     padding: 5px;
     border-radius: 8px;
@@ -1423,6 +1541,7 @@
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   }
   .ctxmenu__sub[hidden] { display: none; }
+  .ctxmenu__sub--gauche { left: auto; right: calc(100% - 5px); }
 
   .ctxwall {
     display: flex; align-items: center; gap: 10px;
@@ -1439,6 +1558,11 @@
   }
   /* La coche marque le fond actif. Sa place est réservée même quand elle est
      absente, sinon les libellés se décalent d'une ligne à l'autre. */
+  .ctxwall__pastille {
+    display: block; flex-shrink: 0;
+    width: 28px; height: 20px;
+    border: 1px solid #000000; border-radius: 4px;
+  }
   .ctxwall__tick { width: 12px; flex-shrink: 0; text-align: center; opacity: 0; }
   .ctxwall[aria-checked="true"] .ctxwall__tick { opacity: 1; }
 
@@ -1450,6 +1574,7 @@
   }
 
   /* Le rangement doit se voir : sans transition les icônes se téléportent. */
+  .minis.sans-glisse .mini { transition: none !important; }
   .mini { transition: left 260ms cubic-bezier(.22,.61,.36,1), top 260ms cubic-bezier(.22,.61,.36,1); }
   .mini[data-dragging="true"] { transition: none; }
   @media (prefers-reduced-motion: reduce) { .mini { transition: none; } }
@@ -2267,8 +2392,9 @@
   /* Point noir, comme celui de l'éphéméride et du lecteur de musique.
      Seules les études de cas, sur fond sombre, gardent la pastille rouge :
      un point noir y serait invisible. */
-  .modal__light--close { background: #000000; }
-  .doc .modal__light--close { background: #ff5f57; }
+  /* Cerclé de noir, sans remplissage. */
+  .modal__light--close { box-sizing: border-box; border: 1.5px solid #000000; background: transparent; }
+  .doc .modal__light--close { border: 0; background: #ff5f57; }
   /* Gris pâle : seule la fermeture est disponible sur ces fenêtres, et la
      couleur le dit. La rouge garde sa teinte, les deux autres s'effacent. */
   button.modal__light { cursor: pointer; }
@@ -2418,11 +2544,18 @@
     border-radius: 16px;
     box-shadow: 4px 5px 0 #000000;
   }
+  /* Sur ordinateur, le dock décolle du bas : 44 px au lieu de 12. */
+  @media (min-width: 768px) {
+    .stage .dock { bottom: 44px; }
+  }
   /* Icônes sans contour. */
   .stage .dock__item svg,
   .stage .dock__link img,
   .stage .dock__link > svg { box-shadow: none; }
   .stage .dock__sep::before { background: #000000; }
+  /* L'icône Notes est une image détourée, à coins transparents : le fond
+     beige commun aux icônes dépassait autour d'elle comme un carré. */
+  .stage #dock-notes img { background: none; }
 
   .dock__items {
     display: flex;
@@ -2437,7 +2570,7 @@
        Asymétrique, donc, et volontairement : la hauteur reste serrée pour
        que le dock lise comme une barre, la largeur respire pour que le
        premier et le dernier cadre aient leur marge. */
-    padding: 8px 32px;
+    padding: 12px 40px;
     list-style: none;
   }
 
@@ -2545,22 +2678,24 @@
      l'intérieur, il héritait de la magnification — le navigateur rastérise
      le sous-arbre puis l'agrandit, et le texte devenait flou. Ici il garde
      sa taille et reste net. */
+  /* Sous le dock, comme les bulles de LinkedIn et Pinterest sous leurs
+     icônes : le dock flotte à 44 px du bas, il y a la place. */
   .dock__tip {
     position: absolute;
     left: 0;
-    bottom: calc(100% + 8px);
-    transform: translateX(-50%) translateY(4px);
-    padding: 4px 12px;
+    top: calc(100% + 8px);
+    transform: translateX(-50%) translateY(-4px);
+    /* Bulle blanche, trait noir 1 px, texte noir : la matière des menus. */
+    padding: 3px 8px;
     border-radius: 200px;
-    background: rgba(60, 58, 60, 0.72);
-    /* Pas de backdrop-filter : il forçait la composition de la couche, ce
-       qui désactive l'anticrénelage sous-pixel et grisait le texte. Le fond
-       est donc un peu plus dense pour compenser la perte du flou. */
-    border: 0.75px solid rgba(255, 255, 255, 0.28);
-    color: rgba(255, 255, 255, 0.96);
-    font-size: 13px;
-    font-weight: 590;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    color: #000000;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
     line-height: 14px;
+    text-shadow: none;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -2586,8 +2721,8 @@
     /* 36. Cette valeur est aussi écrite dans le script, qui calcule à partir
        d'elle la position de chaque icône pendant le grossissement et celle
        de la bulle d'aide. Les deux doivent rester d'accord. */
-    --dock-icon: 36px;
-    --dock-gap: 12px;
+    --dock-icon: 48px;   /* 36 à l'origine : trop petit face aux cartes */
+    --dock-gap: 16px;
     /* 4 et non 13. La case du séparateur ajoutait 6,5 px de part et d'autre
        du trait, par-dessus l'écart commun : 22,5 px de vide entre une icône
        et un simple filet de 1 px. */
@@ -2622,7 +2757,9 @@
      contextuel du bureau, pour que les deux se reconnaissent. */
   .navmenu {
     position: absolute;
-    z-index: 22;
+    /* 35 : au-dessus des cartes, du calendrier (26), du lecteur (27) et
+       des fenêtres du bureau (29). */
+    z-index: 35;
     min-width: 184px;
     padding: 5px;
     border-radius: 8px;
@@ -2673,26 +2810,43 @@
     background: rgba(255, 255, 255, 0.22);
     outline: none;
   }
-  /* Menu sous le nom : blanc, texte noir, trait noir 1px et ombre pleine
-     décalée de 3 × 4 — le matériau de l'éphéméride et du lecteur. Le
-     survol prend la teinte corail claire du bouton Déverrouiller. */
-  #navmenu,
-  #navmenu .ctxmenu__sub {
+  /* Tous les menus — sous le nom, « Voir », le clic droit et leurs
+     sous-menus de fonds d'écran — partagent le matériau du menu sous le
+     nom : blanc, texte noir, trait noir 1px, ombre pleine décalée de
+     3 × 4. Le survol prend la teinte corail claire du bouton
+     Déverrouiller. Un seul bloc, pour qu'ils ne puissent plus diverger. */
+  .navmenu,
+  .ctxmenu,
+  .ctxmenu__sub {
     background: #FFFFFF;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     color: #000000;
+    text-shadow: none;
     border: 1px solid #000000;
     border-radius: 8px;
     box-shadow: 3px 4px 0 #000000;
   }
-  #navmenu .navmenu__item:hover,
-  #navmenu .navmenu__item:focus-visible,
-  #navmenu .ctxmenu__item:hover,
-  #navmenu .ctxmenu__item:focus-visible { background: #FFD2C4; color: #000000; }
-  #navmenu .navmenu__item:focus-visible { outline: 1px solid #000000; outline-offset: -1px; }
-  #navmenu .navmenu__sep,
-  #navmenu .ctxmenu__sep { background: #000000; margin: 5px 0; }
+  .navmenu .navmenu__item:hover,
+  .navmenu .navmenu__item:focus-visible,
+  .navmenu .ctxmenu__item:hover,
+  .navmenu .ctxmenu__item:focus-visible,
+  .ctxmenu .ctxmenu__item:hover,
+  .ctxmenu .ctxmenu__item:focus-visible,
+  .ctxmenu__sub .ctxwall:hover,
+  .ctxmenu__sub .ctxwall:focus-visible { background: #FFD2C4; color: #000000; }
+  .navmenu .navmenu__item:focus-visible,
+  .ctxmenu .ctxmenu__item:focus-visible,
+  .ctxmenu__sub .ctxwall:focus-visible { outline: 1px solid #000000; outline-offset: -1px; }
+  .ctxmenu .ctxmenu__item[disabled]:hover { background: none; }
+  /* L'entrée dont le sous-menu est ouvert reste surlignée. */
+  .ctxmenu__item--sub[aria-expanded="true"] { background: #FFD2C4; }
+  /* Un filet en bordure plutôt qu'un fond de 1 px : la bordure est calée
+     sur le pixel, le fond pouvait tomber entre deux et s'amincir — il
+     paraissait plus fin que les traits des fenêtres. */
+  .navmenu .navmenu__sep,
+  .navmenu .ctxmenu__sep,
+  .ctxmenu .ctxmenu__sep { height: 0; background: none; border-top: 1px solid #000000; margin: 5px 0; }
   #navmenu .navmenu__item--note { opacity: 0.7; }
 
 
@@ -2713,7 +2867,7 @@
   }
   /* Fond bleu : un léger grain posé par-dessus la couleur unie. Une tuile
      de 256 px répétée, au pixel près, plutôt qu'une grande image. */
-  .stage[data-wall="bleu"] .stage__bg::after {
+  .stage[data-uni] .stage__bg::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -2733,7 +2887,7 @@
   #about-backdrop::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
   }
-  .stage[data-wall="bleu"] #about-backdrop::before {
+  .stage[data-uni] #about-backdrop::before {
     background: url("grain-tile.png") repeat;
     background-size: 128px 128px;
     image-rendering: pixelated;
@@ -3078,6 +3232,98 @@
   :is(#finder, #verrou, #mail, #cv, #notes) :not(input, textarea, button) {
     border-color: #000000;
   }
+
+  /* ---- Projets & Bibliothèque : le matériau du lecteur ----
+     Fini la fenêtre entièrement colorée : le corps passe au blanc et la
+     couleur de la carte se replie dans un bandeau de 32 px en tête, comme
+     le lecteur (bleu-vert) et le calendrier (corail). Le blanc fait le
+     fond, la couleur signe la fenêtre, le noir dessine. Trait de 1 px,
+     coins de 8, ombre pleine 3 × 4. */
+  #finder {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+  }
+  #finder .finder__bar {
+    height: 32px;
+    padding: 0 12px;
+    background: var(--fen);
+    border-bottom: 1px solid #000000;
+  }
+  #finder .finder__title { font-size: 13px; font-weight: 700; color: #000000; }
+  #finder .finder__status {
+    padding: 8px 16px;
+    background: #FFFFFF;
+    border-top: 1px solid #000000;
+    font-size: 13px; line-height: 16px;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  /* La liste des études : trois cartes blanches posées sur la page, qui
+     reprennent le geste des cartes du bureau. Au survol, la carte monte,
+     se remplit d'un corail pâle de gauche à droite et la flèche avance. */
+  #finder .etudes { gap: 16px; padding: 0 4px 4px 0; }
+  #finder .etude {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "num fleche" "titre fleche" "client fleche";
+    align-items: start;
+    row-gap: 6px;
+    padding: 20px 20px 20px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    background-image: linear-gradient(#FFE1D9, #FFE1D9);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    box-shadow: 3px 4px 0 #000000;
+    color: #000000;
+    cursor: pointer;
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+                background-size 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #finder .etude:hover,
+  #finder .etude:focus-visible {
+    background-color: #FFFFFF;
+    background-size: 100% 100%;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 6px 0 #000000;
+  }
+  #finder .etude:active { transform: translate(3px, 4px); box-shadow: 0 0 0 #000000; }
+  #finder .etude:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
+  #finder .etude__num {
+    grid-area: num; justify-self: start;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--fen, #FF795C);
+    font-size: 13px; line-height: 18px; font-weight: 700;
+    letter-spacing: 0; text-transform: none;
+    color: #000000;
+  }
+  #finder .etude__titre {
+    grid-area: titre;
+    margin-top: 6px;
+    font-size: 20px; line-height: 26px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  #finder .etude__client {
+    grid-area: client;
+    font-size: 15px; line-height: 22px; font-weight: 400;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  #finder .etude::after {
+    content: "→";
+    grid-area: fleche; align-self: center;
+    font-size: 24px; line-height: 1; font-weight: 400;
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #finder .etude:hover::after { transform: translateX(4px); }
+  @media (prefers-reduced-motion: reduce) {
+    #finder .etude, #finder .etude::after { transition: background-size 350ms ease; }
+  }
   /* Boutons pleins « encre » : l'encre est devenue noire, leur texte
      sombre disparaîtrait. Il passe en blanc. */
   #verrou .verrou__sceau { color: #ffffff; }
@@ -3352,8 +3598,55 @@
     color: #000000;
     text-shadow: none;
   }
-  .stage .minis .mini:hover { transform: translate(-2px, -2px); box-shadow: 6px 7px 0 #000000; }
-  .stage .minis .mini:active { transform: translate(4px, 5px); box-shadow: 0 0 0 #000000; }
+  /* Survol : la carte se triple, comme le bouton « Déverrouiller ». Deux
+     copies glissent en escalier derrière elle, cernées de noir. Pour ne
+     pas faire arc-en-ciel, chaque copie est une teinte éclaircie de LA
+     couleur de sa carte (60 % puis 30 % de --pill sur du blanc) : une
+     seule famille de couleur par carte. Même nombre d'ombres au repos et
+     au survol, pour que la transition interpole chaque copie. */
+  /* :not(.mini--mobile) : même poids que la règle de base des cartes,
+     qui sinon remettait son fond et sa transition par-dessus. */
+  .stage .minis .mini,
+  .stage .minis .mini:not(.mini--mobile) {
+    --copie1: color-mix(in srgb, var(--pill, #ff6645) 60%, #FFFFFF);
+    --copie2: color-mix(in srgb, var(--pill, #ff6645) 30%, #FFFFFF);
+    /* Le remplissage de gauche à droite du bouton, dans la teinte de la carte. */
+    background-image: linear-gradient(color-mix(in srgb, var(--pill, #ff6645) 45%, #FFFFFF), color-mix(in srgb, var(--pill, #ff6645) 45%, #FFFFFF));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    box-shadow:
+      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
+      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
+      4px 5px 0 0 #000000;
+    transition: left 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                top 650ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                background-size 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stage .minis .mini:hover,
+  .stage .minis .mini:focus-visible {
+    transform: translate(-4px, -4px);
+    background-size: 100% 100%;
+    box-shadow:
+      8px 8px 0 0 var(--copie1), 8px 8px 0 1px #000000,
+      16px 16px 0 0 var(--copie2), 16px 16px 0 1px #000000,
+      19px 20px 0 1px #000000;
+  }
+  /* Au clic, la pile se referme et la carte s'enfonce. */
+  .stage .minis .mini:active {
+    transform: translate(4px, 5px);
+    box-shadow:
+      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
+      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
+      0 0 0 0 #000000;
+    transition-duration: 650ms, 650ms, 120ms, 120ms, 350ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage .minis .mini,
+    .stage .minis .mini:not(.mini--mobile) { transition: left 650ms ease, top 650ms ease, background-size 350ms ease; }
+  }
   .stage .minis .mini[data-dragging="true"] { transition: none; }
   .stage .minis .mini:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
 
@@ -3405,6 +3698,16 @@
   /* Version barre de menus : les mêmes yeux en 46 × 24. */
   .stage:not([data-wall="blanc"]) .menubar__logo { width: auto; filter: none; }
   .menubar__logo > .yeux--barre { display: block; width: 30px; height: 24px; overflow: visible; }
+  /* La fleur de l'écran verrouillé, en petit, remplace les yeux de la barre. */
+  .menubar__logo > .yeux--barre { display: none; }
+  .menubar__logo > .perso--barre { display: block; width: 32px; height: 29px; overflow: visible; }
+  /* Comme les icônes de la barre : trait noir (~1,4 px à cette taille, soit
+     9 unités du dessin) et ombre pleine décalée. */
+  .menubar__logo > .perso--barre { filter: drop-shadow(2px 2.5px 0 #000); }
+  .perso--barre .perso__forme {
+    fill: #FFFFFF;            /* blanc, comme le fond des autres icônes */
+    stroke: #000000; stroke-width: 9; stroke-linejoin: round;
+  }
   .yeux__pupille { will-change: transform; }   /* animé image par image en JS */
   .yeux__oeil { transform-box: fill-box; transform-origin: center; }
   @media (prefers-reduced-motion: reduce) { .yeux__pupille { transition: none; } }
@@ -3413,8 +3716,7 @@
   .stage .identity .identity__name { font-size: 20px; line-height: 24px; font-weight: 600; letter-spacing: -0.3px; }
   .stage .identity .identity__role { font-size: 16px; line-height: 24px; margin-top: 0; }
   /* Date et métier une graisse au-dessus du normal : Medium (500).
-     Arial n'a que Regular et Bold, d'où Helvetica Neue — quasi identique,
-     mais qui possède bien une graisse Medium. */
+     Helvetica Neue possède bien une graisse Medium. */
   /* --- Date : feuille d'éphéméride néo-brutaliste ------------------
      Aplats, trait noir 1px et ombre pleine décalée de 3 × 4, exactement
      comme le bouton. Le corail du bandeau est le seul accent de l'écran ;
@@ -3436,7 +3738,7 @@
     color: #000000;
     text-align: left;
     text-shadow: none;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     letter-spacing: 0;
     box-shadow:
       0 4px 0 -1px #FFFFFF, 0 4px 0 0 #000000,
@@ -3454,7 +3756,9 @@
     position: absolute; left: 12px; top: calc((var(--bande) - 1px) / 2 - 6px);
     width: 12px; height: 12px;
     border-radius: 50%;
-    background: #000000;
+    box-sizing: border-box;
+    border: 1.5px solid #000000;   /* cerclé, sans remplissage */
+    background: transparent;
   }
   .stage .feuille::after {
     content: "Calendrier";
@@ -3464,7 +3768,7 @@
     font-size: 13px; font-weight: 700; letter-spacing: 0;
   }
   .stage .feuille__jour {
-    font-size: calc(104px * var(--f)); font-weight: 700;
+    font-size: calc(104px * var(--f)); font-weight: 500;   /* medium : le 700 pesait trop */
     line-height: calc(88px * var(--f)); letter-spacing: calc(-6px * var(--f));
     margin-left: calc(-4px * var(--f));
     font-variant-numeric: tabular-nums;
@@ -3481,7 +3785,7 @@
 
   .stage .lock .clock__date,
   .stage .lock .identity__role {
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-weight: 500;
   }
   .stage .lock .unlock {
@@ -3489,7 +3793,7 @@
     padding: 8px 24px;
     border-radius: 24px;
     /* Helvetica, comme la date et le métier. */
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px; font-weight: 400; line-height: 22px;
     color: #000;
   }
@@ -3630,6 +3934,205 @@
         [pleine-fin];
       padding: 32px 0 64px;
     }
+  }
+
+  /* --- Use Case 01 : la direction du lecteur de musique ---------------
+     Fond blanc, texte noir, trait noir de 1 px, coins de 8, ombre pleine
+     décalée de 3 × 4, Helvetica Neue. Un seul bandeau de couleur en tête,
+     de 32 px — le corail de la carte Projets, comme le lecteur porte le
+     bleu-vert de la carte Musique —, un rond noir pour fermer et le titre
+     centré. Les filets blancs translucides du thème sombre passent au noir.
+     Tout passe par l'ID : les autres études ne bougent pas. */
+  #doc-gvq .doc__win {
+    --ink: #000000;
+    --ink-rgb: 0, 0, 0;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #doc-gvq .doc__bar {
+    height: 32px;
+    padding: 0 12px;
+    background: #FF795C;
+    border-bottom: 1px solid #000000;
+  }
+  #doc-gvq .doc__bartitle { font-size: 13px; font-weight: 700; color: #000000; }
+  #doc-gvq .modal__light--close { border: 1.5px solid #000000; background: transparent; }
+  /* --- Use Case 01 : système typographique ---------------------------
+     Une échelle courte et franche, en Helvetica Neue, sans capitales
+     espacées : 13 · 15 · 17 · 22 · 28 · 40. Chaque niveau a un seul
+     rôle, et l'écart entre deux niveaux se voit au premier coup d'œil.
+
+       40 / 44  700  titre de l'étude
+       28 / 36  700  titre de chapitre
+       22 / 30  700  titre de décision · 22 / 32 500 chapeau
+       17 / 28  400  texte courant (60 à 70 signes par ligne)
+       15 / 22  500  étiquettes, faits, notions
+       13 / 20  400  légendes
+
+     Les séparations se font par l'espace, pas par des filets : plus aucun
+     trait entre les blocs. Le seul contour qui reste est celui des
+     captures, le même que celui de la fenêtre. Le corail du bandeau sert
+     d'unique accent : la pastille des décisions. */
+  #doc-gvq .doc__page {
+    padding: 72px 0 120px;
+    font-size: 17px; line-height: 28px;
+    color: #1A1A1A;
+    letter-spacing: 0;
+  }
+  /* Une colonne de lecture de 620, centrée ; les captures gardent 772. */
+  #doc-gvq .doc__page > header,
+  #doc-gvq .doc__bloc,
+  #doc-gvq .doc__decision {
+    width: 100%; max-width: 620px; justify-self: center;
+  }
+  #doc-gvq .doc__page p { margin: 0 0 20px; }
+
+  /* En-tête */
+  #doc-gvq .doc__eyebrow {
+    margin: 0 0 16px;
+    font-size: 15px; line-height: 22px; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  #doc-gvq .doc__titre {
+    font-size: 40px; line-height: 44px; font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  #doc-gvq .doc__client {
+    margin: 12px 0 0;
+    font-size: 17px; line-height: 24px; font-weight: 500;
+    color: #000000;
+  }
+  #doc-gvq .doc__temps {
+    margin: 4px 0 0;
+    font-size: 15px; line-height: 22px;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  #doc-gvq .doc__hook {
+    margin: 32px 0 0;
+    font-size: 22px; line-height: 32px; font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #000000;
+  }
+  /* Les cinq faits dans un seul panneau crème, sans filets. */
+  #doc-gvq .doc__resume,
+  #doc-gvq .doc__meta {
+    border: 0;
+    background: #F7F4EF;
+    margin: 0;
+    gap: 20px 24px;
+  }
+  #doc-gvq .doc__resume {
+    margin-top: 40px;
+    padding: 24px 24px 20px;
+    border-radius: 8px 8px 0 0;
+  }
+  #doc-gvq .doc__meta {
+    padding: 0 24px 24px;
+    border-radius: 0 0 8px 8px;
+    /* Mêmes trois colonnes que la rangée du dessus : « Outils » tombe sous
+       « Livré », « Équipe » prend les deux premières. */
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #doc-gvq .doc__meta > div:first-child { grid-column: span 2; }
+  #doc-gvq .doc__resume dt,
+  #doc-gvq .doc__meta dt {
+    margin: 0 0 4px;
+    font-size: 13px; line-height: 20px; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  #doc-gvq .doc__resume dd,
+  #doc-gvq .doc__meta dd {
+    margin: 0;
+    font-size: 15px; line-height: 22px; font-weight: 500;
+    color: #000000;
+  }
+
+  /* Chapitres : l'espace sépare, l'étiquette situe, le titre affirme. */
+  #doc-gvq .doc__bloc { margin-top: 48px; }
+  #doc-gvq .doc__bloc--chapitre {
+    margin-top: 112px; padding-top: 0; border: 0;
+  }
+  #doc-gvq .doc__num {
+    margin: 0 0 12px; padding: 0;
+    font-size: 15px; line-height: 22px; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    color: rgba(0, 0, 0, 0.55);
+  }
+  #doc-gvq .doc__bloc h2 {
+    margin: 0 0 20px;
+    font-size: 28px; line-height: 36px; font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #000000;
+  }
+
+  /* Décisions : pastille corail numérotée, titre, contrainte en encadré. */
+  #doc-gvq .doc__decision {
+    margin-top: 80px; padding-top: 0; border: 0;
+  }
+  #doc-gvq .doc__decision .doc__num {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 40px; height: 28px; padding: 0 10px;
+    margin: 0 0 16px;
+    border-radius: 999px;
+    background: #FF795C;
+    font-size: 15px; line-height: 1; font-weight: 700;
+    color: #000000;
+    font-variant-numeric: tabular-nums;
+  }
+  #doc-gvq .doc__decision h3 {
+    margin: 0 0 20px;
+    font-size: 22px; line-height: 30px; font-weight: 700;
+    letter-spacing: -0.015em;
+    color: #000000;
+  }
+  #doc-gvq .doc__contrainte {
+    margin: 0 0 24px;
+    padding: 16px 20px;
+    border: 0;
+    border-radius: 8px;
+    background: #F7F4EF;
+    font-size: 17px; line-height: 26px; font-weight: 500;
+    color: #000000;
+  }
+  #doc-gvq .doc__notion {
+    margin: 4px 0 0;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #F7F4EF;   /* pas de contour : la teinte suffit */
+    font-size: 13px; line-height: 18px; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  #doc-gvq .doc__notion::before { content: "Principe · "; color: rgba(0, 0, 0, 0.45); }
+
+  /* Captures : le trait de la fenêtre, une légende courte et discrète. */
+  #doc-gvq .doc__fig { margin: 48px 0 0; }
+  #doc-gvq .doc__fig + .doc__fig { margin-top: 32px; }
+  #doc-gvq .doc__fig img { border: 1px solid #000000; border-radius: 8px; }
+  #doc-gvq .doc__fig figcaption {
+    margin-top: 12px;
+    font-size: 13px; line-height: 20px;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  @media (max-width: 767px) {
+    #doc-gvq .doc__page { padding: 40px 0 72px; font-size: 16px; line-height: 26px; }
+    #doc-gvq .doc__titre { font-size: 30px; line-height: 36px; }
+    #doc-gvq .doc__hook { font-size: 19px; line-height: 28px; }
+    #doc-gvq .doc__resume { grid-template-columns: 1fr; padding: 20px 20px 16px; }
+    #doc-gvq .doc__meta { grid-template-columns: 1fr; padding: 0 20px 20px; }
+    #doc-gvq .doc__meta > div:first-child { grid-column: auto; }
+    #doc-gvq .doc__bloc--chapitre { margin-top: 72px; }
+    #doc-gvq .doc__bloc h2 { font-size: 24px; line-height: 32px; }
+    #doc-gvq .doc__decision { margin-top: 56px; }
+    #doc-gvq .doc__contrainte { font-size: 16px; line-height: 24px; }
   }
 
   /* --- le filet de séparation --------------------------------------- */
@@ -4444,7 +4947,7 @@
       pointer-events: auto;
     }
     .shelf { gap: 20px; }
-    .shelf__label { font-size: 12px; }
+    .shelf__label { font-size: 16px; }
 
     /* --- Galerie au doigt : une colonne, images pleine largeur ---
        Plus de vignettes, plus de fenêtre par-dessus la fenêtre. On fait
@@ -4703,7 +5206,7 @@
      comme le métier. */
   .stage .lock .clock .clock__date {
     margin: 0;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 20px; line-height: 28px; font-weight: 500; letter-spacing: 0;
     color: #FFFFFF;
   }
@@ -4714,8 +5217,7 @@
     margin: 0;
     font-size: clamp(72px, min(13vw, 18vh), 160px);
     line-height: 1;
-    /* Arial n'a pas de graisse fine : Helvetica Neue Light d'abord. */
-    font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-weight: 300;
     font-synthesis: none;
     letter-spacing: -0.03em;
@@ -4752,7 +5254,7 @@
     border: 1px solid #000000;
     border-radius: 16px 16px 16px 4px;
     box-shadow: 3px 4px 0 #000000;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px; line-height: 22px; font-weight: 500;
     text-shadow: none;
     pointer-events: none;
@@ -4797,18 +5299,96 @@
   .stage .lock .cluster { grid-row: 4; gap: 32px; }
   .stage .lock .cluster__identity-group { gap: 24px; }
   .stage:not([data-wall="blanc"]) .lock #avatar-lock { width: 80px; height: 64px; }
-  .stage .lock .yeux { width: 80px; height: 64px; }
+  .stage .lock .yeux { width: 60px; height: 48px; }
   .stage .lock .identity { gap: 4px; }
   .stage .lock .identity .identity__name {
-    font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -0.01em;
+    font-size: 20px; line-height: 26px; font-weight: 500; letter-spacing: -0.01em;
   }
   .stage .lock .identity .identity__role {
-    font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0;
+    font-size: 16px; line-height: 22px; font-weight: 400; letter-spacing: 0;
   }
   .stage .lock .unlock {
     height: 48px;
     padding: 12px 28px;
     white-space: nowrap;
+  }
+
+
+  /* ================= L'AVATAR DE L'ÉCRAN VERROUILLÉ =================
+     Une forme organique jaune, au contour qui respire. Quatre humeurs,
+     posées par le script sur le <svg> :
+       — neutre : il suit la souris des yeux, petit sourire ;
+       — .is-triste : la souris s'est éloignée, il pleure ;
+       — .is-joie : la souris approche du bouton, il sautille et rit. */
+  /* L'avatar seul, sans tuile : la forme porte elle-même le trait noir de
+     1 px et l'ombre pleine décalée de 3 × 4, comme les cartes. */
+  #view-lock #avatar-lock {
+    width: 100px; height: 90px;
+    display: block;
+    border-radius: 0; overflow: visible; box-shadow: none; background: none;
+  }
+  #view-lock #avatar-lock > :not(.perso) { display: none; }
+  #view-lock #avatar-lock > .perso { filter: drop-shadow(3px 4px 0 #000000); }
+  /* 2 unités du dessin ≈ 1 px à cette taille (100 px pour 200 unités). */
+  #perso .perso__forme { stroke: #000000; stroke-width: 2; stroke-linejoin: round; }
+  .perso { display: block; width: 100%; height: 100%; overflow: visible; }
+  .perso__corps { transform-box: view-box; transform-origin: 50% 90%; }
+  .perso__rieurs, .perso__tristes, .perso__bouche, .perso__larme, .perso__yeux {
+    transition: opacity 180ms ease;
+  }
+  .perso__rieurs, .perso__tristes, .perso__bouche--triste, .perso__bouche--joie,
+  .perso__larme { opacity: 0; }
+  /* Triste */
+  .perso.is-triste .perso__tristes,
+  .perso.is-triste .perso__bouche--triste { opacity: 1; }
+  .perso.is-triste .perso__bouche--neutre { opacity: 0; }
+  /* Plus le pointeur est loin, plus il pleure : une larme, puis une à
+     chaque œil, puis quatre, plus rapides. */
+  .perso.is-triste[data-larmes="1"] .larme-1,
+  .perso.is-triste[data-larmes="2"] :is(.larme-1, .larme-2),
+  .perso.is-triste[data-larmes="3"] .perso__larme {
+    animation: perso-larme var(--larme-vitesse, 1.6s) ease-in infinite;
+  }
+  .perso.is-triste[data-larmes="2"] { --larme-vitesse: 1.3s; }
+  .perso.is-triste[data-larmes="3"] { --larme-vitesse: 0.9s; }
+  .perso__larme.larme-2 { animation-delay: -0.55s !important; }
+  .perso__larme.larme-3 { animation-delay: -0.3s !important; }
+  .perso__larme.larme-4 { animation-delay: -0.75s !important; }
+  .perso.is-triste .perso__corps { animation: perso-soupir 3s ease-in-out infinite; }
+  @keyframes perso-larme {
+    0%   { opacity: 0; transform: translateY(-4px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    80%  { opacity: 1; transform: translateY(26px); }
+    100% { opacity: 0; transform: translateY(34px); }
+  }
+  @keyframes perso-soupir { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.02, 0.96); } }
+  /* Joie */
+  .perso.is-joie .perso__rieurs,
+  .perso.is-joie .perso__bouche--joie { opacity: 1; }
+  .perso.is-joie .perso__yeux,
+  .perso.is-joie .perso__bouche--neutre { opacity: 0; }
+  .perso.is-joie .perso__corps { animation: perso-saut 0.7s ease-in-out infinite alternate; }
+  @keyframes perso-saut {
+    from { transform: translateY(0) scale(1.03, 0.97); }
+    to   { transform: translateY(-10px) scale(0.97, 1.04); }
+  }
+  /* Extase : la souris est SUR le bouton. Il rit plus grand. */
+  .perso.is-extase .perso__rieurs,
+  .perso.is-extase .perso__bouche--joie { opacity: 1; }
+  .perso.is-extase .perso__yeux,
+  .perso.is-extase .perso__bouche--neutre { opacity: 0; }
+  .perso.is-extase .perso__bouche--joie { transform-box: fill-box; transform-origin: center; transform: scale(1.35); transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  /* Clignement au déverrouillage */
+  @keyframes perso-cligne { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.08); } }
+  .perso__yeux { transform-box: fill-box; transform-origin: center; }
+  .perso.is-cligne .perso__yeux { animation: perso-cligne 180ms ease-in-out; }
+  @media (max-width: 767px) { #view-lock #avatar-lock { width: 84px; height: 76px; } }
+  @media (max-height: 600px) { #view-lock #avatar-lock { width: 68px; height: 61px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .perso.is-joie .perso__corps, .perso.is-triste .perso__corps { animation: none; }
+      .perso.is-triste[data-larmes="1"] .larme-1,
+      .perso.is-triste[data-larmes="2"] :is(.larme-1, .larme-2),
+      .perso.is-triste[data-larmes="3"] .perso__larme { animation: none; opacity: 1; transform: translateY(8px); }
   }
 
   /* Clignement des yeux, joué au clic sur le bouton. */
@@ -4836,9 +5416,9 @@
     .stage .lock .cluster { gap: 24px; }
     .stage .lock .cluster__identity-group { gap: 20px; }
     .stage:not([data-wall="blanc"]) .lock #avatar-lock,
-    .stage .lock .yeux { width: 72px; height: 58px; }
-    .stage .lock .identity .identity__name { font-size: 22px; line-height: 28px; }
-    .stage .lock .identity .identity__role { font-size: 18px; line-height: 24px; }
+    .stage .lock .yeux { width: 54px; height: 43px; }
+    .stage .lock .identity .identity__name { font-size: 20px; line-height: 26px; }
+    .stage .lock .identity .identity__role { font-size: 16px; line-height: 22px; }
   }
 
   /* Écrans bas (téléphone à l'horizontale, petite fenêtre) : on resserre
@@ -4853,7 +5433,7 @@
     .stage .lock .cluster { gap: 16px; }
     .stage .lock .cluster__identity-group { gap: 12px; }
     .stage:not([data-wall="blanc"]) .lock #avatar-lock,
-    .stage .lock .yeux { width: 56px; height: 45px; }
+    .stage .lock .yeux { width: 46px; height: 37px; }
     .stage .lock .identity .identity__name { font-size: 20px; line-height: 26px; }
     .stage .lock .identity .identity__role { font-size: 16px; line-height: 22px; }
     .stage .lock .unlock { height: 40px; padding: 8px 24px; }
@@ -4864,7 +5444,7 @@
      interlettrage. Sur téléphone l'éphéméride est réduit de moitié ; les
      cartes, elles, gardent une taille lisible au doigt. */
   .stage .minis .mini .mini__label {
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: calc(24px * 0.9); line-height: 24px;
     font-weight: 700; letter-spacing: -0.02em;
   }
@@ -4877,8 +5457,26 @@
   .stage .mhead, .stage .mhead *,
   .stage .navmenu, .stage .navmenu *,
   .stage .dock__label {
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
   }
+  /* Barre de menus : tout en 16 px Regular.
+     Mêmes réglages pour l'horloge, pour qu'une seule taille règne. */
+  .stage .menubar,
+  .stage .menubar .menuitem,
+  .stage .menubar .menuitem--app,
+  .stage .menubar .menubar__clock,
+  .stage .menubar .menubar__clock * {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  /* Le nom ressort par la graisse : 16 px Bold, comme le reste de la barre en taille. */
+  .stage .menubar .menuitem--app { font-size: 16px; font-weight: 700; }
+  /* Intitulés au-dessus du dock : même 16 Regular que la barre. */
+  .stage .dock__label { font-size: 16px; font-weight: 400; line-height: 20px; }
+  /* LinkedIn, Pinterest et le son forment un groupe : 4 px entre eux au
+     lieu des 16 qui séparent les blocs de la barre. */
+  .stage .menubar .barlien + .barlien,
+  .stage .menubar .barlien + .son { margin-left: -12px; }
 
   /* Icônes néo-brutalistes à la place de la flèche sur les cartes :
      forme blanche, trait noir, ombre pleine décalée dessinée dans le SVG
@@ -4894,16 +5492,18 @@
     background: center / contain no-repeat;
   }
   .stage .minis .mini[data-action="mail"]::after    { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Crect x='5' y='10' width='28' height='21' rx='3'/%3E%3Cpath d='M6 12 L19 22 L32 12' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
-  .stage .minis .mini[data-action="spotify"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cellipse cx='11' cy='29' rx='5' ry='4'/%3E%3Cellipse cx='27' cy='26' rx='5' ry='4'/%3E%3Cpath d='M15.5 29 V10 L31.5 6 V26 H30 V12 L17 15.2 V29 Z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
+  .stage .minis .mini[data-action="spotify"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M20 29 V6 H22 C23 11 31 13 30 23 C29 18 26 16 22 15 V29 Z'/%3E%3Cellipse cx='15.5' cy='29' rx='6.5' ry='4.8' transform='rotate(-20 15.5 29)'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
   .stage .minis .mini[data-etagere]::after          { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M19 11 C14.5 8.5 9 8.5 4.5 10 V30 C9 29 14.5 29 19 32 Z'/%3E%3Cpath d='M19 11 C23.5 8.5 29 8.5 33.5 10 V30 C29 29 23.5 29 19 32 Z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
   .stage .minis .mini[data-folder="case-studies"]::after,
+  .stage .minis .mini[data-action="notes"]::after,
   .stage .minis .mini[data-cv]::after {
     content: "";
     top: 10px; right: 10px;
     width: 44px; height: 44px;
     background: center / contain no-repeat;
   }
-  /* Dossier pour Projets, feuille de CV pour CV. */
+  /* Dossier pour Projets, feuille de CV pour CV, bloc-notes pour Notes. */
+  .stage .minis .mini[data-action="notes"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Crect x='8' y='7' width='24' height='27' rx='3'/%3E%3Cpath d='M8 13 H32' fill='none'/%3E%3Cpath d='M13 19 H27 M13 24 H27 M13 29 H22' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
   .stage .minis .mini[data-folder="case-studies"]::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M4 11 C4 9.9 4.9 9 6 9 H14 L17 12 H32 C33.1 12 34 12.9 34 14 V29 C34 30.1 33.1 31 32 31 H6 C4.9 31 4 30.1 4 29 Z'/%3E%3Cpath d='M4 16 H34' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
   .stage .minis .mini[data-cv]::after                    { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' stroke-width='1.5' stroke-linejoin='round' stroke-linecap='round'%3E%3Cdefs%3E%3Cg id='i'%3E%3Cpath d='M9 5 H23 L31 13 V33 C31 34.1 30.1 35 29 35 H9 C7.9 35 7 34.1 7 33 V7 C7 5.9 7.9 5 9 5 Z'/%3E%3Cpath d='M23 5 V13 H31' fill='none'/%3E%3Cpath d='M12 19 H26 M12 24 H26 M12 29 H20' fill='none'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23i' x='2' y='3' fill='%23000' stroke='%23000'/%3E%3Cuse href='%23i' fill='%23fff' stroke='%23000'/%3E%3C/svg%3E"); }
 
@@ -4922,7 +5522,7 @@
     box-shadow: 3px 4px 0 #000000;
     overflow: hidden;
     padding-bottom: 20px;
-    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
   }
   #about .modal__titlebar {
     height: 32px; min-height: 32px;
@@ -4996,7 +5596,7 @@
 
   /* Fond bleu : grain plus fin (tuile affichée à moitié de sa taille,
      donc des points deux fois plus petits) et plus discret. */
-  .stage[data-wall="bleu"] .stage__bg::after { background-size: 128px 128px; opacity: 0.22; }
+  .stage[data-uni] .stage__bg::after { background-size: 128px 128px; opacity: 0.22; }
 </style>
 </head>
 <body>
@@ -5453,6 +6053,51 @@
           <!-- Bulle festonnée : dégradé irisé à gros grain, deux astérisques
                pour les yeux. Remplace la photo sur l'écran verrouillé. -->
           <!-- Avatar : des yeux rétro façon jumelles, qui suivent la souris. -->
+          <!-- L'avatar : une forme organique simple, à la manière des petits
+               personnages plats. Neutre, il suit la souris des yeux ; quand
+               elle s'éloigne, il pleure ; quand elle approche du bouton, il
+               s'emballe et sourit. Dessin original. -->
+          <svg class="perso" id="perso" viewBox="0 0 200 180" aria-hidden="true">
+            <!-- étincelles, seulement dans l'extase -->
+            <g class="perso__corps">
+              <!-- la forme : une fleur-tulipe, trois pétales arrondis en haut,
+                   le bas en coupe ronde, légèrement de travers, en aplat -->
+              <path class="perso__forme" fill="#F7BE16" d="M100 25 C150 25 172 55 172 95 C172 135 150 165 100 165 C50 165 28 135 28 95 C28 55 50 25 100 25 Z"/>
+              <!-- yeux ouverts : ronds, sans contour -->
+              <g class="perso__yeux">
+                <clipPath id="perso-oeil-g"><circle cx="82" cy="94" r="17"/></clipPath>
+                <clipPath id="perso-oeil-d"><circle cx="122" cy="94" r="17"/></clipPath>
+                <circle cx="82" cy="94" r="17" fill="#FFFFFF"/>
+                <circle cx="122" cy="94" r="17" fill="#FFFFFF"/>
+                <g clip-path="url(#perso-oeil-g)"><circle class="perso__pupille" cx="82" cy="94" r="9" fill="#1A1A1A"/></g>
+                <g clip-path="url(#perso-oeil-d)"><circle class="perso__pupille" cx="122" cy="94" r="9" fill="#1A1A1A"/></g>
+              </g>
+              <!-- yeux rieurs (joie) -->
+              <g class="perso__rieurs" fill="none" stroke="#1A1A1A" stroke-width="5" stroke-linecap="round">
+                <path d="M68 98 Q82 80 96 98"/>
+                <path d="M108 98 Q122 80 136 98"/>
+              </g>
+              <!-- sourcils tristes -->
+              <g class="perso__tristes" fill="none" stroke="#1A1A1A" stroke-width="4.5" stroke-linecap="round">
+                <path d="M66 70 L92 64"/>
+                <path d="M138 70 L112 64"/>
+              </g>
+              <!-- bouches -->
+              <path class="perso__bouche perso__bouche--neutre" d="M92 124 Q102 132 112 124" fill="none" stroke="#1A1A1A" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="perso__bouche perso__bouche--triste" d="M90 132 Q102 121 114 132" fill="none" stroke="#1A1A1A" stroke-width="4.5" stroke-linecap="round"/>
+              <g class="perso__bouche perso__bouche--joie">
+                <clipPath id="perso-rire"><path d="M80 116 Q102 152 124 116 Z"/></clipPath>
+                <path d="M80 116 Q102 152 124 116 Z" fill="#1A1A1A"/>
+                <ellipse clip-path="url(#perso-rire)" cx="102" cy="138" rx="12" ry="8" fill="#FF795C"/>
+              </g>
+              <!-- larme -->
+              <!-- larmes : une, deux ou quatre selon la distance du pointeur -->
+              <g><path class="perso__larme larme-1" d="M74 112 C78 118 80 122 80 125 A6 6 0 0 1 68 125 C68 122 70 118 74 112 Z" fill="#68BEC9"/></g>
+              <g transform="translate(40 0)"><path class="perso__larme larme-2" d="M74 112 C78 118 80 122 80 125 A6 6 0 0 1 68 125 C68 122 70 118 74 112 Z" fill="#68BEC9"/></g>
+              <g transform="translate(-8 -2)"><path class="perso__larme larme-3" d="M74 112 C78 118 80 122 80 125 A6 6 0 0 1 68 125 C68 122 70 118 74 112 Z" fill="#68BEC9"/></g>
+              <g transform="translate(48 -2)"><path class="perso__larme larme-4" d="M74 112 C78 118 80 122 80 125 A6 6 0 0 1 68 125 C68 122 70 118 74 112 Z" fill="#68BEC9"/></g>
+            </g>
+          </svg>
           <svg class="yeux" id="yeux" width="64" height="48" viewBox="0 0 118 96" aria-hidden="true">
             <g class="yeux__oeil">
               <clipPath id="forme1"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
@@ -5481,7 +6126,7 @@
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
-      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller mon portfolio</button>
+      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller le desktop</button>
     </div>
 
     <!-- Son de déverrouillage. Opus d'abord (2,3 Ko), MP3 en repli pour
@@ -5541,14 +6186,37 @@
                 data-node-id="118:187">Emmanuel Froissant</button>
 
         <div class="menubar__items" data-node-id="118:188">
-          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:189">File</button>
-          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:190">Edit</button>
-          <button type="button" class="menuitem" id="menu-voir" aria-haspopup="menu" aria-expanded="false" aria-controls="voirmenu" data-node-id="118:191">Voir</button>
-          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:194">Help</button>
+          <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
+          <!-- Le menu des fonds d'écran s'ouvre sous « Éditer » (id historique menu-voir). -->
+          <button type="button" class="menuitem" id="menu-voir" aria-haspopup="menu" aria-expanded="false" aria-controls="voirmenu" data-node-id="118:190">Éditer</button>
+          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:191">Voir</button>
+          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:194">Aide</button>
         </div>
       </div>
 
       <div class="menubar__trailing" data-node-id="118:195">
+        <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
+             Tracés pleins (evenodd) plutôt que masques : un masque ne se
+             dessine pas tant que la barre est masquée. -->
+        <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
+           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" data-bulle="LinkedIn">
+          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <circle cx="6.6" cy="6.4" r="1.3" fill="#000"/>
+            <rect x="5.5" y="8.6" width="2.2" height="6.6" rx="0.4" fill="#000"/>
+            <path fill="#000" d="M9.4 15.2 V8.6 H11.4 V9.6 C11.9 8.9 12.7 8.45 13.7 8.45 C15.2 8.45 16 9.4 16 11.2 V15.2 H13.8 V11.6 C13.8 10.7 13.4 10.3 12.7 10.3 C11.9 10.3 11.6 10.9 11.6 11.7 V15.2 Z"/>
+          </svg>
+        </a>
+
+        <!-- Pinterest : même gabarit que le coupe-son, en blanc. -->
+        <a class="barlien" href="https://ca.pinterest.com/efroissant/" target="_blank" rel="noopener"
+           aria-label="Pinterest — ouvrir mon profil (nouvel onglet)" data-bulle="Pinterest">
+          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="17" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.5"/>
+            <path fill="#000" fill-rule="evenodd" d="M7.4 5.6 H9.4 V15 H7.4 Z M9.4 5.6 H11.3 A2.9 2.9 0 0 1 11.3 11.4 H9.4 Z M9.4 7.4 H11.2 A1.1 1.1 0 0 1 11.2 9.6 H9.4 Z"/>
+          </svg>
+        </a>
+
         <!-- Coupe-son. aria-pressed dit l'état à un lecteur d'écran ; le
              titre visible au survol le dit à tout le monde. Le bouton reste
              présent même si le fichier manque — il se désactive alors tout
@@ -5556,10 +6224,10 @@
         <button type="button" class="son" id="son" aria-pressed="false"
                 aria-label="Musique d’ambiance — couper le son" title="Couper le son">
           <svg class="son__barres" viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
-            <rect x="1"    y="4.5" width="2" height="7" rx="1"/>
-            <rect x="5"    y="2"   width="2" height="12" rx="1"/>
-            <rect x="9"    y="3.5" width="2" height="9" rx="1"/>
-            <rect x="13"   y="5.5" width="2" height="5" rx="1"/>
+            <rect x="0.5"  y="4.5" width="3" height="7" rx="1.5"/>
+            <rect x="4.5"  y="2"   width="3" height="12" rx="1.5"/>
+            <rect x="8.5"  y="3.5" width="3" height="9" rx="1.5"/>
+            <rect x="12.5" y="5.5" width="3" height="5" rx="1.5"/>
           </svg>
         </button>
 
@@ -5646,9 +6314,15 @@
         <span class="mini__label">CV</span>
       </button>
 
-      <!-- LinkedIn et Notes n'apparaissent qu'au doigt : sur grand écran
-           ils sont déjà dans le dock, et les répéter ferait deux portes
-           sans raison. -->
+      <!-- Notes : une carte comme les autres, sur ordinateur comme au doigt. -->
+      <button type="button" class="mini" data-action="notes"
+              aria-label="Notes — ouvrir Pourquoi_je_design?">
+        <span class="mini__icon" aria-hidden="true"><picture><source srcset="notes-192.webp" type="image/webp"><img src="notes-192.png" alt="" draggable="false"></picture></span>
+        <span class="mini__label">Notes</span>
+      </button>
+
+      <!-- LinkedIn n'apparaît qu'au doigt : sur grand écran il est déjà
+           dans le dock, et le répéter ferait deux portes sans raison. -->
 
 
 
@@ -5675,11 +6349,6 @@
         <span class="mini__label">LinkedIn</span>
       </a>
 
-      <button type="button" class="mini mini--mobile" data-action="notes"
-              aria-label="Notes — ouvrir Pourquoi_je_design?">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="notes-192.webp" type="image/webp"><img src="notes-192.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Notes</span>
-      </button>
 
       
 
@@ -5699,7 +6368,7 @@
     <!-- Menu « Voir » de la barre. Il double le sous-menu du clic droit :
        deux chemins vers le même réglage, et setWall remet les deux d'accord.
        Aucun des deux ne garde d'état pour son compte. -->
-  <div class="navmenu" id="voirmenu" role="menu" aria-label="Voir" hidden>
+  <div class="navmenu" id="voirmenu" role="menu" aria-label="Éditer" hidden>
     <div class="ctxmenu__nest">
       <button type="button" class="navmenu__item ctxmenu__item--sub" role="menuitem"
               aria-haspopup="menu" aria-expanded="false" id="voir-fonds">Changer le fond d’écran<span class="ctxmenu__chev" aria-hidden="true">›</span></button>
@@ -5707,19 +6376,19 @@
     </div>
   </div>
 
+  <!-- Menu « Dossiers » : Ranger et Disposer au hasard, comme au clic droit
+       (le fond d'écran reste sous « Éditer »).
+       Ranger et Disposer passent par les boutons du menu contextuel, pour
+       qu'une seule fonction fasse le travail. -->
+  <div class="navmenu" id="dossiersmenu" role="menu" aria-label="Dossiers" hidden>
+    <button type="button" class="navmenu__item" role="menuitem" data-relais="tidy">Ranger</button>
+    <button type="button" class="navmenu__item" role="menuitem" data-relais="scatter">Disposer au hasard</button>
+  </div>
+
   <div class="navmenu" id="navmenu" role="menu" aria-label="Emmanuel Froissant" hidden>
       <button type="button" class="navmenu__item" role="menuitem" data-action="about">À propos</button>
       <div class="navmenu__sep" role="separator"></div>
       <button type="button" class="navmenu__item" role="menuitem" data-action="contact">Contacter</button>
-      <div class="navmenu__sep" role="separator"></div>
-      <!-- Attribution de la musique d'ambiance. La licence Free To Use
-           demande un crédit ; il vit ici plutôt qu'en pied de page, parce
-           qu'un bureau macOS n'a pas de pied de page. L'entrée est un lien :
-           créditer sans permettre de remonter à la source ne crédite rien. -->
-      <a class="navmenu__item navmenu__item--note" role="menuitem"
-         href="https://freetouse.com/music" target="_blank" rel="noopener noreferrer">
-        Musique : <em>Glass Shop</em> — Calima
-      </a>
     </div>
 
     <!-- Dock — Tech_Dock 423:155 -->
@@ -5771,26 +6440,6 @@
                 </svg>
           </svg>
             </a>
-          </li>
-          <li class="dock__sep" role="presentation" aria-hidden="true"></li>
-          <li class="dock__item dock__item--link" data-groupe="notes" data-hovered="false">
-            <span class="dock__name">Notes</span>
-            <!-- Le fichier 🧠 Pourquoi_je_design? est déjà sur le bureau :
-                 l'icône Notes l'ouvre plutôt que de ne rien faire. Une icône
-                 de dock inerte casse l'illusion plus sûrement qu'un détail
-                 graphique raté. -->
-            <button type="button" class="dock__link" id="dock-notes"
-                    aria-label="Notes — ouvrir Pourquoi_je_design?">
-              <!-- Une seule image, en 192 : le dock agrandit l'icône à 56 px et
-                   un écran très dense la demande alors en 168 px réels. Les
-                   voisines sont des SVG, elles n'ont pas cette limite ; une
-                   image bitmap, si. Servir directement la grande évite aussi
-                   au navigateur de changer de fichier en cours de survol. -->
-              <picture>
-                <source srcset="notes-192.webp" type="image/webp">
-                <img src="notes-192.png" alt="" width="36" height="36" draggable="false">
-              </picture>
-            </button>
           </li>
         </ul>
         <span class="dock__tip" id="dock-tip" aria-hidden="true"></span>
@@ -5970,6 +6619,11 @@ const dire = (function () {
     minisEl.dataset.range = 'false';     // dispersées : elles flottent
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
+    // Le lecteur et le calendrier sont dispersés eux aussi, AVANT les
+    // cartes : celles-ci les traitent ensuite comme des obstacles.
+    // Glissement seulement si le bureau était déjà disposé (menu « Disposer
+    // au hasard ») ; à l'arrivée, tout est posé d'emblée.
+    document.dispatchEvent(new CustomEvent('portfolio:objets', { detail: { action: 'disperser', glisser: minisPlaced } }));
     const items = minisAffichees();
     /* La hauteur MAXIMALE, pas celle de la première vignette. Les icônes
        ont des rapports très différents — l'appareil photo est trapu, la
@@ -5979,14 +6633,28 @@ const dire = (function () {
     // Le lecteur, ouvert d'office, est un obstacle : aucune carte dessous.
     const lect = document.getElementById('spot');
     if (lect && !lect.hidden) {
+      // Sa place CIBLE (style), pas sa boîte : il est peut-être en train
+      // d'y glisser, et la boîte donnerait encore l'ancienne position.
       const sr = lect.getBoundingClientRect();
-      placed.push({ l: sr.left - r.left - 32, t: sr.top - r.top, w: sr.width + 32, h: sr.height });
+      const sl = parseFloat(lect.style.left), st = parseFloat(lect.style.top);
+      const lx = isNaN(sl) ? sr.left : sl, ly = isNaN(st) ? sr.top : st;
+      placed.push({ l: lx - r.left - 32, t: ly - r.top - 16, w: sr.width + 64, h: sr.height + 32 });
     }
     // L'éphéméride aussi, avec une marge pour son ombre et son inclinaison.
     const eph = document.getElementById('lock-date');
     if (eph && eph.offsetParent) {
       const er = eph.getBoundingClientRect();
-      placed.push({ l: er.left - r.left - 24, t: er.top - r.top - 24, w: er.width + 48, h: er.height + 48 });
+      const z = eph.offsetParent.getBoundingClientRect();
+      const el = parseFloat(eph.style.left), et = parseFloat(eph.style.top);
+      const ex = isNaN(el) ? er.left : z.left + el, ey = isNaN(et) ? er.top : z.top + et;
+      placed.push({ l: ex - r.left - 24, t: ey - r.top - 24, w: er.width + 48, h: er.height + 48 });
+    }
+
+    // Le dock aussi, intitulés compris : aucune carte ne se pose dessus.
+    const dockEl = document.querySelector('.dock__pill');
+    if (dockEl && dockEl.offsetParent) {
+      const dr = dockEl.getBoundingClientRect();
+      placed.push({ l: dr.left - r.left - 16, t: dr.top - r.top - 40, w: dr.width + 32, h: dr.height + 56 });
     }
 
     items.forEach((m) => {
@@ -6581,9 +7249,6 @@ const dire = (function () {
     bar.addEventListener('pointercancel', rel);
   })();
 
-  document.getElementById('dock-notes').addEventListener('click', (e) => {
-    openNotes(e.currentTarget);
-  });
 
 
   /* ---------- curriculum vitae ---------- */
@@ -6804,7 +7469,13 @@ const dire = (function () {
       { img: 'serie-fall',    ratio: '1000 / 1414', titre: 'The Fall',        auteur: 'Allan Cubitt' },
       { img: 'serie-secrets', ratio: '1000 / 1400', titre: 'Secrets We Keep', auteur: 'Ingeborg Topsøe' },
       { img: 'serie-ozark',   ratio: '376 / 531', titre: 'Ozark',           auteur: 'Bill Dubuque' },
-      { img: 'serie-sexeducation', ratio: '667 / 1000', titre: 'Sex Education',  auteur: 'Laurie Nunn' }
+      { img: 'serie-sexeducation', ratio: '667 / 1000', titre: 'Sex Education',  auteur: 'Laurie Nunn' },
+      { img: 'serie-punky',   ratio: '1152 / 1638', titre: 'Punky Brewster', auteur: 'David W. Duclon' }
+    ] },
+    { titre: 'Films', forme: 'affiche', items: [
+      { img: 'film-labyrinth', ratio: '830 / 1236', titre: 'Labyrinth',         auteur: 'Jim Henson' },
+      { img: 'film-sirene',    ratio: '918 / 1426', titre: 'La Petite Sirène', auteur: 'Ron Clements et John Musker' },
+      { img: 'film-misfits',   ratio: '1006 / 1490', titre: 'The Misfits',      auteur: 'John Huston' }
     ] },
     { titre: 'Musiques', forme: 'disque', items: [
       { img: 'disque-bea', ratio: '1000 / 1000', titre: 'Smoking Lessons', auteur: 'Bea' },
@@ -6832,10 +7503,11 @@ const dire = (function () {
      Les disques sont passés de 104 à 96 pour tenir à cinq par ligne — au
      passage leur surface (9216) rejoint celle des livres (9600), alors
      qu'à 104 ils pesaient 10816 et dominaient l'étagère. */
-  const REPERE = { livre: 80 * 120, affiche: 80 * 120, disque: 96 * 96, carre: 96 * 96 };
+  // Visuels agrandis de moitié : 120 × 180 pour un livre, 144 pour un carré.
+  const REPERE = { livre: 120 * 180, affiche: 120 * 180, disque: 144 * 144, carre: 144 * 144 };
 
   function finderEtagere() {
-    fTitle.textContent = 'Ma bibliothèque';
+    fTitle.textContent = 'Bibliothèque';
     fBody.replaceChildren();
 
     const shelf = document.createElement('div');
@@ -6886,7 +7558,7 @@ const dire = (function () {
             const [rw, rh] = o.ratio.split('/').map((n) => parseFloat(n));
             const r = rw / rh;
             const A = REPERE[rayon.forme] || REPERE.livre;
-            slot.style.width = Math.min(128, Math.round(Math.sqrt(A * r))) + 'px';
+            slot.style.width = Math.min(192, Math.round(Math.sqrt(A * r))) + 'px';
           }
         } else {
           art = document.createElement('div');
@@ -7012,18 +7684,30 @@ const dire = (function () {
     else if (quoi === 'case-studies') finderEtudes();
     else finderEtagere();
 
-    // Recentrée à chaque ouverture tant que le visiteur ne l'a pas déplacée
-    // lui-même : chaque vue a sa hauteur, une position figée en désavantage
-    // forcément une. Dès qu'il la déplace, on n'y touche plus.
-    if (!fBouge) {
-      const r = fWin.getBoundingClientRect();
-      fWin.style.left = Math.max(24, (innerWidth - r.width) / 2) + 'px';
-      fWin.style.top  = Math.max(56, (innerHeight - r.height) / 2 - 20) + 'px';
-    }
+    // Toujours centrée à l'ouverture, même si elle a été déplacée la fois
+    // d'avant. Tailles de mise en page (offset*) et non la boîte : pendant
+    // l'animation d'ouverture, la boîte est encore réduite et le calcul
+    // tombait à côté.
+    fBouge = false;
+    centrerFinder();
     const premier = fWin.querySelector('.ffile');
     if (premier) premier.focus();
     else fWin.querySelector('.modal__light--close').focus();   // étagère : rien à activer
   }
+
+  function centrerFinder() {
+    if (fWin.hidden || fBouge) return;
+    const bar = document.querySelector('.menubar');
+    const haut = bar ? bar.offsetHeight : 0;
+    const w = fWin.offsetWidth, h = fWin.offsetHeight;
+    fWin.style.left = Math.max(16, (innerWidth - w) / 2) + 'px';
+    fWin.style.top  = Math.max(haut + 16, haut + (innerHeight - haut - h) / 2) + 'px';
+  }
+  // Sa hauteur change encore après l'ouverture (images qui arrivent) et la
+  // fenêtre du navigateur peut changer de taille : elle reste au centre tant
+  // qu'on ne l'a pas déplacée.
+  new ResizeObserver(centrerFinder).observe(fWin);
+  addEventListener('resize', centrerFinder);
 
   function finderClose() { fWin.hidden = true; }
 
@@ -7201,14 +7885,48 @@ const dire = (function () {
      grille est la seule disposition qui tienne — l'écran est trop étroit
      pour que le hasard soit lisible, et iOS n'a jamais laissé poser une
      icône n'importe où. */
-  function disposer() {
-    if (petitEcran.matches) { tidy(); return; }
-    placeInitial();
+  /* Disposition d'arrivée, identique à chaque déverrouillage : les cartes
+     en arc à gauche, le calendrier au milieu, le lecteur en haut à droite.
+     Positions en fractions de la zone du bureau, pour garder la même
+     composition sur tous les écrans ; bornées au-dessus du dock. */
+  const DISPOSITION = {
+    '[data-folder="case-studies"]': [0.185, 0.117],   // Projets
+    '[data-action="mail"]':         [0.342, 0.094],   // Contact
+    '[data-action="spotify"]':      [0.500, 0.194],   // Musique
+    '[data-cv]':                    [0.080, 0.356],   // CV
+    '[data-etagere]':               [0.124, 0.654],   // Bibliothèque
+    '[data-action="notes"]':        [0.470, 0.520]    // Notes
+  };
+  function disposerDefaut() {
+    minisEl.dataset.range = 'false';
+    const r = minisEl.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const dock = document.querySelector('.dock__pill');
+    const plafond = dock && dock.offsetParent ? dock.getBoundingClientRect().top - r.top - 48 : r.height;
+    // Posées d'emblée, sans glisser depuis leur place précédente.
+    minisEl.classList.add('sans-glisse');
+    Object.entries(DISPOSITION).forEach(([sel, [fx, fy]]) => {
+      const m = minisEl.querySelector('.mini' + sel);
+      if (!m || !m.offsetParent) return;
+      const top = Math.min(r.height * fy, plafond - m.offsetHeight);
+      const [l, t] = clampInside(m, r.width * fx, Math.max(0, top));
+      m.style.left = l + 'px'; m.style.top = t + 'px';
+    });
+    void minisEl.offsetWidth;
+    requestAnimationFrame(() => minisEl.classList.remove('sans-glisse'));
+    document.dispatchEvent(new CustomEvent('portfolio:objets', { detail: { action: 'defaut', glisser: false } }));
   }
 
+  function disposer() {
+    if (petitEcran.matches) { tidy(); return; }
+    disposerDefaut();
+  }
+
+  // Appelée à chaque arrivée sur le bureau : la composition est toujours
+  // la même au déverrouillage, quoi qu'on ait déplacé la fois d'avant.
   function placeOnce() {
-    if (minisPlaced) return;
     if (!minisEl.getBoundingClientRect().width) return;
+    minisLibres = false;
     disposer();
     minisPlaced = true;
   }
@@ -7249,6 +7967,8 @@ const dire = (function () {
 
   function tidy() {
     minisEl.dataset.range = 'true';      // en grille : plus de flottement
+    // Le lecteur et le calendrier reprennent leur place, en haut à droite.
+    if (!petitEcran.matches) document.dispatchEvent(new CustomEvent('portfolio:objets', { detail: { action: 'ranger', glisser: minisPlaced } }));
     const r = minisEl.getBoundingClientRect();
     const items = minisAffichees();
     if (!items.length || !r.width) return;
@@ -7266,13 +7986,28 @@ const dire = (function () {
       Math.max(1, Math.floor((r.width + GRID_GAP_X) / (w + GRID_GAP_X))));
     const rows = Math.ceil(items.length / perRow);
     const blockH = rows * hgt + (rows - 1) * GRID_GAP_Y;
-    const top0 = Math.max(0, (r.height - blockH) / 2);
+    let top0 = Math.max(0, (r.height - blockH) / 2);
+    /* Sur un écran bas (MacBook), la rangée centrée peut passer sous le
+       lecteur rangé en haut à droite. On la descend alors juste sous lui,
+       tant qu'elle tient au-dessus du dock. */
+    const lect = document.getElementById('spot');
+    if (!petitEcran.matches && lect && !lect.hidden) {
+      const bar = document.querySelector('.menubar');
+      const basLecteur = (bar ? bar.offsetHeight : 38) + 8 + lect.offsetHeight - r.top + 24;
+      const dock = document.querySelector('.dock__pill');
+      const plafond = dock && dock.offsetParent ? dock.getBoundingClientRect().top - r.top - 48 : r.height;
+      const dansSaColonne = (r.width + Math.min(perRow, items.length) * (w + GRID_GAP_X)) / 2 > r.width - lect.offsetWidth - 40;
+      if (dansSaColonne && top0 < basLecteur && basLecteur + blockH <= plafond) top0 = basLecteur;
+    }
 
     // Une seule origine pour toutes les rangées, calculée sur une rangée
     // pleine : le bloc reste centré dans l'écran, mais une rangée incomplète
     // commence sous la première colonne au lieu de se recentrer pour elle
     // seule. Une icône esseulée reste ainsi dans l'alignement.
-    const fullW = perRow * w + (perRow - 1) * GRID_GAP_X;
+    // Largeur de la rangée réellement occupée : cinq cartes sur six
+    // colonnes possibles se centrent sur cinq, pas sur six.
+    const cols = Math.min(perRow, items.length);
+    const fullW = cols * w + (cols - 1) * GRID_GAP_X;
     const left0 = Math.max(0, (r.width - fullW) / 2);
 
     items.forEach((m, i) => {
@@ -7290,15 +8025,16 @@ const dire = (function () {
   // Le premier de la liste est le fond par défaut. Night ouvre donc la
   // marche, dans le menu comme au chargement.
   // Rangés dans l'ordre de la journée.
+  /* Quatre couleurs unies, prises dans la palette des cartes mais assez
+     profondes pour porter du texte blanc : la barre de menus, l'heure et
+     les intitulés du dock restent tous au-dessus de 4,5:1 (WCAG AA,
+     texte courant). Le jaune et l'orange n'y sont pas : assombris jusqu'à
+     ce seuil, ils tournent au brun. Les photos ont été retirées. */
   const WALLPAPERS = [
-    { id: 'bleu',  nom: '🔵 Bleu', apercu: 'wall-bleu', couleur: '#4A68E8' },
-    { id: 'vert',  nom: '🟢 Dégradé vert', apercu: 'wall-vert',
-      petit: 'vert-1280',  grand: 'vert-1920' },
-    { id: 'blanc', nom: '⚪️ Blanc', apercu: 'wall-blanc', couleur: '#ffffff' },
-    { id: 'roses', nom: '🌸 Nuages roses', apercu: 'wall-roses',
-      petit: 'roses-1280', grand: 'roses-1920' },
-    { id: 'mer',   nom: '🌊 Mer et ciel bleu', apercu: 'wall-mer',
-      petit: 'mer-1280',   grand: 'mer-1920' }
+    { id: 'bleu',      nom: 'Bleu',       couleur: '#4A68E8' },   // 4,73:1
+    { id: 'violet',    nom: 'Violet',     couleur: '#6B4FD8' },   // 5,62:1 — le mauve du dock
+    { id: 'vert',      nom: 'Vert',       couleur: '#32B05C' },   // 2,8:1 — choisi tel quel, sous le seuil AA pour le texte blanc
+    { id: 'encre',     nom: 'Encre',      couleur: '#1A1A1A' }    // 17,4:1 — le noir des traits
   ];
 
   /* Le fond par défaut est nommé, il n'est plus « le premier de la liste ».
@@ -7438,6 +8174,8 @@ const dire = (function () {
        n'ont pas de sens sur un ciel de plein jour. Ajouter une exception
        plus tard ne demandera pas de toucher à ce script. */
     stage.dataset.wall = w.id;
+    // Tous les fonds sont unis : le grain s'applique à chacun.
+    if (w.couleur) stage.dataset.uni = ''; else delete stage.dataset.uni;
     try { localStorage.setItem('portfolio:wall', w.id); } catch (e) { /* mode privé */ }
     document.querySelectorAll('[data-liste-fonds] .ctxwall').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.wall === w.id));
@@ -7462,11 +8200,11 @@ const dire = (function () {
       tick.textContent = '✓';
       tick.setAttribute('aria-hidden', 'true');
 
-      const img = document.createElement('img');
-      img.src = w.apercu + '-112.jpg';
-      img.srcset = w.apercu + '-224.jpg 2x';
-      img.alt = '';
-      img.draggable = false;
+      // Une pastille de la couleur, à la place d'une vignette d'image.
+      const img = document.createElement('span');
+      img.className = 'ctxwall__pastille';
+      img.style.background = w.couleur;
+      img.setAttribute('aria-hidden', 'true');
 
       const nom = document.createElement('span');
       nom.textContent = w.nom;
@@ -7501,6 +8239,12 @@ const dire = (function () {
   function openWallSub(ouvert) {
     wallSub.hidden = !ouvert;
     wallBtn.setAttribute('aria-expanded', String(ouvert));
+    // Près du bord droit, le sous-menu s'ouvre à gauche plutôt que de
+    // sortir de l'écran.
+    wallSub.classList.remove('ctxmenu__sub--gauche');
+    if (ouvert && wallSub.getBoundingClientRect().right > innerWidth - 8) {
+      wallSub.classList.add('ctxmenu__sub--gauche');
+    }
   }
   wallBtn.addEventListener('pointerenter', () => openWallSub(true));
   // Même passerelle côté clic droit : on ne referme que si le pointeur a
@@ -7747,9 +8491,9 @@ const dire = (function () {
   const dockItems = dockCells.filter((el) => el.classList.contains('dock__item'));
 
   if (dockItems.length) {
-    const ICON = 36;      // largeur au repos
+    const ICON = 48;      // largeur au repos — suit --dock-icon
     const SEP = 4;        // largeur de la case du séparateur — suit --dock-sep
-    const GAP = 12;       // suit --dock-gap
+    const GAP = 16;       // suit --dock-gap
     const MAX = 0.55;     // grossissement maximal : +55%, plus sobre
     const RANGE = 78;     // rayon d'influence du curseur, en px
     const RISE = 9;       // hauteur de la remontée
@@ -7913,6 +8657,7 @@ const dire = (function () {
   function openVoir(opts) {
     closeCtx();
     closeNav();
+    if (typeof closeDossiers === 'function') closeDossiers();
     voirMenu.hidden = false;
     voirBtn.setAttribute('aria-expanded', 'true');
     const b = voirBtn.getBoundingClientRect();
@@ -7986,6 +8731,50 @@ const dire = (function () {
     e.stopPropagation();
     closeVoir();
     voirBtn.focus();
+  }, true);
+
+
+  /* ---------- menu « Dossiers » ----------
+     Le pendant du clic droit dans la barre : Ranger et Disposer au hasard.
+     Même mécanique que « Éditer ». */
+  const dosBtn  = document.getElementById('menu-dossiers');
+  const dosMenu = document.getElementById('dossiersmenu');
+  function closeDossiers() {
+    if (dosMenu.hidden) return;
+    dosMenu.hidden = true;
+    dosBtn.setAttribute('aria-expanded', 'false');
+  }
+  function openDossiers(opts) {
+    closeCtx(); closeNav(); closeVoir();
+    dosMenu.hidden = false;
+    dosBtn.setAttribute('aria-expanded', 'true');
+    const b = dosBtn.getBoundingClientRect();
+    const host = desk.getBoundingClientRect();
+    dosMenu.style.left = (b.left - host.left) + 'px';
+    dosMenu.style.top = (b.bottom - host.top) + 'px';
+    if (!opts || opts.focus !== false) dosMenu.querySelector('.navmenu__item').focus();
+  }
+  dosBtn.addEventListener('click', (e) => { e.stopPropagation(); if (dosMenu.hidden) openDossiers(); else closeDossiers(); });
+  dosBtn.addEventListener('pointerenter', () => { if (dosMenu.hidden) openDossiers({ focus: false }); });
+  dosMenu.addEventListener('click', (e) => {
+    const r = e.target.closest('[data-relais]');
+    if (r) {
+      const cible = document.querySelector(`#ctxmenu [data-action="${r.dataset.relais}"]`);
+      if (cible) cible.click();
+      closeDossiers();
+    }
+  });
+  addEventListener('pointerdown', (e) => {
+    if (!dosMenu.contains(e.target) && e.target !== dosBtn) closeDossiers();
+  }, true);
+  const dansDos = (n) => n && (n === dosBtn || dosBtn.contains(n) || dosMenu.contains(n));
+  dosMenu.addEventListener('pointerleave', (e) => { if (!dansDos(e.relatedTarget)) closeDossiers(); });
+  dosBtn.addEventListener('pointerleave', (e) => { if (!dansDos(e.relatedTarget)) closeDossiers(); });
+  document.addEventListener('keydown', (e) => {
+    if (dosMenu.hidden || e.key !== 'Escape') return;
+    e.stopPropagation();
+    closeDossiers();
+    dosBtn.focus();
   }, true);
 
   const navBtn = document.querySelector('.menuitem--app');
@@ -8443,8 +9232,10 @@ const dire = (function () {
         const x = AMP * Math.sin(s / f.px * 6.283 + f.ph) * f.poids + f.fx;
         const y = AMP * 0.7 * Math.sin(s / f.py * 6.283 + f.ph * 1.7) * f.poids + f.fy;
         const rot = TANGAGE * Math.sin(s / f.pr * 6.283 + f.ph * 0.6) * f.poids;
-        f.el.style.transform =
-          `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+        /* Au repos, aucun transform en ligne : il écraserait celui du
+           survol (la carte qui se soulève en se triplant). */
+        f.el.style.transform = (Math.abs(x) < 0.01 && Math.abs(y) < 0.01 && Math.abs(rot) < 0.01) ? ''
+          : `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
       }
       anim = (dort() && !vivant) ? 0 : requestAnimationFrame(boucle);
     }
@@ -8485,8 +9276,9 @@ const dire = (function () {
      Pour ajouter un morceau : déposer le fichier dans le dossier musique/
      puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
   const PISTES = [
-    { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3' },
-    { titre: 'Ambiance',    artiste: 'Emmanuel Froissant', src: 'ambiance.mp3' }
+    { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3', pochette: 'pochette-orange-road' },
+    // Crédit demandé par la licence Free To Use (freetouse.com/music).
+    { titre: 'Glass Shop',  artiste: 'Calima',             src: 'ambiance.mp3' }
   ];
   const ICONES = {
     lire:  '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
@@ -8507,8 +9299,13 @@ const dire = (function () {
         <span>Musique</span>
       </div>
       <div class="lecteur__haut">
-        <p class="lecteur__titre"></p>
-        <p class="lecteur__artiste"></p>
+        <div class="lecteur__entete">
+          <div class="lecteur__pochette"><img alt="" width="72" height="72" hidden></div>
+          <div class="lecteur__titres">
+            <p class="lecteur__titre"></p>
+            <p class="lecteur__artiste"></p>
+          </div>
+        </div>
         <div class="lecteur__progres" role="slider" tabindex="0" aria-label="Position dans le morceau"
              aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="lecteur__rempli"></div></div>
         <div class="lecteur__temps"><span class="lecteur__ecoule">0:00</span><span class="lecteur__total">0:00</span></div>
@@ -8586,6 +9383,19 @@ const dire = (function () {
     audio.src = p.src;
     spot.querySelector('.lecteur__titre').textContent = p.titre;
     spot.querySelector('.lecteur__artiste').textContent = p.artiste;
+    // Pochette : comme la photo de l'À propos, cadrée, trait noir, ombre
+    // décalée. Sans pochette (ou fichier absent), une tuile bleu-vert.
+    const img = spot.querySelector('.lecteur__pochette img');
+    img.hidden = true;
+    if (p.pochette) {
+      img.onload = () => { img.hidden = false; };
+      img.onerror = () => { img.hidden = true; };
+      img.src = p.pochette + '-96.jpg';
+      img.srcset = p.pochette + '-192.jpg 2x';
+      img.alt = 'Pochette de ' + p.titre;
+    } else {
+      img.removeAttribute('src'); img.removeAttribute('srcset'); img.alt = '';
+    }
     spot.querySelectorAll('.lecteur__piste').forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
   }
 
@@ -8610,13 +9420,49 @@ const dire = (function () {
   function ouvrirSpotify() {
     if (!spot.hidden) { fermerSpotify(); return; }
     if (!lecteurPret) construireLecteur();
-    spot.hidden = false;
-    if (!reducedMotion()) {
-      spot.animate([{ transform: 'translateX(24px)', opacity: 0 },
-                    { transform: 'none', opacity: 1 }],
-                   { duration: 260, easing: MODAL_EASE });
-    }
+    spot.hidden = false;   // posé tel quel, sans entrée animée
   }
+
+  /* Dispersé ou rangé avec les cartes (menu du bureau). Dispersé : une
+     place au hasard dans la moitié droite, sous la barre de menus et
+     au-dessus du dock. Rangé : sa place d'origine, en haut à droite. */
+  document.addEventListener('portfolio:objets', (e) => {
+    if (spot.hidden || !window.matchMedia('(min-width: 768px)').matches) return;
+    // Disposition d'arrivée : sa place d'origine, en haut à droite.
+    if (e.detail.action === 'defaut') {
+      spot.style.left = spot.style.top = spot.style.right = spot.style.bottom = spot.style.transform = '';
+      return;
+    }
+    // Plus d'entrée en glissé : il est posé comme les cartes.
+    spot.getAnimations().forEach((a) => a.cancel());
+    const glisser = e.detail.glisser && !reducedMotion();
+    const r0 = spot.getBoundingClientRect();
+    spot.style.left = r0.left + 'px'; spot.style.top = r0.top + 'px';
+    spot.style.right = 'auto'; spot.style.bottom = 'auto'; spot.style.transform = 'none';
+    if (glisser) {
+      void spot.offsetWidth;
+      spot.classList.add('is-range');
+      clearTimeout(spot._range);
+      spot._range = setTimeout(() => spot.classList.remove('is-range'), 700);
+    }
+    if (e.detail.action === 'ranger') {
+      const bar = document.querySelector('.menubar');
+      const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar-pad-r')) || 20;
+      spot.style.left = (innerWidth - spot.offsetWidth - pad) + 'px';
+      // Rangé : collé sous la barre (8 px), plus haut que sa place
+      // d'arrivée, pour laisser la rangée de cartes respirer dessous.
+      spot.style.top = ((bar ? bar.offsetHeight : 38) + 8) + 'px';
+      return;
+    }
+    const w = spot.offsetWidth, h = spot.offsetHeight;
+    const bar = document.querySelector('.menubar');
+    const haut = (bar ? bar.offsetHeight : 38) + 16;
+    const bas = innerHeight - h - 160;               // le dock reste dégagé
+    const x = innerWidth / 2 + 40 + Math.random() * Math.max(0, innerWidth / 2 - w - 72);
+    const y = haut + Math.random() * Math.max(0, bas - haut);
+    spot.style.left = x + 'px'; spot.style.top = y + 'px';
+    spot.style.right = 'auto'; spot.style.bottom = 'auto'; spot.style.transform = 'none';
+  });
 
   // Ouvert par défaut à chaque arrivée sur le bureau (grand écran). Au
   // téléphone il recouvrirait les cartes : il reste derrière « Musique ».
@@ -9003,9 +9849,11 @@ const dire = (function () {
       if (sp && !sp.hidden && sp.offsetWidth) {
         // Position de mise en page (offset*), pas getBoundingClientRect :
         // le lecteur entre en glissant, sa boîte bouge encore à cet instant.
+        // Sa place cible si elle est écrite (il glisse peut-être encore).
         const z = zone.getBoundingClientRect();
-        const droite = sp.offsetLeft + sp.offsetWidth - z.left;
-        const bas = sp.offsetTop + sp.offsetHeight - z.top;
+        const sl = parseFloat(sp.style.left), st = parseFloat(sp.style.top);
+        const droite = (isNaN(sl) ? sp.offsetLeft : sl) + sp.offsetWidth - z.left;
+        const bas = (isNaN(st) ? sp.offsetTop : st) + sp.offsetHeight - z.top;
         // Rentré de quelques px : incliné, il déborderait sinon du bord.
         f.style.left = Math.min(droite - f.offsetWidth - 12, z.width - f.offsetWidth - 32) + 'px';
         f.style.top = (bas + 40) + 'px';
@@ -9048,7 +9896,7 @@ const dire = (function () {
     /* Chaque clic arrache une feuille : la date avance d'un jour. Au
        quatrième clic d'affilée, une bulle demande si l'on a quelque chose
        contre aujourd'hui ; au huitième, elle abandonne (« À demain,
-       alors. »). Puis la
+       alors. ») ; au douzième, elle s'en va (« Bye! »). Puis la
        feuille revient à aujourd'hui quand la bulle s'en va (sans bulle,
        elle y revient seule après 2,5 s). Entrée et
        Espace font la même chose au clavier. */
@@ -9111,9 +9959,12 @@ const dire = (function () {
       }, 2500);
       if (clics >= SEUIL) {
         // Premier avertissement, puis on abandonne si le visiteur insiste.
-        const texte = clics >= SEUIL * 2
-          ? 'OK. À demain, alors.'
-          : 'Vous avez quelque chose contre aujourd’hui\u202F?';
+        // Troisième palier au douzième clic : il ne discute plus.
+        const texte = clics >= SEUIL * 3
+          ? 'Bye!'
+          : clics >= SEUIL * 2
+            ? 'OK. À demain, alors.'
+            : 'Vous avez quelque chose contre aujourd’hui\u202F?';
         const nouvelle = bulle.hidden;
         bulle.hidden = false;
         ecrire(texte, nouvelle);
@@ -9137,11 +9988,182 @@ const dire = (function () {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tourner(); }
     });
 
+    /* Dispersé ou rangé avec les cartes. Dispersé : au hasard, dans la
+       moitié GAUCHE si le lecteur est à droite (et inversement), pour que
+       les deux objets ne s'empilent pas. Rangé : sous le lecteur. */
+    document.addEventListener('portfolio:objets', (e) => {
+      if (!flottant() || !f.offsetParent) return;
+      // Disposition d'arrivée : au milieu, entre les cartes et le lecteur.
+      if (e.detail.action === 'defaut') {
+        deplace = true;
+        const z = zone.getBoundingClientRect();
+        const bar = document.querySelector('.menubar');
+        const haut = bar ? bar.offsetHeight : 0;
+        poser(z.width * 0.295, haut + (z.height - haut) * 0.362);
+        return;
+      }
+      if (e.detail.glisser && !reduced) {
+        f.classList.add('is-range');
+        clearTimeout(f._range);
+        f._range = setTimeout(() => f.classList.remove('is-range'), 700);
+      }
+      // Rangé : en bas à droite, à l'écart du dock qui est centré.
+      if (e.detail.action === 'ranger') {
+        deplace = true;
+        const z = zone.getBoundingClientRect();
+        poser(z.width - f.offsetWidth - 40, z.height - f.offsetHeight - 40);
+        return;
+      }
+      deplace = true;
+      const z = zone.getBoundingClientRect();
+      const bar = document.querySelector('.menubar');
+      const haut = (bar ? bar.offsetHeight : 0) + 24;
+      const w = f.offsetWidth, h = f.offsetHeight;
+      const sp = document.getElementById('spot');
+      const lecteurADroite = !sp || sp.hidden || parseFloat(sp.style.left || innerWidth) > innerWidth / 2;
+      const demi = z.width / 2 - w - 64;
+      const x = (lecteurADroite ? 32 : z.width / 2 + 32) + Math.random() * Math.max(0, demi);
+      const y = haut + Math.random() * Math.max(0, z.height - h - 170 - haut);
+      poser(x, y);
+    });
+
     // Fenêtre redimensionnée : on le ramène dans le cadre s'il a été déplacé.
     addEventListener('resize', () => {
       if (!flottant()) { f.style.left = f.style.top = f.style.right = ''; return; }
       if (deplace) poser(f.offsetLeft, f.offsetTop); else caler();
     });
+  })();
+
+
+
+
+
+  /* ── le contour vivant de l'avatar ──────────────────────────────────
+     Une forme organique dont le bord respire sans arrêt. Neuf points
+     autour du centre ; le rayon de chacun ondule selon deux sinusoïdes
+     de périodes différentes (5 à 9 s), décalées d'un point à l'autre :
+     la forme ne se répète jamais tout à fait. Une courbe lisse passe par
+     les neuf points. Concerne l'avatar de l'écran verrouillé et sa copie
+     dans la barre du bureau. Immobile si l'on a demandé moins d'animation,
+     en pause quand l'onglet est caché. */
+  (function contourVivant() {
+    const formes = () => document.querySelectorAll('.perso__forme');
+    const calme = matchMedia('(prefers-reduced-motion: reduce)');
+    const N = 9, CX = 100, CY = 90, RX = 74, RY = 70;   // centrée dans le dessin (200 × 180)
+    const graines = Array.from({ length: N }, (_, i) => ({
+      p1: 5 + (i * 1.7) % 4, p2: 7 + (i * 2.3) % 3,
+      f1: i * 2.1, f2: i * 1.3 + 0.7
+    }));
+    function chemin(t) {
+      const pts = graines.map((g, i) => {
+        const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+        const k = 1 + 0.09 * Math.sin(t / g.p1 * 6.283 + g.f1) + 0.05 * Math.sin(t / g.p2 * 6.283 + g.f2);
+        return [CX + Math.cos(a) * RX * k, CY + Math.sin(a) * RY * k];
+      });
+      let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+      for (let i = 0; i < N; i++) {
+        const p0 = pts[(i - 1 + N) % N], p1 = pts[i], p2 = pts[(i + 1) % N], p3 = pts[(i + 2) % N];
+        d += ` C ${(p1[0] + (p2[0] - p0[0]) / 6).toFixed(1)} ${(p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)},`
+           + ` ${(p2[0] - (p3[0] - p1[0]) / 6).toFixed(1)} ${(p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)},`
+           + ` ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+      }
+      return d + ' Z';
+    }
+    function dessiner(t) { const d = chemin(t); formes().forEach((f) => f.setAttribute('d', d)); }
+    dessiner(0);
+    if (calme.matches) return;
+    const boucle = (ts) => { dessiner(ts / 1000); requestAnimationFrame(boucle); };
+    requestAnimationFrame(boucle);
+  })();
+
+  /* ── la fleur dans la barre de menus ─────────────────────────────────
+     Copie de l'avatar de l'écran verrouillé, en 32 px, à la place des
+     yeux. Les identifiants des masques sont renommés pour ne pas viser
+     ceux de l'original (masqué quand le bureau est ouvert). Ses pupilles
+     suivent la souris sur le bureau. */
+  (function fleurBarre() {
+    const src = document.getElementById('perso');
+    const logo = document.getElementById('logo');
+    const stage = document.getElementById('stage');
+    if (!src || !logo) return;
+    const f = src.cloneNode(true);
+    f.removeAttribute('id');
+    f.setAttribute('class', 'perso perso--barre');
+    f.querySelectorAll('[id]').forEach((el) => {
+      const ancien = el.id, nouveau = ancien + '-barre';
+      el.id = nouveau;
+      f.querySelectorAll(`[clip-path="url(#${ancien})"]`).forEach((u) => u.setAttribute('clip-path', `url(#${nouveau})`));
+    });
+    logo.insertBefore(f, logo.firstChild);
+    const pupilles = [...f.querySelectorAll('.perso__pupille')];
+    const yeux = [[82, 94], [122, 94]];
+    addEventListener('pointermove', (e) => {
+      if (stage.dataset.state !== 'desktop') return;
+      const r = f.getBoundingClientRect();
+      if (!r.width) return;
+      const k = r.width / 200;
+      pupilles.forEach((el, i) => {
+        const dx = e.clientX - (r.left + yeux[i][0] * k), dy = e.clientY - (r.top + yeux[i][1] * k);
+        const d = Math.hypot(dx, dy) || 1, m = Math.min(6, d / 20) / d;
+        el.setAttribute('transform', `translate(${(dx * m).toFixed(1)} ${(dy * m).toFixed(1)})`);
+      });
+    }, { passive: true });
+  })();
+
+  /* ── l'avatar de l'écran verrouillé ──────────────────────────────────
+     Les pupilles suivent le pointeur. L'humeur dépend de sa position :
+     près du bouton (ou dessus), joie ; loin de l'avatar — plus de 38 % de
+     la diagonale de l'écran — ou hors de la fenêtre, tristesse. */
+  (function perso() {
+    const p = document.getElementById('perso');
+    const stage = document.getElementById('stage');
+    const btn = document.getElementById('unlock');
+    if (!p) return;
+    const pupilles = [...p.querySelectorAll('.perso__pupille')];
+    const yeux = [[82, 94], [122, 94]];             // centres, unités du dessin
+    const visible = () => stage.dataset.state === 'lock';
+    let humeur = '';
+    const poser = (h) => {
+      if (h === humeur) return;
+      humeur = h;
+      p.classList.toggle('is-joie', h === 'joie');
+      p.classList.toggle('is-triste', h === 'triste');
+      p.classList.toggle('is-extase', h === 'extase');
+    };
+    addEventListener('pointermove', (e) => {
+      if (!visible()) return;
+      const r = p.getBoundingClientRect();
+      if (!r.width) return;
+      const k = r.width / 200;
+      pupilles.forEach((el, i) => {
+        const ox = r.left + yeux[i][0] * k, oy = r.top + yeux[i][1] * k;
+        const dx = e.clientX - ox, dy = e.clientY - oy, d = Math.hypot(dx, dy) || 1;
+        const m = Math.min(6, d / 20) / d;
+        el.setAttribute('transform', `translate(${(dx * m).toFixed(1)} ${(dy * m).toFixed(1)})`);
+      });
+      const b = btn.getBoundingClientRect();
+      const pres = e.clientX > b.left - 56 && e.clientX < b.right + 56
+                && e.clientY > b.top - 40 && e.clientY < b.bottom + 40;
+      // Distance au centre de l'avatar, en part de la diagonale de l'écran.
+      // Au-delà de 30 % il est triste ; plus loin, il pleure davantage.
+      const part = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2))
+                 / Math.hypot(innerWidth, innerHeight);
+      const loin = part > 0.30;
+      p.dataset.larmes = part > 0.52 ? '3' : part > 0.41 ? '2' : '1';
+      const dessus = e.clientX >= b.left && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom;
+      poser(dessus ? 'extase' : pres ? 'joie' : loin ? 'triste' : '');
+    }, { passive: true });
+    // Pointeur sorti de la fenêtre : il pleure aussi.
+    document.addEventListener('pointerout', (e) => {
+      if (!e.relatedTarget && visible()) { p.dataset.larmes = '3'; poser('triste'); }
+    });
+    if (btn) {
+      btn.addEventListener('focus', () => poser('extase'));
+      btn.addEventListener('blur', () => poser(''));
+      btn.addEventListener('click', () => {
+        p.classList.remove('is-cligne'); void p.getBoundingClientRect(); p.classList.add('is-cligne');
+      });
+    }
   })();
 
   document.getElementById('unlock').addEventListener('click', () => {
