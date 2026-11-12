@@ -5642,7 +5642,12 @@
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55);
     text-transform: none;
   }
-  .stage .lock .identity__name > .latin { margin-left: 8px; white-space: nowrap; }
+  .stage .lock .identity__name > .latin { margin-left: 24px; white-space: nowrap; }
+  /* La colonne de katakana sort du flux : elle descend librement le long
+     du nom sans repousser « Designer UI/UX », qui se loge juste dessous. */
+  .stage .lock .identity .identity__name.identity__name { position: relative; }
+  .stage .lock .identity__name > .kana { position: absolute; left: 0; top: 2px; white-space: nowrap; }
+  .stage .lock .identity .identity__role.identity__role { margin-top: 2px; }
   /* « Designer UI/UX » aligné à gauche sur le nom en capitales (après la
      colonne de katakana) : le bloc se cale sur sa propre largeur, centré
      dans l'écran, et son texte part de la gauche. */
