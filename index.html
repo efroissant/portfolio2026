@@ -8336,8 +8336,13 @@ const dire = (function () {
       const i = ORDRE_RANGEMENT.findIndex((sel) => el.matches(sel));
       return i < 0 ? ORDRE_RANGEMENT.length : i;
     };
-    const items = minisAffichees().sort((a, b) => rang(a) - rang(b));
-    if (!items.length || !r.width) return;
+    const tous = minisAffichees().sort((a, b) => rang(a) - rang(b));
+    if (!tous.length || !r.width) return;
+    /* Sur grand écran : les cartes en deux rangées de trois, centrées ;
+       les fichiers (mème, mp3) à part, empilés à gauche du bloc. Sur
+       téléphone, la grille reste celle de toujours. */
+    const aPart = petitEcran.matches ? [] : tous.filter((el) => el.classList.contains('mini--fichier'));
+    const items = tous.filter((el) => !aPart.includes(el));
 
     // La colonne prend la largeur du PLUS LONG bouton ; chacun est centré
     // dans la sienne, pour qu'aucun ne déborde sur son voisin.
@@ -8348,7 +8353,7 @@ const dire = (function () {
     const hgt = items.reduce((m, el) => Math.max(m, el.offsetHeight), 0);
 
     // Trois au maximum, moins si la fenêtre est trop étroite pour les tenir.
-    const perRow = Math.min(PAR_RANGEE,
+    const perRow = Math.min(petitEcran.matches ? PAR_RANGEE : 3,
       Math.max(1, Math.floor((r.width + GRID_GAP_X) / (w + GRID_GAP_X))));
     const rows = Math.ceil(items.length / perRow);
     const blockH = rows * hgt + (rows - 1) * GRID_GAP_Y;
@@ -8383,6 +8388,30 @@ const dire = (function () {
       m.style.left = l + 'px';
       m.style.top = t + 'px';
     });
+
+    // Les fichiers : une colonne à gauche des cartes, centrée sur leur
+    // hauteur. Si la place manque, ils passent en rangée sous les cartes.
+    if (aPart.length) {
+      const fw = aPart.reduce((m, el) => Math.max(m, el.offsetWidth), 0);
+      const fh = aPart.reduce((n, el) => n + el.offsetHeight, 0) + (aPart.length - 1) * GRID_GAP_Y;
+      const fx = left0 - 2 * GRID_GAP_X - fw;
+      if (fx >= 16) {
+        let y = top0 + (blockH - fh) / 2;
+        aPart.forEach((m) => {
+          const [l, t] = clampInside(m, fx + (fw - m.offsetWidth) / 2, y);
+          m.style.left = l + 'px'; m.style.top = t + 'px';
+          y += m.offsetHeight + GRID_GAP_Y;
+        });
+      } else {
+        const rw = aPart.reduce((n, el) => n + el.offsetWidth, 0) + (aPart.length - 1) * GRID_GAP_X;
+        let x = (r.width - rw) / 2;
+        aPart.forEach((m) => {
+          const [l, t] = clampInside(m, x, top0 + blockH + GRID_GAP_Y);
+          m.style.left = l + 'px'; m.style.top = t + 'px';
+          x += m.offsetWidth + GRID_GAP_X;
+        });
+      }
+    }
   }
 
   /* ---------- fonds d'écran ----------
