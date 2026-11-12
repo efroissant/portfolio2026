@@ -8072,31 +8072,49 @@ const dire = (function () {
      Un seul fichier, rembobiné à chaque appui ; s'il joue encore, on en
      lance une copie pour que deux clics rapides s'entendent tous les deux.
      Si le navigateur refuse le son, le clic marche quand même. */
-  const sonClic = new Audio('musique/clic.m4a');
+  /* Le « plop » passe par Web Audio, pas par une balise audio : Safari
+     ne compte pas l'appui (pointerdown) comme un geste qui autorise le
+     son, et un play() muet ne débloque rien chez lui. Le contexte audio,
+     lui, n'a besoin d'être réveillé qu'une fois, pendant un vrai clic —
+     celui du déverrouillage — puis il joue à chaque appui, sans délai.
+     Hors http (fichier ouvert en local), fetch échoue : on retombe sur
+     une simple balise audio. */
+  const CLIC_SRC = 'musique/clic.m4a', CLIC_VOLUME = 0.6;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let actx = null, clicBuffer = null, clicGain = null;
+  const sonClic = new Audio(CLIC_SRC);
   sonClic.preload = 'auto';
-  sonClic.volume = 0.6;
-  /* Safari ne compte pas l'appui (pointerdown) comme un geste qui
-     autorise le son : le play() y était refusé en silence. On « amorce »
-     donc le son une fois, muet, pendant un vrai clic — celui du bouton
-     de déverrouillage, ou à défaut le premier clic venu. Une fois joué
-     dans un geste, le navigateur le laisse rejouer à l'appui. */
-  let clicAmorce = false;
-  function amorcerClic() {
-    // Déjà en train de jouer : le navigateur l'a accepté, rien à amorcer
-    // (et surtout ne pas couper le son en cours).
-    if (clicAmorce || !sonClic.paused) { clicAmorce = true; return; }
-    clicAmorce = true;
-    sonClic.muted = true;
-    const p = sonClic.play();
-    const fin = () => { sonClic.pause(); sonClic.currentTime = 0; sonClic.muted = false; };
-    if (p && p.then) p.then(fin, () => { sonClic.muted = false; clicAmorce = false; });
-    else fin();
+  sonClic.volume = CLIC_VOLUME;
+  function reveillerAudio() {
+    if (!AC) return;
+    try {
+      if (!actx) {
+        actx = new AC();
+        clicGain = actx.createGain();
+        clicGain.gain.value = CLIC_VOLUME;
+        clicGain.connect(actx.destination);
+        fetch(CLIC_SRC).then((r) => r.arrayBuffer())
+          .then((buf) => new Promise((ok, ko) => actx.decodeAudioData(buf, ok, ko)))
+          .then((b) => { clicBuffer = b; })
+          .catch(() => {});
+      }
+      if (actx.state !== 'running') actx.resume().catch(() => {});
+    } catch (_) {}
   }
-  document.addEventListener('click', amorcerClic, true);
-  document.addEventListener('keydown', amorcerClic, true);
+  document.addEventListener('click', reveillerAudio, true);
+  document.addEventListener('keydown', reveillerAudio, true);
+  document.addEventListener('touchend', reveillerAudio, true);
   function jouerClic() {
+    if (actx && clicBuffer) {
+      if (actx.state !== 'running') actx.resume().catch(() => {});
+      const src = actx.createBufferSource();
+      src.buffer = clicBuffer;
+      src.connect(clicGain);
+      src.start();
+      return;
+    }
     const a = sonClic.paused ? sonClic : sonClic.cloneNode();
-    a.volume = sonClic.volume;
+    a.volume = CLIC_VOLUME;
     try { a.currentTime = 0; } catch (_) {}
     const p = a.play();
     if (p && p.catch) p.catch(() => {});
