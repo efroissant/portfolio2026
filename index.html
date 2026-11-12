@@ -5620,6 +5620,11 @@
   /* Plus d'avatar non plus : le nom et le bouton suffisent. */
   #view-lock #avatar-lock.avatar { display: none; }
   .stage .lock .cluster { grid-row: 1 / -1; align-self: center; }
+  /* Sur le fond Palmiers, tout le texte s'incline parallèlement à la
+     traînée de l'avion : elle monte d'environ 7,2° vers la droite dans la
+     photo (de 440,480 à 1258,377 sur 1672 px de large), et le cadrage
+     « cover » garde les angles. */
+  .stage[data-wall="palmiers"] .lock .cluster { transform: rotate(-7.2deg); }
   /* Le nom façon titre de compilation japonaise : capitales noires très
      grasses en jaune City Pop, cernées de noir, avec un relief noir décalé. */
   .stage .lock .identity .identity__name.identity__name {
