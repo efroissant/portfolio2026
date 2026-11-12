@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#4A68E8">
+<meta name="theme-color" content="#3E6E9E">
 <title>Emmanuel Froissant — Designer UI/UX</title>
 <style>
   /* ================================================================
@@ -495,7 +495,7 @@
        télécharge un fond, l'affiche, puis le script en demande un autre —
        deux images à la file et une arrivée qui traîne. Ici c'est l'affiche
        de la Voie lactée, celle que la vidéo recouvre une fois prête. */
-    background-color: #4A68E8;
+    background-color: #3E6E9E;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -528,7 +528,7 @@
 
   @media (min-width: 1281px), (min-width: 768px) and (min-resolution: 1.5dppx) {
     .stage__bg {
-      background-color: #4A68E8;
+      background-color: #3E6E9E;
     }
   }
 
@@ -3693,13 +3693,15 @@
 
   /* Une couleur par élément, tirée de la palette de la référence. */
   /* Couleurs aux trois quarts des tons vifs, accordées au mauve du dock. */
-  .mini[data-folder="case-studies"] { --pill: #FF795C; }   /* corail pâle */
-  .mini[data-etagere]               { --pill: #F6ACCD; }   /* rose pâle */
+  /* Palette tirée de la pochette de « Timely!! » (Anri, 1983) : magenta
+     de la tranche, cyan du nom, crème du mur, lumière dorée, ciel. */
+  .mini[data-folder="case-studies"] { --pill: #E42B7D; }   /* magenta de la tranche */
+  .mini[data-etagere]               { --pill: #F5A9CB; }   /* rose pâle */
   .mini[data-folder="photos"]       { --pill: #8EDDA6; }   /* menthe pâle */
-  .mini[data-action="mail"]         { --pill: #EEED70; }   /* jaune pâle */
-  .mini[data-action="spotify"]      { --pill: #68BEC9; }   /* bleu-vert pâle */
-  .mini[data-cv]                    { --pill: #FF9A57; }   /* orange pâle */
-  .mini[data-action="notes"]        { --pill: #FFD757; }
+  .mini[data-action="mail"]         { --pill: #4FB8E3; }   /* cyan d'« ANRI » */
+  .mini[data-action="spotify"]      { --pill: #8DB8D9; }   /* ciel clair */
+  .mini[data-cv]                    { --pill: #EADBC8; }   /* crème du mur */
+  .mini[data-action="notes"]        { --pill: #F0C987; }   /* mur au soleil */
   a.mini--mobile                    { --pill: #79C7EA; }
 
   /* Fichiers image du bureau : pas une carte, un fichier de Mac. Une
@@ -8464,6 +8466,7 @@ const dire = (function () {
      texte courant). Le jaune et l'orange n'y sont pas : assombris jusqu'à
      ce seuil, ils tournent au brun. Les photos ont été retirées. */
   const WALLPAPERS = [
+    { id: 'ciel',      nom: 'Ciel',       couleur: '#3E6E9E' },   // 5,4:1 — le ciel de « Timely!! »
     { id: 'bleu',      nom: 'Bleu',       couleur: '#4A68E8' },   // 4,73:1
     { id: 'violet',    nom: 'Violet',     couleur: '#6B4FD8' },   // 5,62:1 — le mauve du dock
     { id: 'vert',      nom: 'Vert',       couleur: '#32B05C' },   // 2,8:1 — choisi tel quel, sous le seuil AA pour le texte blanc
@@ -8477,7 +8480,7 @@ const dire = (function () {
   /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
      désormais la marche. Un visiteur qui a déjà choisi autre chose garde
      son réglage — localStorage prime sur ce défaut. */
-  const WALL_DEFAUT = 'bleu';
+  const WALL_DEFAUT = 'ciel';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
@@ -9744,7 +9747,7 @@ const dire = (function () {
     { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3', pochette: 'pochette-orange-road' },
     { id: 'yasuo-h', titre: 'Medley', artiste: 'Yasuo Higuchi',
       src: 'musique/Yasuo-H.mp3', pochette: 'pochette-yasuo' },
-    { titre: 'Cat’s Eye (instrumental)', artiste: 'Anri', src: 'musique/anri-cats-eye.m4a' }
+    { titre: 'Cat’s Eye (instrumental)', artiste: 'Anri', src: 'musique/anri-cats-eye.m4a', pochette: 'pochette-timely' }
   ];
   const ICONES = {
     lire:  '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
