@@ -3720,12 +3720,13 @@
     padding: 4px;
     background: #FFFFFF;
     border: 1px solid #000000;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
     transform: rotate(var(--penche, -3deg));
     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mini__fichier img,
-  .mini__fichier svg { display: block; width: 100%; height: auto; pointer-events: none; }
+  .mini__fichier svg { display: block; width: 100%; height: auto; pointer-events: none; border-radius: 2px; }
   .mini--son .mini__fichier { --penche: 2deg; }
   .mini--fichier:hover .mini__fichier,
   .mini--fichier:focus-visible .mini__fichier {
@@ -3733,11 +3734,13 @@
     box-shadow: 6px 8px 0 #000000;
   }
   .stage .minis .mini.mini--fichier:not(.mini--mobile) .mini__label {
+    /* Nom du fichier en texte noir seul, sans étiquette autour. */
     max-width: 128px;
-    padding: 2px 8px;
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 8px;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    color: #000000;
     font-size: 12px; line-height: 16px; font-weight: 500;
     letter-spacing: 0;
     text-align: center;
