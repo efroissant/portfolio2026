@@ -5631,6 +5631,18 @@
     text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;
   }
   .stage .lock .identity__name > span { display: block; }
+  /* Les deux colonnes en katakana, à gauche : blanches, sans contour,
+     un peu plus petites que les capitales. */
+  .stage .lock .identity__name > .kana {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: #FFFFFF;
+    -webkit-text-stroke: 0;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55);
+    text-transform: none;
+  }
+  .stage .lock .identity__name > .kana + span:not(.kana) { margin-left: 6px; }
   /* En colonnes, le bloc reste droit et centré : l'inclinaison de la
      traînée ne s'applique qu'au nom écrit à l'horizontale. */
   .stage[data-wall="palmiers"] .lock .cluster.cluster { transform: none; }
@@ -6621,10 +6633,9 @@
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
-          <!-- Le nom en katakana, en petit au-dessus du titre, comme sur les
-               pochettes de singles japonais des années 80. Décoratif. -->
-          <p class="identity__kana" lang="ja" aria-hidden="true">・エマニュエル・フロワッサン・</p>
-          <p class="identity__name" data-node-id="2:613"><span>Emmanuel</span> <span>Froissant</span></p>
+          <!-- Quatre colonnes alignées par le haut : le nom en katakana (en
+               blanc, décoratif), puis le prénom et le nom en capitales. -->
+          <p class="identity__name" data-node-id="2:613"><span class="kana" lang="ja" aria-hidden="true">エマニュエル</span><span class="kana" lang="ja" aria-hidden="true">フロワッサン</span><span>Emmanuel</span> <span>Froissant</span></p>
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
