@@ -328,7 +328,7 @@
     right: 20px;
     width: 380px;
     height: 352px;
-    border-radius: 8px;             /* le même que celui du lecteur */
+    border-radius: 4px;             /* le même que celui du lecteur */
     overflow: hidden;
     /* Une ombre courte, sinon la carte paraît collée sur la photo. C'est le
        seul ornement que je me suis permis. */
@@ -346,7 +346,7 @@
   .spot.lecteur {
     height: auto;
     width: 272px;
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: #FFFFFF;
     color: #000000;
@@ -388,7 +388,7 @@
      pas d'image, une tuile bleu-vert avec une croche. */
   .lecteur__pochette {
     position: relative; flex: 0 0 72px; width: 72px; height: 72px;
-    border: 1px solid #000; border-radius: 8px; overflow: hidden;
+    border: 1px solid #000; border-radius: 4px; overflow: hidden;
     box-shadow: 3px 4px 0 #000;
     background: #68BEC9 center / 36px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 29 V6 H22 C23 11 31 13 30 23 C29 18 26 16 22 15 V29 Z' fill='%23fff' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cellipse cx='15.5' cy='29' rx='6.5' ry='4.8' transform='rotate(-20 15.5 29)' fill='%23fff' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
   }
@@ -692,7 +692,7 @@
     justify-content: center;
     padding: 7px 18px;
     min-width: 130px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid var(--btn-border);
     background: var(--btn-bg);
     -webkit-backdrop-filter: blur(10px);
@@ -923,7 +923,7 @@
     content: attr(data-bulle);
     position: absolute; left: 50%; top: calc(100% + 6px);
     transform: translateX(-50%) translateY(-4px);
-    padding: 3px 8px; border-radius: 8px;
+    padding: 3px 8px; border-radius: 4px;
     background: #FFFFFF; border: 1px solid #000000; color: #000000;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 12px; font-weight: 500; line-height: 14px;
@@ -1203,7 +1203,7 @@
   .mini:focus-visible .mini__icon {
     outline: 2px solid var(--text);
     outline-offset: 3px;
-    border-radius: 8px;
+    border-radius: 4px;
   }
 
   /* ================= FENÊTRE FINDER =================
@@ -1226,7 +1226,7 @@
        quatre. */
     width: min(576px, calc(100% - 48px));
     max-height: min(628px, calc(100% - 132px));
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -1272,7 +1272,7 @@
   .finder__body::-webkit-scrollbar-track { background: transparent; }
   .finder__body::-webkit-scrollbar-thumb {
     background: rgba(var(--ink-rgb), 0.28);
-    border-radius: 8px;
+    border-radius: 4px;
     border: 3px solid transparent;
     background-clip: content-box;
   }
@@ -1477,7 +1477,7 @@
     z-index: 35;
     min-width: 184px;
     padding: 5px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
@@ -1494,7 +1494,7 @@
     width: 100%;
     padding: 5px 10px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     background: none;
     color: inherit;
     font: inherit;
@@ -1542,7 +1542,7 @@
     top: -5px;
     min-width: 200px;
     padding: 5px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
@@ -1555,7 +1555,7 @@
   .ctxwall {
     display: flex; align-items: center; gap: 10px;
     width: 100%; padding: 5px 8px;
-    border: 0; border-radius: 8px; background: none;
+    border: 0; border-radius: 4px; background: none;
     color: inherit; font: inherit; text-align: left;
     white-space: nowrap; cursor: default;
   }
@@ -1624,7 +1624,7 @@
     flex-direction: column;
     width: min(880px, calc(100% - 48px));
     height: min(560px, calc(100% - 132px));
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -1659,7 +1659,7 @@
   .notes__item {
     display: block; width: 100%;
     padding: 8px 12px; margin-bottom: 4px;
-    border: 0; border-radius: 8px;
+    border: 0; border-radius: 4px;
     background: none; font: inherit; color: inherit;
     text-align: left; cursor: default;
   }
@@ -1743,7 +1743,7 @@
     flex-direction: column;
     width: min(416px, 100%);
     max-height: min(600px, 92vh);
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -1772,7 +1772,7 @@
   }
   .verrou__sceau {
     display: flex; align-items: center; justify-content: center;
-    width: 48px; height: 48px; border-radius: 8px;
+    width: 48px; height: 48px; border-radius: 4px;
     background: var(--ink); color: #1f1f1f;
   }
   .verrou__sceau svg { width: 24px; height: 24px; }
@@ -1797,7 +1797,7 @@
   .verrou__champ {
     width: 100%; margin: 24px 0 0;
     padding: 12px 16px;
-    border: 1px solid rgba(var(--ink-rgb), 0.28); border-radius: 8px;
+    border: 1px solid rgba(var(--ink-rgb), 0.28); border-radius: 4px;
     background: rgba(255, 255, 255, 0.07);
     font: inherit; font-size: 14px; line-height: 24px; color: var(--ink);
   }
@@ -1827,7 +1827,7 @@
      même chose — valider ou renoncer — ne doivent pas le demander de deux
      façons différentes. */
   .verrou__ok {
-    padding: 8px 20px; border: 0; border-radius: 8px;
+    padding: 8px 20px; border: 0; border-radius: 4px;
     background: var(--ink); color: #1f1f1f;
     font: inherit; font-size: 13px; font-weight: 590; cursor: default;
   }
@@ -1846,7 +1846,7 @@
   .mini__verrou {
     position: absolute; inset: 0; margin: auto;
     display: flex; align-items: center; justify-content: center;
-    width: 16px; height: 16px; border-radius: 8px;
+    width: 16px; height: 16px; border-radius: 4px;
     background: rgba(28, 28, 30, 0.92); color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
     pointer-events: none;
@@ -1899,7 +1899,7 @@
   .etude {
     display: flex; flex-direction: column; gap: 4px;
     width: 100%; padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.20); border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.20); border-radius: 4px;
     background: rgba(255, 255, 255, 0.05);
     font: inherit; color: inherit; text-align: left; cursor: default;
   }
@@ -1914,7 +1914,7 @@
     max-height: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     /* Opaque, contrairement aux autres fenêtres. Une étude de cas se lit sur
        plusieurs milliers de signes et montre des captures d'interface : un
@@ -1957,7 +1957,7 @@
   .doc__scroll::-webkit-scrollbar { width: 11px; }
   .doc__scroll::-webkit-scrollbar-track { background: transparent; }
   .doc__scroll::-webkit-scrollbar-thumb {
-    background: rgba(var(--ink-rgb), 0.28); border-radius: 8px;
+    background: rgba(var(--ink-rgb), 0.28); border-radius: 4px;
     border: 3px solid transparent; background-clip: content-box;
   }
 
@@ -2140,7 +2140,7 @@
     aspect-ratio: 16 / 9;
     background: rgba(var(--ink-rgb), 0.05);
     border: 1px dashed rgba(var(--ink-rgb), 0.22);
-    border-radius: 8px;
+    border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
   }
   .doc__fig[data-attente]::before {
@@ -2151,7 +2151,7 @@
   .doc__note {
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.20);
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 14px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__fig img { display: block; width: 100%; height: auto; border-radius: 4px; }
@@ -2174,7 +2174,7 @@
     flex-direction: column;
     width: min(544px, 100%);
     max-height: min(700px, 92vh);
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -2203,7 +2203,7 @@
     margin-left: auto;
     padding: 4px 12px;
     border: 1px solid rgba(255, 255, 255, 0.28);
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(255, 255, 255, 0.08);
     font-size: 12px;
     font-weight: 510;
@@ -2228,7 +2228,7 @@
   .cv__body::-webkit-scrollbar-track { background: transparent; }
   .cv__body::-webkit-scrollbar-thumb {
     background: rgba(var(--ink-rgb), 0.28);
-    border-radius: 8px;
+    border-radius: 4px;
     border: 3px solid transparent;
     background-clip: content-box;
   }
@@ -2254,7 +2254,7 @@
     flex-direction: column;
     width: min(496px, 100%);
     max-height: min(560px, 92vh);
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -2297,7 +2297,7 @@
   .mail__chip {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 3px 12px 3px 3px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(var(--ink-rgb), 0.07);
     font-size: 13px; font-weight: 510;
   }
@@ -2332,7 +2332,7 @@
   }
   .mail__cancel:hover { color: var(--ink); }
   .mail__send {
-    padding: 8px 20px; border: 0; border-radius: 8px;
+    padding: 8px 20px; border: 0; border-radius: 4px;
     background: var(--ink); color: #1f1f1f;
     font: inherit; font-size: 13px; font-weight: 590; cursor: default;
   }
@@ -2368,7 +2368,7 @@
     display: flex;
     flex-direction: column;
     padding: 8px 16px 0;
-    border-radius: 8px;
+    border-radius: 4px;
     /* Blanc opaque. Aucun backdrop-filter : sur un fond à 100% rien ne
        traverse, le flou ne produirait qu'un coût GPU invisible.
        Le titre #3C3C43 y mesure 10,3:1. */
@@ -2412,7 +2412,7 @@
     width: 12px; height: 12px;
     padding: 0;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: default;
   }
   /* Point noir, comme celui de l'éphéméride et du lecteur de musique.
@@ -2447,7 +2447,7 @@
   }
 
   .modal__content {
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     min-height: 0;
     flex: 1;
@@ -2553,7 +2553,7 @@
     /* 26 et non 100 : le rectangle arrondi du dock iOS plutôt que la pilule.
        C'est ce qui rapproche le plus les deux versions — la même forme, à
        deux échelles. */
-    border-radius: 8px;
+    border-radius: 4px;
     /* Noir à 80 %. Le dock cesse d'être un voile posé sur le ciel pour
        devenir un objet posé dessus — c'est le seul élément opaque du
        bureau, et c'est ce qui l'ancre au bas de l'écran.
@@ -2567,7 +2567,7 @@
   .stage .dock__pill {
     background: #A895F7;   /* mauve */
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 4px 5px 0 #000000;
   }
   /* Sur ordinateur, le dock décolle du bas : 29 px au lieu de 12. */
@@ -2642,7 +2642,7 @@
     display: block;
     width: var(--dock-icon);
     height: var(--dock-icon);
-    border-radius: 8px;
+    border-radius: 4px;
     background: #f2f0ec;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
   }
@@ -2693,7 +2693,7 @@
   .dock__link > svg,
   .dock__link picture,
   .dock__link img { display: block; width: 100%; height: 100%; }
-  .dock__link img { -webkit-user-drag: none; border-radius: 8px; }
+  .dock__link img { -webkit-user-drag: none; border-radius: 4px; }
 
   /* Bulle du nom. Le texte est toujours dans le DOM — c'est le nom
      accessible de l'élément — et seulement révélé au survol. */
@@ -2713,7 +2713,7 @@
     transform: translateX(-50%) translateY(-4px);
     /* Bulle blanche, trait noir 1 px, texte noir : la matière des menus. */
     padding: 3px 8px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #FFFFFF;
     border: 1px solid #000000;
     color: #000000;
@@ -2788,7 +2788,7 @@
     z-index: 35;
     min-width: 184px;
     padding: 5px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: rgba(42, 38, 44, 0.88);
     -webkit-backdrop-filter: blur(22px) saturate(1.6);
@@ -2805,7 +2805,7 @@
     width: 100%;
     padding: 5px 10px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     background: none;
     color: inherit;
     font: inherit;
@@ -2850,7 +2850,7 @@
     color: #000000;
     text-shadow: none;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
   }
   .navmenu .navmenu__item:hover,
@@ -3012,7 +3012,7 @@
     overflow: hidden;
     background: #FFFFFF;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
     will-change: transform, opacity;
   }
@@ -3023,7 +3023,7 @@
   .grimace--emoji {
     width: 44px; height: 44px;
     margin: -22px 0 0 -22px;
-    border-radius: 8px;
+    border-radius: 4px;
     display: grid; place-items: center;
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
     font-size: 24px; line-height: 1;
@@ -3042,7 +3042,7 @@
        des marges négatives, ils débordaient de la zone de défilement et
        provoquaient une barre horizontale. */
     padding: 0 0 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     /* Verre : blanc 10% + flou 4, valeurs Figma. */
     background: var(--panel-bg);
     -webkit-backdrop-filter: blur(var(--panel-blur));
@@ -3093,7 +3093,7 @@
 }
   .about__avatar {
     width: 64px; height: 64px;
-    border-radius: 8px;
+    border-radius: 4px;
     object-fit: cover;
     flex-shrink: 0;
     background: rgba(255, 255, 255, 0.25);
@@ -3126,7 +3126,7 @@
   .about__skills { display: flex; justify-content: center; gap: 12px; padding: 16px 0 0; }
   .about__skill {
     width: 99px; height: 99px;
-    border-radius: 8px;
+    border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 16px; font-weight: 510;
     flex-shrink: 0;
@@ -3284,7 +3284,7 @@
      coins de 8, ombre pleine 3 × 4. */
   #finder {
     background: #FFFFFF;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
   }
   #finder .finder__bar {
@@ -3315,7 +3315,7 @@
     row-gap: 6px;
     padding: 20px 20px 20px;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: #FFFFFF;
     background-image: linear-gradient(#FFE1D9, #FFE1D9);
     background-repeat: no-repeat;
@@ -3340,7 +3340,7 @@
   #finder .etude__num {
     grid-area: num; justify-self: start;
     padding: 3px 10px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--fen, #FF795C);
     font-size: 13px; line-height: 18px; font-weight: 700;
     letter-spacing: 0; text-transform: none;
@@ -3582,7 +3582,7 @@
        document couvert de caviardages, un carré noir sans contour se
        confondrait avec eux. */
     width: 22px; height: 22px;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9),
                 0 2px 5px rgba(0, 0, 0, 0.4);
   }
@@ -3606,7 +3606,7 @@
     height: 140px;
     padding: 16px 16px;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--pill, #ff6645);
     box-shadow: 4px 5px 0 #000000;
     color: #000000;
@@ -3809,7 +3809,7 @@
     display: block; width: 32px; height: 32px;
     object-fit: cover; object-position: center;
     box-sizing: border-box;
-    border: 1px solid #000000; border-radius: 8px;
+    border: 1px solid #000000; border-radius: 4px;
     /* overflow: visible, posé sur tous les enfants du logo, empêchait
        l'arrondi de découper la photo : coins carrés et trait décalé. */
     overflow: hidden;
@@ -3849,7 +3849,7 @@
     padding: calc(var(--bande) + 12px * var(--f)) calc(16px * var(--f)) calc(14px * var(--f));
     background: #FFFFFF;
     border: 1px solid #000000;
-    border-radius: calc(8px * var(--f));
+    border-radius: calc(4px * var(--f));
     color: #000000;
     text-align: left;
     text-shadow: none;
@@ -3906,7 +3906,7 @@
   .stage .lock .unlock {
     height: 40px; min-width: 128px;
     padding: 8px 24px;
-    border-radius: 8px;
+    border-radius: 4px;
     /* Helvetica, comme la date et le métier. */
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px; font-weight: 400; line-height: 22px;
@@ -4066,7 +4066,7 @@
     background: #FFFFFF;
     color: #000000;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -4149,11 +4149,11 @@
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume {
     margin-top: 40px;
     padding: 24px 24px 20px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 4px 4px 0 0;
   }
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta {
     padding: 0 24px 24px;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 4px 4px;
     /* Mêmes trois colonnes que la rangée du dessus : « Outils » tombe sous
        « Livré », « Équipe » prend les deux premières. */
     grid-template-columns: repeat(3, 1fr);
@@ -4199,7 +4199,7 @@
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 40px; height: 28px; padding: 0 10px;
     margin: 0 0 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #FF795C;
     font-size: 15px; line-height: 1; font-weight: 700;
     color: #000000;
@@ -4215,7 +4215,7 @@
     margin: 0 0 24px;
     padding: 16px 20px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #F7F4EF;
     font-size: 17px; line-height: 26px; font-weight: 500;
     color: #000000;
@@ -4223,7 +4223,7 @@
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__notion {
     margin: 4px 0 0;
     padding: 5px 12px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #F7F4EF;   /* pas de contour : la teinte suffit */
     font-size: 13px; line-height: 18px; font-weight: 500;
     letter-spacing: 0; text-transform: none;
@@ -4234,7 +4234,7 @@
   /* Captures : le trait de la fenêtre, une légende courte et discrète. */
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig { margin: 48px 0 0; }
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig + .doc__fig { margin-top: 32px; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig img { border: 1px solid #000000; border-radius: 8px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig img { border: 1px solid #000000; border-radius: 4px; }
   :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig figcaption {
     margin-top: 12px;
     font-size: 13px; line-height: 20px;
@@ -4269,7 +4269,7 @@
        au recadrage. Un seul rapport pour toute l'étude. */
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--v3-vide);
   }
   .doc--v3 .doc__hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -4300,7 +4300,7 @@
   }
   .doc--v3 .doc__tags li {
     padding: 6px 12px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #f3f1ed;
     font-size: 12px;
     line-height: 1.2;
@@ -4394,7 +4394,7 @@
      monte à 20/16, c'est le seul écart volontaire avec le dessin. */
   .doc--v3 .doc__bloc--releves {
     padding: 20px 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: #1a1c26;
   }
   .doc--v3 .doc__bloc--releves h3 {
@@ -4423,7 +4423,7 @@
     display: flex; gap: 24px; align-items: flex-start;
     padding: 16px;
     border: 1px solid var(--g-bord);
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--g-fond);
   }
   .doc--v3 .doc__gravite > span:first-child {
@@ -4457,7 +4457,7 @@
   .doc--v3 .doc__fig > .doc__cadre {
     display: block; width: 100%;
     border: 1px solid #33312e;
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--v3-vide);
   }
   .doc--v3 .doc__fig figcaption {
@@ -4481,7 +4481,7 @@
     content: attr(data-attente);
     display: flex; align-items: center; justify-content: center;
     aspect-ratio: var(--ratio, 772 / 434);
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--v3-vide);
     font-size: 13px; color: rgba(26, 26, 26, 0.42);
     text-align: center; padding: 0 24px;
@@ -4495,7 +4495,7 @@
     margin: 0;
     padding: 24px;
     border: 1px solid var(--v3-bord);
-    border-radius: 8px;
+    border-radius: 4px;
   }
   /* Pas de margin-top ici : les deux décisions sont enfants directs de la
      grille, le row-gap de 64 px les sépare déjà. L'ajouter donnerait 88. */
@@ -4530,7 +4530,7 @@
   .doc--v3 .doc__alerte {
     padding: 16px;
     border: 1px solid var(--a-bord);
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--a-fond);
     color: var(--a-texte);
     font-size: 13px; line-height: 1.5;
@@ -4611,7 +4611,7 @@
   #doc-loblaw .doc__page > header { margin-top: 40px; }
   #doc-loblaw .doc__page > .doc__paire { margin-top: 48px; }
 
-  #doc-loblaw .doc__hero { border: 1px solid #000000; border-radius: 8px; }
+  #doc-loblaw .doc__hero { border: 1px solid #000000; border-radius: 4px; }
   #doc-loblaw .doc__entete { margin: 0; }
   #doc-loblaw .doc__tags { margin-top: 24px; }
   #doc-loblaw .doc__tags li {
@@ -4623,7 +4623,7 @@
   /* Rôle, focus, livrables : le même panneau crème que la fiche du 01. */
   #doc-loblaw .doc__trio {
     margin-top: 32px; padding: 24px;
-    border: 0; border-radius: 8px;
+    border: 0; border-radius: 4px;
     background: #F7F4EF;
   }
   #doc-loblaw .doc__trio dt {
@@ -4638,7 +4638,7 @@
   }
 
   #doc-loblaw .doc__bloc--releves {
-    padding: 24px; border-radius: 8px; background: #F7F4EF;
+    padding: 24px; border-radius: 4px; background: #F7F4EF;
   }
   #doc-loblaw .doc__releves li { font-size: 15px; line-height: 22px; }
   #doc-loblaw .doc__releves strong { font-size: 15px; color: #000000; }
@@ -4649,7 +4649,7 @@
     border: 1px solid #000000; background: #FFFFFF;
   }
   #doc-loblaw .doc__gravite > span:first-child {
-    padding: 4px 10px; border-radius: 8px;
+    padding: 4px 10px; border-radius: 4px;
     font-size: 12px; font-weight: 700; letter-spacing: 0;
     color: #000000;
   }
@@ -4662,19 +4662,19 @@
   #doc-loblaw .doc__dtete { display: block; margin: 0; }
   #doc-loblaw .doc__decision > p { font-size: 17px; line-height: 28px; }
   #doc-loblaw .doc__alerte {
-    border: 1px solid #000000; border-radius: 8px;
+    border: 1px solid #000000; border-radius: 4px;
     color: #000000; font-size: 15px; line-height: 22px;
   }
   #doc-loblaw .doc__alerte strong { font-size: 15px; }
   #doc-loblaw .doc__alerte--avert    { --a-fond: #FBFBD9; }
   #doc-loblaw .doc__alerte--bloquant { --a-fond: #FFE4DD; }
 
-  #doc-loblaw .doc__defs > div { padding: 16px; border-radius: 8px; background: #F7F4EF; }
+  #doc-loblaw .doc__defs > div { padding: 16px; border-radius: 4px; background: #F7F4EF; }
   #doc-loblaw .doc__defs dt { font-size: 15px; line-height: 22px; color: #000000; }
   #doc-loblaw .doc__defs dd { font-size: 13px; line-height: 20px; color: rgba(0, 0, 0, 0.7); }
 
   #doc-loblaw .doc__citation {
-    border-left: 4px solid #FF795C; border-radius: 0 8px 8px 0;
+    border-left: 4px solid #FF795C; border-radius: 0 4px 4px 0;
     background: #F7F4EF;
   }
   #doc-loblaw .doc__citation p { font-size: 20px; line-height: 30px; color: #000000; }
@@ -4684,7 +4684,7 @@
      le 01 — elle prend donc ses quatre coins et son propre retrait. */
   #doc-roche .doc__meta {
     margin-top: 32px; padding: 24px;
-    border-radius: 8px;
+    border-radius: 4px;
     grid-template-columns: repeat(2, 1fr);
   }
   #doc-roche .doc__meta > div:first-child { grid-column: auto; }
@@ -4694,7 +4694,7 @@
   }
   #doc-roche .doc__cle {
     margin: 24px 0; padding: 16px 20px;
-    border: 0; border-left: 4px solid #FF795C; border-radius: 0 8px 8px 0;
+    border: 0; border-left: 4px solid #FF795C; border-radius: 0 4px 4px 0;
     background: #F7F4EF;
     font-size: 17px; line-height: 26px; font-weight: 500; color: #000000;
   }
@@ -4754,7 +4754,7 @@
   }
   .doc--v2 .doc__tags li {
     padding: 4px 12px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(var(--ink-rgb), 0.07);
     font-size: 12px;
     line-height: 18px;
@@ -4764,7 +4764,7 @@
   .doc--v2 .doc__carte {
     margin: 0 0 32px;
     padding: 32px;
-    border-radius: 8px;
+    border-radius: 4px;
     background: rgba(var(--ink-rgb), 0.045);
   }
   .doc--v2 .doc__carte h2 {
@@ -4906,7 +4906,7 @@
       text-shadow: inherit;
       pointer-events: auto;
     }
-    .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 8px; }
+    .mhead__plus:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 4px; }
     /* Le choix du fond d'écran n'existe pas au doigt : le sous-menu est
        coupé ci-dessous, et l'entrée qui y menait a été retirée du balisage.
        Sur un téléphone, le fond n'est presque jamais visible — la grille et
@@ -5022,7 +5022,7 @@
       /* Arrondie sur les quatre coins : elle ne s'appuie plus sur le bord
          de l'écran, elle flotte à 8 px. Aucune garniture ici — elle vivait
          en double avec celle de la rangée. */
-      border-radius: 8px;
+      border-radius: 4px;
       padding: 0;
     }
     /* Les 32 px de côté du bureau n'ont plus lieu d'être : space-evenly
@@ -5097,7 +5097,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 4px;
     }
     .dock__link > svg,
     .dock__link picture,
@@ -5117,7 +5117,7 @@
     .dock__link picture,
     .dock__link img {
       width: 100%; height: 100%;
-      border-radius: 8px;
+      border-radius: 4px;
       /* Rien ne dépasse du cadre, quelle que soit la façon dont le dessin
          est emballé. */
       overflow: hidden;
@@ -5196,7 +5196,7 @@
       display: block;
       width: 100%;
       height: auto;
-      border-radius: 8px;
+      border-radius: 4px;
       background: rgba(255, 255, 255, 0.04);
     }
     .gal figcaption {
@@ -5235,7 +5235,7 @@
       width: 100%;
       height: auto;
       aspect-ratio: 1 / 1;
-      border-radius: 8px;
+      border-radius: 4px;
     }
     .ffile__name { font-size: 13px; line-height: 17px; }
     .finder__body { padding: 20px 16px 24px; }
@@ -5487,7 +5487,7 @@
     background: #FFFFFF;
     color: #000000;
     border: 1px solid #000000;
-    border-radius: 8px 8px 8px 4px;
+    border-radius: 4px 4px 4px 4px;
     box-shadow: 3px 4px 0 #000000;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px; line-height: 22px; font-weight: 500;
@@ -5496,7 +5496,7 @@
     animation: bulle-entree 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .stage .feuille-bulle[hidden] { display: none; }
-  .stage .feuille-bulle--gauche { border-radius: 8px 8px 4px 8px; transform-origin: right center; }
+  .stage .feuille-bulle--gauche { border-radius: 4px 4px 4px 4px; transform-origin: right center; }
   .stage .feuille-bulle__mot {
     display: inline-block;
     animation: bulle-mot 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -5679,7 +5679,7 @@
     display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     box-sizing: border-box;
-    border: 1px solid #000000; border-radius: 8px;
+    border: 1px solid #000000; border-radius: 4px;
     overflow: hidden;
     box-shadow: 3px 4px 0 #000000;
     background: #E9A291;
@@ -5874,7 +5874,7 @@
   #about {
     width: 420px;
     max-height: min(840px, calc(100vh - var(--bar-h) - 48px));
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
     overflow: hidden;
     padding-bottom: 20px;
@@ -5901,7 +5901,7 @@
     position: relative;
     margin: 0;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
   }
   #about .about__carte {
@@ -5925,7 +5925,7 @@
     width: 64px; height: 64px;
     background: #FF6645;
     border: 1px solid #000000;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 3px 4px 0 #000000;
     rotate: 12deg;
   }
@@ -8992,7 +8992,7 @@ const dire = (function () {
       { transformOrigin: 'top left',
         transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height})`,
         opacity: 0.4, borderRadius: '4px' },
-      { transformOrigin: 'top left', transform: 'none', opacity: 1, borderRadius: '8px' }
+      { transformOrigin: 'top left', transform: 'none', opacity: 1, borderRadius: '4px' }
     ];
   }
 
