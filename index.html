@@ -6608,11 +6608,6 @@
         <span class="mini__fichier" aria-hidden="true"><img src="pool-240.jpg" alt="" width="240" height="320" draggable="false"></span>
         <span class="mini__label">pool.jpg</span>
       </button>
-      <button type="button" class="mini mini--fichier" data-meme="maui-nuit"
-              aria-label="maui.jpg — ouvrir l’image">
-        <span class="mini__fichier" aria-hidden="true"><img src="maui-240.jpg" alt="" width="240" height="180" draggable="false"></span>
-        <span class="mini__label">maui.jpg</span>
-      </button>
       <!-- Un fichier son, avec sa pochette : un clic ouvre le lecteur et le joue. -->
       <button type="button" class="mini mini--fichier mini--son" data-son="yasuo-h"
               aria-label="Yasuo-H.mp3 — écouter dans le lecteur">
@@ -8285,7 +8280,6 @@ const dire = (function () {
     '[data-meme="drole"]':          [0.640, 0.560],   // meme-drole.jpg
     '[data-meme="maui"]':           [0.840, 0.660],   // maui-island.jpg
     '[data-meme="pool"]':           [0.015, 0.640],   // pool.jpg
-    '[data-meme="maui-nuit"]':      [0.128, 0.800],   // maui.jpg
     '[data-son="yasuo-h"]':       [0.660, 0.300]    // Yasuo-H.mp3
   };
   function disposerDefaut() {
@@ -8538,10 +8532,7 @@ const dire = (function () {
          + 'palmiers et ciel bleu au-dessus du mur.' },
     'pool': { nom: 'pool.jpg', grand: 'pool', tailles: [720, 720], jpeg: true,
       alt: 'Chaise de maître-nageur vide au bord d’une piscine turquoise, vue d’en haut, '
-         + 'avec les ombres d’une rambarde sur le sol.' },
-    'maui-nuit': { nom: 'maui.jpg', grand: 'maui', tailles: [960, 960], jpeg: true,
-      alt: 'Emmanuel marche de nuit devant la vitrine éclairée d’un supermarché, '
-         + 'un sac en papier dans les bras, un vélo garé derrière lui.' }
+         + 'avec les ombres d’une rambarde sur le sol.' }
   };
   document.addEventListener('portfolio:meme', (e) => {
     const ph = MEMES[e.detail.id];
