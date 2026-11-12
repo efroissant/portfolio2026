@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#3E6E9E">
 <title>Emmanuel Froissant — Designer UI/UX</title>
-<!-- Barlow Condensed pour le seul mot « UNLOCK » : on ne charge que ses lettres. -->
+<!-- Nunito Black (arrondie) pour le seul mot « ENTRER » : on ne charge que ses lettres. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400&amp;text=UNLOCK&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -5549,11 +5549,21 @@
   }
 
 
-  /* Libellé du bouton : « UNLOCK » en Barlow Condensed Regular. */
+  /* Bouton « ENTRER » : vert néon, trait noir de 2 px, lettres blanches
+     arrondies (Nunito Black) cernées de noir pour rester lisibles. */
   .stage .lock .unlock.unlock {
-    font-family: "Barlow Condensed", "Helvetica Neue", Helvetica, sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.04em;
+    height: 52px;
+    padding: 0 32px;
+    background-color: #39F07A;
+    background-image: linear-gradient(#8BFFB0, #8BFFB0);
+    border: 2px solid #000000;
+    font-family: "Nunito", "Arial Rounded MT Bold", "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 24px; line-height: 1;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    -webkit-text-stroke: 2px #000000;
+    paint-order: stroke fill;
   }
 
   /* Heure façon affiche : Helvetica Neue Condensed Bold en italique,
@@ -5613,20 +5623,24 @@
   /* Plus d'avatar non plus : le nom et le bouton suffisent. */
   #view-lock #avatar-lock.avatar { display: none; }
   .stage .lock .cluster { grid-row: 1 / -1; align-self: center; }
-  /* Le nom en capitales grasses italiques, très espacées, façon titre
-     d'album des années 80. */
+  /* Le nom façon titre de compilation japonaise : capitales noires très
+     grasses en rouge vif, cernées de noir, avec un relief noir décalé. */
   .stage .lock .identity .identity__name.identity__name {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-style: italic; font-weight: 700;
+    font-family: "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: normal; font-weight: 900;
     text-transform: uppercase;
-    font-size: 22px; line-height: 1.2;
-    letter-spacing: 0.32em;
-    /* L'espacement s'ajoute aussi après la dernière lettre : on le
-       compense pour que le nom reste centré. */
-    margin-right: -0.32em;
+    font-size: 44px; line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-right: 0;
+    color: #E8141C;
+    -webkit-text-stroke: 2px #000000;
+    paint-order: stroke fill;
+    text-shadow:
+      1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000,
+      4px 4px 0 #000, 5px 5px 0 #000, 6px 6px 0 #000;
   }
   @media (max-width: 767px) {
-    .stage .lock .identity .identity__name.identity__name { font-size: 17px; letter-spacing: 0.22em; margin-right: -0.22em; }
+    .stage .lock .identity .identity__name.identity__name { font-size: 21px; -webkit-text-stroke-width: 1.5px; text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000, 4px 4px 0 #000; }
   }
   /* La date dans la même typo que le nom : capitales grasses italiques
      très espacées (Helvetica Neue normale, sans l'inclinaison ajoutée). */
@@ -6592,7 +6606,7 @@
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
-      <button type="button" class="unlock" id="unlock" data-node-id="28:853" aria-label="Unlock — entrer dans le portfolio">UNLOCK</button>
+      <button type="button" class="unlock" id="unlock" data-node-id="28:853" aria-label="Entrer dans le portfolio">ENTRER</button>
     </div>
 
     <!-- Son de déverrouillage. Opus d'abord (2,3 Ko), MP3 en repli pour
