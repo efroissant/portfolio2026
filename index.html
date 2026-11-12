@@ -5593,6 +5593,71 @@
     .stage .lock .clock .clock__date.clock__date { font-size: 18px; line-height: 22px; }
   }
 
+  /* ================= LE BUREAU EN POCHETTE DE DISQUE =================
+     Sur grand écran, le bureau se compose comme une pochette de 33 tours :
+     une bande crème à gauche (l'obi) qui porte les cartes, la photo du
+     fond d'écran encadrée au centre, et une marge droite où le prénom
+     s'écrit en grand, à la verticale. Trois zones, chacune son rôle :
+     naviguer à gauche, regarder au centre, signer à droite.
+     En dessous de 1024 px, le bureau reste en plein cadre. */
+  .pochette-nom { display: none; }
+  @media (min-width: 1024px) {
+    .stage {
+      --obi: clamp(320px, 25vw, 400px);
+      --manche: clamp(120px, 11vw, 200px);
+      --pochette-fond: #F4EFE4;
+    }
+    .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+    .stage[data-state="desktop"] {
+      background-color: var(--pochette-fond);
+      /* Sur le papier crème, la barre de menus passe en encre noire. */
+      --text: #111111;
+      --sky-shadow: none;
+      --sky-shadow-svg: none;
+    }
+    .stage[data-state="desktop"] .stage__bg {
+      inset: calc(var(--bar-h) + 16px) var(--manche) 24px var(--obi);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+    }
+    /* Le grain reste sur la photo, pas sur le papier. */
+    .stage[data-state="desktop"] .grain {
+      inset: calc(var(--bar-h) + 16px) var(--manche) 24px var(--obi);
+      width: auto; height: auto;
+    }
+    /* Le lecteur se range dans le coin haut droit de la photo. */
+    .stage[data-state="desktop"] .spot.lecteur { right: calc(var(--manche) + 24px); top: calc(var(--bar-h) + 40px); }
+    /* Le dock se centre sur la photo, plus sur la fenêtre. */
+    .stage[data-state="desktop"] .dock {
+      left: calc(var(--obi) + (100% - var(--obi) - var(--manche)) / 2);
+      bottom: 44px;
+    }
+    /* Ses intitulés restent posés sur la photo : blancs, avec une ombre
+       douce pour tenir sur les palmes comme sur le ciel. */
+    .stage[data-state="desktop"] .dock__label { color: #FFFFFF; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); }
+
+    .stage[data-state="desktop"] .pochette-nom {
+      display: flex;
+      position: absolute;
+      top: calc(var(--bar-h) + 16px); bottom: 24px; right: 0;
+      width: var(--manche);
+      align-items: center; justify-content: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .pochette-nom span {
+      writing-mode: vertical-rl;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-stretch: condensed;
+      font-weight: 700;
+      font-size: calc(var(--manche) * 0.92);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: #3FA9DA;
+      /* Un peu sous le centre, comme un titre posé sur la tranche. */
+      transform: translateY(6%);
+    }
+  }
+
   /* ================= L'AVATAR DE L'ÉCRAN VERROUILLÉ =================
      Une forme organique jaune, au contour qui respire. Quatre humeurs,
      posées par le script sur le <svg> :
@@ -6590,6 +6655,10 @@
       </span>
     </p>
 
+    <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
+         Décoratif : le nom complet est déjà dans la barre de menus. -->
+    <div class="pochette-nom" aria-hidden="true"><span>MANU</span></div>
+
     <div class="minis" id="minis">
 
       <!-- L'ordre du DOM EST l'ordre à l'écran : la grille remplit ligne
@@ -6786,6 +6855,20 @@
   </section>
 </div>
 
+<script>
+/* Cadre final de la photo en mode pochette (≥ 1024 px), en coordonnées de
+   la fenêtre. Mêmes valeurs que --obi et --manche dans la feuille de style. */
+window.cadrePochette = function () {
+  if (!window.matchMedia('(min-width: 1024px)').matches) return null;
+  const W = innerWidth, H = innerHeight;
+  const clamp = (a, v, b) => Math.max(a, Math.min(v, b));
+  const bar = document.querySelector('.menubar');
+  const barH = bar && bar.offsetHeight ? bar.offsetHeight : 38;
+  const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
+  const top = barH + 16, bottom = H - 24, right = W - droite;
+  return { left, top, right, bottom, width: right - left, height: bottom - top };
+};
+</script>
 <script>
 /* Un journal qui ne peut pas casser la page.
 
@@ -8320,10 +8403,57 @@ const dire = (function () {
     '[data-meme="maui"]':           [0.840, 0.660],   // maui-island.jpg
     '[data-meme="pool"]':           [0.015, 0.640]    // pool.jpg
   };
+  // Le bureau est-il composé en pochette (grand écran) ? Le cadre de la
+  // photo est calculé avec les mêmes valeurs que la feuille de style
+  // (--obi, --manche) : la photo, elle, est peut-être encore en train de
+  // s'ouvrir quand on place les objets.
+  const enPochette = window.matchMedia('(min-width: 1024px)');
+  const cadrePhoto = window.cadrePochette;
+  const ORDRE_OBI = ['[data-folder="case-studies"]', '[data-cv]', '[data-action="mail"]',
+                     '[data-etagere]', '[data-action="spotify"]', '[data-action="notes"]'];
+  function disposerPochette(r) {
+    const photo = cadrePhoto();
+    if (!photo) return false;
+    minisEl.classList.add('sans-glisse');
+    // L'obi : deux colonnes de trois cartes, centrées dans la bande,
+    // calées en haut comme un texte de tranche.
+    const cartes = ORDRE_OBI.map((sel) => minisEl.querySelector('.mini' + sel)).filter((m) => m && m.offsetParent);
+    const w = cartes.reduce((n, m) => Math.max(n, m.offsetWidth), 0);
+    const h = cartes.reduce((n, m) => Math.max(n, m.offsetHeight), 0);
+    const gapX = 16, gapY = 24;
+    const obi = photo.left - r.left;
+    const x0 = Math.max(16, (obi - (2 * w + gapX)) / 2);
+    const y0 = Math.max(16, photo.top - r.top);
+    cartes.forEach((m, i) => {
+      m.style.left = (x0 + (i % 2) * (w + gapX)) + 'px';
+      m.style.top = (y0 + Math.floor(i / 2) * (h + gapY)) + 'px';
+    });
+    // Les fichiers : sur la photo, sous le calendrier, côte à côte.
+    const fichiers = [...minisEl.querySelectorAll('.mini--fichier')].filter((m) => m.offsetParent);
+    // Ils ne doivent pas passer sous le lecteur, rangé en haut à droite
+    // de la photo : un fichier qui n'a plus la place passe à la ligne.
+    const lect = document.getElementById('spot');
+    const bordLecteur = lect && !lect.hidden ? photo.right - r.left - 24 - lect.offsetWidth - 24 : Infinity;
+    const debutX = photo.left - r.left + 40;
+    let fx = debutX;
+    let fy = photo.top - r.top + Math.min(260, (photo.height - 140) * 0.48);
+    fichiers.forEach((m) => {
+      if (fx > debutX && fx + m.offsetWidth > bordLecteur) { fx = debutX; fy += m.offsetHeight + 24; }
+      const [l, t] = clampInside(m, fx, fy);
+      m.style.left = l + 'px'; m.style.top = t + 'px';
+      fx += m.offsetWidth + 24;
+    });
+    void minisEl.offsetWidth;
+    requestAnimationFrame(() => minisEl.classList.remove('sans-glisse'));
+    document.dispatchEvent(new CustomEvent('portfolio:objets', { detail: { action: 'defaut', glisser: false } }));
+    return true;
+  }
+
   function disposerDefaut() {
     minisEl.dataset.range = 'false';
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
+    if (enPochette.matches && disposerPochette(r)) return;
     const dock = document.querySelector('.dock__pill');
     const dr = dock && dock.offsetParent ? dock.getBoundingClientRect() : null;
     const plafond = dr ? dr.top - r.top - 48 : r.height;
@@ -9982,7 +10112,9 @@ const dire = (function () {
     if (e.detail.action === 'ranger') {
       const bar = document.querySelector('.menubar');
       const pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar-pad-r')) || 20;
-      spot.style.left = (innerWidth - spot.offsetWidth - pad) + 'px';
+      const cp = window.cadrePochette && window.cadrePochette();
+      const droite = cp ? cp.right - 24 : innerWidth - pad;
+      spot.style.left = (droite - spot.offsetWidth) + 'px';
       // Rangé : collé sous la barre (8 px), plus haut que sa place
       // d'arrivée, pour laisser la rangée de cartes respirer dessous.
       spot.style.top = ((bar ? bar.offsetHeight : 38) + 8) + 'px';
@@ -10535,6 +10667,8 @@ const dire = (function () {
         const z = zone.getBoundingClientRect();
         const bar = document.querySelector('.menubar');
         const haut = bar ? bar.offsetHeight : 0;
+        const p = window.cadrePochette && window.cadrePochette();
+        if (p) { poser(p.left - z.left + 40, p.top - z.top + 32); return; }
         poser(z.width * 0.295, haut + (z.height - haut) * 0.362);
         return;
       }
@@ -10547,6 +10681,8 @@ const dire = (function () {
       if (e.detail.action === 'ranger') {
         deplace = true;
         const z = zone.getBoundingClientRect();
+        const p = window.cadrePochette && window.cadrePochette();
+        if (p) { poser(p.right - z.left - f.offsetWidth - 32, p.bottom - z.top - f.offsetHeight - 32); return; }
         poser(z.width - f.offsetWidth - 40, z.height - f.offsetHeight - 40);
         return;
       }
