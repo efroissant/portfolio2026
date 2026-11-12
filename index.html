@@ -5643,6 +5643,17 @@
     text-transform: none;
   }
   .stage .lock .identity__name > .latin { margin-left: 8px; white-space: nowrap; }
+  /* « Designer UI/UX » aligné à gauche sur le nom en capitales (après la
+     colonne de katakana) : le bloc se cale sur sa propre largeur, centré
+     dans l'écran, et son texte part de la gauche. */
+  .stage .lock .identity.identity {
+    width: max-content;
+    margin-left: auto; margin-right: auto;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .stage .lock .identity .identity__name.identity__name { justify-content: flex-start; margin-left: 0; margin-right: 0; }
+  .stage .lock .identity .identity__role.identity__role { padding-left: 24px; text-align: left; }
 
   /* Plus d'heure ni de date sur l'écran verrouillé : la photo, le nom et
      le bouton se centrent dans la hauteur. */
