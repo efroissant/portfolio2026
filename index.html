@@ -5693,14 +5693,19 @@
       writing-mode: vertical-rl;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-stretch: condensed;
-      font-weight: 500;
+      /* Même typo que l'heure (Helvetica Neue condensée, italique, plus
+         10° d'inclinaison), en gras. */
+      font-style: italic;
+      font-weight: 700;
+      font-synthesis: style;
       font-size: calc(var(--manche) * 0.92);
       line-height: 1;
       letter-spacing: 0.04em;
       color: #3FA9DA;
       /* Lu de bas en haut, comme le nom sur la tranche d'une pochette ;
-         un peu sous le centre. */
-      transform: rotate(180deg) translateY(-6%);
+         un peu sous le centre. Le texte étant couché, l'inclinaison des
+         lettres passe par l'axe vertical. */
+      transform: rotate(180deg) translateY(-6%) skewY(10deg);
     }
   }
 
