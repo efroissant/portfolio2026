@@ -5447,11 +5447,12 @@
 
   /* L'éphéméride vit sur le bureau, à droite sous le lecteur de musique
      (le script l'y cale précisément ; ces valeurs servent de repli).
-     90 % de sa taille, incliné de 4° : assez pour paraître posé à
+     70 % de sa taille, incliné de 4° : assez pour paraître posé à
      la main, pas assez pour paraître de travers. Il se déplace à la
      souris ; la position choisie est gardée jusqu'au rechargement. */
   .stage .desktop .feuille {
-    --f: 0.9;
+    --f: 0.7;
+    --bande: 28px;
     position: absolute;
     z-index: 26;                     /* sous le lecteur (27) et les fenêtres */
     top: calc(var(--bar-h) + 400px); right: var(--bar-pad-r); left: auto;
@@ -8241,12 +8242,29 @@ const dire = (function () {
      de 40 demandent 1 088 px de large. */
   const PAR_RANGEE = 6;
 
+  const ORDRE_RANGEMENT = [
+    '[data-folder="case-studies"]',   // Projets
+    '[data-cv]',                      // CV
+    '[data-action="mail"]',           // Contact
+    '[data-etagere]',                 // Bibliothèque
+    '[data-action="spotify"]',        // Musique
+    '[data-action="notes"]',          // Notes
+    '[data-meme]',                    // meme-drole.jpg
+    '[data-son]'                      // Yasuo-H.mp3
+  ];
   function tidy() {
     minisEl.dataset.range = 'true';      // en grille : plus de flottement
     // Le lecteur et le calendrier reprennent leur place, en haut à droite.
     if (!petitEcran.matches) document.dispatchEvent(new CustomEvent('portfolio:objets', { detail: { action: 'ranger', glisser: minisPlaced } }));
     const r = minisEl.getBoundingClientRect();
-    const items = minisAffichees();
+    // Ordre de rangement fixe : Projets, CV, Contact d'abord, puis le reste
+    // des cartes, puis les fichiers. Le tri est stable : à rang égal,
+    // l'ordre du balisage décide.
+    const rang = (el) => {
+      const i = ORDRE_RANGEMENT.findIndex((sel) => el.matches(sel));
+      return i < 0 ? ORDRE_RANGEMENT.length : i;
+    };
+    const items = minisAffichees().sort((a, b) => rang(a) - rang(b));
     if (!items.length || !r.width) return;
 
     // La colonne prend la largeur du PLUS LONG bouton ; chacun est centré
