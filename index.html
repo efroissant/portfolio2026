@@ -8463,7 +8463,13 @@ const dire = (function () {
     { id: 'bleu',      nom: 'Bleu',       couleur: '#4A68E8' },   // 4,73:1
     { id: 'violet',    nom: 'Violet',     couleur: '#6B4FD8' },   // 5,62:1 — le mauve du dock
     { id: 'vert',      nom: 'Vert',       couleur: '#32B05C' },   // 2,8:1 — choisi tel quel, sous le seuil AA pour le texte blanc
-    { id: 'encre',     nom: 'Encre',      couleur: '#1A1A1A' }    // 17,4:1 — le noir des traits
+    { id: 'encre',     nom: 'Encre',      couleur: '#1A1A1A' },   // 17,4:1 — le noir des traits
+    /* Photos : un seul JPEG par taille (pas de WebP ici), une vignette
+       carrée pour le menu, et un cadrage pour les images en portrait. */
+    { id: 'hawaii',    nom: 'Hawaï',      photo: 'fond-hawaii',    position: 'center 60%' },
+    { id: 'longuevue', nom: 'Longue-vue', photo: 'fond-longuevue', position: 'center 72%' },
+    { id: 'piscine',   nom: 'Piscine',    photo: 'fond-piscine',   position: 'center 38%' },
+    { id: 'motel',     nom: 'Motel',      photo: 'fond-motel',     position: 'center 40%' }
   ];
 
   /* Le fond par défaut est nommé, il n'est plus « le premier de la liste ».
@@ -8473,7 +8479,7 @@ const dire = (function () {
   /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
      désormais la marche. Un visiteur qui a déjà choisi autre chose garde
      son réglage — localStorage prime sur ce défaut. */
-  const WALL_DEFAUT = 'ciel';
+  const WALL_DEFAUT = 'hawaii';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
@@ -8602,9 +8608,13 @@ const dire = (function () {
     }
   });
 
-  function setWall(w) {
+  function setWall(w, choixVisiteur = false) {
     const f = grandEcran.matches ? w.grand : w.petit;
-    if (w.couleur) {
+    bgEl.style.backgroundPosition = w.position || '';
+    if (w.photo) {
+      bgEl.style.backgroundColor = '#3E6E9E';
+      bgEl.style.backgroundImage = 'url("' + w.photo + (grandEcran.matches ? '-grand' : '-petit') + '.jpg")';
+    } else if (w.couleur) {
       // Fond uni : aucune image à charger.
       bgEl.style.backgroundImage = 'none';
       bgEl.style.backgroundColor = w.couleur;
@@ -8624,8 +8634,12 @@ const dire = (function () {
        plus tard ne demandera pas de toucher à ce script. */
     stage.dataset.wall = w.id;
     // Tous les fonds sont unis : le grain s'applique à chacun.
-    if (w.couleur) stage.dataset.uni = ''; else delete stage.dataset.uni;
-    try { localStorage.setItem('portfolio:wall', w.id); } catch (e) { /* mode privé */ }
+    if (w.couleur || w.photo) stage.dataset.uni = ''; else delete stage.dataset.uni;
+    // Seul un choix fait dans le menu est retenu : le fond par défaut peut
+    // ainsi changer pour qui n'a jamais rien choisi.
+    if (choixVisiteur) {
+      try { localStorage.setItem('portfolio:fond', w.id); } catch (e) { /* mode privé */ }
+    }
     document.querySelectorAll('[data-liste-fonds] .ctxwall').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.wall === w.id));
     });
@@ -8652,20 +8666,21 @@ const dire = (function () {
       // Une pastille de la couleur, à la place d'une vignette d'image.
       const img = document.createElement('span');
       img.className = 'ctxwall__pastille';
-      img.style.background = w.couleur;
+      if (w.photo) img.style.background = 'center / cover url("' + w.photo + '-112.jpg")';
+      else img.style.background = w.couleur;
       img.setAttribute('aria-hidden', 'true');
 
       const nom = document.createElement('span');
       nom.textContent = w.nom;
 
       b.append(tick, img, nom);
-      b.addEventListener('click', () => { setWall(w); closeCtx(); closeVoir(); });
+      b.addEventListener('click', () => { setWall(w, true); closeCtx(); closeVoir(); });
       liste.appendChild(b);
     });
     });
 
     let choisi = null;
-    try { choisi = localStorage.getItem('portfolio:wall'); } catch (e) {}
+    try { choisi = localStorage.getItem('portfolio:fond'); } catch (e) {}
     const w = WALLPAPERS.find((x) => x.id === choisi)
           || WALLPAPERS.find((x) => x.id === WALL_DEFAUT)
           || WALLPAPERS[0];
