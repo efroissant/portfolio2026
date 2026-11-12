@@ -6905,7 +6905,7 @@ const dire = (function () {
       const sr = lect.getBoundingClientRect();
       const sl = parseFloat(lect.style.left), st = parseFloat(lect.style.top);
       const lx = isNaN(sl) ? sr.left : sl, ly = isNaN(st) ? sr.top : st;
-      placed.push({ l: lx - r.left - 32, t: ly - r.top - 16, w: sr.width + 64, h: sr.height + 32 });
+      placed.push({ l: lx - r.left - 32, t: ly - r.top - 16, w: sr.width + 64, h: sr.height + 32, dur: true });
     }
     // L'éphéméride aussi, avec une marge pour son ombre et son inclinaison.
     const eph = document.getElementById('lock-date');
@@ -6914,27 +6914,39 @@ const dire = (function () {
       const z = eph.offsetParent.getBoundingClientRect();
       const el = parseFloat(eph.style.left), et = parseFloat(eph.style.top);
       const ex = isNaN(el) ? er.left : z.left + el, ey = isNaN(et) ? er.top : z.top + et;
-      placed.push({ l: ex - r.left - 24, t: ey - r.top - 24, w: er.width + 48, h: er.height + 48 });
+      placed.push({ l: ex - r.left - 24, t: ey - r.top - 24, w: er.width + 48, h: er.height + 48, dur: true });
     }
 
     // Le dock aussi, intitulés compris : aucune carte ne se pose dessus.
     const dockEl = document.querySelector('.dock__pill');
     if (dockEl && dockEl.offsetParent) {
       const dr = dockEl.getBoundingClientRect();
-      placed.push({ l: dr.left - r.left - 16, t: dr.top - r.top - 40, w: dr.width + 32, h: dr.height + 56 });
+      placed.push({ l: dr.left - r.left - 16, t: dr.top - r.top - 40, w: dr.width + 32, h: dr.height + 56, dur: true });
     }
 
     items.forEach((m) => {
       const w = m.offsetWidth, hgt = m.offsetHeight;
-      let pick = null;
-      for (let i = 0; i < 300; i++) {
-        const l = r.width  / 2 - w / 2   + (Math.random() * 2 - 1) * r.width  * SCATTER_X;
-        const t = r.height / 2 - hgt / 2 + (Math.random() * 2 - 1) * r.height * SCATTER_Y;
+      /* Sur un écran plus petit (MacBook Pro à 1 333 px), le groupe
+         serré autour du centre n'a plus assez de place : après 200 essais
+         on cherche sur tout le bureau. Et si rien n'est libre, on garde le
+         moins mauvais essai — jamais un qui passe sous le lecteur, le
+         calendrier ou le dock : deux cartes qui se frôlent valent mieux
+         qu'une carte cachée. */
+      let pick = null, best = null, bestScore = Infinity;
+      for (let i = 0; i < 600; i++) {
+        const large = i >= 200;
+        const l = large ? Math.random() * (r.width - w)
+          : r.width  / 2 - w / 2   + (Math.random() * 2 - 1) * r.width  * SCATTER_X;
+        const t = large ? Math.random() * (r.height - hgt)
+          : r.height / 2 - hgt / 2 + (Math.random() * 2 - 1) * r.height * SCATTER_Y;
         const [cl, ct] = clampInside(m, l, t);
         const cand = { l: cl, t: ct, w, h: hgt };
-        if (!placed.some((q) => overlaps(cand, q))) { pick = cand; break; }
-        if (i === 299) pick = cand;
+        const touches = placed.filter((q) => overlaps(cand, q));
+        if (!touches.length) { pick = cand; break; }
+        const score = touches.reduce((n, q) => n + (q.dur ? 1000 : 1), 0);
+        if (score < bestScore) { bestScore = score; best = cand; }
       }
+      if (!pick) pick = best;
       m.style.left = pick.l + 'px';
       m.style.top = pick.t + 'px';
       placed.push(pick);
