@@ -5607,6 +5607,21 @@
   @media (max-height: 600px) {
     .stage .lock .identity .identity__kana { display: none; }
   }
+  /* Le nom en capitales grasses italiques, très espacées, façon titre
+     d'album des années 80. */
+  .stage .lock .identity .identity__name.identity__name {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic; font-weight: 700;
+    text-transform: uppercase;
+    font-size: 22px; line-height: 1.2;
+    letter-spacing: 0.32em;
+    /* L'espacement s'ajoute aussi après la dernière lettre : on le
+       compense pour que le nom reste centré. */
+    margin-right: -0.32em;
+  }
+  @media (max-width: 767px) {
+    .stage .lock .identity .identity__name.identity__name { font-size: 17px; letter-spacing: 0.22em; margin-right: -0.22em; }
+  }
 
   /* ================= LE BUREAU EN POCHETTE DE DISQUE =================
      Sur grand écran, le bureau se compose comme une pochette de 33 tours :
