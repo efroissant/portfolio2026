@@ -5626,9 +5626,12 @@
     /* Moins massif que l'Arial Black : Helvetica Neue grasse. */
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 20px;
     -webkit-text-stroke-width: 1.5px;
     text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;
+  }
+  @media (max-width: 767px) {
+    .stage .lock .identity .identity__name.identity__name { font-size: 17px; }
   }
   .stage .lock .identity__name > .kana {
     writing-mode: vertical-rl;
