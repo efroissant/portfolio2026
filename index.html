@@ -5607,6 +5607,10 @@
   @media (max-height: 600px) {
     .stage .lock .identity .identity__kana { display: none; }
   }
+  /* Plus d'heure ni de date sur l'écran verrouillé : la photo, le nom et
+     le bouton se centrent dans la hauteur. */
+  .stage .lock .clock.clock { display: none; }
+  .stage .lock .cluster { grid-row: 1 / -1; align-self: center; }
   /* Le nom en capitales grasses italiques, très espacées, façon titre
      d'album des années 80. */
   .stage .lock .identity .identity__name.identity__name {
