@@ -5593,6 +5593,81 @@
     .stage .lock .clock .clock__date.clock__date { font-size: 18px; line-height: 22px; }
   }
 
+  /* ================= ÉCRAN VERROUILLÉ : POCHETTE DE SINGLE 80 =================
+     L'esprit des pochettes city pop japonaises : lettres crème en relief
+     bleu nuit (un empilement d'ombres pleines fait l'extrusion), titre en
+     capitales condensées aux initiales géantes, nom en katakana au-dessus,
+     et l'accroche en italique grasse violette, liserée de blanc. */
+  .stage .lock {
+    --creme: #FBF5C8;
+    --relief: #1F2A6B;
+    --relief-3d:
+      1px 1px 0 var(--relief), 2px 2px 0 var(--relief), 3px 3px 0 var(--relief),
+      4px 4px 0 var(--relief), 5px 5px 0 var(--relief), 6px 6px 0 var(--relief);
+  }
+  .stage .lock .clock .clock__time.clock__time {
+    color: var(--creme);
+    text-shadow:
+      1px 1px 0 var(--relief), 2px 2px 0 var(--relief), 3px 3px 0 var(--relief),
+      4px 4px 0 var(--relief), 5px 5px 0 var(--relief), 6px 6px 0 var(--relief),
+      7px 7px 0 var(--relief), 8px 8px 0 var(--relief), 9px 9px 0 var(--relief),
+      10px 10px 0 var(--relief);
+  }
+  .stage .lock .clock .clock__date.clock__date {
+    color: var(--creme);
+    text-shadow: 1px 1px 0 var(--relief), 2px 2px 0 var(--relief);
+  }
+  .stage .lock .identity .identity__kana {
+    margin: 0 0 6px;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    font-size: 15px; line-height: 1; font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--creme);
+    text-shadow: 1px 1px 0 var(--relief), 2px 2px 0 var(--relief);
+    transform: skewX(-8deg);
+  }
+  .stage .lock .identity .identity__name.identity__name {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-stretch: condensed;
+    font-weight: 500;
+    font-size: 44px; line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--creme);
+    text-shadow: var(--relief-3d);
+  }
+  /* Les initiales géantes descendent sous la ligne et montent au-dessus,
+     comme les grandes capitales d'un titre de single. */
+  .stage .lock .identity__name .ini {
+    font-size: 1.85em;
+    line-height: 0;
+    vertical-align: -0.22em;
+    margin-right: -0.02em;
+  }
+  .stage .lock .identity .identity__role.identity__role {
+    margin-top: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic; font-weight: 900;
+    font-size: 22px; line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: #3B32B5;
+    /* Liseré blanc (sous le remplissage) pour rester lisible sur la photo,
+       et une ombre rouge décalée. */
+    -webkit-text-stroke: 4px #FFFFFF;
+    paint-order: stroke fill;
+    text-shadow: 3px 3px 0 #E63B5A;
+    transform: skewX(-6deg);
+  }
+  @media (max-width: 767px) {
+    .stage .lock .identity .identity__name.identity__name { font-size: 32px; }
+    .stage .lock .identity .identity__role.identity__role { font-size: 18px; }
+  }
+  @media (max-height: 600px) {
+    .stage .lock .identity .identity__name.identity__name { font-size: 28px; }
+    .stage .lock .identity .identity__kana { display: none; }
+  }
+
   /* ================= LE BUREAU EN POCHETTE DE DISQUE =================
      Sur grand écran, le bureau se compose comme une pochette de 33 tours :
      une bande crème à gauche (l'obi) qui porte les cartes, la photo du
@@ -6503,7 +6578,10 @@
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
-          <p class="identity__name" data-node-id="2:613">Emmanuel Froissant</p>
+          <!-- Le nom en katakana, en petit au-dessus du titre, comme sur les
+               pochettes de singles japonais des années 80. Décoratif. -->
+          <p class="identity__kana" lang="ja" aria-hidden="true">・エマニュエル・フロワッサン・</p>
+          <p class="identity__name" data-node-id="2:613"><span class="ini">E</span>mmanuel <span class="ini">F</span>roissant</p>
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
