@@ -5545,6 +5545,32 @@
   }
 
 
+  /* Le bouton devient un mot : « Visiter », jaune City Pop cerné de noir,
+     légèrement penché, sans fond, cadre ni ombre. */
+  .stage .lock .unlock.unlock {
+    height: auto; min-width: 0;
+    padding: 4px 8px;
+    background: none; border: 0; border-radius: 0;
+    box-shadow: none;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 28px; line-height: 1; font-weight: 700;
+    color: #F0CC14;
+    -webkit-text-stroke: 1px #000000;
+    paint-order: stroke fill;
+    transform: skewX(-10deg);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stage .lock .unlock.unlock:hover,
+  .stage .lock .unlock.unlock:focus-visible {
+    box-shadow: none;
+    transform: skewX(-10deg) translateY(-2px) scale(1.06);
+  }
+  .stage .lock .unlock.unlock:active {
+    box-shadow: none;
+    transform: skewX(-10deg) scale(0.97);
+  }
+  .stage .lock .unlock.unlock:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 4px; }
+
   /* ================= L'AVATAR DE L'ÉCRAN VERROUILLÉ =================
      Une forme organique jaune, au contour qui respire. Quatre humeurs,
      posées par le script sur le <svg> :
@@ -6394,7 +6420,7 @@
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
-      <button type="button" class="unlock" id="unlock" data-node-id="28:853">Déverrouiller le portfolio</button>
+      <button type="button" class="unlock" id="unlock" data-node-id="28:853" aria-label="Visiter le portfolio">Visiter</button>
     </div>
 
     <!-- Son de déverrouillage. Opus d'abord (2,3 Ko), MP3 en repli pour
