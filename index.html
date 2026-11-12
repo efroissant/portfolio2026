@@ -5663,13 +5663,14 @@
       writing-mode: vertical-rl;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-stretch: condensed;
-      font-weight: 700;
+      font-weight: 500;
       font-size: calc(var(--manche) * 0.92);
       line-height: 1;
       letter-spacing: 0.04em;
       color: #3FA9DA;
-      /* Un peu sous le centre, comme un titre posé sur la tranche. */
-      transform: translateY(6%);
+      /* Lu de bas en haut, comme le nom sur la tranche d'une pochette ;
+         un peu sous le centre. */
+      transform: rotate(180deg) translateY(-6%);
     }
   }
 
