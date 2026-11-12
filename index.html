@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#3E6E9E">
 <title>Emmanuel Froissant — Designer UI/UX</title>
+<!-- Pacifico pour le seul mot « Visiter » : on ne charge que ses lettres. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;text=Visiter&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -5546,14 +5550,15 @@
 
 
   /* Le bouton devient un mot : « Visiter », jaune City Pop cerné de noir,
-     légèrement penché, sans fond, cadre ni ombre. */
+     en Pacifico légèrement penché, sans fond, cadre ni ombre. */
   .stage .lock .unlock.unlock {
     height: auto; min-width: 0;
     padding: 4px 8px;
     background: none; border: 0; border-radius: 0;
     box-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 28px; line-height: 1; font-weight: 700;
+    /* Cursive rétro épaisse, façon « Seaside » ; Helvetica en attendant. */
+    font-family: "Pacifico", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 28px; line-height: 1.3; font-weight: 400;
     color: #F0CC14;
     -webkit-text-stroke: 1px #000000;
     paint-order: stroke fill;
