@@ -6603,6 +6603,16 @@
         <span class="mini__fichier" aria-hidden="true"><img src="maui-island-240.jpg" alt="" width="240" height="361" draggable="false"></span>
         <span class="mini__label">maui-island.jpg</span>
       </button>
+      <button type="button" class="mini mini--fichier mini--photo" data-meme="pool"
+              aria-label="pool.jpg — ouvrir l’image">
+        <span class="mini__fichier" aria-hidden="true"><img src="pool-240.jpg" alt="" width="240" height="320" draggable="false"></span>
+        <span class="mini__label">pool.jpg</span>
+      </button>
+      <button type="button" class="mini mini--fichier" data-meme="maui-nuit"
+              aria-label="maui.jpg — ouvrir l’image">
+        <span class="mini__fichier" aria-hidden="true"><img src="maui-240.jpg" alt="" width="240" height="180" draggable="false"></span>
+        <span class="mini__label">maui.jpg</span>
+      </button>
       <!-- Un fichier son, avec sa pochette : un clic ouvre le lecteur et le joue. -->
       <button type="button" class="mini mini--fichier mini--son" data-son="yasuo-h"
               aria-label="Yasuo-H.mp3 — écouter dans le lecteur">
@@ -6898,9 +6908,9 @@ const dire = (function () {
      boutons pilule n'ont pas tous la même largeur (« Ma bibliothèque » est
      deux fois plus long que « Projets »). Mesurer le premier et l'appliquer
      à tous laissait les plus longs se chevaucher. */
-  function overlaps(a, b) {
-    return a.l < b.l + b.w + MIN_GAP_X && b.l < a.l + a.w + MIN_GAP_X
-        && a.t < b.t + b.h + MIN_GAP_Y && b.t < a.t + a.h + MIN_GAP_Y;
+  function overlaps(a, b, gx = MIN_GAP_X, gy = MIN_GAP_Y) {
+    return a.l < b.l + b.w + gx && b.l < a.l + a.w + gx
+        && a.t < b.t + b.h + gy && b.t < a.t + a.h + gy;
   }
 
   /* Les vignettes réservées au téléphone sont en display:none sur grand
@@ -6962,15 +6972,18 @@ const dire = (function () {
          calendrier ou le dock : deux cartes qui se frôlent valent mieux
          qu'une carte cachée. */
       let pick = null, best = null, bestScore = Infinity;
-      for (let i = 0; i < 600; i++) {
+      for (let i = 0; i < 2000; i++) {
         const large = i >= 200;
+        // Passé 800 essais, l'écart entre objets se resserre à 6 px :
+        // sur un petit écran, onze objets n'ont pas tous leurs 20 px.
+        const g = i >= 800 ? 6 : undefined;
         const l = large ? Math.random() * (r.width - w)
           : r.width  / 2 - w / 2   + (Math.random() * 2 - 1) * r.width  * SCATTER_X;
         const t = large ? Math.random() * (r.height - hgt)
           : r.height / 2 - hgt / 2 + (Math.random() * 2 - 1) * r.height * SCATTER_Y;
         const [cl, ct] = clampInside(m, l, t);
         const cand = { l: cl, t: ct, w, h: hgt };
-        const touches = placed.filter((q) => overlaps(cand, q));
+        const touches = placed.filter((q) => overlaps(cand, q, g, g));
         if (!touches.length) { pick = cand; break; }
         const score = touches.reduce((n, q) => n + (q.dur ? 1000 : 1), 0);
         if (score < bestScore) { bestScore = score; best = cand; }
@@ -8267,10 +8280,12 @@ const dire = (function () {
     '[data-action="mail"]':         [0.342, 0.094],   // Contact
     '[data-action="spotify"]':      [0.500, 0.194],   // Musique
     '[data-cv]':                    [0.080, 0.356],   // CV
-    '[data-etagere]':               [0.124, 0.654],   // Bibliothèque
+    '[data-etagere]':               [0.124, 0.590],   // Bibliothèque
     '[data-action="notes"]':        [0.470, 0.520],   // Notes
     '[data-meme="drole"]':          [0.640, 0.560],   // meme-drole.jpg
     '[data-meme="maui"]':           [0.840, 0.660],   // maui-island.jpg
+    '[data-meme="pool"]':           [0.015, 0.640],   // pool.jpg
+    '[data-meme="maui-nuit"]':      [0.128, 0.800],   // maui.jpg
     '[data-son="yasuo-h"]':       [0.660, 0.300]    // Yasuo-H.mp3
   };
   function disposerDefaut() {
@@ -8421,28 +8436,31 @@ const dire = (function () {
       m.style.top = t + 'px';
     });
 
-    // Les fichiers : une colonne à gauche des cartes, centrée sur leur
-    // hauteur. Si la place manque, ils passent en rangée sous les cartes.
+    // Les fichiers : en colonnes à gauche des cartes, de la plus proche
+    // à la plus éloignée, chacune centrée sur la hauteur du bloc tant
+    // qu'elle tient. Une colonne pleine en ouvre une autre plus à gauche.
     if (aPart.length) {
       const fw = aPart.reduce((m, el) => Math.max(m, el.offsetWidth), 0);
-      const fh = aPart.reduce((n, el) => n + el.offsetHeight, 0) + (aPart.length - 1) * GRID_GAP_Y;
-      const fx = left0 - 2 * GRID_GAP_X - fw;
-      if (fx >= 16) {
-        let y = top0 + (blockH - fh) / 2;
-        aPart.forEach((m) => {
+      const gapY = 16;
+      const hautMax = r.height - 32;
+      const colonnes = [[]];
+      let h = 0;
+      aPart.forEach((el) => {
+        const eh = el.offsetHeight + (colonnes[colonnes.length - 1].length ? gapY : 0);
+        if (h + eh > hautMax && colonnes[colonnes.length - 1].length) { colonnes.push([]); h = 0; }
+        colonnes[colonnes.length - 1].push(el);
+        h += el.offsetHeight + (colonnes[colonnes.length - 1].length > 1 ? gapY : 0);
+      });
+      colonnes.forEach((col, k) => {
+        const ch = col.reduce((n, el) => n + el.offsetHeight, 0) + (col.length - 1) * gapY;
+        const fx = left0 - 2 * GRID_GAP_X - fw - k * (fw + GRID_GAP_X);
+        let y = Math.max(16, Math.min(top0 + (blockH - ch) / 2, r.height - ch - 16));
+        col.forEach((m) => {
           const [l, t] = clampInside(m, fx + (fw - m.offsetWidth) / 2, y);
           m.style.left = l + 'px'; m.style.top = t + 'px';
-          y += m.offsetHeight + GRID_GAP_Y;
+          y += m.offsetHeight + gapY;
         });
-      } else {
-        const rw = aPart.reduce((n, el) => n + el.offsetWidth, 0) + (aPart.length - 1) * GRID_GAP_X;
-        let x = (r.width - rw) / 2;
-        aPart.forEach((m) => {
-          const [l, t] = clampInside(m, x, top0 + blockH + GRID_GAP_Y);
-          m.style.left = l + 'px'; m.style.top = t + 'px';
-          x += m.offsetWidth + GRID_GAP_X;
-        });
-      }
+      });
     }
   }
 
@@ -8517,7 +8535,13 @@ const dire = (function () {
          + '« Client » : un chat traverse la dalle et y laisse ses empreintes, l’air ravi.' },
     'maui': { nom: 'maui-island.jpg', grand: 'maui-island', tailles: [582, 582], jpeg: true,
       alt: 'Emmanuel penché en avant devant un mur blanc, la main en visière, '
-         + 'palmiers et ciel bleu au-dessus du mur.' }
+         + 'palmiers et ciel bleu au-dessus du mur.' },
+    'pool': { nom: 'pool.jpg', grand: 'pool', tailles: [720, 720], jpeg: true,
+      alt: 'Chaise de maître-nageur vide au bord d’une piscine turquoise, vue d’en haut, '
+         + 'avec les ombres d’une rambarde sur le sol.' },
+    'maui-nuit': { nom: 'maui.jpg', grand: 'maui', tailles: [960, 960], jpeg: true,
+      alt: 'Emmanuel marche de nuit devant la vitrine éclairée d’un supermarché, '
+         + 'un sac en papier dans les bras, un vélo garé derrière lui.' }
   };
   document.addEventListener('portfolio:meme', (e) => {
     const ph = MEMES[e.detail.id];
