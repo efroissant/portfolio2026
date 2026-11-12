@@ -5704,6 +5704,11 @@
     object-fit: cover; object-position: center top;
   }
   #about .about__lead { border-top: 0; padding-top: 4px; font-size: 16px; line-height: 24px; }
+  #about .about__lead p { margin: 0 0 12px; }
+  #about .about__lead p:last-child { margin-bottom: 0; }
+  /* Le texte sous le filet, au même corps que l'intro. */
+  #about .about__callout p { font-size: 16px; line-height: 24px; }
+  #about .about__etincelle { filter: drop-shadow(2px 2px 0 #000000); }
   #about .about__skill { box-shadow: 3px 4px 0 #000000; }
 
   @media (max-width: 767px) {
@@ -5796,33 +5801,36 @@
             </span>
             <h2 class="about__titre" id="about-nom">
               <b>Emmanuel Froissant</b><br>
-              Designer UI/UX qui<br>
-              conçoit <b>avec l’IA</b>
+              Designer UX/UI.<br>
+              Je questionne, l’IA accélère, <b>je décide.</b>
             </h2>
           </div>
           <figure class="about__photo">
             <picture>
-              <source srcset="about-photo-240.webp 1x, about-photo-480.webp 2x" type="image/webp">
               <img id="about-avatar" src="about-photo-240.jpg" srcset="about-photo-480.jpg 2x"
                    alt="Portrait d’Emmanuel Froissant" width="240" height="300" draggable="false">
             </picture>
           </figure>
         </div>
 
-        <p class="about__lead">Je suis un designer multidisciplinaire avec 5 ans d’expérience en conception numérique en&nbsp;:</p>
-
-        <div class="about__skills">
-          <span class="about__skill about__skill--produit">Produit</span>
-          <span class="about__skill about__skill--web">Web</span>
-          <span class="about__skill about__skill--marketing">Marketing</span>
+        <div class="about__lead">
+          <p>Hello, je suis Manu, designer importé de France sans label de retour. J’étudie en psychologie et je suis autodidacte dans plusieurs domaines&nbsp;: l’illustration, le piano, le vibe coding.</p>
+          <p>Je suis sensible à ce que certains ne voient pas toujours — ce qui fatigue, ce qui exclut, ce qui bloque. En design, j’ai tendance à retirer plus qu’à ajouter.</p>
+          <p>Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on me dit que c’est normal, je réponds&nbsp;: «&nbsp;normal pour qui&nbsp;?&nbsp;»</p>
         </div>
+
 
         <div class="about__calloutWrap">
         <div class="about__callout">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.638 3.95692C13.4752 3.66585 13.2378 3.42346 12.9501 3.25474C12.6624 3.08602 12.335 2.99707 12.0015 2.99707C11.668 2.99707 11.3405 3.08602 11.0529 3.25474C10.7652 3.42346 10.5278 3.66585 10.365 3.95692L3.23549 16.7099C3.07601 16.9952 2.99385 17.3172 2.99717 17.6439C3.00048 17.9707 3.08915 18.291 3.25438 18.5729C3.41961 18.8549 3.65567 19.0888 3.93915 19.2514C4.22263 19.414 4.54369 19.4996 4.87049 19.4999H19.1265C19.4534 19.4999 19.7747 19.4144 20.0584 19.2519C20.342 19.0894 20.5783 18.8556 20.7437 18.5736C20.9091 18.2916 20.9979 17.9712 21.0013 17.6443C21.0047 17.3174 20.9225 16.9953 20.763 16.7099L13.638 3.95692Z" fill="url(#wg1)"/><path d="M13.125 15.375C13.125 15.6734 13.0065 15.9595 12.7955 16.1705C12.5845 16.3815 12.2984 16.5 12 16.5C11.7016 16.5 11.4155 16.3815 11.2045 16.1705C10.9935 15.9595 10.875 15.6734 10.875 15.375C10.875 15.0766 10.9935 14.7905 11.2045 14.5795C11.4155 14.3685 11.7016 14.25 12 14.25C12.2984 14.25 12.5845 14.3685 12.7955 14.5795C13.0065 14.7905 13.125 15.0766 13.125 15.375ZM11.25 12V8.25C11.25 8.05109 11.329 7.86032 11.4697 7.71967C11.6103 7.57902 11.8011 7.5 12 7.5C12.1989 7.5 12.3897 7.57902 12.5303 7.71967C12.671 7.86032 12.75 8.05109 12.75 8.25V12C12.75 12.1989 12.671 12.3897 12.5303 12.5303C12.3897 12.671 12.1989 12.75 12 12.75C11.8011 12.75 11.6103 12.671 11.4697 12.5303C11.329 12.3897 11.25 12.1989 11.25 12Z" fill="url(#wg2)"/><defs><linearGradient id="wg1" x1="5.808" y1="0.418" x2="16.088" y2="21.787" gradientUnits="userSpaceOnUse"><stop stop-color="#FFCD0F"/><stop offset="1" stop-color="#FE8401"/></linearGradient><linearGradient id="wg2" x1="9" y1="7.5" x2="12.699" y2="17.363" gradientUnits="userSpaceOnUse"><stop stop-color="#4A4A4A"/><stop offset="1" stop-color="#212121"/></linearGradient></defs></svg>
+          <!-- Étincelle de l'IA, dans le style des icônes de la barre :
+               tuile jaune au trait noir, ombre pleine décalée. -->
+          <svg class="about__etincelle" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <rect x="1" y="1" width="24" height="24" rx="6" fill="#EEED70" stroke="#000" stroke-width="1"/>
+            <path fill="#000" d="M12 6.5 C12.5 10.6 14.4 12.5 18.5 13 C14.4 13.5 12.5 15.4 12 19.5 C11.5 15.4 9.6 13.5 5.5 13 C9.6 12.5 11.5 10.6 12 6.5 Z"/>
+            <path fill="#000" d="M18.5 5 C18.7 6.6 19.4 7.3 21 7.5 C19.4 7.7 18.7 8.4 18.5 10 C18.3 8.4 17.6 7.7 16 7.5 C17.6 7.3 18.3 6.6 18.5 5 Z"/>
+          </svg>
           <div>
-            <p>L’IA change déjà notre façon de travailler, de créer et de consommer. Je choisis de l’intégrer à mon processus.</p>
-            <p>Ce site en est un exemple concret&nbsp;: entièrement conçu dans Figma, développé avec Claude et peaufiné manuellement dans VS&nbsp;Code.</p>
+            <p>Ce site est l’exemple concret de mon travail avec l’IA. Il est entièrement réalisé sous Figma, Claude et GitHub, mais il est pensé et peaufiné avec ma tête.</p>
           </div>
         </div>
         </div>
