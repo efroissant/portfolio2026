@@ -5648,6 +5648,17 @@
   .stage .lock .identity .identity__name.identity__name { position: relative; }
   .stage .lock .identity__name > .kana { position: absolute; left: 0; top: 2px; white-space: nowrap; }
   .stage .lock .identity .identity__role.identity__role { margin-top: 2px; }
+  /* Le bouton se cale juste sous « Designer UI/UX », sur le même bord
+     gauche que le nom : tout le bloc se lit comme une colonne. */
+  .stage .lock .cluster.cluster {
+    width: max-content;
+    justify-self: center;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .stage .lock .cluster__identity-group.cluster__identity-group { align-items: flex-start; }
+  .stage .lock .identity.identity { margin-left: 0; margin-right: 0; }
+  .stage .lock .unlock.unlock { align-self: flex-start; margin-left: 24px; }
   /* « Designer UI/UX » aligné à gauche sur le nom en capitales (après la
      colonne de katakana) : le bloc se cale sur sa propre largeur, centré
      dans l'écran, et son texte part de la gauche. */
