@@ -341,7 +341,7 @@
      trous de reliure. */
   .spot.lecteur {
     height: auto;
-    width: 304px;
+    width: 272px;
     border-radius: 8px;
     overflow: hidden;
     background: #FFFFFF;
@@ -459,7 +459,7 @@
   .lecteur__liste { list-style: none; margin: 0; padding: 8px; border-top: 2px solid #000000;
     max-height: 200px; overflow-y: auto; }
   .lecteur__piste {
-    display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 8px;
+    display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 6px;
     width: 100%; height: 40px; padding: 0 8px;
     border: 1px solid transparent; border-radius: 4px; background: none; color: inherit;
     font: inherit; text-align: left; cursor: pointer;
@@ -6386,6 +6386,9 @@
       <source src="unlock.ogg" type="audio/ogg; codecs=opus">
       <source src="unlock.mp3" type="audio/mpeg">
     </audio>
+    <!-- Déverrouillage : un clic de galets (AAC, 5 Ko). L'ancien son reste
+         celui du retour à l'écran verrouillé. -->
+    <audio id="sfx-deverrouille" preload="auto" src="musique/deverrouillage.m4a"></audio>
 
     <!-- Musique d'ambiance. preload="none" : contrairement au son de
          déverrouillage qui pèse 2 Ko, une boucle musicale fait plusieurs
@@ -8065,11 +8068,46 @@ const dire = (function () {
      impossible à faire défiler dès que le doigt partait d'une vignette. */
   const avecSouris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+  /* Un petit « plop » de bulle dès qu'on appuie sur un objet du bureau.
+     Un seul fichier, rembobiné à chaque appui ; s'il joue encore, on en
+     lance une copie pour que deux clics rapides s'entendent tous les deux.
+     Si le navigateur refuse le son, le clic marche quand même. */
+  const sonClic = new Audio('musique/clic.m4a');
+  sonClic.preload = 'auto';
+  sonClic.volume = 0.6;
+  /* Safari ne compte pas l'appui (pointerdown) comme un geste qui
+     autorise le son : le play() y était refusé en silence. On « amorce »
+     donc le son une fois, muet, pendant un vrai clic — celui du bouton
+     de déverrouillage, ou à défaut le premier clic venu. Une fois joué
+     dans un geste, le navigateur le laisse rejouer à l'appui. */
+  let clicAmorce = false;
+  function amorcerClic() {
+    // Déjà en train de jouer : le navigateur l'a accepté, rien à amorcer
+    // (et surtout ne pas couper le son en cours).
+    if (clicAmorce || !sonClic.paused) { clicAmorce = true; return; }
+    clicAmorce = true;
+    sonClic.muted = true;
+    const p = sonClic.play();
+    const fin = () => { sonClic.pause(); sonClic.currentTime = 0; sonClic.muted = false; };
+    if (p && p.then) p.then(fin, () => { sonClic.muted = false; clicAmorce = false; });
+    else fin();
+  }
+  document.addEventListener('click', amorcerClic, true);
+  document.addEventListener('keydown', amorcerClic, true);
+  function jouerClic() {
+    const a = sonClic.paused ? sonClic : sonClic.cloneNode();
+    a.volume = sonClic.volume;
+    try { a.currentTime = 0; } catch (_) {}
+    const p = a.play();
+    if (p && p.catch) p.catch(() => {});
+  }
+
   minisEl.querySelectorAll('.mini').forEach((m) => {
     let startX = 0, startY = 0, baseL = 0, baseT = 0, moved = false, pid = null;
 
     m.addEventListener('pointerdown', (e) => {
       if (e.button !== undefined && e.button !== 0) return;
+      jouerClic();
       pid = e.pointerId;
       m.setPointerCapture(pid);
       startX = e.clientX; startY = e.clientY;
@@ -8141,6 +8179,7 @@ const dire = (function () {
         m.style.top = t + 'px';
         minisLibres = true;
       } else if (e.key === 'Enter' || e.key === ' ') {
+        jouerClic();
         if (m.tagName === 'A') return;   // Entrée suit le lien tout seul
         e.preventDefault();
         if (m.dataset.action) miniAction(m);
@@ -9851,11 +9890,13 @@ const dire = (function () {
   const sfx = document.getElementById('sfx-unlock');
   sfx.volume = SFX_VOLUME;
 
-  function playUnlockSound() {
-    if (!sfx) return;
+  const sfxDeverrouille = document.getElementById('sfx-deverrouille');
+  if (sfxDeverrouille) sfxDeverrouille.volume = SFX_VOLUME;
+  function playUnlockSound(son = sfx) {
+    if (!son) return;
     try {
-      sfx.currentTime = 0;                       // permet de recliquer
-      const p = sfx.play();
+      son.currentTime = 0;                       // permet de recliquer
+      const p = son.play();
       // Le navigateur peut refuser (politique autoplay, onglet muet, codec
       // absent). Ce n'est pas une erreur : la transition visuelle suffit.
       if (p && typeof p.catch === 'function') p.catch(() => {});
@@ -10516,7 +10557,7 @@ const dire = (function () {
   })();
 
   document.getElementById('unlock').addEventListener('click', () => {
-    playUnlockSound();
+    playUnlockSound(sfxDeverrouille);
     if (AMBIANCE_AUTO) jouerAmbiance();
     // Les yeux clignent une fois, au moment où l'écran s'ouvre.
     const yeux = document.getElementById('yeux');
@@ -10531,7 +10572,7 @@ const dire = (function () {
   // L'icône cyclone de la barre ramène à l'écran de veille (réaction Figma
   // ON_CLICK -> 2:602). C'est une action réelle, pas un menu.
   document.getElementById('logo').addEventListener('click', () => {
-    playUnlockSound();          // même son qu'à l'entrée, le geste est symétrique
+    playUnlockSound();          // l'ancien son de verrou : le galet est réservé à l'ouverture
     document.dispatchEvent(new CustomEvent('portfolio:relock'));
     show('lock');
   });
