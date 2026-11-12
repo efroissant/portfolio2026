@@ -5614,6 +5614,21 @@
   @media (max-height: 600px) {
     .stage .lock .identity .identity__kana { display: none; }
   }
+  /* Essai façon couverture de magazine japonais : le nom s'écrit de haut
+     en bas, lettres debout, en deux colonnes — le prénom, puis le nom de
+     famille à côté (sens japonais : la première colonne à droite). */
+  .stage .lock .identity .identity__name.identity__name {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 0;
+    line-height: 1.15;
+    margin: 4px auto 0;
+  }
+  .stage .lock .identity__name > span { display: block; }
+  /* En colonnes, le bloc reste droit et centré : l'inclinaison de la
+     traînée ne s'applique qu'au nom écrit à l'horizontale. */
+  .stage[data-wall="palmiers"] .lock .cluster.cluster { transform: none; }
+
   /* Plus d'heure ni de date sur l'écran verrouillé : la photo, le nom et
      le bouton se centrent dans la hauteur. */
   .stage .lock .clock.clock { display: none; }
@@ -6603,7 +6618,7 @@
           <!-- Le nom en katakana, en petit au-dessus du titre, comme sur les
                pochettes de singles japonais des années 80. Décoratif. -->
           <p class="identity__kana" lang="ja" aria-hidden="true">・エマニュエル・フロワッサン・</p>
-          <p class="identity__name" data-node-id="2:613">Emmanuel Froissant</p>
+          <p class="identity__name" data-node-id="2:613"><span>Emmanuel</span> <span>Froissant</span></p>
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
