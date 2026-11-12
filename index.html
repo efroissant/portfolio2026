@@ -1596,11 +1596,11 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    /* Aucun flou : le bureau reste net derrière la fenêtre. Seul le voile
-       noir signale qu'on est en modale — il suffit à détacher le panneau
-       sans dissoudre le décor, et le visiteur garde sous les yeux le bureau
-       d'où il vient. */
+    /* Le bureau se floute derrière la fenêtre : le voile et le flou disent
+       ensemble qu'on est en modale, et le panneau se détache du décor. */
     background: rgba(0, 0, 0, 0.25);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   /* Retiré de l'écran mais pas du document : les lecteurs d'écran le lisent.
      clip-path plutôt que display:none, qui l'aurait retiré à tout le monde. */
@@ -1869,8 +1869,25 @@
     justify-content: center;
     padding: 24px;
     background: rgba(0, 0, 0, 0.25);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   .doc[hidden] { display: none; }
+
+  /* Voile du Finder (Projets, Bibliothèque, Photos) : le même flou que les
+     autres fenêtres. Il n'existe que tant que le Finder est ouvert, glisse
+     sous lui (28 < 29) et au-dessus du calendrier et du lecteur. Un clic
+     dessus ferme le Finder, comme le voile des autres fenêtres. */
+  .finder-voile {
+    position: absolute;
+    inset: 0;
+    z-index: 28;
+    display: none;
+    background: rgba(0, 0, 0, 0.25);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .stage:has(> #finder:not([hidden])) > .finder-voile { display: block; }
 
   /* Liste des études dans le dossier Portfolio. */
   .etudes { display: flex; flex-direction: column; gap: 8px; }
@@ -2985,8 +3002,8 @@
   .grimace {
     position: absolute;
     left: 0; top: 0;
-    width: 120px; height: 120px;
-    margin: -60px 0 0 -60px;
+    width: 80px; height: 80px;
+    margin: -40px 0 0 -40px;
     overflow: hidden;
     background: #FFFFFF;
     border: 1px solid #000000;
@@ -2999,12 +3016,12 @@
   .grimace img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.14); }
   /* Emoji : un autocollant — tuile blanche, trait noir, ombre pleine. */
   .grimace--emoji {
-    width: 56px; height: 56px;
-    margin: -28px 0 0 -28px;
-    border-radius: 12px;
+    width: 44px; height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 10px;
     display: grid; place-items: center;
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-    font-size: 30px; line-height: 1;
+    font-size: 24px; line-height: 1;
   }
 
   .about {
@@ -3667,6 +3684,56 @@
   .mini[data-cv]                    { --pill: #FF9A57; }   /* orange pâle */
   .mini[data-action="notes"]        { --pill: #FFD757; }
   a.mini--mobile                    { --pill: #79C7EA; }
+
+  /* Fichiers image du bureau : pas une carte, un fichier de Mac. Une
+     vignette cadrée de blanc au trait noir et à l'ombre pleine, son nom
+     dessous dans une étiquette blanche. Au survol, la vignette se soulève. */
+  .stage .minis .mini.mini--fichier:not(.mini--mobile) {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    width: 128px; height: auto; padding: 0;
+    border: 0; border-radius: 0;
+    background: none; box-shadow: none;
+  }
+  .stage .minis .mini.mini--fichier:not(.mini--mobile)::after { content: none; }
+  .stage .minis .mini.mini--fichier:not(.mini--mobile):hover,
+  .stage .minis .mini.mini--fichier:not(.mini--mobile):focus-visible,
+  .stage .minis .mini.mini--fichier:not(.mini--mobile):active { transform: none; background-size: 0 0; box-shadow: none; }
+  .mini__fichier {
+    display: block; width: 96px;
+    padding: 4px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: 3px 4px 0 #000000;
+    transform: rotate(var(--penche, -3deg));
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mini[data-meme="vraiment-drole"] .mini__fichier { --penche: 4deg; }
+  .mini__fichier img { display: block; width: 100%; height: auto; pointer-events: none; }
+  .mini--fichier:hover .mini__fichier,
+  .mini--fichier:focus-visible .mini__fichier {
+    transform: rotate(var(--penche, -3deg)) translate(-2px, -3px);
+    box-shadow: 6px 8px 0 #000000;
+  }
+  .stage .minis .mini.mini--fichier:not(.mini--mobile) .mini__label {
+    max-width: 128px;
+    padding: 2px 8px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    font-size: 12px; line-height: 16px; font-weight: 500;
+    letter-spacing: 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  /* Au doigt, la grille serre les rangées : vignette réduite et nom à côté. */
+  @media (max-width: 767px) {
+    .stage .minis .mini.mini--fichier:not(.mini--mobile) {
+      width: 100%; height: auto; padding: 4px 0;
+      flex-direction: row; justify-content: flex-start; gap: 10px;
+    }
+    .stage .minis .mini--fichier .mini__fichier { width: 52px; padding: 3px; flex-shrink: 0; }
+    .stage .minis .mini.mini--fichier:not(.mini--mobile) .mini__label { text-align: left; }
+  }
 
   @media (max-width: 767px) {
     /* relative pour poser la flèche ; les coordonnées que le script écrit en
@@ -5733,8 +5800,9 @@
 
 
 
-  <!-- Fenêtre Finder du dossier « Mes films ». Volontairement non modale :
-       elle se déplace, on peut la laisser ouverte et retourner au bureau. -->
+  <!-- Fenêtre Finder (Projets, Bibliothèque, Photos). Elle se déplace ; le
+       bureau se floute derrière elle, et un clic sur le flou la ferme. -->
+  <div class="finder-voile" id="finder-voile" aria-hidden="true"></div>
   <div class="finder" id="finder" role="dialog" aria-labelledby="finder-title" hidden>
     <div class="finder__bar" id="finder-bar">
       <button type="button" class="modal__light modal__light--close" id="finder-close" aria-label="Fermer la fenêtre"></button>
@@ -6450,6 +6518,19 @@
               aria-label="Notes — ouvrir Pourquoi_je_design?">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="notes-192.webp" type="image/webp"><img src="notes-192.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Notes</span>
+      </button>
+
+      <!-- Deux fichiers image posés sur le bureau, comme un vrai Mac : une
+           vignette et son nom. Un clic les ouvre dans la visionneuse. -->
+      <button type="button" class="mini mini--fichier" data-meme="drole"
+              aria-label="meme-drole.jpg — ouvrir l’image">
+        <span class="mini__fichier" aria-hidden="true"><img src="meme-drole-240.jpg" alt="" width="240" height="253" draggable="false"></span>
+        <span class="mini__label">meme-drole.jpg</span>
+      </button>
+      <button type="button" class="mini mini--fichier" data-meme="vraiment-drole"
+              aria-label="meme-vraiment-drole.jpg — ouvrir l’image">
+        <span class="mini__fichier" aria-hidden="true"><img src="meme-vraiment-drole-240.jpg" alt="" width="240" height="210" draggable="false"></span>
+        <span class="mini__label">meme-vraiment-drole.jpg</span>
       </button>
 
       <!-- LinkedIn n'apparaît qu'au doigt : sur grand écran il est déjà
@@ -7843,6 +7924,7 @@ const dire = (function () {
   function finderClose() { fWin.hidden = true; }
 
   document.getElementById('finder-close').addEventListener('click', finderClose);
+  document.getElementById('finder-voile').addEventListener('pointerdown', finderClose);
 
   // Échap ferme la fenêtre. En capture et avec arrêt de propagation, sinon le
   // gestionnaire global renverrait le visiteur à l'écran de veille — fermer
@@ -7888,6 +7970,12 @@ const dire = (function () {
   /* Les vignettes de téléphone n'ouvrent pas de dossier : elles rejouent une
      action qui existe déjà ailleurs. Un seul aiguillage, pour que le jour où
      l'une d'elles change de destination il n'y ait qu'un endroit à corriger. */
+  // Les mèmes s'ouvrent dans la visionneuse photo, qui vit plus loin.
+  function ouvrirMeme(m) {
+    document.dispatchEvent(new CustomEvent('portfolio:meme',
+      { detail: { id: m.dataset.meme, opener: m } }));
+  }
+
   function miniAction(m) {
     const quoi = m.dataset.action;
     if (quoi === 'spotify') ouvrirSpotify();
@@ -7960,6 +8048,7 @@ const dire = (function () {
         else if (m.dataset.href) openDoc(m);
         else if (m.dataset.folder) openFolder(m);
         else if (m.dataset.etagere) finderOpen('passe-temps');
+        else if (m.dataset.meme) ouvrirMeme(m);
         else openModal(m);
       }
     }
@@ -7991,6 +8080,7 @@ const dire = (function () {
         else if (m.dataset.href) openDoc(m);
         else if (m.dataset.folder) openFolder(m);
         else if (m.dataset.etagere) finderOpen('passe-temps');
+        else if (m.dataset.meme) ouvrirMeme(m);
         else openModal(m);
       }
     });
@@ -8026,7 +8116,9 @@ const dire = (function () {
     '[data-action="spotify"]':      [0.500, 0.194],   // Musique
     '[data-cv]':                    [0.080, 0.356],   // CV
     '[data-etagere]':               [0.124, 0.654],   // Bibliothèque
-    '[data-action="notes"]':        [0.470, 0.520]    // Notes
+    '[data-action="notes"]':        [0.470, 0.520],   // Notes
+    '[data-meme="drole"]':          [0.640, 0.560],   // meme-drole.jpg
+    '[data-meme="vraiment-drole"]': [0.760, 0.640]    // meme-vraiment-drole.jpg
   };
   function disposerDefaut() {
     minisEl.dataset.range = 'false';
@@ -8212,6 +8304,25 @@ const dire = (function () {
          + 'une bouée, flottant dans une crique devant un village méditerranéen' }
   ];
 
+  /* Les deux mèmes du bureau. Livrés en JPEG seul : pas de WebP, et pas de
+     2x — la source ne fait que 540 px, l'agrandir serait l'inventer. */
+  const MEMES = {
+    'drole': { nom: 'meme-drole.jpg', grand: 'meme-drole', tailles: [540, 540], jpeg: true,
+      alt: 'Mème en deux cases. En haut, « Designer » : deux ouvriers allongés à plat '
+         + 'ventre lissent une dalle de béton frais avec un soin extrême. En bas, '
+         + '« Client » : un chat traverse la dalle et y laisse ses empreintes, l’air ravi.' },
+    'vraiment-drole': { nom: 'meme-vraiment-drole.jpg', grand: 'meme-vraiment-drole', tailles: [540, 540], jpeg: true,
+      alt: 'Mème sur une enluminure médiévale. Une femme, « Project manager », tient '
+         + 'la tête d’un homme penché qui vomit, « UX designer », pendant qu’une '
+         + 'religieuse, « Client », applaudit à côté.' }
+  };
+  document.addEventListener('portfolio:meme', (e) => {
+    const ph = MEMES[e.detail.id];
+    if (!ph) return;
+    poserPhoto(ph);
+    openModal(e.detail.opener);
+  });
+
   const mSource = document.querySelector('#modal .modal__content source');
   const mImg    = document.querySelector('#modal .modal__content img');
   const mTitre  = document.getElementById('modal-title');
@@ -8219,9 +8330,12 @@ const dire = (function () {
   function poserPhoto(ph) {
     const [a, b] = ph.tailles;
     const f = (b / a).toFixed(2) + 'x';
-    mSource.srcset = `${ph.grand}-${b}.webp ${f}, ${ph.grand}-${a}.webp 1x`;
+    // Sans WebP, la <source> doit se taire : sans srcset elle est ignorée.
+    if (ph.jpeg) mSource.removeAttribute('srcset');
+    else mSource.srcset = `${ph.grand}-${b}.webp ${f}, ${ph.grand}-${a}.webp 1x`;
     mImg.src = `${ph.grand}-${a}.jpg`;
-    mImg.srcset = `${ph.grand}-${b}.jpg ${f}`;
+    if (ph.jpeg) mImg.removeAttribute('srcset');
+    else mImg.srcset = `${ph.grand}-${b}.jpg ${f}`;
     mImg.alt = ph.alt;
     mTitre.textContent = ph.nom;
   }
@@ -9056,26 +9170,27 @@ const dire = (function () {
   document.addEventListener('portfolio:about', () => openAbout(navBtn));
 
   /* ---------- traînée de grimaces ----------
-     Une photo tous les 70 px de trajet du curseur, uniquement quand la
+     Une photo tous les 48 px de trajet du curseur, uniquement quand la
      fenêtre À propos est ouverte. Chaque photo apparaît puis s'efface ;
      seuls les emojis restent posés jusqu'à la fermeture. Pour ajouter des grimaces : déposer les images
      et les ajouter à GRIMACES — elles sont tirées dans l'ordre, en boucle. */
   (function grimaces() {
     // Fichiers grimaces/<nom>-128.webp et -256.webp (écrans Retina).
     // Photos seulement : les trois dessins (cœurs, câlin, WHY?) sont retirés.
-    const GRIMACES = ['w-16-enfant', 'w-12-bras', 'w-06-papa', 'w-13-dessin',
+    const GRIMACES = ['w-16-enfant', 'w-12-bras', 'w-13-dessin',
                       'w-08-sourire', 'w-15-rousse',
-                      'w-09-petit-chien', 'w-11-arbre'];
+                      'w-09-petit-chien',
+                      'w-17-moustache', 'w-18-arbre-rouge'];
     // Emojis glissés entre les photos (une sur deux). Ce sont de vrais
     // caractères : sur Mac et iPhone ils s'affichent avec les emojis Apple.
     const EMOJIS = ['☁️', '⚡️', '🌧️', '🍼', '🎨', '👶', '🏳️‍🌈', '🧠', '✈️'];   // nuage, éclair, pluie, biberon, peinture, bébé, drapeau LGBT, cerveau, avion
     // Livrées en JPEG faute d'encodeur WebP au moment de l'ajout.
-    const EN_JPEG = new Set(['w-16-enfant']);
+    const EN_JPEG = new Set(['w-16-enfant', 'w-17-moustache', 'w-18-arbre-rouge']);
     const fichier = (nom, taille) =>
       'grimaces/' + nom + '-' + taille + (EN_JPEG.has(nom) ? '.jpg' : '.webp');
-    // Une photo tous les 70 px de trajet, serrées les unes contre les
+    // Une photo tous les 48 px de trajet, serrées les unes contre les
     // autres. Elles passent puis s'effacent : seuls les emojis restent.
-    const PAS = 70, MAX = 40;
+    const PAS = 48, MAX = 40;
     const TENUE = 600, FONDU = 450;   // ms posée, puis ms de fondu
     const calque = document.getElementById('grimaces');
     if (!calque) return;
