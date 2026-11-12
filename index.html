@@ -3728,6 +3728,7 @@
   .mini__fichier img,
   .mini__fichier svg { display: block; width: 100%; height: auto; pointer-events: none; border-radius: 2px; }
   .mini--son .mini__fichier { --penche: 2deg; }
+  .mini--photo .mini__fichier { --penche: 4deg; }
   .mini--fichier:hover .mini__fichier,
   .mini--fichier:focus-visible .mini__fichier {
     transform: rotate(var(--penche, -3deg)) translate(-2px, -3px);
@@ -5935,7 +5936,7 @@
           </div>
           <figure class="about__photo">
             <picture>
-              <img id="about-avatar" src="about-portrait-240.jpg" srcset="about-portrait-480.jpg 2x"
+              <img id="about-avatar" src="about-anri-240.jpg" srcset="about-anri-480.jpg 2x"
                    alt="Portrait d’Emmanuel Froissant" width="240" height="300" draggable="false">
             </picture>
           </figure>
@@ -6596,6 +6597,11 @@
               aria-label="meme-drole.jpg — ouvrir l’image">
         <span class="mini__fichier" aria-hidden="true"><img src="meme-drole-240.jpg" alt="" width="240" height="253" draggable="false"></span>
         <span class="mini__label">meme-drole.jpg</span>
+      </button>
+      <button type="button" class="mini mini--fichier mini--photo" data-meme="anri"
+              aria-label="anri-inspiration.jpg — ouvrir l’image">
+        <span class="mini__fichier" aria-hidden="true"><img src="anri-inspiration-240.jpg" alt="" width="240" height="361" draggable="false"></span>
+        <span class="mini__label">anri-inspiration.jpg</span>
       </button>
       <!-- Un fichier son, avec sa pochette : un clic ouvre le lecteur et le joue. -->
       <button type="button" class="mini mini--fichier mini--son" data-son="yasuo-h"
@@ -8265,6 +8271,7 @@ const dire = (function () {
     '[data-etagere]':               [0.124, 0.654],   // Bibliothèque
     '[data-action="notes"]':        [0.470, 0.520],   // Notes
     '[data-meme="drole"]':          [0.640, 0.560],   // meme-drole.jpg
+    '[data-meme="anri"]':           [0.840, 0.660],   // anri-inspiration.jpg
     '[data-son="yasuo-h"]':       [0.660, 0.300]    // Yasuo-H.mp3
   };
   function disposerDefaut() {
@@ -8272,13 +8279,18 @@ const dire = (function () {
     const r = minisEl.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const dock = document.querySelector('.dock__pill');
-    const plafond = dock && dock.offsetParent ? dock.getBoundingClientRect().top - r.top - 48 : r.height;
+    const dr = dock && dock.offsetParent ? dock.getBoundingClientRect() : null;
+    const plafond = dr ? dr.top - r.top - 48 : r.height;
     // Posées d'emblée, sans glisser depuis leur place précédente.
     minisEl.classList.add('sans-glisse');
     Object.entries(DISPOSITION).forEach(([sel, [fx, fy]]) => {
       const m = minisEl.querySelector('.mini' + sel);
       if (!m || !m.offsetParent) return;
-      const top = Math.min(r.height * fy, plafond - m.offsetHeight);
+      // Le plafond du dock ne vaut qu'au-dessus de lui : sur les côtés,
+      // un objet peut descendre plus bas.
+      const x = r.left + r.width * fx;
+      const auDessusDuDock = dr && x < dr.right + 24 && x + m.offsetWidth > dr.left - 24;
+      const top = auDessusDuDock ? Math.min(r.height * fy, plafond - m.offsetHeight) : r.height * fy;
       const [l, t] = clampInside(m, r.width * fx, Math.max(0, top));
       m.style.left = l + 'px'; m.style.top = t + 'px';
     });
@@ -8503,7 +8515,10 @@ const dire = (function () {
     'drole': { nom: 'meme-drole.jpg', grand: 'meme-drole', tailles: [540, 540], jpeg: true,
       alt: 'Mème en deux cases. En haut, « Designer » : deux ouvriers allongés à plat '
          + 'ventre lissent une dalle de béton frais avec un soin extrême. En bas, '
-         + '« Client » : un chat traverse la dalle et y laisse ses empreintes, l’air ravi.' }
+         + '« Client » : un chat traverse la dalle et y laisse ses empreintes, l’air ravi.' },
+    'anri': { nom: 'anri-inspiration.jpg', grand: 'anri-inspiration', tailles: [582, 582], jpeg: true,
+      alt: 'Emmanuel penché en avant devant un mur blanc, la main en visière, '
+         + 'palmiers et ciel bleu au-dessus du mur.' }
   };
   document.addEventListener('portfolio:meme', (e) => {
     const ph = MEMES[e.detail.id];
