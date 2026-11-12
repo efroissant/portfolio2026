@@ -5622,6 +5622,21 @@
   @media (max-width: 767px) {
     .stage .lock .identity .identity__name.identity__name { font-size: 17px; letter-spacing: 0.22em; margin-right: -0.22em; }
   }
+  /* La date dans la même typo que le nom : capitales grasses italiques
+     très espacées (Helvetica Neue normale, sans l'inclinaison ajoutée). */
+  .stage .lock .clock .clock__date.clock__date {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-stretch: normal;
+    font-style: italic; font-weight: 700;
+    text-transform: uppercase;
+    font-size: 18px; line-height: 24px;
+    letter-spacing: 0.32em;
+    margin-right: -0.32em;
+    transform: none;
+  }
+  @media (max-width: 767px) {
+    .stage .lock .clock .clock__date.clock__date { font-size: 13px; letter-spacing: 0.2em; margin-right: -0.2em; }
+  }
 
   /* ================= LE BUREAU EN POCHETTE DE DISQUE =================
      Sur grand écran, le bureau se compose comme une pochette de 33 tours :
