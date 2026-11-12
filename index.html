@@ -5614,38 +5614,35 @@
   @media (max-height: 600px) {
     .stage .lock .identity .identity__kana { display: none; }
   }
-  /* Essai façon couverture de magazine japonais : le nom s'écrit de haut
-     en bas, lettres debout, en deux colonnes — le prénom à gauche, le nom
-     de famille à sa droite (sens de lecture occidental). */
+  /* « Portfolio » en katakana s'écrit en petite colonne blanche, de haut
+     en bas, tout à gauche ; le nom en capitales reste à l'horizontale,
+     aligné sur le haut de la colonne. */
   .stage .lock .identity .identity__name.identity__name {
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    letter-spacing: 0;
-    line-height: 1.15;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
     margin: 4px auto 0;
-    /* Moins massif et plus petit que l'Arial Black : Helvetica Neue grasse. */
+    /* Moins massif que l'Arial Black : Helvetica Neue grasse. */
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
     font-size: 24px;
     -webkit-text-stroke-width: 1.5px;
     text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;
   }
-  .stage .lock .identity__name > span { display: block; }
-  /* Les deux colonnes en katakana, à gauche : blanches, sans contour,
-     un peu plus petites que les capitales. */
   .stage .lock .identity__name > .kana {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
-    font-size: 0.8em;
+    font-size: 11px;
+    line-height: 1.25;
     font-weight: 700;
     color: #FFFFFF;
     -webkit-text-stroke: 0;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55);
     text-transform: none;
   }
-  .stage .lock .identity__name > .kana + span:not(.kana) { margin-left: 6px; }
-  /* En colonnes, le bloc reste droit et centré : l'inclinaison de la
-     traînée ne s'applique qu'au nom écrit à l'horizontale. */
-  .stage[data-wall="palmiers"] .lock .cluster.cluster { transform: none; }
+  .stage .lock .identity__name > .latin { margin-left: 8px; white-space: nowrap; }
 
   /* Plus d'heure ni de date sur l'écran verrouillé : la photo, le nom et
      le bouton se centrent dans la hauteur. */
@@ -6633,9 +6630,9 @@
           </picture>
         </div>
         <div class="identity" data-node-id="2:612">
-          <!-- Quatre colonnes alignées par le haut : le nom en katakana (en
-               blanc, décoratif), puis le prénom et le nom en capitales. -->
-          <p class="identity__name" data-node-id="2:613"><span class="kana" lang="ja" aria-hidden="true">エマニュエル</span><span class="kana" lang="ja" aria-hidden="true">フロワッサン</span><span>Emmanuel</span> <span>Froissant</span></p>
+          <!-- « Portfolio » en katakana, en petite colonne blanche à gauche
+               (décoratif), puis le nom en capitales, aligné par le haut. -->
+          <p class="identity__name" data-node-id="2:613"><span class="kana" lang="ja" aria-hidden="true">ポートフォリオ</span><span class="latin">Emmanuel Froissant</span></p>
           <p class="identity__role" data-node-id="2:614">Designer UI/UX</p>
         </div>
       </div>
