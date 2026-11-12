@@ -5839,6 +5839,19 @@
     #about .about__skill { width: 88px; height: 88px; }
   }
 
+  /* Photo en bandeau pleine largeur, sous la barre de titre ; la carte du
+     titre passe dessous, seule sur sa ligne. */
+  #about .about__body > .about__photo--bandeau {
+    padding: 0; margin: 0;
+    border: 0; border-bottom: 1px solid #000000; border-radius: 0;
+    box-shadow: none;
+    aspect-ratio: 420 / 299; max-height: none;
+    flex-shrink: 0;   /* la fenêtre défile plutôt que d'écraser la photo */
+  }
+  #about .about__photo--bandeau img { object-position: center; }
+  #about .about__hero { grid-template-columns: 1fr; }
+  #about .about__carte { min-height: 0; }
+
   /* Fond bleu : grain plus fin (tuile affichée à moitié de sa taille,
      donc des points deux fois plus petits) et plus discret. */
   .stage[data-uni] .stage__bg::after { background-size: 128px 128px; opacity: 0.22; }
@@ -5915,6 +5928,13 @@
       </div>
 
       <div class="about__body">
+        <!-- La photo en bandeau, sur toute la largeur de la fenêtre. -->
+        <figure class="about__photo about__photo--bandeau">
+          <picture>
+            <img id="about-avatar" src="about-motel-420.jpg" srcset="about-motel-840.jpg 2x"
+                 alt="Emmanuel accoudé à la rambarde d’un motel la nuit, un sac en papier à côté de lui" width="420" height="299" draggable="false">
+          </picture>
+        </figure>
         <!-- En-tête : deux cartes côte à côte. À gauche le titre, gras et
              regular alternés, avec un autocollant incliné (les yeux de
              l'avatar) sur le coin ; à droite la photo dans un cadre. -->
@@ -5934,12 +5954,6 @@
               Je questionne, l’IA accélère, <b>je décide.</b>
             </h2>
           </div>
-          <figure class="about__photo">
-            <picture>
-              <img id="about-avatar" src="about-anri-240.jpg" srcset="about-anri-480.jpg 2x"
-                   alt="Portrait d’Emmanuel Froissant" width="240" height="300" draggable="false">
-            </picture>
-          </figure>
         </div>
 
         <div class="about__lead">
