@@ -710,8 +710,9 @@
      grandir la largeur). Placé après, pour l'emporter sur tous les fonds. */
   .stage .unlock {
     border: 1px solid #000000;
-    background-color: #FF6645;
-    background-image: linear-gradient(#FFD2C4, #FFD2C4);
+    /* Couleurs « City Pop Voyage » : jaune du script, bleu roi du fond. */
+    background-color: #F0CC14;
+    background-image: linear-gradient(#FBE88A, #FBE88A);
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 0% 100%;
@@ -747,8 +748,8 @@
      Ordre : la première ombre est dessinée au-dessus des suivantes. */
   .stage .lock .unlock {
     box-shadow:
-      0 0 0 0 #EEED70, 0 0 0 0 #000000,
-      0 0 0 0 #F6ACCD, 0 0 0 0 #000000,
+      0 0 0 0 #0C3C98, 0 0 0 0 #000000,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
       3px 4px 0 0 #000000;
     transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -758,16 +759,16 @@
   .stage .lock .unlock:focus-visible {
     transform: translate(-4px, -4px);
     box-shadow:
-      8px 8px 0 0 #EEED70, 8px 8px 0 1px #000000,
-      16px 16px 0 0 #F6ACCD, 16px 16px 0 1px #000000,
+      8px 8px 0 0 #0C3C98, 8px 8px 0 1px #000000,
+      16px 16px 0 0 #FFFFFF, 16px 16px 0 1px #000000,
       19px 20px 0 1px #000000;
   }
   /* Au clic, la pile se referme et le bouton s'enfonce. */
   .stage .lock .unlock:active {
     transform: translate(3px, 4px);
     box-shadow:
-      0 0 0 0 #EEED70, 0 0 0 0 #000000,
-      0 0 0 0 #F6ACCD, 0 0 0 0 #000000,
+      0 0 0 0 #0C3C98, 0 0 0 0 #000000,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
       0 0 0 0 #000000;
     transition-duration: 350ms, 120ms, 120ms;
   }
