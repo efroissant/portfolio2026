@@ -9056,26 +9056,31 @@ const dire = (function () {
   document.addEventListener('portfolio:about', () => openAbout(navBtn));
 
   /* ---------- traînée de grimaces ----------
-     Une photo tous les 130 px de trajet du curseur, uniquement quand la
-     fenêtre À propos est ouverte. Chaque photo apparaît et reste posée
-     jusqu'à la fermeture. Pour ajouter des grimaces : déposer les images
+     Une photo tous les 70 px de trajet du curseur, uniquement quand la
+     fenêtre À propos est ouverte. Chaque photo apparaît puis s'efface ;
+     seuls les emojis restent posés jusqu'à la fermeture. Pour ajouter des grimaces : déposer les images
      et les ajouter à GRIMACES — elles sont tirées dans l'ordre, en boucle. */
   (function grimaces() {
     // Fichiers grimaces/<nom>-128.webp et -256.webp (écrans Retina).
     // Photos seulement : les trois dessins (cœurs, câlin, WHY?) sont retirés.
-    const GRIMACES = ['w-12-bras', 'w-06-papa', 'w-13-dessin',
+    const GRIMACES = ['w-16-enfant', 'w-12-bras', 'w-06-papa', 'w-13-dessin',
                       'w-08-sourire', 'w-15-rousse',
                       'w-09-petit-chien', 'w-11-arbre'];
     // Emojis glissés entre les photos (une sur deux). Ce sont de vrais
     // caractères : sur Mac et iPhone ils s'affichent avec les emojis Apple.
     const EMOJIS = ['☁️', '⚡️', '🌧️', '🍼', '🎨', '👶', '🏳️‍🌈', '🧠', '✈️'];   // nuage, éclair, pluie, biberon, peinture, bébé, drapeau LGBT, cerveau, avion
-    // Une photo tous les 130 px de trajet. Elles restent posées : 40 au
-    // plus, les plus anciennes laissent la place aux nouvelles.
-    const PAS = 130, MAX = 40;
+    // Livrées en JPEG faute d'encodeur WebP au moment de l'ajout.
+    const EN_JPEG = new Set(['w-16-enfant']);
+    const fichier = (nom, taille) =>
+      'grimaces/' + nom + '-' + taille + (EN_JPEG.has(nom) ? '.jpg' : '.webp');
+    // Une photo tous les 70 px de trajet, serrées les unes contre les
+    // autres. Elles passent puis s'effacent : seuls les emojis restent.
+    const PAS = 70, MAX = 40;
+    const TENUE = 600, FONDU = 450;   // ms posée, puis ms de fondu
     const calque = document.getElementById('grimaces');
     if (!calque) return;
     // Préchargées : sinon la première tuile de chaque grimace apparaît vide.
-    GRIMACES.forEach((g) => { const i = new Image(); i.srcset = 'grimaces/' + g + '-256.webp 2x'; i.src = 'grimaces/' + g + '-128.webp'; });
+    GRIMACES.forEach((g) => { const i = new Image(); i.srcset = fichier(g, 256) + ' 2x'; i.src = fichier(g, 128); });
     /* Les emojis sont rares : un tous les 650 px de trajet environ, posés
        à l'écart du curseur pour paraître parsemés plutôt qu'alignés, et
        huit au plus restent sur l'écran. */
@@ -9091,10 +9096,9 @@ const dire = (function () {
         t.textContent = EMOJIS[ne++ % EMOJIS.length];
       } else {
         const nom = GRIMACES[np++ % GRIMACES.length];
-        const g = 'grimaces/' + nom;
         const img = document.createElement('img');
-        img.src = g + '-128.webp';
-        img.srcset = g + '-256.webp 2x';
+        img.src = fichier(nom, 128);
+        img.srcset = fichier(nom, 256) + ' 2x';
         img.alt = '';
         img.draggable = false;
         t.appendChild(img);
@@ -9116,7 +9120,7 @@ const dire = (function () {
           { duration: 320, easing: 'ease-out', fill: 'forwards' });
         return;
       }
-      // Les photos apparaissent et restent posées, comme les emojis.
+      // Les photos apparaissent, restent un instant, puis s'effacent.
       const photos = calque.querySelectorAll('.grimace:not(.grimace--emoji)');
       if (photos.length > MAX) photos[0].remove();
       t.animate(reducedMotion()
@@ -9125,6 +9129,13 @@ const dire = (function () {
            { transform: base + ' scale(1.06)', opacity: 1, offset: 0.6 },
            { transform: base + ' scale(1)', opacity: 1 }],
         { duration: 300, easing: 'ease-out', fill: 'forwards' });
+      const sortie = t.animate(
+        reducedMotion()
+          ? [{ transform: base, opacity: 1 }, { transform: base, opacity: 0 }]
+          : [{ transform: base + ' scale(1)', opacity: 1 },
+             { transform: base + ' scale(0.85)', opacity: 0 }],
+        { duration: FONDU, delay: 300 + TENUE, easing: 'ease-in', fill: 'forwards' });
+      sortie.onfinish = () => t.remove();
     }
 
     aBackdrop.addEventListener('pointermove', (e) => {
