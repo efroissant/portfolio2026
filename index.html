@@ -8466,6 +8466,7 @@ const dire = (function () {
     { id: 'encre',     nom: 'Encre',      couleur: '#1A1A1A' },   // 17,4:1 — le noir des traits
     /* Photos : un seul JPEG par taille (pas de WebP ici), une vignette
        carrée pour le menu, et un cadrage pour les images en portrait. */
+    { id: 'palmiers',  nom: 'Palmiers',   photo: 'fond-palmiers',  position: 'center' },
     { id: 'hawaii',    nom: 'Hawaï',      photo: 'fond-hawaii',    position: 'center 60%' },
     { id: 'longuevue', nom: 'Longue-vue', photo: 'fond-longuevue', position: 'center 72%' },
     { id: 'piscine',   nom: 'Piscine',    photo: 'fond-piscine',   position: 'center 38%' },
@@ -8479,7 +8480,7 @@ const dire = (function () {
   /* Le concept « satellites » suppose une nuit : c'est ce fond qui ouvre
      désormais la marche. Un visiteur qui a déjà choisi autre chose garde
      son réglage — localStorage prime sur ce défaut. */
-  const WALL_DEFAUT = 'hawaii';
+  const WALL_DEFAUT = 'palmiers';
 
   /* La feuille de style servait la grande image via une requête de média.
      Un style en ligne l'écraserait et tout le monde recevrait la petite :
