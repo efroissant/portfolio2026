@@ -5838,6 +5838,17 @@
   /* Fond bleu : grain plus fin (tuile affichée à moitié de sa taille,
      donc des points deux fois plus petits) et plus discret. */
   .stage[data-uni] .stage__bg::after { background-size: 128px 128px; opacity: 0.22; }
+
+  /* Cartes plus compactes sur ordinateur (jugées trop grosses sur iMac) :
+     144 × 116 au lieu de 168 × 136, libellé 18 px, icône 36 px. Le
+     téléphone garde ses tailles, pensées pour le doigt. */
+  @media (min-width: 768px) {
+    .stage .minis .mini.mini:not(.mini--mobile):not(.mini--fichier) { width: 144px; height: 116px; padding: 14px; }
+    .stage .minis .mini.mini:not(.mini--fichier) .mini__label { font-size: 18px; line-height: 20px; }
+    .stage .minis .mini.mini:not(.mini--mobile):not(.mini--fichier)::after {
+      top: 8px; right: 8px; width: 36px; height: 36px;
+    }
+  }
 </style>
 </head>
 <body>
