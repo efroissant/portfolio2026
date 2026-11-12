@@ -6605,12 +6605,6 @@
         <span class="mini__fichier" aria-hidden="true"><img src="pool-240.jpg" alt="" width="240" height="320" draggable="false"></span>
         <span class="mini__label">pool.jpg</span>
       </button>
-      <!-- Un fichier son, avec sa pochette : un clic ouvre le lecteur et le joue. -->
-      <button type="button" class="mini mini--fichier mini--son" data-son="yasuo-h"
-              aria-label="Yasuo-H.mp3 — écouter dans le lecteur">
-        <span class="mini__fichier" aria-hidden="true"><img src="pochette-yasuo-240.jpg" alt="" width="240" height="240" draggable="false"></span>
-        <span class="mini__label">Yasuo-H.mp3</span>
-      </button>
 
       <!-- LinkedIn n'apparaît qu'au doigt : sur grand écran il est déjà
            dans le dock, et le répéter ferait deux portes sans raison. -->
@@ -8275,8 +8269,7 @@ const dire = (function () {
     '[data-etagere]':               [0.124, 0.590],   // Bibliothèque
     '[data-action="notes"]':        [0.470, 0.520],   // Notes
     '[data-meme="maui"]':           [0.840, 0.660],   // maui-island.jpg
-    '[data-meme="pool"]':           [0.015, 0.640],   // pool.jpg
-    '[data-son="yasuo-h"]':       [0.660, 0.300]    // Yasuo-H.mp3
+    '[data-meme="pool"]':           [0.015, 0.640]    // pool.jpg
   };
   function disposerDefaut() {
     minisEl.dataset.range = 'false';
@@ -8359,7 +8352,7 @@ const dire = (function () {
     '[data-action="spotify"]',        // Musique
     '[data-action="notes"]',          // Notes
     '[data-meme]',                    // photos (maui-island.jpg, pool.jpg)
-    '[data-son]'                      // Yasuo-H.mp3
+    '[data-son]'                      // fichiers son, s'il y en a
   ];
   function tidy() {
     minisEl.dataset.range = 'true';      // en grille : plus de flottement
@@ -9745,8 +9738,6 @@ const dire = (function () {
      puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
   const PISTES = [
     { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3', pochette: 'pochette-orange-road' },
-    { id: 'yasuo-h', titre: 'Medley', artiste: 'Yasuo Higuchi',
-      src: 'musique/Yasuo-H.mp3', pochette: 'pochette-yasuo' },
     { titre: 'Cat’s Eye (instrumental)', artiste: 'Anri', src: 'musique/anri-cats-eye.m4a', pochette: 'pochette-timely' }
   ];
   const ICONES = {
