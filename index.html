@@ -3790,6 +3790,18 @@
   /* La fleur de l'écran verrouillé, en petit, remplace les yeux de la barre. */
   .menubar__logo > .yeux--barre { display: none; }
   .menubar__logo > .perso--barre { display: block; width: 32px; height: 29px; overflow: visible; }
+  /* Ma photo remplace la fleur : une vignette carrée comme les icônes
+     LinkedIn et Pinterest, trait noir de 1 px et ombre pleine. */
+  .menubar__logo > .perso--barre,
+  .menubar__logo > .avatar-blanc { display: none !important; }
+  .menubar__logo > .avatar-photo--barre {
+    display: block; width: 24px; height: 24px;
+    object-fit: cover; object-position: 50% 20%;
+    box-sizing: border-box;
+    border: 1px solid #000000; border-radius: 5px;
+    box-shadow: 2px 2px 0 #000000;
+    background: #E9A291;
+  }
   /* Comme les icônes de la barre : trait noir (~1,4 px à cette taille, soit
      9 unités du dessin) et ombre pleine décalée. */
   .menubar__logo > .perso--barre { filter: drop-shadow(2px 2.5px 0 #000); }
@@ -5535,7 +5547,18 @@
     display: block;
     border-radius: 0; overflow: visible; box-shadow: none; background: none;
   }
-  #view-lock #avatar-lock > :not(.perso) { display: none; }
+  #view-lock #avatar-lock > :not(.avatar-photo) { display: none; }
+  /* Ma photo à la place du personnage : le cadre de l'À propos — trait
+     noir de 1 px, coins de 8, ombre pleine décalée de 3 × 4. */
+  #view-lock #avatar-lock { width: 80px; height: 100px; }
+  #view-lock #avatar-lock > .avatar-photo {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    box-sizing: border-box;
+    border: 1px solid #000000; border-radius: 8px;
+    box-shadow: 3px 4px 0 #000000;
+    background: #E9A291;
+  }
   #view-lock #avatar-lock > .perso { filter: drop-shadow(3px 4px 0 #000000); }
   /* 2 unités du dessin ≈ 1 px à cette taille (100 px pour 200 unités). */
   #perso .perso__forme { stroke: #000000; stroke-width: 2; stroke-linejoin: round; }
@@ -5590,8 +5613,8 @@
   @keyframes perso-cligne { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.08); } }
   .perso__yeux { transform-box: fill-box; transform-origin: center; }
   .perso.is-cligne .perso__yeux { animation: perso-cligne 180ms ease-in-out; }
-  @media (max-width: 767px) { #view-lock #avatar-lock { width: 84px; height: 76px; } }
-  @media (max-height: 600px) { #view-lock #avatar-lock { width: 68px; height: 61px; } }
+  @media (max-width: 767px) { #view-lock #avatar-lock { width: 72px; height: 90px; } }
+  @media (max-height: 600px) { #view-lock #avatar-lock { width: 56px; height: 70px; } }
   @media (prefers-reduced-motion: reduce) {
     .perso.is-joie .perso__corps, .perso.is-triste .perso__corps { animation: none; }
       .perso.is-triste[data-larmes="1"] .larme-1,
@@ -6267,6 +6290,10 @@
     <div class="cluster" data-node-id="2:610">
       <div class="cluster__identity-group" data-node-id="28:870">
         <div class="avatar" id="avatar-lock" data-node-id="340:272">
+          <!-- Ma photo, la même que dans l'À propos. Le personnage animé
+               reste dans le balisage, masqué : son script tourne à vide. -->
+          <img class="avatar-photo" src="about-photo-240.jpg" srcset="about-photo-480.jpg 2x"
+               alt="" width="240" height="300" draggable="false">
           <!-- Bulle festonnée : dégradé irisé à gros grain, deux astérisques
                pour les yeux. Remplace la photo sur l'écran verrouillé. -->
           <!-- Avatar : des yeux rétro façon jumelles, qui suivent la souris. -->
@@ -6374,6 +6401,8 @@
                 aria-label="Retourner à l’écran de veille"
                 title="Retourner à l’écran de veille"
                 data-node-id="118:235">
+          <img class="avatar-photo avatar-photo--barre" src="about-photo-240.jpg" srcset="about-photo-480.jpg 2x"
+               alt="" width="240" height="300" draggable="false">
           <svg class="yeux yeux--barre" width="30" height="24" viewBox="0 0 118 96" aria-hidden="true">
             <g class="yeux__oeil">
               <clipPath id="forme3"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
@@ -9555,9 +9584,7 @@ const dire = (function () {
      puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
   const PISTES = [
     { titre: 'Orange Road', artiste: 'Kanako Wada', src: 'musique/kanako-wada-orange-road.mp3', pochette: 'pochette-orange-road' },
-    // Crédit demandé par la licence Free To Use (freetouse.com/music).
-    { titre: 'Glass Shop',  artiste: 'Calima',             src: 'ambiance.mp3' },
-    { id: 'sad-piano', titre: 'Sad Piano I', artiste: '',
+    { id: 'sad-piano', titre: 'Medley', artiste: 'Yasuo Higuchi',
       src: 'musique/sad-piano.mp3' }
   ];
   const ICONES = {
