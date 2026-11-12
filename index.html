@@ -6593,11 +6593,6 @@
 
       <!-- Un fichier image posé sur le bureau, comme un vrai Mac : une
            vignette et son nom. Un clic l'ouvre dans la visionneuse. -->
-      <button type="button" class="mini mini--fichier" data-meme="drole"
-              aria-label="meme-drole.jpg — ouvrir l’image">
-        <span class="mini__fichier" aria-hidden="true"><img src="meme-drole-240.jpg" alt="" width="240" height="253" draggable="false"></span>
-        <span class="mini__label">meme-drole.jpg</span>
-      </button>
       <button type="button" class="mini mini--fichier mini--photo" data-meme="maui"
               aria-label="maui-island.jpg — ouvrir l’image">
         <span class="mini__fichier" aria-hidden="true"><img src="maui-island-240.jpg" alt="" width="240" height="361" draggable="false"></span>
@@ -8277,7 +8272,6 @@ const dire = (function () {
     '[data-cv]':                    [0.080, 0.356],   // CV
     '[data-etagere]':               [0.124, 0.590],   // Bibliothèque
     '[data-action="notes"]':        [0.470, 0.520],   // Notes
-    '[data-meme="drole"]':          [0.640, 0.560],   // meme-drole.jpg
     '[data-meme="maui"]':           [0.840, 0.660],   // maui-island.jpg
     '[data-meme="pool"]':           [0.015, 0.640],   // pool.jpg
     '[data-son="yasuo-h"]':       [0.660, 0.300]    // Yasuo-H.mp3
@@ -8362,7 +8356,7 @@ const dire = (function () {
     '[data-etagere]',                 // Bibliothèque
     '[data-action="spotify"]',        // Musique
     '[data-action="notes"]',          // Notes
-    '[data-meme]',                    // meme-drole.jpg
+    '[data-meme]',                    // photos (maui-island.jpg, pool.jpg)
     '[data-son]'                      // Yasuo-H.mp3
   ];
   function tidy() {
@@ -8523,10 +8517,6 @@ const dire = (function () {
   /* Le mème du bureau. Livré en JPEG seul : pas de WebP, et pas de
      2x — la source ne fait que 540 px, l'agrandir serait l'inventer. */
   const MEMES = {
-    'drole': { nom: 'meme-drole.jpg', grand: 'meme-drole', tailles: [540, 540], jpeg: true,
-      alt: 'Mème en deux cases. En haut, « Designer » : deux ouvriers allongés à plat '
-         + 'ventre lissent une dalle de béton frais avec un soin extrême. En bas, '
-         + '« Client » : un chat traverse la dalle et y laisse ses empreintes, l’air ravi.' },
     'maui': { nom: 'maui-island.jpg', grand: 'maui-island', tailles: [582, 582], jpeg: true,
       alt: 'Emmanuel penché en avant devant un mur blanc, la main en visière, '
          + 'palmiers et ciel bleu au-dessus du mur.' },
