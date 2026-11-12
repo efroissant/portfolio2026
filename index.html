@@ -2565,9 +2565,9 @@
     border-radius: 16px;
     box-shadow: 4px 5px 0 #000000;
   }
-  /* Sur ordinateur, le dock décolle du bas : 44 px au lieu de 12. */
+  /* Sur ordinateur, le dock décolle du bas : 29 px au lieu de 12. */
   @media (min-width: 768px) {
-    .stage .dock { bottom: 44px; }
+    .stage .dock { bottom: 29px; }
   }
   /* Icônes sans contour. */
   .stage .dock__item svg,
@@ -3795,10 +3795,13 @@
   .menubar__logo > .perso--barre,
   .menubar__logo > .avatar-blanc { display: none !important; }
   .menubar__logo > .avatar-photo--barre {
-    display: block; width: 26px; height: 26px;
+    display: block; width: 32px; height: 32px;
     object-fit: cover; object-position: center;
     box-sizing: border-box;
-    border: 1px solid #000000; border-radius: 8px;
+    border: 1px solid #000000; border-radius: 7px;
+    /* overflow: visible, posé sur tous les enfants du logo, empêchait
+       l'arrondi de découper la photo : coins carrés et trait décalé. */
+    overflow: hidden;
     box-shadow: 2px 2px 0 #000000;
     background: #E9A291;
   }
@@ -5557,6 +5560,7 @@
     object-fit: cover; object-position: center;
     box-sizing: border-box;
     border: 1px solid #000000; border-radius: 12px;
+    overflow: hidden;
     box-shadow: 3px 4px 0 #000000;
     background: #E9A291;
   }
@@ -6403,10 +6407,9 @@
                 aria-label="Retourner à l’écran de veille"
                 title="Retourner à l’écran de veille"
                 data-node-id="118:235">
-          <!-- Recadrage serré sur le visage : à 26 px, le cadrage large de la
-               veille ne laissait voir qu'un fond bleu. -->
-          <img class="avatar-photo avatar-photo--barre" src="avatar-barre-52.jpg" srcset="avatar-barre-78.jpg 3x"
-               alt="" width="52" height="52" draggable="false">
+          <!-- Le même avatar que l'écran verrouillé. -->
+          <img class="avatar-photo avatar-photo--barre" src="avatar-carre-96.jpg" srcset="avatar-carre-192.jpg 2x"
+               alt="" width="96" height="96" draggable="false">
           <svg class="yeux yeux--barre" width="30" height="24" viewBox="0 0 118 96" aria-hidden="true">
             <g class="yeux__oeil">
               <clipPath id="forme3"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
