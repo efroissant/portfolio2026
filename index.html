@@ -379,7 +379,7 @@
     background: transparent; cursor: pointer; flex-shrink: 0;
   }
   .lecteur__fermer:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-  .lecteur__barre span { flex: 1; text-align: center; margin-right: 20px; }
+  .lecteur__barre span { flex: 1; text-align: center; }
   .lecteur__haut { padding: 16px 16px 4px; }
   .lecteur__entete { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
   .lecteur__titres { min-width: 0; flex: 1; }
@@ -6158,6 +6158,19 @@
       top: 8px; right: 8px; width: 36px; height: 36px;
     }
   }
+
+  /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
+     du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
+     de lui et défile si besoin. */
+  @media (max-width: 767px) {
+    .stage .spot.lecteur.lecteur {
+      top: auto; transform: none;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 126px);
+    }
+    .stage[data-state="desktop"] .minis.minis {
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 240px);
+    }
+  }
 </style>
 </head>
 <body>
@@ -6881,12 +6894,6 @@
               aria-label="Contact — m’écrire un message">
         <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-mail-119.webp" type="image/webp"><img src="ic-mail-119.png" alt="" draggable="false"></picture></span>
         <span class="mini__label">Contact</span>
-      </button>
-
-      <button type="button" class="mini" data-action="spotify"
-              aria-label="Musique — écouter ma playlist">
-        <span class="mini__icon" aria-hidden="true"><picture><source srcset="ic-musique-153.webp" type="image/webp"><img src="ic-musique-153.png" alt="" draggable="false"></picture></span>
-        <span class="mini__label">Musique</span>
       </button>
 
       <button type="button" class="mini" data-node-id="483:573" data-cv="1"
@@ -8585,7 +8592,6 @@ const dire = (function () {
   const DISPOSITION = {
     '[data-folder="case-studies"]': [0.185, 0.117],   // Projets
     '[data-action="mail"]':         [0.342, 0.094],   // Contact
-    '[data-action="spotify"]':      [0.500, 0.194],   // Musique
     '[data-cv]':                    [0.080, 0.356],   // CV
     '[data-etagere]':               [0.124, 0.590],   // Bibliothèque
     '[data-action="notes"]':        [0.470, 0.520],   // Notes
@@ -8599,7 +8605,7 @@ const dire = (function () {
   const enPochette = window.matchMedia('(min-width: 1024px)');
   const cadrePhoto = window.cadrePochette;
   const ORDRE_OBI = ['[data-folder="case-studies"]', '[data-cv]', '[data-action="mail"]',
-                     '[data-etagere]', '[data-action="spotify"]', '[data-action="notes"]'];
+                     '[data-etagere]', '[data-action="notes"]'];
   function disposerPochette(r) {
     const photo = cadrePhoto();
     if (!photo) return false;
@@ -8717,7 +8723,6 @@ const dire = (function () {
     '[data-cv]',                      // CV
     '[data-action="mail"]',           // Contact
     '[data-etagere]',                 // Bibliothèque
-    '[data-action="spotify"]',        // Musique
     '[data-action="notes"]',          // Notes
     '[data-meme]',                    // photos (maui-island.jpg, pool.jpg)
     '[data-son]'                      // fichiers son, s'il y en a
@@ -10135,7 +10140,6 @@ const dire = (function () {
   function construireLecteur() {
     spot.innerHTML = `
       <div class="lecteur__barre">
-        <button type="button" class="lecteur__fermer" aria-label="Fermer le lecteur"></button>
         <span>Musique</span>
       </div>
       <div class="lecteur__haut">
@@ -10170,14 +10174,13 @@ const dire = (function () {
       const a = new Audio(); a.preload = 'metadata'; a.src = p.src;
       a.addEventListener('loadedmetadata', () => { li.querySelector('.lecteur__duree').textContent = mmss(a.duration); });
     });
-    spot.querySelector('.lecteur__fermer').addEventListener('click', fermerSpotify);
 
     // Déplaçable par sa barre de titre, comme une vraie fenêtre. Une fois
     // déplacé, il garde sa place (left/top) jusqu'au rechargement.
     const poignee = spot.querySelector('.lecteur__barre');
     let dx = 0, dy = 0, tenu = false;
     poignee.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('.lecteur__fermer') || e.button !== 0) return;
+      if (e.button !== 0) return;
       const r = spot.getBoundingClientRect();
       dx = e.clientX - r.left; dy = e.clientY - r.top; tenu = true;
       spot.style.left = r.left + 'px'; spot.style.top = r.top + 'px';
@@ -10268,7 +10271,7 @@ const dire = (function () {
   });
 
   function ouvrirSpotify() {
-    if (!spot.hidden) { fermerSpotify(); return; }
+    if (!spot.hidden) return;
     if (!lecteurPret) construireLecteur();
     spot.hidden = false;   // posé tel quel, sans entrée animée
   }
@@ -10316,25 +10319,16 @@ const dire = (function () {
     spot.style.right = 'auto'; spot.style.bottom = 'auto'; spot.style.transform = 'none';
   });
 
-  // Ouvert par défaut à chaque arrivée sur le bureau (grand écran). Au
-  // téléphone il recouvrirait les cartes : il reste derrière « Musique ».
-  document.addEventListener('portfolio:desktop', () => {
-    if (spot.hidden && window.matchMedia('(min-width: 768px)').matches) ouvrirSpotify();
-  });
+  // Toujours ouvert sur le bureau, à toutes les tailles d'écran : il n'y a
+  // plus de carte Musique ni de bouton pour le fermer.
+  document.addEventListener('portfolio:desktop', () => { if (spot.hidden) ouvrirSpotify(); });
   new MutationObserver(() => {
     if (document.getElementById('stage').dataset.state !== 'desktop') spot.hidden = true;
   }).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['data-state'] });
 
   // Fermer la fenêtre ne coupe pas la musique : on continue d'écouter en
   // naviguant, et on la retrouve en rouvrant « Musique ».
-  function fermerSpotify() {
-    if (spot.hidden) return;
-    spot.hidden = true;
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !spot.hidden) { e.stopPropagation(); fermerSpotify(); }
-  });
+  function fermerSpotify() { /* le lecteur reste sur le bureau */ }
 
   /* Les sept fenêtres à voile se ferment déjà par un clic sur leur voile.
      Le Finder et le lecteur Spotify n'en ont pas — ce sont des fenêtres
