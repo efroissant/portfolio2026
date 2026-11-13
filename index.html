@@ -477,6 +477,31 @@
      date de la barre de menus, aligné sur son bord droit. */
   @media (min-width: 768px) { .spot.lecteur { top: calc(var(--bar-h) + 48px); bottom: auto; right: var(--bar-pad-r); } }
 
+  /* Lecteur compact, en bandeau horizontal : pochette, titre et progression
+     à gauche, commandes à droite. Une seule piste : la liste disparaît. */
+  .spot.lecteur.lecteur {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    width: 300px;
+  }
+  .lecteur .lecteur__barre { grid-column: 1 / -1; height: 22px; padding: 0 8px; font-size: 11px; }
+  .lecteur .lecteur__fermer { width: 10px; height: 10px; }
+  .lecteur .lecteur__haut { padding: 8px 4px 8px 10px; min-width: 0; }
+  .lecteur .lecteur__entete { gap: 8px; margin-bottom: 0; }
+  .lecteur .lecteur__pochette { flex-basis: 36px; width: 36px; height: 36px; box-shadow: 2px 2px 0 #000; }
+  .lecteur .lecteur__titre { font-size: 13px; line-height: 16px; }
+  .lecteur .lecteur__artiste { margin: 0; font-size: 11px; line-height: 14px; }
+  .lecteur .lecteur__progres { height: 5px; margin: 7px 0 2px; }
+  .lecteur .lecteur__temps { font-size: 9px; line-height: 11px; }
+  .lecteur .lecteur__commandes { gap: 0; padding: 0 10px 0 0; align-self: center; }
+  .lecteur .lecteur__btn { width: 26px; height: 26px; }
+  .lecteur .lecteur__btn svg { width: 14px; height: 14px; }
+  .lecteur .lecteur__btn--lire { width: 32px; height: 32px; margin: 0 4px; box-shadow: 2px 2px 0 #000; }
+  .lecteur .lecteur__btn--lire:hover,
+  .lecteur .lecteur__btn--lire:focus-visible { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #000; }
+  .lecteur .lecteur__btn--lire:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000; }
+  .lecteur .lecteur__liste { display: none; }
+  @media (max-width: 767px) { .spot.lecteur.lecteur { width: auto; } }
+
 
   /* Sur téléphone, 380px prendrait presque tout l'écran : on laisse les
      marges décider, et on s'ancre au-dessus du dock. */
