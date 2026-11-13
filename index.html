@@ -2935,6 +2935,13 @@
   /* Film plastique : la photo est sous cellophane, comme un vinyle neuf.
      La texture est sombre ; en « screen », le gris disparaît et seuls
      les plis et reflets éclaircissent la photo. */
+  /* Le logo MANU, imprimé au centre de la pochette, sous le film. */
+  .pochette-logo {
+    position: absolute; left: 50%; top: 50%;
+    width: 70%; height: auto;
+    transform: translate(-50%, -50%);
+    pointer-events: none; user-select: none;
+  }
   .stage__film {
     position: absolute; inset: 0;
     background: url("film-plastique.jpg") center / cover no-repeat;
@@ -6361,7 +6368,7 @@
   <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
 
-  <div class="stage__bg"><div class="stage__film" aria-hidden="true"></div></div>
+  <div class="stage__bg"><img class="pochette-logo" src="manu-logo.png" alt="" width="1200" height="437" draggable="false"><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
