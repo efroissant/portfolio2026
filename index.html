@@ -6159,6 +6159,35 @@
     }
   }
 
+  /* ================= CASSETTE : CHANGER DE FOND (ÉCRAN VERROUILLÉ) =========
+     Discrète, en bas à droite : une K7 jaune beurre et son étiquette,
+     comme le titre d'une face. Au clic, les bobines tournent. */
+  .k7 {
+    position: absolute; right: 20px; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+    z-index: 5;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 10px 4px 4px;
+    border: 1.5px solid #000; border-radius: 4px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 2px 2px 0 #000;
+    color: #000; cursor: pointer;
+    font: 700 10px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.85;
+    transition: opacity 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  }
+  .k7:hover, .k7:focus-visible { opacity: 1; transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #000; }
+  .k7:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000; }
+  .k7:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .k7__icone { width: 32px; height: 21px; display: block; }
+  .k7__face { color: #E0457F; }
+  .k7__bobine { transform-box: fill-box; transform-origin: center; }
+  .k7.is-tourne .k7__bobine { animation: k7-tourne 500ms linear; }
+  .k7.is-tourne .k7__bobine { stroke: #FFF; stroke-width: 1.4; stroke-dasharray: 2 2; }
+  @keyframes k7-tourne { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .k7.is-tourne .k7__bobine { animation: none; } }
+  .stage:not([data-state="lock"]) .k7 { display: none; }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
@@ -6619,6 +6648,20 @@
 
   <!-- ============ VEILLE ============ -->
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
+
+    <!-- Changer de fond dès l'écran verrouillé : une petite cassette.
+         Chaque clic retourne la face et passe au fond suivant. -->
+    <button type="button" class="k7" id="k7" aria-label="Changer de fond d’écran">
+      <svg class="k7__icone" viewBox="0 0 40 26" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="24" rx="3" fill="#F2DC94" stroke="#000" stroke-width="1.5"/>
+        <rect x="6" y="5" width="28" height="11" rx="2" fill="#FFF" stroke="#000" stroke-width="1.2"/>
+        <rect x="6" y="5" width="28" height="3" fill="#F06AA0"/>
+        <circle class="k7__bobine" cx="13" cy="12" r="2.6" fill="#000"/>
+        <circle class="k7__bobine" cx="27" cy="12" r="2.6" fill="#000"/>
+        <path d="M10 25 L12 19 H28 L30 25" fill="none" stroke="#000" stroke-width="1.2"/>
+      </svg>
+      <span class="k7__etiquette"><span class="k7__face">Face A</span> · <span class="k7__nom">Palmiers</span></span>
+    </button>
 
     <div class="clock" data-node-id="28:804">
       <p class="clock__date" id="lock-jour">Mercredi 9 Septembre 2026</p>
@@ -9012,6 +9055,7 @@ const dire = (function () {
     document.querySelectorAll('[data-liste-fonds] .ctxwall').forEach((b) => {
       b.setAttribute('aria-checked', String(b.dataset.wall === w.id));
     });
+    document.dispatchEvent(new CustomEvent('portfolio:fond'));
   }
 
   function buildWallMenu() {
@@ -9060,6 +9104,28 @@ const dire = (function () {
     });
   }
   buildWallMenu();
+
+  // La cassette de l'écran verrouillé : fond suivant à chaque clic, et
+  // l'étiquette alterne Face A / Face B en donnant le nom du fond.
+  const k7 = document.getElementById('k7');
+  if (k7) {
+    let face = 0;
+    const etiqueter = () => {
+      const w = WALLPAPERS.find((x) => x.id === wallId);
+      k7.querySelector('.k7__face').textContent = face ? 'Face B' : 'Face A';
+      k7.querySelector('.k7__nom').textContent = w ? w.nom : '';
+      k7.title = 'Changer de fond d’écran (' + (w ? w.nom : '') + ')';
+    };
+    etiqueter();
+    document.addEventListener('portfolio:fond', etiqueter);
+    k7.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const i = WALLPAPERS.findIndex((x) => x.id === wallId);
+      face = 1 - face;
+      setWall(WALLPAPERS[(i + 1) % WALLPAPERS.length], true);
+      k7.classList.remove('is-tourne'); void k7.offsetWidth; k7.classList.add('is-tourne');
+    });
+  }
 
   /* Le bascule de la barre et le sous-menu du clic droit pilotent le même
      réglage : tous deux passent par setWall, qui remet les deux commandes
