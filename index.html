@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,500&amp;family=DM+Sans:opsz,wght@9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -2935,12 +2936,69 @@
   /* Film plastique : la photo est sous cellophane, comme un vinyle neuf.
      La texture est sombre ; en « screen », le gris disparaît et seuls
      les plis et reflets éclaircissent la photo. */
-  /* Le logo MANU, imprimé au centre de la pochette, sous le film. */
-  .pochette-logo {
-    position: absolute; left: 50%; top: 50%;
-    width: 70%; height: auto;
-    transform: translate(-50%, -50%);
-    pointer-events: none; user-select: none;
+  /* ===== POCHETTE « SUMMER AFTERGLOW » (Figma 113:305) =====
+     La pochette est un conteneur : 1 unité = 1 px de la maquette de 1895,
+     tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
+  .stage__bg { container-type: size; }
+  .sleeve { position: absolute; inset: 0; pointer-events: none; user-select: none; --u: calc(100cqw / 1895); }
+  .sleeve__obi {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: calc(276 * var(--u));
+    background: rgba(255, 255, 255, 0.95);
+    overflow: hidden;
+  }
+  .sleeve__bord { position: absolute; left: 0; top: 0; bottom: 0; width: calc(4 * var(--u)); background: #30B0C7; }
+  .sleeve__filet { position: absolute; left: calc(32 * var(--u)); width: calc(212 * var(--u)); height: max(1px, calc(1 * var(--u))); background: rgba(0, 0, 0, 0.3); }
+  .sleeve__filet--haut { top: calc(780 * var(--u)); }
+  .sleeve__filet--bas  { top: calc(1548 * var(--u)); }
+  .sleeve__t {
+    position: absolute; margin: 0;
+    left: calc(32 * var(--u)); width: calc(212 * var(--u));
+    text-align: center; color: #393A35; font-weight: 400;
+    text-shadow: none; -webkit-text-stroke: 0; letter-spacing: 0; text-transform: none;
+  }
+  .sleeve__stereo   { top: calc(144 * var(--u)); font: 500 calc(16 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; }
+  .sleeve__citypop  { top: calc(208 * var(--u)); font: 300 calc(40 * var(--u)) / calc(44 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
+  .sleeve__citypop-jp { top: calc(264 * var(--u)); font: 400 calc(16 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__ocean {
+    position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
+    width: calc(212 * var(--u)); height: calc(216 * var(--u));
+    border-radius: calc(4 * var(--u)); overflow: hidden;
+  }
+  .sleeve__ocean img { position: absolute; top: 0; left: -46.65%; width: 181.04%; height: 100%; max-width: none; }
+  .sleeve__manu-jp  { top: calc(608 * var(--u)); font: 400 calc(32 * var(--u)) / calc(44 * var(--u)) "Noto Serif JP", serif; color: #30B0C7; }
+  .sleeve__devise   { top: calc(680 * var(--u)); font: italic 500 calc(24 * var(--u)) / calc(32 * var(--u)) "Cormorant Garamond", serif; }
+  .sleeve__portfolio {
+    left: calc(74 * var(--u)); width: calc(100 * var(--u)); top: calc(836 * var(--u));
+    font: 300 calc(56 * var(--u)) / calc(72 * var(--u)) "Noto Serif JP", serif;
+    writing-mode: vertical-rl; text-orientation: upright; height: calc(504 * var(--u));
+    letter-spacing: calc(16 * var(--u));   /* 72 par caractère, comme la maquette */
+  }
+  .sleeve__tagline {
+    left: calc(174 * var(--u)); width: calc(28 * var(--u)); top: calc(852 * var(--u));
+    font: 400 calc(16 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; color: #30B0C7;
+    writing-mode: vertical-rl; text-orientation: upright;    letter-spacing: calc(12 * var(--u));   /* 28 par caractère */
+  }
+  .sleeve__mood     { top: calc(1400 * var(--u)); font: 500 calc(16 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; }
+  .sleeve__paysage  { top: calc(1584 * var(--u)); font: 400 calc(24 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__imprint  { top: calc(1648 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
+  .sleeve__format   { top: calc(1760 * var(--u)); font: 500 calc(12 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; }
+  .sleeve__obi-nom  { top: calc(1856 * var(--u)); font: 400 calc(12 * var(--u)) / calc(20 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__titre {
+    position: absolute; margin: 0;
+    left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
+    text-align: center; white-space: nowrap;
+    font: 300 calc(42 * var(--u)) / 1.2 "Cormorant Garamond", serif;
+    letter-spacing: calc(7 * var(--u)); color: #F1EFE8;
+  }
+  .sleeve__manu {
+    position: absolute; margin: 0;
+    left: calc(50% + 47.96 * var(--u)); top: calc((791 + 246.75) * var(--u));
+    width: calc(1261 * var(--u));
+    transform: translate(-50%, -50%) rotate(-6.55deg);
+    text-align: center; white-space: nowrap;
+    font: 400 calc(250 * var(--u)) / 1.2 "Indelible", sans-serif;
+    letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
   }
   .stage__film {
     position: absolute; inset: 0;
@@ -6384,7 +6442,31 @@
   <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
 
-  <div class="stage__bg"><img class="pochette-logo" src="manu-logo.png" alt="" width="1200" height="437" draggable="false"><div class="stage__film" aria-hidden="true"></div></div>
+  <div class="stage__bg"><div class="sleeve" aria-hidden="true">
+    <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
+         à gauche, le titre et MANU au pinceau sur la photo. Toutes les
+         mesures sont en unités de la pochette (1895 = côté du carré). -->
+    <div class="sleeve__obi">
+      <span class="sleeve__bord"></span>
+      <p class="sleeve__t sleeve__stereo">S T E R E O</p>
+      <p class="sleeve__t sleeve__citypop">CITY POP</p>
+      <p class="sleeve__t sleeve__citypop-jp">シティポップ</p>
+      <span class="sleeve__ocean"><img src="obi-ocean.jpg" alt=""></span>
+      <p class="sleeve__t sleeve__manu-jp">マニュ</p>
+      <p class="sleeve__t sleeve__devise">A little insight,<br>A better interface.</p>
+      <span class="sleeve__filet sleeve__filet--haut"></span>
+      <p class="sleeve__t sleeve__portfolio">ポートフォリオ</p>
+      <p class="sleeve__t sleeve__tagline">潮風と光のメロディ</p>
+      <p class="sleeve__t sleeve__mood">PALM SHADOWS.<br>ENDLESS SUMMER<br>IMPORT FROM FRANCE<br>NO RETURN LABEL</p>
+      <span class="sleeve__filet sleeve__filet--bas"></span>
+      <p class="sleeve__t sleeve__paysage">音楽のある風景</p>
+      <p class="sleeve__t sleeve__imprint">SUMMER<br>AFTERGLOW</p>
+      <p class="sleeve__t sleeve__format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
+      <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
+    </div>
+    <p class="sleeve__titre">SUMMER AFTERGLOW</p>
+    <p class="sleeve__manu">MANU</p>
+  </div><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
