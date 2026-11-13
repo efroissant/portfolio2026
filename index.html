@@ -5823,7 +5823,8 @@
     /* Sur le papier crème, les intitulés passent en encre noire. */
     .stage[data-state="desktop"] .dock__label { color: #111111; text-shadow: none; }
 
-    .stage[data-state="desktop"] .pochette-nom {
+    .stage[data-state="desktop"] .pochette-nom,
+    .stage[data-state="lock"] .pochette-nom {
       display: flex;
       position: absolute;
       top: calc(var(--bar-h) + 16px); bottom: 24px; right: 0;
@@ -6774,6 +6775,10 @@
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
+  <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
+       Sur le recto comme sur le bureau. Décoratif. -->
+  <div class="pochette-nom" aria-hidden="true"><span>MANU</span></div>
+
   <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
   <button type="button" class="recto-play" id="recto-play" aria-label="Lecture — Cat’s Eye"></button>
@@ -7022,7 +7027,6 @@
 
     <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
          Décoratif : le nom complet est déjà dans la barre de menus. -->
-    <div class="pochette-nom" aria-hidden="true"><span>MANU</span></div>
 
     <div class="minis" id="minis">
 
