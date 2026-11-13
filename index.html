@@ -3055,7 +3055,9 @@
   }
   .verso__manu {
     position: absolute; margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
-    left: calc(235 * var(--u)); top: calc(237 * var(--u));
+    /* Centre du tracé dans la maquette : la boîte Figma est plus haute
+       que le mot, qui s'y loge en haut. */
+    left: calc(235 * var(--u)); top: calc(142 * var(--u));
     transform: translate(-50%, -50%) rotate(-6.55deg);
     white-space: nowrap; z-index: 2;
     font: 400 calc(120 * var(--u)) / 1.2 "Indelible", sans-serif;
@@ -6395,6 +6397,8 @@
 
   /* ===== MASQUÉS POUR LE MOMENT : dock, cartes et calendrier =====
      Supprimer ce bloc pour les faire revenir. Les photos (.jpg) restent. */
+  /* La pochette ne glisse plus d'un écran à l'autre : elle change sur place. */
+  .stage .stage__bg { transition: none !important; }
   .stage .dock,
   .stage .minis .mini,
   .stage .feuille { display: none !important; }
@@ -6497,6 +6501,17 @@
     }
     .stage[data-state="desktop"] .minis.minis {
       bottom: calc(env(safe-area-inset-bottom, 0px) + 240px);
+    }
+  }
+
+  /* Grand écran : recto et verso occupent exactement la même place, la
+     pochette ne bouge pas quand on la retourne. */
+  @media (min-width: 1024px) {
+    .stage[data-state="lock"] { --carre-v: var(--carre); --cadre-v: var(--cadre); }
+    .stage[data-state="lock"] .recto-play {
+      right: auto; top: auto;
+      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      bottom: calc(24px + var(--marge-y) - 4px);
     }
   }
 </style>
