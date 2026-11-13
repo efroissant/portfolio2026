@@ -6261,6 +6261,38 @@
   .stage .minis .mini:not(.mini--fichier),
   .stage .feuille { display: none !important; }
 
+  /* ===== RECTO : rien que la photo =====
+     Nom, rôle, katakana, bouton Entrer et cassette masqués pour le moment.
+     La photo elle-même sert de bouton d'entrée. */
+  .stage .lock .cluster,
+  .stage .k7 { display: none !important; }
+  .recto-entrer {
+    position: absolute; inset: var(--cadre-v);
+    z-index: 4;
+    padding: 0; border: 0; border-radius: 4px;
+    background: transparent; cursor: pointer;
+  }
+  .recto-entrer:focus-visible { outline: 2px solid #000; outline-offset: 4px; }
+  /* Lecture / pause, en bas à droite de l'écran : un rond noir, comme le
+     bouton du lecteur, posé sur le papier crème. */
+  .recto-play {
+    position: absolute; right: 24px; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    z-index: 5;
+    display: grid; place-items: center;
+    width: 44px; height: 44px; padding: 0;
+    border: 1.5px solid #000; border-radius: 50%;
+    background: #68BEC9; color: #000; cursor: pointer;
+    box-shadow: 2px 3px 0 #000;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+  .recto-play svg { width: 20px; height: 20px; fill: currentColor; }
+  .recto-play:hover, .recto-play:focus-visible { transform: translate(-1px, -1px); box-shadow: 3px 4px 0 #000; }
+  .recto-play:active { transform: translate(2px, 3px); box-shadow: 0 0 0 #000; }
+  .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+  .stage:not([data-state="lock"]) .recto-play,
+  .stage:not([data-state="lock"]) .recto-entrer { display: none; }
+  @media (max-width: 767px) { .recto-play { right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); } }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
@@ -6721,6 +6753,11 @@
 
   <!-- ============ VEILLE ============ -->
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
+
+    <!-- Recto : la photo seule. Un clic sur elle ouvre le bureau ; le bouton
+         en bas à droite lance ou met en pause Cat's Eye. -->
+    <button type="button" class="recto-entrer" id="recto-entrer" aria-label="Entrer dans le portfolio"></button>
+    <button type="button" class="recto-play" id="recto-play" aria-label="Lecture — Cat’s Eye"></button>
 
     <!-- Changer de fond dès l'écran verrouillé : une petite cassette.
          Chaque clic retourne la face et passe au fond suivant. -->
@@ -10361,6 +10398,28 @@ const dire = (function () {
     }
     spot.querySelectorAll('.lecteur__piste').forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
   }
+
+  // Recto : le bouton lecture/pause de l'écran verrouillé pilote le même
+  // audio que le lecteur du bureau ; la musique continue après l'entrée.
+  const rectoPlay = document.getElementById('recto-play');
+  function majRecto() {
+    if (!rectoPlay) return;
+    rectoPlay.innerHTML = audio.paused ? ICONES.lire : ICONES.pause;
+    rectoPlay.setAttribute('aria-label', (audio.paused ? 'Lecture' : 'Pause') + ' — ' + PISTES[piste].titre);
+  }
+  if (rectoPlay) {
+    majRecto();
+    audio.addEventListener('play', majRecto);
+    audio.addEventListener('pause', majRecto);
+    rectoPlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!lecteurPret) construireLecteur();
+      if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => {}); }
+      else audio.pause();
+    });
+  }
+  const rectoEntrer = document.getElementById('recto-entrer');
+  if (rectoEntrer) rectoEntrer.addEventListener('click', () => document.getElementById('unlock').click());
 
   function majEtat() {
     if (!lecteurPret) return;
