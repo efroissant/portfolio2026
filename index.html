@@ -483,6 +483,9 @@
     display: grid; grid-template-columns: minmax(0, 1fr) auto;
     width: 300px;
   }
+  /* Caché hors du bureau déverrouillé : le display: grid ci-dessus
+     l'emporterait sinon sur l'attribut hidden. */
+  .spot.lecteur.lecteur[hidden] { display: none; }
   .lecteur .lecteur__barre { grid-column: 1 / -1; height: 22px; padding: 0 8px; font-size: 11px; }
   .lecteur .lecteur__fermer { width: 10px; height: 10px; }
   .lecteur .lecteur__haut { padding: 8px 4px 8px 10px; min-width: 0; }
