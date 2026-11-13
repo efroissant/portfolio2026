@@ -3011,11 +3011,67 @@
   }
   .sleeve__manu:active { transform: translate(-50%, -50%) rotate(-6.55deg) scale(0.98); }
   .sleeve__manu:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 6px; }
+  /* ===== VERSO DE LA POCHETTE (Figma 110:18) =====
+     Le bureau montre le dos du disque : aplat bleu, titre, photo, deux
+     faces de pistes, crédits. Le recto (photo, obi, MANU) s'efface. */
+  .verso, .verso__manu { opacity: 0; visibility: hidden; transition: opacity 500ms ease, visibility 0s linear 500ms; }
+  .stage[data-state="desktop"] .verso,
+  .stage[data-state="desktop"] .verso__manu { opacity: 1; visibility: visible; transition: opacity 500ms ease 200ms, visibility 0s; }
+  .sleeve, .sleeve__manu { transition: opacity 400ms ease; }
+  .stage[data-state="desktop"] .sleeve,
+  .stage[data-state="desktop"] .sleeve__manu { opacity: 0; }
+  /* Sur l'aplat bleu du verso, le film se verrait trop : on l'atténue. */
+  .stage__film { transition: opacity 500ms ease; }
+  .stage[data-state="desktop"] .stage__film { opacity: 0.45; }
+  .verso { position: absolute; inset: 0; background: #386B97; pointer-events: none; user-select: none; color: #FFFFFF; }
+  .verso__t {
+    position: absolute; margin: 0; white-space: nowrap;
+    left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+    font-size: calc(var(--s) * var(--u)); line-height: var(--lh);
+    letter-spacing: calc(var(--t) * var(--u));
+    color: var(--c, #FFFFFF);
+    text-shadow: none; -webkit-text-stroke: 0; text-transform: none;
+  }
+  .verso__t--r { left: auto; right: calc((1895 - var(--x)) * var(--u)); text-align: right; }
+  .vs-dm { font-family: "DM Sans", sans-serif; font-weight: 500; }
+  .vs-cg { font-family: "Cormorant Garamond", serif; font-weight: 300; }
+  .vs-jp { font-family: "Noto Serif JP", serif; font-weight: 400; }
+  .verso__photo {
+    position: absolute; overflow: hidden;
+    left: calc(100 * var(--u)); top: calc(355 * var(--u));
+    width: calc(1695 * var(--u)); height: calc(747 * var(--u));
+  }
+  .verso__photo img { position: absolute; left: 0; top: -24.96%; width: 100%; height: 127.7%; max-width: none; }
+  .verso__plage {
+    position: absolute; overflow: hidden;
+    left: calc(1315 * var(--u)); top: calc(1229 * var(--u));
+    width: calc(480 * var(--u)); height: calc(339 * var(--u));
+  }
+  .verso__plage img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
+  .verso__filet {
+    position: absolute; background: #FFFFFF;
+    left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+    width: calc(var(--w) * var(--u)); height: max(1px, var(--u));
+  }
+  .verso__manu {
+    position: absolute; margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
+    left: calc(235 * var(--u)); top: calc(237 * var(--u));
+    transform: translate(-50%, -50%) rotate(-6.55deg);
+    white-space: nowrap; z-index: 2;
+    font: 400 calc(120 * var(--u)) / 1.2 "Indelible", sans-serif;
+    letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
+  }
+  .verso__manu:hover, .verso__manu:focus-visible { color: #FFFFFF; transform: translate(-50%, -50%) rotate(-6.55deg) scale(1.05); }
+  .verso__manu:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 6px; }
+  /* La vue bureau laisse passer le pointeur jusqu'au MANU du verso ; ses
+     fenêtres et menus, eux, restent cliquables. */
+  .stage[data-state="desktop"] #view-desktop { pointer-events: none; }
+  .stage[data-state="desktop"] #view-desktop > :not(.minis) { pointer-events: auto; }
   /* Sur le bureau, il redevient une simple image. */
   .stage:not([data-state="lock"]) .sleeve__manu { pointer-events: none; }
   /* L'écran verrouillé n'a plus rien de cliquable en propre : il laisse
      passer le pointeur jusqu'à MANU, posé sur la pochette en dessous. */
-  .stage[data-state="lock"] #view-lock { pointer-events: none; }
+  .stage #view-lock { pointer-events: none; }
   .stage__film {
     position: absolute; inset: 0;
     background: url("film-plastique.jpg") center / cover no-repeat;
@@ -6500,6 +6556,52 @@
     </div>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
+  <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
+       le bureau. Mêmes unités que le recto (1895 = côté du carré). -->
+  <div class="verso">
+    <p class="verso__t vs-dm" style="--x:890;--y:82;--s:19;--t:2;--lh:1.1;--c:rgba(255,255,255,.8)">DESIGN PORTFOLIO&nbsp; /&nbsp; VOL. 01</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:82;--s:18;--t:1;--lh:1.1">MNU—001&nbsp;&nbsp;&nbsp; /&nbsp;&nbsp;&nbsp; STEREO</p>
+    <p class="verso__t vs-cg" style="--x:95;--y:139;--s:140;--t:0;--lh:1.1;--c:#F1EFE8">SUMMER AFTERGLOW</p>
+    <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:208;--s:28;--t:3;--lh:1.1;--c:#83533E">真夏の余韻</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:299;--s:18;--t:3;--lh:1.1;--c:rgba(255,255,255,.8)">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:299;--s:18;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
+    <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
+    <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:16;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:16;--t:1;--lh:1.1;--c:rgba(255,255,255,.9)">01&nbsp; /&nbsp; OFF SCREEN</p>
+    <span class="verso__plage"><img src="verso-plage.jpg" alt=""></span>
+    <p class="verso__t vs-dm" style="--x:100;--y:1229;--s:19;--t:2;--lh:1.35">SIDE A&nbsp; /&nbsp; FROM INSIGHT</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1229;--s:19;--t:2;--lh:1.35">SIDE B&nbsp; /&nbsp; TO INTERFACE</p>
+    <span class="verso__filet" style="--x:100;--y:1273;--w:540"></span>
+    <span class="verso__filet" style="--x:700;--y:1273;--w:540"></span>
+    <p class="verso__t vs-dm" style="--x:100;--y:1308;--s:17;--t:1;--lh:1.35">01</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1299;--s:39;--t:0;--lh:1.35">Listen &amp; understand</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1352;--s:19;--t:0;--lh:1.35">Research, empathy &amp; the right questions.</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1403;--s:17;--t:1;--lh:1.35">02</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1394;--s:39;--t:0;--lh:1.35">Find the essential</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1447;--s:19;--t:0;--lh:1.35">Bring clarity to complex ideas.</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1498;--s:17;--t:1;--lh:1.35">03</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1489;--s:39;--t:0;--lh:1.35">Explore &amp; shape</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1542;--s:19;--t:0;--lh:1.35">Thoughtful flows, useful prototypes.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1308;--s:17;--t:1;--lh:1.35">04</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1299;--s:39;--t:0;--lh:1.35">Make it feel right</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1352;--s:19;--t:0;--lh:1.35">Clear, considered interface design.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1403;--s:17;--t:1;--lh:1.35">05</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1394;--s:39;--t:0;--lh:1.35">Build with intention</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1447;--s:19;--t:0;--lh:1.35">Consistent, thoughtful visual systems.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1498;--s:17;--t:1;--lh:1.35">06</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1489;--s:39;--t:0;--lh:1.35">Test &amp; refine</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1542;--s:19;--t:0;--lh:1.35">Learn, question, improve. Repeat.</p>
+    <p class="verso__t vs-dm" style="--x:1334;--y:1533;--s:16;--t:1;--lh:1.35">OFF SCREEN.&nbsp; /&nbsp; マニュ</p>
+    <span class="verso__filet" style="--x:100;--y:1769;--w:1695"></span>
+    <p class="verso__t vs-dm" style="--x:100;--y:1794;--s:17;--t:1;--lh:1.35">CONCEPT &amp; DESIGN&nbsp; /&nbsp; FIGMA, CLAUDE &amp; GITHUB</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1832;--s:15;--t:0.7;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
+    <p class="verso__t vs-dm" style="--x:775;--y:1794;--s:16;--t:1;--lh:1.35">INDEPENDENT PORTFOLIO EDITION</p>
+    <p class="verso__t vs-dm" style="--x:775;--y:1832;--s:15;--t:1;--lh:1.35">MNU—001&nbsp; ·&nbsp; SUMMER AFTERGLOW</p>
+    <p class="verso__t vs-cg verso__t--r" style="--x:1795;--y:1792;--s:24;--t:0;--lh:1.35">33⅓ RPM&nbsp; /&nbsp; STEREO</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1832;--s:15;--t:1;--lh:1.35">12-INCH LP&nbsp; /&nbsp; LONG PLAY</p>
+  </div>
+  <!-- MANU du verso : ramène au recto. -->
+  <button type="button" class="verso__manu" id="verso-manu" aria-label="Retourner au recto de la pochette">MANU</button>
   <!-- MANU, au centre de la pochette : c'est le bouton d'entrée. -->
   <button type="button" class="sleeve__manu" id="recto-manu" aria-label="Entrer dans le portfolio">MANU</button><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
@@ -10593,6 +10695,10 @@ const dire = (function () {
       else audio.pause();
     });
   }
+  const versoManu = document.getElementById('verso-manu');
+  if (versoManu) versoManu.addEventListener('click', () => {
+    if (document.getElementById('stage').dataset.state === 'desktop') document.getElementById('logo').click();
+  });
   const rectoManu = document.getElementById('recto-manu');
   if (rectoManu) rectoManu.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'lock') document.getElementById('unlock').click();
