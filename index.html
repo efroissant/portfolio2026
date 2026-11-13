@@ -6405,6 +6405,30 @@
     transform: rotate(180deg) translateY(-6%);
   }
 
+  /* Barre de menus commune aux deux écrans : posée en haut de la scène,
+     encre noire sur le papier crème. L'avatar est retiré. */
+  .stage > .menubar {
+    position: absolute; top: 0; left: 0; right: 0;
+    z-index: 40;
+    color: var(--text);
+  }
+  /* Avec la barre, la pochette du recto se cale dessous, comme au bureau :
+     même haut (barre + 16), même bas (24). */
+  @media (min-width: 768px) {
+    .stage[data-state="lock"] {
+      --zone-v: calc(100dvh - var(--bar-h) - 40px);
+      --carre-v: min(100vw - 2 * var(--marge-v), var(--zone-v));
+      --cadre-v: calc(var(--bar-h) + 16px + (var(--zone-v) - var(--carre-v)) / 2)
+                 calc((100vw - var(--carre-v)) / 2)
+                 calc(24px + (var(--zone-v) - var(--carre-v)) / 2);
+    }
+    .stage[data-state="lock"] .recto-play {
+      bottom: calc(24px + (var(--zone-v) - var(--carre-v)) / 2 - 4px);
+    }
+  }
+  .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
+  .stage .menubar .menubar__logo { display: none !important; }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
@@ -6889,6 +6913,91 @@
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
+  <!-- Barre de menus : sur le recto comme sur le bureau. -->
+    <div class="menubar" data-node-id="123:294">
+      <div class="menubar__leading" data-node-id="118:182">
+
+        <button type="button" class="menubar__logo" id="logo"
+                aria-label="Retourner à l’écran de veille"
+                title="Retourner à l’écran de veille"
+                data-node-id="118:235">
+          <!-- Le même avatar que l'écran verrouillé. -->
+          <img class="avatar-photo avatar-photo--barre" src="avatar-turquoise-96.jpg" srcset="avatar-turquoise-192.jpg 2x"
+               alt="" width="96" height="96" draggable="false">
+          <svg class="yeux yeux--barre" width="30" height="24" viewBox="0 0 118 96" aria-hidden="true">
+            <g class="yeux__oeil">
+              <clipPath id="forme3"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme3)"><g class="yeux__pupille" data-cx="32" data-cy="50">
+                <ellipse cx="32" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+            <g class="yeux__oeil">
+              <clipPath id="forme4"><path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z"/></clipPath>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="#ffffff"/>
+              <g clip-path="url(#forme4)"><g class="yeux__pupille" data-cx="85" data-cy="50">
+                <ellipse cx="85" cy="50" rx="9" ry="14" fill="#000"/>
+              </g></g>
+              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+          </svg>
+          <picture class="avatar-blanc">
+            <source srcset="doodle-bar-48.webp 2x, doodle-bar-24.webp 1x" type="image/webp">
+            <img src="doodle-bar-24.png" srcset="doodle-bar-48.png 2x" alt="" width="24" height="24">
+          </picture>
+        </button>
+
+        <button type="button" class="menuitem menuitem--app"
+                aria-haspopup="menu" aria-expanded="false"
+                data-node-id="118:187">Emmanuel Froissant</button>
+
+        <div class="menubar__items" data-node-id="118:188">
+          <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
+          <!-- Le menu des fonds d'écran s'ouvre sous « Éditer » (id historique menu-voir). -->
+          <button type="button" class="menuitem" id="menu-voir" aria-haspopup="menu" aria-expanded="false" aria-controls="voirmenu" data-node-id="118:190">Éditer</button>
+          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:194">Aide</button>
+        </div>
+      </div>
+
+      <div class="menubar__trailing" data-node-id="118:195">
+        <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
+             Tracés pleins (evenodd) plutôt que masques : un masque ne se
+             dessine pas tant que la barre est masquée. -->
+        <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
+           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" data-bulle="LinkedIn">
+          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
+            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="2.5" width="17" height="17" rx="4"/>
+              <circle cx="7.2" cy="7.3" r="0.9"/>
+              <path d="M7.2 10 V15.5"/>
+              <path d="M10.4 15.5 V10 M10.4 12.4 C10.4 10.8 11.4 9.9 12.8 9.9 C14.2 9.9 15 10.8 15 12.4 V15.5"/>
+            </g>
+          </svg>
+        </a>
+
+        <!-- Pinterest : même gabarit que le coupe-son, en blanc. -->
+        <a class="barlien" href="https://ca.pinterest.com/efroissant/" target="_blank" rel="noopener"
+           aria-label="Pinterest — ouvrir mon profil (nouvel onglet)" data-bulle="Pinterest">
+          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
+            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8.5"/>
+              <path d="M10.2 9.6 L8.2 18.6"/>
+              <path d="M9.4 13.2 C10 13.9 10.9 14.2 11.9 14.1 C14.3 13.8 15.6 11.8 15.3 9.5 C15 7.3 13.1 5.9 10.8 6 C8.2 6.1 6.5 7.9 6.6 10.2 C6.6 11 6.9 11.7 7.4 12.2"/>
+            </g>
+          </svg>
+        </a>
+
+                        <div class="menubar__clock" data-node-id="118:205">
+          <span id="bar-date" data-node-id="118:206">Mer 9 Sep</span>
+          <time id="bar-time" datetime="08:15" data-node-id="118:207">08:15</time>
+        </div>
+
+        
+
+      </div>
+    </div>
+
   <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
        Sur le recto comme sur le bureau. Décoratif. -->
   <div class="pochette-nom" aria-hidden="true"><span>MANU</span></div>
@@ -7026,89 +7135,6 @@
   <!-- ============ BUREAU ============ -->
   <section class="view desktop" id="view-desktop" data-node-id="108:170" aria-label="Bureau" hidden>
 
-    <div class="menubar" data-node-id="123:294">
-      <div class="menubar__leading" data-node-id="118:182">
-
-        <button type="button" class="menubar__logo" id="logo"
-                aria-label="Retourner à l’écran de veille"
-                title="Retourner à l’écran de veille"
-                data-node-id="118:235">
-          <!-- Le même avatar que l'écran verrouillé. -->
-          <img class="avatar-photo avatar-photo--barre" src="avatar-turquoise-96.jpg" srcset="avatar-turquoise-192.jpg 2x"
-               alt="" width="96" height="96" draggable="false">
-          <svg class="yeux yeux--barre" width="30" height="24" viewBox="0 0 118 96" aria-hidden="true">
-            <g class="yeux__oeil">
-              <clipPath id="forme3"><path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z"/></clipPath>
-              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="#ffffff"/>
-              <g clip-path="url(#forme3)"><g class="yeux__pupille" data-cx="32" data-cy="50">
-                <ellipse cx="32" cy="50" rx="9" ry="14" fill="#000"/>
-              </g></g>
-              <path d="M32 18 C47 18 55 32 55 50 C55 68 47 82 32 82 C17 82 9 68 9 50 C9 32 17 18 32 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
-            </g>
-            <g class="yeux__oeil">
-              <clipPath id="forme4"><path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z"/></clipPath>
-              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="#ffffff"/>
-              <g clip-path="url(#forme4)"><g class="yeux__pupille" data-cx="85" data-cy="50">
-                <ellipse cx="85" cy="50" rx="9" ry="14" fill="#000"/>
-              </g></g>
-              <path d="M85 18 C100 18 108 32 108 50 C108 68 100 82 85 82 C70 82 62 68 62 50 C62 32 70 18 85 18 Z" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
-            </g>
-          </svg>
-          <picture class="avatar-blanc">
-            <source srcset="doodle-bar-48.webp 2x, doodle-bar-24.webp 1x" type="image/webp">
-            <img src="doodle-bar-24.png" srcset="doodle-bar-48.png 2x" alt="" width="24" height="24">
-          </picture>
-        </button>
-
-        <button type="button" class="menuitem menuitem--app"
-                aria-haspopup="menu" aria-expanded="false"
-                data-node-id="118:187">Emmanuel Froissant</button>
-
-        <div class="menubar__items" data-node-id="118:188">
-          <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
-          <!-- Le menu des fonds d'écran s'ouvre sous « Éditer » (id historique menu-voir). -->
-          <button type="button" class="menuitem" id="menu-voir" aria-haspopup="menu" aria-expanded="false" aria-controls="voirmenu" data-node-id="118:190">Éditer</button>
-          <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:194">Aide</button>
-        </div>
-      </div>
-
-      <div class="menubar__trailing" data-node-id="118:195">
-        <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
-             Tracés pleins (evenodd) plutôt que masques : un masque ne se
-             dessine pas tant que la barre est masquée. -->
-        <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
-           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" data-bulle="LinkedIn">
-          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2.5" y="2.5" width="17" height="17" rx="4"/>
-              <circle cx="7.2" cy="7.3" r="0.9"/>
-              <path d="M7.2 10 V15.5"/>
-              <path d="M10.4 15.5 V10 M10.4 12.4 C10.4 10.8 11.4 9.9 12.8 9.9 C14.2 9.9 15 10.8 15 12.4 V15.5"/>
-            </g>
-          </svg>
-        </a>
-
-        <!-- Pinterest : même gabarit que le coupe-son, en blanc. -->
-        <a class="barlien" href="https://ca.pinterest.com/efroissant/" target="_blank" rel="noopener"
-           aria-label="Pinterest — ouvrir mon profil (nouvel onglet)" data-bulle="Pinterest">
-          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8.5"/>
-              <path d="M10.2 9.6 L8.2 18.6"/>
-              <path d="M9.4 13.2 C10 13.9 10.9 14.2 11.9 14.1 C14.3 13.8 15.6 11.8 15.3 9.5 C15 7.3 13.1 5.9 10.8 6 C8.2 6.1 6.5 7.9 6.6 10.2 C6.6 11 6.9 11.7 7.4 12.2"/>
-            </g>
-          </svg>
-        </a>
-
-                        <div class="menubar__clock" data-node-id="118:205">
-          <span id="bar-date" data-node-id="118:206">Mer 9 Sep</span>
-          <time id="bar-time" datetime="08:15" data-node-id="118:207">08:15</time>
-        </div>
-
-        
-
-      </div>
-    </div>
 
 
     <!-- Vignettes du bureau. data-x / data-y : position initiale en % de la
