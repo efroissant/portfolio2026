@@ -5775,6 +5775,15 @@
       --obi: clamp(320px, 25vw, 400px);
       --manche: clamp(120px, 11vw, 200px);
       --pochette-fond: #F4EFE4;
+      /* La photo est carrée, comme une pochette de 33 tours : le plus
+         grand carré qui tient entre l'obi et la marge du prénom, centré. */
+      --zone-l: calc(100vw - var(--obi) - var(--manche));
+      --zone-h: calc(100vh - var(--bar-h) - 40px);
+      --carre: min(var(--zone-l), var(--zone-h));
+      --marge-x: calc((var(--zone-l) - var(--carre)) / 2);
+      --marge-y: calc((var(--zone-h) - var(--carre)) / 2);
+      --cadre: calc(var(--bar-h) + 16px + var(--marge-y)) calc(var(--manche) + var(--marge-x))
+               calc(24px + var(--marge-y)) calc(var(--obi) + var(--marge-x));
     }
     .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
     .stage[data-state="desktop"] {
@@ -5785,16 +5794,22 @@
       --sky-shadow-svg: none;
     }
     .stage[data-state="desktop"] .stage__bg {
-      inset: calc(var(--bar-h) + 16px) var(--manche) 24px var(--obi);
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+      inset: var(--cadre);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
     }
     /* Le grain reste sur la photo, pas sur le papier. */
     .stage[data-state="desktop"] .grain {
-      inset: calc(var(--bar-h) + 16px) var(--manche) 24px var(--obi);
+      inset: var(--cadre);
       width: auto; height: auto;
+      border-radius: 4px;
     }
     /* Le lecteur se range dans le coin haut droit de la photo. */
-    .stage[data-state="desktop"] .spot.lecteur { right: calc(var(--manche) + 24px); top: calc(var(--bar-h) + 40px); }
+    .stage[data-state="desktop"] .spot.lecteur {
+      right: calc(var(--manche) + var(--marge-x) + 20px);
+      top: calc(var(--bar-h) + 16px + var(--marge-y) + 20px);
+    }
     /* Le dock se centre sur la photo, plus sur la fenêtre. */
     .stage[data-state="desktop"] .dock {
       left: calc(var(--obi) + (100% - var(--obi) - var(--manche)) / 2);
@@ -7122,8 +7137,10 @@ window.cadrePochette = function () {
   const bar = document.querySelector('.menubar');
   const barH = bar && bar.offsetHeight ? bar.offsetHeight : 38;
   const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
-  const top = barH + 16, bottom = H - 24, right = W - droite;
-  return { left, top, right, bottom, width: right - left, height: bottom - top };
+  // La photo est le plus grand carré centré dans la zone (comme en CSS).
+  const zl = W - left - droite, zh = H - barH - 40, c = Math.min(zl, zh);
+  const l = left + (zl - c) / 2, t = barH + 16 + (zh - c) / 2;
+  return { left: l, top: t, right: l + c, bottom: t + c, width: c, height: c };
 };
 </script>
 <script>
