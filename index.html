@@ -6255,6 +6255,12 @@
     transform: translateY(calc(var(--carre-v) * 0.15)) rotate(-7.2deg);
   }
 
+  /* ===== MASQUÉS POUR LE MOMENT : dock, cartes et calendrier =====
+     Supprimer ce bloc pour les faire revenir. Les photos (.jpg) restent. */
+  .stage .dock,
+  .stage .minis .mini:not(.mini--fichier),
+  .stage .feuille { display: none !important; }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
