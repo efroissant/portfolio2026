@@ -6831,14 +6831,6 @@
          celui du retour à l'écran verrouillé. -->
     <audio id="sfx-deverrouille" preload="auto" src="musique/deverrouillage.m4a"></audio>
 
-    <!-- Musique d'ambiance. preload="none" : contrairement au son de
-         déverrouillage qui pèse 2 Ko, une boucle musicale fait plusieurs
-         centaines de kilo-octets. On ne l'appelle qu'au moment où elle
-         servira — inutile de la faire payer à qui coupera le son. -->
-    <audio id="ambiance" loop preload="none">
-      <source src="ambiance.ogg" type="audio/ogg; codecs=opus">
-      <source src="ambiance.mp3" type="audio/mpeg">
-    </audio>
   </section>
 
   <!-- ============ BUREAU ============ -->
@@ -6912,20 +6904,6 @@
             <path fill="#000" fill-rule="evenodd" d="M7.4 5.6 H9.4 V15 H7.4 Z M9.4 5.6 H11.3 A2.9 2.9 0 0 1 11.3 11.4 H9.4 Z M9.4 7.4 H11.2 A1.1 1.1 0 0 1 11.2 9.6 H9.4 Z"/>
           </svg>
         </a>
-
-        <!-- Coupe-son. aria-pressed dit l'état à un lecteur d'écran ; le
-             titre visible au survol le dit à tout le monde. Le bouton reste
-             présent même si le fichier manque — il se désactive alors tout
-             seul, plutôt que de mentir. -->
-        <button type="button" class="son" id="son" aria-pressed="false"
-                aria-label="Musique d’ambiance — couper le son" title="Couper le son">
-          <svg class="son__barres" viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
-            <rect x="0.5"  y="4.5" width="3" height="7" rx="1.5"/>
-            <rect x="4.5"  y="2"   width="3" height="12" rx="1.5"/>
-            <rect x="8.5"  y="3.5" width="3" height="9" rx="1.5"/>
-            <rect x="12.5" y="5.5" width="3" height="5" rx="1.5"/>
-          </svg>
-        </button>
 
                         <div class="menubar__clock" data-node-id="118:205">
           <span id="bar-date" data-node-id="118:206">Mer 9 Sep</span>
@@ -10620,124 +10598,6 @@ const dire = (function () {
     regler();
   })();
 
-  /* ── musique d'ambiance ───────────────────────────────────────────────
-     Elle démarre au clic sur « Entrer » — un geste de l'utilisateur, donc
-     le navigateur l'autorise. Trois précautions :
-
-     1. VOLUME BAS ET FONDU. 0,18 au lieu de 1, atteint en deux secondes et
-        demie. Une musique qui surgit à plein volume fait fermer l'onglet
-        avant qu'on ait lu une ligne — et le son de déverrouillage joue au
-        même instant, il ne faut pas qu'ils se télescopent.
-     2. LE REFUS EST MÉMORISÉ. Qui a coupé le son ne se le voit pas
-        réimposer à la visite suivante. C'est la moindre des choses.
-     3. LE FICHIER PEUT MANQUER. Tant qu'aucune piste n'est déposée, le
-        bouton se désactive au lieu de faire semblant. */
-  const VOL_AMBIANCE = 0.18;
-  /* Démarrage automatique coupé en attendant la nouvelle musique. Le bouton
-     son de la barre la lance toujours à la demande. Repasser à true pour
-     la relancer au déverrouillage. */
-  const AMBIANCE_AUTO = false;
-  const MONTEE_MS    = 2500;
-  const CLE_SON      = 'portfolio:son';
-
-  const ambiance = document.getElementById('ambiance');
-  const boutonSon = document.getElementById('son');
-  let fonduTimer = null;
-
-  function sonRefuse() {
-    try { return localStorage.getItem(CLE_SON) === 'off'; } catch (e) { return false; }
-  }
-  function memoriser(actif) {
-    try { localStorage.setItem(CLE_SON, actif ? 'on' : 'off'); } catch (e) {}
-  }
-
-  function marquerSon(actif) {
-    if (!boutonSon) return;
-    boutonSon.setAttribute('aria-pressed', actif ? 'true' : 'false');
-    boutonSon.setAttribute('aria-label',
-      actif ? 'Musique d’ambiance — couper le son' : 'Musique d’ambiance — remettre le son');
-    boutonSon.title = actif ? 'Couper le son' : 'Remettre le son';
-  }
-
-  /* Montée progressive par petits paliers. Un fondu au volume, et non un
-     fade-in de fichier : on garde la maîtrise et ça marche sur tout.
-
-     Deux durées, parce que ce ne sont pas deux mêmes gestes. À l'entrée,
-     la musique doit s'installer sans qu'on la remarque : deux secondes et
-     demie. Sur un clic, l'utilisateur attend une réponse : 400 ms, sinon
-     il croit que le bouton n'a pas marché et reclique. */
-  function monterLeSon(duree) {
-    clearInterval(fonduTimer);
-    const pas = 40, etapes = Math.max(1, Math.round(duree / pas));
-    let i = 0;
-    ambiance.volume = 0;
-    fonduTimer = setInterval(() => {
-      i += 1;
-      ambiance.volume = Math.min(VOL_AMBIANCE, VOL_AMBIANCE * (i / etapes));
-      if (i >= etapes) clearInterval(fonduTimer);
-    }, pas);
-  }
-
-  /* « force » distingue les deux appels, et c'est tout l'enjeu :
-     — à l'entrée (force absent), un refus mémorisé doit être respecté ;
-     — au clic (force vrai), le refus est justement ce que l'utilisateur
-       est en train de révoquer. Sans cette distinction, le garde-fou
-       bloquait aussi le bouton et la musique devenait irrécupérable. */
-  function jouerAmbiance(force) {
-    if (!ambiance) return;
-    if (!force && sonRefuse()) return;
-    try {
-      const p = ambiance.play();
-      const reussi = () => {
-        marquerSon(true); memoriser(true);
-        monterLeSon(force ? 400 : MONTEE_MS);
-      };
-      if (p && typeof p.then === 'function') {
-        p.then(reussi).catch(() => { marquerSon(false); });  // refus du navigateur : on n'insiste pas
-      } else { reussi(); }
-    } catch (e) { marquerSon(false); }
-  }
-
-  function couperAmbiance() {
-    clearInterval(fonduTimer);
-    if (ambiance) ambiance.pause();
-    marquerSon(false);
-    memoriser(false);
-  }
-
-  if (boutonSon && ambiance) {
-    /* Aucun format lisible par ce navigateur : on désactive plutôt que
-       d'offrir un bouton qui ne fera jamais rien. */
-    let lisible = false;
-    ambiance.querySelectorAll('source').forEach((s) => {
-      if (ambiance.canPlayType && ambiance.canPlayType(s.type)) lisible = true;
-    });
-    if (!lisible) {
-      boutonSon.disabled = true;
-      boutonSon.title = 'Format audio non pris en charge';
-      boutonSon.setAttribute('aria-label', 'Musique d’ambiance — indisponible');
-    }
-
-    /* preload="none" : au tout premier clic il n'y a encore rien en
-       mémoire. load() amorce le téléchargement, sans quoi play() peut
-       échouer sur un élément vide. */
-    boutonSon.addEventListener('click', () => {
-      if (ambiance.paused) {
-        if (!ambiance.currentSrc) ambiance.load();
-        jouerAmbiance(true);
-      } else {
-        couperAmbiance();
-      }
-    });
-
-    /* Si le fichier manque ou se corrompt, le bouton le dit au lieu de
-       rester allumé sur une musique qui ne joue pas. */
-    ambiance.addEventListener('error', () => {
-      marquerSon(false);
-      boutonSon.disabled = true;
-      boutonSon.title = 'La musique n’a pas pu être chargée';
-    });
-  }
 
 
   /* ---------- yeux rétro : les pupilles suivent la souris ---------- */
@@ -11151,7 +11011,6 @@ const dire = (function () {
 
   document.getElementById('unlock').addEventListener('click', () => {
     playUnlockSound(sfxDeverrouille);
-    if (AMBIANCE_AUTO) jouerAmbiance();
     // Les yeux clignent une fois, au moment où l'écran s'ouvre.
     const yeux = document.getElementById('yeux');
     if (yeux && !reduced) {
