@@ -6221,6 +6221,36 @@
   @media (prefers-reduced-motion: reduce) { .k7.is-tourne .k7__bobine { animation: none; } }
   .stage:not([data-state="lock"]) .k7 { display: none; }
 
+  /* ================= ÉCRAN VERROUILLÉ EN POCHETTE CARRÉE =================
+     Comme sur le bureau : la photo est un carré centré, coins de 4 px,
+     sous son film plastique, posé sur le papier crème. Au déverrouillage,
+     le carré glisse vers sa place sur le bureau (transition d'inset). */
+  .stage[data-state="lock"] {
+    --carre-v: min(100vw - 2 * var(--marge-v), 100dvh - 2 * var(--marge-v));
+    --marge-v: 32px;
+    --cadre-v: calc((100dvh - var(--carre-v)) / 2) calc((100vw - var(--carre-v)) / 2);
+    background-color: #F4EFE4;
+  }
+  @media (max-width: 767px) { .stage[data-state="lock"] { --marge-v: 16px; } }
+  .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .stage[data-state="lock"] .stage__bg,
+  .stage[data-state="lock"] .stage__video,
+  .stage[data-state="lock"] .stage__tint,
+  .stage[data-state="lock"] .stage__scrim {
+    inset: var(--cadre-v);
+    border-radius: 4px;
+  }
+  .stage[data-state="lock"] .stage__bg {
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+  }
+  html:has(.stage[data-state="lock"]), body:has(.stage[data-state="lock"]) { background: #F4EFE4; }
+  /* Recadrée en carré, la photo des palmiers place la traînée plus bas :
+     le nom descend d'autant, toujours parallèle à elle. */
+  .stage[data-wall="palmiers"][data-state="lock"] .lock .cluster.cluster {
+    transform: translateY(calc(var(--carre-v) * 0.15)) rotate(-7.2deg);
+  }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
