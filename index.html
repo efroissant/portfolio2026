@@ -2932,6 +2932,21 @@
     opacity: 0.45;
   }
 
+  /* Film plastique : la photo est sous cellophane, comme un vinyle neuf.
+     La texture est sombre ; en « screen », le gris disparaît et seuls
+     les plis et reflets éclaircissent la photo. */
+  .stage__film {
+    position: absolute; inset: 0;
+    background: url("film-plastique.jpg") center / cover no-repeat;
+    mix-blend-mode: screen;
+    /* Le contraste écrase le gris de fond vers le noir (neutre en screen)
+       et garde les plis et les reflets : un film brillant, pas un voile. */
+    filter: contrast(2.6) brightness(0.85);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   /* Fond blanc : la fenêtre À propos s'ouvre sans voile, le fond reste blanc. */
   /* À propos : un voile de la couleur du fond (script : fondAPropos) laisse
      deviner le bureau. Sous la barre de menus seulement, qui reste visible
@@ -6236,7 +6251,7 @@
   <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
 
-  <div class="stage__bg"></div>
+  <div class="stage__bg"><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
