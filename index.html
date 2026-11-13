@@ -6258,8 +6258,10 @@
   /* ===== MASQUÉS POUR LE MOMENT : dock, cartes et calendrier =====
      Supprimer ce bloc pour les faire revenir. Les photos (.jpg) restent. */
   .stage .dock,
-  .stage .minis .mini:not(.mini--fichier),
+  .stage .minis .mini,
   .stage .feuille { display: none !important; }
+  /* Le lecteur du bureau aussi : seul le bouton lecture/pause reste. */
+  .stage .spot.lecteur.lecteur { display: none !important; }
 
   /* ===== RECTO : rien que la photo =====
      Nom, rôle, katakana, bouton Entrer et cassette masqués pour le moment.
@@ -6288,8 +6290,22 @@
   .recto-play svg { width: 18px; height: 18px; fill: currentColor; }
   .recto-play:hover { opacity: 0.6; }
   .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-  .stage:not([data-state="lock"]) .recto-play,
   .stage:not([data-state="lock"]) .recto-entrer { display: none; }
+  .stage:not([data-state="lock"]):not([data-state="desktop"]) .recto-play { display: none; }
+  /* Sur le bureau : à côté de la pochette en grand écran, sinon en bas à
+     droite de l'écran. */
+  .stage[data-state="desktop"] .recto-play {
+    left: auto; top: auto;
+    right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+    z-index: 20;
+  }
+  @media (min-width: 1024px) {
+    .stage[data-state="desktop"] .recto-play {
+      right: auto;
+      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      bottom: calc(24px + var(--marge-y) - 4px);
+    }
+  }
   /* Au téléphone la pochette prend toute la largeur : le bouton passe
      juste sous elle, calé sur son bord droit. */
   @media (max-width: 767px) {
@@ -6758,12 +6774,15 @@
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
+  <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
+       côté de la pochette. C'est tout le lecteur visible. -->
+  <button type="button" class="recto-play" id="recto-play" aria-label="Lecture — Cat’s Eye"></button>
+
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
 
     <!-- Recto : la photo seule. Un clic sur elle ouvre le bureau ; le bouton
          en bas à droite lance ou met en pause Cat's Eye. -->
     <button type="button" class="recto-entrer" id="recto-entrer" aria-label="Entrer dans le portfolio"></button>
-    <button type="button" class="recto-play" id="recto-play" aria-label="Lecture — Cat’s Eye"></button>
 
     <!-- Changer de fond dès l'écran verrouillé : une petite cassette.
          Chaque clic retourne la face et passe au fond suivant. -->
