@@ -5812,7 +5812,14 @@
          un peu sous le centre. Le texte étant couché, l'inclinaison des
          lettres passe par l'axe vertical. */
       transform: rotate(180deg) translateY(-6%) skewY(10deg);
+      /* Le prénom se déplace à la souris ou au doigt. */
+      pointer-events: auto;
+      cursor: grab;
+      touch-action: none;
+      user-select: none; -webkit-user-select: none;
     }
+    .pochette-nom.is-deplace { z-index: 30; }
+    .pochette-nom.is-deplace span { cursor: grabbing; }
   }
 
   /* ================= L'AVATAR DE L'ÉCRAN VERROUILLÉ =================
@@ -11061,6 +11068,32 @@ const dire = (function () {
     });
   });
 })();
+</script>
+<script>
+  /* MANU, à droite du bureau : on peut l'attraper et le poser ailleurs.
+     Le décalage passe par la propriété translate du conteneur, ce qui
+     laisse intacte la rotation et l'inclinaison des lettres. */
+  (() => {
+    const nom = document.querySelector('.pochette-nom');
+    const prise = nom && nom.querySelector('span');
+    if (!prise) return;
+    let x = 0, y = 0, depX = 0, depY = 0, tenu = false;
+    prise.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      tenu = true; depX = e.clientX - x; depY = e.clientY - y;
+      nom.classList.add('is-deplace');
+      try { prise.setPointerCapture(e.pointerId); } catch (_) {}
+      e.preventDefault();
+    });
+    prise.addEventListener('pointermove', (e) => {
+      if (!tenu) return;
+      x = e.clientX - depX; y = e.clientY - depY;
+      nom.style.translate = x + 'px ' + y + 'px';
+    });
+    const lacher = () => { tenu = false; nom.classList.remove('is-deplace'); };
+    prise.addEventListener('pointerup', lacher);
+    prise.addEventListener('pointercancel', lacher);
+  })();
 </script>
 </body>
 </html>
