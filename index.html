@@ -6323,6 +6323,22 @@
     }
   }
 
+  /* MANU, dans la marge droite : en Indelible (Youssef Habchi), droite,
+     sans l'italique ni l'inclinaison de l'ancienne version. */
+  @font-face {
+    font-family: "Indelible";
+    src: url("indelible.otf") format("opentype");
+    font-display: swap;
+  }
+  .stage .pochette-nom span {
+    font-family: "Indelible", "Helvetica Neue", Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    letter-spacing: 0.02em;
+    transform: rotate(180deg) translateY(-6%);
+  }
+
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
      de lui et défile si besoin. */
