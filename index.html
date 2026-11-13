@@ -5810,14 +5810,18 @@
       right: calc(var(--manche) + var(--marge-x) + 20px);
       top: calc(var(--bar-h) + 16px + var(--marge-y) + 20px);
     }
-    /* Le dock se centre sur la photo, plus sur la fenêtre. */
+    /* Le dock descend dans l'obi, sous les cartes : centré sur la bande
+       crème, au ras du bas de la photo. Icônes un peu plus petites pour
+       tenir dans sa largeur. */
     .stage[data-state="desktop"] .dock {
-      left: calc(var(--obi) + (100% - var(--obi) - var(--manche)) / 2);
-      bottom: 44px;
+      /* Centré comme les cartes : sur tout l'espace à gauche de la photo. */
+      left: calc((var(--obi) + var(--marge-x)) / 2);
+      bottom: calc(24px + var(--marge-y));
+      --dock-icon: 36px;
+      --dock-gap: 10px;
     }
-    /* Ses intitulés restent posés sur la photo : blancs, avec une ombre
-       douce pour tenir sur les palmes comme sur le ciel. */
-    .stage[data-state="desktop"] .dock__label { color: #FFFFFF; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); }
+    /* Sur le papier crème, les intitulés passent en encre noire. */
+    .stage[data-state="desktop"] .dock__label { color: #111111; text-shadow: none; }
 
     .stage[data-state="desktop"] .pochette-nom {
       display: flex;
