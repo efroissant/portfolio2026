@@ -2939,8 +2939,8 @@
   /* ===== POCHETTE « SUMMER AFTERGLOW » (Figma 113:305) =====
      La pochette est un conteneur : 1 unité = 1 px de la maquette de 1895,
      tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
-  .stage__bg { container-type: size; }
-  .sleeve { position: absolute; inset: 0; pointer-events: none; user-select: none; --u: calc(100cqw / 1895); }
+  .stage__bg { container-type: size; --u: calc(100cqw / 1895); }
+  .sleeve { position: absolute; inset: 0; pointer-events: none; user-select: none; }
   .sleeve__obi {
     position: absolute; left: 0; top: 0; bottom: 0;
     width: calc(276 * var(--u));
@@ -2999,7 +2999,23 @@
     text-align: center; white-space: nowrap;
     font: 400 calc(250 * var(--u)) / 1.2 "Indelible", sans-serif;
     letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
+    /* Bouton : sans habillage, seul le mot se voit. */
+    padding: 0; border: 0; background: none; cursor: pointer;
+    z-index: 2;
+    transition: color 200ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), text-shadow 200ms ease;
   }
+  .sleeve__manu:hover, .sleeve__manu:focus-visible {
+    color: #FFFFFF;
+    transform: translate(-50%, -50%) rotate(-6.55deg) scale(1.05);
+    text-shadow: 0 0 calc(24 * var(--u)) rgba(255, 255, 255, 0.55);
+  }
+  .sleeve__manu:active { transform: translate(-50%, -50%) rotate(-6.55deg) scale(0.98); }
+  .sleeve__manu:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 6px; }
+  /* Sur le bureau, il redevient une simple image. */
+  .stage:not([data-state="lock"]) .sleeve__manu { pointer-events: none; }
+  /* L'écran verrouillé n'a plus rien de cliquable en propre : il laisse
+     passer le pointeur jusqu'à MANU, posé sur la pochette en dessous. */
+  .stage[data-state="lock"] #view-lock { pointer-events: none; }
   .stage__film {
     position: absolute; inset: 0;
     background: url("film-plastique.jpg") center / cover no-repeat;
@@ -6331,16 +6347,9 @@
 
   /* ===== RECTO : rien que la photo =====
      Nom, rôle, katakana, bouton Entrer et cassette masqués pour le moment.
-     La photo elle-même sert de bouton d'entrée. */
+     MANU, au centre de la pochette, sert de bouton d'entrée. */
   .stage .lock .cluster,
   .stage .k7 { display: none !important; }
-  .recto-entrer {
-    position: absolute; inset: var(--cadre-v);
-    z-index: 4;
-    padding: 0; border: 0; border-radius: 4px;
-    background: transparent; cursor: pointer;
-  }
-  .recto-entrer:focus-visible { outline: 2px solid #000; outline-offset: 4px; }
   /* Lecture / pause : juste le pictogramme noir, sans rond ni ombre,
      posé à côté de la pochette, aligné sur son bas. */
   .recto-play {
@@ -6356,7 +6365,6 @@
   .recto-play svg { width: 18px; height: 18px; fill: currentColor; }
   .recto-play:hover { opacity: 0.6; }
   .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
-  .stage:not([data-state="lock"]) .recto-entrer { display: none; }
   .stage:not([data-state="lock"]):not([data-state="desktop"]) .recto-play { display: none; }
   /* Sur le bureau : à côté de la pochette en grand écran, sinon en bas à
      droite de l'écran. */
@@ -6465,8 +6473,9 @@
       <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
     </div>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
-    <p class="sleeve__manu">MANU</p>
-  </div><div class="stage__film" aria-hidden="true"></div></div>
+  </div>
+  <!-- MANU, au centre de la pochette : c'est le bouton d'entrée. -->
+  <button type="button" class="sleeve__manu" id="recto-manu" aria-label="Entrer dans le portfolio">MANU</button><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
@@ -6892,7 +6901,6 @@
 
     <!-- Recto : la photo seule. Un clic sur elle ouvre le bureau ; le bouton
          en bas à droite lance ou met en pause Cat's Eye. -->
-    <button type="button" class="recto-entrer" id="recto-entrer" aria-label="Entrer dans le portfolio"></button>
 
     <!-- Changer de fond dès l'écran verrouillé : une petite cassette.
          Chaque clic retourne la face et passe au fond suivant. -->
@@ -10557,8 +10565,10 @@ const dire = (function () {
       else audio.pause();
     });
   }
-  const rectoEntrer = document.getElementById('recto-entrer');
-  if (rectoEntrer) rectoEntrer.addEventListener('click', () => document.getElementById('unlock').click());
+  const rectoManu = document.getElementById('recto-manu');
+  if (rectoManu) rectoManu.addEventListener('click', () => {
+    if (document.getElementById('stage').dataset.state === 'lock') document.getElementById('unlock').click();
+  });
 
   function majEtat() {
     if (!lecteurPret) return;
