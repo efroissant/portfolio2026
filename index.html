@@ -6273,25 +6273,31 @@
     background: transparent; cursor: pointer;
   }
   .recto-entrer:focus-visible { outline: 2px solid #000; outline-offset: 4px; }
-  /* Lecture / pause, en bas à droite de l'écran : un rond noir, comme le
-     bouton du lecteur, posé sur le papier crème. */
+  /* Lecture / pause : juste le pictogramme noir, sans rond ni ombre,
+     posé à côté de la pochette, aligné sur son bas. */
   .recto-play {
-    position: absolute; right: 24px; bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    position: absolute;
+    left: calc((100vw + var(--carre-v)) / 2 + 10px);
+    bottom: calc((100dvh - var(--carre-v)) / 2 - 4px);
     z-index: 5;
     display: grid; place-items: center;
-    width: 44px; height: 44px; padding: 0;
-    border: 1.5px solid #000; border-radius: 50%;
-    background: #68BEC9; color: #000; cursor: pointer;
-    box-shadow: 2px 3px 0 #000;
-    transition: transform 160ms ease, box-shadow 160ms ease;
+    width: 28px; height: 28px; padding: 0;
+    border: 0; background: none; color: #000; cursor: pointer;
+    transition: opacity 160ms ease;
   }
-  .recto-play svg { width: 20px; height: 20px; fill: currentColor; }
-  .recto-play:hover, .recto-play:focus-visible { transform: translate(-1px, -1px); box-shadow: 3px 4px 0 #000; }
-  .recto-play:active { transform: translate(2px, 3px); box-shadow: 0 0 0 #000; }
-  .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+  .recto-play svg { width: 18px; height: 18px; fill: currentColor; }
+  .recto-play:hover { opacity: 0.6; }
+  .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
   .stage:not([data-state="lock"]) .recto-play,
   .stage:not([data-state="lock"]) .recto-entrer { display: none; }
-  @media (max-width: 767px) { .recto-play { right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); } }
+  /* Au téléphone la pochette prend toute la largeur : le bouton passe
+     juste sous elle, calé sur son bord droit. */
+  @media (max-width: 767px) {
+    .recto-play {
+      left: auto; right: calc((100vw - var(--carre-v)) / 2 - 6px);
+      bottom: auto; top: calc((100dvh + var(--carre-v)) / 2 + 8px);
+    }
+  }
 
   /* Téléphone : le lecteur reste ouvert en permanence. Calé juste au-dessus
      du dock, il ne recouvre plus les cartes : leur zone s'arrête au-dessus
