@@ -5988,7 +5988,7 @@
       font-size: calc(var(--manche) * 0.92);
       line-height: 1;
       letter-spacing: 0.04em;
-      color: #22388C;   /* le bleu de la bichromie du portrait (obi) */
+      color: #3FA9DA;
       /* Lu de bas en haut, comme le nom sur la tranche d'une pochette ;
          un peu sous le centre. Le texte étant couché, l'inclinaison des
          lettres passe par l'axe vertical. */
@@ -6540,11 +6540,6 @@
        hauteur disponible, pour que le mot tienne dans la marge. */
     font-size: min(calc(var(--manche) * 0.92), calc((100vh - var(--bar-h) - 80px) / 6.4));
     white-space: nowrap;
-    /* Dégradé dans les bleus de la bichromie du portrait : de l'encre
-       au ciel lavande, et retour. */
-    background: linear-gradient(to bottom, #2E4AAE 0%, #4F6ED0 35%, #8EA3E6 62%, #5674D2 82%, #3350B6 100%);
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent; -webkit-text-fill-color: transparent;
   }
 
   /* Barre de menus commune aux deux écrans : posée en haut de la scène,
