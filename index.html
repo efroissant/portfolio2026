@@ -2968,7 +2968,7 @@
   .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
   /* Survol du portrait de l'obi : une onde part du cadre (comme un rond
      dans l'eau) pour dire qu'un clic ouvre la bio, au verso. */
-  .stage[data-state="lock"] .sleeve__ocean { pointer-events: auto; cursor: pointer; }
+  .stage[data-state="lock"] .sleeve__obi { pointer-events: auto; cursor: pointer; }   /* tout l'obi ouvre la bio */
   .sleeve__onde {
     position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
     width: calc(212 * var(--u)); height: calc(216 * var(--u));
@@ -2978,30 +2978,30 @@
     content: ""; position: absolute; inset: 0; border-radius: inherit;
     border: 1.5px solid #3FA9DA; opacity: 0;
   }
-  .sleeve__ocean:hover + .sleeve__onde::before { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
-  .sleeve__ocean:hover + .sleeve__onde::after { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
+  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__onde::before { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
+  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__onde::after { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
   @keyframes obi-onde {
     0%   { transform: scale(1);    opacity: 0.95; }
     80%  { transform: scale(1.22); opacity: 0; }
     100% { transform: scale(1.22); opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .sleeve__ocean:hover + .sleeve__onde::before { animation: none; opacity: 1; transform: scale(1.08); }
-    .sleeve__ocean:hover + .sleeve__onde::after { animation: none; }
+    .sleeve__obi:hover .sleeve__onde::before { animation: none; opacity: 1; transform: scale(1.08); }
+    .sleeve__obi:hover .sleeve__onde::after { animation: none; }
   }
   /* Bulle « BIO » au survol du portrait, dans le style de la barre. */
   .sleeve__bulle {
     position: absolute; z-index: 2; pointer-events: none;
-    left: calc((32 + 106) * var(--u)); top: calc(324 * var(--u) - 4px);
-    transform: translate(-50%, -100%) translateY(4px);
-    padding: 2px 5px 1px;
+    left: calc((32 + 106) * var(--u)); top: calc((324 + 108) * var(--u));   /* au centre de la photo */
+    transform: translate(-50%, -50%) translateY(4px);
+    padding: 5px 9px 4px;   /* même bulle que « VOIR LE VERSO » */
     background: #FBF8F1; color: #111111;
     border: 1px solid #111111; border-radius: 0;
-    font: 400 9px/12px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     white-space: nowrap; opacity: 0;
     transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .stage[data-state="lock"] .sleeve__ocean:hover ~ .sleeve__bulle { opacity: 1; transform: translate(-50%, -100%); }
+  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__bulle { opacity: 1; transform: translate(-50%, -50%); }
   @media (prefers-reduced-motion: reduce) { .sleeve__bulle { transition: none; } }
   /* Le grain de la pochette, reposé sur le portrait de l'obi. */
   .sleeve__ocean::after {
@@ -6949,7 +6949,7 @@
     position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
     padding: 5px 9px 4px;
     background: #FBF8F1; color: #111111;
-    border: 1px solid #111111; border-radius: 2px;
+    border: 1px solid #111111; border-radius: 0;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     white-space: nowrap; opacity: 0; transition: opacity 140ms ease;
   }
@@ -11457,7 +11457,7 @@ const dire = (function () {
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
       // Le portrait de l'obi, au recto : la bio en fenêtre, photo en grand.
-      if (ev.target.closest('.sleeve__ocean') && stageEl.dataset.state === 'lock') {
+      if (ev.target.closest('.sleeve__obi') && stageEl.dataset.state === 'lock') {
         ouvrirBioModale();
         return;
       }
@@ -11497,7 +11497,7 @@ const dire = (function () {
       const cacher = () => { bulle.classList.remove('is-visible'); stageEl.classList.remove('survol-recto'); };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
-            || ev.target.closest('.sleeve__ocean') || document.querySelector('dialog[open]')) { cacher(); return; }
+            || ev.target.closest('.sleeve__obi') || document.querySelector('dialog[open]')) { cacher(); return; }
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
         bulle.classList.add('is-visible');
         stageEl.classList.add('survol-recto');
