@@ -6762,15 +6762,15 @@
     margin: 0; padding: calc(6 * var(--u)) 0; border: 0; background: none;
     color: #FFFFFF; text-align: left; cursor: pointer; pointer-events: auto;
   }
-  .verso__piste-num { font: 500 calc(28 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
+  .verso__piste-num { font: 500 calc(30 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
   .verso__piste-titre {
     display: inline-flex; align-items: center; gap: calc(10 * var(--u));
-    font: 500 calc(58 * var(--u))/1.2 "Cormorant Garamond", serif;   /* 500 : le 300 était trop fin sur le bleu */
+    font: 500 calc(70 * var(--u))/1.15 "Cormorant Garamond", serif;   /* 500 : le 300 était trop fin sur le bleu */
   }
-  .verso__piste-sous { grid-column: 2; font: 500 calc(30 * var(--u))/1.35 "DM Sans", sans-serif; }
+  .verso__piste-sous { grid-column: 2; font: 500 calc(34 * var(--u))/1.35 "DM Sans", sans-serif; }
   /* Face B : projets à venir, pas encore cliquables. */
   .verso__piste--bientot { width: calc(695 * var(--u)); cursor: inherit; pointer-events: none; }
-  .verso__piste--bientot .verso__piste-sous { font-size: calc(26 * var(--u)); }
+  .verso__piste--bientot .verso__piste-sous { font-size: calc(30 * var(--u)); }
   .verso__piste-fleche { width: 0.55em; height: 0.55em; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
   .verso__piste:hover .verso__piste-titre, .verso__piste:focus-visible .verso__piste-titre {
     text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em;
@@ -7109,6 +7109,11 @@
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
+  /* Liens de la barre et du bas soulignés en permanence. */
+  .stage .menubar .barlien, .stage .lien-bas, .stage .sayhi-mobile {
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+  }
+  .stage .menubar .barlien:hover, .stage .lien-bas:hover, .stage .sayhi-mobile:hover { text-decoration-thickness: 2px; }
   /* ---- SAY HI : le composeur dans le style de la bio ----
      Fond crème, ombre douce, voile bleu nuit ; en-tête « LIVRET / SAY HI »
      et FERMER, ENVOYER et ANNULER en capitales comme la barre. */
@@ -7257,12 +7262,12 @@
       <span class="verso__piste-titre">Groupe Voyage Québec<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Outil de gestion d’événement</span>
     </button>
-    <button type="button" class="verso__piste" data-etude="loblaw" style="--y:1412">
+    <button type="button" class="verso__piste" data-etude="loblaw" style="--y:1425">
       <span class="verso__piste-num">02</span>
       <span class="verso__piste-titre">Pharmaprix<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Logiciel pharmaceutique</span>
     </button>
-    <button type="button" class="verso__piste" data-etude="roche" style="--y:1532">
+    <button type="button" class="verso__piste" data-etude="roche" style="--y:1558">
       <span class="verso__piste-num">03</span>
       <span class="verso__piste-titre">Roche Diabetes Care<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Site de campagne marketing</span>
@@ -7272,12 +7277,12 @@
       <span class="verso__piste-titre">Beaconsfield Clinic</span>
       <span class="verso__piste-sous">Refonte du site d’une clinique médicale</span>
     </div>
-    <div class="verso__piste verso__piste--bientot" style="--x:1100;--y:1412">
+    <div class="verso__piste verso__piste--bientot" style="--x:1100;--y:1425">
       <span class="verso__piste-num">05</span>
       <span class="verso__piste-titre">Illustrations</span>
       <span class="verso__piste-sous">Mes dessins</span>
     </div>
-    <div class="verso__piste verso__piste--bientot" style="--x:1100;--y:1532">
+    <div class="verso__piste verso__piste--bientot" style="--x:1100;--y:1558">
       <span class="verso__piste-num">06</span>
       <span class="verso__piste-titre">À venir</span>
       <span class="verso__piste-sous">Prochain projet</span>
