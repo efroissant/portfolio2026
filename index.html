@@ -6762,6 +6762,32 @@
     font: 500 max(12px, calc(24 * var(--u)))/1 "DM Sans", sans-serif;
     letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
   }
+  /* Une ellipse autour du visage : elle pulse doucement pour dire qu'un
+     clic sur le portrait ouvre quelque chose. Elle disparaît bio ouverte. */
+  .verso__ellipse {
+    position: absolute; left: 71.2%; top: 39%;
+    width: calc(170 * var(--u)); height: calc(210 * var(--u));
+    min-width: 34px; min-height: 42px;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    border: 1.5px solid #FBF8F1; border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.25), 0 0 12px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+    transition: opacity 240ms ease, border-width 200ms ease;
+  }
+  .verso__ellipse::after {
+    content: ""; position: absolute; inset: -2px; border-radius: 50%;
+    border: 1.5px solid #FBF8F1;
+    animation: ellipse-onde 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+  @keyframes ellipse-onde {
+    0%   { transform: scale(1);    opacity: 0.9; }
+    70%  { transform: scale(1.35); opacity: 0; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+  .verso__portrait:hover .verso__ellipse,
+  .verso__portrait:focus-visible .verso__ellipse { border-width: 2.5px; }
+  .verso__portrait[aria-expanded="true"] .verso__ellipse { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .verso__ellipse::after { animation: none; opacity: 0; } }
   .verso__bio-plus { font-weight: 400; font-size: 1.4em; line-height: 1; display: inline-block; transition: transform 260ms ease; }
   .verso__portrait[aria-expanded="true"] .verso__bio-plus { transform: rotate(45deg); }
   .verso__portrait:hover .verso__bio-label { background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -6935,6 +6961,7 @@
     <button type="button" class="verso__photo verso__portrait" id="portrait-bio"
             aria-expanded="false" aria-controls="a-propos">
       <img src="verso-lookout.jpg" alt="">
+      <span class="verso__ellipse" aria-hidden="true"></span>
       <span class="verso__bio-label">À propos de moi<span class="visually-hidden" data-etat-bio> : afficher la bio</span><span class="verso__bio-plus" aria-hidden="true">+</span></span>
     </button>
     <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
