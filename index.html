@@ -5912,9 +5912,11 @@
       --zone-h: calc(100vh - var(--bar-h) - 40px);
       --carre: min(var(--zone-l), var(--zone-h));
       --marge-x: calc((var(--zone-l) - var(--carre)) / 2);
+      /* La pochette se cale en haut, sous la barre : l'espace en trop va
+         en bas (--marge-y en est la moitié). */
       --marge-y: calc((var(--zone-h) - var(--carre)) / 2);
-      --cadre: calc(var(--bar-h) + 16px + var(--marge-y)) calc(var(--manche) + var(--marge-x))
-               calc(24px + var(--marge-y)) calc(var(--obi) + var(--marge-x));
+      --cadre: calc(var(--bar-h) + 16px) calc(var(--manche) + var(--marge-x))
+               calc(24px + 2 * var(--marge-y)) calc(var(--obi) + var(--marge-x));
     }
     .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
     .stage[data-state="desktop"] {
@@ -5939,7 +5941,7 @@
     /* Le lecteur se range dans le coin haut droit de la photo. */
     .stage[data-state="desktop"] .spot.lecteur {
       right: calc(var(--manche) + var(--marge-x) + 20px);
-      top: calc(var(--bar-h) + 16px + var(--marge-y) + 20px);
+      top: calc(var(--bar-h) + 16px + 20px);
     }
     /* Le dock descend dans l'obi, sous les cartes : centré sur la bande
        crème, au ras du bas de la photo. Icônes un peu plus petites pour
@@ -5947,7 +5949,7 @@
     .stage[data-state="desktop"] .dock {
       /* Centré comme les cartes : sur tout l'espace à gauche de la photo. */
       left: calc((var(--obi) + var(--marge-x)) / 2);
-      bottom: calc(24px + var(--marge-y));
+      bottom: calc(24px + 2 * var(--marge-y));
       --dock-icon: 36px;
       --dock-gap: 10px;
     }
@@ -6364,7 +6366,9 @@
   .stage:is([data-state="lock"], [data-state="desktop"]) {
     --carre-v: min(100vw - 2 * var(--marge-v), 100dvh - 2 * var(--marge-v));
     --marge-v: 32px;
-    --cadre-v: calc((100dvh - var(--carre-v)) / 2) calc((100vw - var(--carre-v)) / 2);
+    /* Calée en haut, plus centrée : --haut-v est le haut de la pochette. */
+    --haut-v: 64px;
+    --cadre-v: var(--haut-v) calc((100vw - var(--carre-v)) / 2) calc(100dvh - var(--haut-v) - var(--carre-v));
     background-color: #F4EFE4;
   }
   @media (max-width: 767px) { .stage:is([data-state="lock"], [data-state="desktop"]) { --marge-v: 16px; } }
@@ -6406,7 +6410,7 @@
   .recto-play {
     position: absolute;
     left: calc((100vw + var(--carre-v)) / 2 + 10px);
-    bottom: calc((100dvh - var(--carre-v)) / 2 - 4px);
+    bottom: calc(100dvh - var(--haut-v) - var(--carre-v) - 4px);
     z-index: 5;
     display: grid; place-items: center;
     width: 28px; height: 28px; padding: 0;
@@ -6442,7 +6446,7 @@
     .stage[data-state="desktop"] .recto-play {
       right: auto;
       left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
-      bottom: calc(24px + var(--marge-y) - 4px);
+      bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
   /* Au téléphone la pochette prend toute la largeur : le bouton passe
@@ -6450,7 +6454,7 @@
   @media (max-width: 767px) {
     .recto-play {
       left: auto; right: calc((100vw - var(--carre-v)) / 2);
-      bottom: auto; top: calc((100dvh + var(--carre-v)) / 2 + 8px);
+      bottom: auto; top: calc(var(--haut-v) + var(--carre-v) + 8px);
     }
   }
 
@@ -6464,7 +6468,7 @@
     font: 400 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.08em;
     left: calc((100vw + var(--carre-v)) / 2 + 10px);
-    top: calc((100dvh - var(--carre-v)) / 2);
+    top: var(--haut-v);
   }
   .flip-lien svg { width: 18px; height: 18px; overflow: visible; transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
   .flip-lien:hover svg, .flip-lien:focus-visible svg { transform: rotate(180deg); }
@@ -6474,19 +6478,19 @@
   .stage[data-state="lock"] .flip-lien--verso,
   .stage[data-state="desktop"] .flip-lien--recto { display: inline-flex; }
   @media (min-width: 768px) {
-    .flip-lien { top: calc(var(--bar-h) + 16px + (var(--zone-v) - var(--carre-v)) / 2); }
+    .flip-lien { top: var(--haut-v); }
   }
   @media (min-width: 1024px) {
     .flip-lien {
       left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
-      top: calc(var(--bar-h) + 16px + var(--marge-y));
+      top: calc(var(--bar-h) + 16px);
     }
   }
   /* Téléphone : pas de place à côté, le lien passe au-dessus, à droite. */
   @media (max-width: 767px) {
     .flip-lien {
       left: auto; right: calc((100vw - var(--carre-v)) / 2);
-      top: calc((100dvh - var(--carre-v)) / 2 - 30px);
+      top: calc(var(--haut-v) - 30px);
     }
   }
   /* Pendant le retournement, la pochette pivote en 3D. */
@@ -6497,10 +6501,12 @@
   @media (min-width: 1024px) {
     .stage[data-state="desktop"] .pochette-nom,
     .stage[data-state="lock"] .pochette-nom {
+      /* Même écart que le mini-lecteur de l'autre côté : 10 px. */
       left: 0; right: auto;
-      width: calc(var(--obi) + var(--marge-x));
-      top: calc(var(--bar-h) + 16px + var(--marge-y));
-      bottom: calc(24px + var(--marge-y));
+      width: calc(var(--obi) + var(--marge-x) - 10px);
+      justify-content: flex-end;
+      top: calc(var(--bar-h) + 16px);
+      bottom: calc(24px + 2 * var(--marge-y));
     }
   }
   .stage .pochette-nom span { pointer-events: none !important; cursor: default; }
@@ -6539,12 +6545,12 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) {
       --zone-v: calc(100dvh - var(--bar-h) - 40px);
       --carre-v: min(100vw - 2 * var(--marge-v), var(--zone-v));
-      --cadre-v: calc(var(--bar-h) + 16px + (var(--zone-v) - var(--carre-v)) / 2)
-                 calc((100vw - var(--carre-v)) / 2)
-                 calc(24px + (var(--zone-v) - var(--carre-v)) / 2);
+      --haut-v: calc(var(--bar-h) + 16px);
+      --cadre-v: var(--haut-v) calc((100vw - var(--carre-v)) / 2)
+                 calc(24px + var(--zone-v) - var(--carre-v));
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
-      bottom: calc(24px + (var(--zone-v) - var(--carre-v)) / 2 - 4px);
+      bottom: calc(24px + var(--zone-v) - var(--carre-v) - 4px);
     }
   }
   .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
@@ -6576,7 +6582,28 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
       right: auto; top: auto;
       left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
-      bottom: calc(24px + var(--marge-y) - 4px);
+      bottom: calc(24px + 2 * var(--marge-y) - 4px);
+    }
+  }
+
+  /* Grand écran : le mini-lecteur ne déborde jamais à droite, le titre
+     s'abrège s'il le faut. */
+  @media (min-width: 1024px) {
+    .recto-play.lecteur-mini { max-width: calc(var(--manche) + var(--marge-x) - 24px); }
+    .lecteur-mini__titre { min-width: 0; flex: 1 1 auto; max-width: none; }
+  }
+  /* Tablette : pas de place à côté de la pochette. Elle laisse une ligne
+     dessous : VERSO/RECTO à gauche, le mini-lecteur à droite. */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) {
+      --zone-v: calc(100dvh - var(--bar-h) - 72px);
+      --cadre-v: var(--haut-v) calc((100vw - var(--carre-v)) / 2)
+                 calc(100dvh - var(--haut-v) - var(--carre-v));
+    }
+    .flip-lien { left: calc((100vw - var(--carre-v)) / 2); top: calc(var(--haut-v) + var(--carre-v) + 10px); }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
+      left: auto; right: calc((100vw - var(--carre-v)) / 2);
+      bottom: auto; top: calc(var(--haut-v) + var(--carre-v) + 8px);
     }
   }
 </style>
@@ -7572,7 +7599,7 @@ window.cadrePochette = function () {
   const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
   // La photo est le plus grand carré centré dans la zone (comme en CSS).
   const zl = W - left - droite, zh = H - barH - 40, c = Math.min(zl, zh);
-  const l = left + (zl - c) / 2, t = barH + 16 + (zh - c) / 2;
+  const l = left + (zl - c) / 2, t = barH + 16;   // calée en haut, comme en CSS
   return { left: l, top: t, right: l + c, bottom: t + c, width: c, height: c };
 };
 </script>
