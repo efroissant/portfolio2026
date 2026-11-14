@@ -6754,6 +6754,41 @@
   }
 
 
+  /* ---- Verso : ondes autour de la photo, au survol ; photo en grand ---- */
+  .verso__photo-ondes {
+    position: absolute; pointer-events: none;
+    left: calc(100 * var(--u)); top: calc(380 * var(--u));
+    width: calc(1695 * var(--u)); height: calc(690 * var(--u));
+  }
+  .verso__photo-ondes::before, .verso__photo-ondes::after {
+    content: ""; position: absolute; inset: 0;
+    border: 3px solid #FBF8F1; opacity: 0;
+  }
+  .stage.survol-photo-verso .verso__photo-ondes::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
+  .stage.survol-photo-verso .verso__photo-ondes::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .stage.survol-photo-verso .verso__photo-ondes::before { animation: none; opacity: 1; inset: -6px; }
+    .stage.survol-photo-verso .verso__photo-ondes::after { animation: none; }
+  }
+  .photo-modal {
+    width: min(1400px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
+    padding: 44px 0 0; border: 0; background: transparent; overflow: visible; cursor: zoom-out;
+  }
+  .photo-modal::backdrop { background: rgba(14, 20, 38, 0.82); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+  .photo-modal:focus { outline: none; }
+  .photo-modal img {
+    display: block; width: 100%; height: auto; max-height: calc(100dvh - 92px); object-fit: contain;
+    border-radius: 2px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .photo-modal__fermer {
+    position: absolute; top: 0; right: 0;
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0 4px;
+    border: 0; background: none; color: #FBF8F1; cursor: pointer;
+    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+  }
+  .photo-modal__fermer:focus { outline: none; }
+  .photo-modal__fermer:hover, .photo-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
     position: absolute; left: calc(var(--x, 100) * var(--u)); top: calc(var(--y) * var(--u));
@@ -7222,6 +7257,9 @@
 
 
 
+  <!-- Bulle qui suit la souris : VOIR LE VERSO, BIO, C’EST ALIGNÉ, ÇA ? -->
+  <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
+
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
          à gauche, le titre et MANU au pinceau sur la photo. Toutes les
@@ -7256,6 +7294,7 @@
     <p class="verso__t vs-dm" style="--x:100;--y:306;--s:26;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:306;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
     <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
+    <span class="verso__photo-ondes" aria-hidden="true"></span>
     <!-- Tracklist : la face A, ce sont les études de cas (cliquables) ;
          la face B, les projets à venir (pas encore de lien). -->
     <p class="verso__t vs-dm" style="--x:100;--y:1142;--s:28;--t:2;--lh:1.35">FACE A&nbsp; /&nbsp; ÉTUDES DE CAS</p>
@@ -7333,6 +7372,12 @@
       <ol class="livret__pistes" id="livret-etudes"></ol>
     </div>
     <button type="button" class="bio-modal__fermer" data-fermer-projets aria-label="Fermer les projets">FERMER</button>
+  </dialog>
+
+  <!-- La photo du verso en grand. Un clic n'importe où la referme. -->
+  <dialog class="photo-modal" id="photo-modal" aria-label="Photo en grand" tabindex="-1">
+    <button type="button" class="photo-modal__fermer" data-fermer-photo aria-label="Fermer la photo">FERMER</button>
+    <img src="verso-lookout.jpg" alt="Emmanuel Froissant, penché, la main en visière, devant un mur crème sous les palmiers" width="1672" height="941">
   </dialog>
 
   <div class="livrets" id="livrets">
@@ -9661,7 +9706,7 @@ const dire = (function () {
     const t = e.target;
     if (!t || !t.closest || !e.isTrusted) return;   // seulement les vrais gestes
     if (t.closest('.mini, input, textarea, select')) return;
-    if (!t.closest('a[href], button, [role="button"], summary, .stage__bg, #bio-modal')
+    if (!t.closest('a[href], button, [role="button"], summary, .stage__bg, #bio-modal, #photo-modal')
         && !(t.matches && t.matches('dialog'))) return;   // fond d'une fenêtre : elle se ferme
     const maintenant = performance.now();
     if (maintenant - dernierClic < 250) return;
@@ -11665,6 +11710,8 @@ const dire = (function () {
     const pochette = document.querySelector('.stage__bg');
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
+      // Verso : la photo panoramique s'ouvre en grand.
+      if (stageEl.dataset.state === 'desktop' && surPhotoVerso(ev)) { ouvrirPhoto(); return; }
       // Le portrait de l'obi, au recto : la bio en fenêtre, photo en grand.
       if (ev.target.closest('.sleeve__obi') && stageEl.dataset.state === 'lock') {
         ouvrirBioModale();
@@ -11673,6 +11720,23 @@ const dire = (function () {
       const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
       if (vers) vers.click();
     });
+    const photoV = document.querySelector('.verso__photo');
+    function surPhotoVerso(ev) {
+      const r = photoV && photoV.getBoundingClientRect();
+      return !!r && ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
+    }
+    const fenPhoto = document.getElementById('photo-modal');
+    function ouvrirPhoto() {
+      if (!fenPhoto || !fenPhoto.showModal) return;
+      stageEl.classList.remove('survol-photo-verso');
+      fenPhoto.showModal();
+      fenPhoto.focus({ preventScroll: true });
+      if (!calme() && fenPhoto.animate) {
+        fenPhoto.animate([{ opacity: 0, transform: 'scale(0.97)' }, { opacity: 1, transform: 'none' }],
+          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+      }
+    }
+    if (fenPhoto) fenPhoto.addEventListener('click', () => fenPhoto.close());   // un clic n'importe où
     const modale = document.getElementById('bio-modal');
     function ouvrirBioModale() {
       if (!modale || !modale.showModal) { ouvrir('a-propos', null); return; }
@@ -11706,7 +11770,7 @@ const dire = (function () {
       // La bulle attend une demi-seconde de survol avant d'apparaître.
       let attente = null;
       const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
-      const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi'); };
+      const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi', 'survol-photo-verso'); };
       const photoVerso = document.querySelector('.verso__photo');
       const montrer = (ev, texte) => {
         if (bulle.textContent !== texte) bulle.textContent = texte;
@@ -11726,7 +11790,8 @@ const dire = (function () {
           const r = photoVerso && photoVerso.getBoundingClientRect();
           if (r && ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) {
             montrer(ev, 'C’EST ALIGNÉ, ÇA\u00a0?');
-          } else masquerBulle();
+            stageEl.classList.add('survol-photo-verso');
+          } else { masquerBulle(); stageEl.classList.remove('survol-photo-verso'); }
           return;
         }
         if (stageEl.dataset.state !== 'lock') { cacher(); return; }
