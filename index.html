@@ -2992,21 +2992,14 @@
   /* Bulle « BIO » au survol du portrait, dans le style de la barre. */
   .sleeve__bulle {
     position: absolute; z-index: 2; pointer-events: none;
-    left: calc((32 + 106) * var(--u)); top: calc(324 * var(--u) - 8px);
+    left: calc((32 + 106) * var(--u)); top: calc(324 * var(--u) - 4px);
     transform: translate(-50%, -100%) translateY(4px);
-    padding: 5px 9px 4px;
+    padding: 2px 5px 1px;
     background: #FBF8F1; color: #111111;
-    border: 1px solid #111111; border-radius: 2px;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    border: 1px solid #111111; border-radius: 0;
+    font: 400 9px/12px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     white-space: nowrap; opacity: 0;
     transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  /* La pointe, vers la photo. */
-  .sleeve__bulle::after {
-    content: ""; position: absolute; left: 50%; bottom: -5px;
-    width: 8px; height: 8px; background: inherit;
-    border-right: 1px solid #111111; border-bottom: 1px solid #111111;
-    transform: translateX(-50%) rotate(45deg);
   }
   .stage[data-state="lock"] .sleeve__ocean:hover ~ .sleeve__bulle { opacity: 1; transform: translate(-50%, -100%); }
   @media (prefers-reduced-motion: reduce) { .sleeve__bulle { transition: none; } }
