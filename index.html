@@ -6557,7 +6557,7 @@
   .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
   .stage .menubar .menubar__logo { display: none !important; }
   /* Le nom en Medium, et à côté le rôle en Regular. */
-  .stage .menubar .menuitem--app { font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .stage .menubar .menuitem--app { cursor: default; pointer-events: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
   .stage .menubar .menuitem--app,
   .stage .menubar .menubar__clock, .stage .menubar .menubar__clock * { font-size: 12px; letter-spacing: 0.08em; }
   .stage .menubar .menubar__role { font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.08em; white-space: nowrap; margin-left: -10px; }
@@ -7435,9 +7435,8 @@
           </picture>
         </button>
 
-        <button type="button" class="menuitem menuitem--app"
-                aria-haspopup="menu" aria-expanded="false"
-                data-node-id="118:187">Emmanuel Froissant</button>
+        <!-- Simple nom, plus de menu dessous. -->
+        <span class="menuitem menuitem--app" data-node-id="118:187">Emmanuel Froissant</span>
         <span class="menubar__role">DESIGNER UI/UX</span>
 
         <div class="menubar__items" data-node-id="118:188">
@@ -10448,6 +10447,8 @@ const dire = (function () {
   }
 
   function openNav(opts) {
+    // Le menu sous le nom est retiré : le nom n'ouvre plus rien.
+    return;
     closeCtx();
     navMenu.hidden = false;
     navBtn.setAttribute('aria-expanded', 'true');
