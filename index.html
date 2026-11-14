@@ -2965,7 +2965,16 @@
     width: calc(212 * var(--u)); height: calc(216 * var(--u));
     border-radius: calc(4 * var(--u)); overflow: hidden;
   }
-  .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 38% 30%; }
+  .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
+  /* Le grain de la pochette, reposé sur le portrait de l'obi. */
+  .sleeve__ocean::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: url("grain-fort.png") repeat;
+    background-size: 64px 64px;
+    image-rendering: pixelated;
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+  }
   .sleeve__manu-jp  { top: calc(608 * var(--u)); font: 400 calc(32 * var(--u)) / calc(44 * var(--u)) "Noto Serif JP", serif; color: #30B0C7; }
   .sleeve__devise   { top: calc(676 * var(--u)); font: italic 500 calc(26 * var(--u)) / calc(34 * var(--u)) "Cormorant Garamond", serif; }
   .sleeve__portfolio {
