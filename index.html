@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,500&amp;family=DM+Sans:opsz,wght@9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -6649,6 +6649,209 @@
       inset 0 0 calc(var(--u) * 26) rgba(30, 20, 5, 0.22); /* bords assombris */
     mix-blend-mode: normal;
   }
+  /* ================= INTERCALAIRES ET LIVRET =================
+     Trois languettes crème glissées derrière la pochette (À propos,
+     Projets, Contact), sur les deux faces. Au verso, le livret : l'encart
+     crème qu'on tire de la pochette, avec la bio, les projets ou le
+     contact. Grand écran : languettes au bord droit, livret dans la
+     pochette. En dessous de 1024 px : languettes au-dessus, et au
+     téléphone le livret se déplie sous la pochette, dans le flux. */
+  .intercalaires { display: none; }
+  .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
+    display: flex; position: absolute; margin: 0; padding: 0;
+    /* Avant la pochette dans le DOM : elles passent dessous. */
+  }
+  .intercalaire {
+    --sortie: 0px;
+    display: inline-flex; align-items: center; box-sizing: border-box;
+    min-height: 44px;
+    background: #FBF8F1; color: #141414;
+    border: 1px solid rgba(20, 20, 20, 0.5);
+    box-shadow: 0 1px 1px rgba(40, 28, 10, 0.14), 0 4px 10px rgba(40, 28, 10, 0.10);
+    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+    text-decoration: none;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), background-color 160ms ease, border-color 160ms ease;
+  }
+  .intercalaire:hover { --sortie: 6px; background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .intercalaire:focus-visible { --sortie: 8px; outline: 2px solid #141414; outline-offset: 3px; background: #FFFFFF; }
+  /* Rubrique ouverte : la languette sort davantage, passe en gras, prend
+     un point devant et un trait plein (pas seulement une couleur). */
+  .intercalaire[aria-current="true"] { --sortie: 12px; background: #FFFFFF; border-color: #141414; font-weight: 700; }
+  .intercalaire[aria-current="true"]::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; margin-right: 8px; flex: none;
+  }
+
+  /* Grand écran : au bord droit, en colonne, sous le lien VERSO/RECTO. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
+      flex-direction: column; align-items: stretch; gap: 10px;
+      left: calc(100vw - var(--manche) - var(--marge-x) - 18px);
+      top: calc(var(--bar-h) + 16px + max(56px, var(--carre) * 0.16));
+    }
+    .intercalaire {
+      padding: 0 16px 0 32px;   /* 18 px glissés sous la pochette */
+      border-radius: 0 6px 6px 0;
+      transform: translateX(var(--sortie));
+    }
+  }
+  /* Tablette et téléphone : en rangée au-dessus de la pochette. */
+  @media (max-width: 1023px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
+      flex-direction: row; align-items: flex-end; gap: 6px;
+      left: calc((100vw - var(--carre-v)) / 2 + 8px);
+      width: calc(var(--carre-v) - 16px);
+      top: calc(var(--haut-v) - 44px);
+    }
+    .intercalaire {
+      flex: 1 1 0; justify-content: center; min-width: 0;
+      min-height: 54px; padding: 0 6px 10px;   /* 10 px glissés sous la pochette */
+      border-radius: 6px 6px 0 0;
+      transform: translateY(calc(-1 * var(--sortie)));
+    }
+  }
+  @media (max-width: 767px) {
+    /* Place pour la rangée de languettes : la pochette descend. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) { --haut-v: 112px; }
+    .flip-lien { top: 16px; }
+    /* L'ancien en-tête du bureau mobile (blanc sur crème) chevauchait la
+       rangée de languettes : elles le remplacent. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .mhead { display: none !important; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) {
+      --haut-v: calc(var(--bar-h) + 68px);
+      --zone-v: calc(100dvh - var(--bar-h) - 124px);
+    }
+  }
+
+  /* ---- Le portrait du verso : un bouton, avec son libellé permanent ---- */
+  .verso__portrait {
+    margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit;
+    display: block; cursor: pointer; pointer-events: auto;
+  }
+  .verso__portrait img { transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .verso__portrait:hover img { transform: scale(1.025); }
+  .verso__bio-label {
+    position: absolute; left: calc(32 * var(--u)); bottom: calc(32 * var(--u));
+    display: inline-flex; align-items: center; gap: 0.6em;
+    min-height: max(30px, calc(64 * var(--u)));
+    padding: 0 max(12px, calc(26 * var(--u)));
+    background: #FBF8F1; color: #141414; border: 1px solid #141414; border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    font: 500 max(12px, calc(24 * var(--u)))/1 "DM Sans", sans-serif;
+    letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .verso__bio-plus { font-weight: 400; font-size: 1.4em; line-height: 1; display: inline-block; transition: transform 260ms ease; }
+  .verso__portrait[aria-expanded="true"] .verso__bio-plus { transform: rotate(45deg); }
+  .verso__portrait:hover .verso__bio-label { background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .verso__portrait:focus-visible { outline: 3px solid #FBF8F1; outline-offset: 3px; }
+  .verso__portrait:focus-visible .verso__bio-label { outline: 2px solid #141414; outline-offset: 2px; background: #FFFFFF; }
+
+  /* ---- Le livret ---- */
+  .livrets { display: none; }
+  .stage[data-state="desktop"] .livrets {
+    display: block; position: absolute; inset: var(--cadre-v);
+    z-index: 6; pointer-events: none;
+  }
+  .livret {
+    position: absolute; inset: calc(var(--carre-v) * 0.045);
+    box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain;
+    pointer-events: auto;
+    padding: clamp(24px, 3.4vw, 52px) clamp(22px, 4vw, 64px);
+    background: #FBF8F1; color: #1A1A1A; border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(20, 20, 30, 0.25), 0 14px 34px rgba(10, 30, 60, 0.32);
+  }
+  .livret[hidden] { display: none; }
+  .livret__tete {
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 0 170px 18px 0; margin-bottom: 24px;
+    border-bottom: 1px solid #1A1A1A;
+  }
+  .livret__sur {
+    margin: 0; font: 500 12px/1.2 "DM Sans", sans-serif;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #4A4A4A;
+  }
+  .livret__titre {
+    margin: 0; font: 300 clamp(32px, 3.2vw, 48px)/1.05 "Cormorant Garamond", serif; color: #141414;
+  }
+  .livret__titre:focus { outline: none; }
+  .livret__titre:focus-visible { outline: 2px solid #141414; outline-offset: 4px; }
+  .livret__texte { max-width: 62ch; }
+  .livret__texte p { margin: 0 0 1em; font: 400 17px/1.65 "DM Sans", sans-serif; color: #1F1F1F; }
+  .livret__texte .livret__note {
+    margin-top: 1.6em; padding-top: 1em; border-top: 1px solid rgba(20, 20, 20, 0.25);
+    font-size: 15px; color: #3A3A3A;
+  }
+  .livret__fermer {
+    position: absolute; top: clamp(24px, 3.4vw, 52px); right: clamp(22px, 4vw, 64px);
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 40px; padding: 0 14px;
+    background: transparent; color: #141414; border: 1px solid #141414; border-radius: 2px; cursor: pointer;
+    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .livret__fermer svg { width: 14px; height: 14px; }
+  .livret__fermer:hover { background: #141414; color: #FBF8F1; }
+  .livret__fermer:focus-visible { outline: 2px solid #141414; outline-offset: 3px; }
+
+  .livret__pistes { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
+  .livret__pistes li {
+    display: grid; grid-template-columns: 3.2ch 1fr auto; gap: 4px 16px; align-items: baseline;
+    padding: 16px 0; border-bottom: 1px solid rgba(20, 20, 20, 0.25);
+  }
+  .livret__num { font: 500 13px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; }
+  .livret__projet { margin: 0; font: 300 clamp(22px, 2.1vw, 30px)/1.15 "Cormorant Garamond", serif; color: #141414; }
+  .livret__client { margin: 6px 0 0; font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4A4A; }
+  .livret__lire, .livret__liens a {
+    display: inline-flex; align-items: center; min-height: 44px;
+    color: #141414; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+  }
+  .livret__lire { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+  .livret__lire:hover, .livret__liens a:hover { text-decoration-thickness: 2px; }
+  .livret__lire:focus-visible, .livret__liens a:focus-visible { outline: 2px solid #141414; outline-offset: 2px; }
+
+  .livret__liens { list-style: none; margin: 0 0 24px; padding: 0; max-width: 62ch; }
+  .livret__liens li {
+    display: grid; grid-template-columns: 11ch 1fr; gap: 4px 16px; align-items: center;
+    padding: 6px 0; border-bottom: 1px solid rgba(20, 20, 20, 0.25);
+  }
+  .livret__cle { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #4A4A4A; }
+  .livret__liens a { font: 400 18px/1.3 "DM Sans", sans-serif; overflow-wrap: anywhere; }
+  .livret__action {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px;
+    background: #141414; color: #FBF8F1; border: 1px solid #141414; border-radius: 2px; cursor: pointer;
+    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .livret__action:hover { background: #386B97; border-color: #386B97; }
+  .livret__action:focus-visible { outline: 2px solid #141414; outline-offset: 3px; }
+
+  /* Téléphone : la pochette ne s'étire plus avec la page, et le livret
+     se déplie sous elle, dans le flux ; la page défile. */
+  @media (max-width: 767px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) :is(.stage__bg, .stage__video, .stage__tint, .stage__scrim) {
+      bottom: auto; height: var(--carre-v);
+    }
+    body:has(.stage[data-state="desktop"]) { overflow-y: auto; overflow-x: hidden; }
+    .stage[data-state="desktop"] .livrets {
+      position: relative; inset: auto; width: var(--carre-v);
+      margin: calc(var(--haut-v) + var(--carre-v) + 56px) auto 32px;
+    }
+    .livret { position: relative; inset: auto; overflow: visible; padding: 26px 20px 22px; }
+    .livret__tete { padding-right: 0; }
+    .livret__fermer { position: static; margin-top: 18px; }
+    .livret__texte p { font-size: 16px; }
+    .livret__pistes li { grid-template-columns: 3.2ch 1fr; }
+    .livret__lire { grid-column: 2; }
+    .livret__liens li { grid-template-columns: 1fr; padding: 10px 0; }
+  }
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .livret__tete { padding-right: 0; padding-top: 52px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .intercalaire, .verso__portrait img, .verso__bio-plus { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -6681,6 +6884,15 @@
        Fermeture : la même icône du dock, ou Échap. -->
   <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
+
+  <!-- Intercalaires : trois languettes glissées derrière la pochette.
+       Ce sont des liens (des destinations) ; ils restent sur les deux faces.
+       Depuis le recto, la pochette se retourne avant d'ouvrir le livret. -->
+  <nav class="intercalaires" aria-label="Rubriques du portfolio">
+    <a class="intercalaire" href="#a-propos" data-rubrique="a-propos">À propos</a>
+    <a class="intercalaire" href="#projets" data-rubrique="projets">Projets</a>
+    <a class="intercalaire" href="#contact" data-rubrique="contact">Contact</a>
+  </nav>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
@@ -6715,7 +6927,13 @@
     <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:208;--s:28;--t:3;--lh:1.1">真夏の余韻</p>
     <p class="verso__t vs-dm" style="--x:100;--y:299;--s:26;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:299;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
-    <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
+    <!-- Le portrait ouvre la bio : un bouton de divulgation, avec un
+         libellé toujours visible (pas seulement au survol). -->
+    <button type="button" class="verso__photo verso__portrait" id="portrait-bio"
+            aria-expanded="false" aria-controls="a-propos">
+      <img src="verso-lookout.jpg" alt="">
+      <span class="verso__bio-label">À propos de moi<span class="visually-hidden" data-etat-bio> : afficher la bio</span><span class="verso__bio-plus" aria-hidden="true">+</span></span>
+    </button>
     <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:24;--t:1;--lh:1.1">01&nbsp; /&nbsp; OFF SCREEN</p>
     <span class="verso__plage"><img src="verso-plage.jpg" alt=""></span>
@@ -6748,6 +6966,47 @@
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
   <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div></div>
+
+  <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
+       Une seule bio, ouverte par le portrait comme par la languette.
+       Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
+  <div class="livrets" id="livrets">
+    <section class="livret" id="a-propos" aria-labelledby="livret-apropos-titre" hidden>
+      <header class="livret__tete">
+        <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
+        <h2 class="livret__titre" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
+      </header>
+      <div class="livret__texte">
+        <p>Hello, je suis Manu, designer importé de France sans label de retour. J’étudie en psychologie et je suis autodidacte dans plusieurs domaines&nbsp;: l’illustration, le piano, le vibe coding.</p>
+        <p>Je suis sensible à ce que certains ne voient pas toujours — ce qui fatigue, ce qui exclut, ce qui bloque. En design, j’ai tendance à retirer plus qu’à ajouter.</p>
+        <p>Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on me dit que c’est normal, je réponds&nbsp;: «&nbsp;normal pour qui&nbsp;?&nbsp;»</p>
+        <p class="livret__note">Ce site est l’exemple concret de mon travail avec l’IA. Il est entièrement réalisé sous Figma, Claude et GitHub, mais il est pensé et peaufiné avec ma tête.</p>
+      </div>
+      <button type="button" class="livret__fermer" data-fermer-livret>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
+    </section>
+
+    <section class="livret" id="projets" aria-labelledby="livret-projets-titre" hidden>
+      <header class="livret__tete">
+        <p class="livret__sur">Livret&nbsp; /&nbsp; Face B</p>
+        <h2 class="livret__titre" id="livret-projets-titre" tabindex="-1">Projets</h2>
+      </header>
+      <ol class="livret__pistes" id="livret-etudes"></ol>
+      <button type="button" class="livret__fermer" data-fermer-livret>Fermer les projets <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
+    </section>
+
+    <section class="livret" id="contact" aria-labelledby="livret-contact-titre" hidden>
+      <header class="livret__tete">
+        <p class="livret__sur">Livret&nbsp; /&nbsp; Crédits</p>
+        <h2 class="livret__titre" id="livret-contact-titre" tabindex="-1">Contact</h2>
+      </header>
+      <ul class="livret__liens">
+        <li><span class="livret__cle">Courriel</span><a href="mailto:efroissant@outlook.com">efroissant@outlook.com</a></li>
+        <li><span class="livret__cle">LinkedIn</span><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">linkedin.com/in/efroissant<span class="visually-hidden"> (nouvel onglet)</span></a></li>
+      </ul>
+      <button type="button" class="livret__action" data-ecrire>Écrire un message</button>
+      <button type="button" class="livret__fermer" data-fermer-livret>Fermer le contact <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
+    </section>
+  </div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
@@ -7950,7 +8209,10 @@ const dire = (function () {
     // Rouvrir le dossier dans ces cas-là le ferait clignoter pour rien.
     if (silencieux) return;
     if (location.hash.startsWith('#case/')) history.pushState(null, '', location.pathname + location.search);
+    const venuDuLivret = etudeOpener && etudeOpener.closest && etudeOpener.closest('.livret') ? etudeOpener : null;
     etudeOpener = null;
+    // Ouverte depuis le livret du verso : on y revient, pas au dossier.
+    if (venuDuLivret) { venuDuLivret.focus(); return; }
     // Fermer une étude, c'est revenir d'où on venait : le dossier. Sans ça
     // le visiteur se retrouve sur un bureau vide et doit rouvrir Case
     // Studies pour lire la suivante — trois gestes au lieu d'un.
@@ -10336,7 +10598,7 @@ const dire = (function () {
 
   document.getElementById('about-close').addEventListener('click', closeAbout);
   aBackdrop.addEventListener('pointerdown', (e) => { if (e.target === aBackdrop) closeAbout(); });
-  document.addEventListener('portfolio:about', () => openAbout(navBtn));
+  // « À propos » ouvre désormais la bio du livret (voir livret()).
 
   /* ---------- traînée de grimaces ----------
      Une photo tous les 48 px de trajet du curseur, uniquement quand la
@@ -10888,6 +11150,122 @@ const dire = (function () {
   if (flipRecto) flipRecto.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
   });
+
+  /* ---------- Intercalaires et livret du verso ----------
+     Une seule bio : le portrait et la languette « À propos » ouvrent la
+     même section. Depuis le recto, la pochette se retourne d'abord. */
+  (function livret() {
+    const stageEl = document.getElementById('stage');
+    const portrait = document.getElementById('portrait-bio');
+    const etatBio = portrait && portrait.querySelector('[data-etat-bio]');
+    const onglets = [...document.querySelectorAll('.intercalaire')];
+    const liste = document.getElementById('livret-etudes');
+    const calme = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ouvert = null;
+    let source = null;
+
+    // Les projets viennent d'ETUDES, la liste du dossier du bureau.
+    if (liste) ETUDES.forEach((e) => {
+      const li = document.createElement('li');
+      const num = document.createElement('span');
+      num.className = 'livret__num'; num.textContent = e.num;
+      const bloc = document.createElement('div');
+      const t = document.createElement('p'); t.className = 'livret__projet'; t.textContent = e.titre;
+      const c = document.createElement('p'); c.className = 'livret__client'; c.textContent = e.client;
+      bloc.append(t, c);
+      const a = document.createElement('a');
+      a.className = 'livret__lire'; a.href = '#case/' + e.id; a.dataset.etude = e.id;
+      a.textContent = 'Lire l’étude';
+      const vh = document.createElement('span'); vh.className = 'visually-hidden'; vh.textContent = ' : ' + e.titre;
+      a.append(vh);
+      li.append(num, bloc, a);
+      liste.append(li);
+    });
+    if (liste) liste.addEventListener('click', (ev) => {
+      const a = ev.target.closest('[data-etude]');
+      if (!a) return;
+      ev.preventDefault();
+      openEtude(a.dataset.etude, a);
+    });
+    document.querySelectorAll('[data-ecrire]').forEach((b) => b.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('portfolio:contact', { detail: { opener: b } }));
+    }));
+
+    function maj() {
+      onglets.forEach((o) => {
+        if (o.dataset.rubrique === ouvert) o.setAttribute('aria-current', 'true');
+        else o.removeAttribute('aria-current');
+      });
+      if (portrait) {
+        const bio = ouvert === 'a-propos';
+        portrait.setAttribute('aria-expanded', String(bio));
+        if (etatBio) etatBio.textContent = bio ? ' : masquer la bio' : ' : afficher la bio';
+      }
+    }
+    function fermer(rendre) {
+      if (!ouvert) return;
+      document.getElementById(ouvert).hidden = true;
+      ouvert = null;
+      maj();
+      const s = source; source = null;
+      if (rendre && s && s.getClientRects().length) s.focus();
+    }
+    function afficher(id, depuis) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (ouvert && ouvert !== id) document.getElementById(ouvert).hidden = true;
+      const deja = ouvert === id;
+      ouvert = id;
+      source = depuis || source;
+      el.hidden = false;
+      maj();
+      if (!deja) {
+        el.scrollTop = 0;
+        if (!calme() && el.animate) {
+          el.animate([{ clipPath: 'inset(0 0 100% 0)', opacity: 0.6 }, { clipPath: 'inset(0 0 0 0)', opacity: 1 }],
+            { duration: 480, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+        }
+      }
+      el.querySelector('.livret__titre').focus({ preventScroll: true });
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        el.scrollIntoView({ block: 'start', behavior: calme() ? 'auto' : 'smooth' });
+      }
+    }
+    function ouvrir(id, depuis) {
+      if (stageEl.dataset.state === 'desktop') { afficher(id, depuis); return; }
+      // Recto : la pochette se retourne, puis le livret se déplie. Le délai
+      // passe après celui où l'écran du bureau reprend le focus.
+      retourner(() => document.getElementById('unlock').click(), 1);
+      setTimeout(() => afficher(id, depuis), calme() ? 0 : 900);
+    }
+
+    onglets.forEach((o) => o.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ouvrir(o.dataset.rubrique, o);
+    }));
+    if (portrait) portrait.addEventListener('click', () => {
+      if (ouvert === 'a-propos') fermer(true); else afficher('a-propos', portrait);
+    });
+    document.querySelectorAll('[data-fermer-livret]').forEach((b) => b.addEventListener('click', () => fermer(true)));
+    window.addEventListener('keydown', (ev) => {
+      if (ev.key !== 'Escape' || !ouvert) return;
+      // Une fenêtre (étude, message, verrou) est ouverte : Échap est pour elle.
+      if (document.querySelector('.modal-backdrop:not([hidden]), .doc:not([hidden]), .finder:not([hidden])')) return;
+      const f = document.activeElement;
+      if (document.getElementById(ouvert).contains(f) || f === portrait || onglets.includes(f)) fermer(true);
+    }, true);   // window, en capture : passe avant les fenêtres, qui se ferment ensuite
+    // Le menu du nom (« À propos ») ouvre la même bio.
+    document.addEventListener('portfolio:about', () => ouvrir('a-propos', document.querySelector('.menuitem--app')));
+    // Le livret ne tourne pas avec la pochette : il se range avant.
+    const versRecto = document.getElementById('flip-recto');
+    if (versRecto) versRecto.addEventListener('click', () => fermer(false));
+    // Retour au recto, par n'importe quel chemin : le livret se range.
+    new MutationObserver(() => { if (stageEl.dataset.state !== 'desktop') fermer(false); })
+      .observe(stageEl, { attributes: true, attributeFilter: ['data-state'] });
+    // Adresse directe : …/#projets, #a-propos ou #contact.
+    const h = location.hash.slice(1);
+    if (['a-propos', 'projets', 'contact'].includes(h)) setTimeout(() => ouvrir(h, null), 60);
+  })();
   /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
      que le visiteur n'a pas touché la page : on essaie tout de suite, et
      sinon on lance au premier geste (clic, toucher, touche). Le bouton
