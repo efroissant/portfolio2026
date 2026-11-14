@@ -6783,8 +6783,10 @@
       pointer-events: none;
     }
     .vinyle img {
-      position: absolute; top: 2%; left: 2%; width: 96%; height: 96%;
-      transform: translateX(33%) rotate(0deg);
+      /* Disque à ~95 % de la hauteur de la pochette (l'image a une marge
+         transparente). 30 % dehors : l'étiquette reste cachée. */
+      position: absolute; top: -4%; left: -4%; width: 108%; height: 108%;
+      transform: translateX(30%) rotate(0deg);
       transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
       filter: drop-shadow(0 6px 14px rgba(20, 15, 5, 0.28));
     }
