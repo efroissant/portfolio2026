@@ -6561,6 +6561,14 @@
   .stage .menubar .menubar__clock, .stage .menubar .menubar__clock * { font-size: 12px; letter-spacing: 0.08em; }
   .stage .menubar .menubar__role { font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.08em; white-space: nowrap; margin-left: -10px; }
   @media (max-width: 1023px) { .stage .menubar .menubar__role { display: none; } }
+  /* LinkedIn et Pinterest en toutes lettres, comme le reste de la barre. */
+  .stage .menubar .barlien {
+    width: auto; height: auto; padding: 4px 6px;
+    font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.08em;
+    color: inherit; text-decoration: none; background: none;
+  }
+  .stage .menubar .barlien:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; background: none; }
+  .stage .menubar .barlien + .barlien { margin-left: 0; }
   /* Barre : l'heure seule, sans la date. */
   .stage .menubar #bar-date { display: none !important; }
   /* Dossiers, Éditer et Aide retirés de la barre. */
@@ -7179,27 +7187,14 @@
              Tracés pleins (evenodd) plutôt que masques : un masque ne se
              dessine pas tant que la barre est masquée. -->
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
-           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" data-bulle="LinkedIn">
-          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2.5" y="2.5" width="17" height="17" rx="4"/>
-              <circle cx="7.2" cy="7.3" r="0.9"/>
-              <path d="M7.2 10 V15.5"/>
-              <path d="M10.4 15.5 V10 M10.4 12.4 C10.4 10.8 11.4 9.9 12.8 9.9 C14.2 9.9 15 10.8 15 12.4 V15.5"/>
-            </g>
-          </svg>
+           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)">
+          LINKEDIN
         </a>
 
         <!-- Pinterest : même gabarit que le coupe-son, en blanc. -->
         <a class="barlien" href="https://ca.pinterest.com/efroissant/" target="_blank" rel="noopener"
-           aria-label="Pinterest — ouvrir mon profil (nouvel onglet)" data-bulle="Pinterest">
-          <svg class="barlien__icone" viewBox="0 0 22 22" role="img" focusable="false" aria-hidden="true">
-            <g fill="none" stroke="#000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8.5"/>
-              <path d="M10.2 9.6 L8.2 18.6"/>
-              <path d="M9.4 13.2 C10 13.9 10.9 14.2 11.9 14.1 C14.3 13.8 15.6 11.8 15.3 9.5 C15 7.3 13.1 5.9 10.8 6 C8.2 6.1 6.5 7.9 6.6 10.2 C6.6 11 6.9 11.7 7.4 12.2"/>
-            </g>
-          </svg>
+           aria-label="Pinterest — ouvrir mon profil (nouvel onglet)">
+          PINTEREST
         </a>
 
                         <div class="menubar__clock" data-node-id="118:205">
