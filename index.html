@@ -6804,28 +6804,14 @@
   .livret__num { font: 500 13px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; }
   .livret__projet { margin: 0; font: 300 clamp(22px, 2.1vw, 30px)/1.15 "Cormorant Garamond", serif; color: #141414; }
   .livret__client { margin: 6px 0 0; font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4A4A; }
-  .livret__lire, .livret__liens a {
+  .livret__lire {
     display: inline-flex; align-items: center; min-height: 44px;
     color: #141414; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
   }
   .livret__lire { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
-  .livret__lire:hover, .livret__liens a:hover { text-decoration-thickness: 2px; }
-  .livret__lire:focus-visible, .livret__liens a:focus-visible { outline: 2px solid #141414; outline-offset: 2px; }
+  .livret__lire:hover { text-decoration-thickness: 2px; }
+  .livret__lire:focus-visible { outline: 2px solid #141414; outline-offset: 2px; }
 
-  .livret__liens { list-style: none; margin: 0 0 24px; padding: 0; max-width: 62ch; }
-  .livret__liens li {
-    display: grid; grid-template-columns: 11ch 1fr; gap: 4px 16px; align-items: center;
-    padding: 6px 0; border-bottom: 1px solid rgba(20, 20, 20, 0.25);
-  }
-  .livret__cle { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #4A4A4A; }
-  .livret__liens a { font: 400 18px/1.3 "DM Sans", sans-serif; overflow-wrap: anywhere; }
-  .livret__action {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px;
-    background: #141414; color: #FBF8F1; border: 1px solid #141414; border-radius: 2px; cursor: pointer;
-    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
-  }
-  .livret__action:hover { background: #386B97; border-color: #386B97; }
-  .livret__action:focus-visible { outline: 2px solid #141414; outline-offset: 3px; }
 
   /* Téléphone : la pochette ne s'étire plus avec la page, et le livret
      se déplie sous elle, dans le flux ; la page défile. */
@@ -6844,7 +6830,6 @@
     .livret__texte p { font-size: 16px; }
     .livret__pistes li { grid-template-columns: 3.2ch 1fr; }
     .livret__lire { grid-column: 2; }
-    .livret__liens li { grid-template-columns: 1fr; padding: 10px 0; }
   }
   @media (max-width: 1023px) and (min-width: 768px) {
     .livret__tete { padding-right: 0; padding-top: 52px; }
@@ -6891,7 +6876,6 @@
   <nav class="intercalaires" aria-label="Rubriques du portfolio">
     <a class="intercalaire" href="#a-propos" data-rubrique="a-propos">À propos</a>
     <a class="intercalaire" href="#projets" data-rubrique="projets">Projets</a>
-    <a class="intercalaire" href="#contact" data-rubrique="contact">Contact</a>
   </nav>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
@@ -6992,19 +6976,6 @@
       </header>
       <ol class="livret__pistes" id="livret-etudes"></ol>
       <button type="button" class="livret__fermer" data-fermer-livret>Fermer les projets <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
-    </section>
-
-    <section class="livret" id="contact" aria-labelledby="livret-contact-titre" hidden>
-      <header class="livret__tete">
-        <p class="livret__sur">Livret&nbsp; /&nbsp; Crédits</p>
-        <h2 class="livret__titre" id="livret-contact-titre" tabindex="-1">Contact</h2>
-      </header>
-      <ul class="livret__liens">
-        <li><span class="livret__cle">Courriel</span><a href="mailto:efroissant@outlook.com">efroissant@outlook.com</a></li>
-        <li><span class="livret__cle">LinkedIn</span><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">linkedin.com/in/efroissant<span class="visually-hidden"> (nouvel onglet)</span></a></li>
-      </ul>
-      <button type="button" class="livret__action" data-ecrire>Écrire un message</button>
-      <button type="button" class="livret__fermer" data-fermer-livret>Fermer le contact <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
     </section>
   </div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
@@ -7472,6 +7443,7 @@
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
              Tracés pleins (evenodd) plutôt que masques : un masque ne se
              dessine pas tant que la barre est masquée. -->
+        <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
            aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" title="LinkedIn">
           LKD
@@ -11187,7 +11159,10 @@ const dire = (function () {
       ev.preventDefault();
       openEtude(a.dataset.etude, a);
     });
-    document.querySelectorAll('[data-ecrire]').forEach((b) => b.addEventListener('click', () => {
+    // SAY HI, dans la barre : le composeur de message (le lien mailto reste
+    // le repli si le script ne tourne pas).
+    document.querySelectorAll('[data-ecrire]').forEach((b) => b.addEventListener('click', (ev) => {
+      ev.preventDefault();
       document.dispatchEvent(new CustomEvent('portfolio:contact', { detail: { opener: b } }));
     }));
 
@@ -11264,7 +11239,7 @@ const dire = (function () {
       .observe(stageEl, { attributes: true, attributeFilter: ['data-state'] });
     // Adresse directe : …/#projets, #a-propos ou #contact.
     const h = location.hash.slice(1);
-    if (['a-propos', 'projets', 'contact'].includes(h)) setTimeout(() => ouvrir(h, null), 60);
+    if (['a-propos', 'projets'].includes(h)) setTimeout(() => ouvrir(h, null), 60);
   })();
   /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
      que le visiteur n'a pas touché la page : on essaie tout de suite, et
