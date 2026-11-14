@@ -6879,6 +6879,33 @@
   @media (prefers-reduced-motion: reduce) {
     .intercalaire, .verso__portrait img, .verso__bio-plus { transition: none; }
   }
+  /* ---- Bio en fenêtre (clic sur le portrait de l'obi) ---- */
+  .bio-modal {
+    width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px);
+    padding: 0; border: 0; border-radius: 4px; overflow: auto; overscroll-behavior: contain;
+    background: #FBF8F1; color: #1A1A1A;
+    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
+  }
+  .bio-modal::backdrop { background: rgba(20, 28, 50, 0.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+  .bio-modal__photo { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+  .bio-modal__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
+  .bio-modal__photo::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: url("grain-fort.png") repeat; background-size: 64px 64px;
+    image-rendering: pixelated; mix-blend-mode: overlay; opacity: 0.5;
+  }
+  .bio-modal__corps { padding: 26px clamp(20px, 5vw, 40px) 32px; }
+  .bio-modal .livret__sur { margin-bottom: 10px; }
+  .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
+  .bio-modal__fermer {
+    position: absolute; top: 14px; right: 14px;
+    display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px;
+    background: #FBF8F1; color: #141414; border: 1px solid #141414; border-radius: 2px; cursor: pointer;
+    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .bio-modal__fermer svg { width: 14px; height: 14px; }
+  .bio-modal__fermer:hover { background: #141414; color: #FBF8F1; }
+  .bio-modal__fermer:focus-visible { outline: 2px solid #FBF8F1; outline-offset: 2px; box-shadow: 0 0 0 4px #141414; }
 </style>
 </head>
 <body>
@@ -6996,6 +7023,21 @@
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
        Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
+  <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
+       <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
+       recopié depuis la bio du livret à l'ouverture : une seule source. -->
+  <dialog class="bio-modal" id="bio-modal" aria-labelledby="bio-modal-titre">
+    <figure class="bio-modal__photo">
+      <img src="obi-portrait.jpg" alt="Emmanuel Froissant, souriant, la main en visière, en bichromie bleue" width="600" height="656">
+    </figure>
+    <div class="bio-modal__corps">
+      <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
+      <h2 class="livret__titre" id="bio-modal-titre">À propos de moi</h2>
+      <div class="livret__texte" data-bio-copie></div>
+    </div>
+    <button type="button" class="bio-modal__fermer" data-fermer-modal>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
+  </dialog>
+
   <div class="livrets" id="livrets">
     <section class="livret" id="a-propos" aria-labelledby="livret-apropos-titre" hidden>
       <header class="livret__tete">
@@ -11271,7 +11313,7 @@ const dire = (function () {
     window.addEventListener('keydown', (ev) => {
       if (ev.key !== 'Escape' || !ouvert) return;
       // Une fenêtre (étude, message, verrou) est ouverte : Échap est pour elle.
-      if (document.querySelector('.modal-backdrop:not([hidden]), .doc:not([hidden]), .finder:not([hidden])')) return;
+      if (document.querySelector('.modal-backdrop:not([hidden]), .doc:not([hidden]), .finder:not([hidden]), dialog[open]')) return;
       const f = document.activeElement;
       if (document.getElementById(ouvert).contains(f) || f === portrait || onglets.includes(f)) fermer(true);
     }, true);   // window, en capture : passe avant les fenêtres, qui se ferment ensuite
@@ -11281,14 +11323,33 @@ const dire = (function () {
     const pochette = document.querySelector('.stage__bg');
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
-      // Le portrait de l'obi, au recto : retourne et ouvre la bio.
+      // Le portrait de l'obi, au recto : la bio en fenêtre, photo en grand.
       if (ev.target.closest('.sleeve__ocean') && stageEl.dataset.state === 'lock') {
-        ouvrir('a-propos', document.querySelector('.intercalaire[data-rubrique="a-propos"]'));
+        ouvrirBioModale();
         return;
       }
       const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
       if (vers) vers.click();
     });
+    const modale = document.getElementById('bio-modal');
+    function ouvrirBioModale() {
+      if (!modale || !modale.showModal) { ouvrir('a-propos', null); return; }
+      const cible = modale.querySelector('[data-bio-copie]');
+      if (!cible.childElementCount) {
+        cible.innerHTML = document.querySelector('#a-propos .livret__texte').innerHTML;
+      }
+      modale.showModal();
+      modale.scrollTop = 0;
+      if (!calme() && modale.animate) {
+        modale.animate([{ opacity: 0, transform: 'translateY(14px) scale(0.98)' }, { opacity: 1, transform: 'none' }],
+          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+      }
+    }
+    if (modale) {
+      modale.querySelector('[data-fermer-modal]').addEventListener('click', () => modale.close());
+      // Clic sur le fond assombri : on ferme.
+      modale.addEventListener('click', (ev) => { if (ev.target === modale) modale.close(); });
+    }
     // Le livret ne tourne pas avec la pochette : il se range avant.
     const versRecto = document.getElementById('flip-recto');
     if (versRecto) versRecto.addEventListener('click', () => fermer(false));
