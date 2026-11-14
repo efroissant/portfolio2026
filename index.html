@@ -6883,7 +6883,7 @@
   }
   /* ---- Bio en fenêtre (clic sur le portrait de l'obi) ---- */
   .bio-modal {
-    width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px);
+    width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 48px);
     padding: 0; border: 0; border-radius: 4px; overflow: auto; overscroll-behavior: contain;
     background: #FBF8F1; color: #1A1A1A;
     box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
@@ -6916,7 +6916,10 @@
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
   }
   .bio-modal__fermer:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .bio-modal__fermer:focus-visible { outline: 1px solid #141414; outline-offset: -6px; }
+  /* Pas de contour : au clavier, FERMER se souligne. */
+  .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
+  .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+  .bio-modal:focus { outline: none; }
 </style>
 </head>
 <body>
@@ -7037,7 +7040,7 @@
   <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
        <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
        recopié depuis la bio du livret à l'ouverture : une seule source. -->
-  <dialog class="bio-modal" id="bio-modal" aria-labelledby="bio-modal-titre">
+  <dialog class="bio-modal" id="bio-modal" aria-labelledby="bio-modal-titre" tabindex="-1">
     <figure class="bio-modal__photo">
       <img src="obi-portrait.jpg" alt="Emmanuel Froissant, souriant, la main en visière, en bichromie bleue" width="600" height="656">
     </figure>
@@ -7056,11 +7059,9 @@
         <h2 class="livret__titre visually-hidden" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
       </header>
       <div class="livret__texte">
-        <p>Hello, je suis Manu, designer importé de France sans étiquette de retour. J’étudie en psychologie et j’apprends aussi en faisant&nbsp;: illustration, piano et vibe coding.</p>
-        <p>Avant de concevoir des interfaces, j’ai passé dix ans dans la relation client. Ça laisse un réflexe&nbsp;: écouter avant de proposer.</p>
-        <p>Je prête attention aux détails qui fatiguent, excluent ou bloquent. En design, j’ai tendance à retirer plus qu’à ajouter.</p>
-        <p>Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on dit que c’est normal, je réponds&nbsp;: «&nbsp;Mais normal pour qui&nbsp;?&nbsp;»</p>
-        <p class="livret__note">Ce site est un exemple concret de mon travail avec l’IA. Réalisé avec Figma, Claude et GitHub, il reflète ma direction créative<svg class="livret__palmier" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 10 C11.5 14 10.9 18 9.4 22.5 H11.7 C13 18 13.3 14 12.8 10 Z M12 9 C8.8 6.2 4.4 6.6 1.8 11 C5.2 8.8 8.4 9.6 12 10.6 Z M12 8.8 C10.2 4.8 6.2 3.2 2.8 4.2 C6.6 5.2 9.2 7.2 11.4 10 Z M12 8.8 C13.8 4.8 17.8 3.2 21.2 4.2 C17.4 5.2 14.8 7.2 12.6 10 Z M12 9 C15.2 6.2 19.6 6.6 22.2 11 C18.8 8.8 15.6 9.6 12 10.6 Z M11.6 9 C11 5.6 12.4 2.6 15 1.2 C13.8 3.8 13.2 6.4 12.8 9.4 Z"/></svg>, mes choix de design et mon attention aux détails.</p>
+        <p>Hello,<br>je suis Manu, designer importé de France sans étiquette de retour. J’étudie en psychologie et j’apprends aussi en faisant&nbsp;: illustration, piano et vibe coding. Avant de concevoir des interfaces, j’ai passé dix ans dans la relation client. Ça laisse un réflexe&nbsp;: écouter avant de proposer.</p>
+        <p>Je prête attention aux détails qui fatiguent, excluent ou bloquent. En design, j’ai tendance à retirer plus qu’à ajouter. Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on dit que c’est normal, je réponds&nbsp;: «&nbsp;Mais normal pour qui&nbsp;?&nbsp;»</p>
+        <p class="livret__note">Ce site est un exemple concret de mon travail avec l’IA. Réalisé avec Figma, Claude et GitHub, il reflète ma direction <span style="white-space: nowrap">créative<svg class="livret__palmier" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 10 C11.5 14 10.9 18 9.4 22.5 H11.7 C13 18 13.3 14 12.8 10 Z M12 9 C8.8 6.2 4.4 6.6 1.8 11 C5.2 8.8 8.4 9.6 12 10.6 Z M12 8.8 C10.2 4.8 6.2 3.2 2.8 4.2 C6.6 5.2 9.2 7.2 11.4 10 Z M12 8.8 C13.8 4.8 17.8 3.2 21.2 4.2 C17.4 5.2 14.8 7.2 12.6 10 Z M12 9 C15.2 6.2 19.6 6.6 22.2 11 C18.8 8.8 15.6 9.6 12 10.6 Z M11.6 9 C11 5.6 12.4 2.6 15 1.2 C13.8 3.8 13.2 6.4 12.8 9.4 Z"/></svg>,</span> mes choix de design et mon attention aux détails.</p>
       </div>
       <button type="button" class="livret__fermer" data-fermer-livret>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
     </section>
@@ -11351,6 +11352,8 @@ const dire = (function () {
         cible.innerHTML = document.querySelector('#a-propos .livret__texte').innerHTML;
       }
       modale.showModal();
+      // Le focus va à la fenêtre elle-même, pas au bouton FERMER.
+      modale.focus({ preventScroll: true });
       modale.scrollTop = 0;
       if (!calme() && modale.animate) {
         modale.animate([{ opacity: 0, transform: 'translateY(14px) scale(0.98)' }, { opacity: 1, transform: 'none' }],
