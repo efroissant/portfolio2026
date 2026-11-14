@@ -7082,6 +7082,33 @@
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__hook { font-size: 22px; }
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h2 { font-size: 28px; }
   }
+  /* ---- Bas de page : LKD à gauche, lecteur à droite ----
+     Les deux coins du bas, sur la ligne du bas de la pochette. Le lecteur
+     perd le titre du morceau (les boutons suffisent). */
+  .lien-bas { display: none; }
+  .stage .menubar .barlien[href*="linkedin"] { display: none; }
+  .stage .lecteur-mini__titre { display: none; }
+  .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
+    display: inline-flex; align-items: center; position: absolute; z-index: 20;
+    min-height: 28px; padding: 0 2px;
+    left: calc((100vw - var(--carre-v)) / 2);
+    top: calc(var(--haut-v) + var(--carre-v) + 8px);
+    color: #111111; text-decoration: none;
+    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
+  }
+  .lien-bas:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .lien-bas:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
+      left: 24px; top: auto;
+      bottom: calc(24px + 2 * var(--marge-y) - 4px);
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play,
+    .stage[data-state="desktop"] .recto-play {
+      left: auto; right: 24px; top: auto;
+      bottom: calc(24px + 2 * var(--marge-y) - 4px);
+    }
+  }
   /* ---- SAY HI : le composeur dans le style de la bio ----
      Fond crème, ombre douce, voile bleu nuit ; en-tête « LIVRET / SAY HI »
      et FERMER, ENVOYER et ANNULER en capitales comme la barre. */
@@ -7811,6 +7838,9 @@
     <span>RECTO</span>
     <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 A6 6 0 1 0 6.8 4.9"/><path d="M6.4 1.9 L6.8 4.9 L3.8 5.3"/></g></svg>
   </button>
+
+  <!-- LinkedIn, en bas à gauche (le pendant du lecteur en bas à droite). -->
+  <a class="lien-bas" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LKD</a>
 
   <div class="recto-play lecteur-mini" id="recto-play" role="group" aria-label="Lecteur de musique">
     <button type="button" class="lecteur-mini__btn" data-mini="prec" aria-label="Morceau précédent">
