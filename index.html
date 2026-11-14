@@ -6762,17 +6762,17 @@
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
     position: absolute; left: calc(100 * var(--u)); top: calc(var(--y) * var(--u));
-    width: calc(560 * var(--u));
-    display: grid; grid-template-columns: calc(55 * var(--u)) 1fr; align-items: baseline;
+    width: calc(900 * var(--u));
+    display: grid; grid-template-columns: calc(70 * var(--u)) 1fr; align-items: baseline;
     margin: 0; padding: calc(6 * var(--u)) 0; border: 0; background: none;
     color: #FFFFFF; text-align: left; cursor: pointer; pointer-events: auto;
   }
-  .verso__piste-num { font: 500 calc(25 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
+  .verso__piste-num { font: 500 calc(28 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
   .verso__piste-titre {
     display: inline-flex; align-items: center; gap: calc(10 * var(--u));
-    font: 300 calc(44 * var(--u))/1.25 "Cormorant Garamond", serif;
+    font: 300 calc(58 * var(--u))/1.2 "Cormorant Garamond", serif;
   }
-  .verso__piste-sous { grid-column: 2; font: 500 calc(28 * var(--u))/1.35 "DM Sans", sans-serif; }
+  .verso__piste-sous { grid-column: 2; font: 500 calc(30 * var(--u))/1.35 "DM Sans", sans-serif; }
   .verso__piste-fleche { width: 0.55em; height: 0.55em; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
   .verso__piste:hover .verso__piste-titre, .verso__piste:focus-visible .verso__piste-titre {
     text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em;
@@ -7231,38 +7231,36 @@
     <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
     <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:24;--t:1;--lh:1.1">01&nbsp; /&nbsp; OFF SCREEN</p>
-    <span class="verso__plage"><img src="verso-plage.jpg" alt=""></span>
     <!-- Tracklist : la face A, ce sont les études de cas (cliquables) ;
          la face B, la méthode. -->
     <p class="verso__t vs-dm" style="--x:100;--y:1229;--s:28;--t:2;--lh:1.35">FACE A&nbsp; /&nbsp; ÉTUDES DE CAS</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1229;--s:28;--t:2;--lh:1.35">FACE B&nbsp; /&nbsp; MÉTHODE</p>
-    <span class="verso__filet" style="--x:100;--y:1273;--w:540"></span>
-    <span class="verso__filet" style="--x:700;--y:1273;--w:540"></span>
-    <button type="button" class="verso__piste" data-etude="gvq" style="--y:1290">
+    <p class="verso__t vs-dm" style="--x:1100;--y:1229;--s:28;--t:2;--lh:1.35">FACE B&nbsp; /&nbsp; MÉTHODE</p>
+    <span class="verso__filet" style="--x:100;--y:1273;--w:900"></span>
+    <span class="verso__filet" style="--x:1100;--y:1273;--w:695"></span>
+    <button type="button" class="verso__piste" data-etude="gvq" style="--y:1292">
       <span class="verso__piste-num">01</span>
       <span class="verso__piste-titre">Groupe Voyage Québec<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Outil de gestion d’événement</span>
     </button>
-    <button type="button" class="verso__piste" data-etude="loblaw" style="--y:1385">
+    <button type="button" class="verso__piste" data-etude="loblaw" style="--y:1412">
       <span class="verso__piste-num">02</span>
       <span class="verso__piste-titre">Pharmaprix<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Logiciel pharmaceutique</span>
     </button>
-    <button type="button" class="verso__piste" data-etude="roche" style="--y:1480">
+    <button type="button" class="verso__piste" data-etude="roche" style="--y:1532">
       <span class="verso__piste-num">03</span>
       <span class="verso__piste-titre">Roche Diabetes Care<svg class="verso__piste-fleche" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="verso__piste-sous">Site de campagne marketing</span>
     </button>
-    <p class="verso__t vs-dm" style="--x:700;--y:1308;--s:25;--t:1;--lh:1.35">04</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1299;--s:44;--t:0;--lh:1.35">Listen &amp; understand</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1358;--s:28;--t:0;--lh:1.35">Research, empathy &amp; the right questions.</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1403;--s:25;--t:1;--lh:1.35">05</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1394;--s:44;--t:0;--lh:1.35">Make it feel right</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1453;--s:28;--t:0;--lh:1.35">Clear, considered interface design.</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1498;--s:25;--t:1;--lh:1.35">06</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1489;--s:44;--t:0;--lh:1.35">Test &amp; refine</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1548;--s:28;--t:0;--lh:1.35">Learn, question, improve. Repeat.</p>
-    <p class="verso__t vs-dm" style="--x:1334;--y:1533;--s:24;--t:1;--lh:1.35">OFF SCREEN.&nbsp; /&nbsp; マニュ</p>
+    <p class="verso__t vs-dm" style="--x:1100;--y:1308;--s:25;--t:1;--lh:1.35">04</p>
+    <p class="verso__t vs-cg" style="--x:1155;--y:1299;--s:44;--t:0;--lh:1.35">Listen &amp; understand</p>
+    <p class="verso__t vs-dm" style="--x:1155;--y:1358;--s:28;--t:0;--lh:1.35">Research, empathy &amp; the right questions.</p>
+    <p class="verso__t vs-dm" style="--x:1100;--y:1403;--s:25;--t:1;--lh:1.35">05</p>
+    <p class="verso__t vs-cg" style="--x:1155;--y:1394;--s:44;--t:0;--lh:1.35">Make it feel right</p>
+    <p class="verso__t vs-dm" style="--x:1155;--y:1453;--s:28;--t:0;--lh:1.35">Clear, considered interface design.</p>
+    <p class="verso__t vs-dm" style="--x:1100;--y:1498;--s:25;--t:1;--lh:1.35">06</p>
+    <p class="verso__t vs-cg" style="--x:1155;--y:1489;--s:44;--t:0;--lh:1.35">Test &amp; refine</p>
+    <p class="verso__t vs-dm" style="--x:1155;--y:1548;--s:28;--t:0;--lh:1.35">Learn, question, improve. Repeat.</p>
     <span class="verso__filet" style="--x:100;--y:1769;--w:1695"></span>
     <p class="verso__t vs-dm" style="--x:100;--y:1794;--s:25;--t:1;--lh:1.35">MADE WITH FIGMA, CLAUDE CODE &amp; GITHUB</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1794;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
