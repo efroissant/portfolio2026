@@ -5966,7 +5966,7 @@
     .stage[data-state="lock"] .pochette-nom {
       display: flex;
       position: absolute;
-      top: calc(var(--bar-h) + 16px); bottom: 24px; right: 0;
+      top: calc(var(--bar-h) + 16px); bottom: 72px; right: 0;
       width: var(--manche);
       align-items: center; justify-content: center;
       pointer-events: none;
@@ -6422,9 +6422,27 @@
     border: 0; background: none; color: #000; cursor: pointer;
     transition: opacity 160ms ease;
   }
-  .recto-play svg { width: 18px; height: 18px; fill: currentColor; }
-  .recto-play:hover { opacity: 0.6; }
-  .recto-play:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  /* Mini-lecteur : trois pictogrammes au trait noir de 1 px, comme les
+     icônes LinkedIn et Pinterest de la barre, puis le titre en cours. */
+  .recto-play.lecteur-mini {
+    display: flex; align-items: center; gap: 2px;
+    width: auto; height: auto; cursor: default;
+    font: 400 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #111111; white-space: nowrap;
+  }
+  .lecteur-mini__btn {
+    display: grid; place-items: center;
+    width: 26px; height: 26px; padding: 0;
+    border: 0; background: none; color: inherit; cursor: pointer;
+    transition: opacity 160ms ease;
+  }
+  .lecteur-mini__btn svg { width: 20px; height: 20px; overflow: visible; }
+  .lecteur-mini__btn:hover { opacity: 0.55; }
+  .lecteur-mini__btn:focus-visible { outline: 1px solid #000; outline-offset: 1px; }
+  .lecteur-mini .mini-ico-pause { display: none; }
+  .lecteur-mini.is-lecture .mini-ico-pause { display: block; }
+  .lecteur-mini.is-lecture .mini-ico-lire { display: none; }
+  .lecteur-mini__titre { margin-left: 8px; max-width: 22ch; overflow: hidden; text-overflow: ellipsis; }
   .stage:not([data-state="lock"]):not([data-state="desktop"]) .recto-play { display: none; }
   /* Sur le bureau : à côté de la pochette en grand écran, sinon en bas à
      droite de l'écran. */
@@ -6444,7 +6462,7 @@
      juste sous elle, calé sur son bord droit. */
   @media (max-width: 767px) {
     .recto-play {
-      left: auto; right: calc((100vw - var(--carre-v)) / 2 - 6px);
+      left: auto; right: calc((100vw - var(--carre-v)) / 2);
       bottom: auto; top: calc((100dvh + var(--carre-v)) / 2 + 8px);
     }
   }
@@ -6492,6 +6510,10 @@
   }
   .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
   .stage .menubar .menubar__logo { display: none !important; }
+  /* Le nom en Medium, et à côté le rôle en Regular. */
+  .stage .menubar .menuitem--app { font-weight: 500; }
+  .stage .menubar .menubar__role { font-size: 14px; font-weight: 400; line-height: 16px; letter-spacing: 0.02em; white-space: nowrap; margin-left: -10px; }
+  @media (max-width: 1023px) { .stage .menubar .menubar__role { display: none; } }
   /* Dossiers, Éditer et Aide retirés de la barre. */
   .stage .menubar .menubar__items { display: none !important; }
 
@@ -7074,6 +7096,7 @@
         <button type="button" class="menuitem menuitem--app"
                 aria-haspopup="menu" aria-expanded="false"
                 data-node-id="118:187">Emmanuel Froissant</button>
+        <span class="menubar__role">DESIGNER UI/UX</span>
 
         <div class="menubar__items" data-node-id="118:188">
           <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
@@ -7127,7 +7150,19 @@
 
   <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
-  <button type="button" class="recto-play" id="recto-play" aria-label="Lecture — Cat’s Eye"></button>
+  <div class="recto-play lecteur-mini" id="recto-play" role="group" aria-label="Lecteur de musique">
+    <button type="button" class="lecteur-mini__btn" data-mini="prec" aria-label="Morceau précédent">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 4.5 V15.5"/><path d="M15 4.8 L7.5 10 L15 15.2 Z"/></g></svg>
+    </button>
+    <button type="button" class="lecteur-mini__btn" data-mini="lire" id="mini-lire" aria-label="Lecture">
+      <svg class="mini-ico-lire" viewBox="0 0 20 20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" d="M6 4 L16 10 L6 16 Z"/></svg>
+      <svg class="mini-ico-pause" viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"><rect x="5.5" y="4.5" width="3" height="11" rx="0.5"/><rect x="11.5" y="4.5" width="3" height="11" rx="0.5"/></g></svg>
+    </button>
+    <button type="button" class="lecteur-mini__btn" data-mini="suiv" aria-label="Morceau suivant">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"><path d="M14.5 4.5 V15.5"/><path d="M5 4.8 L12.5 10 L5 15.2 Z"/></g></svg>
+    </button>
+    <span class="lecteur-mini__titre" id="mini-titre" aria-live="polite">Cat’s Eye (instrumental)</span>
+  </div>
 
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
 
@@ -10698,20 +10733,33 @@ const dire = (function () {
   // Recto : le bouton lecture/pause de l'écran verrouillé pilote le même
   // audio que le lecteur du bureau ; la musique continue après l'entrée.
   const rectoPlay = document.getElementById('recto-play');
+  const miniLire = document.getElementById('mini-lire');
+  const miniTitre = document.getElementById('mini-titre');
   function majRecto() {
     if (!rectoPlay) return;
-    rectoPlay.innerHTML = audio.paused ? ICONES.lire : ICONES.pause;
-    rectoPlay.setAttribute('aria-label', (audio.paused ? 'Lecture' : 'Pause') + ' — ' + PISTES[piste].titre);
+    rectoPlay.classList.toggle('is-lecture', !audio.paused);
+    miniLire.setAttribute('aria-label', audio.paused ? 'Lecture' : 'Pause');
+    const p = PISTES[piste];
+    miniTitre.textContent = p.titre;
+    miniTitre.title = p.artiste ? p.titre + ' — ' + p.artiste : p.titre;
   }
   if (rectoPlay) {
     majRecto();
-    audio.addEventListener('play', majRecto);
-    audio.addEventListener('pause', majRecto);
+    ['play', 'pause', 'loadstart'].forEach((ev) => audio.addEventListener(ev, majRecto));
+    const jouer = () => { const p = audio.play(); if (p && p.catch) p.catch(() => {}); };
     rectoPlay.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-mini]');
+      if (!b) return;
       e.stopPropagation();
       if (!lecteurPret) construireLecteur();
-      if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => {}); }
-      else audio.pause();
+      const c = b.dataset.mini;
+      if (c === 'lire') { if (audio.paused) jouer(); else audio.pause(); }
+      if (c === 'prec') {
+        if (audio.currentTime > 3) audio.currentTime = 0;
+        else { charger((piste - 1 + PISTES.length) % PISTES.length); jouer(); }
+      }
+      if (c === 'suiv') { charger((piste + 1) % PISTES.length); jouer(); }
+      majRecto();
     });
   }
   const versoManu = document.getElementById('verso-manu');
