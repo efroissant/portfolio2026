@@ -6463,6 +6463,10 @@
     font-stretch: normal;
     letter-spacing: 0.02em;
     transform: rotate(180deg) translateY(-6%);
+    /* PORTFOLIO est plus long que MANU : la taille se règle aussi sur la
+       hauteur disponible, pour que le mot tienne dans la marge. */
+    font-size: min(calc(var(--manche) * 0.92), calc((100vh - var(--bar-h) - 80px) / 6.4));
+    white-space: nowrap;
   }
 
   /* Barre de menus commune aux deux écrans : posée en haut de la scène,
@@ -7119,7 +7123,7 @@
 
   <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
        Sur le recto comme sur le bureau. Décoratif. -->
-  <div class="pochette-nom" aria-hidden="true"><span>MANU</span></div>
+  <div class="pochette-nom" aria-hidden="true"><span>PORTFOLIO</span></div>
 
   <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
