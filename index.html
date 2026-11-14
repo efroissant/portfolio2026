@@ -6826,6 +6826,7 @@
     margin-top: 1.6em; padding-top: 1em; border-top: 1px solid rgba(20, 20, 20, 0.25);
     font-size: 15px; color: #3A3A3A;
   }
+  .livret__palmier { width: 1.05em; height: 1.05em; vertical-align: -0.15em; margin-left: 0.25em; color: #386B97; }
   .livret__fermer {
     position: absolute; top: clamp(24px, 3.4vw, 52px); right: clamp(22px, 4vw, 64px);
     display: inline-flex; align-items: center; gap: 8px;
@@ -6895,7 +6896,7 @@
     image-rendering: pixelated; mix-blend-mode: overlay; opacity: 0.5;
   }
   .bio-modal__corps { padding: 26px clamp(20px, 5vw, 40px) 32px; }
-  .bio-modal .livret__sur { margin-bottom: 10px; }
+  .bio-modal .livret__sur { padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
   .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
   .bio-modal { cursor: pointer; }   /* un clic n'importe où la referme */
   /* FERMER : comme les items de la barre (12 px, tracking 0,08 em). */
@@ -7033,7 +7034,7 @@
     </figure>
     <div class="bio-modal__corps">
       <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
-      <h2 class="livret__titre" id="bio-modal-titre">À propos de moi</h2>
+      <h2 class="visually-hidden" id="bio-modal-titre">À propos de moi</h2>
       <div class="livret__texte" data-bio-copie></div>
     </div>
     <button type="button" class="bio-modal__fermer" data-fermer-modal aria-label="Fermer la bio">FERMER</button>
@@ -7046,10 +7047,11 @@
         <h2 class="livret__titre" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
       </header>
       <div class="livret__texte">
-        <p>Hello, je suis Manu, designer importé de France sans label de retour. J’étudie en psychologie et je suis autodidacte dans plusieurs domaines&nbsp;: l’illustration, le piano, le vibe coding.</p>
-        <p>Je suis sensible à ce que certains ne voient pas toujours — ce qui fatigue, ce qui exclut, ce qui bloque. En design, j’ai tendance à retirer plus qu’à ajouter.</p>
-        <p>Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on me dit que c’est normal, je réponds&nbsp;: «&nbsp;normal pour qui&nbsp;?&nbsp;»</p>
-        <p class="livret__note">Ce site est l’exemple concret de mon travail avec l’IA. Il est entièrement réalisé sous Figma, Claude et GitHub, mais il est pensé et peaufiné avec ma tête.</p>
+        <p>Hello, je suis Manu, designer importé de France sans étiquette de retour. J’étudie en psychologie et j’apprends aussi en faisant&nbsp;: illustration, piano et vibe coding.</p>
+        <p>Avant de concevoir des interfaces, j’ai passé dix ans dans la relation client. Ça laisse un réflexe&nbsp;: écouter avant de proposer.</p>
+        <p>Je prête attention aux détails qui fatiguent, excluent ou bloquent. En design, j’ai tendance à retirer plus qu’à ajouter.</p>
+        <p>Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on dit que c’est normal, je réponds&nbsp;: «&nbsp;Mais normal pour qui&nbsp;?&nbsp;»</p>
+        <p class="livret__note">Ce site est un exemple concret de mon travail avec l’IA. Réalisé avec Figma, Claude et GitHub, il reflète ma direction créative<svg class="livret__palmier" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 10 C11.5 14 10.9 18 9.4 22.5 H11.7 C13 18 13.3 14 12.8 10 Z M12 9 C8.8 6.2 4.4 6.6 1.8 11 C5.2 8.8 8.4 9.6 12 10.6 Z M12 8.8 C10.2 4.8 6.2 3.2 2.8 4.2 C6.6 5.2 9.2 7.2 11.4 10 Z M12 8.8 C13.8 4.8 17.8 3.2 21.2 4.2 C17.4 5.2 14.8 7.2 12.6 10 Z M12 9 C15.2 6.2 19.6 6.6 22.2 11 C18.8 8.8 15.6 9.6 12 10.6 Z M11.6 9 C11 5.6 12.4 2.6 15 1.2 C13.8 3.8 13.2 6.4 12.8 9.4 Z"/></svg>, mes choix de design et mon attention aux détails.</p>
       </div>
       <button type="button" class="livret__fermer" data-fermer-livret>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
     </section>
