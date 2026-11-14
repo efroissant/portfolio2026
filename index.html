@@ -6745,6 +6745,7 @@
   }
 
   /* ---- Le portrait du verso : un bouton, avec son libellé permanent ---- */
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg { cursor: pointer; }
   .verso__portrait {
     margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit;
     display: block; cursor: pointer; pointer-events: auto;
@@ -11253,6 +11254,13 @@ const dire = (function () {
     }, true);   // window, en capture : passe avant les fenêtres, qui se ferment ensuite
     // Le menu du nom (« À propos ») ouvre la même bio.
     document.addEventListener('portfolio:about', () => ouvrir('a-propos', document.querySelector('.menuitem--app')));
+    // Un clic sur la pochette la retourne (hors portrait et liens).
+    const pochette = document.querySelector('.stage__bg');
+    if (pochette) pochette.addEventListener('click', (ev) => {
+      if (ev.target.closest('a, button')) return;
+      const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
+      if (vers) vers.click();
+    });
     // Le livret ne tourne pas avec la pochette : il se range avant.
     const versRecto = document.getElementById('flip-recto');
     if (versRecto) versRecto.addEventListener('click', () => fermer(false));
@@ -11273,6 +11281,13 @@ const dire = (function () {
     autoFait = true;
     ['pointerdown', 'keydown', 'touchstart'].forEach((t) => removeEventListener(t, lancerAuto, true));
     if (e && e.target && e.target.closest && e.target.closest('#recto-play')) return;
+    // Retourner la pochette (clic dessus, VERSO/RECTO, languettes) ne lance
+    // pas la musique : on attend un autre geste.
+    if (e && e.target && e.target.closest && e.target.closest('.stage__bg, .intercalaires, .flip-lien')) {
+      autoFait = false;
+      ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
+      return;
+    }
     if (!lecteurPret) construireLecteur();
     if (!audio.paused) return;
     const p = audio.play();
