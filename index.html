@@ -11622,20 +11622,25 @@ const dire = (function () {
     // portrait de l'obi, qui a sa bulle BIO).
     const bulle = document.getElementById('curseur-bulle');
     if (pochette && bulle) {
-      const cacher = () => { bulle.classList.remove('is-visible'); stageEl.classList.remove('survol-recto', 'survol-obi'); };
+      // La bulle attend une seconde de survol avant d'apparaître.
+      let attente = null;
+      const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
+      const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi'); };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
             || document.querySelector('dialog[open]')) { cacher(); return; }
         // Sur l'obi : ondes sur son contour, et la bulle BIO (en CSS).
         if (ev.target.closest('.sleeve__obi')) {
-          bulle.classList.remove('is-visible');
+          masquerBulle();
           stageEl.classList.remove('survol-recto');
           stageEl.classList.add('survol-obi');
           return;
         }
         stageEl.classList.remove('survol-obi');
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
-        bulle.classList.add('is-visible');
+        if (!attente && !bulle.classList.contains('is-visible')) {
+          attente = setTimeout(() => { bulle.classList.add('is-visible'); }, 1000);
+        }
         stageEl.classList.add('survol-recto');
       });
       pochette.addEventListener('pointerleave', cacher);
