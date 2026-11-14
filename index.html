@@ -9466,6 +9466,24 @@ const dire = (function () {
     if (p && p.catch) p.catch(() => {});
   }
 
+  /* Le même clic dès qu'on actionne quoi que ce soit : liens, boutons,
+     la pochette (qui se retourne), le portrait de l'obi, la bio qu'on
+     referme d'un clic. Pas en tapant dans un champ. Les vignettes du
+     bureau ont déjà le leur, à l'appui. */
+  // Un geste = un clic : retourner la pochette déclenche en cascade des
+  // clics programmés (VERSO, puis l'écran) qu'on ne doit pas entendre.
+  let dernierClic = 0;
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (!t || !t.closest || !e.isTrusted) return;   // seulement les vrais gestes
+    if (t.closest('.mini, input, textarea, select')) return;
+    if (!t.closest('a[href], button, [role="button"], summary, .stage__bg, .bio-modal')) return;
+    const maintenant = performance.now();
+    if (maintenant - dernierClic < 250) return;
+    dernierClic = maintenant;
+    jouerClic();
+  }, true);
+
   minisEl.querySelectorAll('.mini').forEach((m) => {
     let startX = 0, startY = 0, baseL = 0, baseT = 0, moved = false, pid = null;
 
@@ -11532,8 +11550,12 @@ const dire = (function () {
       ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
     });
   }
+  // Lecture automatique coupée pour le moment : la musique ne part qu'au
+  // bouton lecture. Repasser à true pour la remettre.
+  const LECTURE_AUTO = false;
   (function () {
     if (!lecteurPret) construireLecteur();
+    if (!LECTURE_AUTO) { autoFait = true; return; }
     const p = audio.play();
     if (p && p.then) p.then(() => { autoFait = true; }).catch(() => {
       ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
