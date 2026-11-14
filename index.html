@@ -6657,6 +6657,7 @@
      pochette. En dessous de 1024 px : languettes au-dessus, et au
      téléphone le livret se déplie sous la pochette, dans le flux. */
   .intercalaires { display: none; }
+  .sayhi-mobile { display: none; }
   .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
     display: flex; position: absolute; margin: 0; padding: 0;
     /* Avant la pochette dans le DOM : elles passent dessous. */
@@ -6718,6 +6719,14 @@
     /* L'ancien en-tête du bureau mobile (blanc sur crème) chevauchait la
        rangée de languettes : elles le remplacent. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .mhead { display: none !important; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .sayhi-mobile {
+      display: inline-flex; align-items: center; position: absolute; z-index: 20;
+      left: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
+      color: #111111; text-decoration: none;
+      font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    }
+    .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
   }
   @media (min-width: 768px) and (max-width: 1023px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) {
@@ -7465,6 +7474,9 @@
 
   <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
+  <!-- SAY HI au téléphone, où la barre est masquée : en haut à gauche,
+       en face de VERSO/RECTO. -->
+  <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
   <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
   <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
     <span>VERSO</span>
