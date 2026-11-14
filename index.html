@@ -6638,8 +6638,6 @@
     position: absolute; inset: 0; z-index: 3;
     pointer-events: none; border-radius: inherit;
     background:
-      /* film rétractable : plis brillants serrés sur les bords */
-      url("film-plis.png") center / 100% 100% no-repeat,
       /* le cercle du disque : un anneau à peine plus clair, mangé par le temps */
       radial-gradient(circle at 50% 50%,
         transparent 0 44.6%,
@@ -6658,8 +6656,6 @@
       inset 0 0 calc(var(--u) * 26) rgba(30, 20, 5, 0.22); /* bords assombris */
     mix-blend-mode: normal;
   }
-  /* Verso : plus de texte près des bords, le film y est un peu plus discret. */
-  .stage[data-state="desktop"] .pochette-usure { opacity: 0.7; }
 </style>
 </head>
 <body>
