@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -6765,11 +6765,11 @@
   .verso__piste-num { font: 500 calc(28 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
   .verso__piste-titre {
     display: inline-flex; align-items: center; gap: calc(10 * var(--u));
-    font: 300 calc(58 * var(--u))/1.2 "Cormorant Garamond", serif;
+    font: 500 calc(58 * var(--u))/1.2 "Cormorant Garamond", serif;   /* 500 : le 300 était trop fin sur le bleu */
   }
   .verso__piste-sous { grid-column: 2; font: 500 calc(30 * var(--u))/1.35 "DM Sans", sans-serif; }
-  /* Face B : projets à venir, pas encore cliquables, un ton en retrait. */
-  .verso__piste--bientot { width: calc(695 * var(--u)); cursor: inherit; pointer-events: none; opacity: 0.72; }
+  /* Face B : projets à venir, pas encore cliquables. */
+  .verso__piste--bientot { width: calc(695 * var(--u)); cursor: inherit; pointer-events: none; }
   .verso__piste--bientot .verso__piste-sous { font-size: calc(26 * var(--u)); }
   .verso__piste-fleche { width: 0.55em; height: 0.55em; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
   .verso__piste:hover .verso__piste-titre, .verso__piste:focus-visible .verso__piste-titre {
