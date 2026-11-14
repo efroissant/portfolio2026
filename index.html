@@ -6775,6 +6775,26 @@
   .photo-modal__fermer:focus { outline: none; }
   .photo-modal__fermer:hover, .photo-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 
+  /* ---- Le disque qui dépasse de la pochette ---- */
+  .vinyle { display: none; }
+  @media (min-width: 1024px) {
+    .stage[data-state="lock"] .vinyle {
+      display: block; position: absolute; inset: var(--cadre-v);
+      pointer-events: none;
+    }
+    .vinyle img {
+      position: absolute; top: 2%; left: 2%; width: 96%; height: 96%;
+      transform: translateX(33%) rotate(0deg);
+      transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      filter: drop-shadow(0 6px 14px rgba(20, 15, 5, 0.28));
+    }
+    /* Rangé : il rentre dans la pochette en tournant un peu. */
+    .stage.vinyle-range .vinyle img { transform: translateX(0) rotate(-40deg); }
+    /* Pendant le retournement, on ne le voit pas derrière la tranche. */
+    .stage.en-rotation .vinyle { visibility: hidden; }
+  }
+  @media (prefers-reduced-motion: reduce) { .vinyle img { transition: none; } }
+
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
     position: absolute; left: calc(var(--x, 100) * var(--u)); top: calc(var(--y) * var(--u));
@@ -7256,6 +7276,11 @@
 
   <!-- Bulle qui suit la souris : VOIR LE VERSO, BIO, C’EST ALIGNÉ, ÇA ? -->
   <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
+
+  <!-- Le disque, à moitié sorti de la pochette (recto, grand écran).
+       Placé avant la pochette : il passe dessous. Seule la partie noire
+       dépasse ; au clic, il rentre, puis la pochette se retourne. -->
+  <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
@@ -11542,8 +11567,10 @@ const dire = (function () {
   function retourner(echanger, sens) {
     if (enRotation) return;
     const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (calme || !fondPochette.animate) { echanger(); return; }
+    if (calme || !fondPochette.animate) { echanger(); document.getElementById('stage').classList.remove('vinyle-range'); return; }
     enRotation = true;
+    const scene = document.getElementById('stage');
+    scene.classList.add('en-rotation');
     const p = 'perspective(2200px) ';
     // Minuteries et non onfinish : la face change à coup sûr, même si
     // l'onglet ralentit ses animations.
@@ -11553,10 +11580,18 @@ const dire = (function () {
     setTimeout(() => {
       echanger();
       a.cancel();
-      fondPochette.animate(
+      const b = fondPochette.animate(
         [{ transform: p + 'rotateY(' + (-90 * sens) + 'deg)' }, { transform: p + 'rotateY(0deg)' }],
         { duration: 440, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      setTimeout(() => { enRotation = false; }, 460);
+      setTimeout(() => {
+        // Sécurité : si le navigateur a gelé l'animation, on la termine,
+        // sinon la pochette resterait vue par la tranche (invisible).
+        try { if (b.playState !== 'finished') b.finish(); } catch (e) {}
+        enRotation = false;
+        scene.classList.remove('en-rotation');
+        // De retour au recto, le disque ressort de la pochette.
+        if (scene.dataset.state === 'lock') requestAnimationFrame(() => scene.classList.remove('vinyle-range'));
+      }, 460);
     }, 380);
   }
   const flipVerso = document.getElementById('flip-verso');
@@ -11712,7 +11747,16 @@ const dire = (function () {
         return;
       }
       const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
-      if (vers) vers.click();
+      if (!vers) return;
+      // Recto, grand écran : le disque rentre d'abord, puis la pochette tourne.
+      const disque = document.querySelector('.vinyle');
+      if (stageEl.dataset.state === 'lock' && disque && getComputedStyle(disque).display !== 'none' && !calme()) {
+        stageEl.classList.add('vinyle-range');
+        setTimeout(() => vers.click(), 480);
+      } else {
+        stageEl.classList.add('vinyle-range');
+        vers.click();
+      }
     });
     const photoV = document.querySelector('.verso__photo');
     function surPhotoVerso(ev) {
