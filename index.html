@@ -10871,6 +10871,33 @@ const dire = (function () {
   if (flipRecto) flipRecto.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
   });
+  /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
+     que le visiteur n'a pas touché la page : on essaie tout de suite, et
+     sinon on lance au premier geste (clic, toucher, touche). Le bouton
+     lecture/pause, lui, garde la main — un clic dessus ne relance pas. */
+  let autoFait = false;
+  function lancerAuto(e) {
+    if (autoFait) return;
+    autoFait = true;
+    ['pointerdown', 'keydown', 'touchstart'].forEach((t) => removeEventListener(t, lancerAuto, true));
+    if (e && e.target && e.target.closest && e.target.closest('#recto-play')) return;
+    if (!lecteurPret) construireLecteur();
+    if (!audio.paused) return;
+    const p = audio.play();
+    if (p && p.catch) p.catch(() => {
+      // Refus : on réessaiera au prochain geste.
+      autoFait = false;
+      ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
+    });
+  }
+  (function () {
+    if (!lecteurPret) construireLecteur();
+    const p = audio.play();
+    if (p && p.then) p.then(() => { autoFait = true; }).catch(() => {
+      ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
+    });
+  })();
+
   const versoManu = document.getElementById('verso-manu');
   if (versoManu) versoManu.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') document.getElementById('logo').click();
