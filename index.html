@@ -7026,7 +7026,7 @@
     -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__win {
-    width: min(760px, 100%);
+    width: min(1520px, 100%);   /* deux fois l'ancienne largeur (760) */
     background: #FBF8F1; color: #1F1F1F;
     border: 0; border-radius: 4px;
     box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
@@ -7053,6 +7053,17 @@
   .doc__fermer:hover, .doc__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
   .doc__fermer:focus-visible { text-decoration-thickness: 2px; }
 
+  /* Fenêtre large : les captures s'élargissent jusqu'à 1200, le texte
+     garde une colonne de lecture d'environ 720. */
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page {
+    grid-template-columns:
+      [pleine-debut] minmax(20px, 80px)
+      [libelle-debut texte-debut] minmax(0, 1200px)
+      [texte-fin] minmax(20px, 80px)
+      [pleine-fin];
+  }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) :is(.doc__page > header, .doc__bloc, .doc__decision) { max-width: 720px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page > :is(figure, .doc__fig, .doc__hero) { max-width: none; }
   /* Texte */
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page {
     padding: 56px 0 96px;
