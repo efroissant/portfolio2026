@@ -2957,9 +2957,9 @@
     text-align: center; color: #393A35; font-weight: 400;
     text-shadow: none; -webkit-text-stroke: 0; letter-spacing: 0; text-transform: none;
   }
-  .sleeve__stereo   { top: calc(144 * var(--u)); font: 500 calc(20 * var(--u)) / calc(24 * var(--u)) "DM Sans", sans-serif; }
+  .sleeve__stereo   { top: calc(144 * var(--u)); font: 500 calc(22 * var(--u)) / calc(26 * var(--u)) "DM Sans", sans-serif; }
   .sleeve__citypop  { top: calc(208 * var(--u)); font: 300 calc(40 * var(--u)) / calc(44 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .sleeve__citypop-jp { top: calc(262 * var(--u)); font: 400 calc(20 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__citypop-jp { top: calc(260 * var(--u)); font: 400 calc(22 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; }
   .sleeve__ocean {
     position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
     width: calc(212 * var(--u)); height: calc(216 * var(--u));
@@ -2980,10 +2980,10 @@
     writing-mode: vertical-rl; text-orientation: upright;    letter-spacing: calc(8 * var(--u));   /* 28 par caractère */
   }
   .sleeve__mood     { white-space: nowrap; top: calc(1392 * var(--u)); font: 500 calc(19 * var(--u)) / calc(25 * var(--u)) "DM Sans", sans-serif; }
-  .sleeve__paysage  { top: calc(1580 * var(--u)); font: 400 calc(28 * var(--u)) / calc(32 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__paysage  { top: calc(1578 * var(--u)); font: 400 calc(30 * var(--u)) / calc(32 * var(--u)) "Noto Serif JP", serif; }
   .sleeve__imprint  { top: calc(1648 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .sleeve__format   { top: calc(1758 * var(--u)); font: 500 calc(16 * var(--u)) / calc(22 * var(--u)) "DM Sans", sans-serif; }
-  .sleeve__obi-nom  { top: calc(1852 * var(--u)); font: 400 calc(16 * var(--u)) / calc(22 * var(--u)) "Noto Serif JP", serif; }
+  .sleeve__format   { top: calc(1756 * var(--u)); font: 500 calc(18 * var(--u)) / calc(24 * var(--u)) "DM Sans", sans-serif; }
+  .sleeve__obi-nom  { top: calc(1850 * var(--u)); font: 400 calc(18 * var(--u)) / calc(24 * var(--u)) "Noto Serif JP", serif; }
   .sleeve__titre {
     position: absolute; margin: 0;
     left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
@@ -6422,7 +6422,7 @@
   .recto-play.lecteur-mini {
     display: flex; align-items: center; gap: 2px;
     width: auto; height: auto; cursor: default;
-    font: 400 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 400 14px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #111111; white-space: nowrap;
   }
   .lecteur-mini__btn {
@@ -6465,7 +6465,7 @@
     position: absolute; z-index: 20;
     display: none; align-items: center; gap: 6px;
     padding: 2px 0; border: 0; background: none; color: #111111; cursor: pointer;
-    font: 400 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 400 14px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.08em;
     left: calc((100vw + var(--carre-v)) / 2 + 10px);
     top: var(--haut-v);
@@ -6557,7 +6557,9 @@
   .stage .menubar .menubar__logo { display: none !important; }
   /* Le nom en Medium, et à côté le rôle en Regular. */
   .stage .menubar .menuitem--app { font-weight: 500; }
-  .stage .menubar .menubar__role { font-size: 14px; font-weight: 400; line-height: 16px; letter-spacing: 0.02em; white-space: nowrap; margin-left: -10px; }
+  .stage .menubar .menuitem--app,
+  .stage .menubar .menubar__clock, .stage .menubar .menubar__clock * { font-size: 15px; }
+  .stage .menubar .menubar__role { font-size: 15px; font-weight: 400; line-height: 16px; letter-spacing: 0.02em; white-space: nowrap; margin-left: -10px; }
   @media (max-width: 1023px) { .stage .menubar .menubar__role { display: none; } }
   /* Barre : l'heure seule, sans la date. */
   .stage .menubar #bar-date { display: none !important; }
@@ -6668,46 +6670,46 @@
   <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
        le bureau. Mêmes unités que le recto (1895 = côté du carré). -->
   <div class="verso">
-    <p class="verso__t vs-dm" style="--x:100;--y:82;--s:25;--t:2;--lh:1.1">DESIGN PORTFOLIO&nbsp; /&nbsp; VOL. 01</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:82;--s:23;--t:1;--lh:1.1">MNU—001&nbsp;&nbsp;&nbsp; /&nbsp;&nbsp;&nbsp; STEREO</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:82;--s:28;--t:2;--lh:1.1">DESIGN PORTFOLIO&nbsp; /&nbsp; VOL. 01</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:82;--s:26;--t:1;--lh:1.1">MNU—001&nbsp;&nbsp;&nbsp; /&nbsp;&nbsp;&nbsp; STEREO</p>
     <p class="verso__t vs-cg" style="--x:95;--y:139;--s:140;--t:0;--lh:1.1;--c:#F1EFE8">SUMMER AFTERGLOW</p>
     <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:208;--s:28;--t:3;--lh:1.1">真夏の余韻</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:299;--s:23;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:299;--s:23;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:299;--s:26;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:299;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
     <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
-    <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:21;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:21;--t:1;--lh:1.1">01&nbsp; /&nbsp; OFF SCREEN</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:24;--t:1;--lh:1.1">01&nbsp; /&nbsp; OFF SCREEN</p>
     <span class="verso__plage"><img src="verso-plage.jpg" alt=""></span>
-    <p class="verso__t vs-dm" style="--x:100;--y:1229;--s:25;--t:2;--lh:1.35">SIDE A&nbsp; /&nbsp; FROM INSIGHT</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1229;--s:25;--t:2;--lh:1.35">SIDE B&nbsp; /&nbsp; TO INTERFACE</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1229;--s:28;--t:2;--lh:1.35">SIDE A&nbsp; /&nbsp; FROM INSIGHT</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1229;--s:28;--t:2;--lh:1.35">SIDE B&nbsp; /&nbsp; TO INTERFACE</p>
     <span class="verso__filet" style="--x:100;--y:1273;--w:540"></span>
     <span class="verso__filet" style="--x:700;--y:1273;--w:540"></span>
-    <p class="verso__t vs-dm" style="--x:100;--y:1308;--s:22;--t:1;--lh:1.35">01</p>
-    <p class="verso__t vs-cg" style="--x:155;--y:1299;--s:39;--t:0;--lh:1.35">Listen &amp; understand</p>
-    <p class="verso__t vs-dm" style="--x:155;--y:1352;--s:25;--t:0;--lh:1.35">Research, empathy &amp; the right questions.</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:1403;--s:22;--t:1;--lh:1.35">02</p>
-    <p class="verso__t vs-cg" style="--x:155;--y:1394;--s:39;--t:0;--lh:1.35">Find the essential</p>
-    <p class="verso__t vs-dm" style="--x:155;--y:1447;--s:25;--t:0;--lh:1.35">Bring clarity to complex ideas.</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:1498;--s:22;--t:1;--lh:1.35">03</p>
-    <p class="verso__t vs-cg" style="--x:155;--y:1489;--s:39;--t:0;--lh:1.35">Explore &amp; shape</p>
-    <p class="verso__t vs-dm" style="--x:155;--y:1542;--s:25;--t:0;--lh:1.35">Thoughtful flows, useful prototypes.</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1308;--s:22;--t:1;--lh:1.35">04</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1299;--s:39;--t:0;--lh:1.35">Make it feel right</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1352;--s:25;--t:0;--lh:1.35">Clear, considered interface design.</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1403;--s:22;--t:1;--lh:1.35">05</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1394;--s:39;--t:0;--lh:1.35">Build with intention</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1447;--s:25;--t:0;--lh:1.35">Consistent, thoughtful visual systems.</p>
-    <p class="verso__t vs-dm" style="--x:700;--y:1498;--s:22;--t:1;--lh:1.35">06</p>
-    <p class="verso__t vs-cg" style="--x:755;--y:1489;--s:39;--t:0;--lh:1.35">Test &amp; refine</p>
-    <p class="verso__t vs-dm" style="--x:755;--y:1542;--s:25;--t:0;--lh:1.35">Learn, question, improve. Repeat.</p>
-    <p class="verso__t vs-dm" style="--x:1334;--y:1533;--s:21;--t:1;--lh:1.35">OFF SCREEN.&nbsp; /&nbsp; マニュ</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1308;--s:25;--t:1;--lh:1.35">01</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1299;--s:44;--t:0;--lh:1.35">Listen &amp; understand</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1358;--s:28;--t:0;--lh:1.35">Research, empathy &amp; the right questions.</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1403;--s:25;--t:1;--lh:1.35">02</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1394;--s:44;--t:0;--lh:1.35">Find the essential</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1453;--s:28;--t:0;--lh:1.35">Bring clarity to complex ideas.</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1498;--s:25;--t:1;--lh:1.35">03</p>
+    <p class="verso__t vs-cg" style="--x:155;--y:1489;--s:44;--t:0;--lh:1.35">Explore &amp; shape</p>
+    <p class="verso__t vs-dm" style="--x:155;--y:1548;--s:28;--t:0;--lh:1.35">Thoughtful flows, useful prototypes.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1308;--s:25;--t:1;--lh:1.35">04</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1299;--s:44;--t:0;--lh:1.35">Make it feel right</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1358;--s:28;--t:0;--lh:1.35">Clear, considered interface design.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1403;--s:25;--t:1;--lh:1.35">05</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1394;--s:44;--t:0;--lh:1.35">Build with intention</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1453;--s:28;--t:0;--lh:1.35">Consistent, thoughtful visual systems.</p>
+    <p class="verso__t vs-dm" style="--x:700;--y:1498;--s:25;--t:1;--lh:1.35">06</p>
+    <p class="verso__t vs-cg" style="--x:755;--y:1489;--s:44;--t:0;--lh:1.35">Test &amp; refine</p>
+    <p class="verso__t vs-dm" style="--x:755;--y:1548;--s:28;--t:0;--lh:1.35">Learn, question, improve. Repeat.</p>
+    <p class="verso__t vs-dm" style="--x:1334;--y:1533;--s:24;--t:1;--lh:1.35">OFF SCREEN.&nbsp; /&nbsp; マニュ</p>
     <span class="verso__filet" style="--x:100;--y:1769;--w:1695"></span>
-    <p class="verso__t vs-dm" style="--x:100;--y:1794;--s:22;--t:1;--lh:1.35">CONCEPT &amp; DESIGN&nbsp; /&nbsp; FIGMA, CLAUDE &amp; GITHUB</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:1832;--s:20;--t:0.7;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
-    <p class="verso__t vs-dm" style="--x:775;--y:1794;--s:21;--t:1;--lh:1.35">INDEPENDENT PORTFOLIO EDITION</p>
-    <p class="verso__t vs-dm" style="--x:775;--y:1832;--s:20;--t:1;--lh:1.35">MNU—001&nbsp; ·&nbsp; SUMMER AFTERGLOW</p>
-    <p class="verso__t vs-cg verso__t--r" style="--x:1795;--y:1792;--s:24;--t:0;--lh:1.35">33⅓ RPM&nbsp; /&nbsp; STEREO</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1832;--s:20;--t:1;--lh:1.35">12-INCH LP&nbsp; /&nbsp; LONG PLAY</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1794;--s:25;--t:1;--lh:1.35">CONCEPT &amp; DESIGN&nbsp; /&nbsp; FIGMA, CLAUDE &amp; GITHUB</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:1832;--s:23;--t:0.7;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
+    <p class="verso__t vs-dm" style="--x:775;--y:1794;--s:24;--t:1;--lh:1.35">INDEPENDENT PORTFOLIO EDITION</p>
+    <p class="verso__t vs-dm" style="--x:775;--y:1832;--s:23;--t:1;--lh:1.35">MNU—001&nbsp; ·&nbsp; SUMMER AFTERGLOW</p>
+    <p class="verso__t vs-cg verso__t--r" style="--x:1795;--y:1792;--s:28;--t:0;--lh:1.35">33⅓ RPM&nbsp; /&nbsp; STEREO</p>
+    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1832;--s:23;--t:1;--lh:1.35">12-INCH LP&nbsp; /&nbsp; LONG PLAY</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
   <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div></div>
