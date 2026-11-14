@@ -6898,6 +6898,14 @@
   .bio-modal__corps { padding: 26px clamp(20px, 5vw, 40px) 32px; }
   .bio-modal .livret__sur { padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
   .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
+  /* RECTO / VERSO : retirés à l'écran (un clic ou un tap sur la pochette
+     la retourne). Ils restent pour le clavier et n'apparaissent qu'au
+     focus, comme un lien d'évitement. */
+  .stage .flip-lien:not(:focus-visible) {
+    clip-path: inset(50%); width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; white-space: nowrap;
+  }
+  .stage .flip-lien:focus-visible { background: #F4EFE4; padding: 4px 8px; }
   .bio-modal { cursor: pointer; }   /* un clic n'importe où la referme */
   /* FERMER : comme les items de la barre (12 px, tracking 0,08 em). */
   .bio-modal__fermer {
@@ -6987,7 +6995,7 @@
     <button type="button" class="verso__photo verso__portrait" id="portrait-bio"
             aria-expanded="false" aria-controls="a-propos">
       <img src="verso-lookout.jpg" alt="">
-      <span class="verso__bio-label">À propos de moi<span class="visually-hidden" data-etat-bio> : afficher la bio</span><span class="verso__bio-plus" aria-hidden="true">+</span></span>
+      <span class="visually-hidden">À propos de moi<span data-etat-bio> : afficher la bio</span></span>
     </button>
     <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1134;--s:24;--t:1;--lh:1.1">01&nbsp; /&nbsp; OFF SCREEN</p>
@@ -7044,7 +7052,7 @@
     <section class="livret" id="a-propos" aria-labelledby="livret-apropos-titre" hidden>
       <header class="livret__tete">
         <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
-        <h2 class="livret__titre" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
+        <h2 class="livret__titre visually-hidden" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
       </header>
       <div class="livret__texte">
         <p>Hello, je suis Manu, designer importé de France sans étiquette de retour. J’étudie en psychologie et j’apprends aussi en faisant&nbsp;: illustration, piano et vibe coding.</p>
