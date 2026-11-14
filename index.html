@@ -6754,22 +6754,7 @@
   }
 
 
-  /* ---- Verso : ondes autour de la photo, au survol ; photo en grand ---- */
-  .verso__photo-ondes {
-    position: absolute; pointer-events: none;
-    left: calc(100 * var(--u)); top: calc(380 * var(--u));
-    width: calc(1695 * var(--u)); height: calc(690 * var(--u));
-  }
-  .verso__photo-ondes::before, .verso__photo-ondes::after {
-    content: ""; position: absolute; inset: 0;
-    border: 3px solid #FBF8F1; opacity: 0;
-  }
-  .stage.survol-photo-verso .verso__photo-ondes::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
-  .stage.survol-photo-verso .verso__photo-ondes::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
-  @media (prefers-reduced-motion: reduce) {
-    .stage.survol-photo-verso .verso__photo-ondes::before { animation: none; opacity: 1; inset: -6px; }
-    .stage.survol-photo-verso .verso__photo-ondes::after { animation: none; }
-  }
+  /* ---- Verso : la photo s'ouvre en grand ---- */
   .photo-modal {
     width: min(1400px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
     padding: 44px 0 0; border: 0; background: transparent; overflow: visible; cursor: zoom-out;
@@ -7294,7 +7279,6 @@
     <p class="verso__t vs-dm" style="--x:100;--y:306;--s:26;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:306;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
     <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
-    <span class="verso__photo-ondes" aria-hidden="true"></span>
     <!-- Tracklist : la face A, ce sont les études de cas (cliquables) ;
          la face B, les projets à venir (pas encore de lien). -->
     <p class="verso__t vs-dm" style="--x:100;--y:1142;--s:28;--t:2;--lh:1.35">FACE A&nbsp; /&nbsp; ÉTUDES DE CAS</p>
