@@ -6738,7 +6738,7 @@
   }
   @media (max-width: 767px) {
     /* Place pour la rangée de languettes : la pochette descend. */
-    .stage:is([data-state="lock"], [data-state="desktop"]) { --haut-v: 112px; }
+    /* (plus de languettes au-dessus : la pochette garde son haut d'origine) */
     .flip-lien { top: 16px; }
     /* L'ancien en-tête du bureau mobile (blanc sur crème) chevauchait la
        rangée de languettes : elles le remplacent. */
@@ -6752,12 +6752,7 @@
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) {
-      --haut-v: calc(var(--bar-h) + 68px);
-      --zone-v: calc(100dvh - var(--bar-h) - 124px);
-    }
-  }
+
 
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
@@ -7186,13 +7181,6 @@
   <div class="spot lecteur" id="spot" role="dialog" aria-label="Lecteur de musique" hidden></div>
 
 
-  <!-- Intercalaires : trois languettes glissées derrière la pochette.
-       Ce sont des liens (des destinations) ; ils restent sur les deux faces.
-       Depuis le recto, la pochette se retourne avant d'ouvrir le livret. -->
-  <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
-  <nav class="intercalaires" aria-label="Rubriques du portfolio">
-    <a class="intercalaire" href="#projets" data-rubrique="projets">Projets</a>
-  </nav>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
