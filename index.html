@@ -2979,7 +2979,7 @@
     white-space: nowrap; opacity: 0;
     transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__bulle { opacity: 1; transform: translate(-50%, -50%); }
+  .sleeve__bulle { display: none; }   /* BIO suit désormais la souris (#curseur-bulle) */
   @media (prefers-reduced-motion: reduce) { .sleeve__bulle { transition: none; } }
   /* Le grain de la pochette, reposé sur le portrait de l'obi. */
   .sleeve__ocean::after {
@@ -11632,19 +11632,16 @@ const dire = (function () {
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
             || document.querySelector('dialog[open]')) { cacher(); return; }
-        // Sur l'obi : ondes sur son contour, et la bulle BIO (en CSS).
-        if (ev.target.closest('.sleeve__obi')) {
-          masquerBulle();
-          stageEl.classList.remove('survol-recto');
-          stageEl.classList.add('survol-obi');
-          return;
-        }
-        stageEl.classList.remove('survol-obi');
+        // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
+        const surObi = !!ev.target.closest('.sleeve__obi');
+        const texte = surObi ? 'BIO' : 'VOIR LE VERSO';
+        if (bulle.textContent !== texte) bulle.textContent = texte;
+        stageEl.classList.toggle('survol-obi', surObi);
+        stageEl.classList.toggle('survol-recto', !surObi);
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
         if (!attente && !bulle.classList.contains('is-visible')) {
           attente = setTimeout(() => { bulle.classList.add('is-visible'); }, 500);
         }
-        stageEl.classList.add('survol-recto');
       });
       pochette.addEventListener('pointerleave', cacher);
       pochette.addEventListener('click', cacher);
