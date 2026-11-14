@@ -6738,7 +6738,7 @@
       top: calc(var(--haut-v) - 44px);
     }
     .intercalaire {
-      flex: 1 1 0; justify-content: center; min-width: 0;
+      flex: 0 1 150px; justify-content: center; min-width: 0;   /* une languette, pas une barre */
       min-height: 54px; padding: 0 6px 10px;   /* 10 px glissés sous la pochette */
       border-radius: 6px 6px 0 0;
       transform: translateY(calc(-1 * var(--sortie)));
@@ -6933,7 +6933,6 @@
        Ce sont des liens (des destinations) ; ils restent sur les deux faces.
        Depuis le recto, la pochette se retourne avant d'ouvrir le livret. -->
   <nav class="intercalaires" aria-label="Rubriques du portfolio">
-    <a class="intercalaire" href="#a-propos" data-rubrique="a-propos">À propos</a>
     <a class="intercalaire" href="#projets" data-rubrique="projets">Projets</a>
   </nav>
 
@@ -11348,7 +11347,8 @@ const dire = (function () {
       .observe(stageEl, { attributes: true, attributeFilter: ['data-state'] });
     // Adresse directe : …/#projets, #a-propos ou #contact.
     const h = location.hash.slice(1);
-    if (['a-propos', 'projets'].includes(h)) setTimeout(() => ouvrir(h, null), 60);
+    if (h === 'projets') setTimeout(() => ouvrir(h, null), 60);
+    if (h === 'a-propos') setTimeout(ouvrirBioModale, 60);
   })();
   /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
      que le visiteur n'a pas touché la page : on essaie tout de suite, et
