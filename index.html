@@ -6888,6 +6888,15 @@
   .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
   .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .bio-modal:focus { outline: none; }
+  /* Projets : même fenêtre que la bio, mais on ne la referme pas d'un clic
+     dedans (elle contient des liens) ; photo moins haute. */
+  .projets-modal { cursor: default; }
+  .projets-modal .bio-modal__photo { aspect-ratio: 2 / 1; }
+  .projets-modal .bio-modal__photo img { object-position: 50% 50%; }
+  .projets-modal .livret__pistes li { grid-template-columns: 3.2ch 1fr; padding: 14px 0; }
+  .projets-modal .livret__pistes li:first-child { padding-top: 0; }
+  .projets-modal .livret__projet { font-size: 24px; }
+  .projets-modal .livret__lire { grid-column: 2; min-height: 36px; }
   /* ---- Recto : ondes au survol de la photo ----
      Exactement l'effet du portrait de l'obi : deux cadres bleu clair qui
      partent du bord de la zone photo et s'élargissent en s'effaçant,
@@ -7145,6 +7154,20 @@
     <button type="button" class="bio-modal__fermer" data-fermer-modal aria-label="Fermer la bio">FERMER</button>
   </dialog>
 
+  <!-- Projets en fenêtre, sur le modèle de la bio : photo en tête,
+       « LIVRET / FACE B », puis les études (lues dans ETUDES). -->
+  <dialog class="bio-modal projets-modal" id="projets-modal" aria-labelledby="projets-modal-titre" tabindex="-1">
+    <figure class="bio-modal__photo">
+      <img src="verso-plage.jpg" alt="" width="960" height="480">
+    </figure>
+    <div class="bio-modal__corps">
+      <p class="livret__sur">Livret&nbsp; /&nbsp; Face B</p>
+      <h2 class="visually-hidden" id="projets-modal-titre">Projets</h2>
+      <ol class="livret__pistes" id="livret-etudes"></ol>
+    </div>
+    <button type="button" class="bio-modal__fermer" data-fermer-projets aria-label="Fermer les projets">FERMER</button>
+  </dialog>
+
   <div class="livrets" id="livrets">
     <section class="livret" id="a-propos" aria-labelledby="livret-apropos-titre" hidden>
       <header class="livret__tete">
@@ -7159,14 +7182,6 @@
       <button type="button" class="livret__fermer" data-fermer-livret>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
     </section>
 
-    <section class="livret" id="projets" aria-labelledby="livret-projets-titre" hidden>
-      <header class="livret__tete">
-        <p class="livret__sur">Livret&nbsp; /&nbsp; Face B</p>
-        <h2 class="livret__titre" id="livret-projets-titre" tabindex="-1">Projets</h2>
-      </header>
-      <ol class="livret__pistes" id="livret-etudes"></ol>
-      <button type="button" class="livret__fermer" data-fermer-livret>Fermer les projets <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
-    </section>
   </div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
@@ -8373,10 +8388,16 @@ const dire = (function () {
     // Rouvrir le dossier dans ces cas-là le ferait clignoter pour rien.
     if (silencieux) return;
     if (location.hash.startsWith('#case/')) history.pushState(null, '', location.pathname + location.search);
-    const venuDuLivret = etudeOpener && etudeOpener.closest && etudeOpener.closest('.livret') ? etudeOpener : null;
+    const venuDuLivret = etudeOpener && etudeOpener.closest && etudeOpener.closest('.livret, .projets-modal') ? etudeOpener : null;
     etudeOpener = null;
     // Ouverte depuis le livret du verso : on y revient, pas au dossier.
-    if (venuDuLivret) { venuDuLivret.focus(); return; }
+    if (venuDuLivret) {
+      // Retour à la fenêtre Projets, rouverte, sur le lien de l'étude.
+      const d = venuDuLivret.closest('dialog');
+      if (d && !d.open && d.showModal) d.showModal();
+      venuDuLivret.focus();
+      return;
+    }
     // Fermer une étude, c'est revenir d'où on venait : le dossier. Sans ça
     // le visiteur se retrouve sur un bureau vide et doit rouvrir Case
     // Studies pour lire la suivante — trois gestes au lieu d'un.
@@ -9468,7 +9489,8 @@ const dire = (function () {
     const t = e.target;
     if (!t || !t.closest || !e.isTrusted) return;   // seulement les vrais gestes
     if (t.closest('.mini, input, textarea, select')) return;
-    if (!t.closest('a[href], button, [role="button"], summary, .stage__bg, .bio-modal')) return;
+    if (!t.closest('a[href], button, [role="button"], summary, .stage__bg, #bio-modal')
+        && !(t.matches && t.matches('dialog'))) return;   // fond d'une fenêtre : elle se ferme
     const maintenant = performance.now();
     if (maintenant - dernierClic < 250) return;
     dernierClic = maintenant;
@@ -11369,6 +11391,9 @@ const dire = (function () {
       const a = ev.target.closest('[data-etude]');
       if (!a) return;
       ev.preventDefault();
+      // La fenêtre se range : l'étude s'ouvre par-dessus la page.
+      const d = a.closest('dialog');
+      if (d && d.open) d.close();
       openEtude(a.dataset.etude, a);
     });
     // SAY HI, dans la barre : le composeur de message (le lien mailto reste
@@ -11428,8 +11453,26 @@ const dire = (function () {
 
     onglets.forEach((o) => o.addEventListener('click', (ev) => {
       ev.preventDefault();
+      if (o.dataset.rubrique === 'projets') { ouvrirProjets(); return; }
       ouvrir(o.dataset.rubrique, o);
     }));
+    // Projets : une fenêtre comme la bio, sur le recto comme sur le verso.
+    const fenProjets = document.getElementById('projets-modal');
+    function ouvrirProjets() {
+      if (!fenProjets || !fenProjets.showModal) return;
+      fenProjets.showModal();
+      fenProjets.focus({ preventScroll: true });
+      fenProjets.scrollTop = 0;
+      if (!calme() && fenProjets.animate) {
+        fenProjets.animate([{ opacity: 0, transform: 'translateY(14px) scale(0.98)' }, { opacity: 1, transform: 'none' }],
+          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+      }
+    }
+    if (fenProjets) {
+      fenProjets.querySelector('[data-fermer-projets]').addEventListener('click', () => fenProjets.close());
+      // Clic sur le fond assombri : on ferme (les liens, eux, restent des liens).
+      fenProjets.addEventListener('click', (ev) => { if (ev.target === fenProjets) fenProjets.close(); });
+    }
     if (portrait) portrait.addEventListener('click', () => {
       if (ouvert === 'a-propos') fermer(true); else afficher('a-propos', portrait);
     });
@@ -11520,7 +11563,7 @@ const dire = (function () {
       .observe(stageEl, { attributes: true, attributeFilter: ['data-state'] });
     // Adresse directe : …/#projets, #a-propos ou #contact.
     const h = location.hash.slice(1);
-    if (h === 'projets') setTimeout(() => ouvrir(h, null), 60);
+    if (h === 'projets') setTimeout(ouvrirProjets, 60);
     if (h === 'a-propos') setTimeout(ouvrirBioModale, 60);
   })();
   /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
