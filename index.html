@@ -2966,6 +2966,29 @@
     border-radius: calc(4 * var(--u)); overflow: hidden;
   }
   .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
+  /* Survol du portrait de l'obi : une onde part du cadre (comme un rond
+     dans l'eau) pour dire qu'un clic ouvre la bio, au verso. */
+  .stage[data-state="lock"] .sleeve__ocean { pointer-events: auto; cursor: pointer; }
+  .sleeve__onde {
+    position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
+    width: calc(212 * var(--u)); height: calc(216 * var(--u));
+    border-radius: calc(10 * var(--u)); pointer-events: none;
+  }
+  .sleeve__onde::before, .sleeve__onde::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    border: 1.5px solid #3FA9DA; opacity: 0;
+  }
+  .sleeve__ocean:hover + .sleeve__onde::before { animation: obi-onde 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+  .sleeve__ocean:hover + .sleeve__onde::after { animation: obi-onde 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s infinite; }
+  @keyframes obi-onde {
+    0%   { transform: scale(1);    opacity: 0.95; }
+    80%  { transform: scale(1.22); opacity: 0; }
+    100% { transform: scale(1.22); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sleeve__ocean:hover + .sleeve__onde::before { animation: none; opacity: 1; transform: scale(1.08); }
+    .sleeve__ocean:hover + .sleeve__onde::after { animation: none; }
+  }
   /* Le grain de la pochette, reposé sur le portrait de l'obi. */
   .sleeve__ocean::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -6762,32 +6785,6 @@
     font: 500 max(12px, calc(24 * var(--u)))/1 "DM Sans", sans-serif;
     letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
   }
-  /* Une ellipse autour du visage : elle pulse doucement pour dire qu'un
-     clic sur le portrait ouvre quelque chose. Elle disparaît bio ouverte. */
-  .verso__ellipse {
-    position: absolute; left: 71.2%; top: 39%;
-    width: calc(170 * var(--u)); height: calc(210 * var(--u));
-    min-width: 34px; min-height: 42px;
-    transform: translate(-50%, -50%) rotate(-8deg);
-    border: 1.5px solid #FBF8F1; border-radius: 50%;
-    box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.25), 0 0 12px rgba(0, 0, 0, 0.18);
-    pointer-events: none;
-    transition: opacity 240ms ease, border-width 200ms ease;
-  }
-  .verso__ellipse::after {
-    content: ""; position: absolute; inset: -2px; border-radius: 50%;
-    border: 1.5px solid #FBF8F1;
-    animation: ellipse-onde 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  }
-  @keyframes ellipse-onde {
-    0%   { transform: scale(1);    opacity: 0.9; }
-    70%  { transform: scale(1.35); opacity: 0; }
-    100% { transform: scale(1.35); opacity: 0; }
-  }
-  .verso__portrait:hover .verso__ellipse,
-  .verso__portrait:focus-visible .verso__ellipse { border-width: 2.5px; }
-  .verso__portrait[aria-expanded="true"] .verso__ellipse { opacity: 0; }
-  @media (prefers-reduced-motion: reduce) { .verso__ellipse::after { animation: none; opacity: 0; } }
   .verso__bio-plus { font-weight: 400; font-size: 1.4em; line-height: 1; display: inline-block; transition: transform 260ms ease; }
   .verso__portrait[aria-expanded="true"] .verso__bio-plus { transform: rotate(45deg); }
   .verso__portrait:hover .verso__bio-label { background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -6932,7 +6929,7 @@
       <p class="sleeve__t sleeve__stereo">S T E R E O</p>
       <p class="sleeve__t sleeve__citypop">CITY POP</p>
       <p class="sleeve__t sleeve__citypop-jp">シティポップ</p>
-      <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span>
+      <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span><span class="sleeve__onde"></span>
       <p class="sleeve__t sleeve__manu-jp">マニュ</p>
       <p class="sleeve__t sleeve__devise">A little insight,<br>A better interface.</p>
       <span class="sleeve__filet sleeve__filet--haut"></span>
@@ -6961,7 +6958,6 @@
     <button type="button" class="verso__photo verso__portrait" id="portrait-bio"
             aria-expanded="false" aria-controls="a-propos">
       <img src="verso-lookout.jpg" alt="">
-      <span class="verso__ellipse" aria-hidden="true"></span>
       <span class="verso__bio-label">À propos de moi<span class="visually-hidden" data-etat-bio> : afficher la bio</span><span class="verso__bio-plus" aria-hidden="true">+</span></span>
     </button>
     <p class="verso__t vs-dm" style="--x:100;--y:1134;--s:24;--t:2;--lh:1.1">PALM SHADOWS. ENDLESS SUMMER.</p>
@@ -11285,6 +11281,11 @@ const dire = (function () {
     const pochette = document.querySelector('.stage__bg');
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
+      // Le portrait de l'obi, au recto : retourne et ouvre la bio.
+      if (ev.target.closest('.sleeve__ocean') && stageEl.dataset.state === 'lock') {
+        ouvrir('a-propos', document.querySelector('.intercalaire[data-rubrique="a-propos"]'));
+        return;
+      }
       const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
       if (vers) vers.click();
     });
