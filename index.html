@@ -6759,6 +6759,9 @@
     }
   }
 
+  /* Toute la pochette se clique (elle se retourne) : la main au survol. */
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg { cursor: pointer; }
+
   /* ---- Le livret ---- */
   .livrets { display: none; }
   .stage[data-state="desktop"] .livrets {
