@@ -2999,29 +2999,21 @@
     text-align: center; white-space: nowrap;
     font: 400 calc(250 * var(--u)) / 1.2 "Indelible", sans-serif;
     letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
-    /* Bouton : sans habillage, seul le mot se voit. */
-    padding: 0; border: 0; background: none; cursor: pointer;
+    padding: 0; border: 0; background: none; pointer-events: none;
     z-index: 2;
     transition: color 200ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), text-shadow 200ms ease;
   }
-  .sleeve__manu:hover, .sleeve__manu:focus-visible {
-    color: #FFFFFF;
-    transform: translate(-50%, -50%) rotate(-6.55deg) scale(1.05);
-    text-shadow: 0 0 calc(24 * var(--u)) rgba(255, 255, 255, 0.55);
-  }
-  .sleeve__manu:active { transform: translate(-50%, -50%) rotate(-6.55deg) scale(0.98); }
-  .sleeve__manu:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 6px; }
   /* ===== VERSO DE LA POCHETTE (Figma 110:18) =====
      Le bureau montre le dos du disque : aplat bleu, titre, photo, deux
      faces de pistes, crédits. Le recto (photo, obi, MANU) s'efface. */
-  .verso, .verso__manu { opacity: 0; visibility: hidden; transition: opacity 500ms ease, visibility 0s linear 500ms; }
+  .verso, .verso__manu { opacity: 0; visibility: hidden; }
   .stage[data-state="desktop"] .verso,
-  .stage[data-state="desktop"] .verso__manu { opacity: 1; visibility: visible; transition: opacity 500ms ease 200ms, visibility 0s; }
-  .sleeve, .sleeve__manu { transition: opacity 400ms ease; }
+  .stage[data-state="desktop"] .verso__manu { opacity: 1; visibility: visible; }
+
   .stage[data-state="desktop"] .sleeve,
   .stage[data-state="desktop"] .sleeve__manu { opacity: 0; }
   /* Sur l'aplat bleu du verso, le film se verrait trop : on l'atténue. */
-  .stage__film { transition: opacity 500ms ease; }
+
   .stage[data-state="desktop"] .stage__film { opacity: 0.45; }
   .verso { position: absolute; inset: 0; background: #386B97; pointer-events: none; user-select: none; color: #FFFFFF; }
   .verso__t {
@@ -6369,26 +6361,25 @@
      Comme sur le bureau : la photo est un carré centré, coins de 4 px,
      sous son film plastique, posé sur le papier crème. Au déverrouillage,
      le carré glisse vers sa place sur le bureau (transition d'inset). */
-  .stage[data-state="lock"] {
+  .stage:is([data-state="lock"], [data-state="desktop"]) {
     --carre-v: min(100vw - 2 * var(--marge-v), 100dvh - 2 * var(--marge-v));
     --marge-v: 32px;
     --cadre-v: calc((100dvh - var(--carre-v)) / 2) calc((100vw - var(--carre-v)) / 2);
     background-color: #F4EFE4;
   }
-  @media (max-width: 767px) { .stage[data-state="lock"] { --marge-v: 16px; } }
-  .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .stage[data-state="lock"] .stage__bg,
-  .stage[data-state="lock"] .stage__video,
-  .stage[data-state="lock"] .stage__tint,
-  .stage[data-state="lock"] .stage__scrim {
+  @media (max-width: 767px) { .stage:is([data-state="lock"], [data-state="desktop"]) { --marge-v: 16px; } }
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__video,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__tint,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__scrim {
     inset: var(--cadre-v);
     border-radius: 4px;
   }
-  .stage[data-state="lock"] .stage__bg {
+  .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg {
     overflow: hidden;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
   }
-  html:has(.stage[data-state="lock"]), body:has(.stage[data-state="lock"]) { background: #F4EFE4; }
+  html:has(.stage), body:has(.stage) { background: #F4EFE4; }
   /* Recadrée en carré, la photo des palmiers place la traînée plus bas :
      le nom descend d'autant, toujours parallèle à elle. */
   .stage[data-wall="palmiers"][data-state="lock"] .lock .cluster.cluster {
@@ -6446,11 +6437,7 @@
   .stage:not([data-state="lock"]):not([data-state="desktop"]) .recto-play { display: none; }
   /* Sur le bureau : à côté de la pochette en grand écran, sinon en bas à
      droite de l'écran. */
-  .stage[data-state="desktop"] .recto-play {
-    left: auto; top: auto;
-    right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
-    z-index: 20;
-  }
+  .stage[data-state="desktop"] .recto-play { z-index: 20; }
   @media (min-width: 1024px) {
     .stage[data-state="desktop"] .recto-play {
       right: auto;
@@ -6466,6 +6453,58 @@
       bottom: auto; top: calc((100dvh + var(--carre-v)) / 2 + 8px);
     }
   }
+
+  /* ===== RETOURNER LE DISQUE =====
+     En haut à droite de la pochette, le pendant du mini-lecteur en bas :
+     VERSO sur le recto, RECTO sur le verso, et une flèche qui tourne. */
+  .flip-lien {
+    position: absolute; z-index: 20;
+    display: none; align-items: center; gap: 6px;
+    padding: 2px 0; border: 0; background: none; color: #111111; cursor: pointer;
+    font: 400 13px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.08em;
+    left: calc((100vw + var(--carre-v)) / 2 + 10px);
+    top: calc((100dvh - var(--carre-v)) / 2);
+  }
+  .flip-lien svg { width: 18px; height: 18px; overflow: visible; transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .flip-lien:hover svg, .flip-lien:focus-visible svg { transform: rotate(180deg); }
+  .flip-lien--recto:hover svg, .flip-lien--recto:focus-visible svg { transform: rotate(-180deg); }
+  .flip-lien:hover span { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .flip-lien:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+  .stage[data-state="lock"] .flip-lien--verso,
+  .stage[data-state="desktop"] .flip-lien--recto { display: inline-flex; }
+  @media (min-width: 768px) {
+    .flip-lien { top: calc(var(--bar-h) + 16px + (var(--zone-v) - var(--carre-v)) / 2); }
+  }
+  @media (min-width: 1024px) {
+    .flip-lien {
+      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      top: calc(var(--bar-h) + 16px + var(--marge-y));
+    }
+  }
+  /* Téléphone : pas de place à côté, le lien passe au-dessus, à droite. */
+  @media (max-width: 767px) {
+    .flip-lien {
+      left: auto; right: calc((100vw - var(--carre-v)) / 2);
+      top: calc((100dvh - var(--carre-v)) / 2 - 30px);
+    }
+  }
+  /* Pendant le retournement, la pochette pivote en 3D. */
+  .stage__bg { backface-visibility: hidden; }
+
+  /* PORTFOLIO, désormais fixe, à gauche de la pochette : centré dans la
+     bande crème, à la hauteur de la pochette. Plus de glisser-déposer. */
+  @media (min-width: 1024px) {
+    .stage[data-state="desktop"] .pochette-nom,
+    .stage[data-state="lock"] .pochette-nom {
+      left: 0; right: auto;
+      width: calc(var(--obi) + var(--marge-x));
+      top: calc(var(--bar-h) + 16px + var(--marge-y));
+      bottom: calc(24px + var(--marge-y));
+    }
+  }
+  .stage .pochette-nom span { pointer-events: none !important; cursor: default; }
+  .stage .pochette-nom { translate: none !important; }
 
   /* MANU, dans la marge droite : en Indelible (Youssef Habchi), droite,
      sans l'italique ni l'inclinaison de l'ancienne version. */
@@ -6497,14 +6536,14 @@
   /* Avec la barre, la pochette du recto se cale dessous, comme au bureau :
      même haut (barre + 16), même bas (24). */
   @media (min-width: 768px) {
-    .stage[data-state="lock"] {
+    .stage:is([data-state="lock"], [data-state="desktop"]) {
       --zone-v: calc(100dvh - var(--bar-h) - 40px);
       --carre-v: min(100vw - 2 * var(--marge-v), var(--zone-v));
       --cadre-v: calc(var(--bar-h) + 16px + (var(--zone-v) - var(--carre-v)) / 2)
                  calc((100vw - var(--carre-v)) / 2)
                  calc(24px + (var(--zone-v) - var(--carre-v)) / 2);
     }
-    .stage[data-state="lock"] .recto-play {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
       bottom: calc(24px + (var(--zone-v) - var(--carre-v)) / 2 - 4px);
     }
   }
@@ -6533,8 +6572,8 @@
   /* Grand écran : recto et verso occupent exactement la même place, la
      pochette ne bouge pas quand on la retourne. */
   @media (min-width: 1024px) {
-    .stage[data-state="lock"] { --carre-v: var(--carre); --cadre-v: var(--cadre); }
-    .stage[data-state="lock"] .recto-play {
+    .stage:is([data-state="lock"], [data-state="desktop"]) { --carre-v: var(--carre); --cadre-v: var(--cadre); }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
       right: auto; top: auto;
       left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
       bottom: calc(24px + var(--marge-y) - 4px);
@@ -6641,10 +6680,8 @@
     <p class="verso__t vs-cg verso__t--r" style="--x:1795;--y:1792;--s:24;--t:0;--lh:1.35">33⅓ RPM&nbsp; /&nbsp; STEREO</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1832;--s:15;--t:1;--lh:1.35">12-INCH LP&nbsp; /&nbsp; LONG PLAY</p>
   </div>
-  <!-- MANU du verso : ramène au recto. -->
-  <button type="button" class="verso__manu" id="verso-manu" aria-label="Retourner au recto de la pochette">MANU</button>
-  <!-- MANU, au centre de la pochette : c'est le bouton d'entrée. -->
-  <button type="button" class="sleeve__manu" id="recto-manu" aria-label="Entrer dans le portfolio">MANU</button><div class="stage__film" aria-hidden="true"></div></div>
+  <!-- MANU, au centre de la pochette : simple lettrage. -->
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div></div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
@@ -7150,6 +7187,16 @@
 
   <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
+  <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
+  <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
+    <span>VERSO</span>
+    <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10 A6 6 0 1 1 13.2 4.9"/><path d="M13.6 1.9 L13.2 4.9 L16.2 5.3"/></g></svg>
+  </button>
+  <button type="button" class="flip-lien flip-lien--recto" id="flip-recto" aria-label="Retourner le disque : voir le recto">
+    <span>RECTO</span>
+    <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 A6 6 0 1 0 6.8 4.9"/><path d="M6.4 1.9 L6.8 4.9 L3.8 5.3"/></g></svg>
+  </button>
+
   <div class="recto-play lecteur-mini" id="recto-play" role="group" aria-label="Lecteur de musique">
     <button type="button" class="lecteur-mini__btn" data-mini="prec" aria-label="Morceau précédent">
       <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 4.5 V15.5"/><path d="M15 4.8 L7.5 10 L15 15.2 Z"/></g></svg>
@@ -10762,6 +10809,39 @@ const dire = (function () {
       majRecto();
     });
   }
+  /* Retourner le disque : la pochette pivote d'un quart de tour, on
+     change de face au moment où elle est vue par la tranche, puis elle
+     finit son demi-tour. Sans mouvement réduit, c'est un simple échange. */
+  const fondPochette = document.querySelector('.stage__bg');
+  let enRotation = false;
+  function retourner(echanger, sens) {
+    if (enRotation) return;
+    const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (calme || !fondPochette.animate) { echanger(); return; }
+    enRotation = true;
+    const p = 'perspective(2200px) ';
+    // Minuteries et non onfinish : la face change à coup sûr, même si
+    // l'onglet ralentit ses animations.
+    const a = fondPochette.animate(
+      [{ transform: p + 'rotateY(0deg)' }, { transform: p + 'rotateY(' + (90 * sens) + 'deg)' }],
+      { duration: 380, easing: 'cubic-bezier(0.55, 0, 0.75, 0.25)', fill: 'forwards' });
+    setTimeout(() => {
+      echanger();
+      a.cancel();
+      fondPochette.animate(
+        [{ transform: p + 'rotateY(' + (-90 * sens) + 'deg)' }, { transform: p + 'rotateY(0deg)' }],
+        { duration: 440, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+      setTimeout(() => { enRotation = false; }, 460);
+    }, 380);
+  }
+  const flipVerso = document.getElementById('flip-verso');
+  const flipRecto = document.getElementById('flip-recto');
+  if (flipVerso) flipVerso.addEventListener('click', () => {
+    if (document.getElementById('stage').dataset.state === 'lock') retourner(() => document.getElementById('unlock').click(), 1);
+  });
+  if (flipRecto) flipRecto.addEventListener('click', () => {
+    if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
+  });
   const versoManu = document.getElementById('verso-manu');
   if (versoManu) versoManu.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') document.getElementById('logo').click();
