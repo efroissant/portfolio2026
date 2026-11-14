@@ -6910,27 +6910,26 @@
   .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
   .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .bio-modal:focus { outline: none; }
-  /* ---- Recto : ondulation autour de MANU ----
-     Trois ellipses très claires qui s'élargissent depuis le nom, en
-     boucle lente, comme un rond dans l'eau : la photo se touche. */
+  /* ---- Recto : ondulation sur la photo ----
+     Des cadres clairs partent du bord de la zone photo (la pochette hors
+     obi) et rentrent vers le centre en s'effaçant, en boucle lente : la
+     photo se touche. Vers l'intérieur, car la pochette rogne le dehors. */
   .recto-ondes {
     position: absolute; pointer-events: none;
-    left: calc(995 * var(--u)); top: calc(1010 * var(--u));
-    width: calc(900 * var(--u)); height: calc(420 * var(--u));
-    transform: translate(-50%, -50%) rotate(-6.55deg);
+    left: calc(276 * var(--u)); top: 0; right: 0; bottom: 0;
   }
   .recto-ondes i {
-    position: absolute; inset: 0; border-radius: 50%;
-    border: max(1px, calc(2.5 * var(--u))) solid rgba(255, 255, 255, 0.55);
-    opacity: 0; transform: scale(0.45);
+    position: absolute; inset: 0;
+    border: max(1px, calc(3 * var(--u))) solid rgba(255, 255, 255, 0.6);
+    opacity: 0; transform: scale(1);
     animation: recto-onde 6s cubic-bezier(0.25, 0.6, 0.35, 1) infinite;
   }
   .recto-ondes i:nth-child(2) { animation-delay: 2s; }
   .recto-ondes i:nth-child(3) { animation-delay: 4s; }
   @keyframes recto-onde {
-    0%   { transform: scale(0.45); opacity: 0; }
-    15%  { opacity: 0.85; }
-    100% { transform: scale(1.25); opacity: 0; }
+    0%   { transform: scale(1);    opacity: 0; }
+    12%  { opacity: 0.9; }
+    100% { transform: scale(0.78); opacity: 0; }
   }
   .stage:not([data-state="lock"]) .recto-ondes i { animation: none; }
   @media (prefers-reduced-motion: reduce) { .recto-ondes i { animation: none; opacity: 0; } }
@@ -7078,7 +7077,7 @@
       <p class="sleeve__t sleeve__format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
       <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
     </div>
-    <!-- Ondulation autour de MANU : la photo est actionnable (elle retourne le disque). -->
+    <!-- Ondulation sur la zone photo : elle est actionnable (elle retourne le disque). -->
     <span class="recto-ondes"><i></i><i></i><i></i></span>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
