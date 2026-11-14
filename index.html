@@ -6610,7 +6610,7 @@
   .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
   .stage .menubar .menubar__logo { display: none !important; }
   /* Le nom en Medium, et à côté le rôle en Regular. */
-  .stage .menubar .menuitem--app { cursor: default; pointer-events: none; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .stage .menubar .menuitem--app { cursor: pointer; pointer-events: auto; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
   .stage .menubar .menuitem--app,
   .stage .menubar .menubar__clock, .stage .menubar .menubar__clock * { font-size: 12px; letter-spacing: 0.08em; }
   .stage .menubar .menubar__role { font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.08em; white-space: nowrap; margin-left: -10px; }
@@ -6917,6 +6917,42 @@
   .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
   .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .bio-modal:focus { outline: none; }
+  /* ---- Recto : ondulation autour de MANU ----
+     Trois ellipses très claires qui s'élargissent depuis le nom, en
+     boucle lente, comme un rond dans l'eau : la photo se touche. */
+  .recto-ondes {
+    position: absolute; pointer-events: none;
+    left: calc(995 * var(--u)); top: calc(1010 * var(--u));
+    width: calc(900 * var(--u)); height: calc(420 * var(--u));
+    transform: translate(-50%, -50%) rotate(-6.55deg);
+  }
+  .recto-ondes i {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: max(1px, calc(2.5 * var(--u))) solid rgba(255, 255, 255, 0.55);
+    opacity: 0; transform: scale(0.45);
+    animation: recto-onde 6s cubic-bezier(0.25, 0.6, 0.35, 1) infinite;
+  }
+  .recto-ondes i:nth-child(2) { animation-delay: 2s; }
+  .recto-ondes i:nth-child(3) { animation-delay: 4s; }
+  @keyframes recto-onde {
+    0%   { transform: scale(0.45); opacity: 0; }
+    15%  { opacity: 0.85; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+  .stage:not([data-state="lock"]) .recto-ondes i { animation: none; }
+  @media (prefers-reduced-motion: reduce) { .recto-ondes i { animation: none; opacity: 0; } }
+
+  /* ---- Bulle qui suit la souris : « VOIR LE VERSO » ---- */
+  .curseur-bulle {
+    position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
+    padding: 5px 9px 4px;
+    background: #FBF8F1; color: #111111;
+    border: 1px solid #111111; border-radius: 2px;
+    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    white-space: nowrap; opacity: 0; transition: opacity 140ms ease;
+  }
+  .curseur-bulle.is-visible { opacity: 1; }
+  @media (hover: none) { .curseur-bulle { display: none; } }
   /* ---- SAY HI : le composeur dans le style de la bio ----
      Fond crème, ombre douce, voile bleu nuit ; en-tête « LIVRET / SAY HI »
      et FERMER, ENVOYER et ANNULER en capitales comme la barre. */
@@ -7022,6 +7058,7 @@
   <!-- Intercalaires : trois languettes glissées derrière la pochette.
        Ce sont des liens (des destinations) ; ils restent sur les deux faces.
        Depuis le recto, la pochette se retourne avant d'ouvrir le livret. -->
+  <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
   <nav class="intercalaires" aria-label="Rubriques du portfolio">
     <a class="intercalaire" href="#projets" data-rubrique="projets">Projets</a>
   </nav>
@@ -7048,6 +7085,8 @@
       <p class="sleeve__t sleeve__format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
       <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
     </div>
+    <!-- Ondulation autour de MANU : la photo est actionnable (elle retourne le disque). -->
+    <span class="recto-ondes"><i></i><i></i><i></i></span>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
   <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
@@ -7582,8 +7621,8 @@
           </picture>
         </button>
 
-        <!-- Simple nom, plus de menu dessous. -->
-        <span class="menuitem menuitem--app" data-node-id="118:187">Emmanuel Froissant</span>
+        <!-- Le nom ramène toujours au recto. -->
+        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" aria-label="Emmanuel Froissant, retour au recto">Emmanuel Froissant</button>
         <span class="menubar__role">DESIGNER UI/UX</span>
 
         <div class="menubar__items" data-node-id="118:188">
@@ -11429,6 +11468,28 @@ const dire = (function () {
         modale.close();
       });
     }
+    // « VOIR LE VERSO » suit la souris sur la pochette, au recto (pas sur le
+    // portrait de l'obi, qui a sa bulle BIO).
+    const bulle = document.getElementById('curseur-bulle');
+    if (pochette && bulle) {
+      const cacher = () => bulle.classList.remove('is-visible');
+      pochette.addEventListener('pointermove', (ev) => {
+        if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
+            || ev.target.closest('.sleeve__ocean') || document.querySelector('dialog[open]')) { cacher(); return; }
+        bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
+        bulle.classList.add('is-visible');
+      });
+      pochette.addEventListener('pointerleave', cacher);
+      pochette.addEventListener('click', cacher);
+    }
+    // Le nom, dans la barre : toujours retour au recto.
+    const nom = document.querySelector('.menuitem--app');
+    if (nom) nom.addEventListener('click', () => {
+      if (stageEl.dataset.state === 'desktop') {
+        const r = document.getElementById('flip-recto');
+        if (r) r.click();
+      }
+    });
     // Le livret ne tourne pas avec la pochette : il se range avant.
     const versRecto = document.getElementById('flip-recto');
     if (versRecto) versRecto.addEventListener('click', () => fermer(false));
