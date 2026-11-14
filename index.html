@@ -6910,29 +6910,39 @@
   .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
   .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .bio-modal:focus { outline: none; }
-  /* ---- Recto : ondulation sur la photo ----
-     Des cadres clairs partent du bord de la zone photo (la pochette hors
-     obi) et rentrent vers le centre en s'effaçant, en boucle lente : la
-     photo se touche. Vers l'intérieur, car la pochette rogne le dehors. */
-  .recto-ondes {
-    position: absolute; pointer-events: none;
-    left: calc(276 * var(--u)); top: 0; right: 0; bottom: 0;
+  /* ---- Recto : ondes au survol de la photo ----
+     Exactement l'effet du portrait de l'obi : deux cadres bleu clair qui
+     partent du bord de la zone photo et s'élargissent en s'effaçant,
+     seulement pendant le survol. */
+  .recto-ondes { display: none; }
+  .stage[data-state="lock"] .recto-ondes {
+    display: block; position: absolute; inset: var(--cadre-v);
+    pointer-events: none; z-index: 2;
   }
-  .recto-ondes i {
-    position: absolute; inset: 0;
-    border: max(1px, calc(3 * var(--u))) solid rgba(255, 255, 255, 0.6);
-    opacity: 0; transform: scale(1);
-    animation: recto-onde 6s cubic-bezier(0.25, 0.6, 0.35, 1) infinite;
+  .recto-ondes span {
+    position: absolute; top: 0; bottom: 0; right: 0;
+    left: calc(100% * 276 / 1895);
   }
-  .recto-ondes i:nth-child(2) { animation-delay: 2s; }
-  .recto-ondes i:nth-child(3) { animation-delay: 4s; }
-  @keyframes recto-onde {
-    0%   { transform: scale(1);    opacity: 0; }
-    12%  { opacity: 0.9; }
-    100% { transform: scale(0.78); opacity: 0; }
+  .recto-ondes span::before, .recto-ondes span::after {
+    content: ""; position: absolute; inset: 0; border-radius: 3px;
+    border: 1.5px solid #3FA9DA; opacity: 0;
   }
-  .stage:not([data-state="lock"]) .recto-ondes i { animation: none; }
-  @media (prefers-reduced-motion: reduce) { .recto-ondes i { animation: none; opacity: 0; } }
+  .stage.survol-recto .recto-ondes span::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
+  .stage.survol-recto .recto-ondes span::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
+  /* Même mouvement que l'obi ; l'écart final est réglé en pixels pour
+     que la grande zone ne s'éloigne pas trois fois plus loin. */
+  @keyframes obi-onde-large {
+    0%   { inset: 0;     opacity: 0.95; }
+    80%  { inset: -18px; opacity: 0; }
+    100% { inset: -18px; opacity: 0; }
+  }
+  @media (max-width: 767px) {
+    .stage[data-state="lock"] .recto-ondes { bottom: auto; height: var(--carre-v); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage.survol-recto .recto-ondes span::before { animation: none; opacity: 1; inset: -6px; }
+    .stage.survol-recto .recto-ondes span::after { animation: none; }
+  }
 
   /* ---- Bulle qui suit la souris : « VOIR LE VERSO » ---- */
   .curseur-bulle {
@@ -7077,8 +7087,6 @@
       <p class="sleeve__t sleeve__format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
       <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
     </div>
-    <!-- Ondulation sur la zone photo : elle est actionnable (elle retourne le disque). -->
-    <span class="recto-ondes"><i></i><i></i><i></i></span>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
   <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
@@ -7127,6 +7135,10 @@
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
        Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
+  <!-- Ondes du recto, hors de la pochette pour qu'elles débordent comme
+       celles du portrait de l'obi. Calées sur la zone photo (hors obi). -->
+  <div class="recto-ondes" aria-hidden="true"><span></span></div>
+
   <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
        <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
        recopié depuis la bio du livret à l'ouverture : une seule source. -->
@@ -11464,12 +11476,13 @@ const dire = (function () {
     // portrait de l'obi, qui a sa bulle BIO).
     const bulle = document.getElementById('curseur-bulle');
     if (pochette && bulle) {
-      const cacher = () => bulle.classList.remove('is-visible');
+      const cacher = () => { bulle.classList.remove('is-visible'); stageEl.classList.remove('survol-recto'); };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
             || ev.target.closest('.sleeve__ocean') || document.querySelector('dialog[open]')) { cacher(); return; }
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
         bulle.classList.add('is-visible');
+        stageEl.classList.add('survol-recto');
       });
       pochette.addEventListener('pointerleave', cacher);
       pochette.addEventListener('click', cacher);
