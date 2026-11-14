@@ -2966,29 +2966,7 @@
     border-radius: calc(4 * var(--u)); overflow: hidden;
   }
   .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
-  /* Survol du portrait de l'obi : une onde part du cadre (comme un rond
-     dans l'eau) pour dire qu'un clic ouvre la bio, au verso. */
   .stage[data-state="lock"] .sleeve__obi { pointer-events: auto; cursor: pointer; }   /* tout l'obi ouvre la bio */
-  .sleeve__onde {
-    position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
-    width: calc(212 * var(--u)); height: calc(216 * var(--u));
-    border-radius: calc(10 * var(--u)); pointer-events: none;
-  }
-  .sleeve__onde::before, .sleeve__onde::after {
-    content: ""; position: absolute; inset: 0; border-radius: inherit;
-    border: 1.5px solid #3FA9DA; opacity: 0;
-  }
-  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__onde::before { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
-  .stage[data-state="lock"] .sleeve__obi:hover .sleeve__onde::after { animation: obi-onde 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
-  @keyframes obi-onde {
-    0%   { transform: scale(1);    opacity: 0.95; }
-    80%  { transform: scale(1.22); opacity: 0; }
-    100% { transform: scale(1.22); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .sleeve__obi:hover .sleeve__onde::before { animation: none; opacity: 1; transform: scale(1.08); }
-    .sleeve__obi:hover .sleeve__onde::after { animation: none; }
-  }
   /* Bulle « BIO » au survol du portrait, dans le style de la barre. */
   .sleeve__bulle {
     position: absolute; z-index: 2; pointer-events: none;
@@ -6936,12 +6914,25 @@
     80%  { inset: -18px; opacity: 0; }
     100% { inset: -18px; opacity: 0; }
   }
+  /* Même effet sur le contour de l'obi, au survol de l'obi. */
+  .recto-ondes b {
+    position: absolute; top: 0; bottom: 0; left: 0;
+    width: calc(100% * 276 / 1895);
+  }
+  .recto-ondes b::before, .recto-ondes b::after {
+    content: ""; position: absolute; inset: 0; border-radius: 3px;
+    border: 1.5px solid #3FA9DA; opacity: 0;
+  }
+  .stage.survol-obi .recto-ondes b::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
+  .stage.survol-obi .recto-ondes b::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
   @media (max-width: 767px) {
     .stage[data-state="lock"] .recto-ondes { bottom: auto; height: var(--carre-v); }
   }
   @media (prefers-reduced-motion: reduce) {
     .stage.survol-recto .recto-ondes span::before { animation: none; opacity: 1; inset: -6px; }
     .stage.survol-recto .recto-ondes span::after { animation: none; }
+    .stage.survol-obi .recto-ondes b::before { animation: none; opacity: 1; inset: -6px; }
+    .stage.survol-obi .recto-ondes b::after { animation: none; }
   }
 
   /* ---- Bulle qui suit la souris : « VOIR LE VERSO » ---- */
@@ -7074,7 +7065,7 @@
       <p class="sleeve__t sleeve__stereo">S T E R E O</p>
       <p class="sleeve__t sleeve__citypop">CITY POP</p>
       <p class="sleeve__t sleeve__citypop-jp">シティポップ</p>
-      <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span><span class="sleeve__onde"></span><span class="sleeve__bulle">BIO</span>
+      <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span><span class="sleeve__bulle">BIO</span>
       <p class="sleeve__t sleeve__manu-jp">マニュ</p>
       <p class="sleeve__t sleeve__devise">A little insight,<br>A better interface.</p>
       <span class="sleeve__filet sleeve__filet--haut"></span>
@@ -7137,7 +7128,7 @@
        Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
   <!-- Ondes du recto, hors de la pochette pour qu'elles débordent comme
        celles du portrait de l'obi. Calées sur la zone photo (hors obi). -->
-  <div class="recto-ondes" aria-hidden="true"><span></span></div>
+  <div class="recto-ondes" aria-hidden="true"><span></span><b></b></div>
 
   <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
        <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
@@ -11494,10 +11485,18 @@ const dire = (function () {
     // portrait de l'obi, qui a sa bulle BIO).
     const bulle = document.getElementById('curseur-bulle');
     if (pochette && bulle) {
-      const cacher = () => { bulle.classList.remove('is-visible'); stageEl.classList.remove('survol-recto'); };
+      const cacher = () => { bulle.classList.remove('is-visible'); stageEl.classList.remove('survol-recto', 'survol-obi'); };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
-            || ev.target.closest('.sleeve__obi') || document.querySelector('dialog[open]')) { cacher(); return; }
+            || document.querySelector('dialog[open]')) { cacher(); return; }
+        // Sur l'obi : ondes sur son contour, et la bulle BIO (en CSS).
+        if (ev.target.closest('.sleeve__obi')) {
+          bulle.classList.remove('is-visible');
+          stageEl.classList.remove('survol-recto');
+          stageEl.classList.add('survol-obi');
+          return;
+        }
+        stageEl.classList.remove('survol-obi');
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
         bulle.classList.add('is-visible');
         stageEl.classList.add('survol-recto');
