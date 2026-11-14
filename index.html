@@ -11629,9 +11629,29 @@ const dire = (function () {
       let attente = null;
       const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
       const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi'); };
+      const photoVerso = document.querySelector('.verso__photo');
+      const montrer = (ev, texte) => {
+        if (bulle.textContent !== texte) bulle.textContent = texte;
+        // Une longue bulle près du bord droit passe à gauche du curseur.
+        let x = ev.clientX + 16;
+        if (x + bulle.offsetWidth > innerWidth - 8) x = ev.clientX - 16 - bulle.offsetWidth;
+        bulle.style.transform = 'translate(' + Math.max(8, x) + 'px, ' + (ev.clientY + 20) + 'px)';
+        if (!attente && !bulle.classList.contains('is-visible')) {
+          attente = setTimeout(() => { bulle.classList.add('is-visible'); }, 500);
+        }
+      };
       pochette.addEventListener('pointermove', (ev) => {
-        if (ev.pointerType !== 'mouse' || stageEl.dataset.state !== 'lock'
-            || document.querySelector('dialog[open]')) { cacher(); return; }
+        if (ev.pointerType !== 'mouse' || document.querySelector('dialog[open]')) { cacher(); return; }
+        // Verso : un clin d'œil sur la photo panoramique, rien ailleurs.
+        if (stageEl.dataset.state === 'desktop') {
+          stageEl.classList.remove('survol-recto', 'survol-obi');
+          const r = photoVerso && photoVerso.getBoundingClientRect();
+          if (r && ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) {
+            montrer(ev, 'À la recherche du bouton que l’utilisateur ne trouve pas non plus\u00a0!');
+          } else masquerBulle();
+          return;
+        }
+        if (stageEl.dataset.state !== 'lock') { cacher(); return; }
         // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
         const surObi = !!ev.target.closest('.sleeve__obi');
         const texte = surObi ? 'BIO' : 'VOIR LE VERSO';
