@@ -6790,7 +6790,7 @@
      anime ; ici, les deux volets intérieurs. */
   .livret-droite, .livret-gauche { display: none; }
   @media (min-width: 1024px) {
-    .stage[data-state="lock"].gatefold .livret-droite {
+    .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 4px; overflow: hidden;
       background: #2E7FA8 url("livret-interieur.jpg") right center / 200% 100% no-repeat;
@@ -6811,6 +6811,10 @@
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
+    /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
+       que le volet droit (devenu le verso) vienne se poser dessus. */
+    .stage.gatefold-pli .livret-droite { background-position: left center; }
+    .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
     /* Ouverte : ni disque, ni ondes, ni lien vers la bio sur l'obi. */
     .stage.gatefold .vinyle, .stage.gatefold .recto-ondes { visibility: hidden; }
@@ -11817,10 +11821,61 @@ const dire = (function () {
         else requestAnimationFrame(() => stageEl.classList.remove('vinyle-range'));   // le disque ressort
       });
     }
-    // Ouverte : un clic sur la double page mène au verso (les projets y
-    // sont encore) ; un clic à côté ou Échap la referme.
-    const versVersoDepuisLivret = () => fermerLivret(() => { const v = document.getElementById('flip-verso'); if (v) v.click(); });
+    /* Fermer par l'autre côté : le volet droit se rabat sur le gauche,
+       et c'est le dos de la pochette (le verso) qui se retrouve dessus.
+       1. le volet droit pivote sur la tranche jusqu'à être vu de profil ;
+       2. la pochette passe au verso et finit le pivot, posée à gauche ;
+       3. elle reprend sa place et sa taille habituelles. */
+    function versVersoDepuisLivret() {
+      if (livretEtat !== 'ouvert') return;
+      livretEtat = 'anim';
+      stageEl.classList.remove('gatefold-ouvert');
+      const g = livretGeo;
+      const cote = pochette.offsetWidth, S = cote * g.s;
+      const voletT = (a) => 'perspective(2600px) ' + droitT(1) + ' rotateY(' + a + 'deg)';
+      const versoT = (a, t) => 'perspective(2600px) translate(' + ((g.dx - cote) * t) + 'px, 0px) scale(' + (1 - (1 - g.s) * t) + ') rotateY(' + a + 'deg)';
+      const passerAuVerso = () => {
+        stageEl.classList.add('gatefold-pli');
+        stageEl.classList.remove('gatefold-dos');
+        voletD.style.transform = 'translate(' + (g.dx - S) + 'px, 0px) scale(' + g.s + ')';
+        pochette.style.transformOrigin = 'right center';
+        document.getElementById('unlock').click();
+      };
+      const finir = () => {
+        livretEtat = 'ferme';
+        stageEl.classList.remove('gatefold', 'gatefold-dos', 'gatefold-pli');
+        pochette.style.transform = ''; pochette.style.transformOrigin = '';
+        voletD.style.transform = '';
+      };
+      if (calme() || !pochette.animate) { passerAuVerso(); finir(); return; }
+      const a1 = voletD.animate([{ transform: voletT(0) }, { transform: voletT(-90) }],
+        { duration: 480, easing: 'cubic-bezier(0.55, 0, 0.75, 0.25)', fill: 'forwards' });
+      setTimeout(() => {
+        passerAuVerso();
+        a1.cancel();
+        pochette.style.transform = versoT(0, 1);
+        const a2 = pochette.animate([{ transform: versoT(90, 1) }, { transform: versoT(0, 1) }],
+          { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+        setTimeout(() => {
+          try { a2.finish(); } catch (e) {}
+          stageEl.classList.remove('gatefold-pli');
+          voletD.style.transform = '';
+          const a3 = pochette.animate([{ transform: versoT(0, 1) }, { transform: versoT(0, 0) }],
+            { duration: 620, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+          pochette.style.transform = '';
+          setTimeout(() => { try { a3.finish(); } catch (e) {} finir(); }, 640);
+        }, 560);
+      }, 480);
+    }
+    // Ouverte : un clic sur le volet droit (ou un clic droit) la referme
+    // par l'autre côté, sur le verso ; un clic sur le volet gauche, à
+    // côté, ou Échap la referme sur le recto.
     if (voletD) voletD.addEventListener('click', () => { if (livretEtat === 'ouvert') versVersoDepuisLivret(); });
+    document.addEventListener('contextmenu', (ev) => {
+      if (livretEtat !== 'ouvert' || !ev.target.closest('.stage__bg, .livret-droite')) return;
+      ev.preventDefault();
+      versVersoDepuisLivret();
+    });
     document.addEventListener('click', (ev) => {
       if (livretEtat !== 'ouvert') return;
       if (ev.target.closest('.stage__bg, .livret-droite, a, button, dialog, .recto-play, .lien-bas')) return;
@@ -11835,7 +11890,7 @@ const dire = (function () {
     });
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
-      if (livretEtat === 'ouvert') { versVersoDepuisLivret(); return; }
+      if (livretEtat === 'ouvert') { fermerLivret(); return; }
       if (livretEtat === 'anim') return;
       // Verso : la photo panoramique s'ouvre en grand.
       if (stageEl.dataset.state === 'desktop' && surPhotoVerso(ev)) { ouvrirPhoto(); return; }
@@ -11935,7 +11990,7 @@ const dire = (function () {
         // Pochette ouverte (ou en mouvement) : VOIR LE VERSO sur la double page.
         if (stageEl.classList.contains('gatefold')) {
           stageEl.classList.remove('survol-recto', 'survol-obi');
-          if (livretEtat === 'ouvert') montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
+          if (livretEtat === 'ouvert') montrer(ev, 'REFERMER'); else masquerBulle();
           return;
         }
         // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
