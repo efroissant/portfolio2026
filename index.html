@@ -6806,7 +6806,7 @@
     .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 4px; overflow: hidden;
-      background: #2E7FA8 url("livret-interieur.webp") right center / 200% auto no-repeat;
+      background: #E8DCC6 url("livret-mur.webp") right center / 200% 100% no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
       transform-origin: left center;
     }
@@ -6814,30 +6814,13 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #0185C3;   /* le bleu exact du ciel de la pochette */
+      background: #E8DCC6 url("livret-mur.webp") left center / 200% 100% no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
     .livret-droite::after, .livret-gauche::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(to right, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%);
-    }
-    /* Intérieur gauche : le nuage, sur le bleu du ciel de la pochette.
-       Le nuage n'est plus qu'un voile ; sa forme est remplie par la phrase
-       répétée en bloc justifié, blanche (masque nuage-masque.png). */
-    .livret-nuage, .livret-texte {
-      position: absolute; inset: 0;
-      -webkit-mask: url("nuage-masque.png") center / cover no-repeat;
-      mask: url("nuage-masque.png") center / cover no-repeat;
-    }
-    .livret-nuage { background: url("nuage.jpg") center / cover no-repeat; opacity: 0.3; }
-    .livret-texte {
-      margin: 0; padding: calc(30 * var(--u)) calc(30 * var(--u)) 0;
-      overflow: hidden; color: #FFFFFF;
-      font: 700 calc(52 * var(--u)) / 1.0 "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-stretch: condensed; letter-spacing: -0.01em; text-transform: uppercase;
-      text-align: justify; hyphens: none; word-spacing: 0.05em;
-      display: flex; align-items: flex-end;
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
@@ -6847,7 +6830,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #0185C3; }
+    .stage.gatefold-pli .livret-droite { background-position: left center; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
     /* Ouverte : ni disque, ni ondes, ni lien vers la bio sur l'obi. */
@@ -7421,7 +7404,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><span class="livret-nuage"></span><p class="livret-texte">A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. SUMMER AFTERGLOW. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. SUMMER AFTERGLOW. MANU. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. SUMMER AFTERGLOW. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. SUMMER AFTERGLOW. SUMMER AFTERGLOW. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. MANU. MANU. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. MANU. MANU. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. MANU. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. SUMMER AFTERGLOW.</p></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
