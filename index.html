@@ -11775,7 +11775,7 @@ const dire = (function () {
     function mesurerLivret() {
       // Mesures sans transformation (offset*), la pochette pouvant bouger.
       const gauche = stageEl.getBoundingClientRect().left + pochette.offsetLeft;
-      livretGeo = { s: Math.min(1, (innerWidth - 80) / (2 * pochette.offsetWidth)), dx: innerWidth / 2 - gauche };
+      livretGeo = { s: Math.min(1, (innerWidth - 80) / (2 * pochette.offsetWidth)), dx: innerWidth / 2 - gauche, L: gauche };
     }
     function poserLivret(ouvert) {
       pochette.style.transform = ouvert ? couvT(-180, 1) : '';
@@ -11830,14 +11830,22 @@ const dire = (function () {
       if (livretEtat !== 'ouvert') return;
       livretEtat = 'anim';
       stageEl.classList.remove('gatefold-ouvert');
-      const g = livretGeo;
-      const cote = pochette.offsetWidth, S = cote * g.s;
-      const voletT = (a) => 'perspective(2600px) ' + droitT(1) + ' rotateY(' + a + 'deg)';
-      const versoT = (a, t) => 'perspective(2600px) translate(' + ((g.dx - cote) * t) + 'px, 0px) scale(' + (1 - (1 - g.s) * t) + ') rotateY(' + a + 'deg)';
+      // Pendant tout le pliage, la tranche glisse vers la droite et la
+      // pochette reprend sa taille : elle arrive pile à sa place, sans
+      // second mouvement. t va de 1 (ouverte) à 0 (fermée, au verso).
+      const g = livretGeo, cote = pochette.offsetWidth, L = g.L, R = L + cote;
+      const tranche = (t) => R + (L + g.dx - R) * t;
+      const ech = (t) => 1 - (1 - g.s) * t;
+      const P = 'perspective(2600px) ';
+      // Volets accrochés par leur bord gauche (la tranche) :
+      const surTranche = (t, a) => P + 'translate(' + (tranche(t) - L) + 'px, 0px) scale(' + ech(t) + ') rotateY(' + a + 'deg)';
+      // Le verso, accroché par son bord droit (la tranche) :
+      const verso = (t, a) => P + 'translate(' + (tranche(t) - R) + 'px, 0px) scale(' + ech(t) + ') rotateY(' + a + 'deg)';
+      // Le volet gauche de l'intérieur, à gauche de la tranche :
+      const gauche = (t) => P + 'translate(' + (tranche(t) - cote * ech(t) - L) + 'px, 0px) scale(' + ech(t) + ')';
       const passerAuVerso = () => {
         stageEl.classList.add('gatefold-pli');
         stageEl.classList.remove('gatefold-dos');
-        voletD.style.transform = 'translate(' + (g.dx - S) + 'px, 0px) scale(' + g.s + ')';
         pochette.style.transformOrigin = 'right center';
         document.getElementById('unlock').click();
       };
@@ -11848,24 +11856,27 @@ const dire = (function () {
         voletD.style.transform = '';
       };
       if (calme() || !pochette.animate) { passerAuVerso(); finir(); return; }
-      const a1 = voletD.animate([{ transform: voletT(0) }, { transform: voletT(-90) }],
-        { duration: 480, easing: 'cubic-bezier(0.55, 0, 0.75, 0.25)', fill: 'forwards' });
+      const D1 = 520, D2 = 620;
+      // 1. Le volet droit se soulève ; le volet gauche (dos de la couverture) suit la glissade.
+      const o1 = { duration: D1, easing: 'cubic-bezier(0.55, 0, 1, 0.45)', fill: 'forwards' };
+      const a1 = [
+        voletD.animate([{ transform: surTranche(1, 0) }, { transform: surTranche(0.5, -90) }], o1),
+        pochette.animate([{ transform: surTranche(1, -180) }, { transform: surTranche(0.5, -180) }], o1),
+      ];
       setTimeout(() => {
+        // 2. Vu de profil : il devient le verso et se pose, pendant que
+        //    l'intérieur gauche, dessous, continue de glisser.
         passerAuVerso();
-        a1.cancel();
-        pochette.style.transform = versoT(0, 1);
-        const a2 = pochette.animate([{ transform: versoT(90, 1) }, { transform: versoT(0, 1) }],
-          { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-        setTimeout(() => {
-          try { a2.finish(); } catch (e) {}
-          stageEl.classList.remove('gatefold-pli');
-          voletD.style.transform = '';
-          const a3 = pochette.animate([{ transform: versoT(0, 1) }, { transform: versoT(0, 0) }],
-            { duration: 620, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-          pochette.style.transform = '';
-          setTimeout(() => { try { a3.finish(); } catch (e) {} finir(); }, 640);
-        }, 560);
-      }, 480);
+        a1.forEach((x) => x.cancel());
+        const o2 = { duration: D2, easing: 'cubic-bezier(0, 0.55, 0.45, 1)', fill: 'forwards' };
+        pochette.style.transform = '';
+        voletD.style.transform = gauche(0);
+        const a2 = [
+          pochette.animate([{ transform: verso(0.5, 90) }, { transform: verso(0, 0) }], o2),
+          voletD.animate([{ transform: gauche(0.5) }, { transform: gauche(0) }], o2),
+        ];
+        setTimeout(() => { a2.forEach((x) => { try { x.cancel(); } catch (e) {} }); finir(); }, D2 + 20);
+      }, D1);
     }
     // Ouverte : un clic sur le volet droit (ou un clic droit) la referme
     // par l'autre côté, sur le verso ; un clic sur le volet gauche, à
