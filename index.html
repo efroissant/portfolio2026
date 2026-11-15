@@ -3001,6 +3001,23 @@
   }
   .stage[data-state="lock"] .stage__video { display: none !important; }
   .sleeve__titre, .sleeve__manu { display: none !important; }
+  /* Fond du site : le mur et l'ombre des palmiers, calé sur la gauche. */
+  .stage:is([data-state="lock"], [data-state="desktop"]) {
+    background: #E9DFCB url("fond-site.webp") left center / cover no-repeat !important;
+  }
+  /* Sur la photo (ciel en haut, asphalte en bas), la barre et les liens
+     du bas passent en blanc, avec une ombre douce pour rester lisibles. */
+  .stage:is([data-state="lock"], [data-state="desktop"]) { --text: #FFFFFF; }
+  .stage:is([data-state="lock"], [data-state="desktop"]) .menubar,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .menubar .menuitem--app,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .menubar .barlien,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .sayhi-mobile,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
+    color: #FFFFFF !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  }
+  .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play svg { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
   /* Plus d'obi : la pochette est l'image seule, l'onde en fait tout le tour. */
   .sleeve__obi { display: none !important; }
   .recto-ondes span { left: 0; }
