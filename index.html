@@ -6822,6 +6822,30 @@
       content: ""; position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(to right, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%);
     }
+    /* Intérieur gauche : la phrase répétée en bloc justifié, blanche,
+       qui monte du bas comme une masse de nuage et se perd dans le ciel. */
+    .livret-texte {
+      position: absolute; inset: 0 0 calc(-58 * var(--u)) 0;   /* la dernière ligne, souvent courte, sort du cadre */
+      margin: 0; padding: calc(40 * var(--u)) calc(36 * var(--u)) 0;
+      overflow: hidden; color: #FFFFFF;
+      font: 700 calc(58 * var(--u)) / 1.0 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-stretch: condensed; letter-spacing: -0.01em; text-transform: uppercase;
+      text-align: justify; hyphens: none; word-spacing: 0.05em;
+      display: flex; align-items: flex-end;
+      -webkit-mask-image:
+        radial-gradient(ellipse 34% 30% at 22% 34%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 26% 22% at 44% 50%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 50% 82% at 14% 100%, #000 64%, transparent 66%),
+        radial-gradient(ellipse 30% 40% at 66% 62%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 130% 48% at 50% 100%, #000 70%, transparent 72%);
+      mask-image:
+        radial-gradient(ellipse 34% 30% at 22% 34%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 26% 22% at 44% 50%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 50% 82% at 14% 100%, #000 64%, transparent 66%),
+        radial-gradient(ellipse 30% 40% at 66% 62%, #000 60%, transparent 62%),
+        radial-gradient(ellipse 130% 48% at 50% 100%, #000 70%, transparent 72%);
+      opacity: 0.94;
+    }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
     /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
@@ -7404,7 +7428,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><p class="livret-texte">A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE. A LITTLE INSIGHT, A BETTER INTERFACE.</p></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
