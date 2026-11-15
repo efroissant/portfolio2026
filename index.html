@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;family=Oswald:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -2995,10 +2995,26 @@
   /* Recto : la nouvelle pochette (PORTFOLIO / MANU et la photo), qui
      porte déjà son lettrage ; le obi reste posé à gauche. */
   .stage[data-state="lock"] .stage__bg {
-    background-image: url("pochette-recto.webp") !important;
-    background-size: cover !important; background-position: center !important;
+    background: #FFFFFF !important;
     animation: none !important;
   }
+  /* La photo seule, découpée de la pochette ; les deux mots sont du vrai
+     texte (plus fin, espacé), lus de bas en haut comme sur la maquette. */
+  .recto-photo, .recto-mot { display: none; }
+  .stage[data-state="lock"] .recto-photo {
+    display: block; position: absolute;
+    left: calc(337 * var(--u)); top: calc(24 * var(--u));
+    width: calc(1223 * var(--u)); height: calc(1842 * var(--u));
+    object-fit: cover; max-width: none;
+  }
+  .stage[data-state="lock"] .recto-mot {
+    display: block; position: absolute; margin: 0; white-space: nowrap;
+    font: 400 calc(250 * var(--u)) / 1 "Oswald", "Arial Narrow", sans-serif;
+    letter-spacing: 0.08em; padding-left: 0.08em; text-transform: uppercase;   /* l'espace final compensé : le mot reste centré */
+    transform: translate(-50%, -50%) rotate(-90deg) skewX(-8deg);
+  }
+  .recto-mot--portfolio { left: calc(168 * var(--u)); top: calc(50% + 0px); color: #004A97; }
+  .recto-mot--manu { left: calc(1731 * var(--u)); top: calc(925 * var(--u)); color: #019ED6; }
   .stage[data-state="lock"] .stage__video { display: none !important; }
   .sleeve__titre, .sleeve__manu { display: none !important; }
   /* Fond du site : blanc. */
@@ -7349,6 +7365,9 @@
   <div class="livret-droite" aria-hidden="true"></div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
+    <img class="recto-photo" src="recto-photo.jpg" alt="">
+    <p class="recto-mot recto-mot--portfolio">PORTFOLIO!!</p>
+    <p class="recto-mot recto-mot--manu">MANU</p>
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
          à gauche, le titre et MANU au pinceau sur la photo. Toutes les
          mesures sont en unités de la pochette (1895 = côté du carré). -->
