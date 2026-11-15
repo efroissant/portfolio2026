@@ -7198,6 +7198,13 @@
     text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
   }
   .stage .menubar .barlien:hover, .stage .lien-bas:hover, .stage .sayhi-mobile:hover { text-decoration-thickness: 2px; }
+  /* MANU, en haut à gauche : un lien comme SAY HI et LKD (retour au recto). */
+  .stage .menubar .menuitem--app {
+    font-weight: 400; letter-spacing: 0.12em; padding: 4px 6px;
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+  }
+  .stage .menubar .menuitem--app:hover { text-decoration-thickness: 2px; background: none; }
+  .stage .menubar .menuitem--app:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
   /* ---- SAY HI : le composeur dans le style de la bio ----
      Fond crème, ombre douce, voile bleu nuit ; en-tête « LIVRET / SAY HI »
      et FERMER, ENVOYER et ANNULER en capitales comme la barre. */
@@ -7888,8 +7895,7 @@
         </button>
 
         <!-- Le nom ramène toujours au recto. -->
-        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" aria-label="Emmanuel Froissant, retour au recto">Emmanuel Froissant</button>
-        <span class="menubar__role">DESIGNER UI/UX</span>
+        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" aria-label="Manu, retour au recto">MANU</button>
 
         <div class="menubar__items" data-node-id="118:188">
           <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
