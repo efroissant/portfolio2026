@@ -2948,17 +2948,12 @@
     overflow: hidden;
   }
   .sleeve__filet { position: absolute; left: calc(32 * var(--u)); width: calc(212 * var(--u)); height: max(1px, calc(1 * var(--u))); background: rgba(0, 0, 0, 0.3); }
-  .sleeve__filet--haut { top: calc(780 * var(--u)); }
-  .sleeve__filet--bas  { top: calc(1548 * var(--u)); }
   .sleeve__t {
     position: absolute; margin: 0;
     left: calc(32 * var(--u)); width: calc(212 * var(--u));
     text-align: center; color: #393A35; font-weight: 400;
     text-shadow: none; -webkit-text-stroke: 0; letter-spacing: 0; text-transform: none;
   }
-  .sleeve__stereo   { top: calc(144 * var(--u)); font: 500 calc(22 * var(--u)) / calc(26 * var(--u)) "DM Sans", sans-serif; }
-  .sleeve__citypop  { top: calc(208 * var(--u)); font: 300 calc(40 * var(--u)) / calc(44 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .sleeve__citypop-jp { top: calc(260 * var(--u)); font: 400 calc(22 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; }
   .sleeve__ocean {
     position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
     width: calc(212 * var(--u)); height: calc(216 * var(--u));
@@ -2989,24 +2984,14 @@
     mix-blend-mode: overlay;
     opacity: 0.55;
   }
-  .sleeve__manu-jp  { top: calc(608 * var(--u)); font: 400 calc(32 * var(--u)) / calc(44 * var(--u)) "Noto Serif JP", serif; color: #30B0C7; }
-  .sleeve__devise   { top: calc(676 * var(--u)); font: italic 500 calc(26 * var(--u)) / calc(34 * var(--u)) "Cormorant Garamond", serif; }
-  .sleeve__portfolio {
-    left: calc(74 * var(--u)); width: calc(100 * var(--u)); top: calc(836 * var(--u));
-    font: 300 calc(56 * var(--u)) / calc(72 * var(--u)) "Noto Serif JP", serif;
-    writing-mode: vertical-rl; text-orientation: upright; height: calc(504 * var(--u));
-    letter-spacing: calc(16 * var(--u));   /* 72 par caractère, comme la maquette */
-  }
-  .sleeve__tagline {
-    left: calc(180 * var(--u)); width: calc(28 * var(--u)); top: calc(852 * var(--u));
-    font: 400 calc(20 * var(--u)) / calc(28 * var(--u)) "Noto Serif JP", serif; color: #30B0C7;
-    writing-mode: vertical-rl; text-orientation: upright;    letter-spacing: calc(8 * var(--u));   /* 28 par caractère */
-  }
-  .sleeve__mood     { white-space: nowrap; top: calc(1392 * var(--u)); font: 500 calc(19 * var(--u)) / calc(25 * var(--u)) "DM Sans", sans-serif; }
-  .sleeve__paysage  { top: calc(1578 * var(--u)); font: 400 calc(30 * var(--u)) / calc(32 * var(--u)) "Noto Serif JP", serif; }
-  .sleeve__imprint  { top: calc(1648 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .sleeve__format   { top: calc(1756 * var(--u)); font: 500 calc(18 * var(--u)) / calc(24 * var(--u)) "DM Sans", sans-serif; }
-  .sleeve__obi-nom  { top: calc(1850 * var(--u)); font: 400 calc(18 * var(--u)) / calc(24 * var(--u)) "Noto Serif JP", serif; }
+  /* Obi francisé (Figma 171:116). */
+  .ob-portfolio { top: calc(144 * var(--u)); font: 500 calc(16 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; }
+  .ob-nom { top: calc(208 * var(--u)); font: 300 calc(38 * var(--u)) / calc(44 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
+  .ob-texte { left: calc(29 * var(--u)); top: calc(613 * var(--u)); text-align: left; font: 500 calc(28 * var(--u)) / calc(29 * var(--u)) "DM Sans", sans-serif; }
+  .ob-filet { top: calc(1112 * var(--u)); }
+  .ob-titre { top: calc(1212 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
+  .ob-format { top: calc(1310 * var(--u)); font: 500 calc(12 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; white-space: pre; }
+  .ob-copy { top: calc(1856 * var(--u)); font: 400 calc(12 * var(--u)) / calc(20 * var(--u)) "Noto Serif JP", serif; }
   .sleeve__titre {
     position: absolute; margin: 0;
     left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
@@ -7291,21 +7276,15 @@
          à gauche, le titre et MANU au pinceau sur la photo. Toutes les
          mesures sont en unités de la pochette (1895 = côté du carré). -->
     <div class="sleeve__obi">
-      <p class="sleeve__t sleeve__stereo">S T E R E O</p>
-      <p class="sleeve__t sleeve__citypop">CITY POP</p>
-      <p class="sleeve__t sleeve__citypop-jp">シティポップ</p>
+      <!-- Obi francisé (maquette Figma 171:116). -->
+      <p class="sleeve__t ob-portfolio">P O R T F O L I O</p>
+      <p class="sleeve__t ob-nom">EMMANUEL<br>FROISSANT</p>
       <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span><span class="sleeve__bulle">BIO</span>
-      <p class="sleeve__t sleeve__manu-jp">マニュ</p>
-      <p class="sleeve__t sleeve__devise">A little insight,<br>A better interface.</p>
-      <span class="sleeve__filet sleeve__filet--haut"></span>
-      <p class="sleeve__t sleeve__portfolio">ポートフォリオ</p>
-      <p class="sleeve__t sleeve__tagline">潮風と光のメロディ</p>
-      <p class="sleeve__t sleeve__mood">PALM SHADOWS.<br>ENDLESS SUMMER</p>
-      <span class="sleeve__filet sleeve__filet--bas"></span>
-      <p class="sleeve__t sleeve__paysage">音楽のある風景</p>
-      <p class="sleeve__t sleeve__imprint">SUMMER<br>AFTERGLOW</p>
-      <p class="sleeve__t sleeve__format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
-      <p class="sleeve__t sleeve__obi-nom">帯&nbsp; /&nbsp; OBI</p>
+      <p class="sleeve__t ob-texte">Emmanuel est un Designer UI/UX basé à Montréal.<br>Il voit un bon design comme un bon vinyle&nbsp;: le visuel attire, l’expérience donne envie de le rejouer, la créativité fait la différence et l’émotion fait le reste.</p>
+      <span class="sleeve__filet ob-filet"></span>
+      <p class="sleeve__t ob-titre">SUMMER<br>AFTERGLOW</p>
+      <p class="sleeve__t ob-format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
+      <p class="sleeve__t ob-copy">COPYRIGHT 2027</p>
     </div>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
