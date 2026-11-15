@@ -2947,6 +2947,19 @@
     background: rgba(255, 255, 255, 0.95);
     overflow: hidden;
   }
+  /* Papier de l'obi : grain en relief et fibres (obi-papier.svg), posés
+     PAR-DESSUS l'impression en « multiply », comme de l'encre sur papier.
+     Une ombre douce au bord droit : la bande de papier est posée sur la
+     pochette, pas imprimée dedans. */
+  .sleeve__obi { background: #FBFAF6; box-shadow: 1px 0 0 rgba(30, 25, 15, 0.10), 3px 0 7px rgba(20, 15, 5, 0.18); }
+  .sleeve__obi::after {
+    content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0) 70%, rgba(60, 50, 30, 0.06) 100%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.0) 0%, rgba(80, 65, 40, 0.035) 100%),
+      url("obi-papier.svg") 0 0 / 300px 300px repeat;
+    mix-blend-mode: multiply;
+  }
   .sleeve__filet { position: absolute; left: calc(32 * var(--u)); width: calc(212 * var(--u)); height: max(1px, calc(1 * var(--u))); background: rgba(0, 0, 0, 0.3); }
   .sleeve__t {
     position: absolute; margin: 0;
