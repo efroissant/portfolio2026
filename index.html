@@ -3003,8 +3003,8 @@
   .recto-photo, .recto-mot { display: none; }
   .stage[data-state="lock"] .recto-photo {
     display: block; position: absolute;
-    left: calc(337 * var(--u)); top: calc(24 * var(--u));
-    width: calc(1223 * var(--u)); height: calc(1842 * var(--u));
+    left: calc(448 * var(--u)); top: calc(24 * var(--u));   /* plus étroite : plus de blanc de chaque côté */
+    width: calc(1000 * var(--u)); height: calc(1842 * var(--u));
     object-fit: cover; max-width: none;
   }
   .stage[data-state="lock"] .recto-mot {
@@ -3013,8 +3013,8 @@
     letter-spacing: 0.08em; padding-left: 0.08em; text-transform: uppercase;   /* l'espace final compensé : le mot reste centré */
     transform: translate(-50%, -50%) rotate(-90deg) skewX(-8deg);
   }
-  .recto-mot--portfolio { left: calc(168 * var(--u)); top: calc(50% + 0px); color: #004A97; }
-  .recto-mot--manu { left: calc(1731 * var(--u)); top: calc(925 * var(--u)); color: #019ED6; }
+  .recto-mot--portfolio { left: calc(224 * var(--u)); top: calc(50% + 0px); color: #004A97; }
+  .recto-mot--manu { left: calc(1672 * var(--u)); top: calc(925 * var(--u)); color: #019ED6; }
   .stage[data-state="lock"] .stage__video { display: none !important; }
   .sleeve__titre, .sleeve__manu { display: none !important; }
   /* Fond du site : blanc. */
