@@ -3001,6 +3001,9 @@
   }
   .stage[data-state="lock"] .stage__video { display: none !important; }
   .sleeve__titre, .sleeve__manu { display: none !important; }
+  /* Plus d'obi : la pochette est l'image seule, l'onde en fait tout le tour. */
+  .sleeve__obi { display: none !important; }
+  .recto-ondes span { left: 0; }
   .sleeve__titre {
     position: absolute; margin: 0;
     left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
