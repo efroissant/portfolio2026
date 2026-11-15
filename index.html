@@ -2992,6 +2992,15 @@
   .ob-titre { top: calc(1212 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
   .ob-format { top: calc(1310 * var(--u)); font: 500 calc(12 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; white-space: pre; }
   .ob-copy { top: calc(1856 * var(--u)); font: 400 calc(12 * var(--u)) / calc(20 * var(--u)) "Noto Serif JP", serif; }
+  /* Recto : la nouvelle pochette (PORTFOLIO / MANU et la photo), qui
+     porte déjà son lettrage ; le obi reste posé à gauche. */
+  .stage[data-state="lock"] .stage__bg {
+    background-image: url("pochette-recto.webp") !important;
+    background-size: cover !important; background-position: center !important;
+    animation: none !important;
+  }
+  .stage[data-state="lock"] .stage__video { display: none !important; }
+  .sleeve__titre, .sleeve__manu { display: none !important; }
   .sleeve__titre {
     position: absolute; margin: 0;
     left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
