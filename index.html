@@ -6784,6 +6784,40 @@
   }
   @media (prefers-reduced-motion: reduce) { .vinyle img { transition: none; } }
 
+  /* ---- Pochette ouvrante (gatefold), grand écran ----
+     La couverture pivote sur sa tranche gauche et se rabat à gauche ;
+     l'intérieur (une photo en double page) apparaît. Le script place et
+     anime ; ici, les deux volets intérieurs. */
+  .livret-droite, .livret-gauche { display: none; }
+  @media (min-width: 1024px) {
+    .stage[data-state="lock"].gatefold .livret-droite {
+      display: block; position: absolute; inset: var(--cadre-v);
+      border-radius: 4px; overflow: hidden;
+      background: #2E7FA8 url("livret-interieur.jpg") right center / 200% 100% no-repeat;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+      transform-origin: left center;
+    }
+    /* Le dos de la couverture : la moitié gauche de la photo, posée à
+       l'envers pour se lire à l'endroit une fois la couverture rabattue. */
+    .stage.gatefold-dos .livret-gauche {
+      display: block; position: absolute; inset: 0; z-index: 30;
+      background: #2E7FA8 url("livret-interieur.jpg") left center / 200% 100% no-repeat;
+      transform: scaleX(-1);
+    }
+    /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
+    .livret-droite::after, .livret-gauche::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to right, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%);
+    }
+    .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
+    .stage.gatefold .stage__bg { backface-visibility: visible !important; }
+    .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
+    /* Ouverte : ni disque, ni ondes, ni lien vers la bio sur l'obi. */
+    .stage.gatefold .vinyle, .stage.gatefold .recto-ondes { visibility: hidden; }
+    .stage.gatefold .sleeve__obi { pointer-events: none !important; }
+    .stage.gatefold-ouvert .livret-droite, .stage.gatefold-ouvert .stage__bg { cursor: pointer; }
+  }
+
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
     position: absolute; left: calc(var(--x, 100) * var(--u)); top: calc(var(--y) * var(--u));
@@ -7270,6 +7304,9 @@
        Placé avant la pochette : il passe dessous. Seule la partie noire
        dépasse ; au clic, il rentre, puis la pochette se retourne. -->
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
+  <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
+       pochette fermée. Le volet gauche est le dos de la couverture. -->
+  <div class="livret-droite" aria-hidden="true"></div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
@@ -7339,7 +7376,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
@@ -11720,8 +11757,86 @@ const dire = (function () {
     document.addEventListener('portfolio:about', () => ouvrir('a-propos', document.querySelector('.menuitem--app')));
     // Un clic sur la pochette la retourne (hors portrait et liens).
     const pochette = document.querySelector('.stage__bg');
+    /* ---- Pochette ouvrante (grand écran) ----
+       La couverture pivote sur sa tranche gauche et se rabat à gauche,
+       comme un livret ; l'ensemble glisse et se réduit pour que la double
+       page tienne, centrée. À mi-course (vue par la tranche), la face
+       avant laisse place au dos de la couverture. */
+    const voletD = document.querySelector('.livret-droite');
+    let livretEtat = 'ferme';   // 'ferme' | 'anim' | 'ouvert'
+    let livretGeo = { s: 1, dx: 0 };
+    let livretAnims = [];
+    const couvT = (a, t) => 'perspective(2600px) translate(' + (livretGeo.dx * t) + 'px, 0px) scale(' + (1 - (1 - livretGeo.s) * t) + ') rotateY(' + a + 'deg)';
+    const droitT = (t) => 'translate(' + (livretGeo.dx * t) + 'px, 0px) scale(' + (1 - (1 - livretGeo.s) * t) + ')';
+    function mesurerLivret() {
+      // Mesures sans transformation (offset*), la pochette pouvant bouger.
+      const gauche = stageEl.getBoundingClientRect().left + pochette.offsetLeft;
+      livretGeo = { s: Math.min(1, (innerWidth - 80) / (2 * pochette.offsetWidth)), dx: innerWidth / 2 - gauche };
+    }
+    function poserLivret(ouvert) {
+      pochette.style.transform = ouvert ? couvT(-180, 1) : '';
+      voletD.style.transform = ouvert ? droitT(1) : '';
+    }
+    function animerLivret(ouvrir, fini) {
+      livretAnims.forEach((x) => x.cancel()); livretAnims = [];
+      if (calme() || !pochette.animate) {
+        stageEl.classList.toggle('gatefold-dos', ouvrir);
+        poserLivret(ouvrir); fini(); return;
+      }
+      const de = ouvrir ? 0 : 1, a = ouvrir ? 1 : 0;
+      const opt = { duration: 1100, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' };
+      livretAnims = [
+        pochette.animate([{ transform: couvT(-180 * de, de) }, { transform: couvT(-90, 0.5) }, { transform: couvT(-180 * a, a) }], opt),
+        voletD.animate([{ transform: droitT(de) }, { transform: droitT(0.5) }, { transform: droitT(a) }], opt),
+      ];
+      // Minuteries : l'état change à coup sûr, même si l'onglet gèle les animations.
+      setTimeout(() => stageEl.classList.toggle('gatefold-dos', ouvrir), 550);
+      setTimeout(() => {
+        poserLivret(ouvrir);
+        livretAnims.forEach((x) => x.cancel()); livretAnims = [];
+        fini();
+      }, 1120);
+    }
+    function ouvrirLivret() {
+      if (livretEtat !== 'ferme' || !voletD || stageEl.dataset.state !== 'lock') return;
+      livretEtat = 'anim';
+      mesurerLivret();
+      pochette.style.transformOrigin = 'left center';
+      stageEl.classList.add('gatefold');
+      animerLivret(true, () => { livretEtat = 'ouvert'; stageEl.classList.add('gatefold-ouvert'); });
+    }
+    function fermerLivret(puis) {
+      if (livretEtat !== 'ouvert') return;
+      livretEtat = 'anim';
+      stageEl.classList.remove('gatefold-ouvert');
+      animerLivret(false, () => {
+        livretEtat = 'ferme';
+        stageEl.classList.remove('gatefold', 'gatefold-dos');
+        pochette.style.transform = ''; pochette.style.transformOrigin = '';
+        if (puis) puis();
+        else requestAnimationFrame(() => stageEl.classList.remove('vinyle-range'));   // le disque ressort
+      });
+    }
+    // Ouverte : un clic sur la double page mène au verso (les projets y
+    // sont encore) ; un clic à côté ou Échap la referme.
+    const versVersoDepuisLivret = () => fermerLivret(() => { const v = document.getElementById('flip-verso'); if (v) v.click(); });
+    if (voletD) voletD.addEventListener('click', () => { if (livretEtat === 'ouvert') versVersoDepuisLivret(); });
+    document.addEventListener('click', (ev) => {
+      if (livretEtat !== 'ouvert') return;
+      if (ev.target.closest('.stage__bg, .livret-droite, a, button, dialog, .recto-play, .lien-bas')) return;
+      fermerLivret();
+    });
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape' && livretEtat === 'ouvert' && !document.querySelector('dialog[open]')) fermerLivret();
+    });
+    addEventListener('resize', () => {
+      if (livretEtat !== 'ouvert') return;
+      poserLivret(false); mesurerLivret(); poserLivret(true);
+    });
     if (pochette) pochette.addEventListener('click', (ev) => {
       if (ev.target.closest('a, button')) return;
+      if (livretEtat === 'ouvert') { versVersoDepuisLivret(); return; }
+      if (livretEtat === 'anim') return;
       // Verso : la photo panoramique s'ouvre en grand.
       if (stageEl.dataset.state === 'desktop' && surPhotoVerso(ev)) { ouvrirPhoto(); return; }
       // Le portrait de l'obi, au recto : la bio en fenêtre, photo en grand.
@@ -11731,11 +11846,12 @@ const dire = (function () {
       }
       const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
       if (!vers) return;
-      // Recto, grand écran : le disque rentre d'abord, puis la pochette tourne.
+      // Recto, grand écran : le disque rentre d'abord, puis la pochette s'ouvre.
       const disque = document.querySelector('.vinyle');
-      if (stageEl.dataset.state === 'lock' && disque && getComputedStyle(disque).display !== 'none' && !calme()) {
+      if (stageEl.dataset.state === 'lock' && disque && getComputedStyle(disque).display !== 'none') {
         stageEl.classList.add('vinyle-range');
-        setTimeout(() => vers.click(), 640);
+        livretEtat = 'anim';   // pas de double clic pendant que le disque rentre
+        setTimeout(() => { livretEtat = 'ferme'; ouvrirLivret(); }, calme() ? 0 : 640);
       } else {
         stageEl.classList.add('vinyle-range');
         vers.click();
@@ -11816,9 +11932,16 @@ const dire = (function () {
           return;
         }
         if (stageEl.dataset.state !== 'lock') { cacher(); return; }
+        // Pochette ouverte (ou en mouvement) : VOIR LE VERSO sur la double page.
+        if (stageEl.classList.contains('gatefold')) {
+          stageEl.classList.remove('survol-recto', 'survol-obi');
+          if (livretEtat === 'ouvert') montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
+          return;
+        }
         // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
         const surObi = !!ev.target.closest('.sleeve__obi');
-        const texte = surObi ? 'BIO' : 'VOIR LE VERSO';
+        const disqueVu = getComputedStyle(document.querySelector('.vinyle')).display !== 'none';
+        const texte = surObi ? 'BIO' : (disqueVu ? 'OUVRIR LA POCHETTE' : 'VOIR LE VERSO');
         if (bulle.textContent !== texte) bulle.textContent = texte;
         stageEl.classList.toggle('survol-obi', surObi);
         stageEl.classList.toggle('survol-recto', !surObi);
@@ -11828,11 +11951,19 @@ const dire = (function () {
         }
       });
       pochette.addEventListener('pointerleave', cacher);
+      if (voletD) {
+        voletD.addEventListener('pointermove', (ev) => {
+          if (ev.pointerType === 'mouse' && livretEtat === 'ouvert') montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
+        });
+        voletD.addEventListener('pointerleave', cacher);
+        voletD.addEventListener('click', cacher);
+      }
       pochette.addEventListener('click', cacher);
     }
     // Le nom, dans la barre : toujours retour au recto.
     const nom = document.querySelector('.menuitem--app');
     if (nom) nom.addEventListener('click', () => {
+      if (livretEtat === 'ouvert') { fermerLivret(); return; }
       if (stageEl.dataset.state === 'desktop') {
         const r = document.getElementById('flip-recto');
         if (r) r.click();
