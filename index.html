@@ -6834,6 +6834,10 @@
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
+    /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
+       une petite encoche claire en haut et en bas de la tranche. */
+    .stage.gatefold .livret-droite { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+    .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
     .stage.gatefold-pli .livret-droite { background-position: left center; }
