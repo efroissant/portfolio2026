@@ -6799,6 +6799,11 @@
   }
   @media (prefers-reduced-motion: reduce) { .vinyle img { transition: none; } }
 
+  /* Coins de la pochette un peu arrondis, comme un carton qui a vécu.
+     Ouverte, seuls les quatre coins extérieurs le restent : la tranche
+     au milieu garde des coins droits (règles du gatefold, plus bas). */
+  .stage:is([data-state="lock"], [data-state="desktop"]) :is(.stage__bg, .stage__video, .stage__tint, .stage__scrim, .grain) { border-radius: 10px; }
+
   /* ---- Pochette ouvrante (gatefold), grand écran ----
      La couverture pivote sur sa tranche gauche et se rabat à gauche ;
      l'intérieur (une photo en double page) apparaît. Le script place et
@@ -6807,7 +6812,7 @@
   @media (min-width: 1024px) {
     .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
-      border-radius: 4px; overflow: hidden;
+      border-radius: 10px; overflow: hidden;
       background: #E8DCC6 url("livret-mur.webp") right center / 200% 100% no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
       transform-origin: left center;
