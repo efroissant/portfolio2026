@@ -6562,10 +6562,8 @@
   /* L'heure aussi : la barre ne garde que SAY HI à droite. */
   .stage .menubar .menubar__clock { display: none !important; }
   /* Logo MANU en haut à droite : petit, à la hauteur du texte de la barre. */
-  /* Logo MANU en haut à gauche : il rafraîchit la page. */
-  .stage .menubar .menuitem--app.menuitem--app { padding: 2px 4px; text-decoration: none; }
-  .barre-logo { display: block; font: italic 800 22px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.02em; text-transform: uppercase; color: #111111; transform: skewX(-8deg); }
-  .stage .menubar .menuitem--app:hover .barre-logo { opacity: 0.6; }
+  /* MANU en haut à gauche, comme les autres liens mais en italique : il rafraîchit la page. */
+  .barre-logo { font-style: italic; }
   /* Dossiers, Éditer et Aide retirés de la barre. */
   .stage .menubar .menubar__items { display: none !important; }
 
@@ -6722,10 +6720,12 @@
     }
     /* Logo MANU en haut à gauche (SAY HI passe à droite) : il rafraîchit la page. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .logo-mobile {
-      display: block; position: absolute; z-index: 20; padding: 0; border: 0; background: none; cursor: pointer;
-      left: calc((100vw - var(--carre-v)) / 2); top: 14px;
+      display: inline-flex; align-items: center; position: absolute; z-index: 20;
+      left: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
+      border: 0; background: none; cursor: pointer; color: #111111;
+      font: italic 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     }
-    .logo-mobile .barre-logo { font-size: 20px; }
+    .logo-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .logo-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
