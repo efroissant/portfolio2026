@@ -2941,70 +2941,40 @@
      tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
   .stage__bg { container-type: size; --u: calc(100cqw / 1895); }
   .sleeve { position: absolute; inset: 0; pointer-events: none; user-select: none; }
-  .sleeve__obi {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: calc(276 * var(--u));
-    background: rgba(255, 255, 255, 0.95);
-    overflow: hidden;
+  /* Profil sous MANU (grand écran) : photo, puis la bio en petit. */
+  .profil { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
+      display: block; position: absolute; z-index: 6;
+      left: 29px; top: calc(var(--bar-h) + 20px);   /* aligné sur MANU */
+      width: min(220px, calc(var(--obi) + var(--marge-x) - 56px));
+      transition: opacity 300ms ease;
+    }
+    .profil__photo {
+      display: block; width: 112px; height: auto; aspect-ratio: 600 / 656; object-fit: cover;
+      border-radius: 4px;
+    }
+    .profil__bio {
+      margin: 14px 0 0; color: #1F1F1F;
+      font: 400 12px/1.55 "DM Sans", sans-serif;
+    }
+    /* Pochette ouverte : la double page prend toute la largeur. */
+    .stage.gatefold .profil { opacity: 0; pointer-events: none; }
   }
-  .sleeve__filet { position: absolute; left: calc(32 * var(--u)); width: calc(212 * var(--u)); height: max(1px, calc(1 * var(--u))); background: rgba(0, 0, 0, 0.3); }
-  .sleeve__t {
-    position: absolute; margin: 0;
-    left: calc(32 * var(--u)); width: calc(212 * var(--u));
-    text-align: center; color: #393A35; font-weight: 400;
-    text-shadow: none; -webkit-text-stroke: 0; letter-spacing: 0; text-transform: none;
-  }
-  .sleeve__ocean {
-    position: absolute; left: calc(32 * var(--u)); top: calc(324 * var(--u));
-    width: calc(212 * var(--u)); height: calc(216 * var(--u));
-    border-radius: calc(4 * var(--u)); overflow: hidden;
-  }
-  .sleeve__ocean img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
-  .stage[data-state="lock"] .sleeve__obi { pointer-events: auto; cursor: pointer; }   /* tout l'obi ouvre la bio */
-  /* Bulle « BIO » au survol du portrait, dans le style de la barre. */
-  .sleeve__bulle {
-    position: absolute; z-index: 2; pointer-events: none;
-    left: 50%; top: 50%;   /* au centre de l’obi */
-    transform: translate(-50%, -50%) translateY(4px);
-    padding: 5px 9px 4px;   /* même bulle que « VOIR LE VERSO » */
-    background: #FBF8F1; color: #111111;
-    border: 1px solid #111111; border-radius: 0;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
-    white-space: nowrap; opacity: 0;
-    transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .sleeve__bulle { display: none; }   /* BIO suit désormais la souris (#curseur-bulle) */
-  @media (prefers-reduced-motion: reduce) { .sleeve__bulle { transition: none; } }
-  /* Le grain de la pochette, reposé sur le portrait de l'obi. */
-  .sleeve__ocean::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: url("grain-fort.png") repeat;
-    background-size: 64px 64px;
-    image-rendering: pixelated;
-    mix-blend-mode: overlay;
-    opacity: 0.55;
-  }
-  /* Obi francisé (Figma 171:116). */
-  .ob-portfolio { top: calc(144 * var(--u)); font: 500 calc(16 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; }
-  .ob-nom { top: calc(208 * var(--u)); font: 300 calc(38 * var(--u)) / calc(44 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .ob-texte { left: calc(29 * var(--u)); top: calc(613 * var(--u)); text-align: left; font: 500 calc(28 * var(--u)) / calc(29 * var(--u)) "DM Sans", sans-serif; }
-  .ob-filet { top: calc(1112 * var(--u)); }
-  .ob-titre { top: calc(1212 * var(--u)); font: 300 calc(32 * var(--u)) / calc(36 * var(--u)) "Cormorant Garamond", serif; color: #30B0C7; }
-  .ob-format { top: calc(1310 * var(--u)); font: 500 calc(12 * var(--u)) / calc(20 * var(--u)) "DM Sans", sans-serif; white-space: pre; }
-  .ob-copy { top: calc(1856 * var(--u)); font: 400 calc(12 * var(--u)) / calc(20 * var(--u)) "Noto Serif JP", serif; }
+  @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
   /* Fond du site : blanc. */
   .stage:is([data-state="lock"], [data-state="desktop"]) { background: #FFFFFF !important; }
   html:has(.stage), body:has(.stage) { background: #FFFFFF; }
   .sleeve__titre {
     position: absolute; margin: 0;
-    left: calc(284 * var(--u)); width: calc(1611 * var(--u)); top: calc(827 * var(--u));
+    left: 0; width: 100%; top: calc(827 * var(--u));
     text-align: center; white-space: nowrap;
     font: 300 calc(42 * var(--u)) / 1.2 "Cormorant Garamond", serif;
     letter-spacing: calc(7 * var(--u)); color: #F1EFE8;
   }
   .sleeve__manu {
     position: absolute; margin: 0;
-    left: calc(50% + 47.96 * var(--u)); top: calc((791 + 246.75) * var(--u));
+    left: 50%; top: calc((791 + 246.75) * var(--u));
     width: calc(1261 * var(--u));
     transform: translate(-50%, -50%) rotate(-6.55deg);
     text-align: center; white-space: nowrap;
@@ -6840,9 +6810,8 @@
     .stage.gatefold-pli .livret-droite { background-position: left 19%; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
-    /* Ouverte : ni disque, ni lien vers la bio sur l'obi. */
+    /* Ouverte : pas de disque. */
     .stage.gatefold .vinyle { visibility: hidden; }
-    .stage.gatefold .sleeve__obi { pointer-events: none !important; }
     .stage.gatefold-ouvert .livret-droite, .stage.gatefold-ouvert .stage__bg { cursor: pointer; }
   }
 
@@ -7430,6 +7399,12 @@
   <!-- Le disque, à moitié sorti de la pochette (recto, grand écran).
        Placé avant la pochette : il passe dessous. Seule la partie noire
        dépasse ; au clic, il rentre, puis la pochette se retourne. -->
+  <!-- Sous MANU, en haut à gauche : ma photo et ma bio, en petit
+       (grand écran). Remplace l'obi de la pochette. -->
+  <aside class="profil" aria-label="À propos">
+    <img class="profil__photo" src="obi-portrait.jpg" alt="Emmanuel Froissant" width="600" height="656">
+    <p class="profil__bio">Emmanuel est un Designer UI/UX basé à Montréal. Il voit un bon design comme un bon vinyle&nbsp;: le visuel attire, l’expérience donne envie de le rejouer, la créativité fait la différence et l’émotion fait le reste.</p>
+  </aside>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
@@ -7470,20 +7445,9 @@
   </div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
-    <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
-         à gauche, le titre et MANU au pinceau sur la photo. Toutes les
+    <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : la photo
+         pleine pochette, le titre et MANU au pinceau par-dessus. Toutes les
          mesures sont en unités de la pochette (1895 = côté du carré). -->
-    <div class="sleeve__obi">
-      <!-- Obi francisé (maquette Figma 171:116). -->
-      <p class="sleeve__t ob-portfolio">P O R T F O L I O</p>
-      <p class="sleeve__t ob-nom">EMMANUEL<br>FROISSANT</p>
-      <span class="sleeve__ocean"><img src="obi-portrait.jpg" alt=""></span><span class="sleeve__bulle">BIO</span>
-      <p class="sleeve__t ob-texte">Emmanuel est un Designer UI/UX basé à Montréal.<br>Il voit un bon design comme un bon vinyle&nbsp;: le visuel attire, l’expérience donne envie de le rejouer, la créativité fait la différence et l’émotion fait le reste.</p>
-      <span class="sleeve__filet ob-filet"></span>
-      <p class="sleeve__t ob-titre">SUMMER<br>AFTERGLOW</p>
-      <p class="sleeve__t ob-format">STEREO&nbsp; /&nbsp; LONG PLAY</p>
-      <p class="sleeve__t ob-copy">COPYRIGHT 2027</p>
-    </div>
     <p class="sleeve__titre">SUMMER AFTERGLOW</p>
   </div>
   <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
