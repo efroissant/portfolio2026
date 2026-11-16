@@ -2962,7 +2962,13 @@
     }
     .profil__bio::-webkit-scrollbar { display: none; }
     .profil__bio p { margin: 0; }
-    .profil__image { display: block; width: 72%; height: auto; margin: 28px 0 8px 4px; transform: rotate(-1.5deg); }
+    .profil__image {
+      display: block; width: 36%; height: auto; margin: 28px 0 8px 4px;
+      transform: rotate(-1.5deg); transform-origin: left top;
+      transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    /* Au survol, elle reprend sa grande taille. */
+    .profil__image:hover { transform: rotate(-1.5deg) scale(2); }
     /* Pochette ouverte : la photo et la bio restent là, derrière la
        double page qui vient les couvrir. */
     .stage.gatefold .profil { z-index: 0; pointer-events: none; }
