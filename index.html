@@ -2933,9 +2933,6 @@
     opacity: 0.45;
   }
 
-  /* Film plastique : la photo est sous cellophane, comme un vinyle neuf.
-     La texture est sombre ; en « screen », le gris disparaît et seuls
-     les plis et reflets éclaircissent la photo. */
   /* ===== POCHETTE « SUMMER AFTERGLOW » (Figma 113:305) =====
      La pochette est un conteneur : 1 unité = 1 px de la maquette de 1895,
      tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
@@ -3006,9 +3003,6 @@
 
   .stage[data-state="desktop"] .sleeve,
   .stage[data-state="desktop"] .sleeve__manu { opacity: 0; }
-  /* Sur l'aplat bleu du verso, le film se verrait trop : on l'atténue. */
-
-  .stage[data-state="desktop"] .stage__film { opacity: 0.45; }
   .verso { position: absolute; inset: 0; background: #386B97; pointer-events: none; user-select: none; color: #FFFFFF; }
   .verso__t {
     position: absolute; margin: 0; white-space: nowrap;
@@ -3071,17 +3065,6 @@
   /* L'écran verrouillé n'a plus rien de cliquable en propre : il laisse
      passer le pointeur jusqu'à MANU, posé sur la pochette en dessous. */
   .stage #view-lock { pointer-events: none; }
-  .stage__film {
-    position: absolute; inset: 0;
-    background: url("film-plastique.jpg") center / cover no-repeat;
-    mix-blend-mode: screen;
-    /* Le contraste écrase le gris de fond vers le noir (neutre en screen)
-       et garde les plis et les reflets : un film brillant, pas un voile. */
-    filter: contrast(2.6) brightness(0.85);
-    opacity: 0.9;
-    pointer-events: none;
-    z-index: 1;
-  }
 
   /* Fond blanc : la fenêtre À propos s'ouvre sans voile, le fond reste blanc. */
   /* À propos : un voile de la couleur du fond (script : fondAPropos) laisse
@@ -7579,7 +7562,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
