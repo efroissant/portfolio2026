@@ -2944,17 +2944,27 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
       display: block; position: absolute; z-index: 6;
       left: 29px; top: calc(var(--bar-h) + 20px);   /* aligné sur MANU */
-      width: min(165px, calc(var(--obi) + var(--marge-x) - 56px));
+      bottom: 64px;                                   /* au-dessus de LKD */
+      /* Toute la largeur avant la pochette (--profil-w, posé par le script). */
+      width: var(--profil-w, 165px);
+      flex-direction: column;
       transition: opacity 300ms ease;
     }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { display: flex; }
     .profil__photo {
       display: block; width: 112px; height: auto; aspect-ratio: 600 / 656; object-fit: cover;
       border-radius: 4px;
     }
+    .profil__photo { flex: none; }
+    /* La bio en très gros ; elle défile quand on fait défiler la page. */
     .profil__bio {
-      margin: 14px 0 0; color: #1F1F1F;
-      font: 400 12px/1.55 "DM Sans", sans-serif;
+      flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none;
+      margin: 18px 0 0; padding-bottom: 140px; color: #1F1F1F;
+      font: 500 clamp(40px, 4.2vw, 72px)/1.04 "DM Sans", sans-serif; letter-spacing: -0.03em;
+      -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent);
+              mask-image: linear-gradient(to bottom, #000 82%, transparent);
     }
+    .profil__bio::-webkit-scrollbar { display: none; }
     /* Pochette ouverte : la double page prend toute la largeur. */
     .stage.gatefold .profil { opacity: 0; pointer-events: none; }
   }
@@ -12261,6 +12271,30 @@ const dire = (function () {
     const h = location.hash.slice(1);
     if (h === 'projets') setTimeout(ouvrirProjets, 60);
     if (h === 'a-propos') setTimeout(ouvrirBioModale, 60);
+  })();
+  /* Bio sous la photo : elle prend toute la largeur avant la pochette,
+     et la molette (ou le pavé tactile) la fait défiler, où que soit la souris. */
+  (function bioDefile() {
+    const profil = document.querySelector('.profil');
+    const bio = profil && profil.querySelector('.profil__bio');
+    const fond = document.querySelector('.stage__bg');
+    const scene = document.getElementById('stage');
+    if (!bio || !fond || !scene) return;
+    const caler = () => {
+      if (getComputedStyle(profil).display === 'none') return;
+      // Mesurée hors animation : la pochette au repos, sans la rotation.
+      const g = fond.offsetParent ? fond.getBoundingClientRect().left : 0;
+      profil.style.setProperty('--profil-w', Math.max(165, Math.round(g - 29 - 40)) + 'px');
+    };
+    caler();
+    addEventListener('resize', caler);
+    addEventListener('load', caler);
+    addEventListener('wheel', (ev) => {
+      if (getComputedStyle(profil).display === 'none') return;
+      if (scene.classList.contains('gatefold') || document.querySelector('dialog[open]')) return;
+      if (ev.target.closest && ev.target.closest('.profil__bio, .finder, [role="dialog"]')) return;
+      bio.scrollTop += ev.deltaY;
+    }, { passive: true });
   })();
   /* Lecture automatique à l'arrivée. Les navigateurs refusent le son tant
      que le visiteur n'a pas touché la page : on essaie tout de suite, et
