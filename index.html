@@ -7325,17 +7325,24 @@
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
-  /* Liens de la barre et du bas soulignés en permanence. */
-  .stage .menubar .barlien, .stage .lien-bas, .stage .sayhi-mobile {
+  /* Liens de la barre : sans soulignement, souligné seulement au survol.
+     LKD, en bas, reste souligné. */
+  .stage .menubar .barlien, .stage .sayhi-mobile { text-decoration: none; }
+  .stage .menubar .barlien:hover, .stage .sayhi-mobile:hover {
     text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
   }
-  .stage .menubar .barlien:hover, .stage .lien-bas:hover, .stage .sayhi-mobile:hover { text-decoration-thickness: 2px; }
+  .stage .lien-bas {
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+  }
+  .stage .lien-bas:hover { text-decoration-thickness: 2px; }
   /* MANU, en haut à gauche : un lien comme SAY HI et LKD (retour au recto). */
   .stage .menubar .menuitem--app {
     font-weight: 400; letter-spacing: 0.12em; padding: 4px 6px;
-    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    text-decoration: none;
   }
-  .stage .menubar .menuitem--app:hover { text-decoration-thickness: 2px; background: none; }
+  .stage .menubar .menuitem--app:hover {
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; background: none;
+  }
   .stage .menubar .menuitem--app:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
   /* ---- SAY HI : le composeur dans le style de la bio ----
      Fond crème, ombre douce, voile bleu nuit ; en-tête « LIVRET / SAY HI »
