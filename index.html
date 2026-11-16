@@ -2951,14 +2951,10 @@
       transition: opacity 300ms ease;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil { display: flex; }
-    .profil__photo {
-      display: block; width: 112px; height: auto; aspect-ratio: 1; object-fit: cover;
-    }
-    .profil__photo { flex: none; }
     /* La bio en très gros ; elle défile quand on fait défiler la page. */
     .profil__bio {
       flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none;
-      margin: 18px 0 0; padding-bottom: 140px; color: #1F1F1F;
+      margin: 0; padding-bottom: 140px; color: #1F1F1F;
       font: 500 clamp(40px, 18cqi, 84px)/1.3 "DM Sans", sans-serif; letter-spacing: 0.01em;
       overflow-wrap: break-word;
       -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent);
@@ -7444,7 +7440,6 @@
   <!-- Sous MANU, en haut à gauche : ma photo et ma bio, en petit
        (grand écran). Remplace l'obi de la pochette. -->
   <aside class="profil" aria-label="À propos">
-    <img class="profil__photo" src="profil-trame.png" alt="Emmanuel Froissant, portrait en trame de points" width="448" height="448">
     <p class="profil__bio">Emmanuel est un Designer UI/UX basé à Montréal. Il voit un bon design comme un bon vinyle&nbsp;: le visuel attire, l’expérience donne envie de le rejouer, la créativité fait la différence et l’émotion fait le reste.</p>
   </aside>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
@@ -11830,15 +11825,6 @@ const dire = (function () {
   if (flipRecto) flipRecto.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
   });
-  // Après un clic sur MANU (rechargement) depuis le verso : on y revient
-  // tout de suite, sans animation.
-  try {
-    if (sessionStorage.getItem('face') === 'verso') {
-      sessionStorage.removeItem('face');
-      document.getElementById('stage').classList.add('vinyle-range');
-      document.getElementById('unlock').click();
-    } else sessionStorage.removeItem('face');
-  } catch (err) {}
 
   /* ---------- Intercalaires et livret du verso ----------
      Une seule bio : le portrait et la languette « À propos » ouvrent la
@@ -12257,8 +12243,9 @@ const dire = (function () {
     // Le logo MANU (barre et mobile) : rafraîchit la page, sans l'ancre.
     document.querySelectorAll('[data-rafraichir]').forEach((b) => b.addEventListener('click', (e) => {
       e.preventDefault(); e.stopPropagation();
-      // La face affichée survit au rechargement : au verso, on y reste.
-      try { sessionStorage.setItem('face', stageEl.dataset.state === 'desktop' ? 'verso' : 'recto'); } catch (err) {}
+      // Le rechargement remet toujours le disque à l'endroit (recto).
+      // (le verso est mémorisé pour l'onglet : on l'oublie ici).
+      try { sessionStorage.removeItem('portfolio:deverrouille'); } catch (err) {}
       location.assign(location.pathname + location.search);
     }));
     // Le livret ne tourne pas avec la pochette : il se range avant.
