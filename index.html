@@ -6859,7 +6859,15 @@
     .stage.gatefold-pli .livret-droite .livret-int { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
     .stage.gatefold-pli .livret-droite .livret-int { z-index: 1; }
     .livret-int > * { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); margin: 0; }
-    .li-photo { width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); object-fit: cover; object-position: var(--pos, center); }
+    .li-photo {
+      width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); object-fit: cover; object-position: var(--pos, center);
+      transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms ease;
+    }
+    /* Pochette ouverte : chaque photo s'agrandit au survol. */
+    .stage.gatefold-ouvert .livret-gauche .li-photo { pointer-events: auto; }
+    .stage.gatefold-ouvert .livret-gauche .li-photo:hover {
+      transform: scale(1.08); z-index: 2; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
     .li-titre {
       width: calc(578 * var(--u)); white-space: nowrap;
       font: 300 calc(42 * var(--u))/1.2 "Cormorant Garamond", serif; letter-spacing: calc(7 * var(--u));
