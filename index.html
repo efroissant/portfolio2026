@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=Barlow+Condensed:ital,wght@1,500;1,600&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=Barlow+Condensed:ital,wght@1,500;1,600&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;family=Source+Serif+4:opsz,wght@8..60,400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
      PORTFOLIO — deux états sur une seule scène
@@ -6832,7 +6832,7 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #F3EEE3 url("livret-mur-photo.jpg") center top / 84% auto no-repeat;
+      background: #F3EEE3;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6841,6 +6841,24 @@
       background: linear-gradient(to right, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%);
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
+    /* Page gauche de l'intérieur (Figma 200:172) : en unités de la
+       pochette, comme la maquette carrée de 1895. */
+    .livret-int { display: none; }
+    .stage.gatefold-dos .livret-gauche .livret-int,
+    .stage.gatefold-pli .livret-droite .livret-int { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .stage.gatefold-pli .livret-droite .livret-int { z-index: 1; }
+    .livret-int > * { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); margin: 0; }
+    .li-photo { width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); object-fit: cover; object-position: var(--pos, center); }
+    .li-titre {
+      width: calc(578 * var(--u)); white-space: nowrap;
+      font: 300 calc(42 * var(--u))/1.2 "Cormorant Garamond", serif; letter-spacing: calc(7 * var(--u));
+      color: #E5DECC;
+    }
+    .li-face { width: calc(578 * var(--u)); font: 400 calc(28 * var(--u))/calc(29 * var(--u)) "Source Serif 4", "Source Serif Pro", Georgia, serif; color: #393A35; }
+    .li-face p { margin: 0; height: calc(23 * var(--u)); }
+    .li-face ol { list-style: none; margin: calc(20 * var(--u)) 0 0; padding: calc(20 * var(--u)) 0 0; border-top: max(1px, calc(1 * var(--u))) solid #000; display: grid; row-gap: calc(20 * var(--u)); }
+    .li-face li { display: grid; grid-template-columns: calc(463 * var(--u)) 1fr; height: calc(32 * var(--u)); }
+    .li-face li span:first-child { padding-left: calc(14 * var(--u)); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
     /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
        une petite encoche claire en haut et en bas de la tranche. */
@@ -6848,7 +6866,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #F3EEE3 url("livret-mur-photo.jpg") center top / 84% auto no-repeat; }
+    .stage.gatefold-pli .livret-droite { background: #F3EEE3; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
@@ -7461,6 +7479,8 @@
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
   <div class="livret-droite">
+    <!-- Copie de la page gauche, visible seulement pendant le pliage. -->
+    <div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><div class="li-face" style="--x:390;--y:1538"><p>Face A</p><ol><li><span>1.&nbsp; Projet pharmaceutique</span><span>00:20:23</span></li><li><span>2.&nbsp; Projet pharmaceutique</span><span>00:20:26</span></li><li><span>3.&nbsp; Projet pharmaceutique</span><span>00:20:14</span></li><li><span>4.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li></ol></div><div class="li-face" style="--x:1122;--y:852"><p>Face B</p><ol><li><span>1.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>2.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>3.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>4.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li></ol></div><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><p class="li-titre" style="--x:195;--y:499">SUMMER FLOW</p><p class="li-titre" style="--x:-269;--y:499">SUMMER FLOW</p><p class="li-titre" style="--x:618;--y:408">SUMMER FLOW</p><p class="li-titre" style="--x:40;--y:408">SUMMER FLOW</p><p class="li-titre" style="--x:350;--y:320">SUMMER FLOW</p><p class="li-titre" style="--x:-114;--y:320">SUMMER FLOW</p><p class="li-titre" style="--x:40;--y:232">SUMMER FLOW</p><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div>
     <!-- FACE A : les projets, comme les pistes d'un disque.
          Pour changer un projet : le nom, la catégorie et le lien (href +
          data-etude, l'identifiant de l'étude). Pour une vraie miniature,
@@ -7561,7 +7581,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><div class="li-face" style="--x:390;--y:1538"><p>Face A</p><ol><li><span>1.&nbsp; Projet pharmaceutique</span><span>00:20:23</span></li><li><span>2.&nbsp; Projet pharmaceutique</span><span>00:20:26</span></li><li><span>3.&nbsp; Projet pharmaceutique</span><span>00:20:14</span></li><li><span>4.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li></ol></div><div class="li-face" style="--x:1122;--y:852"><p>Face B</p><ol><li><span>1.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>2.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>3.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li><li><span>4.&nbsp; Projet pharmaceutique</span><span>00:20:16</span></li></ol></div><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><p class="li-titre" style="--x:195;--y:499">SUMMER FLOW</p><p class="li-titre" style="--x:-269;--y:499">SUMMER FLOW</p><p class="li-titre" style="--x:618;--y:408">SUMMER FLOW</p><p class="li-titre" style="--x:40;--y:408">SUMMER FLOW</p><p class="li-titre" style="--x:350;--y:320">SUMMER FLOW</p><p class="li-titre" style="--x:-114;--y:320">SUMMER FLOW</p><p class="li-titre" style="--x:40;--y:232">SUMMER FLOW</p><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
