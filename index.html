@@ -6841,9 +6841,8 @@
 
   /* ---- FACE A : les projets, à l'intérieur de la pochette ----
      Une liste de pistes posée sur le mur du volet gauche, sur une
-     étiquette crème pour rester lisible sur l'ombre des palmes. Au survol
-     ou au focus : le numéro devient ▶, la ligne se souligne, et la
-     miniature du projet (une petite pochette carrée) apparaît à côté. */
+     Au survol ou au focus : le numéro devient ▶, la ligne se souligne,
+     et la miniature du projet (une petite pochette carrée) apparaît. */
   .face-a {
     --cobalt: #1B45B4; --creme: #F5EDDC; --encre: #12224F;
     color: var(--encre);
@@ -6858,9 +6857,7 @@
   .piste {
     display: grid; grid-template-columns: 2.6ch 1fr; align-items: baseline;
     color: inherit; text-decoration: none; cursor: pointer;
-    border-top: 1px solid rgba(27, 69, 180, 0.22);
   }
-  .face-a__pistes li:last-child .piste { border-bottom: 1px solid rgba(27, 69, 180, 0.22); }
   /* Le numéro et le ▶ partagent la même case : rien ne bouge. */
   .piste__num {
     position: relative; color: var(--cobalt);
@@ -6907,47 +6904,43 @@
     font: italic 600 0.8em/1 "Barlow Condensed", sans-serif; letter-spacing: 0.04em;
   }
   .piste__mini:has(img) .piste__mini-num { display: none; }
-  .face-a__phrase {
-    margin: 0; color: #1B45B4;
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-style: italic; font-weight: 500;
-    letter-spacing: 0.01em; line-height: 1.1;
-  }
   @media (prefers-reduced-motion: reduce) {
     .piste__num > span, .piste__num::after, .piste__titre, .piste__mini { transition: none !important; }
   }
 
-  /* Grand écran : dans la pochette ouverte, en unités de pochette. */
+  /* Grand écran : sur le mur du volet droit, dans le dos du personnage,
+     sans fond. La miniature apparaît devant ses yeux, à gauche. Les
+     coordonnées sont en unités de pochette (1895 de large). */
   .face-a-mobile { display: none; }
   @media (min-width: 1024px) {
-    .livret-gauche .face-a {
-      position: absolute; left: calc(100 * var(--u)); top: calc(890 * var(--u)); width: calc(1040 * var(--u));
-      padding: calc(56 * var(--u)) calc(64 * var(--u)) calc(60 * var(--u));
-      background: rgba(245, 237, 220, 0.9); border-radius: 2px;
-      box-shadow: 0 calc(10 * var(--u)) calc(40 * var(--u)) rgba(18, 34, 79, 0.16);
-      /* Lu à l'endroit : le volet est déjà retourné deux fois. */
-      font-size: max(14px, calc(42 * var(--u)));
-      cursor: default;
+    .stage.gatefold .livret-droite { container-type: size; }
+    .livret-droite .face-a {
+      --u: calc(100cqw / 1895);
+      position: absolute; inset: 0; pointer-events: none;
+      font-size: max(12px, calc(34 * var(--u)));
     }
-    .livret-gauche .face-a__titre { font-size: max(22px, calc(84 * var(--u))); margin-bottom: calc(34 * var(--u)); }
-    .livret-gauche .piste { padding: calc(28 * var(--u)) 0 calc(30 * var(--u)); }
-    .livret-gauche .piste__nom { font-size: max(20px, calc(70 * var(--u))); }
-    /* Une seule case pour la miniature, à droite de l'étiquette
-       (coordonnées prises dans l'étiquette). */
-    .livret-gauche .piste__mini {
-      position: absolute; left: calc(1110 * var(--u)); top: calc(120 * var(--u));
-      width: calc(440 * var(--u)); font-size: max(16px, calc(56 * var(--u)));
-      opacity: 0; transform: translateY(calc(14 * var(--u))) rotate(-2deg);
+    .livret-droite .face-a__titre {
+      position: absolute; left: calc(1395 * var(--u)); top: calc(935 * var(--u));
+      font: 500 max(11px, calc(30 * var(--u)))/1 "DM Sans", sans-serif; font-style: normal;
+      letter-spacing: 0.16em;
+    }
+    .livret-droite .face-a__pistes {
+      position: absolute; left: calc(1395 * var(--u)); top: calc(1010 * var(--u)); width: calc(460 * var(--u));
+      pointer-events: auto;
+    }
+    .livret-droite .piste { padding: calc(20 * var(--u)) 0; cursor: pointer; grid-template-columns: 2.4ch 1fr; }
+    .livret-droite .piste__nom { font-size: max(15px, calc(52 * var(--u))); }
+    .livret-droite .piste__meta { font-size: 0.82em; }
+    .livret-droite .piste__mini {
+      /* Devant les yeux : x 150, y 880 sur la pochette, comptés depuis
+         la liste (posée en 1395, 1010). */
+      position: absolute; left: calc((150 - 1395) * var(--u)); top: calc((880 - 1010) * var(--u));
+      width: calc(380 * var(--u)); font-size: max(13px, calc(44 * var(--u)));
+      opacity: 0; transform: translateX(calc(24 * var(--u))) rotate(-3deg);
       transition: opacity 220ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
     }
-    .livret-gauche .piste:is(:hover, :focus-visible) .piste__mini { opacity: 1; transform: rotate(-2deg); }
-    .stage.gatefold .livret-droite { container-type: size; }
-    .livret-droite .face-a__phrase {
-      --u: calc(100cqw / 1895);
-      position: absolute; left: calc(80 * var(--u)); top: calc(950 * var(--u)); width: calc(680 * var(--u));
-      font-size: max(18px, calc(66 * var(--u)));
-      pointer-events: none;
-    }
+    .livret-droite .piste:is(:hover, :focus-visible) .piste__mini { opacity: 1; transform: rotate(-3deg); }
   }
 
   /* Téléphone et tablette : l'intérieur s'ouvre sous le recto, en liste.
@@ -6964,15 +6957,11 @@
       background: #E8DCC6 url("livret-mur.webp") 80% 50% / cover no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
     }
-    .face-a-mobile__phrase .face-a__phrase {
-      /* Une petite étiquette crème : lisible sur l'ombre de la rambarde. */
-      position: absolute; left: 5%; top: 50%; max-width: 56%;
-      padding: 0.2em 0.45em 0.25em; background: rgba(245, 237, 220, 0.92); border-radius: 2px;
-      font-size: clamp(16px, 4.6vw, 26px);
-    }
     .face-a-mobile .face-a { margin-top: 28px; font-size: 14px; }
+    .face-a-mobile .face-a__pistes li:last-child .piste { border-bottom: 1px solid rgba(27, 69, 180, 0.22); }
     .face-a-mobile .face-a__titre { font-size: clamp(26px, 8vw, 40px); margin-bottom: 14px; }
     .face-a-mobile .piste {
+      border-top: 1px solid rgba(27, 69, 180, 0.22);
       grid-template-columns: 64px 2.4ch 1fr; column-gap: 12px; align-items: center;
       padding: 14px 0; min-height: 64px;
     }
@@ -7477,7 +7466,41 @@
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
-  <div class="livret-droite"><p class="face-a__phrase" id="face-a-phrase">De belles choses en vue.</p></div>
+  <div class="livret-droite">
+    <!-- FACE A : les projets, comme les pistes d'un disque.
+         Pour changer un projet : le nom, la catégorie et le lien (href +
+         data-etude, l'identifiant de l'étude). Pour une vraie miniature,
+         remplacer le contenu de .piste__mini par <img src="…" alt="">. -->
+    <nav class="face-a" id="face-a" aria-labelledby="face-a-titre">
+      <h2 class="face-a__titre" id="face-a-titre" tabindex="-1">Face A <span aria-hidden="true">—</span> Les projets</h2>
+      <ol class="face-a__pistes">
+        <li><a class="piste" href="#case/gvq" data-etude="gvq">
+          <span class="piste__num" aria-hidden="true"><span>01</span></span>
+          <span class="piste__corps">
+            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
+            <span class="piste__meta">UI/UX · Refonte web</span>
+          </span>
+          <span class="piste__mini piste__mini--1" aria-hidden="true"><span class="piste__mini-num">01</span></span>
+        </a></li>
+        <li><a class="piste" href="#case/loblaw" data-etude="loblaw">
+          <span class="piste__num" aria-hidden="true"><span>02</span></span>
+          <span class="piste__corps">
+            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
+            <span class="piste__meta">Product design · Application</span>
+          </span>
+          <span class="piste__mini piste__mini--2" aria-hidden="true"><span class="piste__mini-num">02</span></span>
+        </a></li>
+        <li><a class="piste" href="#case/roche" data-etude="roche">
+          <span class="piste__num" aria-hidden="true"><span>03</span></span>
+          <span class="piste__corps">
+            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
+            <span class="piste__meta">Illustration · Identité visuelle</span>
+          </span>
+          <span class="piste__mini piste__mini--3" aria-hidden="true"><span class="piste__mini-num">03</span></span>
+        </a></li>
+      </ol>
+    </nav>
+  </div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
     <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : l'obi blanc
@@ -7547,41 +7570,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche">
-    <!-- FACE A : les projets, comme les pistes d'un disque.
-         Pour changer un projet : le nom, la catégorie et le lien (href +
-         data-etude, l'identifiant de l'étude). Pour une vraie miniature,
-         remplacer le contenu de .piste__mini par <img src="…" alt="">. -->
-    <nav class="face-a" id="face-a" aria-labelledby="face-a-titre">
-      <h2 class="face-a__titre" id="face-a-titre" tabindex="-1">Face A <span aria-hidden="true">—</span> Les projets</h2>
-      <ol class="face-a__pistes">
-        <li><a class="piste" href="#case/gvq" data-etude="gvq">
-          <span class="piste__num" aria-hidden="true"><span>01</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">UI/UX · Refonte web</span>
-          </span>
-          <span class="piste__mini piste__mini--1" aria-hidden="true"><span class="piste__mini-num">01</span></span>
-        </a></li>
-        <li><a class="piste" href="#case/loblaw" data-etude="loblaw">
-          <span class="piste__num" aria-hidden="true"><span>02</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">Product design · Application</span>
-          </span>
-          <span class="piste__mini piste__mini--2" aria-hidden="true"><span class="piste__mini-num">02</span></span>
-        </a></li>
-        <li><a class="piste" href="#case/roche" data-etude="roche">
-          <span class="piste__num" aria-hidden="true"><span>03</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">Illustration · Identité visuelle</span>
-          </span>
-          <span class="piste__mini piste__mini--3" aria-hidden="true"><span class="piste__mini-num">03</span></span>
-        </a></li>
-      </ol>
-    </nav>
-  </div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
@@ -7626,10 +7615,10 @@
   </dialog>
 
   <!-- Téléphone et tablette : l'intérieur de la pochette sous le recto.
-       La liste FACE A et la phrase y sont déplacées par le script (une
-       seule source, dans .livret-gauche). -->
+       La liste FACE A y est déplacée par le script (une seule source,
+       dans .livret-droite). -->
   <section class="face-a-mobile" id="face-a-mobile" aria-label="L’intérieur de la pochette">
-    <div class="face-a-mobile__photo"><div class="face-a-mobile__phrase"></div></div>
+    <div class="face-a-mobile__photo"></div>
     <div class="face-a-mobile__liste"></div>
   </section>
 
@@ -11975,21 +11964,17 @@ const dire = (function () {
        page tienne, centrée. À mi-course (vue par la tranche), la face
        avant laisse place au dos de la couverture. */
     const voletD = document.querySelector('.livret-droite');
-    /* FACE A : une seule liste. Grand écran, dans le volet gauche de la
+    /* FACE A : une seule liste. Grand écran, dans le volet droit de la
        pochette ouverte ; téléphone et tablette, sous le recto. */
     const faceA = document.getElementById('face-a');
-    const phraseA = document.getElementById('face-a-phrase');
     const grandEcran = window.matchMedia('(min-width: 1024px)');
     function placerFaceA() {
       if (!faceA) return;
-      const voletG = document.querySelector('.livret-gauche');
       const mob = document.getElementById('face-a-mobile');
       if (grandEcran.matches) {
-        if (faceA.parentElement !== voletG) voletG.append(faceA);
-        if (phraseA && voletD && phraseA.parentElement !== voletD) voletD.append(phraseA);
+        if (voletD && faceA.parentElement !== voletD) voletD.append(faceA);
       } else if (mob) {
         mob.querySelector('.face-a-mobile__liste').append(faceA);
-        if (phraseA) mob.querySelector('.face-a-mobile__phrase').append(phraseA);
       }
     }
     placerFaceA();
@@ -12120,7 +12105,7 @@ const dire = (function () {
     // Ouverte : un clic sur le volet droit (ou un clic droit) la referme
     // par l'autre côté, sur le verso ; un clic sur le volet gauche, à
     // côté, ou Échap la referme sur le recto.
-    if (voletD) voletD.addEventListener('click', () => { if (livretEtat === 'ouvert') versVersoDepuisLivret(); });
+    if (voletD) voletD.addEventListener('click', (ev) => { if (livretEtat === 'ouvert' && !ev.target.closest('.face-a')) versVersoDepuisLivret(); });
     document.addEventListener('contextmenu', (ev) => {
       if (livretEtat !== 'ouvert' || !ev.target.closest('.stage__bg, .livret-droite')) return;
       ev.preventDefault();
@@ -12256,7 +12241,7 @@ const dire = (function () {
       pochette.addEventListener('pointerleave', cacher);
       if (voletD) {
         voletD.addEventListener('pointermove', (ev) => {
-          if (ev.pointerType === 'mouse' && livretEtat === 'ouvert') montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
+          if (ev.pointerType === 'mouse' && livretEtat === 'ouvert' && !ev.target.closest('.face-a__pistes')) montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
         });
         voletD.addEventListener('pointerleave', cacher);
         voletD.addEventListener('click', cacher);
