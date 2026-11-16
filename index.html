@@ -5957,7 +5957,7 @@
       inset: var(--cadre);
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.10), 0 12px 28px rgba(0, 0, 0, 0.16);
     }
     /* Le grain reste sur la photo, pas sur le papier. */
     .stage[data-state="desktop"] .grain {
@@ -6408,7 +6408,7 @@
   }
   .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg {
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.10), 0 12px 28px rgba(0, 0, 0, 0.16);
   }
   html:has(.stage), body:has(.stage) { background: #F4EFE4; }
   /* Recadrée en carré, la photo des palmiers place la traînée plus bas :
@@ -6847,7 +6847,7 @@
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 10px; overflow: hidden;
       background: #FFFFFF;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.10), 0 12px 28px rgba(0, 0, 0, 0.16);
       transform-origin: left center;
     }
     /* Le dos de la couverture : la moitié gauche de la photo, posée à
@@ -12174,8 +12174,8 @@ const dire = (function () {
         // La tranche : le carton qui apparaît du côté qui s'éloigne.
         const ex = Math.sin(rad(ry)) * EP, ey = -Math.sin(rad(rx)) * EP, n = 6, couches = [];
         for (let i = 1; i <= n; i++) couches.push((ex * i / n).toFixed(1) + 'px ' + (ey * i / n).toFixed(1) + 'px 0 ' + (i === n ? '#BDB29C' : '#E6DECD'));
-        pochette.style.boxShadow = '0 0 0 1px rgba(0, 0, 0, 0.12), ' + couches.join(', ')
-          + ', ' + (3 + ex).toFixed(1) + 'px ' + (4 + ey).toFixed(1) + 'px 0 #000';
+        pochette.style.boxShadow = '0 0 0 1px rgba(0, 0, 0, 0.10), ' + couches.join(', ')
+          + ', ' + ex.toFixed(1) + 'px ' + (12 + ey).toFixed(1) + 'px 28px rgba(0, 0, 0, 0.18)';
         pochette.style.setProperty('--gx', (50 - ry * 1.5).toFixed(1) + '%');
         pochette.style.setProperty('--gy', (50 + rx * 1.5).toFixed(1) + '%');
         pochette.style.setProperty('--g', Math.min(1, Math.hypot(rx, ry) / 18).toFixed(3));
