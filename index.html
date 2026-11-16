@@ -6850,8 +6850,8 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      /* En fond : un morceau du ciel aux palmiers du recto, recadré. */
-      background: #3E8FD0 url("fond-palmiers-grand.jpg") 18% 0% / auto 135% no-repeat;
+      /* En fond : le ciel aux nuages. */
+      background: #1C3A5E url("livret-nuages.jpg") center / cover no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6881,24 +6881,6 @@
     }
     /* Le dos est retourné : le reflet repart dans l'autre sens. */
     .stage.gatefold-dos .livret-gauche::before { transform: scaleX(-1); }
-    /* Les photos imprimées sur papier glacé : un peu plus de peps. */
-    .livret-int .li-photo { filter: saturate(1.12) contrast(1.06); }
-    /* Page gauche de l'intérieur (Figma 200:172) : en unités de la
-       pochette, comme la maquette carrée de 1895. */
-    .livret-int { display: none; }
-    .stage.gatefold-dos .livret-gauche .livret-int,
-    .stage.gatefold-pli .livret-droite .livret-int { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-    .stage.gatefold-pli .livret-droite .livret-int { z-index: 1; }
-    .livret-int > * { position: absolute; left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); margin: 0; }
-    .li-photo {
-      width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); object-fit: cover; object-position: var(--pos, center);
-      transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms ease;
-    }
-    /* Pochette ouverte : chaque photo s'agrandit au survol. */
-    .stage.gatefold-ouvert .livret-gauche .li-photo { pointer-events: auto; }
-    .stage.gatefold-ouvert .livret-gauche .li-photo:hover {
-      transform: scale(1.08); z-index: 2; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-    }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
     /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
        une petite encoche claire en haut et en bas de la tranche. */
@@ -6906,7 +6888,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #3E8FD0 url("fond-palmiers-grand.jpg") 18% 0% / auto 135% no-repeat; }
+    .stage.gatefold-pli .livret-droite { background: #1C3A5E url("livret-nuages.jpg") center / cover no-repeat; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
@@ -7519,8 +7501,6 @@
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
   <div class="livret-droite">
-    <!-- Copie de la page gauche, visible seulement pendant le pliage. -->
-    <div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div>
     <!-- FACE A : les projets, comme les pistes d'un disque.
          Pour changer un projet : le nom, la catégorie et le lien (href +
          data-etude, l'identifiant de l'étude). Pour une vraie miniature,
@@ -7603,7 +7583,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="pochette-reflet" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="pochette-reflet" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
