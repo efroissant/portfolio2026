@@ -2955,7 +2955,7 @@
     .profil__bio {
       flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none;
       margin: 0; padding-bottom: 140px; color: #1F1F1F;
-      font: 300 clamp(40px, 18cqi, 84px)/1.12 "DM Sans", sans-serif; letter-spacing: 0.01em;
+      font: 300 clamp(20px, 9cqi, 42px)/1.18 "DM Sans", sans-serif; letter-spacing: 0.01em;
       overflow-wrap: break-word;
       -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent);
               mask-image: linear-gradient(to bottom, #000 82%, transparent);
@@ -2977,6 +2977,13 @@
     border-radius: 50%; transform: rotate(-12deg); z-index: 4;
     filter: drop-shadow(0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.3));
   }
+  /* Le lecteur dans la barre, avant SAY HI : en ligne, sans position propre. */
+  .stage .menubar .recto-play.dans-barre.dans-barre {
+    position: static !important; inset: auto !important; transform: none !important;
+    display: flex !important; margin: 0 6px 0 0; z-index: auto;
+  }
+  .stage .menubar .recto-play.dans-barre .lecteur-mini__btn { width: 24px; height: 24px; }
+  .stage .menubar .recto-play.dans-barre .lecteur-mini__btn svg { width: 14px; height: 14px; }
   /* Fond du site : blanc. */
   .stage:is([data-state="lock"], [data-state="desktop"]) { background: #FFFFFF !important; }
   html:has(.stage), body:has(.stage) { background: #FFFFFF; }
@@ -11754,6 +11761,20 @@ const dire = (function () {
   // audio que le lecteur du bureau ; la musique continue après l'entrée.
   const rectoPlay = document.getElementById('recto-play');
   const miniLire = document.getElementById('mini-lire');
+  // Dans la barre, juste avant SAY HI, dès que la barre est affichée
+  // (768 px et plus) ; au téléphone, il reste sous la pochette.
+  if (rectoPlay) {
+    const placeOrigine = document.createComment('lecteur');
+    rectoPlay.before(placeOrigine);
+    const sayHi = document.querySelector('.menubar__trailing .barlien[data-ecrire]');
+    const large = window.matchMedia('(min-width: 768px)');
+    const placerLecteur = () => {
+      if (large.matches && sayHi) { sayHi.before(rectoPlay); rectoPlay.classList.add('dans-barre'); }
+      else { placeOrigine.after(rectoPlay); rectoPlay.classList.remove('dans-barre'); }
+    };
+    placerLecteur();
+    large.addEventListener('change', placerLecteur);
+  }
   const miniTitre = document.getElementById('mini-titre');
   function majRecto() {
     if (!rectoPlay) return;
