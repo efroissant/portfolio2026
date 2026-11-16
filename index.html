@@ -6691,6 +6691,21 @@
       inset 0 0 calc(var(--u) * 26) rgba(30, 20, 5, 0.22); /* bords assombris */
     mix-blend-mode: normal;
   }
+  /* Pochette en 3D (recto) : on la fait pivoter en la glissant. Le script
+     pose la rotation, la tranche (ombres empilées) et --gx/--gy/--g pour
+     le reflet, qui glisse sur le carton selon l'angle. */
+  .pochette-reflet { display: none; }
+  .stage[data-state="lock"]:not(.gatefold) .pochette-reflet {
+    display: block; position: absolute; inset: 0; z-index: 4;
+    pointer-events: none; border-radius: inherit;
+    opacity: var(--g, 0);
+    background:
+      radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 55%),
+      radial-gradient(circle at calc(100% - var(--gx, 50%)) calc(100% - var(--gy, 50%)), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 60%);
+    mix-blend-mode: soft-light;
+  }
+  .stage[data-state="lock"]:not(.gatefold) .stage__bg { cursor: grab; touch-action: pan-y; }
+  .stage.pochette-en-main .stage__bg { cursor: grabbing; }
   /* ================= INTERCALAIRES ET LIVRET =================
      Trois languettes crème glissées derrière la pochette (À propos,
      Projets, Contact), sur les deux faces. Au verso, le livret : l'encart
@@ -7630,7 +7645,7 @@
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
   </div>
   <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div></div></div>
+  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="pochette-reflet" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"><div class="livret-int" aria-hidden="true"><img class="li-photo" src="livret-plage-orage.jpg" alt="" style="--x:-35;--y:933;--w:727;--h:485"><img class="li-photo" src="livret-hotel.jpg" alt="" style="--x:1276;--y:1197;--w:641;--h:442;--pos:50% 93%"><img class="li-photo" src="livret-plage-palmiers.jpg" alt="" style="--x:504;--y:0;--w:2213;--h:784"></div></div></div>
 
   <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
        Une seule bio, ouverte par le portrait comme par la languette.
@@ -12227,6 +12242,89 @@ const dire = (function () {
         vers.click();
       }
     });
+    // Pochette en 3D, au recto : on la glisse pour la faire pivoter, elle
+    // revient face à soi en douceur quand on la lâche. Un glisser n'ouvre
+    // pas la pochette ; un simple clic, si.
+    (function () {
+      if (!pochette || !pochette.setPointerCapture) return;
+      const disque = document.querySelector('.vinyle');
+      const MAX = 34, EP = 9, SEUIL = 5;
+      let rx = 0, ry = 0, vx = 0, vy = 0, raf = 0, actif = false;
+      let tir = null, aGlisse = false;
+      const libre = () => stageEl.dataset.state === 'lock' && livretEtat === 'ferme'
+        && !stageEl.classList.contains('gatefold') && !stageEl.classList.contains('en-rotation');
+      const rad = (d) => d * Math.PI / 180;
+      function poser() {
+        if (!rx && !ry) {
+          if (actif) {
+            pochette.style.transform = ''; pochette.style.boxShadow = '';
+            if (disque) disque.style.transform = '';
+            pochette.style.setProperty('--g', '0');
+            actif = false;
+          }
+          return;
+        }
+        actif = true;
+        const t = 'perspective(1800px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+        pochette.style.transform = t;
+        if (disque) disque.style.transform = t;
+        // La tranche : le carton qui apparaît du côté qui s'éloigne.
+        const ex = Math.sin(rad(ry)) * EP, ey = -Math.sin(rad(rx)) * EP, n = 6, couches = [];
+        for (let i = 1; i <= n; i++) couches.push((ex * i / n).toFixed(1) + 'px ' + (ey * i / n).toFixed(1) + 'px 0 ' + (i === n ? '#BDB29C' : '#E6DECD'));
+        pochette.style.boxShadow = '0 0 0 1px rgba(0, 0, 0, 0.12), ' + couches.join(', ')
+          + ', ' + (3 + ex).toFixed(1) + 'px ' + (4 + ey).toFixed(1) + 'px 0 #000';
+        pochette.style.setProperty('--gx', (50 - ry * 1.5).toFixed(1) + '%');
+        pochette.style.setProperty('--gy', (50 + rx * 1.5).toFixed(1) + '%');
+        pochette.style.setProperty('--g', Math.min(1, Math.hypot(rx, ry) / 18).toFixed(3));
+      }
+      function ressort() {
+        cancelAnimationFrame(raf);
+        let t0 = performance.now();
+        const pas = (t) => {
+          const dt = Math.min(0.032, (t - t0) / 1000); t0 = t;
+          if (!libre()) { rx = ry = vx = vy = 0; poser(); return; }
+          // Ressort amorti : elle revient, dépasse à peine, se pose.
+          vx += (-140 * rx - 16 * vx) * dt; vy += (-140 * ry - 16 * vy) * dt;
+          rx += vx * dt; ry += vy * dt;
+          if (Math.abs(rx) < 0.05 && Math.abs(ry) < 0.05 && Math.abs(vx) < 0.5 && Math.abs(vy) < 0.5) { rx = ry = 0; poser(); return; }
+          poser(); raf = requestAnimationFrame(pas);
+        };
+        raf = requestAnimationFrame(pas);
+      }
+      pochette.addEventListener('pointerdown', (ev) => {
+        if (ev.button !== 0 || !libre() || ev.target.closest('a, button')) return;
+        cancelAnimationFrame(raf);
+        tir = { x: ev.clientX, y: ev.clientY, rx, ry, id: ev.pointerId, lx: ev.clientX, ly: ev.clientY, lt: performance.now() };
+        aGlisse = false;
+      });
+      pochette.addEventListener('pointermove', (ev) => {
+        if (!tir || ev.pointerId !== tir.id) return;
+        const dx = ev.clientX - tir.x, dy = ev.clientY - tir.y;
+        if (!aGlisse) {
+          if (Math.hypot(dx, dy) < SEUIL) return;
+          aGlisse = true;
+          try { pochette.setPointerCapture(ev.pointerId); } catch (e) {}
+          stageEl.classList.add('pochette-en-main');
+        }
+        const lim = (v) => MAX * Math.tanh(v / MAX);   // résiste vers les bords
+        ry = lim(tir.ry + dx * 0.22);
+        rx = lim(tir.rx - dy * 0.22);
+        poser();
+      });
+      const lacher = (ev) => {
+        if (!tir || (ev && ev.pointerId !== tir.id)) return;
+        tir = null;
+        stageEl.classList.remove('pochette-en-main');
+        if (aGlisse) { vx = vy = 0; ressort(); }
+      };
+      pochette.addEventListener('pointerup', lacher);
+      pochette.addEventListener('pointercancel', lacher);
+      // Après un glisser, le clic qui suit n'ouvre pas la pochette.
+      pochette.addEventListener('click', (ev) => {
+        if (aGlisse) { aGlisse = false; ev.stopImmediatePropagation(); ev.preventDefault(); return; }
+        if (actif) { cancelAnimationFrame(raf); rx = ry = vx = vy = 0; poser(); }
+      }, true);
+    })();
     const photoV = document.querySelector('.verso__photo');
     function surPhotoVerso(ev) {
       const r = photoV && photoV.getBoundingClientRect();
