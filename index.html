@@ -8853,7 +8853,8 @@ const dire = (function () {
     // Rouvrir le dossier dans ces cas-là le ferait clignoter pour rien.
     if (silencieux) return;
     if (location.hash.startsWith('#case/')) history.pushState(null, '', location.pathname + location.search);
-    const venuDuLivret = etudeOpener && etudeOpener.closest && etudeOpener.closest('.livret, .projets-modal, .verso__piste') ? etudeOpener : null;
+    const etudeOpenerFocus = etudeOpener;
+    const venuDuLivret = etudeOpener && etudeOpener.closest && etudeOpener.closest('.livret, .projets-modal, .verso__piste, .face-a') ? etudeOpener : null;
     etudeOpener = null;
     // Ouverte depuis le livret du verso : on y revient, pas au dossier.
     if (venuDuLivret) {
@@ -8863,21 +8864,9 @@ const dire = (function () {
       venuDuLivret.focus();
       return;
     }
-    // Fermer une étude, c'est revenir d'où on venait : le dossier. Sans ça
-    // le visiteur se retrouve sur un bureau vide et doit rouvrir Case
-    // Studies pour lire la suivante — trois gestes au lieu d'un.
-    // Différé d'une image : la touche Échap qui ferme l'étude poursuit sa
-    // route jusqu'au gestionnaire du Finder, qui refermerait le dossier
-    // qu'on vient de rouvrir. stopPropagation n'y suffit pas — les deux
-    // écouteurs sont posés sur le même nœud. On laisse donc l'événement
-    // finir sa course avant d'agir.
-    requestAnimationFrame(() => {
-      finderOpen('case-studies');
-      const e = ETUDES.find((x) => x.id === ferme);
-      const ligne = e && [...fBody.querySelectorAll('.etude')]
-        .find((b) => (b.getAttribute('aria-label') || '').includes(e.titre));
-      if (ligne) ligne.focus();
-    });
+    // Le dossier « Projets » n'est plus rouvert à la fermeture : on rend
+    // seulement le focus à ce qui avait ouvert l'étude.
+    if (etudeOpenerFocus && etudeOpenerFocus.isConnected) etudeOpenerFocus.focus();
   }
 
   document.querySelectorAll('[data-doc-close]').forEach((b) => b.addEventListener('click', () => closeEtude()));
