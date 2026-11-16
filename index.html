@@ -6859,6 +6859,30 @@
       background: linear-gradient(to right, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%);
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
+    /* Papier glacé : un reflet large en biais, qui glisse un peu avec la
+       souris (--reflet, posé par le script), et un léger voile sombre aux
+       bords, comme une page brillante sous une lampe. */
+    .stage.gatefold .livret-droite::before,
+    .stage.gatefold-dos .livret-gauche::before {
+      content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+      background:
+        linear-gradient(115deg,
+          rgba(255, 255, 255, 0) calc(var(--reflet, 40%) - 16%),
+          rgba(255, 255, 255, 0.42) calc(var(--reflet, 40%) - 2%),
+          rgba(255, 255, 255, 0.5) var(--reflet, 40%),
+          rgba(255, 255, 255, 0) calc(var(--reflet, 40%) + 12%)),
+        linear-gradient(115deg,
+          rgba(30, 40, 50, 0.07),
+          rgba(30, 40, 50, 0.02) calc(var(--reflet, 40%) - 14%),
+          rgba(30, 40, 50, 0) var(--reflet, 40%),
+          rgba(30, 40, 50, 0.02) calc(var(--reflet, 40%) + 14%),
+          rgba(30, 40, 50, 0.08));
+      transition: background-position 300ms ease;
+    }
+    /* Le dos est retourné : le reflet repart dans l'autre sens. */
+    .stage.gatefold-dos .livret-gauche::before { transform: scaleX(-1); }
+    /* Les photos imprimées sur papier glacé : un peu plus de peps. */
+    .livret-int .li-photo { filter: saturate(1.12) contrast(1.06); }
     /* Page gauche de l'intérieur (Figma 200:172) : en unités de la
        pochette, comme la maquette carrée de 1895. */
     .livret-int { display: none; }
@@ -12286,6 +12310,12 @@ const dire = (function () {
       try { sessionStorage.removeItem('portfolio:deverrouille'); } catch (err) {}
       location.assign(location.pathname + location.search);
     }));
+    // Papier glacé : le reflet suit la souris, de gauche à droite.
+    stageEl.addEventListener('pointermove', (ev) => {
+      if (!stageEl.classList.contains('gatefold-ouvert')) return;
+      const x = ev.clientX / innerWidth;
+      stageEl.style.setProperty('--reflet', (20 + x * 60).toFixed(1) + '%');
+    });
     // Le livret ne tourne pas avec la pochette : il se range avant.
     const versRecto = document.getElementById('flip-recto');
     if (versRecto) versRecto.addEventListener('click', () => fermer(false));
