@@ -6829,7 +6829,7 @@
     .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 10px; overflow: hidden;
-      background: #F3EEE3;
+      background: #FFFFFF;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
       transform-origin: left center;
     }
@@ -6837,7 +6837,7 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #F3EEE3;
+      background: #FFFFFF;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6857,7 +6857,7 @@
     .li-titre {
       width: calc(578 * var(--u)); white-space: nowrap;
       font: 300 calc(42 * var(--u))/1.2 "Cormorant Garamond", serif; letter-spacing: calc(7 * var(--u));
-      color: #E5DECC;
+      color: #F1EFE8;
     }
     .li-face { width: calc(578 * var(--u)); font: 400 calc(28 * var(--u))/calc(29 * var(--u)) "Source Serif 4", "Source Serif Pro", Georgia, serif; color: #393A35; }
     .li-face p { margin: 0; height: calc(23 * var(--u)); }
@@ -6871,7 +6871,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #F3EEE3; }
+    .stage.gatefold-pli .livret-droite { background: #FFFFFF; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
