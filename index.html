@@ -6938,6 +6938,13 @@
     .livret-droite .piste { padding: calc(20 * var(--u)) 0; cursor: pointer; grid-template-columns: 2.4ch 1fr; }
     .livret-droite .piste__nom { font-size: max(15px, calc(52 * var(--u))); }
     .livret-droite .piste__meta { font-size: 0.82em; }
+    /* Sur l'eau de la piscine : tout le menu passe en crème, avec une
+       ombre très douce pour se détacher des reflets. */
+    .livret-droite .face-a { color: #F5EDDC; text-shadow: 0 1px 2px rgba(6, 40, 60, 0.45); }
+    .livret-droite :is(.face-a__titre, .piste__num, .piste__nom, .piste__fleche, .piste__meta) { color: #F5EDDC; }
+    .livret-droite .piste__meta { opacity: 0.9; }
+    .livret-droite .piste:focus-visible { outline-color: #F5EDDC; }
+    .livret-droite .piste__mini { text-shadow: none; }
     .livret-droite .piste__mini {
       /* Devant les yeux : x 150, y 880 sur la pochette, comptés depuis
          la liste (posée en 1395, 1010). */
