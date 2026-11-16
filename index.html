@@ -6850,8 +6850,8 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      /* En fond : le ciel aux nuages. */
-      background: #1C3A5E url("livret-nuages.jpg") center / cover no-repeat;
+      /* En fond : la piscine. */
+      background: #2FA7B8 url("fond-piscine-grand.jpg") center 30% / cover no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6860,27 +6860,6 @@
       background: linear-gradient(to right, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%);
     }
     .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
-    /* Papier glacé : un reflet large en biais (--reflet, posé par le
-       script, glisse à l'ouverture et à la fermeture), et un léger voile
-       sombre aux bords, comme une page brillante sous une lampe. */
-    .stage.gatefold .livret-droite::before,
-    .stage.gatefold-dos .livret-gauche::before {
-      content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none;
-      background:
-        linear-gradient(115deg,
-          rgba(255, 255, 255, 0) calc(var(--reflet, 40%) - 16%),
-          rgba(255, 255, 255, 0.14) calc(var(--reflet, 40%) - 2%),
-          rgba(255, 255, 255, 0.18) var(--reflet, 40%),
-          rgba(255, 255, 255, 0) calc(var(--reflet, 40%) + 12%)),
-        linear-gradient(115deg,
-          rgba(30, 40, 50, 0.035),
-          rgba(30, 40, 50, 0.01) calc(var(--reflet, 40%) - 14%),
-          rgba(30, 40, 50, 0) var(--reflet, 40%),
-          rgba(30, 40, 50, 0.01) calc(var(--reflet, 40%) + 14%),
-          rgba(30, 40, 50, 0.04));
-    }
-    /* Le dos est retourné : le reflet repart dans l'autre sens. */
-    .stage.gatefold-dos .livret-gauche::before { transform: scaleX(-1); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
     /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
        une petite encoche claire en haut et en bas de la tranche. */
@@ -6888,7 +6867,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #1C3A5E url("livret-nuages.jpg") center / cover no-repeat; }
+    .stage.gatefold-pli .livret-droite { background: #2FA7B8 url("fond-piscine-grand.jpg") center 30% / cover no-repeat; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
@@ -12037,28 +12016,12 @@ const dire = (function () {
         fini();
       }, 1120);
     }
-    // Papier glacé : le reflet ne bouge qu'à l'ouverture et à la fermeture.
-    // Il glisse sur les pages pendant que la pochette tourne, puis se pose.
-    let refletRaf = 0;
-    function glisserReflet(de, a, duree) {
-      cancelAnimationFrame(refletRaf);
-      const t0 = performance.now();
-      const pas = (t) => {
-        const k = Math.min(1, (t - t0) / duree);
-        const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-        stageEl.style.setProperty('--reflet', (de + (a - de) * e).toFixed(1) + '%');
-        if (k < 1) refletRaf = requestAnimationFrame(pas);
-      };
-      if (calme()) stageEl.style.setProperty('--reflet', a + '%');
-      else refletRaf = requestAnimationFrame(pas);
-    }
     function ouvrirLivret() {
       if (livretEtat !== 'ferme' || !voletD || stageEl.dataset.state !== 'lock') return;
       livretEtat = 'anim';
       mesurerLivret();
       pochette.style.transformOrigin = 'left center';
       stageEl.classList.add('gatefold');
-      glisserReflet(-30, 40, 1400);
       animerLivret(true, () => {
         livretEtat = 'ouvert'; stageEl.classList.add('gatefold-ouvert');
         // Le clavier arrive sur FACE A : Tab parcourt ensuite les pistes.
@@ -12070,7 +12033,6 @@ const dire = (function () {
       if (livretEtat !== 'ouvert') return;
       livretEtat = 'anim';
       stageEl.classList.remove('gatefold-ouvert');
-      glisserReflet(40, 110, 1100);
       animerLivret(false, () => {
         livretEtat = 'ferme';
         stageEl.classList.remove('gatefold', 'gatefold-dos');
@@ -12088,7 +12050,6 @@ const dire = (function () {
       if (livretEtat !== 'ouvert') return;
       livretEtat = 'anim';
       stageEl.classList.remove('gatefold-ouvert');
-      glisserReflet(40, 110, 1100);
       // Pendant tout le pliage, la tranche glisse vers la droite et la
       // pochette reprend sa taille : elle arrive pile à sa place, sans
       // second mouvement. t va de 1 (ouverte) à 0 (fermée, au verso).
