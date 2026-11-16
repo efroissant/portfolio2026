@@ -3093,11 +3093,18 @@
     position: absolute; inset: 0;
     background: url("film-plastique-2.jpg") center / cover no-repeat;
     mix-blend-mode: screen;
-    filter: contrast(2.4) brightness(0.7);
-    opacity: 0.6;
+    /* Plus discret : les reflets ne doivent ni concurrencer MANU (lui
+       aussi blanc et effilé) ni doubler les palmes en « fantômes ». */
+    filter: contrast(2) brightness(0.55);
+    opacity: 0.4;
+    /* Presque effacé autour de MANU, plein sur les bords. */
+    -webkit-mask-image: radial-gradient(ellipse 46% 26% at 50% 57%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.12) 45%, #000 100%);
+            mask-image: radial-gradient(ellipse 46% 26% at 50% 57%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.12) 45%, #000 100%);
     pointer-events: none;
     z-index: 1;
   }
+  /* Le verso garde son film plein, sans masque. */
+  .stage[data-state="desktop"] .stage__film { -webkit-mask-image: none; mask-image: none; }
   /* Au verso, une autre texture d'emballage : plis sur les bords, rayures. */
   .stage[data-state="desktop"] .stage__film {
     background-image: url("film-plastique-verso.jpg");
