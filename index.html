@@ -11820,6 +11820,15 @@ const dire = (function () {
   if (flipRecto) flipRecto.addEventListener('click', () => {
     if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
   });
+  // Après un clic sur MANU (rechargement) depuis le verso : on y revient
+  // tout de suite, sans animation.
+  try {
+    if (sessionStorage.getItem('face') === 'verso') {
+      sessionStorage.removeItem('face');
+      document.getElementById('stage').classList.add('vinyle-range');
+      document.getElementById('unlock').click();
+    } else sessionStorage.removeItem('face');
+  } catch (err) {}
 
   /* ---------- Intercalaires et livret du verso ----------
      Une seule bio : le portrait et la languette « À propos » ouvrent la
@@ -12238,6 +12247,8 @@ const dire = (function () {
     // Le logo MANU (barre et mobile) : rafraîchit la page, sans l'ancre.
     document.querySelectorAll('[data-rafraichir]').forEach((b) => b.addEventListener('click', (e) => {
       e.preventDefault(); e.stopPropagation();
+      // La face affichée survit au rechargement : au verso, on y reste.
+      try { sessionStorage.setItem('face', stageEl.dataset.state === 'desktop' ? 'verso' : 'recto'); } catch (err) {}
       location.assign(location.pathname + location.search);
     }));
     // Le livret ne tourne pas avec la pochette : il se range avant.
