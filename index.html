@@ -6800,7 +6800,7 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #FFFFFF url("livret-piscine.webp") center / auto 84% no-repeat;
+      background: #FFFFFF url("livret-piscine.webp") center / auto 42% no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6816,7 +6816,7 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #FFFFFF url("livret-piscine.webp") center / auto 84% no-repeat; }
+    .stage.gatefold-pli .livret-droite { background: #FFFFFF url("livret-piscine.webp") center / auto 42% no-repeat; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
@@ -7157,6 +7157,11 @@
     white-space: pre;   /* un \n dans le texte = retour à la ligne */ opacity: 0; transition: opacity 140ms ease;
   }
   .curseur-bulle.is-visible { opacity: 1; }
+  /* Au recto, sur la photo : OUVRIR en blanc 14 px, cadre blanc 1 px, sans fond. */
+  .curseur-bulle.curseur-bulle--ouvrir {
+    background: transparent; color: #FFFFFF; border-color: #FFFFFF;
+    font-size: 14px; line-height: 18px; padding: 6px 12px 5px;
+  }
   @media (hover: none) { .curseur-bulle { display: none; } }
   /* ================= ÉTUDES DE CAS, DANS LE STYLE DE LA BIO =================
      Même fenêtre que la bio et les projets : papier crème, ombre douce,
@@ -12198,20 +12203,19 @@ const dire = (function () {
     // portrait de l'obi, qui a sa bulle BIO).
     const bulle = document.getElementById('curseur-bulle');
     if (pochette && bulle) {
-      // La bulle attend une demi-seconde de survol avant d'apparaître.
+      // La bulle apparaît dès le survol.
       let attente = null;
       const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
       const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi', 'survol-photo-verso'); };
       const photoVerso = document.querySelector('.verso__photo');
       const montrer = (ev, texte) => {
+        bulle.classList.remove('curseur-bulle--ouvrir');
         if (bulle.textContent !== texte) bulle.textContent = texte;
         // Une longue bulle près du bord droit passe à gauche du curseur.
         let x = ev.clientX + 16;
         if (x + bulle.offsetWidth > innerWidth - 8) x = ev.clientX - 16 - bulle.offsetWidth;
         bulle.style.transform = 'translate(' + Math.max(8, x) + 'px, ' + (ev.clientY + 20) + 'px)';
-        if (!attente && !bulle.classList.contains('is-visible')) {
-          attente = setTimeout(() => { bulle.classList.add('is-visible'); }, 500);
-        }
+        bulle.classList.add('is-visible');
       };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || document.querySelector('dialog[open]')) { cacher(); return; }
@@ -12235,14 +12239,14 @@ const dire = (function () {
         // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
         const surObi = !!ev.target.closest('.sleeve__obi');
         const disqueVu = getComputedStyle(document.querySelector('.vinyle')).display !== 'none';
-        const texte = surObi ? 'BIO' : (disqueVu ? 'OUVRIR LA POCHETTE' : 'VOIR LE VERSO');
+        const texte = surObi ? 'BIO' : (disqueVu ? 'OUVRIR' : 'VOIR LE VERSO');
         if (bulle.textContent !== texte) bulle.textContent = texte;
+        // Sur la photo du recto : OUVRIR en blanc, dans un cadre blanc.
+        bulle.classList.toggle('curseur-bulle--ouvrir', texte === 'OUVRIR');
         stageEl.classList.toggle('survol-obi', surObi);
         stageEl.classList.toggle('survol-recto', !surObi);
         bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
-        if (!attente && !bulle.classList.contains('is-visible')) {
-          attente = setTimeout(() => { bulle.classList.add('is-visible'); }, 500);
-        }
+        bulle.classList.add('is-visible');
       });
       pochette.addEventListener('pointerleave', cacher);
       if (voletD) {
