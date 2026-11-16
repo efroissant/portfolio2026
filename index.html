@@ -2933,7 +2933,7 @@
     opacity: 0.45;
   }
 
-  /* ===== POCHETTE « SUMMER AFTERGLOW » (Figma 113:305) =====
+  /* ===== POCHETTE « SUMMER FLOW » (Figma 113:305) =====
      La pochette est un conteneur : 1 unité = 1 px de la maquette de 1895,
      tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
   .stage__bg { container-type: size; --u: calc(100cqw / 1895); }
@@ -2981,6 +2981,14 @@
     text-align: center; white-space: nowrap;
     font: 300 calc(42 * var(--u)) / 1.2 "Cormorant Garamond", serif;
     letter-spacing: calc(7 * var(--u)); color: #F1EFE8;
+  }
+  /* Sous MANU : ce qu'on va découvrir. */
+  .sleeve__sous-titre {
+    position: absolute; margin: 0;
+    left: 0; width: 100%; top: calc(1245 * var(--u));
+    text-align: center; white-space: nowrap; text-transform: uppercase;
+    font: 500 calc(26 * var(--u)) / 1.2 "DM Sans", sans-serif;
+    letter-spacing: calc(6 * var(--u)); color: #F1EFE8;
   }
   .sleeve__manu {
     position: absolute; margin: 0;
@@ -7477,10 +7485,11 @@
   </div>
 
   <div class="stage__bg"><div class="sleeve" aria-hidden="true">
-    <!-- Pochette « Summer Afterglow » (maquette Figma 113:305) : la photo
+    <!-- Pochette « Summer Flow » (maquette Figma 113:305) : la photo
          pleine pochette, le titre et MANU au pinceau par-dessus. Toutes les
          mesures sont en unités de la pochette (1895 = côté du carré). -->
-    <p class="sleeve__titre">SUMMER AFTERGLOW</p>
+    <p class="sleeve__titre">SUMMER FLOW</p>
+    <p class="sleeve__sous-titre">Selected works&nbsp;·&nbsp;UI/UX</p>
     <!-- Sticker du disquaire sur le recto : l'étiquette rouge « MUSIC SHOP »
          (dessinée), avec un léger grain. -->
     <svg class="sleeve__stickers" viewBox="58 60 154 114" aria-hidden="true" focusable="false">
@@ -7512,9 +7521,9 @@
   <div class="verso">
     <p class="verso__t vs-dm" style="--x:100;--y:100;--s:28;--t:2;--lh:1.1">DESIGN PORTFOLIO&nbsp; /&nbsp; VOL. 01</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:101;--s:26;--t:1;--lh:1.1">STEREO</p>
-    <p class="verso__t vs-cg" style="--x:95;--y:150;--s:140;--t:0;--lh:1;--c:#F1EFE8">SUMMER AFTERGLOW</p>
-    <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:236;--s:28;--t:3;--lh:1.1">真夏の余韻</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:306;--s:26;--t:3;--lh:1.1">A LITTLE INSIGHT, A BETTER INTERFACE.</p>
+    <p class="verso__t vs-cg" style="--x:95;--y:150;--s:140;--t:0;--lh:1;--c:#F1EFE8">SUMMER FLOW</p>
+    <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:236;--s:28;--t:3;--lh:1.1">真夏の流れ</p>
+    <p class="verso__t vs-dm" style="--x:100;--y:306;--s:26;--t:3;--lh:1.1">SELECTED WORKS&nbsp; ·&nbsp; UI/UX</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:306;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
     <span class="verso__photo"><img src="verso-lookout.jpg" alt=""></span>
     <!-- Tracklist : la face A, ce sont les études de cas (cliquables) ;
