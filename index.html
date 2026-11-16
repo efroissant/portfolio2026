@@ -6649,6 +6649,7 @@
      téléphone le livret se déplie sous la pochette, dans le flux. */
   .intercalaires { display: none; }
   .sayhi-mobile { display: none; }
+  .logo-mobile { display: none; }
   .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
     display: flex; position: absolute; margin: 0; padding: 0;
     /* Avant la pochette dans le DOM : elles passent dessous. */
@@ -6715,6 +6716,11 @@
       left: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
       color: #111111; text-decoration: none;
       font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    }
+    /* Logo MANU en face de SAY HI, aligné sur le bord droit de la pochette. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .logo-mobile {
+      display: block; position: absolute; z-index: 20;
+      right: calc((100vw - var(--carre-v)) / 2); top: 18px; height: 20px; width: auto;
     }
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
@@ -8119,6 +8125,7 @@
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à gauche,
        en face de VERSO/RECTO. -->
   <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
+  <img class="logo-mobile" src="logo-manu.png" alt="MANU" width="452" height="198">
   <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
   <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
     <span>VERSO</span>
