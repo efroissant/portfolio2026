@@ -6561,6 +6561,8 @@
   .stage .menubar #bar-date { display: none !important; }
   /* L'heure aussi : la barre ne garde que SAY HI à droite. */
   .stage .menubar .menubar__clock { display: none !important; }
+  /* Logo MANU en haut à droite : petit, à la hauteur du texte de la barre. */
+  .stage .menubar .barre-logo { display: block; height: 22px; width: auto; margin-left: 10px; }
   /* Dossiers, Éditer et Aide retirés de la barre. */
   .stage .menubar .menubar__items { display: none !important; }
 
@@ -8092,6 +8094,8 @@
              Tracés pleins (evenodd) plutôt que masques : un masque ne se
              dessine pas tant que la barre est masquée. -->
         <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
+        <!-- Logo MANU, en haut à droite, après SAY HI. -->
+        <img class="barre-logo" src="logo-manu.png" alt="MANU" width="452" height="198">
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
            aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" title="LinkedIn">
           LKD
@@ -10306,7 +10310,7 @@ const dire = (function () {
   const WALLPAPERS = [
     /* Photos : un seul JPEG par taille (pas de WebP ici), une vignette
        carrée pour le menu, et un cadrage pour les images en portrait. */
-    { id: 'palmiers',  nom: 'Palmiers',   photo: 'fond-palmiers',  position: 'center' },
+    { id: 'palmiers',  nom: 'Palmiers',   photo: 'fond-palmiers',  position: '62% center' },
     { id: 'hawaii',    nom: 'Hawaï',      photo: 'fond-hawaii',    position: 'center 60%' },
     { id: 'piscine',   nom: 'Piscine',    photo: 'fond-piscine',   position: 'center 38%' },
     { id: 'motel',     nom: 'Motel',      photo: 'fond-motel',     position: 'center 40%' },
