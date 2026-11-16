@@ -7365,7 +7365,7 @@
   .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
     display: inline-flex; align-items: center; position: absolute; z-index: 20;
     min-height: 28px; padding: 0 2px;
-    right: calc((100vw - var(--carre-v)) / 2 + 54px);
+    right: calc((100vw - var(--carre-v)) / 2);
     top: calc(var(--haut-v) + var(--carre-v) + 8px);
     color: #111111;
     text-decoration: none; text-underline-offset: 3px; text-decoration-thickness: 1px;
@@ -7411,7 +7411,7 @@
   .lien-bas:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
-      left: auto; right: 78px; top: auto;   /* à droite, juste avant le « ? » */
+      left: auto; right: 24px; top: auto;   /* en bas à droite */
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play,
@@ -8207,8 +8207,6 @@
   <a class="lien-bas" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LKD</a>
   <!-- Le « ! » en bas à gauche : au survol, le dessin « tenir le disque par les bords ». -->
   <button class="aide-disque aide-disque--gauche" type="button" aria-label="Tenir un disque par les bords" aria-describedby="tenir-disque-img">!<img id="tenir-disque-img" class="aide-disque__fiche" src="tenir-disque.jpg" alt="Dessin : deux mains tiennent un disque par ses bords. Always handle your record by its edges, or by one edge and the center." width="700" height="900" loading="lazy"></button>
-  <!-- Le « ? » en bas à droite : au survol, la fiche « Take Care of Your Records ». -->
-  <button class="aide-disque" type="button" aria-label="Prendre soin de ses disques" aria-describedby="aide-disque-img">?<img id="aide-disque-img" class="aide-disque__fiche" src="take-care-records.jpg" alt="Take Care of Your Records : tenir le disque par les bords, le ranger dans sa pochette, l'essuyer avec un chiffon doux, ranger les albums debout." width="749" height="573" loading="lazy"></button>
 
   <div class="recto-play lecteur-mini" id="recto-play" role="group" aria-label="Lecteur de musique">
     <button type="button" class="lecteur-mini__btn" data-mini="prec" aria-label="Morceau précédent">
