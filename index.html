@@ -6782,15 +6782,17 @@
     }
     .vinyle img {
       /* Disque à ~95 % de la hauteur de la pochette (l'image a une marge
-         transparente). 30 % dehors : l'étiquette reste cachée. */
+         transparente). Rangé par défaut, caché sous la pochette. */
       position: absolute; top: -4%; left: -4%; width: 108%; height: 108%;
-      transform: translateX(30%) rotate(0deg);
+      transform: translateX(0) rotate(-200deg);
       transition: transform 760ms cubic-bezier(0.33, 0.9, 0.3, 1);
       filter: drop-shadow(0 6px 14px rgba(20, 15, 5, 0.28));
     }
     /* Rangé : il rentre dans la pochette en tournant un peu. */
     /* Il roule : en rentrant il tourne d'un demi-tour sur lui-même, et en
        ressortant il fait le chemin inverse. */
+    /* Au survol de la pochette, il sort un peu en roulant. */
+    .stage:has(.stage__bg:hover) .vinyle img { transform: translateX(16%) rotate(-95deg); }
     .stage.vinyle-range .vinyle img { transform: translateX(0) rotate(-200deg); }
     /* Pendant le retournement, on ne le voit pas derrière la tranche. */
     .stage.en-rotation .vinyle { visibility: hidden; }
@@ -12257,11 +12259,6 @@ const dire = (function () {
         if (r) r.click();
       }
     });
-    // À l'arrivée, le disque part de la pochette et sort en roulant.
-    if (stageEl.dataset.state === 'lock' && !calme()) {
-      stageEl.classList.add('vinyle-range');
-      setTimeout(() => stageEl.classList.remove('vinyle-range'), 700);
-    }
     // Le livret ne tourne pas avec la pochette : il se range avant.
     const versRecto = document.getElementById('flip-recto');
     if (versRecto) versRecto.addEventListener('click', () => fermer(false));
