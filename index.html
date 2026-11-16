@@ -7309,10 +7309,10 @@
     left: calc((100vw - var(--carre-v)) / 2);
     top: calc(var(--haut-v) + var(--carre-v) + 8px);
     color: #111111;
-    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    text-decoration: none; text-underline-offset: 3px; text-decoration-thickness: 1px;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
   }
-  .stage .lien-bas:hover { text-decoration-thickness: 2px; }
+  .stage .lien-bas:hover { text-decoration: underline; }
   .lien-bas:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
@@ -7325,16 +7325,11 @@
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
-  /* Liens de la barre : sans soulignement, souligné seulement au survol.
-     LKD, en bas, reste souligné. */
-  .stage .menubar .barlien, .stage .sayhi-mobile { text-decoration: none; }
-  .stage .menubar .barlien:hover, .stage .sayhi-mobile:hover {
+  /* Liens de la barre et LKD : sans soulignement, souligné seulement au survol. */
+  .stage .menubar .barlien, .stage .sayhi-mobile, .stage .lien-bas { text-decoration: none; }
+  .stage .menubar .barlien:hover, .stage .sayhi-mobile:hover, .stage .lien-bas:hover {
     text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
   }
-  .stage .lien-bas {
-    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
-  }
-  .stage .lien-bas:hover { text-decoration-thickness: 2px; }
   /* MANU, en haut à gauche : un lien comme SAY HI et LKD (retour au recto). */
   .stage .menubar .menuitem--app {
     font-weight: 400; letter-spacing: 0.12em; padding: 4px 6px;
