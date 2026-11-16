@@ -2948,7 +2948,7 @@
       /* Toute la largeur avant la pochette (--profil-w, posé par le script). */
       width: var(--profil-w, 165px);
       flex-direction: column; container-type: inline-size;
-      transition: opacity 300ms ease;
+      transition: opacity 300ms ease, filter 500ms ease;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil { display: flex; }
     /* La bio en très gros ; elle défile quand on fait défiler la page. */
@@ -2971,7 +2971,7 @@
     .profil__image:hover { transform: rotate(-1.5deg) scale(2); }
     /* Pochette ouverte : la photo et la bio restent là, derrière la
        double page qui vient les couvrir. */
-    .stage.gatefold .profil { z-index: 0; pointer-events: none; }
+    .stage.gatefold .profil { z-index: 0; pointer-events: none; filter: blur(8px); }
   }
   @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
   /* Stickers du disquaire au recto, en haut à droite. */
