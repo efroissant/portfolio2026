@@ -2943,7 +2943,7 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
       display: block; position: absolute; z-index: 6;
-      left: 29px; top: calc(var(--bar-h) + 20px);   /* aligné sur MANU */
+      left: 29px; top: calc(var(--bar-h) + 60px);   /* un peu sous MANU */
       bottom: 64px;                                   /* au-dessus de LKD */
       /* Toute la largeur avant la pochette (--profil-w, posé par le script). */
       width: var(--profil-w, 165px);
@@ -5935,8 +5935,10 @@
       /* La pochette se cale en haut, sous la barre : l'espace en trop va
          en bas (--marge-y en est la moitié). */
       --marge-y: calc((var(--zone-h) - var(--carre)) / 2);
-      --cadre: calc(var(--bar-h) + 16px) calc(var(--manche) + var(--marge-x))
-               calc(24px + 2 * var(--marge-y)) calc(var(--obi) + var(--marge-x));
+      /* La pochette est décalée de --decal vers la droite. */
+      --decal: 50px;
+      --cadre: calc(var(--bar-h) + 16px) calc(var(--manche) + var(--marge-x) - var(--decal))
+               calc(24px + 2 * var(--marge-y)) calc(var(--obi) + var(--marge-x) + var(--decal));
     }
     .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
     .stage[data-state="desktop"] {
@@ -5960,7 +5962,7 @@
     }
     /* Le lecteur se range dans le coin haut droit de la photo. */
     .stage[data-state="desktop"] .spot.lecteur {
-      right: calc(var(--manche) + var(--marge-x) + 20px);
+      right: calc(var(--manche) + var(--marge-x) - var(--decal) + 20px);
       top: calc(var(--bar-h) + 16px + 20px);
     }
     /* Le dock descend dans l'obi, sous les cartes : centré sur la bande
@@ -6465,7 +6467,7 @@
   @media (min-width: 1024px) {
     .stage[data-state="desktop"] .recto-play {
       right: auto;
-      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) + 10px);
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
@@ -6502,7 +6504,7 @@
   }
   @media (min-width: 1024px) {
     .flip-lien {
-      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) + 10px);
       top: calc(var(--bar-h) + 16px);
     }
   }
@@ -6618,7 +6620,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) { --carre-v: var(--carre); --cadre-v: var(--cadre); }
     .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
       right: auto; top: auto;
-      left: calc(100vw - var(--manche) - var(--marge-x) + 10px);
+      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) + 10px);
       bottom: calc(24px + 2 * var(--marge-y) - 4px);
     }
   }
@@ -6626,7 +6628,7 @@
   /* Grand écran : le mini-lecteur ne déborde jamais à droite, le titre
      s'abrège s'il le faut. */
   @media (min-width: 1024px) {
-    .recto-play.lecteur-mini { max-width: calc(var(--manche) + var(--marge-x) - 24px); }
+    .recto-play.lecteur-mini { max-width: calc(var(--manche) + var(--marge-x) - var(--decal) - 24px); }
     .lecteur-mini__titre { min-width: 0; flex: 1 1 auto; max-width: none; }
   }
   /* Tablette : pas de place à côté de la pochette. Elle laisse une ligne
@@ -6713,7 +6715,7 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
       flex-direction: column; align-items: stretch; gap: 10px;
-      left: calc(100vw - var(--manche) - var(--marge-x) - 18px);
+      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) - 18px);
       top: calc(var(--bar-h) + 16px + max(56px, var(--carre) * 0.16));
     }
     .intercalaire {
@@ -8523,7 +8525,7 @@ window.cadrePochette = function () {
   const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
   // La photo est le plus grand carré centré dans la zone (comme en CSS).
   const zl = W - left - droite, zh = H - barH - 40, c = Math.min(zl, zh);
-  const l = left + (zl - c) / 2, t = barH + 16;   // calée en haut, comme en CSS
+  const l = left + (zl - c) / 2 + 50, t = barH + 16;   // + --decal   // calée en haut, comme en CSS
   return { left: l, top: t, right: l + c, bottom: t + c, width: c, height: c };
 };
 </script>
