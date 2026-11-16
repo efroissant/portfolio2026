@@ -5940,7 +5940,7 @@
          vers la droite d'autant qu'il faut. */
       --bord: calc((var(--manche) + var(--marge-x) - 21px) / 2);
       --decal: calc((var(--manche) + var(--marge-x) + 21px) / 2);
-      --cadre: calc(var(--bar-h) + 16px) calc(var(--manche) + var(--marge-x) - var(--decal))
+      --cadre: calc(var(--bar-h) + 6px) calc(var(--manche) + var(--marge-x) - var(--decal))
                calc(24px + 2 * var(--marge-y)) calc(var(--obi) + var(--marge-x) + var(--decal));
     }
     .stage__bg { transition: inset 700ms cubic-bezier(0.22, 1, 0.36, 1); }
@@ -5966,7 +5966,7 @@
     /* Le lecteur se range dans le coin haut droit de la photo. */
     .stage[data-state="desktop"] .spot.lecteur {
       right: calc(var(--manche) + var(--marge-x) - var(--decal) + 20px);
-      top: calc(var(--bar-h) + 16px + 20px);
+      top: calc(var(--bar-h) + 6px + 20px);
     }
     /* Le dock descend dans l'obi, sous les cartes : centré sur la bande
        crème, au ras du bas de la photo. Icônes un peu plus petites pour
@@ -6508,7 +6508,7 @@
   @media (min-width: 1024px) {
     .flip-lien {
       left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) + 10px);
-      top: calc(var(--bar-h) + 16px);
+      top: calc(var(--bar-h) + 6px);
     }
   }
   /* Téléphone : pas de place à côté, le lien passe au-dessus, à droite. */
@@ -6719,7 +6719,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
       flex-direction: column; align-items: stretch; gap: 10px;
       left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) - 18px);
-      top: calc(var(--bar-h) + 16px + max(56px, var(--carre) * 0.16));
+      top: calc(var(--bar-h) + 6px + max(56px, var(--carre) * 0.16));
     }
     .intercalaire {
       padding: 0 16px 0 32px;   /* 18 px glissés sous la pochette */
@@ -8528,7 +8528,7 @@ window.cadrePochette = function () {
   const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
   // La photo est le plus grand carré centré dans la zone (comme en CSS).
   const zl = W - left - droite, zh = H - barH - 40, c = Math.min(zl, zh);
-  const l = left + (zl - c) / 2 + (droite + (zl - c) / 2 + 21) / 2, t = barH + 16;   // + --decal   // calée en haut, comme en CSS
+  const l = left + (zl - c) / 2 + (droite + (zl - c) / 2 + 21) / 2, t = barH + 6;   // + --decal   // calée en haut, comme en CSS
   return { left: l, top: t, right: l + c, bottom: t + c, width: c, height: c };
 };
 </script>
