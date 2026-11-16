@@ -6812,7 +6812,7 @@
     .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 10px; overflow: hidden;
-      background: #E8DCC6 url("livret-piscine.webp") right 19% / 200% auto no-repeat;
+      background: #FFFFFF;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
       transform-origin: left center;
     }
@@ -6820,15 +6820,15 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #E8DCC6 url("livret-piscine.webp") left 19% / 200% auto no-repeat;
+      background: #FFFFFF url("livret-piscine.webp") center / auto 84% no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
     .livret-droite::after, .livret-gauche::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to right, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%);
+      background: linear-gradient(to right, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%);
     }
-    .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
+    .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold .stage__bg { backface-visibility: visible !important; }
     /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
        une petite encoche claire en haut et en bas de la tranche. */
@@ -6836,8 +6836,9 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background-position: left 19%; }
-    .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
+    .stage.gatefold-pli .livret-droite { background: #FFFFFF url("livret-piscine.webp") center / auto 84% no-repeat; }
+    .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
+    .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
     /* Ouverte : pas de disque. */
     .stage.gatefold .vinyle { visibility: hidden; }
@@ -6913,47 +6914,48 @@
     .piste__num > span, .piste__num::after, .piste__titre, .piste__mini { transition: none !important; }
   }
 
-  /* Grand écran : sur le mur du volet droit, dans le dos du personnage,
-     sans fond. La miniature apparaît devant ses yeux, à gauche. Les
-     coordonnées sont en unités de pochette (1895 de large). */
+  /* Grand écran : la double page est blanche. À gauche, la photo de la
+     piscine entière ; à droite, FACE A et FACE B, en noir, minimal. La
+     miniature d'une piste apparaît à droite de la liste. Coordonnées en
+     unités de pochette (1895 de large). */
   .face-a-mobile { display: none; }
   @media (min-width: 1024px) {
     .stage.gatefold .livret-droite { container-type: size; }
     .livret-droite .face-a {
       --u: calc(100cqw / 1895);
-      position: absolute; inset: 0; pointer-events: none;
-      font-size: max(12px, calc(34 * var(--u)));
+      position: absolute; left: calc(260 * var(--u)); top: calc(450 * var(--u)); width: calc(860 * var(--u));
+      font-size: max(12px, calc(32 * var(--u)));
+      color: #141414; cursor: default;
     }
     .livret-droite .face-a__titre {
-      position: absolute; left: calc(1395 * var(--u)); top: calc(935 * var(--u));
-      font: 500 max(11px, calc(30 * var(--u)))/1 "DM Sans", sans-serif; font-style: normal;
+      margin: 0 0 calc(22 * var(--u));
+      color: #141414;
+      font: 500 max(11px, calc(28 * var(--u)))/1 "DM Sans", sans-serif; font-style: normal;
       letter-spacing: 0.16em;
     }
-    .livret-droite .face-a__pistes {
-      position: absolute; left: calc(1395 * var(--u)); top: calc(1010 * var(--u)); width: calc(460 * var(--u));
-      pointer-events: auto;
-    }
-    .livret-droite .piste { padding: calc(20 * var(--u)) 0; cursor: pointer; grid-template-columns: 2.4ch 1fr; }
-    .livret-droite .piste__nom { font-size: max(15px, calc(52 * var(--u))); }
-    .livret-droite .piste__meta { font-size: 0.82em; }
-    /* Sur l'eau de la piscine : tout le menu passe en crème, avec une
-       ombre très douce pour se détacher des reflets. */
-    .livret-droite .face-a { color: #F5EDDC; text-shadow: 0 1px 2px rgba(6, 40, 60, 0.45); }
-    .livret-droite :is(.face-a__titre, .piste__num, .piste__nom, .piste__fleche, .piste__meta) { color: #F5EDDC; }
-    .livret-droite .piste__meta { opacity: 0.9; }
-    .livret-droite .piste:focus-visible { outline-color: #F5EDDC; }
-    .livret-droite .piste__mini { text-shadow: none; }
+    .livret-droite .face-a__titre--b { margin-top: calc(110 * var(--u)); }
+    .livret-droite .piste { padding: calc(18 * var(--u)) 0; grid-template-columns: 2.4ch 1fr; column-gap: calc(18 * var(--u)); }
+    .livret-droite :is(.piste__num, .piste__fleche) { color: #141414; }
+    .livret-droite .piste__nom { color: #141414; font-size: max(15px, calc(50 * var(--u))); }
+    .livret-droite .piste__meta { color: #6A6A6A; font-size: 0.82em; }
+    .livret-droite .piste:focus-visible { outline-color: #141414; }
     .livret-droite .piste__mini {
-      /* Devant les yeux : x 150, y 880 sur la pochette, comptés depuis
-         la liste (posée en 1395, 1010). */
-      position: absolute; left: calc((150 - 1395) * var(--u)); top: calc((880 - 1010) * var(--u));
-      width: calc(380 * var(--u)); font-size: max(13px, calc(44 * var(--u)));
-      opacity: 0; transform: translateX(calc(24 * var(--u))) rotate(-3deg);
+      position: absolute; left: calc(1000 * var(--u)); top: calc(70 * var(--u));
+      width: calc(420 * var(--u)); font-size: max(13px, calc(44 * var(--u)));
+      opacity: 0; transform: translateY(calc(14 * var(--u)));
       transition: opacity 220ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
     }
-    .livret-droite .piste:is(:hover, :focus-visible) .piste__mini { opacity: 1; transform: rotate(-3deg); }
+    .livret-droite .piste:is(:hover, :focus-visible) .piste__mini { opacity: 1; transform: none; }
   }
+  /* Face B : pas encore de lien, plus discrète. */
+  .piste--bientot { cursor: default; }
+  .piste--bientot .piste__nom { opacity: 0.45; }
+  .piste--bientot .piste__num { opacity: 0.45; }
+  .piste--bientot:hover .piste__num > span { opacity: 1; }
+  .piste--bientot:hover .piste__num::after { opacity: 0; }
+  .piste--bientot:hover .piste__titre { background-size: 0% 2px; }
+  @media (max-width: 1023px) { .face-a-mobile .face-a__titre--b { margin-top: 36px; } }
 
   /* Téléphone et tablette : l'intérieur s'ouvre sous le recto, en liste.
      Tout est visible sans survol : chaque piste montre sa miniature. */
@@ -7442,7 +7444,7 @@
          Pour changer un projet : le nom, la catégorie et le lien (href +
          data-etude, l'identifiant de l'étude). Pour une vraie miniature,
          remplacer le contenu de .piste__mini par <img src="…" alt="">. -->
-    <nav class="face-a" id="face-a" aria-labelledby="face-a-titre">
+    <nav class="face-a" id="face-a" aria-label="Les projets">
       <h2 class="face-a__titre" id="face-a-titre" tabindex="-1">Face A <span aria-hidden="true">—</span> Les projets</h2>
       <ol class="face-a__pistes">
         <li><a class="piste" href="#case/gvq" data-etude="gvq">
@@ -7469,6 +7471,22 @@
           </span>
           <span class="piste__mini piste__mini--3" aria-hidden="true"><span class="piste__mini-num">03</span></span>
         </a></li>
+      </ol>
+      <!-- FACE B : les projets à venir, pas encore de lien. -->
+      <h2 class="face-a__titre face-a__titre--b">Face B <span aria-hidden="true">—</span> Bientôt</h2>
+      <ol class="face-a__pistes face-a__pistes--b">
+        <li><div class="piste piste--bientot">
+          <span class="piste__num" aria-hidden="true"><span>04</span></span>
+          <span class="piste__corps"><span class="piste__nom"><span class="piste__titre">Beaconsfield Clinic</span></span><span class="piste__meta">Refonte du site d’une clinique médicale</span></span>
+        </div></li>
+        <li><div class="piste piste--bientot">
+          <span class="piste__num" aria-hidden="true"><span>05</span></span>
+          <span class="piste__corps"><span class="piste__nom"><span class="piste__titre">Illustrations</span></span><span class="piste__meta">Mes dessins</span></span>
+        </div></li>
+        <li><div class="piste piste--bientot">
+          <span class="piste__num" aria-hidden="true"><span>06</span></span>
+          <span class="piste__corps"><span class="piste__nom"><span class="piste__titre">À venir</span></span><span class="piste__meta">Prochain projet</span></span>
+        </div></li>
       </ol>
     </nav>
   </div>
