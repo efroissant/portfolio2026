@@ -6813,7 +6813,7 @@
     .stage.gatefold .livret-droite {
       display: block; position: absolute; inset: var(--cadre-v);
       border-radius: 10px; overflow: hidden;
-      background: #E8DCC6 url("livret-mur.webp") right center / 200% 100% no-repeat;
+      background: #E8DCC6 url("livret-piscine.webp") right 19% / 200% auto no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
       transform-origin: left center;
     }
@@ -6821,7 +6821,7 @@
        l'envers pour se lire à l'endroit une fois la couverture rabattue. */
     .stage.gatefold-dos .livret-gauche {
       display: block; position: absolute; inset: 0; z-index: 30;
-      background: #E8DCC6 url("livret-mur.webp") left center / 200% 100% no-repeat;
+      background: #E8DCC6 url("livret-piscine.webp") left 19% / 200% auto no-repeat;
       transform: scaleX(-1);
     }
     /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
@@ -6837,11 +6837,11 @@
     .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
     /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
        que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background-position: left center; }
+    .stage.gatefold-pli .livret-droite { background-position: left 19%; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.28), rgba(10, 20, 30, 0.08) 3%, transparent 9%); }
     .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
-    /* Ouverte : ni disque, ni ondes, ni lien vers la bio sur l'obi. */
-    .stage.gatefold .vinyle, .stage.gatefold .recto-ondes { visibility: hidden; }
+    /* Ouverte : ni disque, ni lien vers la bio sur l'obi. */
+    .stage.gatefold .vinyle { visibility: hidden; }
     .stage.gatefold .sleeve__obi { pointer-events: none !important; }
     .stage.gatefold-ouvert .livret-droite, .stage.gatefold-ouvert .stage__bg { cursor: pointer; }
   }
@@ -6961,7 +6961,7 @@
     .face-a-mobile__photo {
       position: relative; aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden;
       /* Recadré sur la droite du panoramique : le personnage reste dans l'image. */
-      background: #E8DCC6 url("livret-mur.webp") 80% 50% / cover no-repeat;
+      background: #E8DCC6 url("livret-piscine.webp") 50% 22% / cover no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
     }
     .face-a-mobile .face-a { margin-top: 28px; font-size: 14px; }
@@ -7160,39 +7160,6 @@
   .projets-modal .livret__pistes li:first-child { padding-top: 0; }
   .projets-modal .livret__projet { font-size: 24px; }
   .projets-modal .livret__lire { grid-column: 2; min-height: 36px; }
-  /* ---- Recto : ondes au survol de l'obi ----
-     Deux cadres bleu clair qui partent du bord de l'obi et s'élargissent
-     en s'effaçant, seulement pendant le survol. (Plus d'ondes sur la
-     photo : le disque qui sort au survol suffit.) */
-  .recto-ondes { display: none; }
-  .stage[data-state="lock"] .recto-ondes {
-    display: block; position: absolute; inset: var(--cadre-v);
-    pointer-events: none; z-index: 2;
-  }
-  @keyframes obi-onde-large {
-    0%   { inset: 0;     opacity: 0.95; }
-    80%  { inset: -18px; opacity: 0; }
-    100% { inset: -18px; opacity: 0; }
-  }
-  /* Même effet sur le contour de l'obi, au survol de l'obi. */
-  .recto-ondes b {
-    position: absolute; top: 0; bottom: 0; left: 0;
-    width: calc(100% * 276 / 1895);
-  }
-  .recto-ondes b::before, .recto-ondes b::after {
-    content: ""; position: absolute; inset: 0; border-radius: 3px;
-    border: 3px solid #3FA9DA; opacity: 0;
-  }
-  .stage.survol-obi .recto-ondes b::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
-  .stage.survol-obi .recto-ondes b::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
-  @media (max-width: 767px) {
-    .stage[data-state="lock"] .recto-ondes { bottom: auto; height: var(--carre-v); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .stage.survol-obi .recto-ondes b::before { animation: none; opacity: 1; inset: -6px; }
-    .stage.survol-obi .recto-ondes b::after { animation: none; }
-  }
-
   /* ---- Bulle qui suit la souris : « VOIR LE VERSO » ---- */
   .curseur-bulle {
     position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
@@ -7570,7 +7537,6 @@
        Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
   <!-- Ondes du recto, hors de la pochette pour qu'elles débordent comme
        celles du portrait de l'obi. Calées sur la zone photo (hors obi). -->
-  <div class="recto-ondes" aria-hidden="true"><b></b></div>
 
   <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
        <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
