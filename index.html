@@ -2963,8 +2963,9 @@
     .profil__bio::-webkit-scrollbar { display: none; }
     .profil__bio p { margin: 0; }
     .profil__image { display: block; width: 72%; height: auto; margin: 28px 0 8px 4px; transform: rotate(-1.5deg); }
-    /* Pochette ouverte : la double page prend toute la largeur. */
-    .stage.gatefold .profil { opacity: 0; pointer-events: none; }
+    /* Pochette ouverte : la photo et la bio restent là, derrière la
+       double page qui vient les couvrir. */
+    .stage.gatefold .profil { z-index: 0; pointer-events: none; }
   }
   @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
   /* Stickers du disquaire au recto, en haut à droite. */
