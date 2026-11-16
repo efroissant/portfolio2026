@@ -2947,7 +2947,7 @@
       bottom: 64px;                                   /* au-dessus de LKD */
       /* Toute la largeur avant la pochette (--profil-w, posé par le script). */
       width: var(--profil-w, 165px);
-      flex-direction: column;
+      flex-direction: column; container-type: inline-size;
       transition: opacity 300ms ease;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil { display: flex; }
@@ -2959,7 +2959,8 @@
     .profil__bio {
       flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none;
       margin: 18px 0 0; padding-bottom: 140px; color: #1F1F1F;
-      font: 500 clamp(40px, 4.2vw, 72px)/1.04 "DM Sans", sans-serif; letter-spacing: -0.03em;
+      font: 500 clamp(40px, 18cqi, 84px)/1.3 "DM Sans", sans-serif; letter-spacing: 0.01em;
+      overflow-wrap: break-word;
       -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent);
               mask-image: linear-gradient(to bottom, #000 82%, transparent);
     }
