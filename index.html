@@ -2959,13 +2959,6 @@
     .stage.gatefold .profil { opacity: 0; pointer-events: none; }
   }
   @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
-  /* Code-barres au dos : une étiquette de papier jauni, en bas à droite. */
-  .verso__codebarre {
-    position: absolute; left: calc(1500 * var(--u)); top: calc(1555 * var(--u));
-    width: calc(300 * var(--u)); height: calc(170 * var(--u));
-    transform: rotate(-1.5deg); overflow: visible;
-    filter: drop-shadow(0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.3));
-  }
   /* Stickers du disquaire au recto, en haut à droite. */
   .sleeve__stickers {
     position: absolute; left: calc(1555 * var(--u)); top: calc(179 * var(--u));
@@ -3037,16 +3030,7 @@
     width: calc(1695 * var(--u)); height: calc(690 * var(--u));
   }
   .verso__photo img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 88%; }
-  /* Au survol, la photo s'agrandit sur place (plus de fenêtre au clic). */
-  .verso__photo {
-    z-index: 5; transform-origin: 50% 50%;
-    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .stage.survol-photo-verso .verso__photo {
-    transform: scale(1.05);
-    box-shadow: 0 calc(18 * var(--u)) calc(50 * var(--u)) rgba(5, 20, 40, 0.38);
-  }
-  @media (prefers-reduced-motion: reduce) { .verso__photo { transition: none; } }
+  /* La photo du verso ne s'agrandit plus, ni au survol ni au clic. */
   .verso__plage {
     position: absolute; overflow: hidden;
     left: calc(1315 * var(--u)); top: calc(1229 * var(--u));
@@ -3092,7 +3076,11 @@
     pointer-events: none;
     z-index: 1;
   }
-  .stage[data-state="desktop"] .stage__film { opacity: 0.45; }
+  /* Au verso, une autre texture d'emballage : plis sur les bords, rayures. */
+  .stage[data-state="desktop"] .stage__film {
+    background-image: url("film-plastique-verso.jpg");
+    filter: contrast(1.6) brightness(1.1); opacity: 0.85;
+  }
 
   /* Fond blanc : la fenêtre À propos s'ouvre sans voile, le fond reste blanc. */
   /* À propos : un voile de la couleur du fond (script : fondAPropos) laisse
@@ -7584,28 +7572,6 @@
       <span class="verso__piste-titre">À venir</span>
       <span class="verso__piste-sous">Prochain projet</span>
     </div>
-    <!-- Code-barres au dos, sur une vieille étiquette de papier à moitié
-         décollée (dessiné, pas une image). -->
-    <svg class="verso__codebarre" viewBox="0 0 300 170" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="cb-papier" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#F3ECDD"/><stop offset="0.55" stop-color="#ECE3D0"/><stop offset="1" stop-color="#DCCFB6"/>
-        </linearGradient>
-        <linearGradient id="cb-pli" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#FBF7EE"/><stop offset="0.6" stop-color="#E4D9C3"/><stop offset="1" stop-color="#C9BBA0"/>
-        </linearGradient>
-        <filter id="cb-use"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 0.35  0 0 0 0 0.3  0 0 0 0 0.22  0 0 0 0.9 -0.35"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-        <clipPath id="cb-forme"><path d="M14 8 H286 Q294 8 294 16 V112 L244 162 H20 L16 150 L9 141 L14 130 L6 118 L12 104 L4 92 L11 80 L6 66 L13 54 L7 40 L12 26 Z"/></clipPath>
-      </defs>
-      <g clip-path="url(#cb-forme)">
-        <rect width="300" height="170" fill="url(#cb-papier)"/>
-        <g fill="#1B1A17" opacity="0.92"><rect x="40.0" y="26" width="2" height="96"/><rect x="45.4" y="26" width="1.2" height="96"/><rect x="51.2" y="26" width="1.2" height="96"/><rect x="54.0" y="26" width="3.6" height="96"/><rect x="59.2" y="26" width="2.6" height="96"/><rect x="64.0" y="26" width="1.2" height="96"/><rect x="66.8" y="26" width="3.6" height="96"/><rect x="72.6" y="26" width="3.6" height="96"/><rect x="80.8" y="26" width="3.6" height="96"/><rect x="86.6" y="26" width="1.2" height="96"/><rect x="90.0" y="26" width="2" height="96"/><rect x="96.6" y="26" width="1.2" height="96"/><rect x="102.4" y="26" width="1.2" height="96"/><rect x="108.2" y="26" width="1.2" height="96"/><rect x="114.0" y="26" width="1.2" height="96"/><rect x="119.8" y="26" width="1.2" height="96"/><rect x="125.6" y="26" width="2.6" height="96"/><rect x="131.6" y="26" width="3.6" height="96"/><rect x="137.4" y="26" width="2" height="96"/><rect x="141.6" y="26" width="1.2" height="96"/><rect x="145.0" y="26" width="3.6" height="96"/><rect x="150.8" y="26" width="2.6" height="96"/><rect x="155.0" y="26" width="1.2" height="96"/><rect x="158.4" y="26" width="2" height="96"/><rect x="163.8" y="26" width="2.6" height="104"/><rect x="168.0" y="26" width="3.6" height="96"/><rect x="173.8" y="26" width="2" height="96"/><rect x="180.4" y="26" width="2.6" height="96"/><rect x="186.4" y="26" width="1.2" height="96"/><rect x="189.8" y="26" width="2.6" height="96"/><rect x="194.0" y="26" width="1.2" height="96"/><rect x="197.4" y="26" width="3.6" height="96"/><rect x="204.4" y="26" width="2" height="96"/><rect x="208.6" y="26" width="1.2" height="96"/><rect x="212.0" y="26" width="1.2" height="96"/><rect x="216.6" y="26" width="1.2" height="96"/><rect x="220.0" y="26" width="1.2" height="96"/><rect x="224.6" y="26" width="2.6" height="96"/><rect x="230.6" y="26" width="1.2" height="96"/><rect x="235.2" y="26" width="3.6" height="96"/><rect x="241.0" y="26" width="2.6" height="96"/><rect x="245.8" y="26" width="2.6" height="96"/><rect x="251.8" y="26" width="1.2" height="96"/><rect x="255.2" y="26" width="1.2" height="96"/></g>
-        <rect width="300" height="170" fill="#000" filter="url(#cb-use)"/>
-      </g>
-      <!-- le coin qui se décolle -->
-      <path d="M294 112 L244 162 Q262 130 294 112 Z" fill="#000" opacity="0.18" transform="translate(3 4)"/>
-      <path d="M294 112 L244 162 Q252 126 294 112 Z" fill="url(#cb-pli)"/>
-    </svg>
     <span class="verso__filet" style="--x:100;--y:1735;--w:1695"></span>
     <p class="verso__t vs-dm" style="--x:100;--y:1761;--s:25;--t:1;--lh:1.35">MADE WITH FIGMA, CLAUDE CODE &amp; GITHUB</p>
     <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
