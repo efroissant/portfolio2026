@@ -2943,7 +2943,7 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
       display: block; position: absolute; z-index: 6;
-      left: 29px; top: calc(var(--bar-h) + 60px);   /* un peu sous MANU */
+      left: var(--bord, 29px); top: calc(var(--bar-h) + 60px);   /* un peu sous MANU */
       bottom: 64px;                                   /* au-dessus de LKD */
       /* Toute la largeur avant la pochette (--profil-w, posé par le script). */
       width: var(--profil-w, 165px);
@@ -5935,8 +5935,11 @@
       /* La pochette se cale en haut, sous la barre : l'espace en trop va
          en bas (--marge-y en est la moitié). */
       --marge-y: calc((var(--zone-h) - var(--carre)) / 2);
-      /* La pochette est décalée de --decal vers la droite. */
-      --decal: 50px;
+      /* Bio + pochette forment un bloc centré : même marge à gauche de la
+         bio (--bord) qu'à droite de la pochette. --decal pousse la pochette
+         vers la droite d'autant qu'il faut. */
+      --bord: calc((var(--manche) + var(--marge-x) - 21px) / 2);
+      --decal: calc((var(--manche) + var(--marge-x) + 21px) / 2);
       --cadre: calc(var(--bar-h) + 16px) calc(var(--manche) + var(--marge-x) - var(--decal))
                calc(24px + 2 * var(--marge-y)) calc(var(--obi) + var(--marge-x) + var(--decal));
     }
@@ -8525,7 +8528,7 @@ window.cadrePochette = function () {
   const left = clamp(320, W * 0.25, 400), droite = clamp(120, W * 0.11, 200);
   // La photo est le plus grand carré centré dans la zone (comme en CSS).
   const zl = W - left - droite, zh = H - barH - 40, c = Math.min(zl, zh);
-  const l = left + (zl - c) / 2 + 50, t = barH + 16;   // + --decal   // calée en haut, comme en CSS
+  const l = left + (zl - c) / 2 + (droite + (zl - c) / 2 + 21) / 2, t = barH + 16;   // + --decal   // calée en haut, comme en CSS
   return { left: l, top: t, right: l + c, bottom: t + c, width: c, height: c };
 };
 </script>
@@ -12286,7 +12289,7 @@ const dire = (function () {
       if (getComputedStyle(profil).display === 'none') return;
       // Mesurée hors animation : la pochette au repos, sans la rotation.
       const g = fond.offsetParent ? fond.getBoundingClientRect().left : 0;
-      profil.style.setProperty('--profil-w', Math.max(165, Math.round(g - 29 - 40)) + 'px');
+      profil.style.setProperty('--profil-w', Math.max(165, Math.round(g - profil.getBoundingClientRect().left - 40)) + 'px');
     };
     caler();
     addEventListener('resize', caler);
