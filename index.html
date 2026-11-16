@@ -2972,6 +2972,12 @@
     width: calc(280 * var(--u)); height: calc(207 * var(--u));
     transform: rotate(4deg); z-index: 3; overflow: visible;
   }
+  .sleeve__pastille {
+    position: absolute; left: calc(1440 * var(--u)); top: calc(300 * var(--u));
+    width: calc(250 * var(--u)); height: calc(250 * var(--u));
+    border-radius: 50%; transform: rotate(-12deg); z-index: 4;
+    filter: drop-shadow(0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.3));
+  }
   /* Fond du site : blanc. */
   .stage:is([data-state="lock"], [data-state="desktop"]) { background: #FFFFFF !important; }
   html:has(.stage), body:has(.stage) { background: #FFFFFF; }
@@ -7515,6 +7521,8 @@
         </g>
       </g>
     </svg>
+    <!-- Pastille jaune « SPECIAL VALUE $1.59 », collée à moitié sur l'étiquette rouge. -->
+    <img class="sleeve__pastille" src="pastille-159.jpg" alt="" width="388" height="388">
   </div>
   <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
        le bureau. Mêmes unités que le recto (1895 = côté du carré). -->
