@@ -6564,7 +6564,7 @@
   /* Logo MANU en haut à droite : petit, à la hauteur du texte de la barre. */
   /* Logo MANU en haut à gauche : il rafraîchit la page. */
   .stage .menubar .menuitem--app.menuitem--app { padding: 2px 4px; text-decoration: none; }
-  .stage .menubar .barre-logo { display: block; height: 22px; width: auto; }
+  .stage .menubar .barre-logo { display: block; height: 34px; width: auto; }
   .stage .menubar .menuitem--app:hover .barre-logo { opacity: 0.6; }
   /* Dossiers, Éditer et Aide retirés de la barre. */
   .stage .menubar .menubar__items { display: none !important; }
@@ -6723,9 +6723,9 @@
     /* Logo MANU en haut à gauche (SAY HI passe à droite) : il rafraîchit la page. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .logo-mobile {
       display: block; position: absolute; z-index: 20; padding: 0; border: 0; background: none; cursor: pointer;
-      left: calc((100vw - var(--carre-v)) / 2); top: 18px;
+      left: calc((100vw - var(--carre-v)) / 2); top: 14px;
     }
-    .logo-mobile img { display: block; height: 20px; width: auto; }
+    .logo-mobile img { display: block; height: 28px; width: auto; }
     .logo-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
@@ -8123,7 +8123,7 @@
   <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
        Sur le recto comme sur le bureau. Décoratif. -->
 
-  <!-- Lecture / pause de Cat's Eye : sur le recto comme sur le bureau, à
+  <!-- Lecture / pause de la musique : sur le recto comme sur le bureau, à
        côté de la pochette. C'est tout le lecteur visible. -->
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
@@ -8153,13 +8153,13 @@
     <button type="button" class="lecteur-mini__btn" data-mini="suiv" aria-label="Morceau suivant">
       <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"><path d="M14.5 4.5 V15.5"/><path d="M5 4.8 L12.5 10 L5 15.2 Z"/></g></svg>
     </button>
-    <span class="lecteur-mini__titre" id="mini-titre" aria-live="polite">Cat’s Eye (instrumental)</span>
+    <span class="lecteur-mini__titre" id="mini-titre" aria-live="polite">Bay City</span>
   </div>
 
   <section class="view lock" id="view-lock" data-node-id="2:602 / 66:877" aria-label="Écran de veille">
 
     <!-- Recto : la photo seule. Un clic sur elle ouvre le bureau ; le bouton
-         en bas à droite lance ou met en pause Cat's Eye. -->
+         en bas à droite lance ou met en pause la musique. -->
 
     <!-- Changer de fond dès l'écran verrouillé : une petite cassette.
          Chaque clic retourne la face et passe au fond suivant. -->
@@ -11632,6 +11632,7 @@ const dire = (function () {
      Pour ajouter un morceau : déposer le fichier dans le dossier musique/
      puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
   const PISTES = [
+    { titre: 'Bay City', artiste: '', src: 'musique/bay-city.mp3' },
     { titre: 'Cat’s Eye (instrumental)', artiste: 'Anri', src: 'musique/anri-cats-eye.m4a', pochette: 'pochette-funtime' },
     { titre: 'Never Gonna Say Goodbye', artiste: '', src: 'musique/never-gonna-say-goodbye.m4a' }
   ];
