@@ -7425,7 +7425,7 @@
 
 
 
-  <!-- Bulle qui suit la souris : VOIR LE VERSO, BIO, C’EST ALIGNÉ, ÇA ? -->
+  <!-- Bulle qui suit la souris : OUVRIR, VOIR LE VERSO, REFERMER. -->
   <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
 
   <!-- Le disque, à moitié sorti de la pochette (recto, grand écran).
@@ -12193,7 +12193,6 @@ const dire = (function () {
       let attente = null;
       const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
       const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi', 'survol-photo-verso'); };
-      const photoVerso = document.querySelector('.verso__photo');
       const montrer = (ev, texte) => {
         bulle.classList.remove('curseur-bulle--ouvrir');
         if (bulle.textContent !== texte) bulle.textContent = texte;
@@ -12205,16 +12204,8 @@ const dire = (function () {
       };
       pochette.addEventListener('pointermove', (ev) => {
         if (ev.pointerType !== 'mouse' || document.querySelector('dialog[open]')) { cacher(); return; }
-        // Verso : un clin d'œil sur la photo panoramique, rien ailleurs.
-        if (stageEl.dataset.state === 'desktop') {
-          stageEl.classList.remove('survol-recto', 'survol-obi');
-          const r = photoVerso && photoVerso.getBoundingClientRect();
-          if (r && ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) {
-            montrer(ev, 'C’EST ALIGNÉ, ÇA\u00a0?');
-            stageEl.classList.add('survol-photo-verso');
-          } else { masquerBulle(); stageEl.classList.remove('survol-photo-verso'); }
-          return;
-        }
+        // Verso : pas de bulle.
+        if (stageEl.dataset.state === 'desktop') { cacher(); return; }
         if (stageEl.dataset.state !== 'lock') { cacher(); return; }
         // Pochette ouverte (ou en mouvement) : VOIR LE VERSO sur la double page.
         if (stageEl.classList.contains('gatefold')) {
