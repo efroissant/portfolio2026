@@ -6564,7 +6564,7 @@
   /* Logo MANU en haut à droite : petit, à la hauteur du texte de la barre. */
   /* Logo MANU en haut à gauche : il rafraîchit la page. */
   .stage .menubar .menuitem--app.menuitem--app { padding: 2px 4px; text-decoration: none; }
-  .stage .menubar .barre-logo { display: block; height: 34px; width: auto; }
+  .barre-logo { display: block; font: italic 800 22px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.02em; text-transform: uppercase; color: #111111; transform: skewX(-8deg); }
   .stage .menubar .menuitem--app:hover .barre-logo { opacity: 0.6; }
   /* Dossiers, Éditer et Aide retirés de la barre. */
   .stage .menubar .menubar__items { display: none !important; }
@@ -6725,7 +6725,7 @@
       display: block; position: absolute; z-index: 20; padding: 0; border: 0; background: none; cursor: pointer;
       left: calc((100vw - var(--carre-v)) / 2); top: 14px;
     }
-    .logo-mobile img { display: block; height: 28px; width: auto; }
+    .logo-mobile .barre-logo { font-size: 20px; }
     .logo-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
@@ -8090,7 +8090,7 @@
         </button>
 
         <!-- Le nom ramène toujours au recto. -->
-        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" data-rafraichir aria-label="MANU — rafraîchir la page"><img class="barre-logo" src="logo-manu.png" alt="" width="452" height="198"></button>
+        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">MANU</span></button>
 
         <div class="menubar__items" data-node-id="118:188">
           <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
@@ -8128,7 +8128,7 @@
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
   <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
-  <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><img src="logo-manu.png" alt="" width="452" height="198"></button>
+  <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">MANU</span></button>
   <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
   <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
     <span>VERSO</span>
