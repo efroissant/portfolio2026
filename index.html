@@ -7155,27 +7155,15 @@
   .projets-modal .livret__pistes li:first-child { padding-top: 0; }
   .projets-modal .livret__projet { font-size: 24px; }
   .projets-modal .livret__lire { grid-column: 2; min-height: 36px; }
-  /* ---- Recto : ondes au survol de la photo ----
-     Exactement l'effet du portrait de l'obi : deux cadres bleu clair qui
-     partent du bord de la zone photo et s'élargissent en s'effaçant,
-     seulement pendant le survol. */
+  /* ---- Recto : ondes au survol de l'obi ----
+     Deux cadres bleu clair qui partent du bord de l'obi et s'élargissent
+     en s'effaçant, seulement pendant le survol. (Plus d'ondes sur la
+     photo : le disque qui sort au survol suffit.) */
   .recto-ondes { display: none; }
   .stage[data-state="lock"] .recto-ondes {
     display: block; position: absolute; inset: var(--cadre-v);
     pointer-events: none; z-index: 2;
   }
-  .recto-ondes span {
-    position: absolute; top: 0; bottom: 0; right: 0;
-    left: calc(100% * 276 / 1895);
-  }
-  .recto-ondes span::before, .recto-ondes span::after {
-    content: ""; position: absolute; inset: 0; border-radius: 3px;
-    border: 3px solid #3FA9DA; opacity: 0;
-  }
-  .stage.survol-recto .recto-ondes span::before { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) infinite; }
-  .stage.survol-recto .recto-ondes span::after { animation: obi-onde-large 3.4s cubic-bezier(0.25, 0.6, 0.35, 1) 1.7s infinite; }
-  /* Même mouvement que l'obi ; l'écart final est réglé en pixels pour
-     que la grande zone ne s'éloigne pas trois fois plus loin. */
   @keyframes obi-onde-large {
     0%   { inset: 0;     opacity: 0.95; }
     80%  { inset: -18px; opacity: 0; }
@@ -7196,8 +7184,6 @@
     .stage[data-state="lock"] .recto-ondes { bottom: auto; height: var(--carre-v); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .stage.survol-recto .recto-ondes span::before { animation: none; opacity: 1; inset: -6px; }
-    .stage.survol-recto .recto-ondes span::after { animation: none; }
     .stage.survol-obi .recto-ondes b::before { animation: none; opacity: 1; inset: -6px; }
     .stage.survol-obi .recto-ondes b::after { animation: none; }
   }
@@ -7579,7 +7565,7 @@
        Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
   <!-- Ondes du recto, hors de la pochette pour qu'elles débordent comme
        celles du portrait de l'obi. Calées sur la zone photo (hors obi). -->
-  <div class="recto-ondes" aria-hidden="true"><span></span><b></b></div>
+  <div class="recto-ondes" aria-hidden="true"><b></b></div>
 
   <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
        <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
