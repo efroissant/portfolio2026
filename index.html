@@ -13312,7 +13312,6 @@ const dire = (function () {
     const p = profil.getBoundingClientRect(), r = place.getBoundingClientRect();
     photo.style.left = Math.round(r.left - p.left + pos.dx) + 'px';
     photo.style.top = Math.round(r.top - p.top + pos.dy) + 'px';
-    dispatchEvent(new Event('photo:bouge'));
   }
   placer();
   addEventListener('resize', placer);
@@ -13355,12 +13354,14 @@ const dire = (function () {
 /* Le dossier suit le coin bas-droit de ma photo ; on peut le déplacer. */
 (function dossier() {
   const d = document.getElementById('dossier');
-  const photo = document.querySelector('.profil__image');
+  // Repère fixe : la place d'origine de la photo dans la bio (pas la photo
+  // elle-même, déplaçable de son côté). Chaque élément bouge seul.
+  const photo = document.querySelector('.profil__place') || document.querySelector('.profil__image');
   const bio = document.querySelector('.profil__bio');
   const stage = document.getElementById('stage');
   if (!d || !photo || !stage) return;
   const CLE = 'portfolio:dossier';
-  const DEFAUT = { dx: -96, dy: -112 };   // le coin haut-gauche du dossier, depuis le coin bas-droit de la photo
+  const DEFAUT = { dx: -96, dy: -112 };   // le coin haut-gauche du dossier, depuis le coin bas-droit de la place de la photo
   let pos = DEFAUT;
   try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.dx) && isFinite(v.dy)) pos = v; } catch (e) {}
   function placer() {
@@ -13374,7 +13375,6 @@ const dire = (function () {
   addEventListener('load', placer);
   photo.addEventListener('load', placer);
   if (bio) bio.addEventListener('scroll', placer, { passive: true });
-  addEventListener('photo:bouge', placer);
   new MutationObserver(placer).observe(stage, { attributes: true, attributeFilter: ['data-state', 'class'] });
   // Glisser : la capture ne commence qu'après 4 px, sinon un simple clic
   // sur une carte ouvre son projet.
@@ -13401,7 +13401,7 @@ const dire = (function () {
     tir = null; d.classList.remove('est-tenu');
     if (!glisse) return;
     try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
-    console.log('[dossier] décalage depuis le coin bas-droit de la photo :', JSON.stringify(pos));
+    console.log('[dossier] décalage depuis le coin bas-droit de la place de la photo :', JSON.stringify(pos));
   };
   d.addEventListener('pointerup', lacher);
   d.addEventListener('pointercancel', lacher);
