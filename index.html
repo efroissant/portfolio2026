@@ -7568,10 +7568,12 @@
      le cadre bleu et ses quatre poignées pour agrandir ou réduire. */
   .profil > .profil__image:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
   .photo-sel {
-    position: absolute; z-index: 2; display: none; pointer-events: none;
+    position: absolute; z-index: 2; display: block; pointer-events: none;
     outline: 1px solid #0D99FF; transform: rotate(-1.5deg);
   }
-  .photo-sel.est-visible { display: block; }
+  /* Le filet bleu et « Frame 35 » restent toujours là ; les poignées et la
+     taille n'apparaissent qu'une fois la photo sélectionnée. */
+  .photo-sel:not(.est-visible) i, .photo-sel:not(.est-visible) .photo-sel__taille { display: none; }
   .photo-sel i {
     position: absolute; width: 9px; height: 9px; box-sizing: border-box;
     background: #FFFFFF; border: 1px solid #0D99FF; pointer-events: auto;
@@ -13336,12 +13338,14 @@ const dire = (function () {
   // dx, dy : décalage depuis sa place ; w : largeur choisie (sinon 48 % de la colonne).
   let pos = { dx: 0, dy: 0, w: null };
   try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.dx) && isFinite(v.dy)) pos = { dx: v.dx, dy: v.dy, w: isFinite(v.w) ? v.w : null }; } catch (e) {}
-  let placer = function () {
+  let apres = () => {};   // le cadre de sélection suit (posé plus bas)
+  function placer() {
     if (getComputedStyle(profil).display === 'none') return;
     const p = profil.getBoundingClientRect(), r = place.getBoundingClientRect();
     photo.style.width = pos.w ? pos.w + 'px' : '';
     photo.style.left = Math.round(r.left - p.left + pos.dx) + 'px';
     photo.style.top = Math.round(r.top - p.top + pos.dy) + 'px';
+    apres();
   }
   placer();
   addEventListener('resize', placer);
@@ -13364,8 +13368,9 @@ const dire = (function () {
     sel.style.width = photo.offsetWidth + 'px'; sel.style.height = photo.offsetHeight + 'px';
     taille.textContent = photo.offsetWidth + ' × ' + photo.offsetHeight;
   }
-  const placerSeul = placer;
-  placer = function () { placerSeul(); cadre(); };
+  apres = cadre;
+  cadre();
+  photo.addEventListener('load', cadre);
   function selectionner(oui) { sel.classList.toggle('est-visible', oui); if (oui) cadre(); }
   document.addEventListener('pointerdown', (e) => {
     if (e.target === photo || sel.contains(e.target)) return;
