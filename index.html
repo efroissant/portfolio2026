@@ -7553,6 +7553,17 @@
   .stage .stage__bg, .stage .vinyle, .stage .livret-droite,
   .stage .flip-lien, .stage .curseur-bulle { visibility: hidden !important; pointer-events: none !important; }
 
+  /* Ma photo, déplaçable à la souris (grand écran). Elle quitte la bio
+     pour ne pas être rognée par son défilement ; une réserve de même
+     taille garde sa place dans le texte. Position gardée dans ce
+     navigateur ; double-clic pour la remettre. */
+  .profil__place { display: block; width: 48%; aspect-ratio: 1100 / 733; margin: 28px 0 8px 4px; }
+  .profil > .profil__image {
+    position: absolute; left: 0; top: 0; margin: 0; width: 48%;
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-drag: none;
+  }
+  .profil > .profil__image.est-tenu { cursor: grabbing; }
+
 </style>
 </head>
 <body>
@@ -13283,6 +13294,64 @@ const dire = (function () {
   })();
 </script>
 <script>
+/* Ma photo : déplaçable, à partir de sa place dans la bio. */
+(function photoDeplacable() {
+  const profil = document.querySelector('.profil');
+  const bio = profil && profil.querySelector('.profil__bio');
+  const photo = bio && bio.querySelector('.profil__image');
+  if (!photo) return;
+  const place = document.createElement('span');
+  place.className = 'profil__place'; place.setAttribute('aria-hidden', 'true');
+  photo.replaceWith(place); profil.append(photo);
+  photo.draggable = false;
+  const CLE = 'portfolio:photo';
+  let pos = { dx: 0, dy: 0 };
+  try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.dx) && isFinite(v.dy)) pos = v; } catch (e) {}
+  function placer() {
+    if (getComputedStyle(profil).display === 'none') return;
+    const p = profil.getBoundingClientRect(), r = place.getBoundingClientRect();
+    photo.style.left = Math.round(r.left - p.left + pos.dx) + 'px';
+    photo.style.top = Math.round(r.top - p.top + pos.dy) + 'px';
+    dispatchEvent(new Event('photo:bouge'));
+  }
+  placer();
+  addEventListener('resize', placer);
+  addEventListener('load', placer);
+  bio.addEventListener('scroll', placer, { passive: true });
+  new MutationObserver(placer).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['data-state'] });
+  let tir = null, glisse = false;
+  photo.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy, id: e.pointerId };
+    glisse = false; e.preventDefault();
+  });
+  photo.addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    if (!glisse) {
+      if (Math.hypot(e.clientX - tir.x, e.clientY - tir.y) < 3) return;
+      glisse = true;
+      try { photo.setPointerCapture(tir.id); } catch (err) {}
+      photo.classList.add('est-tenu');
+    }
+    pos = { dx: tir.dx + e.clientX - tir.x, dy: tir.dy + e.clientY - tir.y };
+    placer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    tir = null; photo.classList.remove('est-tenu');
+    if (!glisse) return;
+    try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
+    console.log('[photo] décalage depuis sa place dans la bio :', JSON.stringify(pos));
+  };
+  photo.addEventListener('pointerup', lacher);
+  photo.addEventListener('pointercancel', lacher);
+  photo.addEventListener('dblclick', () => {
+    pos = { dx: 0, dy: 0 }; placer();
+    try { localStorage.removeItem(CLE); } catch (e) {}
+  });
+})();
+</script>
+<script>
 /* Le dossier suit le coin bas-droit de ma photo ; on peut le déplacer. */
 (function dossier() {
   const d = document.getElementById('dossier');
@@ -13305,6 +13374,7 @@ const dire = (function () {
   addEventListener('load', placer);
   photo.addEventListener('load', placer);
   if (bio) bio.addEventListener('scroll', placer, { passive: true });
+  addEventListener('photo:bouge', placer);
   new MutationObserver(placer).observe(stage, { attributes: true, attributeFilter: ['data-state', 'class'] });
   // Glisser : la capture ne commence qu'après 4 px, sinon un simple clic
   // sur une carte ouvre son projet.
