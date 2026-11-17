@@ -7562,9 +7562,35 @@
   .profil__place { display: block; width: 48%; aspect-ratio: 1100 / 733; margin: 28px 0 8px 4px; }
   .profil > .profil__image {
     position: absolute; left: 0; top: 0; margin: 0; width: 48%;
-    cursor: grab; touch-action: none; user-select: none; -webkit-user-drag: none;
+    cursor: default; touch-action: none; user-select: none; -webkit-user-drag: none;
   }
-  .profil > .profil__image.est-tenu { cursor: grabbing; }
+  /* Comme dans Figma : un filet bleu au survol ; une fois sélectionnée,
+     le cadre bleu et ses quatre poignées pour agrandir ou réduire. */
+  .profil > .profil__image:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
+  .photo-sel {
+    position: absolute; z-index: 2; display: none; pointer-events: none;
+    outline: 1px solid #0D99FF; transform: rotate(-1.5deg);
+  }
+  .photo-sel.est-visible { display: block; }
+  .photo-sel i {
+    position: absolute; width: 9px; height: 9px; box-sizing: border-box;
+    background: #FFFFFF; border: 1px solid #0D99FF; pointer-events: auto;
+  }
+  .photo-sel i[data-coin="hg"] { left: -5px; top: -5px; cursor: nwse-resize; }
+  .photo-sel i[data-coin="hd"] { right: -5px; top: -5px; cursor: nesw-resize; }
+  .photo-sel i[data-coin="bg"] { left: -5px; bottom: -5px; cursor: nesw-resize; }
+  .photo-sel i[data-coin="bd"] { right: -5px; bottom: -5px; cursor: nwse-resize; }
+  /* Le nom au-dessus, la taille en pastille bleue dessous (comme Figma). */
+  .photo-sel__nom, .photo-sel__taille {
+    position: absolute; white-space: nowrap; pointer-events: none;
+    font: 500 11px/1 "Inter", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0;
+  }
+  .photo-sel__nom { left: 0; bottom: calc(100% + 7px); color: #0D99FF; }
+  .photo-sel__taille {
+    left: 50%; top: calc(100% + 9px); transform: translateX(-50%);
+    padding: 3px 5px; border-radius: 3px; background: #0D99FF; color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+  }
 
 </style>
 </head>
@@ -13310,7 +13336,7 @@ const dire = (function () {
   // dx, dy : décalage depuis sa place ; w : largeur choisie (sinon 48 % de la colonne).
   let pos = { dx: 0, dy: 0, w: null };
   try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.dx) && isFinite(v.dy)) pos = { dx: v.dx, dy: v.dy, w: isFinite(v.w) ? v.w : null }; } catch (e) {}
-  function placer() {
+  let placer = function () {
     if (getComputedStyle(profil).display === 'none') return;
     const p = profil.getBoundingClientRect(), r = place.getBoundingClientRect();
     photo.style.width = pos.w ? pos.w + 'px' : '';
@@ -13323,58 +13349,70 @@ const dire = (function () {
   bio.addEventListener('scroll', placer, { passive: true });
   new MutationObserver(placer).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['data-state'] });
 
-  // Les coins, comme dans Figma : la double flèche diagonale apparaît
-  // dessus, et on tire pour agrandir ou réduire (proportions gardées).
-  const ZONE = 14, MIN = 80, MAX = 900;
-  function coin(e) {
-    const r = photo.getBoundingClientRect();
-    const g = e.clientX - r.left < ZONE, d = r.right - e.clientX < ZONE;
-    const h = e.clientY - r.top < ZONE, b = r.bottom - e.clientY < ZONE;
-    if (h && g) return 'hg'; if (h && d) return 'hd';
-    if (b && g) return 'bg'; if (b && d) return 'bd';
-    return null;
+  // Sélection, comme dans Figma : un clic sur la photo la sélectionne (cadre
+  // bleu, quatre poignées) ; on la déplace en la tirant ; on tire une
+  // poignée pour agrandir ou réduire (proportions gardées, coin opposé fixe).
+  // Un clic ailleurs ou Échap la désélectionne.
+  const MIN = 80, MAX = 900;
+  const sel = document.createElement('div');
+  sel.className = 'photo-sel'; sel.setAttribute('aria-hidden', 'true');
+  sel.innerHTML = '<span class="photo-sel__nom">Frame 35</span><i data-coin="hg"></i><i data-coin="hd"></i><i data-coin="bg"></i><i data-coin="bd"></i><span class="photo-sel__taille"></span>';
+  const taille = sel.querySelector('.photo-sel__taille');
+  profil.append(sel);
+  function cadre() {
+    sel.style.left = photo.style.left; sel.style.top = photo.style.top;
+    sel.style.width = photo.offsetWidth + 'px'; sel.style.height = photo.offsetHeight + 'px';
+    taille.textContent = photo.offsetWidth + ' × ' + photo.offsetHeight;
   }
-  const CURSEUR = { hg: 'nwse-resize', bd: 'nwse-resize', hd: 'nesw-resize', bg: 'nesw-resize' };
-  let tir = null, glisse = false;
-  photo.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0) return;
-    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy, id: e.pointerId,
-            coin: coin(e), w: photo.offsetWidth, h: photo.offsetHeight };
-    glisse = false; e.preventDefault();
+  const placerSeul = placer;
+  placer = function () { placerSeul(); cadre(); };
+  function selectionner(oui) { sel.classList.toggle('est-visible', oui); if (oui) cadre(); }
+  document.addEventListener('pointerdown', (e) => {
+    if (e.target === photo || sel.contains(e.target)) return;
+    selectionner(false);
   });
-  photo.addEventListener('pointermove', (e) => {
-    if (!tir) { photo.style.cursor = CURSEUR[coin(e)] || ''; return; }
-    if (!glisse) {
-      if (Math.hypot(e.clientX - tir.x, e.clientY - tir.y) < 3) return;
-      glisse = true;
-      try { photo.setPointerCapture(tir.id); } catch (err) {}
-      photo.classList.add('est-tenu');
-    }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') selectionner(false); });
+
+  // Le geste suit la souris sur toute la fenêtre : la photo ne « fuit » plus
+  // quand on tire vite, elle reste accrochée au pointeur.
+  let tir = null;
+  function commencer(e, coin) {
+    if (e.button !== 0) return;
+    e.preventDefault(); e.stopPropagation();
+    selectionner(true);
+    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy, coin,
+            w: photo.offsetWidth, h: photo.offsetHeight, bouge: false };
+    document.body.style.cursor = coin ? getComputedStyle(e.target).cursor : 'default';
+  }
+  photo.addEventListener('pointerdown', (e) => commencer(e, null));
+  sel.querySelectorAll('i').forEach((h) => h.addEventListener('pointerdown', (e) => commencer(e, h.dataset.coin)));
+  addEventListener('pointermove', (e) => {
+    if (!tir) return;
     const mx = e.clientX - tir.x, my = e.clientY - tir.y;
+    if (!tir.bouge && Math.hypot(mx, my) < 2) return;
+    tir.bouge = true;
     if (!tir.coin) {
       pos = { dx: tir.dx + mx, dy: tir.dy + my, w: pos.w };
     } else {
-      // On suit le geste le plus franc des deux axes, ramené à la largeur.
       const ratio = tir.h / tir.w;
       const sx = tir.coin[1] === 'd' ? 1 : -1, sy = tir.coin[0] === 'b' ? 1 : -1;
       const parX = sx * mx, parY = sy * my / ratio;
       const w = Math.max(MIN, Math.min(MAX, tir.w + (Math.abs(parX) > Math.abs(parY) ? parX : parY)));
       const dw = w - tir.w, dh = dw * ratio;
-      // Le coin opposé reste en place.
       pos = { dx: tir.dx - (sx < 0 ? dw : 0), dy: tir.dy - (sy < 0 ? dh : 0), w: Math.round(w) };
     }
     placer();
   });
   const lacher = () => {
     if (!tir) return;
-    tir = null; photo.classList.remove('est-tenu');
-    if (!glisse) return;
+    const bouge = tir.bouge;
+    tir = null; document.body.style.cursor = '';
+    if (!bouge) return;
     try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
     console.log('[photo] décalage et largeur :', JSON.stringify(pos));
   };
-  photo.addEventListener('pointerup', lacher);
-  photo.addEventListener('pointercancel', lacher);
-  photo.addEventListener('pointerleave', () => { if (!tir) photo.style.cursor = ''; });
+  addEventListener('pointerup', lacher);
+  addEventListener('pointercancel', lacher);
   photo.addEventListener('dblclick', () => {
     pos = { dx: 0, dy: 0, w: null }; placer();
     try { localStorage.removeItem(CLE); } catch (e) {}
@@ -13416,7 +13454,7 @@ const dire = (function () {
     glisse = false;
     e.preventDefault();
   });
-  d.addEventListener('pointermove', (e) => {
+  addEventListener('pointermove', (e) => {
     if (!tir) return;
     if (!glisse) {
       if (Math.hypot(e.clientX - tir.x, e.clientY - tir.y) < 4) return;
@@ -13434,8 +13472,8 @@ const dire = (function () {
     try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
     console.log('[dossier] décalage depuis le coin bas-droit de la place de la photo :', JSON.stringify(pos));
   };
-  d.addEventListener('pointerup', lacher);
-  d.addEventListener('pointercancel', lacher);
+  addEventListener('pointerup', lacher);
+  addEventListener('pointercancel', lacher);
   // Un clic sur une carte (sans glisser) ouvre son projet.
   d.addEventListener('click', (e) => {
     const a = e.target.closest('.dossier__carte');
