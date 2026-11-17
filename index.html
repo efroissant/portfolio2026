@@ -7490,7 +7490,7 @@
   }
   .dossier.est-tenu { cursor: grabbing; }
   .stage.gatefold .dossier { z-index: 0; pointer-events: none; filter: blur(8px); }
-  .dossier img { -webkit-user-drag: none; pointer-events: none; }
+  .dossier a { -webkit-user-drag: none; }
   /* Le fond jaune, avec son onglet à droite. */
   .dossier__fond {
     position: absolute; left: 4px; right: 4px; top: 44px; bottom: 6px;
@@ -7502,25 +7502,30 @@
     border-radius: 12px 12px 0 0; background: #F7D354;
   }
   /* Les cartes qui dépassent : des photos aux coins arrondis. */
+  /* Les cartes, rangées entièrement dans le dossier ; au survol, elles
+     sortent un peu. Chacune mène à un projet. */
   .dossier__carte {
-    position: absolute; height: 104px; border-radius: 12px; overflow: hidden;
-    background: #ddd center / cover no-repeat;
+    position: absolute; height: 88px; border-radius: 12px; overflow: hidden;
+    background: #ddd center / cover no-repeat; color: #FFFFFF; text-decoration: none;
     box-shadow: 0 1px 3px rgba(0,0,0,0.18);
-    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg));
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .dossier__carte span {
-    position: absolute; top: 7px; color: #FFFFFF;
+    position: absolute; top: 8px; color: #FFFFFF;
     font: 400 10px/1 Arial, Helvetica, sans-serif; letter-spacing: 0;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.30);
   }
   .dossier__carte span:first-child { left: 10px; font-size: 12px; }
-  .dossier__carte span:last-child { right: 10px; opacity: 0.85; }
-  .dossier__carte--1 { left: 0; width: 164px; top: 0; transform: rotate(-3deg); }
-  .dossier__carte--2 { left: 24px; width: 160px; top: 26px; transform: rotate(-1deg); }
-  .dossier__carte--3 { left: 44px; width: 152px; top: 46px; transform: rotate(1.5deg); }
-  .dossier:hover .dossier__carte--1 { transform: translate(-4px, -10px) rotate(-5deg); }
-  .dossier:hover .dossier__carte--2 { transform: translate(0, -8px) rotate(-1.5deg); }
-  .dossier:hover .dossier__carte--3 { transform: translate(4px, -6px) rotate(3deg); }
+  .dossier__carte span:last-child { right: 10px; opacity: 0.9; }
+  .dossier__carte:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+  .dossier__carte--1 { left: 12px; width: 192px; top: 98px; --r: -2deg; background-color: #D33F3F; }
+  .dossier__carte--2 { left: 16px; width: 188px; top: 102px; --r: -0.5deg; background-color: #1E4D8C; }
+  .dossier__carte--3 { left: 20px; width: 184px; top: 106px; --r: 1.2deg; background-color: #0F6E6E; }
+  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --y: -86px; --r: -4deg; }
+  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --y: -68px; --r: -1deg; }
+  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --y: -50px; --r: 2deg; }
+  .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
     position: absolute; left: 0; bottom: 0; width: 220px; height: 122px;
@@ -7590,11 +7595,12 @@
     </div>
   </aside>
   <!-- Le dossier « Souvenirs », en bas à droite de ma photo (voir le script). -->
-  <div class="dossier" id="dossier" role="img" aria-label="Dossier Souvenirs : Sicile, Vésuve, Amity">
+  <div class="dossier" id="dossier" role="group" aria-label="Dossier Souvenirs">
     <div class="dossier__fond"></div>
-    <div class="dossier__carte dossier__carte--1" style="background-image:url('sicile-600.jpg')"><span>Sicile</span><span>JPG · 2.4 MB</span></div>
-    <div class="dossier__carte dossier__carte--2" style="background-image:url('vesuve-600.jpg')"><span>Vésuve</span><span>18 images</span></div>
-    <div class="dossier__carte dossier__carte--3" style="background-image:url('amity-600.jpg')"><span>Amity</span><span>12 images</span></div>
+    <!-- Les cartes : href et data-etude = le projet ouvert (#case/<id>). -->
+    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span><span>Product design ↗</span></a>
+    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq"><span>Groupe Voyage Québec</span><span>UI/UX ↗</span></a>
+    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span><span>Web ↗</span></a>
     <div class="dossier__ombre"></div>
     <div class="dossier__face"><p class="dossier__titre">Souvenirs</p><p class="dossier__dates">2019 – 2026</p></div>
   </div>
@@ -13305,26 +13311,45 @@ const dire = (function () {
   photo.addEventListener('load', placer);
   if (bio) bio.addEventListener('scroll', placer, { passive: true });
   new MutationObserver(placer).observe(stage, { attributes: true, attributeFilter: ['data-state', 'class'] });
-  let tir = null;
+  // Glisser : la capture ne commence qu'après 4 px, sinon un simple clic
+  // sur une carte ouvre son projet.
+  let tir = null, glisse = false;
   d.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return;
-    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy };
-    d.setPointerCapture(e.pointerId); d.classList.add('est-tenu');
+    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy, id: e.pointerId };
+    glisse = false;
     e.preventDefault();
   });
   d.addEventListener('pointermove', (e) => {
     if (!tir) return;
+    if (!glisse) {
+      if (Math.hypot(e.clientX - tir.x, e.clientY - tir.y) < 4) return;
+      glisse = true;
+      try { d.setPointerCapture(tir.id); } catch (err) {}
+      d.classList.add('est-tenu');
+    }
     pos = { dx: tir.dx + e.clientX - tir.x, dy: tir.dy + e.clientY - tir.y };
     placer();
   });
   const lacher = () => {
     if (!tir) return;
     tir = null; d.classList.remove('est-tenu');
+    if (!glisse) return;
     try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
     console.log('[dossier] décalage depuis le coin bas-droit de la photo :', JSON.stringify(pos));
   };
   d.addEventListener('pointerup', lacher);
   d.addEventListener('pointercancel', lacher);
+  // Un clic sur une carte (sans glisser) ouvre son projet.
+  d.addEventListener('click', (e) => {
+    const a = e.target.closest('.dossier__carte');
+    if (glisse) { e.preventDefault(); e.stopPropagation(); glisse = false; return; }
+    if (!a) return;
+    e.preventDefault();
+    const h = a.getAttribute('href');
+    if (location.hash !== h) history.pushState(null, '', h);
+    dispatchEvent(new PopStateEvent('popstate'));
+  }, true);
   d.addEventListener('dblclick', () => {
     pos = DEFAUT; placer();
     try { localStorage.removeItem(CLE); } catch (e) {}
