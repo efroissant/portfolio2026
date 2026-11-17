@@ -7492,14 +7492,12 @@
   .stage.gatefold .dossier { z-index: 0; pointer-events: none; filter: blur(8px); }
   .dossier a { -webkit-user-drag: none; }
   /* Le fond jaune, avec son onglet à droite. */
+  /* Le dos du dossier : une seule forme, l'onglet à gauche qui descend en
+     pente douce vers le reste du bord (comme une icône de dossier). */
   .dossier__fond {
-    position: absolute; left: 4px; right: 4px; top: 44px; bottom: 6px;
-    border-radius: 14px; background: #F7D354;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-  }
-  .dossier__fond::before {
-    content: ""; position: absolute; right: 0; top: -14px; width: 62%; height: 30px;
-    border-radius: 12px 12px 0 0; background: #F7D354;
+    position: absolute; left: 6px; right: 6px; top: 20px; bottom: 6px;
+    background: #F2CF4E;
+    clip-path: path("M0,14 Q0,0 14,0 L70,0 C80,0 84,3 89,9 L94,15 C98,19 102,20 110,20 L194,20 Q208,20 208,34 L208,156 Q208,170 194,170 L14,170 Q0,170 0,156 Z");
   }
   /* Les cartes qui dépassent : des photos aux coins arrondis. */
   /* Les cartes, rangées entièrement dans le dossier ; au survol, elles
@@ -7534,13 +7532,15 @@
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
     position: absolute; left: 0; bottom: 0; width: 220px; height: 122px;
-    clip-path: path("M0,14 Q0,0 14,0 L74,0 C90,0 94,18 112,18 L206,18 Q220,18 220,32 L220,108 Q220,122 206,122 L14,122 Q0,122 0,108 Z");
+    /* La face avant : un rectangle aux coins arrondis, bord droit en haut. */
+    border-radius: 16px;
     background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,246,206,0.86));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 0 0 1px rgba(255,255,255,0.35);
     -webkit-backdrop-filter: blur(9px) saturate(1.1); backdrop-filter: blur(9px) saturate(1.1);
   }
   .dossier__ombre {
     /* Calée exactement sur le bas de la face avant (mêmes coins) : rien ne dépasse. */
-    position: absolute; left: 0; right: 0; bottom: 0; height: 104px; border-radius: 14px;
+    position: absolute; left: 0; right: 0; bottom: 0; height: 110px; border-radius: 16px;
     box-shadow: 0 14px 24px -12px rgba(0,0,0,0.26), 0 2px 4px -1px rgba(0,0,0,0.10);
   }
   .dossier__titre {
