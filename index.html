@@ -7329,7 +7329,13 @@
      perd le titre du morceau (les boutons suffisent). */
   .lien-bas { display: none; }
   .stage .menubar .barlien[href*="linkedin"] { display: none; }
-  .stage .lecteur-mini__titre { display: none; }
+  /* Le titre du morceau, à droite des boutons, dans le style de la barre. */
+  .stage .recto-play .lecteur-mini__titre { display: inline-block; }
+  .stage .menubar .recto-play.dans-barre { max-width: none; }
+  .stage .menubar .recto-play.dans-barre .lecteur-mini__titre {
+    margin: 0 18px 0 6px; max-width: 26ch; flex: 0 0 auto;
+    font-size: 12px; line-height: 16px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
   .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
     display: inline-flex; align-items: center; position: absolute; z-index: 20;
     min-height: 28px; padding: 0 2px;
