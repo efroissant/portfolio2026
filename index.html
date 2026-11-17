@@ -7505,11 +7505,12 @@
   /* Les cartes, rangées entièrement dans le dossier ; au survol, elles
      sortent un peu. Chacune mène à un projet. */
   .dossier__carte {
-    position: absolute; top: 92px; width: 100px; height: 100px; border-radius: 10px; overflow: hidden;
+    /* 100 px rangée, 300 px (le triple) quand elle sort. */
+    position: absolute; top: 92px; width: var(--t, 100px); height: var(--t, 100px); border-radius: 10px; overflow: hidden;
     background: #ddd center / cover no-repeat; color: #FFFFFF; text-decoration: none;
     box-shadow: 0 1px 3px rgba(0,0,0,0.18), 0 6px 14px -6px rgba(0,0,0,0.25);
     transform: translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg));
-    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), width 320ms cubic-bezier(0.22, 1, 0.36, 1), height 320ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   /* Le nom, en haut de la vignette, sur un léger voile pour rester lisible. */
   .dossier__carte::before {
@@ -7518,17 +7519,17 @@
   }
   .dossier__carte span {
     position: absolute; left: 8px; right: 8px; top: 7px; color: #FFFFFF;
-    font: 400 11px/1.15 Arial, Helvetica, sans-serif;
+    font: 400 13px/1.15 Arial, Helvetica, sans-serif;
     text-shadow: 0 1px 2px rgba(0,0,0,0.30);
   }
   .dossier__carte:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
   .dossier__carte--1 { left: 6px;   --r: -3deg; background-color: #D33F3F; }
   .dossier__carte--2 { left: 60px;  --r: 0deg;  background-color: #1E4D8C; }
   .dossier__carte--3 { left: 114px; --r: 3deg;  background-color: #0F6E6E; }
-  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --x: -22px; --y: -78px; --r: -12deg; }
-  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --y: -92px; --r: 0deg; }
-  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --x: 22px; --y: -78px; --r: 12deg; }
-  .dossier__carte:hover { --y: -100px !important; z-index: 2; }
+  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 300px; --x: -240px; --y: -272px; --r: -9deg; }
+  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 300px; --x: -100px; --y: -290px; --r: 0deg; }
+  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 300px; --x: 40px; --y: -272px; --r: 9deg; }
+  .dossier .dossier__carte:hover { --y: -306px; z-index: 2; }
   .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
@@ -7538,8 +7539,9 @@
     -webkit-backdrop-filter: blur(9px) saturate(1.1); backdrop-filter: blur(9px) saturate(1.1);
   }
   .dossier__ombre {
-    position: absolute; left: 6px; right: 6px; bottom: -2px; height: 110px; border-radius: 16px;
-    box-shadow: 0 12px 26px -10px rgba(0,0,0,0.28), 0 2px 5px rgba(0,0,0,0.08);
+    /* Calée exactement sur le bas de la face avant (mêmes coins) : rien ne dépasse. */
+    position: absolute; left: 0; right: 0; bottom: 0; height: 104px; border-radius: 14px;
+    box-shadow: 0 14px 24px -12px rgba(0,0,0,0.26), 0 2px 4px -1px rgba(0,0,0,0.10);
   }
   .dossier__titre {
     position: absolute; left: 14px; bottom: 20px; margin: 0;
