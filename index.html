@@ -7473,7 +7473,7 @@
       bottom: calc(24px + 2 * var(--marge-y));
     }
   }
-  /* ===== LE DOSSIER « Souvenirs » =====
+  /* ===== LE DOSSIER « Use Case » =====
      Posé en bas à droite de ma photo, il la suit quand la bio défile.
      Déplaçable à la souris le temps de trouver sa place : la position
      (décalage par rapport au coin de la photo) est gardée dans ce
@@ -7505,26 +7505,30 @@
   /* Les cartes, rangées entièrement dans le dossier ; au survol, elles
      sortent un peu. Chacune mène à un projet. */
   .dossier__carte {
-    position: absolute; height: 88px; border-radius: 12px; overflow: hidden;
+    position: absolute; top: 92px; width: 100px; height: 100px; border-radius: 10px; overflow: hidden;
     background: #ddd center / cover no-repeat; color: #FFFFFF; text-decoration: none;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
-    transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg));
-    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18), 0 6px 14px -6px rgba(0,0,0,0.25);
+    transform: translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg));
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Le nom, en haut de la vignette, sur un léger voile pour rester lisible. */
+  .dossier__carte::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 44px;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0));
   }
   .dossier__carte span {
-    position: absolute; top: 8px; color: #FFFFFF;
-    font: 400 10px/1 Arial, Helvetica, sans-serif; letter-spacing: 0;
+    position: absolute; left: 8px; right: 8px; top: 7px; color: #FFFFFF;
+    font: 400 11px/1.15 Arial, Helvetica, sans-serif;
     text-shadow: 0 1px 2px rgba(0,0,0,0.30);
   }
-  .dossier__carte span:first-child { left: 10px; font-size: 12px; }
-  .dossier__carte span:last-child { right: 10px; opacity: 0.9; }
   .dossier__carte:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
-  .dossier__carte--1 { left: 12px; width: 192px; top: 98px; --r: -2deg; background-color: #D33F3F; }
-  .dossier__carte--2 { left: 16px; width: 188px; top: 102px; --r: -0.5deg; background-color: #1E4D8C; }
-  .dossier__carte--3 { left: 20px; width: 184px; top: 106px; --r: 1.2deg; background-color: #0F6E6E; }
-  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --y: -86px; --r: -4deg; }
-  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --y: -68px; --r: -1deg; }
-  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --y: -50px; --r: 2deg; }
+  .dossier__carte--1 { left: 6px;   --r: -3deg; background-color: #D33F3F; }
+  .dossier__carte--2 { left: 60px;  --r: 0deg;  background-color: #1E4D8C; }
+  .dossier__carte--3 { left: 114px; --r: 3deg;  background-color: #0F6E6E; }
+  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --x: -22px; --y: -78px; --r: -12deg; }
+  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --y: -92px; --r: 0deg; }
+  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --x: 22px; --y: -78px; --r: 12deg; }
+  .dossier__carte:hover { --y: -100px !important; z-index: 2; }
   .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
@@ -7538,12 +7542,8 @@
     box-shadow: 0 12px 26px -10px rgba(0,0,0,0.28), 0 2px 5px rgba(0,0,0,0.08);
   }
   .dossier__titre {
-    position: absolute; left: 14px; bottom: 34px; margin: 0;
+    position: absolute; left: 14px; bottom: 20px; margin: 0;
     font: 400 26px/1 Arial, Helvetica, sans-serif; color: #2B2B2B; letter-spacing: -0.01em;
-  }
-  .dossier__dates {
-    position: absolute; left: 15px; bottom: 15px; margin: 0;
-    font: 400 12px/1 Arial, Helvetica, sans-serif; color: #8A8A8A; letter-spacing: 0.04em;
   }
 
   /* ===== TEMPORAIRE : le vinyle retiré =====
@@ -7612,15 +7612,15 @@
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
     </div>
   </aside>
-  <!-- Le dossier « Souvenirs », en bas à droite de ma photo (voir le script). -->
-  <div class="dossier" id="dossier" role="group" aria-label="Dossier Souvenirs">
+  <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
+  <div class="dossier" id="dossier" role="group" aria-label="Dossier Use Case">
     <div class="dossier__fond"></div>
     <!-- Les cartes : href et data-etude = le projet ouvert (#case/<id>). -->
-    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span><span>Product design ↗</span></a>
-    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq"><span>Groupe Voyage Québec</span><span>UI/UX ↗</span></a>
-    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span><span>Web ↗</span></a>
+    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span></a>
+    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq" style="background-image:url('gvq-agenda-920.jpg')"><span>Groupe Voyage Québec</span></a>
+    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span></a>
     <div class="dossier__ombre"></div>
-    <div class="dossier__face"><p class="dossier__titre">Souvenirs</p><p class="dossier__dates">2019 – 2026</p></div>
+    <div class="dossier__face"><p class="dossier__titre">Use Case</p></div>
   </div>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
