@@ -2979,9 +2979,18 @@
   }
   @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
   /* Le lecteur dans la barre, avant SAY HI : en ligne, sans position propre. */
+  /* Grille : le lecteur se cale sur le bord gauche de la pochette (--grille-pochette,
+     posé par le script) et ne bouge plus, quelle que soit la longueur du titre.
+     Le -5px aligne le pictogramme, pas sa zone de clic, sur le bord. */
   .stage .menubar .recto-play.dans-barre.dans-barre {
     position: static !important; inset: auto !important; transform: none !important;
     display: flex !important; margin: 0 6px 0 0; z-index: auto;
+  }
+  @media (min-width: 1024px) {
+    .stage .menubar .recto-play.dans-barre.dans-barre {
+      position: absolute !important; inset: 0 auto 0 calc(var(--grille-pochette, 50vw) - 5px) !important;
+      margin: 0;
+    }
   }
   .stage .menubar .recto-play.dans-barre .lecteur-mini__btn { width: 24px; height: 24px; }
   .stage .menubar .recto-play.dans-barre .lecteur-mini__btn svg { width: 14px; height: 14px; }
@@ -11762,6 +11771,16 @@ const dire = (function () {
     };
     placerLecteur();
     large.addEventListener('change', placerLecteur);
+    // La grille : le bord gauche de la pochette, mesuré au repos.
+    const fondG = document.querySelector('.stage__bg');
+    const scene = document.getElementById('stage');
+    const caler = () => {
+      if (!fondG || !scene || scene.classList.contains('gatefold')) return;
+      scene.style.setProperty('--grille-pochette', Math.round(fondG.getBoundingClientRect().left) + 'px');
+    };
+    caler();
+    addEventListener('resize', caler);
+    addEventListener('load', caler);
   }
   const miniTitre = document.getElementById('mini-titre');
   function majRecto() {
