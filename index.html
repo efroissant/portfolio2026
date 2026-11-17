@@ -7450,6 +7450,29 @@
   @media (max-width: 767px) {
     .stage #mail .mail__body, .stage #mail .mail__field, .stage #mail .mail__chip { font-size: 16px; }
   }
+  /* ===== GRILLE (grand écran) =====
+     Deux colonnes sur une marge commune :
+     — marge extérieure --g-marge : le texte de MANU, la bio, puis à droite
+       SAY HI et LKD s'arrêtent tous à 24 px du bord ;
+     — colonne 1 : MANU, PROJETS et la bio ; colonne 2 : la pochette, avec
+       le lecteur calé sur son bord gauche ;
+     — gouttière --g-gout entre les deux (largeur de la bio posée par le script) ;
+     — ligne du bas : le bas de LKD sur le bas de la pochette.
+     Les retraits de 6 px compensent le padding des liens de la barre :
+     c'est le texte, pas la zone de clic, qui tombe sur la grille. */
+  @media (min-width: 1024px) {
+    .stage { --g-marge: 24px; --g-gout: 40px; }
+    .stage > .menubar {
+      padding-left: calc(var(--g-marge) - var(--bar-inner-pad) - 6px);
+      padding-right: calc(var(--g-marge) - 6px);
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: var(--g-marge); }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
+      right: calc(var(--g-marge) - 2px);
+      min-height: 0; line-height: 12px;
+      bottom: calc(24px + 2 * var(--marge-y));
+    }
+  }
 </style>
 </head>
 <body>
@@ -12392,7 +12415,8 @@ const dire = (function () {
       if (getComputedStyle(profil).display === 'none') return;
       // Mesurée hors animation : la pochette au repos, sans la rotation.
       const g = fond.offsetParent ? fond.getBoundingClientRect().left : 0;
-      profil.style.setProperty('--profil-w', Math.max(165, Math.round(g - profil.getBoundingClientRect().left - 40)) + 'px');
+      const gout = parseFloat(getComputedStyle(scene).getPropertyValue('--g-gout')) || 40;
+      profil.style.setProperty('--profil-w', Math.max(165, Math.round(g - profil.getBoundingClientRect().left - gout)) + 'px');
     };
     caler();
     addEventListener('resize', caler);
