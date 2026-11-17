@@ -7473,6 +7473,77 @@
       bottom: calc(24px + 2 * var(--marge-y));
     }
   }
+  /* ===== LE DOSSIER « Souvenirs » =====
+     Posé en bas à droite de ma photo, il la suit quand la bio défile.
+     Déplaçable à la souris le temps de trouver sa place : la position
+     (décalage par rapport au coin de la photo) est gardée dans ce
+     navigateur et écrite dans la console ; double-clic pour la remettre. */
+  .dossier { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .dossier { display: block; }
+  }
+  .dossier {
+    position: absolute; left: 0; top: 0; z-index: 7;
+    width: 220px; height: 196px;
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    transition: opacity 300ms ease, filter 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .dossier.est-tenu { cursor: grabbing; }
+  .stage.gatefold .dossier { z-index: 0; pointer-events: none; filter: blur(8px); }
+  .dossier img { -webkit-user-drag: none; pointer-events: none; }
+  /* Le fond jaune, avec son onglet à droite. */
+  .dossier__fond {
+    position: absolute; left: 4px; right: 4px; top: 44px; bottom: 6px;
+    border-radius: 14px; background: #F7D354;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  .dossier__fond::before {
+    content: ""; position: absolute; right: 0; top: -14px; width: 62%; height: 30px;
+    border-radius: 12px 12px 0 0; background: #F7D354;
+  }
+  /* Les cartes qui dépassent : des photos aux coins arrondis. */
+  .dossier__carte {
+    position: absolute; height: 104px; border-radius: 12px; overflow: hidden;
+    background: #ddd center / cover no-repeat;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .dossier__carte span {
+    position: absolute; top: 7px; color: #FFFFFF;
+    font: 500 10px/1 "DM Sans", sans-serif; letter-spacing: 0.01em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  }
+  .dossier__carte span:first-child { left: 10px; font-size: 12px; }
+  .dossier__carte span:last-child { right: 10px; opacity: 0.85; }
+  .dossier__carte--1 { left: 0; width: 164px; top: 0; transform: rotate(-3deg); }
+  .dossier__carte--2 { left: 24px; width: 160px; top: 26px; transform: rotate(-1deg); }
+  .dossier__carte--3 { left: 44px; width: 152px; top: 46px; transform: rotate(1.5deg); }
+  .dossier:hover .dossier__carte--1 { transform: translate(-4px, -10px) rotate(-5deg); }
+  .dossier:hover .dossier__carte--2 { transform: translate(0, -8px) rotate(-1.5deg); }
+  .dossier:hover .dossier__carte--3 { transform: translate(4px, -6px) rotate(3deg); }
+  /* La face avant : verre dépoli, découpe en vague sur le dessus. */
+  .dossier__face {
+    position: absolute; left: 0; bottom: 0; width: 220px; height: 122px;
+    clip-path: path("M0,14 Q0,0 14,0 L74,0 C90,0 94,18 112,18 L206,18 Q220,18 220,32 L220,108 Q220,122 206,122 L14,122 Q0,122 0,108 Z");
+    background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,246,206,0.86));
+    -webkit-backdrop-filter: blur(9px) saturate(1.1); backdrop-filter: blur(9px) saturate(1.1);
+  }
+  .dossier__ombre {
+    position: absolute; left: 6px; right: 6px; bottom: -2px; height: 110px; border-radius: 16px;
+    box-shadow: 0 12px 26px -10px rgba(0,0,0,0.28), 0 2px 5px rgba(0,0,0,0.08);
+  }
+  .dossier__titre {
+    position: absolute; left: 14px; bottom: 34px; margin: 0;
+    font: 400 30px/1 "Indelible", sans-serif; color: #2B2B2B; letter-spacing: 0.01em;
+  }
+  .dossier__dates {
+    position: absolute; left: 15px; bottom: 15px; margin: 0;
+    font: 400 12px/1 "DM Sans", sans-serif; color: #8A8A8A; letter-spacing: 0.08em;
+  }
+  .dossier__sticker { position: absolute; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.18)); }
+  .dossier__sticker--1 { width: 40px; right: 40px; bottom: 30px; transform: rotate(-12deg); }
+  .dossier__sticker--2 { width: 38px; right: 8px; bottom: 52px; transform: rotate(14deg); }
+
 </style>
 </head>
 <body>
@@ -7521,6 +7592,17 @@
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
     </div>
   </aside>
+  <!-- Le dossier « Souvenirs », en bas à droite de ma photo (voir le script). -->
+  <div class="dossier" id="dossier" role="img" aria-label="Dossier Souvenirs : Sicile, Vésuve, Amity">
+    <div class="dossier__fond"></div>
+    <div class="dossier__carte dossier__carte--1" style="background-image:url('sicile-600.jpg')"><span>Sicile</span><span>JPG · 2.4 MB</span></div>
+    <div class="dossier__carte dossier__carte--2" style="background-image:url('vesuve-600.jpg')"><span>Vésuve</span><span>18 images</span></div>
+    <div class="dossier__carte dossier__carte--3" style="background-image:url('amity-600.jpg')"><span>Amity</span><span>12 images</span></div>
+    <div class="dossier__ombre"></div>
+    <div class="dossier__face"><p class="dossier__titre">Souvenirs</p><p class="dossier__dates">2019 – 2026</p></div>
+    <img class="dossier__sticker dossier__sticker--1" src="sticker-citron-180.png" alt="" width="180" height="180">
+    <img class="dossier__sticker dossier__sticker--2" src="sticker-grenouille-180.png" alt="" width="180" height="180">
+  </div>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
@@ -13203,6 +13285,56 @@ const dire = (function () {
     prise.addEventListener('pointerup', lacher);
     prise.addEventListener('pointercancel', lacher);
   })();
+</script>
+<script>
+/* Le dossier suit le coin bas-droit de ma photo ; on peut le déplacer. */
+(function dossier() {
+  const d = document.getElementById('dossier');
+  const photo = document.querySelector('.profil__image');
+  const bio = document.querySelector('.profil__bio');
+  const stage = document.getElementById('stage');
+  if (!d || !photo || !stage) return;
+  const CLE = 'portfolio:dossier';
+  const DEFAUT = { dx: -96, dy: -112 };   // le coin haut-gauche du dossier, depuis le coin bas-droit de la photo
+  let pos = DEFAUT;
+  try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.dx) && isFinite(v.dy)) pos = v; } catch (e) {}
+  function placer() {
+    if (!d.offsetParent) return;
+    const r = photo.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    d.style.left = Math.round(r.right - s.left + pos.dx) + 'px';
+    d.style.top = Math.round(r.bottom - s.top + pos.dy) + 'px';
+  }
+  placer();
+  addEventListener('resize', placer);
+  addEventListener('load', placer);
+  photo.addEventListener('load', placer);
+  if (bio) bio.addEventListener('scroll', placer, { passive: true });
+  new MutationObserver(placer).observe(stage, { attributes: true, attributeFilter: ['data-state', 'class'] });
+  let tir = null;
+  d.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    tir = { x: e.clientX, y: e.clientY, dx: pos.dx, dy: pos.dy };
+    d.setPointerCapture(e.pointerId); d.classList.add('est-tenu');
+    e.preventDefault();
+  });
+  d.addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    pos = { dx: tir.dx + e.clientX - tir.x, dy: tir.dy + e.clientY - tir.y };
+    placer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    tir = null; d.classList.remove('est-tenu');
+    try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
+    console.log('[dossier] décalage depuis le coin bas-droit de la photo :', JSON.stringify(pos));
+  };
+  d.addEventListener('pointerup', lacher);
+  d.addEventListener('pointercancel', lacher);
+  d.addEventListener('dblclick', () => {
+    pos = DEFAUT; placer();
+    try { localStorage.removeItem(CLE); } catch (e) {}
+  });
+})();
 </script>
 </body>
 </html>
