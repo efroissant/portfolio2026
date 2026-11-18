@@ -8170,9 +8170,11 @@
   .dossier--cartes:is(.est-ouvert, :focus-within) .carte__cta { opacity: 1; }
   .dossier--cartes:is(.est-ouvert, :focus-within) .carte__titre { display: block; }
   .dossier--cartes:is(.est-ouvert, :focus-within) .carte__tags { display: flex; }
-  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--1 { --x: -6px;   --y: -640px; --r: -4deg; }
+  .dossier--cartes .dossier__carte { transform-origin: 50% 100%; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--2 { z-index: 2; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--1 { --x: -6px;   --y: -640px; --r: -12deg; }
   .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--2 { --x: 500px;  --y: -662px; --r: 0deg; }
-  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--3 { --x: 1006px; --y: -640px; --r: 4deg; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--3 { --x: 1006px; --y: -640px; --r: 12deg; }
   .dossier--cartes .dossier__carte:hover { --lift: -18px; z-index: 3; }
 </style>
 </head>
@@ -14692,17 +14694,23 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const cartes = [...d.querySelectorAll('.dossier__carte')];
   function eventail() {
     const vw = innerWidth, f = d.getBoundingClientRect();
-    const bas = f.top + 24 * K;                              // le bas des cartes, sur le haut du dossier
-    let W = Math.min(440, (vw - 2 * MARGE) / 2.64);           // largeur d'une carte à l'écran
+    const bas = f.top + 30 * K;                              // le bas des cartes, sur le haut du dossier
     const hauteur = (w) => (w / K * 0.72 + 170) * K;          // image (72 %) + titre et étiquettes
+    let W = Math.min(320, (vw - 2 * MARGE) / 1.8);            // largeur d'une carte à l'écran
     if (bas - hauteur(W) < HAUT_MIN) W = Math.max(180, W * (bas - HAUT_MIN) / hauteur(W));
-    const pas = W * 0.82, total = W + 2 * pas;
-    const centre = f.left + (220 * K) / 2;
-    const gauche = Math.max(MARGE, Math.min(centre - total / 2, vw - MARGE - total));
-    const haut = Math.max(HAUT_MIN, bas - hauteur(W));
+    // Un vrai éventail, équilibré sur le dossier : la carte du milieu au-dessus
+    // de son centre, les deux autres de part et d'autre, inclinées depuis le bas.
+    const pas = W * 0.42, total = W + 2 * pas;
+    let centre = f.left + (220 * K) / 2;
+    // Jamais hors de l'écran, inclinaison comprise (les coins du haut des
+    // cartes de côté partent vers l'extérieur d'environ 21 % de leur hauteur).
+    const penche = hauteur(W) * Math.sin(12 * Math.PI / 180);
+    centre = Math.max(MARGE + total / 2 + penche, Math.min(centre, vw - MARGE - total / 2 - penche));
     cartes.slice(0, 3).forEach((c, i) => {
-      const x = (gauche + i * pas - f.left) / K - c.offsetLeft;
-      const y = (haut + (i === 1 ? -14 : 0) - f.top) / K - BASE_TOP;
+      const gaucheCarte = centre + (i - 1) * pas - W / 2;
+      const haut = Math.max(HAUT_MIN, bas - hauteur(W)) + (i === 1 ? -16 : 0);
+      const x = (gaucheCarte - f.left) / K - c.offsetLeft;
+      const y = (haut - f.top) / K - BASE_TOP;
       c.style.setProperty('--t', (W / K).toFixed(1) + 'px');
       c.style.setProperty('--h', (W / K * 0.72).toFixed(1) + 'px');
       c.style.setProperty('--x', x.toFixed(1) + 'px');
