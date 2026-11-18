@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=Barlow+Condensed:ital,wght@1,500;1,600&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
@@ -7594,6 +7595,16 @@
     left: 50%; top: calc(100% + 9px); transform: translateX(-50%);
     padding: 3px 5px; border-radius: 3px; background: #0D99FF; color: #FFFFFF;
     font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== NAV : Office Code Pro, 12 px =====
+     Office Code Pro n'est pas sur Google Fonts : elle s'affiche si elle est
+     installée, sinon Source Code Pro (dont elle dérive, quasi identique). */
+  .stage .menubar, .stage .menubar :is(a, button, span),
+  .stage .menubar .menuitem, .stage .menubar .menuitem--app, .stage .menubar .barlien,
+  .stage .lecteur-mini__titre, .stage .lien-bas, .stage .logo-mobile, .stage .sayhi-mobile {
+    font-family: "Office Code Pro", "Source Code Pro", ui-monospace, Menlo, monospace !important;
+    font-size: 12px !important;
   }
 
 </style>
