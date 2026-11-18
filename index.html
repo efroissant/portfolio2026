@@ -7893,7 +7893,22 @@
     65%  { opacity: 0.6; translate: 0 0; }
     80%, 100% { opacity: 1; translate: none; }
   }
-  @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee { animation: none; } }
+  /* Allumage : comme des néons dans une grande salle. Chaque élément
+     s'allume à son tour, grésille deux ou trois fois, puis tient. */
+  .allumage { animation: allumage 420ms steps(1, end) both; animation-delay: var(--delai, 0ms); }
+  @keyframes allumage {
+    0%   { opacity: 0; }
+    12%  { opacity: 0.85; }
+    20%  { opacity: 0.08; }
+    34%  { opacity: 0.6; }
+    42%  { opacity: 0.15; }
+    56%  { opacity: 1; }
+    64%  { opacity: 0.45; }
+    74%, 100% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee, .allumage { animation: none; } }
+  /* Avant l'allumage, la salle est éteinte : rien ne s'affiche d'abord en plein. */
+  .avant-allumage :is(.menubar__leading, .menubar__titre, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
     background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
@@ -8147,26 +8162,32 @@
     ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
     ecran.style.background = ''; ecran.style.color = ''; ecran.style.textShadow = '';
   }
-  // Le site apparaît, mais la bio et la photo gardent une seconde de glitch.
+  // Arrivée sur le site : tout s'allume l'un après l'autre, comme des néons.
+  // Ordre de lecture : la barre, la bio, la photo, les dossiers, le bas.
   function resteDeGlitch() {
     if (calme) return;
-    const cibles = [
-      ...[...document.querySelectorAll('.profil__bio p, .mob-bio')].map((el) => [el, true]),
-      ...[...document.querySelectorAll('.profil__image, .face-a-mobile__photo')].map((el) => [el, false])
+    const ORDRE = [
+      '.menubar__leading', '.menubar__titre', '.menubar__trailing', '.logo-mobile', '.note-mobile',
+      '.profil__bio p', '.mob-bio',
+      '.profil__image', '.photo-sel', '.face-a-mobile__photo',
+      '.dossier', '.mob-dossier',
+      '.note-bas', '.mob-note', '.radio-bouton'
     ];
-    cibles.forEach(([el, texte]) => {
-      el.classList.add('glitch-reste');
-      if (texte) el.classList.add('glitch-reste--texte');
+    const vus = new Set(), cibles = [];
+    ORDRE.forEach((sel) => document.querySelectorAll(sel).forEach((el) => {
+      if (vus.has(el) || !el.getClientRects().length) return;   // caché à cette taille d'écran
+      vus.add(el); cibles.push(el);
+    }));
+    // La photo et son cadre de sélection s'allument ensemble.
+    let rang = 0;
+    cibles.forEach((el, i) => {
+      if (!(el.matches('.photo-sel') && i > 0 && cibles[i - 1].matches('.profil__image'))) rang++;
+      el.style.setProperty('--delai', (rang - 1) * 70 + 'ms');
+      el.classList.add('allumage');
     });
-    // Les dossiers apparaissent en décalé, 60 ms d'écart, pendant la fin du glitch.
-    const dossiers = [...document.querySelectorAll('.dossier, .mob-dossier')];
-    dossiers.forEach((el, i) => {
-      el.style.setProperty('--delai', (60 + (i % 4) * 60) + 'ms');
-      el.classList.add('glitch-arrivee');
-    });
-    setTimeout(() => dossiers.forEach((el) => { el.classList.remove('glitch-arrivee'); el.style.removeProperty('--delai'); }), 700);
-    // Un minuteur plutôt qu'animationend : un élément caché (mobile sur bureau) n'anime jamais.
-    setTimeout(() => cibles.forEach(([el]) => el.classList.remove('glitch-reste', 'glitch-reste--texte')), 650);
+    document.documentElement.classList.remove('avant-allumage');
+    const fin = (rang - 1) * 70 + 460;
+    setTimeout(() => cibles.forEach((el) => { el.classList.remove('allumage'); el.style.removeProperty('--delai'); }), fin);
   }
   function finir() {
     arreterGlitch();
@@ -8190,7 +8211,12 @@
   const DEMARRAGE = false;
   if (!DEMARRAGE) {
     ecran.remove();
-    const arrivee = () => requestAnimationFrame(resteDeGlitch);
+    if (!calme) {
+      document.documentElement.classList.add('avant-allumage');
+      // Filet de sécurité : la salle s'éclaire quoi qu'il arrive.
+      setTimeout(() => document.documentElement.classList.remove('avant-allumage'), 2500);
+    }
+    const arrivee = () => setTimeout(resteDeGlitch, 0);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arrivee, { once: true });
     else arrivee();
     return;
