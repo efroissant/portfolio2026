@@ -7506,7 +7506,7 @@
   /* Les cartes, rangées entièrement dans le dossier ; au survol, elles
      sortent un peu. Chacune mène à un projet. */
   .dossier__carte {
-    /* 100 px rangée, 300 px (le triple) quand elle sort. */
+    /* 100 px rangée, 230 px quand elle sort. */
     position: absolute; top: 92px; width: var(--t, 100px); height: var(--t, 100px); border-radius: 10px; overflow: hidden;
     background: #ddd center / cover no-repeat; color: #FFFFFF; text-decoration: none;
     box-shadow: 0 1px 3px rgba(0,0,0,0.18), 0 6px 14px -6px rgba(0,0,0,0.25);
@@ -7527,10 +7527,10 @@
   .dossier__carte--1 { left: 6px;   --r: -3deg; background-color: #D33F3F; }
   .dossier__carte--2 { left: 60px;  --r: 0deg;  background-color: #1E4D8C; }
   .dossier__carte--3 { left: 114px; --r: 3deg;  background-color: #0F6E6E; }
-  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 300px; --x: -240px; --y: -272px; --r: -9deg; }
-  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 300px; --x: -100px; --y: -290px; --r: 0deg; }
-  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 300px; --x: 40px; --y: -272px; --r: 9deg; }
-  .dossier .dossier__carte:hover { --y: -306px; z-index: 2; }
+  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 230px; --x: -171px; --y: -205px; --r: -9deg; }
+  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 230px; --x: -65px; --y: -220px; --r: 0deg; }
+  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 230px; --x: 41px; --y: -205px; --r: 9deg; }
+  .dossier .dossier__carte:hover { --y: -234px; z-index: 2; }
   .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
