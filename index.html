@@ -7765,12 +7765,50 @@
   }
 
   /* Bio : sur une grille de 12 colonnes (marges et gouttières de 24 px),
-     elle occupe 5 colonnes au lieu d'environ 4. */
+     elle occupe 6 colonnes, jusqu'au milieu de l'écran. */
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
-      width: calc((100vw - 48px - 11 * 24px) / 12 * 5 + 4 * 24px) !important;
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 6 + 5 * 24px) !important;
     }
   }
+
+  /* ===== Lecteur minimaliste : traits fins, titres, jauge ===== */
+  .radio { display: none; }
+  @media (min-width: 768px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
+      display: block; position: absolute; z-index: 20;
+      right: var(--g-marge, 24px); bottom: 24px; width: 300px;
+      font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+    }
+    /* L'ancien mini-lecteur laisse la place. */
+    .stage .recto-play.recto-play { display: none !important; }
+  }
+  .radio__haut { display: flex; align-items: center; gap: 2px; }
+  .radio__btn {
+    display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+    border: 0; background: none; color: inherit; cursor: pointer; border-radius: 4px;
+  }
+  .radio__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linejoin: round; stroke-linecap: round; }
+  .radio__btn:hover { background: rgba(0,0,0,0.05); }
+  .radio__btn:focus-visible, .radio__jauge:focus-visible, .radio__liste button:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
+  .radio .radio__ico-pause { display: none; }
+  .radio.est-lecture .radio__ico-pause { display: block; }
+  .radio.est-lecture .radio__ico-lire { display: none; }
+  .radio__titre { flex: 1; min-width: 0; margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .radio__temps { font-variant-numeric: tabular-nums; color: #8A8580; }
+  /* La jauge : un filet de 1 px, la partie jouée en noir. Zone de clic plus haute. */
+  .radio__jauge { position: relative; height: 13px; margin: 6px 0 8px; cursor: pointer; }
+  .radio__jauge::before, .radio__rempli { content: ""; position: absolute; left: 0; top: 6px; height: 1px; }
+  .radio__jauge::before { right: 0; background: rgba(28,25,23,0.2); }
+  .radio__rempli { width: 0; background: #1C1917; }
+  .radio__liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(28,25,23,0.2); }
+  .radio__liste button {
+    display: flex; gap: 10px; width: 100%; padding: 5px 0; border: 0; background: none;
+    font: inherit; color: #8A8580; text-align: left; cursor: pointer;
+    border-bottom: 1px solid rgba(28,25,23,0.12);
+  }
+  .radio__liste button span:first-child { font-variant-numeric: tabular-nums; }
+  .radio__liste button:hover, .radio__liste button[aria-current="true"] { color: #1C1917; }
 
 </style>
 </head>
@@ -7907,6 +7945,22 @@
        src="fond-hawaii-petit.jpg" srcset="fond-hawaii-petit.jpg 900w, fond-hawaii-grand.jpg 1672w" sizes="40vw"
        alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
   -->
+  <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
+  <div class="radio" id="radio" role="group" aria-label="Lecteur de musique">
+    <div class="radio__haut">
+      <button type="button" class="radio__btn" data-r="prec" aria-label="Morceau précédent">
+        <svg viewBox="0 0 16 16"><path d="M4 3v10M13 3.5L6 8l7 4.5z"/></svg></button>
+      <button type="button" class="radio__btn" data-r="lire" aria-label="Lecture">
+        <svg class="radio__ico-lire" viewBox="0 0 16 16"><path d="M4.5 3l9 5-9 5z"/></svg>
+        <svg class="radio__ico-pause" viewBox="0 0 16 16"><path d="M5 3v10M11 3v10"/></svg></button>
+      <button type="button" class="radio__btn" data-r="suiv" aria-label="Morceau suivant">
+        <svg viewBox="0 0 16 16"><path d="M12 3v10M3 3.5L10 8l-7 4.5z"/></svg></button>
+      <span class="radio__titre" aria-live="polite"></span>
+      <span class="radio__temps">0:00</span>
+    </div>
+    <div class="radio__jauge" role="slider" tabindex="0" aria-label="Position dans le morceau" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="radio__rempli"></span></div>
+    <ol class="radio__liste"></ol>
+  </div>
   <!-- En bas à gauche : une note, pas un lien. -->
   <p class="note-bas">L’IA sera utilisée dans mon travail. Ma tête aussi.</p>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
@@ -12220,6 +12274,64 @@ const dire = (function () {
       majRecto();
     });
   }
+  // Lecteur minimaliste (#radio) : mêmes morceaux, même audio.
+  (function radio() {
+    const r = document.getElementById('radio');
+    if (!r) return;
+    const titre = r.querySelector('.radio__titre'), temps = r.querySelector('.radio__temps');
+    const jauge = r.querySelector('.radio__jauge'), rempli = r.querySelector('.radio__rempli');
+    const liste = r.querySelector('.radio__liste'), lire = r.querySelector('[data-r="lire"]');
+    const jouer = () => { const p = audio.play(); if (p && p.catch) p.catch(() => {}); };
+    PISTES.forEach((p, i) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.innerHTML = '<span></span><span></span>';
+      b.children[0].textContent = String(i + 1).padStart(2, '0');
+      b.children[1].textContent = p.titre;
+      b.addEventListener('click', () => { if (!lecteurPret) construireLecteur(); charger(i); jouer(); maj(); });
+      li.append(b); liste.append(li);
+    });
+    function maj() {
+      const p = PISTES[piste];
+      titre.textContent = p.titre;
+      r.classList.toggle('est-lecture', !audio.paused);
+      lire.setAttribute('aria-label', audio.paused ? 'Lecture' : 'Pause');
+      liste.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i === piste)));
+    }
+    function temps_() {
+      const d = audio.duration, t = audio.currentTime;
+      const pc = isFinite(d) && d > 0 ? (t / d) * 100 : 0;
+      rempli.style.width = pc + '%';
+      jauge.setAttribute('aria-valuenow', Math.round(pc));
+      temps.textContent = mmss(t) + (isFinite(d) ? ' / ' + mmss(d) : '');
+    }
+    ['play', 'pause', 'loadstart'].forEach((ev) => audio.addEventListener(ev, maj));
+    ['timeupdate', 'loadedmetadata', 'durationchange'].forEach((ev) => audio.addEventListener(ev, temps_));
+    r.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-r]');
+      if (!b) return;
+      if (!lecteurPret) construireLecteur();
+      const c = b.dataset.r;
+      if (c === 'lire') { if (audio.paused) jouer(); else audio.pause(); }
+      if (c === 'prec') { if (audio.currentTime > 3) audio.currentTime = 0; else { charger((piste - 1 + PISTES.length) % PISTES.length); jouer(); } }
+      if (c === 'suiv') { charger((piste + 1) % PISTES.length); jouer(); }
+      maj();
+    });
+    const chercher = (x) => {
+      const q = jauge.getBoundingClientRect();
+      if (isFinite(audio.duration)) audio.currentTime = Math.max(0, Math.min(1, (x - q.left) / q.width)) * audio.duration;
+    };
+    let tire = false;
+    jauge.addEventListener('pointerdown', (e) => { tire = true; jauge.setPointerCapture(e.pointerId); chercher(e.clientX); });
+    jauge.addEventListener('pointermove', (e) => { if (tire) chercher(e.clientX); });
+    jauge.addEventListener('pointerup', () => { tire = false; });
+    jauge.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { audio.currentTime += 5; e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { audio.currentTime -= 5; e.preventDefault(); }
+    });
+    maj(); temps_();
+  })();
   /* Retourner le disque : la pochette pivote d'un quart de tour, on
      change de face au moment où elle est vue par la tranche, puis elle
      finit son demi-tour. Sans mouvement réduit, c'est un simple échange. */
