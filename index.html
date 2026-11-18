@@ -7527,9 +7527,9 @@
   .dossier__carte--1 { left: 6px;   --r: -3deg; background-color: #D33F3F; }
   .dossier__carte--2 { left: 60px;  --r: 0deg;  background-color: #1E4D8C; }
   .dossier__carte--3 { left: 114px; --r: 3deg;  background-color: #0F6E6E; }
-  .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 230px; --x: -171px; --y: -205px; --r: -9deg; }
-  .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 230px; --x: -65px; --y: -220px; --r: 0deg; }
-  .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 230px; --x: 41px; --y: -205px; --r: 9deg; }
+  .dossier.est-ouvert .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 230px; --x: -171px; --y: -205px; --r: -9deg; }
+  .dossier.est-ouvert .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 230px; --x: -65px; --y: -220px; --r: 0deg; }
+  .dossier.est-ouvert .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 230px; --x: 41px; --y: -205px; --r: 9deg; }
   .dossier .dossier__carte:hover { --lift: -14px; z-index: 2; }
   .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
@@ -7623,13 +7623,13 @@
   .dossier__carte--6 { left: 114px; --r: 2deg;  background-color: #C9A98A; }
   /* Deux rangées de trois, à la taille des autres dossiers (230 px), chacune
      en éventail superposé : la rangée du fond dépasse au-dessus de celle de devant. */
-  #dossier-3:is(:hover, :focus-within) .dossier__carte { --t: 230px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--1 { --x: -171px; --y: -325px; --r: -9deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--2 { --x: -65px;  --y: -340px; --r: 0deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--3 { --x: 41px;   --y: -325px; --r: 9deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--4 { --x: -171px; --y: -205px; --r: -9deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--5 { --x: -65px;  --y: -220px; --r: 0deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--6 { --x: 41px;   --y: -205px; --r: 9deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte { --t: 230px; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--1 { --x: -171px; --y: -325px; --r: -9deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--2 { --x: -65px;  --y: -340px; --r: 0deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--3 { --x: 41px;   --y: -325px; --r: 9deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--4 { --x: -171px; --y: -205px; --r: -9deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--5 { --x: -65px;  --y: -220px; --r: 0deg; }
+  #dossier-3:is(.est-ouvert, :focus-within) .dossier__carte--6 { --x: 41px;   --y: -205px; --r: 9deg; }
 
   /* ===== DÉMARRAGE : un écran blanc, les lignes d'un build qui défilent
      une à une en haut à gauche, comme un vieux PC qui s'allume ; puis le
@@ -14044,6 +14044,17 @@ document.querySelectorAll('.cadre-libre').forEach(function cadreLibre(img) {
     pos = { ...DEFAUT }; placer();
     try { localStorage.removeItem(CLE); } catch (e) {}
   });
+});
+</script>
+<script>
+/* Dossiers : les vignettes sortent seulement quand la souris passe sur la
+   face avant (la zone du titre), pas sur tout le dossier ; elles restent
+   sorties tant que la souris est sur le dossier ou ses vignettes. */
+document.querySelectorAll('.dossier').forEach((d) => {
+  const face = d.querySelector('.dossier__face');
+  if (!face) return;
+  face.addEventListener('pointerenter', () => d.classList.add('est-ouvert'));
+  d.addEventListener('pointerleave', () => d.classList.remove('est-ouvert'));
 });
 </script>
 </body>
