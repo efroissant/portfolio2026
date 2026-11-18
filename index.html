@@ -7876,16 +7876,11 @@
     74%  { translate: -2px 0;  clip-path: inset(30% 0 45% 0); filter: hue-rotate(300deg); }
     78%, 100% { translate: none; clip-path: none; filter: none; }
   }
+  /* La bio : un seul à-coup, elle se décale à droite puis revient à sa place. */
   @keyframes glitch-reste-texte {
-    0%   { translate: -5px 0; text-shadow: 3px 0 #FF2E63, -3px 0 #00E5FF; clip-path: inset(0 0 50% 0); }
-    8%   { translate: 4px 0;  text-shadow: -4px 0 #FF2E63, 4px 0 #00E5FF; clip-path: inset(45% 0 0 0); }
-    16%  { translate: 0 0;    text-shadow: none; clip-path: none; }
-    26%  { translate: -2px 0; text-shadow: 2px 0 #FF2E63, -2px 0 #00E5FF; clip-path: none; }
-    32%  { translate: 0 0;    text-shadow: none; }
-    50%  { translate: 3px 0;  text-shadow: -3px 0 #FF2E63, 3px 0 #00E5FF; clip-path: inset(20% 0 40% 0); }
-    56%  { translate: 0 0;    text-shadow: none; clip-path: none; }
-    76%  { translate: -1px 0; text-shadow: 1px 0 #FF2E63, -1px 0 #00E5FF; }
-    80%, 100% { translate: none; text-shadow: none; clip-path: none; }
+    0%, 9%    { translate: none; }
+    10%       { translate: 14px 0; }
+    24%, 100% { translate: none; }
   }
   @media (prefers-reduced-motion: reduce) { .glitch-reste { animation: none; } }
   .demarrage__curseur {
