@@ -7578,19 +7578,19 @@
      seule la taille n'apparaît qu'une fois la photo sélectionnée. */
   .photo-sel:not(.est-visible) .photo-sel__taille { display: none; }
   .photo-sel i {
-    position: absolute; width: 9px; height: 9px; box-sizing: border-box;
+    position: absolute; width: 11px; height: 11px; box-sizing: border-box;
     background: #FFFFFF; border: 1px solid #0D99FF; pointer-events: auto;
   }
-  .photo-sel i[data-coin="hg"] { left: -5px; top: -5px; cursor: nwse-resize; }
-  .photo-sel i[data-coin="hd"] { right: -5px; top: -5px; cursor: nesw-resize; }
-  .photo-sel i[data-coin="bg"] { left: -5px; bottom: -5px; cursor: nesw-resize; }
-  .photo-sel i[data-coin="bd"] { right: -5px; bottom: -5px; cursor: nwse-resize; }
+  .photo-sel i[data-coin="hg"] { left: -6px; top: -6px; cursor: nwse-resize; }
+  .photo-sel i[data-coin="hd"] { right: -6px; top: -6px; cursor: nesw-resize; }
+  .photo-sel i[data-coin="bg"] { left: -6px; bottom: -6px; cursor: nesw-resize; }
+  .photo-sel i[data-coin="bd"] { right: -6px; bottom: -6px; cursor: nwse-resize; }
   /* Le nom au-dessus, la taille en pastille bleue dessous (comme Figma). */
   .photo-sel__nom, .photo-sel__taille {
     position: absolute; white-space: nowrap; pointer-events: none;
     font: 500 11px/1 "Inter", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0;
   }
-  .photo-sel__nom { left: 0; bottom: calc(100% + 7px); color: #0D99FF; }
+  .photo-sel__nom { left: 0; bottom: calc(100% + 7px); color: #0D99FF; font-size: 13px; }
   .photo-sel__taille {
     left: 50%; top: calc(100% + 9px); transform: translateX(-50%);
     padding: 3px 5px; border-radius: 3px; background: #0D99FF; color: #FFFFFF;
