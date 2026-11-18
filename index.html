@@ -15567,7 +15567,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const r = document.createRange(); r.selectNodeContents(bioP);
     const l = r.getClientRects(); if (!l.length) return;
     const parent = arbo.offsetParent.getBoundingClientRect();
-    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6) + 'px');
+    // Sur la dernière ligne de la bio, puis 104 px plus bas (120 − 16).
+    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6 + 104) + 'px');
   }
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
