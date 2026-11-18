@@ -8102,6 +8102,11 @@
   .radio__liste button { color: #1C1917; }
   .radio__liste button[aria-current="true"] { font-weight: 500; }
 
+  /* Bio : au survol, des ronds dans l'eau partent du curseur et font onduler les lettres. */
+  .bio-loupe { position: fixed; z-index: 30; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+    border: 1px solid #1C1917; border-radius: 50%; pointer-events: none;
+    opacity: 0; transform: scale(0.4); transition: opacity 180ms ease, transform 220ms ease; }
+  .bio-loupe.est-visible { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
@@ -14587,6 +14592,78 @@ document.querySelectorAll('.dossier').forEach((d) => {
   face.addEventListener('pointerenter', () => d.classList.add('est-ouvert'));
   d.addEventListener('pointerleave', () => d.classList.remove('est-ouvert'));
 });
+</script>
+<script>
+/* ===== Bio dans l'eau =====
+   Au survol, des ronds dans l'eau partent du curseur et font onduler les
+   lettres, comme la mer de la photo. Un filtre SVG (feDisplacementMap)
+   déplace les pixels du texte ; le texte reste du vrai texte. */
+(function bioEau() {
+  const p = document.querySelector('.profil__bio p');
+  if (!p || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const T = 320, IMAGES = 18;          // diamètre des ronds (px), images de l'animation
+  // Cartes de déplacement : rouge = x, vert = y, 128 = immobile. Chaque image
+  // décale les vagues d'un cran : enchaînées, les ronds s'élargissent.
+  const cartes = [];
+  const c = document.createElement('canvas'); c.width = c.height = T;
+  const g = c.getContext('2d'), m = T / 2;
+  for (let k = 0; k < IMAGES; k++) {
+    const img = g.createImageData(T, T), phase = (k / IMAGES) * Math.PI * 2;
+    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
+      const vx = (x - m) / m, vy = (y - m) / m, d = Math.hypot(vx, vy), i = (y * T + x) * 4;
+      let dx = 0, dy = 0;
+      if (d < 1 && d > 0.001) {
+        const vague = Math.sin(d * Math.PI * 4.5 - phase) * Math.pow(1 - d, 1.4) * Math.min(1, d * 5);
+        dx = (vx / d) * vague; dy = (vy / d) * vague;
+      }
+      img.data[i] = 128 + dx * 127; img.data[i + 1] = 128 + dy * 127; img.data[i + 2] = 128; img.data[i + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+    cartes.push(c.toDataURL());
+  }
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+  svg.innerHTML =
+    '<filter id="bio-eau" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-80" width="4000" height="3000" color-interpolation-filters="sRGB">' +
+      '<feFlood flood-color="rgb(128,128,128)" result="neutre"/>' +
+      '<feImage result="ronds" preserveAspectRatio="none" width="' + T + '" height="' + T + '"/>' +
+      '<feComposite in="ronds" in2="neutre" operator="over" result="carte"/>' +
+      '<feDisplacementMap in="SourceGraphic" in2="carte" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
+    '</filter>';
+  document.body.append(svg);
+  const feImage = svg.querySelector('feImage');
+  const deforme = svg.querySelector('feDisplacementMap');
+  const loupe = document.createElement('div');
+  loupe.className = 'bio-loupe'; loupe.setAttribute('aria-hidden', 'true');
+  document.body.append(loupe);
+
+  let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, force = 0, voulu = 0, boucle = 0, n = 0, k = -1;
+  function image() {
+    const r = p.getBoundingClientRect();
+    pos.x += (cible.x - pos.x) * 0.15; pos.y += (cible.y - pos.y) * 0.15;   // l'eau suit avec un peu de retard
+    force += (voulu - force) * 0.08;
+    const kk = Math.floor(n++ / 3) % IMAGES;                                 // ~20 images/s pour les vagues
+    if (kk !== k) { k = kk; feImage.setAttribute('href', cartes[k]); }
+    feImage.setAttribute('x', pos.x - r.left - T / 2);
+    feImage.setAttribute('y', pos.y - r.top - T / 2);
+    deforme.setAttribute('scale', (20 * force).toFixed(1));
+    loupe.style.left = cible.x + 'px'; loupe.style.top = cible.y + 'px';
+    if (voulu === 0 && force < 0.01) { p.style.filter = ''; boucle = 0; return; }
+    boucle = requestAnimationFrame(image);
+  }
+  const lancer = () => { if (!boucle) boucle = requestAnimationFrame(image); };
+  p.addEventListener('pointerenter', (e) => {
+    cible = { x: e.clientX, y: e.clientY };
+    if (force < 0.01) pos = { ...cible };
+    p.style.filter = 'url(#bio-eau)';
+    voulu = 1; loupe.classList.add('est-visible'); lancer();
+  });
+  p.addEventListener('pointermove', (e) => { cible = { x: e.clientX, y: e.clientY }; });
+  p.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
+})();
 </script>
 </body>
 </html>
