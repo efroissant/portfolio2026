@@ -8317,40 +8317,43 @@
      agrandir, les ronds pour arrondir et le nom du cadre. */
   .photo-sel:not(.est-visible) { outline-color: transparent; }
   .photo-sel:not(.est-visible) :is(i, .photo-sel__nom) { display: none; }
-  /* ===== Tout en 40 px (grand écran) : barre du haut, note du bas, lecteur =====
-     Même corps que la bio. Le titre de la barre passe sur plusieurs lignes,
-     dans les colonnes 6 à 9, pour laisser la place à LinkedIn et Say Hi!. */
+  /* ===== Tout le texte en 24 px (grand écran) =====
+     Bio, dossiers, barre du haut, note du bas et lecteur : un seul corps. */
   @media (min-width: 1024px) {
-    .stage .menubar, .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) {
-      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important; font-weight: 400 !important;
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio {
+      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
     }
-    /* La barre grandit pour ces 46 px de ligne : tout est calé en haut, à 7 px du bord. */
-    .stage > .menubar { height: 60px !important; align-items: flex-start !important; padding-top: 7px !important; padding-bottom: 0 !important; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
+      font-size: 24px; line-height: 30px; letter-spacing: -0.4px;
+    }
+    .arbo .arbo__fichiers { font-size: 1em; padding-left: 1.4em !important; }
+    .arbo .arbo__dossier-btn, .arbo .arbo__fichier { padding: 3px 8px; }
+    .stage .menubar, .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) {
+      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important; font-weight: 400 !important;
+    }
+    .stage > .menubar { height: 44px !important; align-items: flex-start !important; padding-top: 7px !important; padding-bottom: 0 !important; }
     .stage > .menubar :is(.menubar__leading, .menubar__trailing, .menubar__items) { align-items: flex-start !important; height: auto !important; }
     .stage .menubar .menubar__titre {
-      top: 11px !important; transform: none !important; white-space: normal !important;
-      width: calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px);
-      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+      top: 7px !important; transform: none !important;
+      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
-      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
     }
     /* La note de musique et son onde. */
-    .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { width: 56px; height: 56px; right: calc(var(--g-marge, 24px) - 8px); bottom: 2px; }
-    .radio-bouton svg { width: 40px !important; height: 40px !important; stroke-width: 1 !important; }
-    .radio-bouton::after { font-size: 20px; line-height: 24px; padding: 6px 12px; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { width: 40px; height: 40px; right: calc(var(--g-marge, 24px) - 8px); bottom: 2px; }
+    .radio-bouton svg { width: 24px !important; height: 24px !important; }
+    .radio-bouton::after { font-size: 16px; line-height: 20px; }
     /* Le lecteur ouvert. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
-      width: 640px; bottom: 72px; padding: 18px 22px;
-      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+      width: 420px; bottom: 54px; padding: 14px 18px;
+      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
     }
-    .radio .radio__btn { width: 48px; height: 48px; }
-    .radio .radio__btn svg { width: 30px; height: 30px; stroke-width: 1; }
+    .radio .radio__btn { width: 32px; height: 32px; }
+    .radio .radio__btn svg { width: 20px; height: 20px; }
     .radio .radio__titre { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
-    .radio .radio__temps { font-size: 0.6em; }
-    .radio .radio__jauge { height: 21px; margin: 10px 0 12px; }
-    .radio .radio__jauge::before, .radio .radio__rempli { top: 10px; }
-    .radio .radio__liste button { padding: 8px 0; gap: 18px; }
+    .radio .radio__temps { font-size: 0.7em; }
+    .radio .radio__liste button { padding: 6px 0; gap: 14px; }
   }
 </style>
 </head>
