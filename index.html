@@ -7687,7 +7687,7 @@
     border-radius: 50%; background: #FFFFFF; border: 1px solid #0D99FF;
     pointer-events: auto; z-index: 1; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M3 2 L3 17 L7 13 L10 19 L12.5 18 L9.6 12 L15 12 Z' fill='black' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M17 27 V22 A5 5 0 0 1 22 17 H27' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M17 27 V22 A5 5 0 0 1 22 17 H27' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 3 2, pointer;
   }
-  .photo-sel:is(.est-survole, .est-visible) u { display: block; }
+  .photo-sel.est-visible u { display: block; }   /* seulement une fois la photo sélectionnée */
   .photo-sel u[data-rayon="hg"] { left: var(--ins, 14px); top: var(--ins, 14px); translate: -50% -50%; }
   .photo-sel u[data-rayon="hd"] { right: var(--ins, 14px); top: var(--ins, 14px); translate: 50% -50%; }
   .photo-sel u[data-rayon="bg"] { left: var(--ins, 14px); bottom: var(--ins, 14px); translate: -50% 50%; }
@@ -7698,7 +7698,7 @@
     padding: 3px 6px; border-radius: 3px; background: #0D99FF; color: #FFFFFF;
     font: 500 12px/1 "Inter", "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums;
   }
-  .photo-sel:is(.est-survole, .est-visible) .photo-sel__rayon { display: block; }
+  .photo-sel.est-visible .photo-sel__rayon { display: block; }
 
   /* Titre au centre de la barre (grand écran), non cliquable. Le lecteur
      reprend sa place avant « Say hi » pour lui laisser le centre. */
