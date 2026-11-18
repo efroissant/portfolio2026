@@ -14684,7 +14684,183 @@ document.querySelectorAll('.dossier').forEach((d) => {
     el.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
   }
   eau(p, 'bio-eau', 34);
-  eau(document.querySelector('.profil__image'), 'photo-eau', 46);
+  // La photo : une vraie simulation d'eau en WebGL ; sinon, les ronds SVG.
+  const photo = document.querySelector('.profil__image');
+  if (!eauWebGL(photo)) eau(photo, 'photo-eau', 46);
+
+  /* ===== Photo dans l'eau (WebGL2) =====
+     Une toile se pose exactement sur la photo pendant l'effet. Sur la carte
+     graphique, une surface d'eau (équation des ondes) reçoit des gouttes là
+     où passe la souris : les ondes s'étendent, se croisent, rebondissent et
+     s'amortissent. L'image est vue à travers (réfraction), avec un reflet de
+     lumière sur les crêtes. Renvoie false si WebGL2 n'est pas disponible. */
+  function eauWebGL(img) {
+    if (!img) return false;
+    const toile = document.createElement('canvas');
+    toile.className = 'photo-eau-gl'; toile.setAttribute('aria-hidden', 'true');
+    const gl = toile.getContext('webgl2', { premultipliedAlpha: false, antialias: false });
+    if (!gl) return false;
+    const flottant = gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float');
+    if (!flottant) return false;
+
+    const VS = '#version 300 es\nin vec2 p; out vec2 uv; void main(){ uv = p * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }';
+    // Un pas de simulation : r = hauteur actuelle, g = hauteur précédente.
+    const SIM = `#version 300 es
+      precision highp float;
+      uniform sampler2D etat; uniform vec2 px; uniform vec3 goutte; uniform float aspect;
+      in vec2 uv; out vec4 o;
+      void main() {
+        vec2 s = texture(etat, uv).rg;
+        float n = (texture(etat, uv + vec2(px.x, 0.0)).r + texture(etat, uv - vec2(px.x, 0.0)).r
+                 + texture(etat, uv + vec2(0.0, px.y)).r + texture(etat, uv - vec2(0.0, px.y)).r) * 0.5 - s.g;
+        n *= 0.984;                                   // amortissement : l'eau se calme
+        if (goutte.z != 0.0) {
+          float l = length((uv - goutte.xy) * vec2(aspect, 1.0)) / 0.045;
+          if (l < 1.0) n -= goutte.z * (1.0 - l * l) * (1.0 - l * l);
+        }
+        o = vec4(n, s.r, 0.0, 1.0);
+      }`;
+    // Le rendu : la photo vue à travers l'eau, plus un reflet sur les crêtes.
+    const RENDU = `#version 300 es
+      precision highp float;
+      uniform sampler2D etat; uniform sampler2D image; uniform vec2 px;
+      in vec2 uv; out vec4 o;
+      void main() {
+        float dx = texture(etat, uv + vec2(px.x, 0.0)).r - texture(etat, uv - vec2(px.x, 0.0)).r;
+        float dy = texture(etat, uv + vec2(0.0, px.y)).r - texture(etat, uv - vec2(0.0, px.y)).r;
+        vec3 c = texture(image, clamp(uv + vec2(dx, dy) * 0.045, 0.001, 0.999)).rgb;
+        vec3 n = normalize(vec3(-dx * 5.0, -dy * 5.0, 1.0));
+        vec3 L = normalize(vec3(-0.45, 0.65, 1.0));
+        float reflet = pow(max(dot(reflect(-L, n), vec3(0.0, 0.0, 1.0)), 0.0), 48.0);
+        float base = pow(L.z, 48.0);
+        c += max(reflet - base, 0.0) * 0.55;
+        c *= 1.0 + (dx - dy) * 0.6;                   // un peu d'ombre et de lumière sur les pentes
+        o = vec4(c, 1.0);
+      }`;
+    function programme(fs) {
+      const pr = gl.createProgram();
+      [[gl.VERTEX_SHADER, VS], [gl.FRAGMENT_SHADER, fs]].forEach(([t, src]) => {
+        const sh = gl.createShader(t); gl.shaderSource(sh, src); gl.compileShader(sh); gl.attachShader(pr, sh);
+      });
+      gl.bindAttribLocation(pr, 0, 'p'); gl.linkProgram(pr);
+      return gl.getProgramParameter(pr, gl.LINK_STATUS) ? pr : null;
+    }
+    const pSim = programme(SIM), pRendu = programme(RENDU);
+    if (!pSim || !pRendu) return false;
+    const u = (pr, n) => gl.getUniformLocation(pr, n);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+    // Deux surfaces d'eau qu'on alterne (l'une se lit pendant que l'autre s'écrit).
+    let W = 0, H = 0, surfaces = [];
+    function surface() {
+      const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, W, H, 0, gl.RGBA, gl.HALF_FLOAT, null);
+      [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach((f) => gl.texParameteri(gl.TEXTURE_2D, f, gl.LINEAR));
+      [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((w) => gl.texParameteri(gl.TEXTURE_2D, w, gl.CLAMP_TO_EDGE));
+      const fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+      return { t, fb };
+    }
+    function preparerSurfaces() {
+      const w = 256, h = Math.max(32, Math.round(256 * img.offsetHeight / Math.max(1, img.offsetWidth)));
+      if (w === W && h === H) { surfaces.forEach((s) => { gl.bindFramebuffer(gl.FRAMEBUFFER, s.fb); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); }); return; }
+      W = w; H = h; surfaces = [surface(), surface()];
+      preparerSurfaces();
+    }
+    const texImage = gl.createTexture();
+    let imageChargee = '';
+    function chargerImage() {
+      const src = img.currentSrc || img.src;
+      if (src === imageChargee || !img.complete || !img.naturalWidth) return;
+      gl.bindTexture(gl.TEXTURE_2D, texImage);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((w) => gl.texParameteri(gl.TEXTURE_2D, w, gl.CLAMP_TO_EDGE));
+      imageChargee = src;
+    }
+
+    // La toile copie la place, la taille, la rotation et les coins de la photo.
+    toile.style.cssText = 'position:absolute;margin:0;pointer-events:none;display:none';
+    img.after(toile);
+    function caler() {
+      const cs = getComputedStyle(img), dpr = Math.min(2, devicePixelRatio || 1);
+      const w = img.offsetWidth, h = img.offsetHeight;
+      Object.assign(toile.style, {
+        left: img.offsetLeft + 'px', top: img.offsetTop + 'px', width: w + 'px', height: h + 'px',
+        transform: cs.transform, rotate: cs.rotate, transformOrigin: cs.transformOrigin,
+        borderRadius: cs.borderRadius, zIndex: cs.zIndex
+      });
+      const bw = Math.round(w * dpr), bh = Math.round(h * dpr);
+      if (toile.width !== bw || toile.height !== bh) { toile.width = bw; toile.height = bh; }
+    }
+    // Position de la souris dans la photo (0..1), rotation comprise ; y vers le haut.
+    function versUV(x, y) {
+      const r = img.getBoundingClientRect(), cs = getComputedStyle(img);
+      const m = new DOMMatrix(cs.transform === 'none' ? undefined : cs.transform);
+      let a = Math.atan2(m.b, m.a) + (parseFloat(cs.rotate) || 0) * Math.PI / 180;
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const dx = x - cx, dy = y - cy, co = Math.cos(-a), si = Math.sin(-a);
+      const lx = dx * co - dy * si, ly = dx * si + dy * co;
+      return [lx / img.offsetWidth + 0.5, 0.5 - ly / img.offsetHeight];
+    }
+
+    let actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0, t0 = 0;
+    function pas(goutte) {
+      const lire = surfaces[cur], ecrire = surfaces[1 - cur];
+      gl.bindFramebuffer(gl.FRAMEBUFFER, ecrire.fb); gl.viewport(0, 0, W, H);
+      gl.useProgram(pSim);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, lire.t);
+      gl.uniform1i(u(pSim, 'etat'), 0);
+      gl.uniform2f(u(pSim, 'px'), 1 / W, 1 / H);
+      gl.uniform1f(u(pSim, 'aspect'), W / H);
+      gl.uniform3f(u(pSim, 'goutte'), goutte[0], goutte[1], goutte[2]);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      cur = 1 - cur;
+    }
+    function image(t) {
+      caler(); chargerImage();
+      let goutte = [0, 0, 0];
+      if (survol && souris) {
+        const [x, y] = versUV(souris.x, souris.y);
+        const bouge = derniere ? Math.hypot(souris.x - derniere.x, souris.y - derniere.y) : 0;
+        // En bougeant, une traîne de gouttes ; immobile, une goutte de temps en temps.
+        if (bouge > 2 || t - derniereGoutte > 650) {
+          goutte = [x, y, bouge > 2 ? Math.min(0.9, 0.25 + bouge * 0.03) : 0.6];
+          derniereGoutte = t;
+        }
+        derniere = { ...souris };
+      }
+      pas(goutte); pas([0, 0, 0]);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, toile.width, toile.height);
+      gl.useProgram(pRendu);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, surfaces[cur].t);
+      gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texImage);
+      gl.uniform1i(u(pRendu, 'etat'), 0); gl.uniform1i(u(pRendu, 'image'), 1);
+      gl.uniform2f(u(pRendu, 'px'), 1 / W, 1 / H);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (survol) { loupe.style.left = souris.x + 'px'; loupe.style.top = souris.y + 'px'; }
+      // Souris partie et eau calmée : on range la toile.
+      if (!survol && t - derniereGoutte > 3000) { actif = false; boucle = 0; toile.style.display = 'none'; return; }
+      boucle = requestAnimationFrame(image);
+    }
+    img.addEventListener('pointerenter', (e) => {
+      survol = true; souris = { x: e.clientX, y: e.clientY }; derniere = null;
+      loupe.classList.add('est-visible');
+      if (!actif) {
+        actif = true; caler(); preparerSurfaces(); chargerImage();
+        toile.style.display = 'block';
+        boucle = requestAnimationFrame(image);
+      }
+    });
+    img.addEventListener('pointermove', (e) => { souris = { x: e.clientX, y: e.clientY }; });
+    img.addEventListener('pointerleave', () => { survol = false; loupe.classList.remove('est-visible'); });
+    toile.addEventListener('webglcontextlost', (e) => { e.preventDefault(); actif = false; cancelAnimationFrame(boucle); toile.style.display = 'none'; });
+    return true;
+  }
 })();
 </script>
 </body>
