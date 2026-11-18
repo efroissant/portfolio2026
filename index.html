@@ -7730,9 +7730,9 @@
     text-decoration: none !important;
     background-image: linear-gradient(currentColor, currentColor) !important;
     background-repeat: no-repeat !important;
-    background-position: 0 100% !important;
+    background-position: 0 calc(100% + 3px) !important;   /* 3 px sous le texte */
     background-size: 0% 1px !important;
-    background-origin: content-box !important; background-clip: content-box !important;
+    background-origin: content-box !important; background-clip: border-box !important;
     transition: background-size 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
   .stage .menubar :is(.barlien, .menuitem--app):is(:hover, :focus-visible),
@@ -7751,6 +7751,16 @@
       display: block; position: absolute; z-index: 20; margin: 0;
       left: var(--g-marge, 24px); bottom: 24px; pointer-events: none;
       font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
+    }
+  }
+
+  /* Lecteur : ne bouge plus quand le morceau change. Le titre a une largeur
+     fixe (texte calé à gauche, abrégé si trop long) ; le bloc est calé sur
+     la marge droite de 24 px de la grille, sur la ligne du bas (24 px). */
+  @media (min-width: 768px) {
+    .stage .recto-play .lecteur-mini__titre {
+      flex: 0 0 auto !important; width: 15ch; max-width: 15ch !important;
+      text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
   }
 
@@ -12016,7 +12026,6 @@ const dire = (function () {
      puis ajouter une ligne ici. L'ordre de la liste est l'ordre de lecture. */
   const PISTES = [
     { titre: 'Bay City', artiste: '', src: 'musique/bay-city.mp3' },
-    { titre: 'Cat’s Eye (instrumental)', artiste: 'Anri', src: 'musique/anri-cats-eye.m4a', pochette: 'pochette-funtime' },
     { titre: 'Never Gonna Say Goodbye', artiste: '', src: 'musique/never-gonna-say-goodbye.m4a' }
   ];
   const ICONES = {
