@@ -8123,6 +8123,57 @@
     .stage #mail { width: min(680px, calc(100vw - 48px)); max-height: min(720px, 92vh); }
     .stage #mail .mail__body { min-height: 340px; padding: 20px 32px; font-size: 16px; line-height: 1.5; }
   }
+  /* ===== Use Case : les vignettes deviennent des cartes en éventail =====
+     Rangées, ce sont de petites photos dans le dossier. Au survol, elles
+     sortent trois fois plus grandes, en éventail : une carte blanche au trait
+     fin (comme le lecteur), l'image avec « Voir projet », puis le titre et
+     les étiquettes. Le dossier est à 64 % : les tailles ici sont donc
+     divisées par 0,64 (14 px à l'écran = 22 px ici). */
+  .dossier--cartes.est-ouvert, .dossier--cartes:focus-within { z-index: 40; }
+  .dossier--cartes .dossier__carte {
+    --h: var(--t, 100px);
+    height: auto; overflow: visible; padding: 4px; box-sizing: border-box;
+    background: #FFFFFF !important; border: 1.6px solid rgba(28,25,23,0.2); border-radius: 9px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    display: flex; flex-direction: column; align-items: center; color: #1C1917;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), width 360ms cubic-bezier(0.22, 1, 0.36, 1), padding 360ms ease;
+  }
+  .dossier--cartes .dossier__carte::before { content: none; }
+  .dossier--cartes .dossier__carte span { position: static; left: auto; right: auto; top: auto; text-shadow: none; }
+  .dossier--cartes .carte__image {
+    position: relative !important; display: block; width: 100%; height: calc(var(--h) - 8px);
+    border-radius: 6px; background: var(--img, none) center / cover no-repeat, var(--c, #ddd);
+    transition: height 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .dossier--cartes .dossier__carte--1 .carte__image { --c: #D33F3F; }
+  .dossier--cartes .dossier__carte--2 .carte__image { --c: #1E4D8C; }
+  .dossier--cartes .dossier__carte--3 .carte__image { --c: #0F6E6E; }
+  .dossier--cartes .carte__cta {
+    position: absolute !important; left: 25px !important; top: 25px !important;
+    padding: 11px 22px; border: 1.6px solid #1C1917; border-radius: 9px; background: #FFFFFF;
+    font: 400 22px/1.2 "Geist", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+    opacity: 0; transition: opacity 200ms ease;
+  }
+  .dossier--cartes .dossier__carte:hover .carte__cta,
+  .dossier--cartes .dossier__carte:focus-visible .carte__cta { background: #1C1917; color: #FFFFFF; }
+  .dossier--cartes .carte__titre {
+    display: none; margin: 22px 0 0; text-align: center;
+    font: 500 28px/1.25 "Geist", Arial, sans-serif; color: #1C1917; letter-spacing: -0.015em;
+  }
+  .dossier--cartes .carte__tags { display: none; gap: 10px; margin: 14px 0 10px; flex-wrap: wrap; justify-content: center; }
+  .dossier--cartes .carte__tags i {
+    font: normal 400 20px/1 "Geist", Arial, sans-serif; color: #57534E;
+    padding: 7px 16px; border: 1.6px solid rgba(28,25,23,0.3); border-radius: 999px;
+  }
+  /* Ouvert : 690 × ~630 ici, soit environ 440 px de large à l'écran. */
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte { --t: 690px; --h: 500px; padding: 16px; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .carte__cta { opacity: 1; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .carte__titre { display: block; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .carte__tags { display: flex; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--1 { --x: -6px;   --y: -640px; --r: -4deg; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--2 { --x: 500px;  --y: -662px; --r: 0deg; }
+  .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--3 { --x: 1006px; --y: -640px; --r: 4deg; }
+  .dossier--cartes .dossier__carte:hover { --lift: -18px; z-index: 3; }
 </style>
 </head>
 <body>
@@ -8291,12 +8342,26 @@
     </div>
   </aside>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
-  <div class="dossier" id="dossier" role="group" aria-label="Dossier Use Case">
+  <div class="dossier dossier--cartes" id="dossier" role="group" aria-label="Dossier Use Case">
     <div class="dossier__fond"></div>
-    <!-- Les cartes : href et data-etude = le projet ouvert (#case/<id>). -->
-    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span></a>
-    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq" style="background-image:url('gvq-agenda-920.jpg')"><span>Groupe Voyage Québec</span></a>
-    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span></a>
+    <!-- Les cartes : href et data-etude = le projet ouvert (#case/<id>).
+         Image : style="--img:url('…')" sur .carte__image (et background-image
+         sur le lien pour la version mobile). Tags : un <i> par étiquette. -->
+    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw">
+      <span class="carte__image"><span class="carte__cta">Voir projet</span></span>
+      <span class="carte__titre">Pharmaprix</span>
+      <span class="carte__tags"><i>SaaS</i><i>Pharmacie</i><i>2023</i></span>
+    </a>
+    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq" style="background-image:url('gvq-agenda-920.jpg')">
+      <span class="carte__image" style="--img:url('gvq-agenda-920.jpg')"><span class="carte__cta">Voir projet</span></span>
+      <span class="carte__titre">Groupe Voyage Québec</span>
+      <span class="carte__tags"><i>Outil de gestion</i><i>Voyage</i><i>2024</i></span>
+    </a>
+    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche">
+      <span class="carte__image"><span class="carte__cta">Voir projet</span></span>
+      <span class="carte__titre">Roche Diabetes Care</span>
+      <span class="carte__tags"><i>Site web</i><i>Santé</i><i>2022</i></span>
+    </a>
     <div class="dossier__ombre"></div>
     <div class="dossier__face"><p class="dossier__titre">Use Case</p></div>
   </div>
