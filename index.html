@@ -8026,6 +8026,11 @@
       width: calc((100vw - 48px - 11 * 24px) / 12 * 6 + 5 * 24px) !important;
     }
   }
+  /* Très grand écran (iMac, à partir de 1800 px) : la bio descend de 60 px.
+     La photo et les dossiers, posés par rapport à elle, suivent. */
+  @media (min-width: 1800px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { top: calc(var(--bar-h) + 120px); }
+  }
 
   /* ===== Lecteur minimaliste : traits fins, titres, jauge ===== */
   .radio { display: none; }
