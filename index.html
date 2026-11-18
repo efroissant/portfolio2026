@@ -8287,11 +8287,18 @@
       top: var(--liste-haut, calc(var(--bar-h) + 200px));
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
       scrollbar-width: none; overscroll-behavior: contain;
-      font: 400 clamp(18px, 1.8vw, 34px)/1.15 "Geist", "Helvetica Neue", Arial, sans-serif;
-      color: #1C1917; letter-spacing: -0.02em;
+      /* 40 px, comme la bio. */
+      font: 400 40px/46px "Geist", "Helvetica Neue", Arial, sans-serif;
+      color: #1C1917; letter-spacing: -1px;
     }
   }
   .arbo::-webkit-scrollbar { display: none; }
+  /* Les deux versions côte à côte : la bleue en colonne 6, celle au trait en colonne 9. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { right: auto; width: calc((100vw - 48px - 11 * 24px) / 12 * 3 + 2 * 24px + 20px); }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo--trait { left: calc(var(--col-6) + (100vw - 48px - 11 * 24px) / 12 * 3 + 3 * 24px - 10px); }
+  }
+  .arbo__dossier-btn span, .arbo__fichier span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .arbo ul { list-style: none; margin: 0; padding: 0; }
   .arbo__dossier-btn, .arbo__fichier {
     display: flex; align-items: center; gap: 0.5em; width: fit-content; max-width: 100%;
@@ -8307,7 +8314,7 @@
   .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ouvert { display: block; }
   .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ferme { display: none; }
   /* Les feuilles : en retrait, un peu plus petites. */
-  .arbo__fichiers { padding-left: 1.45em !important; font-size: 0.78em; }
+  .arbo__fichiers { padding-left: 1.2em !important; font-size: 0.65em; }
   .arbo__fichiers[hidden] { display: none; }
   .arbo__fictif { color: #8F8F8C; }
 </style>
@@ -8529,8 +8536,8 @@
     <div class="dossier__face"><p class="dossier__titre">Perso</p></div>
   </div>
   <!-- Cadres libres : data-x, data-y, data-w = position et largeur de départ (px). -->
-  <!-- Frame 36 : à droite des dossiers. -->
-  <img class="cadre-libre" id="frame-36" data-nom="Frame 36" data-x="1010" data-y="300" data-w="360"
+  <!-- Frame 36 : à gauche, sous Frame 35. -->
+  <img class="cadre-libre" id="frame-36" data-nom="Frame 36" data-x="190" data-y="560" data-w="320"
        src="fond-hawaii-petit.jpg" srcset="fond-hawaii-petit.jpg 900w, fond-hawaii-grand.jpg 1672w" sizes="40vw"
        alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
   <!-- Les projets en accordéon (grand écran), à droite de la bio, à partir
@@ -8543,6 +8550,8 @@
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
+  <!-- Essai : la même colonne, sans couleur (icônes au trait), à côté. -->
+  <nav class="arbo arbo--trait" aria-label="Projets (version au trait)"><ul class="arbo__dossiers"></ul></nav>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
     <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
@@ -15390,8 +15399,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     { nom: 'Perso', projets: [
       { nom: 'Les Jardins Ouellet', lien: '#case/a-venir', couleur: '#6E8B2F', fictif: true } ] }
   ];
-  const arbo = document.querySelector('.arbo');
-  const racine = arbo && arbo.querySelector('.arbo__dossiers');
+  const TRAIT = {
+    ferme: '<svg class="arbo__icone-ferme" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6a1.5 1.5 0 0 1 1.2.6L11.7 7.5h7.8A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>',
+    ouvert: '<svg class="arbo__icone-ouvert" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18.5V6.5A1.5 1.5 0 0 1 4.5 5h4.6a1.5 1.5 0 0 1 1.2.6L11.7 7.5h6.3A1.5 1.5 0 0 1 19.5 9v1.5"/><path d="M3 18.5l2.6-7a1.5 1.5 0 0 1 1.4-1h14a.9.9 0 0 1 .85 1.2l-2.4 6.8a1.5 1.5 0 0 1-1.4 1H4.5A1.5 1.5 0 0 1 3 18.5z"/></svg>'
+  };
+  document.querySelectorAll('.arbo').forEach((arbo, numero) => {
+  const racine = arbo.querySelector('.arbo__dossiers');
   if (!racine) return;
   const ICONES = {
     // Dossiers bleus, façon macOS : le dos (avec l'onglet) plus foncé, la face plus claire.
@@ -15399,6 +15412,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     ouvert: '<svg class="arbo__icone-ouvert arbo__bleu" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4FA3E3" d="M2.5 6.2A1.7 1.7 0 0 1 4.2 4.5h4.9a1.7 1.7 0 0 1 1.3.6L11.8 7h6.4a1.7 1.7 0 0 1 1.7 1.7V10H6.6a1.8 1.8 0 0 0-1.7 1.2L2.5 18.3z"/><path fill="#8FCDFA" d="M4.9 11.2A1.8 1.8 0 0 1 6.6 10h14.6a1 1 0 0 1 .95 1.3l-2.3 7.5a1.7 1.7 0 0 1-1.6 1.2H3.6a1 1 0 0 1-.95-1.3z"/></svg>',
     fichier: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8.5z"/><path d="M13.5 3.5v5h5"/></svg>'
   };
+  // Version sans couleur : les mêmes dossiers, au trait.
+  if (arbo.classList.contains('arbo--trait')) Object.assign(ICONES, TRAIT);
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
   const texte = (t) => { const s = document.createElement('span'); s.textContent = t; return s; };
@@ -15407,10 +15422,10 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const li = document.createElement('li');
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'arbo__dossier-btn';
-    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'arbo-' + i);
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'arbo-' + numero + '-' + i);
     btn.innerHTML = ICONES.ferme + ICONES.ouvert; btn.append(texte(d.nom));
     const ul = document.createElement('ul');
-    ul.className = 'arbo__fichiers'; ul.id = 'arbo-' + i; ul.hidden = true;
+    ul.className = 'arbo__fichiers'; ul.id = 'arbo-' + numero + '-' + i; ul.hidden = true;
     d.projets.forEach((p) => {
       const f = document.createElement('li');
       const a = document.createElement('a');
@@ -15483,6 +15498,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
+  });
 })();
 </script>
 </body>
