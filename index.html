@@ -14365,8 +14365,11 @@ window.ajouterRayon = function (img, sel, cle) {
     const p = photo.offsetParent ? photo.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
     const r = place.getBoundingClientRect();
     photo.style.width = (pos.w || Math.round(place.offsetWidth)) + 'px';
-    photo.style.left = Math.round(r.left - p.left + pos.dx) + 'px';
-    photo.style.top = Math.round(r.top - p.top + pos.dy) + 'px';
+    // Toujours dans l'écran, comme les dossiers (position enregistrée intacte).
+    const pw = p.width || innerWidth, ph = p.height || innerHeight;
+    const x = r.left - p.left + pos.dx, y = r.top - p.top + pos.dy;
+    photo.style.left = Math.round(Math.max(8, Math.min(x, pw - photo.offsetWidth - 8))) + 'px';
+    photo.style.top = Math.round(Math.max(40, Math.min(y, ph - photo.offsetHeight - 48))) + 'px';
     apres();
   }
   placer();
@@ -14466,8 +14469,13 @@ document.querySelectorAll('.dossier').forEach(function dossier(d) {
   function placer() {
     if (!d.offsetParent) return;
     const r = photo.getBoundingClientRect(), s = stage.getBoundingClientRect();
-    d.style.left = Math.round(r.right - s.left + pos.dx) + 'px';
-    d.style.top = Math.round(r.bottom - s.top + pos.dy) + 'px';
+    // Toujours dans l'écran : posé sur un grand moniteur puis ouvert sur un
+    // portable, un dossier peut tomber dehors. On le ramène à l'affichage,
+    // sans toucher à sa position enregistrée (il reviendra sur le moniteur).
+    const w = d.offsetWidth * 0.75, h = d.offsetHeight * 0.75;   // dossier à 75 %
+    const x = r.right - s.left + pos.dx, y = r.bottom - s.top + pos.dy;
+    d.style.left = Math.round(Math.max(8, Math.min(x, s.width - w - 8))) + 'px';
+    d.style.top = Math.round(Math.max(40, Math.min(y, s.height - h - 48))) + 'px';
   }
   placer();
   addEventListener('resize', placer);
