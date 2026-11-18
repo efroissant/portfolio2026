@@ -7991,12 +7991,37 @@
   @media (min-width: 768px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       display: block; position: absolute; z-index: 20;
-      right: var(--g-marge, 24px); bottom: 7px; width: 300px;
+      right: var(--g-marge, 24px); bottom: 54px; width: 300px;
       font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+      /* Replié par défaut : la note en bas à droite l'ouvre. */
+      padding: 12px 14px; background: #FFFFFF; border: 1px solid rgba(28,25,23,0.2); border-radius: 6px;
+      opacity: 0; visibility: hidden; transform: translateY(6px);
+      transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
     }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio.est-ouvert {
+      opacity: 1; visibility: visible; transform: none;
+      transition: opacity 180ms ease, transform 180ms ease, visibility 0s;
+    }
+    /* La note de musique (même dessin que sur mobile) ; une ondulation pendant la lecture. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { display: grid; }
     /* L'ancien mini-lecteur laisse la place. */
     .stage .recto-play.recto-play { display: none !important; }
   }
+  .radio-bouton {
+    display: none; place-items: center; position: absolute; z-index: 20;
+    right: calc(var(--g-marge, 24px) - 6px); bottom: 3px; width: 40px; height: 40px; padding: 0;
+    border: 0; background: none; cursor: pointer; border-radius: 6px;
+  }
+  .radio-bouton:hover { background: rgba(0,0,0,0.05); }
+  .radio-bouton:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
+  .radio-bouton svg { display: block; width: 22px; height: 22px; fill: none; stroke: #1C1917; stroke-width: 1.2; stroke-linejoin: round; stroke-linecap: round; }
+  .radio-bouton[aria-expanded="true"] { background: rgba(0,0,0,0.06); }
+  .radio-bouton__onde { display: none !important; overflow: hidden; }
+  .radio-bouton__onde path { animation: onde-bureau 1s linear infinite; }
+  @keyframes onde-bureau { to { transform: translateX(-8px); } }
+  .radio-bouton.joue .radio-bouton__note { display: none; }
+  .radio-bouton.joue .radio-bouton__onde { display: block !important; }
+  @media (prefers-reduced-motion: reduce) { .radio-bouton__onde path { animation: none; } }
   .radio__haut { display: flex; align-items: center; gap: 2px; }
   .radio__btn {
     display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
@@ -8161,6 +8186,10 @@
        alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
   -->
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
+  <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
+    <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
+    <svg class="radio-bouton__onde" viewBox="0 0 24 24" aria-hidden="true"><path d="M-8 12 q2 -5 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0"/></svg>
+  </button>
   <div class="radio" id="radio" role="group" aria-label="Lecteur de musique">
     <div class="radio__haut">
       <button type="button" class="radio__btn" data-r="prec" aria-label="Morceau précédent">
@@ -12588,32 +12617,41 @@ const dire = (function () {
       if (e.key === 'ArrowLeft') { audio.currentTime -= 5; e.preventDefault(); }
     });
     maj(); temps_();
-    // Téléphone : la note de la barre ouvre et ferme le lecteur, et bat
-    // tant que la musique joue.
+    // La note ouvre et ferme le lecteur : dans la barre sur téléphone, en bas
+    // à droite sur grand écran. Un clic ailleurs le referme ; en lecture,
+    // la note devient une onde.
+    const notes = ['note-mobile', 'radio-bouton'].map((id) => document.getElementById(id)).filter(Boolean);
     const note = document.getElementById('note-mobile');
-    if (note) {
+    if (notes.length) {
       const basculer = (ouvert) => {
         r.classList.toggle('est-ouvert', ouvert);
-        note.setAttribute('aria-expanded', String(ouvert));
+        notes.forEach((n) => n.setAttribute('aria-expanded', String(ouvert)));
       };
-      note.addEventListener('click', (e) => {
+      notes.forEach((n) => n.addEventListener('click', (e) => {
         e.stopPropagation();
         basculer(!r.classList.contains('est-ouvert'));
-      });
+      }));
       document.addEventListener('click', (e) => {
-        if (r.classList.contains('est-ouvert') && !r.contains(e.target)) basculer(false);
+        if (r.classList.contains('est-ouvert') && !r.contains(e.target) && !notes.some((n) => n.contains(e.target))) basculer(false);
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && r.classList.contains('est-ouvert')) { basculer(false); note.focus(); }
+        if (e.key !== 'Escape' || !r.classList.contains('est-ouvert')) return;
+        basculer(false);
+        const visible = notes.find((n) => getComputedStyle(n).display !== 'none');
+        if (visible) visible.focus();
       });
-      ['play', 'pause', 'ended'].forEach((ev) => audio.addEventListener(ev, () => {
+      const etat = () => {
         const joue = !audio.paused;
-        note.classList.toggle('joue', joue);
-        note.setAttribute('aria-label', joue ? 'Musique en cours — ouvrir le lecteur' : 'Musique');
-      }));
-      // La musique démarre : le lecteur se range, l'onde dans la barre suffit.
+        notes.forEach((n) => {
+          n.classList.toggle('joue', joue);
+          n.setAttribute('aria-label', joue ? 'Musique en cours — ouvrir le lecteur' : 'Musique');
+        });
+      };
+      ['play', 'pause', 'ended'].forEach((ev) => audio.addEventListener(ev, etat));
+      etat();
+      // Téléphone : la musique démarre, le lecteur se range, l'onde dans la barre suffit.
       audio.addEventListener('play', () => {
-        if (r.classList.contains('est-ouvert') && getComputedStyle(note).display !== 'none') basculer(false);
+        if (note && r.classList.contains('est-ouvert') && getComputedStyle(note).display !== 'none') basculer(false);
       });
     }
   })();
