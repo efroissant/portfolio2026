@@ -7338,7 +7338,7 @@
      Les deux coins du bas, sur la ligne du bas de la pochette. Le lecteur
      perd le titre du morceau (les boutons suffisent). */
   .lien-bas { display: none; }
-  .stage .menubar .barlien[href*="linkedin"] { display: none; }
+
   /* Le titre du morceau, à droite des boutons, dans le style de la barre. */
   .stage .recto-play .lecteur-mini__titre { display: inline-block; }
   .stage .menubar .recto-play.dans-barre { max-width: none; }
@@ -7712,6 +7712,17 @@
     .stage .menubar .recto-play.dans-barre.dans-barre {
       position: static !important; inset: auto !important; transform: none !important; margin: 0 6px 0 0;
     }
+  }
+
+  /* Bas de page : le lecteur en bas à droite (LinkedIn est monté dans la barre). */
+  .stage .lien-bas { display: none !important; }
+  @media (min-width: 768px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play.recto-play {
+      left: auto !important; top: auto !important; transform: none !important;
+      right: var(--g-marge, 24px) !important; bottom: 24px !important; z-index: 20;
+    }
+    .stage .recto-play.lecteur-mini { max-width: none !important; }
+    .stage .recto-play .lecteur-mini__titre { flex: 0 0 auto; max-width: 30ch; margin-left: 8px; }
   }
 
 </style>
@@ -8456,11 +8467,9 @@
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
              Tracés pleins (evenodd) plutôt que masques : un masque ne se
              dessine pas tant que la barre est masquée. -->
-        <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>Say hi</a>
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
-           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" title="LinkedIn">
-          LKD
-        </a>
+           aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)">LinkedIn</a>
+        <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>Say hi</a>
 
                         <div class="menubar__clock" data-node-id="118:205">
           <span id="bar-date" data-node-id="118:206">Mer 9 Sep</span>
@@ -12107,7 +12116,8 @@ const dire = (function () {
     const sayHi = document.querySelector('.menubar__trailing .barlien[data-ecrire]');
     const large = window.matchMedia('(min-width: 768px)');
     const placerLecteur = () => {
-      if (large.matches && sayHi) { sayHi.before(rectoPlay); rectoPlay.classList.add('dans-barre'); }
+      // Le lecteur reste hors de la barre : en bas à droite (voir le CSS).
+      if (false && large.matches && sayHi) { sayHi.before(rectoPlay); rectoPlay.classList.add('dans-barre'); }
       else { placeOrigine.after(rectoPlay); rectoPlay.classList.remove('dans-barre'); }
     };
     placerLecteur();
