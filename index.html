@@ -7612,6 +7612,33 @@
   .stage :is(.bio-modal, .projets-modal, .doc__win, .mail),
   :is(.bio-modal, .projets-modal) { background-color: #FFFFFF !important; }
 
+  /* ===== NAV EN PILULES : MANU puis les disciplines ===== */
+  .pilules { display: flex; align-items: center; gap: 8px; }
+  .stage .menubar .menuitem--app,
+  .stage .menubar .pilule {
+    display: inline-flex !important; align-items: center; height: 30px; padding: 0 16px !important;
+    border-radius: 999px; background: #EFEEEA !important; color: #1C1917 !important;
+    font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 14px !important; font-weight: 500 !important; letter-spacing: -0.01em !important;
+    text-transform: none; text-decoration: none !important; white-space: nowrap;
+    transition: background-color 160ms ease;
+  }
+  .stage .menubar .menuitem--app .barre-logo {
+    font-family: inherit !important; font-size: inherit !important; letter-spacing: inherit !important;
+  }
+  .stage .menubar .menuitem--app:hover, .stage .menubar .pilule:hover { background: #E3E1DB !important; }
+  .stage .menubar .pilule:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
+  .stage .menubar .menubar__leading { gap: 8px; }
+  @media (max-width: 1023px) { .pilules { display: none; } }
+  @media (min-width: 1024px) {
+    /* La pilule MANU, et non plus son texte, s'aligne sur la marge de 24 px. */
+    .stage > .menubar { padding-left: calc(var(--g-marge) - var(--bar-inner-pad)); }
+    /* Le lecteur, au centre de la barre (la pochette est masquée pour l'instant). */
+    .stage .menubar .recto-play.dans-barre.dans-barre {
+      inset: 0 auto 0 50% !important; transform: translateX(-50%) !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -8290,6 +8317,14 @@
 
         <!-- Le nom ramène toujours au recto. -->
         <button type="button" class="menuitem menuitem--app" data-node-id="118:187" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">MANU</span></button>
+        <!-- Les disciplines, en pilules. Les liens (#ux…) sont à brancher. -->
+        <nav class="pilules" aria-label="Disciplines">
+          <a class="pilule" href="#ux">UX</a>
+          <a class="pilule" href="#ui">UI</a>
+          <a class="pilule" href="#illustration">Illustration</a>
+          <a class="pilule" href="#redaction-web">Rédaction web</a>
+          <a class="pilule" href="#animation">Animation</a>
+        </nav>
 
         <div class="menubar__items" data-node-id="118:188">
           <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
