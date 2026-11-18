@@ -8246,6 +8246,8 @@
      On essaie la liste de projets en accordéon à la place. Pour les
      remettre, supprimer ce bloc. */
   .stage .dossier { display: none !important; }
+  /* Bio : la fin de la phrase en gris. */
+  .bio-gris { color: #8F8F8C; }
 </style>
 </head>
 <body>
@@ -8409,7 +8411,7 @@
        (grand écran). Remplace l'obi de la pochette. -->
   <aside class="profil" aria-label="À propos">
     <div class="profil__bio">
-      <p>Emmanuel travaille à Montréal. Il étudie la psycho, a un faible pour les années 80 et aime les gens qui disent tout haut «&nbsp;je sais pas où cliquer&nbsp;».</p>
+      <p>Emmanuel travaille à Montréal. Il étudie la psycho, a un faible pour les années 80 et aime les gens <span class="bio-gris">qui disent tout haut «&nbsp;je sais pas où cliquer&nbsp;»</span>.</p>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
     </div>
   </aside>
@@ -8633,7 +8635,7 @@
   <section class="face-a-mobile" id="face-a-mobile" aria-label="L’intérieur de la pochette">
     <!-- Téléphone et tablette : la bio, ma photo, puis les trois projets en
          direct (les dossiers du grand écran n'existent pas ici). -->
-    <p class="mob-bio">Emmanuel travaille à Montréal. Il étudie la psycho, a un faible pour les années 80 et aime les gens qui disent tout haut «&nbsp;je sais pas où cliquer&nbsp;».</p>
+    <p class="mob-bio">Emmanuel travaille à Montréal. Il étudie la psycho, a un faible pour les années 80 et aime les gens <span class="bio-gris">qui disent tout haut «&nbsp;je sais pas où cliquer&nbsp;»</span>.</p>
     <div class="face-a-mobile__photo" role="img" aria-label="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage"></div>
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
          le script à partir des .dossier : une seule source. Un toucher
