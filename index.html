@@ -7664,6 +7664,16 @@
   .photo-sel--libre { z-index: 6; }
   .stage.gatefold :is(.cadre-libre, .photo-sel--libre) { filter: blur(8px); pointer-events: none; }
 
+  /* Rotation, comme dans Figma : juste au-delà de chaque coin (après la
+     poignée d'agrandissement), le curseur devient une flèche arrondie et
+     on tire pour faire tourner la photo. Maj : par pas de 15°. */
+  .photo-sel b[data-rot] { position: absolute; width: 20px; height: 20px; pointer-events: auto; }
+  .photo-sel i { z-index: 1; }   /* la poignée d'agrandissement passe devant */
+  .photo-sel b[data-rot="hg"] { left: -28px; top: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%280 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
+  .photo-sel b[data-rot="hd"] { right: -28px; top: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%2890 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
+  .photo-sel b[data-rot="bd"] { right: -28px; bottom: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%28180 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
+  .photo-sel b[data-rot="bg"] { left: -28px; bottom: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%28270 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
+
 </style>
 </head>
 <body>
@@ -13460,6 +13470,42 @@ const dire = (function () {
   })();
 </script>
 <script>
+/* Rotation d'une photo par ses coins (partagée par Frame 35 et les cadres libres). */
+window.ajouterRotation = function (img, sel, cle) {
+  let r = 0;
+  try { r = +localStorage.getItem(cle) || 0; } catch (e) {}
+  const appliquer = () => { img.style.rotate = r + 'deg'; sel.style.rotate = r + 'deg'; };
+  appliquer();
+  ['hg', 'hd', 'bg', 'bd'].forEach((c) => { const b = document.createElement('b'); b.dataset.rot = c; sel.append(b); });
+  let tir = null;
+  sel.querySelectorAll('b[data-rot]').forEach((b) => b.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault(); e.stopPropagation();
+    sel.classList.add('est-visible');
+    const q = img.getBoundingClientRect();
+    const cx = q.left + q.width / 2, cy = q.top + q.height / 2;
+    tir = { cx, cy, a0: Math.atan2(e.clientY - cy, e.clientX - cx), r0: r };
+    document.body.style.cursor = getComputedStyle(b).cursor;
+  }));
+  addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    let a = tir.r0 + (Math.atan2(e.clientY - tir.cy, e.clientX - tir.cx) - tir.a0) * 180 / Math.PI;
+    if (e.shiftKey) a = Math.round(a / 15) * 15;
+    r = Math.round(a * 10) / 10;
+    appliquer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    tir = null; document.body.style.cursor = '';
+    try { localStorage.setItem(cle, r); } catch (e) {}
+    console.log('[rotation] ' + cle + ' :', r);
+  };
+  addEventListener('pointerup', lacher);
+  addEventListener('pointercancel', lacher);
+  img.addEventListener('dblclick', () => { r = 0; appliquer(); try { localStorage.removeItem(cle); } catch (e) {} });
+};
+</script>
+<script>
 /* Ma photo : déplaçable, à partir de sa place dans la bio. */
 (function photoDeplacable() {
   const profil = document.querySelector('.profil');
@@ -13499,6 +13545,7 @@ const dire = (function () {
   sel.innerHTML = '<span class="photo-sel__nom">Frame 35</span><i data-coin="hg"></i><i data-coin="hd"></i><i data-coin="bg"></i><i data-coin="bd"></i><span class="photo-sel__taille"></span>';
   const taille = sel.querySelector('.photo-sel__taille');
   profil.append(sel);
+  if (window.ajouterRotation) window.ajouterRotation(photo, sel, CLE + ':r');
   function cadre() {
     sel.style.left = photo.style.left; sel.style.top = photo.style.top;
     sel.style.width = photo.offsetWidth + 'px'; sel.style.height = photo.offsetHeight + 'px';
@@ -13648,6 +13695,7 @@ document.querySelectorAll('.cadre-libre').forEach(function cadreLibre(img) {
   sel.querySelector('.photo-sel__nom').textContent = img.dataset.nom || '';
   const taille = sel.querySelector('.photo-sel__taille');
   img.after(sel);
+  if (window.ajouterRotation) window.ajouterRotation(img, sel, CLE + ':r');
   function placer() {
     img.style.left = Math.round(pos.x) + 'px'; img.style.top = Math.round(pos.y) + 'px';
     img.style.width = Math.round(pos.w) + 'px';
