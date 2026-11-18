@@ -7960,7 +7960,8 @@
   .menubar__titre { display: none; }
   @media (min-width: 1024px) {
     .stage .menubar .menubar__titre {
-      display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      /* Calé sur la colonne 6 de la grille, comme la liste des projets en dessous. */
+      display: block; position: absolute; left: var(--col-6); top: 50%; transform: translateY(-50%);
       margin: 0; white-space: nowrap; pointer-events: none; user-select: none;
       font: 400 18px/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: inherit;
     }
@@ -8185,7 +8186,7 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .projets-liste {
       display: block; position: absolute; z-index: 30;
-      left: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 6 + 6 * 24px); right: 24px;
+      left: var(--col-6); right: 24px;
       top: var(--liste-haut, calc(var(--bar-h) + 200px));
       /* Jamais sous le bas de l'écran : au-delà, la liste défile seule. */
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
@@ -8248,6 +8249,8 @@
   .stage .dossier { display: none !important; }
   /* Bio : la fin de la phrase en gris. */
   .bio-gris { color: #8F8F8C; }
+  /* Début de la colonne 6 de la grille (12 colonnes, marges et gouttières de 24 px). */
+  :root { --col-6: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 5 + 5 * 24px); }
 </style>
 </head>
 <body>
