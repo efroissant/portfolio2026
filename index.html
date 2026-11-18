@@ -14683,6 +14683,42 @@ document.querySelectorAll('.dossier').forEach((d) => {
 });
 </script>
 <script>
+/* Use Case : l'éventail de cartes s'adapte à l'écran. Il se calcule à
+   l'ouverture : cartes jusqu'à 440 px de large, plus petites si l'écran
+   l'impose, centrées sur le dossier mais toujours entières dans l'écran,
+   sous la barre du haut. Le dossier est à 64 % : on convertit. */
+document.querySelectorAll('.dossier--cartes').forEach((d) => {
+  const K = 0.64, BASE_TOP = 92, MARGE = 24, HAUT_MIN = 52;
+  const cartes = [...d.querySelectorAll('.dossier__carte')];
+  function eventail() {
+    const vw = innerWidth, f = d.getBoundingClientRect();
+    const bas = f.top + 24 * K;                              // le bas des cartes, sur le haut du dossier
+    let W = Math.min(440, (vw - 2 * MARGE) / 2.64);           // largeur d'une carte à l'écran
+    const hauteur = (w) => (w / K * 0.72 + 170) * K;          // image (72 %) + titre et étiquettes
+    if (bas - hauteur(W) < HAUT_MIN) W = Math.max(180, W * (bas - HAUT_MIN) / hauteur(W));
+    const pas = W * 0.82, total = W + 2 * pas;
+    const centre = f.left + (220 * K) / 2;
+    const gauche = Math.max(MARGE, Math.min(centre - total / 2, vw - MARGE - total));
+    const haut = Math.max(HAUT_MIN, bas - hauteur(W));
+    cartes.slice(0, 3).forEach((c, i) => {
+      const x = (gauche + i * pas - f.left) / K - c.offsetLeft;
+      const y = (haut + (i === 1 ? -14 : 0) - f.top) / K - BASE_TOP;
+      c.style.setProperty('--t', (W / K).toFixed(1) + 'px');
+      c.style.setProperty('--h', (W / K * 0.72).toFixed(1) + 'px');
+      c.style.setProperty('--x', x.toFixed(1) + 'px');
+      c.style.setProperty('--y', y.toFixed(1) + 'px');
+    });
+  }
+  function ranger() { cartes.forEach((c) => ['--t', '--h', '--x', '--y'].forEach((v) => c.style.removeProperty(v))); }
+  new MutationObserver(() => {
+    if (d.classList.contains('est-ouvert') || d.matches(':focus-within')) eventail(); else ranger();
+  }).observe(d, { attributes: true, attributeFilter: ['class'] });
+  d.addEventListener('focusin', eventail);
+  d.addEventListener('focusout', () => setTimeout(() => { if (!d.classList.contains('est-ouvert') && !d.matches(':focus-within')) ranger(); }, 0));
+  addEventListener('resize', () => { if (d.classList.contains('est-ouvert')) eventail(); });
+});
+</script>
+<script>
 /* ===== Bio dans l'eau =====
    Au survol, des ronds dans l'eau partent du curseur et font onduler les
    lettres, comme la mer de la photo. Un filtre SVG (feDisplacementMap)
