@@ -14602,19 +14602,27 @@ document.querySelectorAll('.dossier').forEach((d) => {
   const p = document.querySelector('.profil__bio p');
   if ( window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  const T = 320, IMAGES = 18;          // diamètre des ronds (px), images de l'animation
+  // Diamètre des ronds à l'écran, résolution des cartes, images de l'animation.
+  // Les cartes sont calculées petites puis agrandies : le navigateur les
+  // lisse en les agrandissant, ce qui adoucit les vagues.
+  const T = 320, S = 128, IMAGES = 48;
+  const lisse = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   // Cartes de déplacement : rouge = x, vert = y, 128 = immobile. Chaque image
   // décale les vagues d'un cran : enchaînées, les ronds s'élargissent.
   const cartes = [];
-  const c = document.createElement('canvas'); c.width = c.height = T;
-  const g = c.getContext('2d'), m = T / 2;
+  // Calculées après le chargement (~85 ms), pour ne pas retarder l'arrivée ;
+  // au plus tard au premier survol.
+  function preparer() {
+  if (cartes.length) return;
+  const c = document.createElement('canvas'); c.width = c.height = S;
+  const g = c.getContext('2d'), m = S / 2;
   for (let k = 0; k < IMAGES; k++) {
-    const img = g.createImageData(T, T), phase = (k / IMAGES) * Math.PI * 2;
-    for (let y = 0; y < T; y++) for (let x = 0; x < T; x++) {
-      const vx = (x - m) / m, vy = (y - m) / m, d = Math.hypot(vx, vy), i = (y * T + x) * 4;
+    const img = g.createImageData(S, S), phase = (k / IMAGES) * Math.PI * 2;
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const vx = (x + 0.5 - m) / m, vy = (y + 0.5 - m) / m, d = Math.hypot(vx, vy), i = (y * S + x) * 4;
       let dx = 0, dy = 0;
       if (d < 1 && d > 0.001) {
-        const vague = Math.sin(d * Math.PI * 4.5 - phase) * Math.pow(1 - d, 1.4) * Math.min(1, d * 5);
+        const vague = Math.sin(d * Math.PI * 4 - phase) * Math.pow(1 - d, 2) * lisse(0, 0.3, d);
         dx = (vx / d) * vague; dy = (vy / d) * vague;
       }
       img.data[i] = 128 + dx * 127; img.data[i + 1] = 128 + dy * 127; img.data[i + 2] = 128; img.data[i + 3] = 255;
@@ -14622,6 +14630,10 @@ document.querySelectorAll('.dossier').forEach((d) => {
     g.putImageData(img, 0, 0);
     cartes.push(c.toDataURL());
   }
+  }
+  const plusTard = window.requestIdleCallback || ((f) => setTimeout(f, 200));
+  if (document.readyState === 'complete') plusTard(preparer);
+  else addEventListener('load', () => plusTard(preparer), { once: true });
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('aria-hidden', 'true');
@@ -14639,7 +14651,8 @@ document.querySelectorAll('.dossier').forEach((d) => {
         '<feFlood flood-color="rgb(128,128,128)" result="neutre"/>' +
         '<feImage result="ronds" preserveAspectRatio="none" width="' + T + '" height="' + T + '"/>' +
         '<feComposite in="ronds" in2="neutre" operator="over" result="carte"/>' +
-        '<feDisplacementMap in="SourceGraphic" in2="carte" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
+        '<feGaussianBlur in="carte" stdDeviation="3" result="carteLisse"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="carteLisse" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
       '</filter>');
     const f = svg.lastElementChild;
     const feImage = f.querySelector('feImage'), deforme = f.querySelector('feDisplacementMap');
@@ -14648,9 +14661,9 @@ document.querySelectorAll('.dossier').forEach((d) => {
       const r = el.getBoundingClientRect();
       // Mesures d'avant la rotation de la photo : on part de son coin non tourné.
       const ox = r.left + (r.width - el.offsetWidth) / 2, oy = r.top + (r.height - el.offsetHeight) / 2;
-      pos.x += (cible.x - pos.x) * 0.15; pos.y += (cible.y - pos.y) * 0.15;   // l'eau suit avec un peu de retard
-      force += (voulu - force) * 0.08;
-      const kk = Math.floor(n++ / 3) % IMAGES;                               // ~20 images/s pour les vagues
+      pos.x += (cible.x - pos.x) * 0.12; pos.y += (cible.y - pos.y) * 0.12;   // l'eau suit avec un peu de retard
+      force += (voulu - force) * 0.06;
+      const kk = n++ % IMAGES;                                               // une carte par image : 60 images/s
       if (kk !== k) { k = kk; feImage.setAttribute('href', cartes[k]); }
       feImage.setAttribute('x', pos.x - ox - T / 2);
       feImage.setAttribute('y', pos.y - oy - T / 2);
@@ -14661,6 +14674,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
     }
     const lancer = () => { if (!boucle) boucle = requestAnimationFrame(image); };
     el.addEventListener('pointerenter', (e) => {
+      preparer();
       cible = { x: e.clientX, y: e.clientY };
       if (force < 0.01) pos = { ...cible };
       el.style.filter = 'url(#' + id + ')';
