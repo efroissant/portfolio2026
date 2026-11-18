@@ -8376,6 +8376,9 @@
   .horloge__cadran line { transform-origin: 50px 50px; transform-box: view-box; }
   .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0; }
   .horloge__fuseau { color: #A8A29E; }
+  /* Le filet bleu des cadres (photos, horloge) : 2 px, au survol comme à la sélection. */
+  .stage > .profil__image:hover, .cadre-libre:hover, .horloge:hover { outline-width: 2px !important; }
+  .photo-sel { outline-width: 2px !important; }
 </style>
 </head>
 <body>
