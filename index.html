@@ -8283,7 +8283,9 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
       display: block; position: absolute; z-index: 30;
-      left: calc(var(--col-6) - 10px); right: 14px;
+      left: calc(var(--col-6) - 10px); right: auto;
+      /* Seulement la largeur de son contenu : ne recouvre pas ce qui est à droite. */
+      width: max-content; max-width: calc(100vw - var(--col-6) - 14px);
       top: var(--liste-haut, calc(var(--bar-h) + 200px));
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
       scrollbar-width: none; overscroll-behavior: contain;
@@ -8355,6 +8357,25 @@
     .radio .radio__temps { font-size: 0.7em; }
     .radio .radio__liste button { padding: 6px 0; gap: 14px; }
   }
+  /* ===== L'heure à Montréal =====
+     Une petite carte grise : cadran au trait, aiguilles noires, trotteuse
+     verte, point rouge ; le fuseau en gris et la ville dessous. */
+  .horloge { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .horloge {
+      display: flex; position: absolute; z-index: 31; right: var(--g-marge, 24px);
+      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px));
+      align-items: center; gap: 14px; padding: 10px 22px 10px 10px;
+      background: #EFEFEF; border-radius: 14px;
+      font: 400 20px/1.15 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
+    }
+  }
+  .horloge { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .horloge.est-tenu { cursor: grabbing; box-shadow: 0 10px 24px -12px rgba(0,0,0,0.35); }
+  .horloge__cadran { width: 76px; height: 76px; flex: none; }
+  .horloge__cadran line { transform-origin: 50px 50px; transform-box: view-box; }
+  .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0; }
+  .horloge__fuseau { color: #A8A29E; }
 </style>
 </head>
 <body>
@@ -8585,6 +8606,17 @@
        ajoute, retire ou modifie un projet. -->
   <section class="projets-liste" aria-label="Projets"><ul></ul></section>
   <div class="projets-vignette" aria-hidden="true"></div>
+  <!-- L'heure à Montréal (grand écran) : en haut à droite au départ, déplaçable. -->
+  <div class="horloge" role="img" aria-label="Heure à Montréal">
+    <svg class="horloge__cadran" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#A8A29E" stroke-width="1"/>
+      <line class="horloge__h" x1="50" y1="50" x2="50" y2="28" stroke="#1C1917" stroke-width="2.4" stroke-linecap="round"/>
+      <line class="horloge__m" x1="50" y1="50" x2="50" y2="12" stroke="#1C1917" stroke-width="1.6" stroke-linecap="round"/>
+      <line class="horloge__s" x1="50" y1="58" x2="50" y2="8" stroke="#3AAA4A" stroke-width="1" stroke-linecap="round"/>
+      <circle cx="50" cy="50" r="5" fill="#E8202A"/>
+    </svg>
+    <div class="horloge__texte"><span class="horloge__fuseau">(UTC −5)</span><span class="horloge__ville">Montréal</span></div>
+  </div>
   <!-- Les dossiers du bureau, en une colonne (grand écran), comme une
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
@@ -15536,6 +15568,72 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
   });
+})();
+</script>
+<script>
+/* L'heure à Montréal : les aiguilles suivent l'heure réelle du fuseau
+   America/Toronto (celui de Montréal), heure d'été comprise. */
+(function horloge() {
+  const el = document.querySelector('.horloge');
+  if (!el) return;
+  const h = el.querySelector('.horloge__h'), m = el.querySelector('.horloge__m'), s = el.querySelector('.horloge__s');
+  const fuseau = el.querySelector('.horloge__fuseau');
+  const ZONE = 'America/Toronto';
+  const heure = new Intl.DateTimeFormat('en-GB', { timeZone: ZONE, hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' });
+  let decalage = '';
+  try {
+    const nom = new Intl.DateTimeFormat('en-US', { timeZone: ZONE, timeZoneName: 'shortOffset' })
+      .formatToParts(new Date()).find((p) => p.type === 'timeZoneName').value;   // « GMT-5 »
+    decalage = nom.replace('GMT', '').replace('-', '−') || '+0';
+    fuseau.textContent = '(UTC ' + (decalage.startsWith('−') ? decalage : (decalage.startsWith('+') ? decalage : '+' + decalage)) + ')';
+  } catch (e) {}
+  function tic() {
+    const p = Object.fromEntries(heure.formatToParts(new Date()).map((x) => [x.type, +x.value]));
+    const sec = p.second, min = p.minute + sec / 60, hr = (p.hour % 12) + min / 60;
+    s.style.transform = 'rotate(' + sec * 6 + 'deg)';
+    m.style.transform = 'rotate(' + min * 6 + 'deg)';
+    h.style.transform = 'rotate(' + hr * 30 + 'deg)';
+    el.setAttribute('aria-label', 'Heure à Montréal : ' + p.hour + ' h ' + String(p.minute).padStart(2, '0'));
+  }
+  tic();
+  setTimeout(() => { tic(); setInterval(tic, 1000); }, 1000 - (Date.now() % 1000));
+
+  // Déplaçable à la souris, comme les photos ; position gardée dans ce
+  // navigateur, toujours ramenée dans l'écran. Double-clic : retour à sa place.
+  const CLE = 'portfolio:horloge';
+  let pos = null;
+  try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.x) && isFinite(v.y)) pos = v; } catch (e) {}
+  function placer() {
+    if (!pos || !el.offsetParent) { el.style.left = ''; el.style.top = ''; el.style.right = ''; return; }
+    const W = el.offsetParent.clientWidth, H = el.offsetParent.clientHeight;
+    el.style.right = 'auto';
+    el.style.left = Math.round(Math.max(8, Math.min(pos.x, W - el.offsetWidth - 8))) + 'px';
+    el.style.top = Math.round(Math.max(40, Math.min(pos.y, H - el.offsetHeight - 48))) + 'px';
+  }
+  placer(); addEventListener('resize', placer);
+  let tir = null;
+  el.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    tir = { x: e.clientX, y: e.clientY, ox: el.offsetLeft, oy: el.offsetTop, bouge: false };
+    el.classList.add('est-tenu');
+  });
+  addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    const dx = e.clientX - tir.x, dy = e.clientY - tir.y;
+    if (!tir.bouge && Math.hypot(dx, dy) < 3) return;
+    tir.bouge = true;
+    pos = { x: tir.ox + dx, y: tir.oy + dy };
+    placer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    el.classList.remove('est-tenu');
+    if (tir.bouge) { try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {} }
+    tir = null;
+  };
+  addEventListener('pointerup', lacher); addEventListener('pointercancel', lacher);
+  el.addEventListener('dblclick', () => { pos = null; try { localStorage.removeItem(CLE); } catch (e) {} placer(); });
 })();
 </script>
 </body>
