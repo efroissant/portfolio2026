@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF" media="(max-width: 767px)">
 <meta name="theme-color" content="#3E6E9E">
 <title>Emmanuel Froissant — Designer UI/UX</title>
 <!-- Nunito Black (arrondie) pour le seul mot « ENTRER » : on ne charge que ses lettres. -->
@@ -7150,7 +7151,7 @@
      Une note au milieu de la barre. Elle déplie le lecteur en traits du
      grand écran juste dessous, sans voile : on lance un morceau et on
      continue à défiler. La note bat doucement tant que ça joue. */
-  .note-mobile { display: none; }
+  .note-mobile, .nav-fond-mobile { display: none; }
   @media (max-width: 767px) {
     .stage[data-state="lock"] .recto-play.recto-play { display: none !important; }
     .stage[data-state="lock"] .note-mobile {
@@ -7165,12 +7166,14 @@
     @keyframes note-bat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
     /* La barre (Manu, note, Say hi) reste en haut de l'écran pendant qu'on
        défile, sur un fond blanc ; le contenu glisse dessous. */
-    .stage[data-state="lock"]::before {
-      /* Le fond remonte bien au-delà du haut de l'écran : sur iPhone, rien
-         ne doit apparaître entre la barre de Safari et la nav. */
-      content: ""; position: fixed; z-index: 19; left: 0; right: 0; top: -200px;
-      height: calc(200px + var(--nav-h)); background: #FFFFFF;
+    /* Un vrai élément collé à top: 0 : Safari (iOS 26) s'en sert pour
+       teinter sa barre d'état, et rien ne défile entre elle et la nav. */
+    .stage[data-state="lock"] .nav-fond-mobile {
+      display: block; position: fixed; z-index: 19; left: 0; right: 0; top: 0;
+      height: var(--nav-h); background: #FFFFFF;
     }
+    html:has(.stage[data-state="lock"]), body:has(.stage[data-state="lock"]),
+    .stage[data-state="lock"] { background: #FFFFFF; }
     /* Collée en haut : 44 px de barre, sous la zone de l'heure de l'iPhone. */
     .stage[data-state="lock"] { --nav-h: calc(44px + env(safe-area-inset-top, 0px)); }
     .stage[data-state="lock"] :is(.logo-mobile, .sayhi-mobile) {
@@ -8796,6 +8799,7 @@
        côté de la pochette. C'est tout le lecteur visible. -->
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
+  <div class="nav-fond-mobile" aria-hidden="true"></div>
   <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>Say Hi!</a>
   <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">Manu</span></button>
   <!-- Téléphone : la musique est une option. La note ouvre le lecteur en traits (#radio) sous la barre. -->
