@@ -14708,8 +14708,14 @@ document.querySelectorAll('.dossier').forEach((d) => {
     // Un pas de simulation : r = hauteur actuelle, g = hauteur précédente.
     const SIM = `#version 300 es
       precision highp float;
-      uniform sampler2D etat; uniform vec2 px; uniform vec4 trait; uniform float force; uniform float aspect;
+      uniform sampler2D etat; uniform vec2 px; uniform vec4 trait; uniform float force; uniform float aspect; uniform float temps;
       in vec2 uv; out vec4 o;
+      // Petit bruit doux : le bord du sillage n'est jamais un cercle net.
+      float hasard(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float bruit(vec2 p) {
+        vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hasard(i), hasard(i + vec2(1, 0)), f.x), mix(hasard(i + vec2(0, 1)), hasard(i + vec2(1, 1)), f.x), f.y);
+      }
       void main() {
         vec2 s = texture(etat, uv).rg;
         float voisins = texture(etat, uv + vec2(px.x, 0.0)).r + texture(etat, uv - vec2(px.x, 0.0)).r
@@ -14723,10 +14729,13 @@ document.querySelectorAll('.dossier').forEach((d) => {
           vec2 ab = b - a; float h = clamp(dot(q - a, ab) / max(dot(ab, ab), 1e-6), 0.0, 1.0);
           // Deux traits à la fois : un large et doux qui creuse l'eau (grande
           // ondulation), un fin au centre qui garde les petites ellipses.
+          // Pas de bord : des fondus en gaussienne, rendus irréguliers par le bruit,
+          // et plus forts derrière la souris (h proche de 0) que sous elle.
           float dist = length(q - a - ab * h);
-          float large = dist / 0.11, fin = dist / 0.04;
-          if (large < 1.0) n -= force * 0.45 * (1.0 - large * large) * (1.0 - large * large);
-          if (fin < 1.0) n -= force * (1.0 - fin * fin) * (1.0 - fin * fin);
+          float irr = 0.55 + 0.9 * bruit(q * 18.0 + temps * 0.7);
+          float large = exp(-dist * dist / (0.075 * 0.075)) * irr;
+          float fin = exp(-dist * dist / (0.022 * 0.022)) * (0.6 + 0.8 * bruit(q * 40.0 - temps));
+          n -= force * (0.5 * large + 0.7 * fin) * mix(1.0, 0.6, h);
         }
         o = vec4(n, s.r, 0.0, 1.0);
       }`;
@@ -14829,6 +14838,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
       gl.uniform1f(u(pSim, 'aspect'), W / H);
       gl.uniform4f(u(pSim, 'trait'), trait[0], trait[1], trait[2], trait[3]);
       gl.uniform1f(u(pSim, 'force'), force);
+      gl.uniform1f(u(pSim, 'temps'), performance.now() / 1000);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       cur = 1 - cur;
     }
