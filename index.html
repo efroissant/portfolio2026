@@ -8236,16 +8236,26 @@
   .projet__voir:hover, .projet__voir:focus-visible { outline: none; }
   .projet__voir:hover .projet__fleche, .projet__voir:focus-visible .projet__fleche { transform: translate(3px, -3px); }
   .projet__fleche { transition: transform 180ms ease; }
-  /* La vignette qui suit la souris au survol d'une rangée fermée. */
+  /* La vignette qui suit la souris au survol d'une rangée fermée. Deux
+     calques : la nouvelle image se fond par-dessus l'ancienne quand on passe
+     d'un projet à l'autre. Déplacée en transform (fluide, sans relayout). */
   .projets-vignette {
     position: fixed; left: 0; top: 0; z-index: 45; width: 300px; height: 200px; pointer-events: none;
-    border-radius: 4px; background: #ddd center / cover no-repeat;
-    box-shadow: 0 8px 24px -10px rgba(0,0,0,0.3);
-    opacity: 0; transform: translate(-50%, -50%) scale(0.85);
-    transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    margin: -100px 0 0 -150px; border-radius: 4px; overflow: hidden;
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,0.35);
+    opacity: 0; will-change: transform, opacity;
+    transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .projets-vignette.est-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  @media (prefers-reduced-motion: reduce) { .projets-vignette, .projet__rangee, .projet__fleche { transition: none; } }
+  .projets-vignette.est-visible { opacity: 1; }
+  .projets-vignette__calque {
+    position: absolute; inset: 0; background: #ddd center / cover no-repeat;
+    opacity: 0; transform: scale(1.06);
+    transition: opacity 280ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .projets-vignette__calque.est-actif { opacity: 1; transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .projets-vignette, .projets-vignette__calque, .projet__rangee, .projet__fleche { transition: none; }
+  }
   /* ===== TEMPORAIRE : dossiers cachés (grand écran) =====
      On essaie la liste de projets en accordéon à la place. Pour les
      remettre, supprimer ce bloc. */
@@ -15182,7 +15192,19 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 
   // La vignette qui suit la souris (seulement sur les rangées fermées).
   const souris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, boucle = 0, visible = false;
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const calques = [0, 1].map(() => { const c = el('div', 'projets-vignette__calque'); vignette.append(c); return c; });
+  let calqueActif = 0, projetMontre = null;
+  function montrer(p) {
+    if (projetMontre === p) return;
+    projetMontre = p;
+    calqueActif = 1 - calqueActif;
+    const nouveau = calques[calqueActif], ancien = calques[1 - calqueActif];
+    nouveau.style.background = fond(p);
+    nouveau.classList.remove('est-actif'); void nouveau.offsetWidth;   // repart de l'état de départ
+    nouveau.classList.add('est-actif'); nouveau.style.zIndex = 2; ancien.style.zIndex = 1;
+    setTimeout(() => { if (calques[1 - calqueActif] === ancien) ancien.classList.remove('est-actif'); }, 300);
+  }
   // Horizontalement, la vignette se pose sur la deuxième colonne (Secteur) de
   // la rangée, à distance de la souris ; verticalement, elle suit la souris.
   const place = (e, rangee) => {
@@ -15192,42 +15214,84 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       y: Math.max(110, Math.min(e.clientY, innerHeight - 110))
     };
   };
-  function suivre() {
-    pos.x += (cible.x - pos.x) * 0.2; pos.y += (cible.y - pos.y) * 0.2;
-    vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px';
-    if (visible || Math.abs(cible.x - pos.x) > 0.5) boucle = requestAnimationFrame(suivre); else boucle = 0;
+  let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, boucle = 0, visible = false, avant = 0;
+  const poser = () => { vignette.style.transform = 'translate3d(' + pos.x.toFixed(1) + 'px,' + pos.y.toFixed(1) + 'px,0)'; };
+  // Suivi amorti, indépendant de la fréquence de l'écran (60 ou 120 Hz).
+  function suivre(t) {
+    const dt = avant ? Math.min(64, t - avant) : 16; avant = t;
+    const k = 1 - Math.pow(0.0015, dt / 1000);                         // ~10 % par image à 60 Hz
+    pos.x += (cible.x - pos.x) * k; pos.y += (cible.y - pos.y) * k;
+    poser();
+    if (visible || Math.hypot(cible.x - pos.x, cible.y - pos.y) > 0.3) boucle = requestAnimationFrame(suivre);
+    else { boucle = 0; avant = 0; }
   }
-  const cacher = () => { visible = false; vignette.classList.remove('est-visible'); };
+  const cacher = () => { visible = false; vignette.classList.remove('est-visible'); projetMontre = null; };
+  // Ouvrir et fermer une rangée en douceur : la hauteur glisse, le contenu
+  // apparaît en fondu un peu décalé.
+  const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  function deplier(detail) {
+    detail.getAnimations().forEach((a) => a.cancel());
+    detail.hidden = false;
+    if (calme()) return;
+    const h = detail.offsetHeight;
+    detail.animate([{ height: '0px', opacity: 0, overflow: 'hidden' }, { height: h + 'px', opacity: 1, overflow: 'hidden' }],
+                   { duration: 460, easing: EASE });
+    [...detail.children].forEach((c, i) => c.animate(
+      [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 420, delay: 80 + i * 60, easing: EASE, fill: 'backwards' }));
+  }
+  function replier(li) {
+    const detail = li.querySelector('.projet__detail');
+    li.querySelector('.projet__rangee').setAttribute('aria-expanded', 'false');
+    li.querySelector('.projet__signe').textContent = '(+)';
+    if (detail.hidden) return;
+    if (calme()) { detail.hidden = true; return; }
+    detail.getAnimations().forEach((a) => a.cancel());
+    const h = detail.offsetHeight;
+    const a = detail.animate([{ height: h + 'px', opacity: 1, overflow: 'hidden' }, { height: '0px', opacity: 0, overflow: 'hidden' }],
+                             { duration: 320, easing: EASE });
+    // Fin de l'animation, ou au plus tard 360 ms (onglet en arrière-plan) ;
+    // sauf si la rangée a été rouverte entre-temps.
+    const fin = () => {
+      if (li.querySelector('.projet__rangee').getAttribute('aria-expanded') === 'true') return;
+      a.cancel(); detail.hidden = true;
+    };
+    a.onfinish = fin; setTimeout(fin, 360);
+  }
   projets.forEach((li) => {
     const p = li._projet, rangee = li.querySelector('.projet__rangee'), detail = li.querySelector('.projet__detail');
     if (souris) {
       rangee.addEventListener('pointerenter', (e) => {
         if (rangee.getAttribute('aria-expanded') === 'true') return;
-        vignette.style.background = fond(p);
         cible = place(e, rangee);
-        if (!visible) { pos = { ...cible }; vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px'; }
+        if (!visible && !vignette.classList.contains('est-visible')) { pos = { ...cible }; poser(); }
+        montrer(p);
         visible = true; vignette.classList.add('est-visible');
+        if (calme()) { pos = { ...cible }; poser(); return; }
         if (!boucle) boucle = requestAnimationFrame(suivre);
       });
-      rangee.addEventListener('pointermove', (e) => { cible = place(e, rangee); });
+      rangee.addEventListener('pointermove', (e) => {
+        cible = place(e, rangee);
+        if (calme()) { pos = { ...cible }; poser(); } else if (!boucle) boucle = requestAnimationFrame(suivre);
+      });
       rangee.addEventListener('pointerleave', cacher);
     }
     rangee.addEventListener('click', () => {
       const ouvrir = rangee.getAttribute('aria-expanded') !== 'true';
       projets.forEach((autre) => {
-        autre.querySelector('.projet__rangee').setAttribute('aria-expanded', 'false');
-        autre.querySelector('.projet__signe').textContent = '(+)';
-        autre.querySelector('.projet__detail').hidden = true;
+        if (autre === li) return;
+        if (autre.querySelector('.projet__rangee').getAttribute('aria-expanded') === 'true') replier(autre);
       });
       rangee.setAttribute('aria-expanded', String(ouvrir));
       li.querySelector('.projet__signe').textContent = ouvrir ? '(−)' : '(+)';
-      detail.hidden = !ouvrir;
+      if (ouvrir) deplier(detail); else replier(li);
       if (ouvrir) {
         cacher();
         // Le projet ouvert se montre en entier dans la liste.
-        const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // (hauteur finale : la rangée s'ouvre encore pendant ce calcul)
         const lr = liste.getBoundingClientRect(), r = li.getBoundingClientRect();
-        if (r.bottom > lr.bottom) liste.scrollBy({ top: Math.min(r.bottom - lr.bottom + 8, r.top - lr.top), behavior: calme ? 'auto' : 'smooth' });
+        const bas = rangee.getBoundingClientRect().bottom + detail.scrollHeight + 1;
+        if (bas > lr.bottom) liste.scrollBy({ top: Math.min(bas - lr.bottom + 8, r.top - lr.top), behavior: calme() ? 'auto' : 'smooth' });
       }
     });
     li.querySelector('.projet__voir').addEventListener('click', (e) => {
