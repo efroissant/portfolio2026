@@ -8365,14 +8365,14 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .horloge {
       display: flex; position: absolute; z-index: 31; right: var(--g-marge, 24px);
       top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px));
-      align-items: center; gap: 14px; padding: 10px 22px 10px 10px;
+      align-items: center; gap: 0.7em; padding: 0.5em 1.1em 0.5em 0.5em;
       background: #EFEFEF; border-radius: 14px;
-      font: 400 20px/1.15 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
+      font: 400 calc(20px * var(--k, 1))/1.15 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
     }
   }
-  .horloge { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
-  .horloge.est-tenu { cursor: grabbing; box-shadow: 0 10px 24px -12px rgba(0,0,0,0.35); }
-  .horloge__cadran { width: 76px; height: 76px; flex: none; }
+  .horloge { cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .horloge:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
+  .horloge__cadran { width: 3.8em; height: 3.8em; flex: none; }
   .horloge__cadran line { transform-origin: 50px 50px; transform-box: view-box; }
   .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0; }
   .horloge__fuseau { color: #A8A29E; }
@@ -15599,42 +15599,78 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   tic();
   setTimeout(() => { tic(); setInterval(tic, 1000); }, 1000 - (Date.now() % 1000));
 
-  // Déplaçable à la souris, comme les photos ; position gardée dans ce
-  // navigateur, toujours ramenée dans l'écran. Double-clic : retour à sa place.
+  // Comme les photos (Frame 35) : survol = filet bleu ; clic = sélection avec
+  // le nom, les carrés pour agrandir, les ronds pour arrondir, la rotation
+  // dans les coins et la taille. On la déplace en la tirant. Position, taille,
+  // rotation et rayon gardés dans ce navigateur ; toujours dans l'écran.
   const CLE = 'portfolio:horloge';
-  let pos = null;
-  try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.x) && isFinite(v.y)) pos = v; } catch (e) {}
+  let pos = null, k = 1;                       // k : échelle (1 = taille de départ)
+  try {
+    const v = JSON.parse(localStorage.getItem(CLE));
+    if (v && isFinite(v.x) && isFinite(v.y)) pos = { x: v.x, y: v.y };
+    if (v && isFinite(v.k)) k = v.k;
+    if (localStorage.getItem(CLE + ':rad') === null) localStorage.setItem(CLE + ':rad', 14);   // coins arrondis au départ
+  } catch (e) {}
+  const sauver = () => { try { localStorage.setItem(CLE, JSON.stringify({ ...(pos || {}), k })); } catch (e) {} };
+  const sel = document.createElement('div');
+  sel.className = 'photo-sel photo-sel--libre'; sel.setAttribute('aria-hidden', 'true');
+  sel.innerHTML = '<span class="photo-sel__nom">Horloge</span><i data-coin="hg"></i><i data-coin="hd"></i><i data-coin="bg"></i><i data-coin="bd"></i><span class="photo-sel__taille"></span>';
+  const taille = sel.querySelector('.photo-sel__taille');
+  sel.style.transform = 'none';   // pas l'inclinaison par défaut des cadres photo
+  el.after(sel);
+  if (window.ajouterRotation) window.ajouterRotation(el, sel, CLE + ':r');
+  if (window.ajouterRayon) window.ajouterRayon(el, sel, CLE + ':rad');
+  if (window.enregistrerCadre) window.enregistrerCadre(el, sel);
   function placer() {
-    if (!pos || !el.offsetParent) { el.style.left = ''; el.style.top = ''; el.style.right = ''; return; }
-    const W = el.offsetParent.clientWidth, H = el.offsetParent.clientHeight;
-    el.style.right = 'auto';
-    el.style.left = Math.round(Math.max(8, Math.min(pos.x, W - el.offsetWidth - 8))) + 'px';
-    el.style.top = Math.round(Math.max(40, Math.min(pos.y, H - el.offsetHeight - 48))) + 'px';
+    el.style.setProperty('--k', k);
+    if (!el.offsetParent) return;
+    if (pos) {
+      const W = el.offsetParent.clientWidth, H = el.offsetParent.clientHeight;
+      el.style.right = 'auto';
+      el.style.left = Math.round(Math.max(8, Math.min(pos.x, W - el.offsetWidth - 8))) + 'px';
+      el.style.top = Math.round(Math.max(40, Math.min(pos.y, H - el.offsetHeight - 48))) + 'px';
+    } else { el.style.left = ''; el.style.top = ''; el.style.right = ''; }
+    sel.style.left = el.offsetLeft + 'px'; sel.style.top = el.offsetTop + 'px';
+    sel.style.width = el.offsetWidth + 'px'; sel.style.height = el.offsetHeight + 'px';
+    taille.textContent = el.offsetWidth + ' × ' + el.offsetHeight;
   }
-  placer(); addEventListener('resize', placer);
+  placer(); addEventListener('resize', placer); addEventListener('load', placer);
+  if (document.fonts) document.fonts.ready.then(placer);
+  new MutationObserver(placer).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['data-state'] });
+  const selectionner = (oui) => sel.classList.toggle('est-visible', oui);
+  document.addEventListener('pointerdown', (e) => { if (!el.contains(e.target) && !sel.contains(e.target)) selectionner(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') selectionner(false); });
   let tir = null;
-  el.addEventListener('pointerdown', (e) => {
+  function commencer(e, coin) {
     if (e.button !== 0) return;
-    e.preventDefault();
-    tir = { x: e.clientX, y: e.clientY, ox: el.offsetLeft, oy: el.offsetTop, bouge: false };
-    el.classList.add('est-tenu');
-  });
+    e.preventDefault(); e.stopPropagation();
+    selectionner(true);
+    tir = { x: e.clientX, y: e.clientY, ox: el.offsetLeft, oy: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight, k0: k, coin, bouge: false };
+    if (coin) document.body.style.cursor = getComputedStyle(e.target).cursor;
+  }
+  el.addEventListener('pointerdown', (e) => commencer(e, null));
+  sel.querySelectorAll('i').forEach((h) => h.addEventListener('pointerdown', (e) => commencer(e, h.dataset.coin)));
   addEventListener('pointermove', (e) => {
     if (!tir) return;
     const dx = e.clientX - tir.x, dy = e.clientY - tir.y;
-    if (!tir.bouge && Math.hypot(dx, dy) < 3) return;
+    if (!tir.bouge && Math.hypot(dx, dy) < 2) return;
     tir.bouge = true;
-    pos = { x: tir.ox + dx, y: tir.oy + dy };
+    if (!tir.coin) { pos = { x: tir.ox + dx, y: tir.oy + dy }; placer(); return; }
+    // Agrandir ou réduire en gardant les proportions, coin opposé fixe.
+    const sx = tir.coin.includes('d') ? 1 : -1, sy = tir.coin[0] === 'b' ? 1 : -1;
+    const d = (dx * sx * tir.w + dy * sy * tir.h) / (tir.w * tir.w + tir.h * tir.h) * tir.w;
+    k = Math.max(0.6, Math.min(3, tir.k0 * (tir.w + d) / tir.w));
+    const nw = tir.w * k / tir.k0, nh = tir.h * k / tir.k0;
+    pos = { x: sx < 0 ? tir.ox + tir.w - nw : tir.ox, y: sy < 0 ? tir.oy + tir.h - nh : tir.oy };
     placer();
   });
   const lacher = () => {
     if (!tir) return;
-    el.classList.remove('est-tenu');
-    if (tir.bouge) { try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {} }
-    tir = null;
+    if (tir.bouge) sauver();
+    tir = null; document.body.style.cursor = '';
   };
   addEventListener('pointerup', lacher); addEventListener('pointercancel', lacher);
-  el.addEventListener('dblclick', () => { pos = null; try { localStorage.removeItem(CLE); } catch (e) {} placer(); });
+  el.addEventListener('dblclick', () => { pos = null; k = 1; try { localStorage.removeItem(CLE); } catch (e) {} placer(); });
 })();
 </script>
 </body>
