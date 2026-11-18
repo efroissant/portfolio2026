@@ -14690,9 +14690,8 @@ document.querySelectorAll('.dossier').forEach((d) => {
 
   /* ===== Photo dans l'eau (WebGL2) =====
      Une toile se pose exactement sur la photo pendant l'effet. Sur la carte
-     graphique, une surface d'eau (équation des ondes) reçoit des gouttes là
-     où passe la souris : les ondes s'étendent, se croisent, rebondissent et
-     s'amortissent. L'image est vue à travers (réfraction), avec un reflet de
+     graphique, une surface d'eau (équation des ondes) : la souris y trace un
+     sillage, comme un doigt qu'on traîne, qui ondule puis s'amortit. L'image est vue à travers (réfraction), avec un reflet de
      lumière sur les crêtes. Renvoie false si WebGL2 n'est pas disponible. */
   function eauWebGL(img) {
     if (!img) return false;
@@ -14707,16 +14706,21 @@ document.querySelectorAll('.dossier').forEach((d) => {
     // Un pas de simulation : r = hauteur actuelle, g = hauteur précédente.
     const SIM = `#version 300 es
       precision highp float;
-      uniform sampler2D etat; uniform vec2 px; uniform vec3 goutte; uniform float aspect;
+      uniform sampler2D etat; uniform vec2 px; uniform vec4 trait; uniform float force; uniform float aspect;
       in vec2 uv; out vec4 o;
       void main() {
         vec2 s = texture(etat, uv).rg;
-        float n = (texture(etat, uv + vec2(px.x, 0.0)).r + texture(etat, uv - vec2(px.x, 0.0)).r
-                 + texture(etat, uv + vec2(0.0, px.y)).r + texture(etat, uv - vec2(0.0, px.y)).r) * 0.5 - s.g;
-        n *= 0.984;                                   // amortissement : l'eau se calme
-        if (goutte.z != 0.0) {
-          float l = length((uv - goutte.xy) * vec2(aspect, 1.0)) / 0.045;
-          if (l < 1.0) n -= goutte.z * (1.0 - l * l) * (1.0 - l * l);
+        float voisins = texture(etat, uv + vec2(px.x, 0.0)).r + texture(etat, uv - vec2(px.x, 0.0)).r
+                      + texture(etat, uv + vec2(0.0, px.y)).r + texture(etat, uv - vec2(0.0, px.y)).r;
+        float n = voisins * 0.5 - s.g;
+        n = mix(n, voisins * 0.25, 0.06);             // un peu de viscosité : pas de petites rides sèches
+        n *= 0.986;                                   // amortissement : l'eau se calme
+        // Le sillage : la souris trace un trait dans l'eau, du point précédent au point actuel.
+        if (force > 0.0) {
+          vec2 a = trait.xy * vec2(aspect, 1.0), b = trait.zw * vec2(aspect, 1.0), q = uv * vec2(aspect, 1.0);
+          vec2 ab = b - a; float h = clamp(dot(q - a, ab) / max(dot(ab, ab), 1e-6), 0.0, 1.0);
+          float l = length(q - a - ab * h) / 0.034;
+          if (l < 1.0) n -= force * (1.0 - l * l) * (1.0 - l * l);
         }
         o = vec4(n, s.r, 0.0, 1.0);
       }`;
@@ -14808,8 +14812,8 @@ document.querySelectorAll('.dossier').forEach((d) => {
       return [lx / img.offsetWidth + 0.5, 0.5 - ly / img.offsetHeight];
     }
 
-    let actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0, t0 = 0;
-    function pas(goutte) {
+    let actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0;
+    function pas(trait, force) {
       const lire = surfaces[cur], ecrire = surfaces[1 - cur];
       gl.bindFramebuffer(gl.FRAMEBUFFER, ecrire.fb); gl.viewport(0, 0, W, H);
       gl.useProgram(pSim);
@@ -14817,24 +14821,26 @@ document.querySelectorAll('.dossier').forEach((d) => {
       gl.uniform1i(u(pSim, 'etat'), 0);
       gl.uniform2f(u(pSim, 'px'), 1 / W, 1 / H);
       gl.uniform1f(u(pSim, 'aspect'), W / H);
-      gl.uniform3f(u(pSim, 'goutte'), goutte[0], goutte[1], goutte[2]);
+      gl.uniform4f(u(pSim, 'trait'), trait[0], trait[1], trait[2], trait[3]);
+      gl.uniform1f(u(pSim, 'force'), force);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       cur = 1 - cur;
     }
     function image(t) {
       caler(); chargerImage();
-      let goutte = [0, 0, 0];
-      if (survol && souris) {
-        const [x, y] = versUV(souris.x, souris.y);
-        const bouge = derniere ? Math.hypot(souris.x - derniere.x, souris.y - derniere.y) : 0;
-        // En bougeant, une traîne de gouttes ; immobile, une goutte de temps en temps.
-        if (bouge > 2 || t - derniereGoutte > 650) {
-          goutte = [x, y, bouge > 2 ? Math.min(0.9, 0.25 + bouge * 0.03) : 0.6];
+      // Seul le mouvement de la souris touche l'eau : un trait continu, plus
+      // marqué quand on va vite ; immobile, l'eau se calme.
+      let trait = [0, 0, 0, 0], force = 0;
+      if (survol && souris && derniere) {
+        const bouge = Math.hypot(souris.x - derniere.x, souris.y - derniere.y);
+        if (bouge > 0.5) {
+          const [ax, ay] = versUV(derniere.x, derniere.y), [bx, by] = versUV(souris.x, souris.y);
+          trait = [ax, ay, bx, by]; force = Math.min(0.32, 0.05 + bouge * 0.011);
           derniereGoutte = t;
         }
-        derniere = { ...souris };
       }
-      pas(goutte); pas([0, 0, 0]);
+      if (souris) derniere = { ...souris };
+      pas(trait, force); pas(trait, 0);
       gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, toile.width, toile.height);
       gl.useProgram(pRendu);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, surfaces[cur].t);
@@ -14848,10 +14854,10 @@ document.querySelectorAll('.dossier').forEach((d) => {
       boucle = requestAnimationFrame(image);
     }
     img.addEventListener('pointerenter', (e) => {
-      survol = true; souris = { x: e.clientX, y: e.clientY }; derniere = null;
+      survol = true; souris = { x: e.clientX, y: e.clientY }; derniere = { ...souris };
       loupe.classList.add('est-visible');
       if (!actif) {
-        actif = true; caler(); preparerSurfaces(); chargerImage();
+        actif = true; derniereGoutte = performance.now(); caler(); preparerSurfaces(); chargerImage();
         toile.style.display = 'block';
         boucle = requestAnimationFrame(image);
       }
