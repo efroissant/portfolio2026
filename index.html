@@ -7725,6 +7725,25 @@
     .stage .recto-play .lecteur-mini__titre { flex: 0 0 auto; max-width: 30ch; margin-left: 8px; }
   }
 
+  /* Liens soulignés au survol : le trait se dessine vite, de gauche à droite. */
+  .stage .menubar :is(.barlien, .menuitem--app), .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas) {
+    text-decoration: none !important;
+    background-image: linear-gradient(currentColor, currentColor) !important;
+    background-repeat: no-repeat !important;
+    background-position: 0 100% !important;
+    background-size: 0% 1px !important;
+    background-origin: content-box !important; background-clip: content-box !important;
+    transition: background-size 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+  .stage .menubar :is(.barlien, .menuitem--app):is(:hover, :focus-visible),
+  .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas):is(:hover, :focus-visible) {
+    text-decoration: none !important;
+    background-size: 100% 1px !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage .menubar :is(.barlien, .menuitem--app), .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas) { transition: none !important; }
+  }
+
 </style>
 </head>
 <body>
