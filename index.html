@@ -7646,6 +7646,24 @@
   @keyframes demarrage-clignote { 50% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .demarrage__curseur { animation: none; } }
 
+  /* ===== Cadres libres sur le bureau (Frame 36…) =====
+     Mêmes réglages que ma photo de bio : légère inclinaison, main au survol,
+     filet bleu + nom + poignées toujours là, taille au clic ; on déplace,
+     on agrandit par les coins. Position et largeur gardées dans ce navigateur. */
+  .cadre-libre, .photo-sel--libre { display: none !important; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .cadre-libre,
+    .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel--libre { display: block !important; }
+  }
+  .cadre-libre {
+    position: absolute; z-index: 6; margin: 0; height: auto;
+    transform: rotate(-1.5deg);
+    cursor: pointer; touch-action: none; user-select: none; -webkit-user-drag: none;
+  }
+  .cadre-libre:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
+  .photo-sel--libre { z-index: 6; }
+  .stage.gatefold :is(.cadre-libre, .photo-sel--libre) { filter: blur(8px); pointer-events: none; }
+
 </style>
 </head>
 <body>
@@ -7766,6 +7784,10 @@
     <div class="dossier__ombre"></div>
     <div class="dossier__face"><p class="dossier__titre">Autre</p></div>
   </div>
+  <!-- Cadres libres : data-x, data-y, data-w = position et largeur de départ (px). -->
+  <img class="cadre-libre" id="frame-36" data-nom="Frame 36" data-x="560" data-y="110" data-w="380"
+       src="fond-hawaii-petit.jpg" srcset="fond-hawaii-petit.jpg 900w, fond-hawaii-grand.jpg 1672w" sizes="40vw"
+       alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
@@ -13605,6 +13627,81 @@ document.querySelectorAll('.dossier').forEach(function dossier(d) {
   }, true);
   d.addEventListener('dblclick', () => {
     pos = DEFAUT; placer();
+    try { localStorage.removeItem(CLE); } catch (e) {}
+  });
+});
+</script>
+<script>
+/* Cadres libres : déplaçables et redimensionnables, comme ma photo de bio. */
+document.querySelectorAll('.cadre-libre').forEach(function cadreLibre(img) {
+  const stage = document.getElementById('stage');
+  if (!stage) return;
+  img.draggable = false;
+  const CLE = 'portfolio:' + img.id;
+  const DEFAUT = { x: +img.dataset.x || 0, y: +img.dataset.y || 0, w: +img.dataset.w || 300 };
+  let pos = { ...DEFAUT };
+  try { const v = JSON.parse(localStorage.getItem(CLE)); if (v && isFinite(v.x) && isFinite(v.y) && isFinite(v.w)) pos = v; } catch (e) {}
+  const MIN = 80, MAX = 1200;
+  const sel = document.createElement('div');
+  sel.className = 'photo-sel photo-sel--libre'; sel.setAttribute('aria-hidden', 'true');
+  sel.innerHTML = '<span class="photo-sel__nom"></span><i data-coin="hg"></i><i data-coin="hd"></i><i data-coin="bg"></i><i data-coin="bd"></i><span class="photo-sel__taille"></span>';
+  sel.querySelector('.photo-sel__nom').textContent = img.dataset.nom || '';
+  const taille = sel.querySelector('.photo-sel__taille');
+  img.after(sel);
+  function placer() {
+    img.style.left = Math.round(pos.x) + 'px'; img.style.top = Math.round(pos.y) + 'px';
+    img.style.width = Math.round(pos.w) + 'px';
+    const h = img.offsetHeight || Math.round(pos.w * img.height / img.width);
+    sel.style.left = img.style.left; sel.style.top = img.style.top;
+    sel.style.width = img.style.width; sel.style.height = h + 'px';
+    taille.textContent = Math.round(pos.w) + ' × ' + h;
+  }
+  placer();
+  img.addEventListener('load', placer);
+  addEventListener('resize', placer);
+  new MutationObserver(placer).observe(stage, { attributes: true, attributeFilter: ['data-state'] });
+  function selectionner(oui) { sel.classList.toggle('est-visible', oui); }
+  document.addEventListener('pointerdown', (e) => { if (e.target !== img && !sel.contains(e.target)) selectionner(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') selectionner(false); });
+  let tir = null;
+  function commencer(e, coin) {
+    if (e.button !== 0) return;
+    e.preventDefault(); e.stopPropagation();
+    selectionner(true);
+    tir = { x: e.clientX, y: e.clientY, p: { ...pos }, coin, h: img.offsetHeight, bouge: false };
+    document.body.style.cursor = coin ? getComputedStyle(e.target).cursor : 'pointer';
+  }
+  img.addEventListener('pointerdown', (e) => commencer(e, null));
+  sel.querySelectorAll('i').forEach((h) => h.addEventListener('pointerdown', (e) => commencer(e, h.dataset.coin)));
+  addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    const mx = e.clientX - tir.x, my = e.clientY - tir.y;
+    if (!tir.bouge && Math.hypot(mx, my) < 2) return;
+    tir.bouge = true;
+    if (!tir.coin) {
+      pos = { x: tir.p.x + mx, y: tir.p.y + my, w: tir.p.w };
+    } else {
+      const ratio = tir.h / tir.p.w;
+      const sx = tir.coin[1] === 'd' ? 1 : -1, sy = tir.coin[0] === 'b' ? 1 : -1;
+      const parX = sx * mx, parY = sy * my / ratio;
+      const w = Math.max(MIN, Math.min(MAX, tir.p.w + (Math.abs(parX) > Math.abs(parY) ? parX : parY)));
+      const dw = w - tir.p.w, dh = dw * ratio;
+      pos = { x: tir.p.x - (sx < 0 ? dw : 0), y: tir.p.y - (sy < 0 ? dh : 0), w: Math.round(w) };
+    }
+    placer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    const bouge = tir.bouge;
+    tir = null; document.body.style.cursor = '';
+    if (!bouge) return;
+    try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
+    console.log('[' + (img.dataset.nom || img.id) + '] position et largeur :', JSON.stringify(pos));
+  };
+  addEventListener('pointerup', lacher);
+  addEventListener('pointercancel', lacher);
+  img.addEventListener('dblclick', () => {
+    pos = { ...DEFAUT }; placer();
     try { localStorage.removeItem(CLE); } catch (e) {}
   });
 });
