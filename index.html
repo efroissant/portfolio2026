@@ -7764,6 +7764,14 @@
     }
   }
 
+  /* Bio : sur une grille de 12 colonnes (marges et gouttières de 24 px),
+     elle occupe 5 colonnes au lieu d'environ 4. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 5 + 4 * 24px) !important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -7849,7 +7857,7 @@
        (grand écran). Remplace l'obi de la pochette. -->
   <aside class="profil" aria-label="À propos">
     <div class="profil__bio">
-      <p>Emmanuel est designer à Montréal. Les hésitations avant un clic l’intriguent souvent plus que le clic lui-même.</p>
+      <p>Emmanuel travaille à Montréal. Il étudie la psycho, a un faible pour années 80 et aime les gens qui disent tout haut «&nbsp;je sais pas où cliquer&nbsp;».</p>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
     </div>
   </aside>
