@@ -8293,11 +8293,6 @@
     }
   }
   .arbo::-webkit-scrollbar { display: none; }
-  /* Les deux versions côte à côte : la bleue en colonne 6, celle au trait en colonne 9. */
-  @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { right: auto; width: calc((100vw - 48px - 11 * 24px) / 12 * 3 + 2 * 24px + 20px); }
-    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo--trait { left: calc(var(--col-6) + (100vw - 48px - 11 * 24px) / 12 * 3 + 3 * 24px - 10px); }
-  }
   .arbo__dossier-btn span, .arbo__fichier span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .arbo ul { list-style: none; margin: 0; padding: 0; }
   .arbo__dossier-btn, .arbo__fichier {
@@ -8314,7 +8309,7 @@
   .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ouvert { display: block; }
   .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ferme { display: none; }
   /* Les feuilles : en retrait, un peu plus petites. */
-  .arbo__fichiers { padding-left: 1.2em !important; font-size: 0.65em; }
+  .arbo__fichiers { padding-left: 1.45em !important; font-size: 0.78em; }
   .arbo__fichiers[hidden] { display: none; }
   .arbo__fictif { color: #8F8F8C; }
 </style>
@@ -8550,8 +8545,6 @@
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
-  <!-- Essai : la même colonne, sans couleur (icônes au trait), à côté. -->
-  <nav class="arbo arbo--trait" aria-label="Projets (version au trait)"><ul class="arbo__dossiers"></ul></nav>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
     <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
