@@ -8312,6 +8312,11 @@
   .arbo__fichiers { padding-left: 1.45em !important; font-size: 0.78em; }
   .arbo__fichiers[hidden] { display: none; }
   .arbo__fictif { color: #8F8F8C; }
+  /* Photos (Frame 35, Frame 36) : au repos, rien. Au survol, seulement le
+     filet bleu. Une fois cliquée (sélectionnée) : les carrés pour
+     agrandir, les ronds pour arrondir et le nom du cadre. */
+  .photo-sel:not(.est-visible) { outline-color: transparent; }
+  .photo-sel:not(.est-visible) :is(i, .photo-sel__nom) { display: none; }
 </style>
 </head>
 <body>
