@@ -8186,7 +8186,9 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .projets-liste {
       display: block; position: absolute; z-index: 30;
-      left: var(--col-6); right: 24px;
+      /* 10 px de débord de chaque côté pour le fond noir au survol ; le texte,
+         lui, reste aligné sur la colonne 6 et la marge de droite. */
+      left: calc(var(--col-6) - 10px); right: 14px;
       top: var(--liste-haut, calc(var(--bar-h) + 200px));
       /* Jamais sous le bas de l'écran : au-delà, la liste défile seule. */
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
@@ -8203,19 +8205,21 @@
   .projet:last-child { border-bottom: 1px solid rgba(28,25,23,0.2); }
   .projet__rangee {
     display: grid; grid-template-columns: 1.15fr 1fr auto; column-gap: 16px; align-items: baseline;
-    width: 100%; padding: 10px 0; border: 0; background: none; cursor: pointer;
+    width: 100%; padding: 10px; border: 0; background: none; cursor: pointer;
     font: inherit; color: inherit; letter-spacing: inherit; text-align: left;
-    transition: color 160ms ease;
+    transition: color 140ms ease, background-color 140ms ease;
   }
   .projet__rangee span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .projet__signe { font-variant-numeric: tabular-nums; }
   .projets-liste ul:hover .projet__rangee { color: #A8A29E; }
-  .projets-liste ul .projet__rangee:hover, .projet__rangee[aria-expanded="true"] { color: #1C1917; }
+  .projet__rangee[aria-expanded="true"] { color: #1C1917; }
+  /* Survol : la rangée se remplit du noir du texte, le texte passe en blanc. */
+  .projets-liste ul .projet__rangee:hover { background: #1C1917; color: #FFFFFF; }
   .projet__rangee:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
   /* Ouvert : trois colonnes. */
   .projet__detail {
     display: grid; grid-template-columns: 0.75fr 1.7fr 1.05fr; column-gap: 14px;
-    padding: 2px 0 18px; font-size: 13px; line-height: 17px; letter-spacing: 0;
+    padding: 2px 10px 18px; font-size: 13px; line-height: 17px; letter-spacing: 0;
   }
   .projet__detail[hidden] { display: none; }
   .projet__vignette { width: 100%; aspect-ratio: 16 / 10; background: #ddd center / cover no-repeat; }
