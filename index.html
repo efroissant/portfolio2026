@@ -7612,17 +7612,18 @@
   .stage :is(.bio-modal, .projets-modal, .doc__win, .mail),
   :is(.bio-modal, .projets-modal) { background-color: #FFFFFF !important; }
 
-  /* Le dossier « Autre » : six vignettes qui sortent en deux rangées de trois. */
+  /* Le dossier « Autre » : six vignettes. */
   .dossier__carte--4 { left: 6px;   --r: -2deg; background-color: #B9B3A7; }
   .dossier__carte--5 { left: 60px;  --r: 1deg;  background-color: #8E9AA6; }
   .dossier__carte--6 { left: 114px; --r: 2deg;  background-color: #C9A98A; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte { --t: 150px; --r: 0deg; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--1 { --x: -131px; --y: -322px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--2 { --x: -25px;  --y: -322px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--3 { --x: 81px;   --y: -322px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--4 { --x: -131px; --y: -162px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--5 { --x: -25px;  --y: -162px; }
-  #dossier-3:is(:hover, :focus-within) .dossier__carte--6 { --x: 81px;   --y: -162px; }
+  /* Les six vignettes se superposent en éventail, comme dans les autres dossiers. */
+  #dossier-3:is(:hover, :focus-within) .dossier__carte { --t: 200px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--1 { --x: -171px; --y: -170px; --r: -15deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--2 { --x: -155px; --y: -182px; --r: -9deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--3 { --x: -139px; --y: -190px; --r: -3deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--4 { --x: 39px;   --y: -190px; --r: 3deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--5 { --x: 55px;   --y: -182px; --r: 9deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--6 { --x: 71px;   --y: -170px; --r: 15deg; }
 
 </style>
 </head>
