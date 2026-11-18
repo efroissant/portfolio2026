@@ -7484,7 +7484,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .dossier { display: block; }
   }
   .dossier {
-    position: absolute; left: 0; top: 0; z-index: 7;
+    position: absolute; left: 0; top: 0; z-index: 25;
     width: 220px; height: 196px;
     /* Taille d'affichage : tout le dossier (et ses vignettes) à 75 %. */
     transform: scale(0.75); transform-origin: 0 0;
@@ -7563,13 +7563,18 @@
      taille garde sa place dans le texte. Position gardée dans ce
      navigateur ; double-clic pour la remettre. */
   .profil__place { display: block; width: 48%; aspect-ratio: 1100 / 733; margin: 28px 0 8px 4px; }
-  .profil > .profil__image {
-    position: absolute; left: 0; top: 0; margin: 0; width: 48%;
+  .stage > .profil__image {
+    position: absolute; left: 0; top: 0; margin: 0; z-index: 10;
     cursor: pointer; touch-action: none; user-select: none; -webkit-user-drag: none;
   }
   /* Comme dans Figma : un filet bleu au survol ; une fois sélectionnée,
      le cadre bleu et ses quatre poignées pour agrandir ou réduire. */
-  .profil > .profil__image:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
+  .stage > .profil__image:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
+  .stage > .profil__image { display: none !important; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image { display: block !important; }
+  }
+  .stage.gatefold > .profil__image { filter: blur(8px); pointer-events: none; }
   .photo-sel {
     position: absolute; z-index: 2; display: block; pointer-events: none;
     outline: 1px solid #0D99FF; transform: rotate(-1.5deg);
@@ -7656,12 +7661,12 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel--libre { display: block !important; }
   }
   .cadre-libre {
-    position: absolute; z-index: 6; margin: 0; height: auto;
+    position: absolute; z-index: 10; margin: 0; height: auto;
     transform: rotate(-1.5deg);
     cursor: pointer; touch-action: none; user-select: none; -webkit-user-drag: none;
   }
   .cadre-libre:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
-  .photo-sel--libre { z-index: 6; }
+  .photo-sel--libre { z-index: 10; }
   .stage.gatefold :is(.cadre-libre, .photo-sel--libre) { filter: blur(8px); pointer-events: none; }
 
   /* Rotation, comme dans Figma : juste au-delà de chaque coin (après la
@@ -7673,6 +7678,27 @@
   .photo-sel b[data-rot="hd"] { right: -28px; top: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%2890 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
   .photo-sel b[data-rot="bd"] { right: -28px; bottom: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%28180 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
   .photo-sel b[data-rot="bg"] { left: -28px; bottom: -28px; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg transform='rotate%28270 12 12%29' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='white' stroke-width='4'/%3E%3Cpath d='M6 18 A12 12 0 0 1 18 6 M3 15 L6 19 L9 15 M15 3 L19 6 L15 9' stroke='black' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 12 12, alias; }
+
+  /* Rayon des coins, comme dans Figma : au survol d'une photo, quatre petits
+     ronds blancs près des coins et « Radius N » ; on tire un rond vers le
+     centre pour arrondir les angles. Le curseur montre l'icône d'angle arrondi. */
+  .photo-sel u {
+    position: absolute; width: 10px; height: 10px; box-sizing: border-box; display: none;
+    border-radius: 50%; background: #FFFFFF; border: 1px solid #0D99FF;
+    pointer-events: auto; z-index: 1; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M3 2 L3 17 L7 13 L10 19 L12.5 18 L9.6 12 L15 12 Z' fill='black' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M17 27 V22 A5 5 0 0 1 22 17 H27' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M17 27 V22 A5 5 0 0 1 22 17 H27' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 3 2, pointer;
+  }
+  .photo-sel:is(.est-survole, .est-visible) u { display: block; }
+  .photo-sel u[data-rayon="hg"] { left: var(--ins, 14px); top: var(--ins, 14px); translate: -50% -50%; }
+  .photo-sel u[data-rayon="hd"] { right: var(--ins, 14px); top: var(--ins, 14px); translate: 50% -50%; }
+  .photo-sel u[data-rayon="bg"] { left: var(--ins, 14px); bottom: var(--ins, 14px); translate: -50% 50%; }
+  .photo-sel u[data-rayon="bd"] { right: var(--ins, 14px); bottom: var(--ins, 14px); translate: 50% 50%; }
+  .photo-sel__rayon {
+    position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%);
+    display: none; white-space: nowrap; pointer-events: none;
+    padding: 3px 6px; border-radius: 3px; background: #0D99FF; color: #FFFFFF;
+    font: 500 12px/1 "Inter", "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums;
+  }
+  .photo-sel:is(.est-survole, .est-visible) .photo-sel__rayon { display: block; }
 
 </style>
 </head>
@@ -13506,6 +13532,69 @@ window.ajouterRotation = function (img, sel, cle) {
 };
 </script>
 <script>
+/* Premier plan : la photo cliquée passe devant les autres (z de 10 à 20). */
+window.__cadres = [];
+window.enregistrerCadre = function (img, sel) {
+  const entree = { img, sel };
+  window.__cadres.push(entree);
+  const ranger = () => window.__cadres.forEach((c, i) => { c.img.style.zIndex = 10 + i; c.sel.style.zIndex = 10 + i; });
+  const devant = () => {
+    const l = window.__cadres; l.splice(l.indexOf(entree), 1); l.push(entree); ranger();
+  };
+  img.addEventListener('pointerdown', devant, true);
+  sel.addEventListener('pointerdown', devant, true);
+  ranger();
+};
+/* Rayon des coins : ronds blancs au survol, « Radius N », on tire vers le centre. */
+window.ajouterRayon = function (img, sel, cle) {
+  let rad = 0;
+  try { rad = +localStorage.getItem(cle) || 0; } catch (e) {}
+  const etiquette = document.createElement('span');
+  etiquette.className = 'photo-sel__rayon';
+  sel.append(etiquette);
+  ['hg', 'hd', 'bg', 'bd'].forEach((c) => { const u = document.createElement('u'); u.dataset.rayon = c; sel.append(u); });
+  const appliquer = () => {
+    img.style.borderRadius = rad + 'px'; sel.style.borderRadius = rad + 'px';
+    sel.style.setProperty('--ins', Math.round(14 + rad * 0.293) + 'px');
+    etiquette.textContent = 'Radius ' + Math.round(rad);
+  };
+  appliquer();
+  // Survol : la photo ou ses poignées (petit délai pour passer de l'une aux autres).
+  let minuterie = 0;
+  const entrer = () => { clearTimeout(minuterie); sel.classList.add('est-survole'); };
+  const sortir = () => { minuterie = setTimeout(() => { if (!tir) sel.classList.remove('est-survole'); }, 120); };
+  img.addEventListener('pointerenter', entrer); img.addEventListener('pointerleave', sortir);
+  sel.addEventListener('pointerover', (e) => { if (e.target !== sel) entrer(); });
+  sel.addEventListener('pointerout', (e) => { if (e.target !== sel) sortir(); });
+  let tir = null;
+  const DIR = { hg: [1, 1], hd: [-1, 1], bg: [1, -1], bd: [-1, -1] };
+  sel.querySelectorAll('u[data-rayon]').forEach((u) => u.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault(); e.stopPropagation();
+    sel.classList.add('est-visible');
+    tir = { x: e.clientX, y: e.clientY, r0: rad, d: DIR[u.dataset.rayon] };
+    document.body.style.cursor = getComputedStyle(u).cursor;
+  }));
+  addEventListener('pointermove', (e) => {
+    if (!tir) return;
+    // Le geste projeté sur la diagonale, vers le centre de la photo.
+    const proj = ((e.clientX - tir.x) * tir.d[0] + (e.clientY - tir.y) * tir.d[1]) / Math.SQRT2;
+    const max = Math.min(img.offsetWidth, img.offsetHeight) / 2;
+    rad = Math.max(0, Math.min(max, tir.r0 + proj * 1.4));
+    appliquer();
+  });
+  const lacher = () => {
+    if (!tir) return;
+    tir = null; document.body.style.cursor = '';
+    try { localStorage.setItem(cle, Math.round(rad)); } catch (e) {}
+    console.log('[rayon] ' + cle + ' :', Math.round(rad));
+  };
+  addEventListener('pointerup', lacher);
+  addEventListener('pointercancel', lacher);
+  img.addEventListener('dblclick', () => { rad = 0; appliquer(); try { localStorage.removeItem(cle); } catch (e) {} });
+};
+</script>
+<script>
 /* Ma photo : déplaçable, à partir de sa place dans la bio. */
 (function photoDeplacable() {
   const profil = document.querySelector('.profil');
@@ -13514,7 +13603,7 @@ window.ajouterRotation = function (img, sel, cle) {
   if (!photo) return;
   const place = document.createElement('span');
   place.className = 'profil__place'; place.setAttribute('aria-hidden', 'true');
-  photo.replaceWith(place); profil.append(photo);
+  photo.replaceWith(place); profil.after(photo);   // sur le bureau, à côté des autres cadres
   photo.draggable = false;
   const CLE = 'portfolio:photo';
   // dx, dy : décalage depuis sa place ; w : largeur choisie (sinon 48 % de la colonne).
@@ -13523,8 +13612,9 @@ window.ajouterRotation = function (img, sel, cle) {
   let apres = () => {};   // le cadre de sélection suit (posé plus bas)
   function placer() {
     if (getComputedStyle(profil).display === 'none') return;
-    const p = profil.getBoundingClientRect(), r = place.getBoundingClientRect();
-    photo.style.width = pos.w ? pos.w + 'px' : '';
+    const p = photo.offsetParent ? photo.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
+    const r = place.getBoundingClientRect();
+    photo.style.width = (pos.w || Math.round(place.offsetWidth)) + 'px';
     photo.style.left = Math.round(r.left - p.left + pos.dx) + 'px';
     photo.style.top = Math.round(r.top - p.top + pos.dy) + 'px';
     apres();
@@ -13541,11 +13631,13 @@ window.ajouterRotation = function (img, sel, cle) {
   // Un clic ailleurs ou Échap la désélectionne.
   const MIN = 80, MAX = 900;
   const sel = document.createElement('div');
-  sel.className = 'photo-sel'; sel.setAttribute('aria-hidden', 'true');
+  sel.className = 'photo-sel photo-sel--libre'; sel.setAttribute('aria-hidden', 'true');
   sel.innerHTML = '<span class="photo-sel__nom">Frame 35</span><i data-coin="hg"></i><i data-coin="hd"></i><i data-coin="bg"></i><i data-coin="bd"></i><span class="photo-sel__taille"></span>';
   const taille = sel.querySelector('.photo-sel__taille');
-  profil.append(sel);
+  photo.after(sel);
   if (window.ajouterRotation) window.ajouterRotation(photo, sel, CLE + ':r');
+  if (window.ajouterRayon) window.ajouterRayon(photo, sel, CLE + ':rad');
+  if (window.enregistrerCadre) window.enregistrerCadre(photo, sel);
   function cadre() {
     sel.style.left = photo.style.left; sel.style.top = photo.style.top;
     sel.style.width = photo.offsetWidth + 'px'; sel.style.height = photo.offsetHeight + 'px';
@@ -13696,6 +13788,8 @@ document.querySelectorAll('.cadre-libre').forEach(function cadreLibre(img) {
   const taille = sel.querySelector('.photo-sel__taille');
   img.after(sel);
   if (window.ajouterRotation) window.ajouterRotation(img, sel, CLE + ':r');
+  if (window.ajouterRayon) window.ajouterRayon(img, sel, CLE + ':rad');
+  if (window.enregistrerCadre) window.enregistrerCadre(img, sel);
   function placer() {
     img.style.left = Math.round(pos.x) + 'px'; img.style.top = Math.round(pos.y) + 'px';
     img.style.width = Math.round(pos.w) + 'px';
