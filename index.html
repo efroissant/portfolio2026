@@ -15008,7 +15008,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     el.addEventListener('pointermove', (e) => { cible = { x: e.clientX, y: e.clientY }; });
     el.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
   }
-  eau(p, 'bio-eau', 58);
+  // eau(p, 'bio-eau', 58);   // effet d'eau sur la bio retiré (décommenter pour le remettre)
   // La photo : une vraie simulation d'eau en WebGL ; sinon, les ronds SVG.
   const photo = document.querySelector('.profil__image');
   if (!eauWebGL(photo)) eau(photo, 'photo-eau', 46);
