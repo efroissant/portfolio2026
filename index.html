@@ -7076,7 +7076,7 @@
     .mob-carte:active { transform: scale(0.985); }
     .mob-carte:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
     .face-a-mobile .mob-note {
-      display: block; margin: 40px 0 0; text-align: center;
+      display: block; margin: 60px 0 0; text-align: center;
       font: 400 15px/1.35 "Geist", Arial, sans-serif; color: #1C1917;
     }
   }
@@ -7151,7 +7151,7 @@
      Une note au milieu de la barre. Elle déplie le lecteur en traits du
      grand écran juste dessous, sans voile : on lance un morceau et on
      continue à défiler. La note bat doucement tant que ça joue. */
-  .note-mobile, .nav-fond-mobile { display: none; }
+  .note-mobile, .nav-fond-mobile, .sayhi-menu { display: none; }
   @media (max-width: 767px) {
     .stage[data-state="lock"] .recto-play.recto-play { display: none !important; }
     .stage[data-state="lock"] .note-mobile {
@@ -7195,6 +7195,19 @@
     .radio.est-ouvert .radio__liste button { padding: 10px 0; }
     /* La jauge fait déjà le trait : pas de second filet au-dessus de la liste. */
     .radio.est-ouvert .radio__liste { border-top: 0; }
+    /* Say Hi! : un bouton qui ressemble au lien, et son petit menu en traits. */
+    .stage .sayhi-mobile { border: 0; background: none; cursor: pointer; }
+    .stage[data-state="lock"] .sayhi-menu:not([hidden]) {
+      display: block; position: fixed; z-index: 40;
+      top: calc(var(--nav-h) + 4px); right: 16px; min-width: 168px; padding: 4px 14px;
+      background: #FFFFFF; border: 1px solid #1C1917; border-radius: 6px;
+    }
+    .sayhi-menu a {
+      display: block; padding: 12px 0; color: #1C1917; text-decoration: none;
+      font: 400 18px/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em;
+    }
+    .sayhi-menu a + a { border-top: 1px solid rgba(28,25,23,0.12); }
+    .sayhi-menu a:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
     /* En lecture, la note devient une petite onde qui ondule. */
     .note-mobile .note-mobile__onde { display: none; }
     .note-mobile.joue .note-mobile__note { display: none; }
@@ -7203,8 +7216,8 @@
     .note-mobile__onde path { animation: onde 1s linear infinite; }
     @keyframes onde { to { transform: translateX(-8px); } }
     /* Démarrage : le texte du build en 32 px. */
-    .demarrage.demarrage { padding: 20px 16px; font-size: 32px; line-height: 40px; letter-spacing: -0.01em; }
-    .demarrage .demarrage__curseur { width: 14px; height: 28px; vertical-align: -4px; }
+    /* Démarrage : même corps que la nav (18 px). */
+    .demarrage.demarrage { padding: 20px 16px; font-size: 18px; line-height: 27px; }
   }
   @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
     .note-mobile__onde path { animation: none; }
@@ -8038,7 +8051,8 @@
     l.textContent = texte;
     l.append(curseur);
     ecran.append(l);
-    setTimeout(suivante, calme ? 60 : pause);
+    // Un peu plus rapide : chaque pause raccourcie d'un tiers.
+    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.65));
   }
   setTimeout(suivante, calme ? 0 : 100);
 })();
@@ -8800,7 +8814,23 @@
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
   <div class="nav-fond-mobile" aria-hidden="true"></div>
-  <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>Say Hi!</a>
+  <button type="button" class="sayhi-mobile" id="sayhi-mobile" aria-expanded="false" aria-controls="sayhi-menu">Say Hi!</button>
+  <!-- Téléphone : Say Hi! ouvre un petit menu, Email puis LinkedIn. -->
+  <div class="sayhi-menu" id="sayhi-menu" hidden>
+    <a href="mailto:efroissant@outlook.com" data-ecrire>Email</a>
+    <a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LinkedIn</a>
+  </div>
+  <script>
+  (function sayHiMenu() {
+    const b = document.getElementById('sayhi-mobile'), m = document.getElementById('sayhi-menu');
+    if (!b || !m) return;
+    const ouvrir = (oui) => { m.hidden = !oui; b.setAttribute('aria-expanded', String(oui)); };
+    b.addEventListener('click', () => { ouvrir(m.hidden); if (!m.hidden) m.querySelector('a').focus({ preventScroll: true }); });
+    m.addEventListener('click', (e) => { if (e.target.closest('a')) ouvrir(false); });
+    document.addEventListener('click', (e) => { if (!m.hidden && !m.contains(e.target) && !b.contains(e.target)) ouvrir(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !m.hidden) { ouvrir(false); b.focus(); } });
+  })();
+  </script>
   <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">Manu</span></button>
   <!-- Téléphone : la musique est une option. La note ouvre le lecteur en traits (#radio) sous la barre. -->
   <button type="button" class="note-mobile" id="note-mobile" aria-label="Musique" aria-expanded="false" aria-controls="radio">
