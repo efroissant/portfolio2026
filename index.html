@@ -8057,6 +8057,15 @@
   .radio-bouton:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
   .radio-bouton svg { display: block; width: 22px; height: 22px; fill: none; stroke: #1C1917; stroke-width: 1.2; stroke-linejoin: round; stroke-linecap: round; }
   .radio-bouton[aria-expanded="true"] { background: rgba(0,0,0,0.06); }
+  /* Musique en cours : au survol de l'onde, une bulle « Couper le son ». */
+  .radio-bouton::after {
+    content: "Couper le son"; position: absolute; right: 0; bottom: calc(100% + 6px);
+    padding: 4px 8px; border: 1px solid #1C1917; border-radius: 6px; background: #FFFFFF; color: #1C1917;
+    font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap;
+    opacity: 0; transform: translateY(3px); pointer-events: none;
+    transition: opacity 120ms ease, transform 120ms ease;
+  }
+  .radio-bouton.joue:is(:hover, :focus-visible)::after { opacity: 1; transform: none; }
   .radio-bouton__onde { display: none !important; overflow: hidden; }
   .radio-bouton__onde path { animation: onde-bureau 1s linear infinite; }
   @keyframes onde-bureau { to { transform: translateX(-8px); } }
@@ -12748,6 +12757,8 @@ const dire = (function () {
       };
       notes.forEach((n) => n.addEventListener('click', (e) => {
         e.stopPropagation();
+        // Musique en cours : un seul clic sur l'onde coupe le son.
+        if (!audio.paused) { audio.pause(); basculer(false); return; }
         basculer(!r.classList.contains('est-ouvert'));
       }));
       document.addEventListener('click', (e) => {
@@ -12763,7 +12774,7 @@ const dire = (function () {
         const joue = !audio.paused;
         notes.forEach((n) => {
           n.classList.toggle('joue', joue);
-          n.setAttribute('aria-label', joue ? 'Musique en cours — ouvrir le lecteur' : 'Musique');
+          n.setAttribute('aria-label', joue ? 'Couper le son' : 'Musique');
         });
       };
       ['play', 'pause', 'ended'].forEach((ev) => audio.addEventListener(ev, etat));
