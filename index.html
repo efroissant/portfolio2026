@@ -7854,7 +7854,7 @@
     padding: 24px; overflow: hidden;
     font: 400 18px/27px "Geist", "Helvetica Neue", Arial, sans-serif;
     color: #1C1917; letter-spacing: 0;
-    transition: opacity 300ms ease;
+    transition: opacity 200ms ease;
   }
   .demarrage.est-fini { opacity: 0; pointer-events: none; }
   .demarrage__ligne { display: block; white-space: pre-wrap; }
@@ -7862,8 +7862,8 @@
   /* Glitch : le fond saute d'une couleur à l'autre, avec des bandes
      décalées et un dédoublement rouge/cyan du texte. */
   .demarrage__bande { position: absolute; left: 0; right: 0; pointer-events: none; }
-  /* Un reste de glitch sur la bio et la photo, une seconde après l'arrivée sur le site. */
-  .glitch-reste { animation: glitch-reste 1100ms steps(1, end) both; }
+  /* Un reste de glitch sur la bio et la photo, une demi-seconde après l'arrivée sur le site. */
+  .glitch-reste { animation: glitch-reste 550ms steps(1, end) both; }
   .glitch-reste--texte { animation-name: glitch-reste-texte; }
   @keyframes glitch-reste {
     0%   { translate: -6px 0;  clip-path: inset(10% 0 55% 0); filter: hue-rotate(90deg) saturate(3); }
@@ -7884,7 +7884,7 @@
   }
   /* Les dossiers arrivent l'un après l'autre pendant la fin du glitch,
      en clignotant un peu comme un écran qui se stabilise. */
-  .glitch-arrivee { animation: glitch-arrivee 520ms steps(1, end) both; animation-delay: var(--delai, 0ms); }
+  .glitch-arrivee { animation: glitch-arrivee 280ms steps(1, end) both; animation-delay: var(--delai, 0ms); }
   @keyframes glitch-arrivee {
     0%   { opacity: 0; translate: 0 0; }
     20%  { opacity: 1; translate: 8px 0; }
@@ -8157,21 +8157,21 @@
       el.classList.add('glitch-reste');
       if (texte) el.classList.add('glitch-reste--texte');
     });
-    // Les dossiers apparaissent en décalé, 140 ms d'écart, pendant la fin du glitch.
+    // Les dossiers apparaissent en décalé, 60 ms d'écart, pendant la fin du glitch.
     const dossiers = [...document.querySelectorAll('.dossier, .mob-dossier')];
     dossiers.forEach((el, i) => {
-      el.style.setProperty('--delai', (250 + (i % 4) * 140) + 'ms');
+      el.style.setProperty('--delai', (60 + (i % 4) * 60) + 'ms');
       el.classList.add('glitch-arrivee');
     });
-    setTimeout(() => dossiers.forEach((el) => { el.classList.remove('glitch-arrivee'); el.style.removeProperty('--delai'); }), 1400);
+    setTimeout(() => dossiers.forEach((el) => { el.classList.remove('glitch-arrivee'); el.style.removeProperty('--delai'); }), 700);
     // Un minuteur plutôt qu'animationend : un élément caché (mobile sur bureau) n'anime jamais.
-    setTimeout(() => cibles.forEach(([el]) => el.classList.remove('glitch-reste', 'glitch-reste--texte')), 1200);
+    setTimeout(() => cibles.forEach(([el]) => el.classList.remove('glitch-reste', 'glitch-reste--texte')), 650);
   }
   function finir() {
     arreterGlitch();
     resteDeGlitch();
     ecran.classList.add('est-fini');
-    setTimeout(() => ecran.remove(), calme ? 0 : 340);
+    setTimeout(() => ecran.remove(), calme ? 0 : 220);
   }
   function suivante() {
     if (i >= LIGNES.length) { finir(); return; }
@@ -8181,10 +8181,10 @@
     l.textContent = texte;
     l.append(curseur);
     ecran.append(l);
-    // Un peu plus rapide : chaque pause raccourcie d'un tiers.
-    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.65));
+    // Rapide : chaque pause réduite à 35 %, le démarrage dure moins d'une demi-seconde.
+    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.35));
   }
-  setTimeout(suivante, calme ? 0 : 100);
+  setTimeout(suivante, calme ? 0 : 30);
   glitch();
 })();
 </script>
