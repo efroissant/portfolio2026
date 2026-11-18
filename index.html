@@ -8183,41 +8183,49 @@
   .projets-liste, .projets-vignette { display: none; }
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .projets-liste {
-      display: block; position: absolute; z-index: 7;
+      display: block; position: absolute; z-index: 30; background: #FFFFFF;
       left: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 6 + 6 * 24px); right: 24px;
       top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px) + 6px);
-      font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917;
-      text-transform: uppercase; letter-spacing: 0.01em;
+      /* 20 px sur un écran de 1440, proportionnel ailleurs (15 à 26 px). */
+      font: 400 clamp(15px, 1.39vw, 26px)/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917;
+      text-transform: uppercase; letter-spacing: -0.005em;
     }
     .projets-vignette { display: block; }
   }
   .projets-liste ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(28,25,23,0.18); }
   .projets-liste__entete, .projet__rangee {
-    display: grid; grid-template-columns: 1.6fr 1fr 1fr 0.45fr; column-gap: 24px; align-items: baseline;
+    display: grid; grid-template-columns: 1.7fr 1.2fr 0.8fr 0.35fr; column-gap: 20px; align-items: baseline;
   }
-  .projets-liste__entete { padding: 0 0 6px; color: #8A8580; font-size: 12px; }
+  /* Une ligne par cellule : jamais de retour à la ligne, « … » s'il le faut. */
+  .projets-liste__entete span, .projet__rangee span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Écran étroit (moins de 1200 px) : trois colonnes, sans le secteur. */
+  @media (max-width: 1199px) {
+    .projets-liste__entete, .projet__rangee { grid-template-columns: 1.7fr 1.2fr 0.35fr; column-gap: 16px; }
+    .projets-liste__entete span:nth-child(3), .projet__rangee span:nth-child(3) { display: none; }
+  }
+  .projets-liste__entete { padding: 0 0 8px; color: #8A8580; font-size: 0.7em; line-height: 1.3; letter-spacing: 0.02em; }
   .projets-liste__entete span:last-child, .projet__rangee span:last-child { text-align: right; }
   .projet { border-bottom: 1px solid rgba(28,25,23,0.18); }
   .projet__rangee {
-    width: 100%; padding: 7px 0; border: 0; background: none; cursor: pointer;
+    width: 100%; padding: 12px 0; border: 0; background: none; cursor: pointer;
     font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; text-align: left;
     transition: padding 220ms ease, color 160ms ease;
   }
   /* Survol : la rangée se décale à peine, les autres pâlissent. */
   .projets-liste ul:hover .projet__rangee { color: #A8A29E; }
-  .projets-liste ul .projet__rangee:hover, .projet__rangee[aria-expanded="true"] { color: #1C1917; padding-left: 8px; }
+  .projets-liste ul .projet__rangee:hover, .projet__rangee[aria-expanded="true"] { color: #1C1917; padding-left: 12px; }
   .projet__rangee:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
-  .projet__detail { padding: 4px 0 16px 8px; text-transform: none; letter-spacing: -0.01em; }
-  .projet__detail p { margin: 0 0 12px; max-width: 46ch; font-size: 16px; line-height: 22px; color: #44403C; }
+  .projet__detail { padding: 4px 0 22px 12px; text-transform: none; letter-spacing: -0.01em; }
+  .projet__detail p { margin: 0 0 16px; max-width: 42ch; font-size: 20px; line-height: 28px; color: #44403C; }
   .projet__voir {
-    display: inline-block; padding: 6px 12px; border: 1px solid #1C1917; border-radius: 6px;
-    color: #1C1917; text-decoration: none; font-size: 14px;
+    display: inline-block; padding: 9px 16px; border: 1px solid #1C1917; border-radius: 6px;
+    color: #1C1917; text-decoration: none; font-size: 17px; line-height: 20px;
     transition: background 160ms ease, color 160ms ease;
   }
   .projet__voir:hover, .projet__voir:focus-visible { background: #1C1917; color: #FFFFFF; outline: none; }
   /* La vignette qui suit la souris au survol d'une rangée. */
   .projets-vignette {
-    position: fixed; left: 0; top: 0; z-index: 45; width: 240px; height: 160px; pointer-events: none;
+    position: fixed; left: 0; top: 0; z-index: 45; width: 340px; height: 226px; pointer-events: none;
     border-radius: 6px; border: 1px solid rgba(28,25,23,0.2); background: #ddd center / cover no-repeat;
     box-shadow: 0 8px 24px -10px rgba(0,0,0,0.3);
     opacity: 0; transform: translate(-50%, -50%) scale(0.85);
@@ -8225,6 +8233,10 @@
   }
   .projets-vignette.est-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   @media (prefers-reduced-motion: reduce) { .projets-vignette, .projet__rangee { transition: none; } }
+  /* ===== TEMPORAIRE : dossiers cachés (grand écran) =====
+     On essaie la liste de projets en accordéon à la place. Pour les
+     remettre, supprimer ce bloc. */
+  .stage .dossier { display: none !important; }
 </style>
 </head>
 <body>
@@ -15115,8 +15127,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, boucle = 0, visible = false;
   // À droite du curseur, ou à gauche s'il n'y a plus la place ; jamais hors de l'écran.
   const place = (e) => ({
-    x: e.clientX + 150 + 128 > innerWidth ? e.clientX - 150 : e.clientX + 150,
-    y: Math.max(90, Math.min(e.clientY, innerHeight - 90))
+    x: e.clientX + 210 + 178 > innerWidth ? e.clientX - 210 : e.clientX + 210,
+    y: Math.max(125, Math.min(e.clientY, innerHeight - 125))
   });
   function suivre() {
     pos.x += (cible.x - pos.x) * 0.2; pos.y += (cible.y - pos.y) * 0.2;
