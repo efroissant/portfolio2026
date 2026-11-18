@@ -7893,19 +7893,9 @@
     65%  { opacity: 0.6; translate: 0 0; }
     80%, 100% { opacity: 1; translate: none; }
   }
-  /* Allumage : comme des néons dans une grande salle. Chaque élément
-     s'allume à son tour, grésille deux ou trois fois, puis tient. */
-  .allumage { animation: allumage 420ms steps(1, end) both; animation-delay: var(--delai, 0ms); }
-  @keyframes allumage {
-    0%   { opacity: 0; }
-    12%  { opacity: 0.85; }
-    20%  { opacity: 0.08; }
-    34%  { opacity: 0.6; }
-    42%  { opacity: 0.15; }
-    56%  { opacity: 1; }
-    64%  { opacity: 0.45; }
-    74%, 100% { opacity: 1; }
-  }
+  /* Allumage : chaque élément apparaît à son tour, en fondu doux. */
+  .allumage { animation: allumage 380ms ease-out both; animation-delay: var(--delai, 0ms); }
+  @keyframes allumage { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee, .allumage { animation: none; } }
   /* Avant l'allumage, la salle est éteinte : rien ne s'affiche d'abord en plein. */
   .avant-allumage :is(.menubar__leading, .menubar__titre, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
@@ -8162,7 +8152,7 @@
     ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
     ecran.style.background = ''; ecran.style.color = ''; ecran.style.textShadow = '';
   }
-  // Arrivée sur le site : tout s'allume l'un après l'autre, comme des néons.
+  // Arrivée sur le site : tout apparaît l'un après l'autre, en fondu doux.
   // Ordre de lecture : la barre, la bio, la photo, les dossiers, le bas.
   function resteDeGlitch() {
     if (calme) return;
