@@ -7236,7 +7236,15 @@
     /* Le courriel : centré dans l'écran. Quand le clavier monte, il remonte
        en haut pour que ENVOYER reste visible. */
     #mail-backdrop { align-items: center; padding-bottom: 12px; }
-    html.clavier #mail-backdrop { align-items: flex-start; }
+    /* Clavier ouvert : la fenêtre se cale sur la partie visible de l'écran
+       (au-dessus du clavier, là où iOS a décalé la page) et le message
+       rétrécit pour que l'en-tête, De et ENVOYER restent tous visibles. */
+    html.clavier #mail-backdrop {
+      top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100dvh);
+      align-items: flex-start; padding: 8px 12px; overflow: hidden;
+    }
+    html.clavier #mail { max-height: calc(var(--vv-h, 100dvh) - 16px); }
+    html.clavier .stage #mail .mail__body { min-height: 64px; }
   }
 
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
@@ -8829,8 +8837,13 @@
   (function clavier() {
     const vv = window.visualViewport;
     if (!vv) return;
-    const maj = () => document.documentElement.classList.toggle('clavier', window.innerHeight - vv.height > 120);
-    vv.addEventListener('resize', maj); maj();
+    const html = document.documentElement;
+    const maj = () => {
+      html.classList.toggle('clavier', window.innerHeight - vv.height > 120);
+      html.style.setProperty('--vv-top', vv.offsetTop + 'px');
+      html.style.setProperty('--vv-h', vv.height + 'px');
+    };
+    vv.addEventListener('resize', maj); vv.addEventListener('scroll', maj); maj();
   })();
   (function sayHiMenu() {
     const b = document.getElementById('sayhi-mobile'), m = document.getElementById('sayhi-menu');
