@@ -7700,6 +7700,20 @@
   }
   .photo-sel:is(.est-survole, .est-visible) .photo-sel__rayon { display: block; }
 
+  /* Titre au centre de la barre (grand écran), non cliquable. Le lecteur
+     reprend sa place avant « Say hi » pour lui laisser le centre. */
+  .menubar__titre { display: none; }
+  @media (min-width: 1024px) {
+    .stage .menubar .menubar__titre {
+      display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      margin: 0; white-space: nowrap; pointer-events: none; user-select: none;
+      font: 400 16px/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: inherit;
+    }
+    .stage .menubar .recto-play.dans-barre.dans-barre {
+      position: static !important; inset: auto !important; transform: none !important; margin: 0 6px 0 0;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -8434,6 +8448,9 @@
           <button type="button" class="menuitem" aria-haspopup="menu" aria-expanded="false" data-node-id="118:194">Aide</button>
         </div>
       </div>
+
+      <!-- Le titre, au centre de la barre : du texte, pas un lien. -->
+      <p class="menubar__titre">Digital Designer — UI, UX, Marketing et Produit</p>
 
       <div class="menubar__trailing" data-node-id="118:195">
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
