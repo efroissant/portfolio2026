@@ -7080,6 +7080,16 @@
     }
   }
   @media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .mob-carte { transition: none; } }
+  /* Téléphone et tablette : la page défile, donc les modales (Say hi, CV,
+     verrou…) se fixent à l'écran au lieu de se centrer sur toute la page.
+     Calées en haut : le clavier, qui monte par le bas, ne les cache pas. */
+  @media (max-width: 1023px) {
+    .modal-backdrop {
+      position: fixed; inset: 0; height: 100dvh;
+      align-items: flex-start; overflow-y: auto; overscroll-behavior: contain;
+      padding-top: max(12px, env(safe-area-inset-top));
+    }
+  }
 
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
   .verso__piste {
