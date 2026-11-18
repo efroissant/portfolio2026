@@ -7233,6 +7233,10 @@
       align-items: flex-start; overflow-y: auto; overscroll-behavior: contain;
       padding-top: max(12px, env(safe-area-inset-top));
     }
+    /* Le courriel : centré dans l'écran. Quand le clavier monte, il remonte
+       en haut pour que ENVOYER reste visible. */
+    #mail-backdrop { align-items: center; padding-bottom: 12px; }
+    html.clavier #mail-backdrop { align-items: flex-start; }
   }
 
   /* ---- Tracklist du verso : les études de cas, cliquables ---- */
@@ -8821,6 +8825,13 @@
     <a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LinkedIn</a>
   </div>
   <script>
+  // Clavier du téléphone ouvert ? (l'écran visible rétrécit) — sert au courriel.
+  (function clavier() {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const maj = () => document.documentElement.classList.toggle('clavier', window.innerHeight - vv.height > 120);
+    vv.addEventListener('resize', maj); maj();
+  })();
   (function sayHiMenu() {
     const b = document.getElementById('sayhi-mobile'), m = document.getElementById('sayhi-menu');
     if (!b || !m) return;
