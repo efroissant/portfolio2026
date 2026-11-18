@@ -8026,10 +8026,13 @@
       width: calc((100vw - 48px - 11 * 24px) / 12 * 6 + 5 * 24px) !important;
     }
   }
-  /* Très grand écran (iMac, à partir de 1800 px) : la bio descend de 60 px.
-     La photo et les dossiers, posés par rapport à elle, suivent. */
-  @media (min-width: 1800px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { top: calc(var(--bar-h) + 120px); }
+  /* La hauteur de la bio suit celle de l'écran : 60 px sous la barre sur un
+     MacBook (900 px de haut), 120 px sur un iMac (1260 px), et entre les deux
+     en proportion. Bornée à 40–200 px. La photo et les dossiers suivent. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
+      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px));
+    }
   }
 
   /* ===== Lecteur minimaliste : traits fins, titres, jauge ===== */
@@ -14696,7 +14699,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
     el.addEventListener('pointermove', (e) => { cible = { x: e.clientX, y: e.clientY }; });
     el.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
   }
-  eau(p, 'bio-eau', 34);
+  eau(p, 'bio-eau', 58);
   // La photo : une vraie simulation d'eau en WebGL ; sinon, les ronds SVG.
   const photo = document.querySelector('.profil__image');
   if (!eauWebGL(photo)) eau(photo, 'photo-eau', 46);
