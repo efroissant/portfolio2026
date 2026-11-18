@@ -8185,6 +8185,16 @@
     // Rapide : chaque pause réduite à 35 %, le démarrage dure moins d'une demi-seconde.
     setTimeout(suivante, calme ? 60 : Math.round(pause * 0.35));
   }
+  // Écran de démarrage retiré pour le moment : passer à true pour le remettre.
+  // Sans lui, on arrive directement sur le site, avec le court reste de glitch.
+  const DEMARRAGE = false;
+  if (!DEMARRAGE) {
+    ecran.remove();
+    const arrivee = () => requestAnimationFrame(resteDeGlitch);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arrivee, { once: true });
+    else arrivee();
+    return;
+  }
   setTimeout(suivante, calme ? 0 : 30);
   glitch();
 })();
