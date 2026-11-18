@@ -8176,63 +8176,72 @@
   .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--2 { --x: 500px;  --y: -662px; --r: 0deg; }
   .dossier--cartes:is(.est-ouvert, :focus-within) .dossier__carte--3 { --x: 1006px; --y: -640px; --r: 12deg; }
   .dossier--cartes .dossier__carte:hover { --lift: -18px; z-index: 3; }
-  /* ===== Projets en rangées, à droite de la bio (grand écran) =====
-     Colonnes 7 à 12 de la grille, en haut à la hauteur de la bio. Capitales
-     fines, filets d'un pixel entre les rangées, comme une liste de
-     services. */
+  /* ===== Projets en accordéon, à droite de la bio (grand écran) =====
+     Colonnes 7 à 12 de la grille. Le haut est posé par le script sur la
+     dernière ligne de la bio. Une rangée : nom, secteur, (+). Ouverte :
+     trois colonnes — vignette et étiquettes, grande image et année,
+     texte et « Voir Use Case ». */
   .projets-liste, .projets-vignette { display: none; }
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .projets-liste {
-      display: block; position: absolute; z-index: 30; background: #FFFFFF;
+      display: block; position: absolute; z-index: 30;
       left: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 6 + 6 * 24px); right: 24px;
-      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px) + 6px);
-      /* 20 px sur un écran de 1440, proportionnel ailleurs (15 à 26 px). */
-      font: 400 clamp(15px, 1.39vw, 26px)/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917;
-      text-transform: uppercase; letter-spacing: -0.005em;
+      top: var(--liste-haut, calc(var(--bar-h) + 200px));
+      /* Jamais sous le bas de l'écran : au-delà, la liste défile seule. */
+      max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
+      scrollbar-width: none; overscroll-behavior: contain;
+      /* 26 px sur un écran de 1440, proportionnel ailleurs. */
+      font: 400 clamp(18px, 1.8vw, 34px)/1.15 "Geist", "Helvetica Neue", Arial, sans-serif;
+      color: #1C1917; letter-spacing: -0.02em;
     }
     .projets-vignette { display: block; }
   }
-  .projets-liste ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(28,25,23,0.18); }
-  .projets-liste__entete, .projet__rangee {
-    display: grid; grid-template-columns: 1.7fr 1.2fr 0.8fr 0.35fr; column-gap: 20px; align-items: baseline;
-  }
-  /* Une ligne par cellule : jamais de retour à la ligne, « … » s'il le faut. */
-  .projets-liste__entete span, .projet__rangee span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  /* Écran étroit (moins de 1200 px) : trois colonnes, sans le secteur. */
-  @media (max-width: 1199px) {
-    .projets-liste__entete, .projet__rangee { grid-template-columns: 1.7fr 1.2fr 0.35fr; column-gap: 16px; }
-    .projets-liste__entete span:nth-child(3), .projet__rangee span:nth-child(3) { display: none; }
-  }
-  .projets-liste__entete { padding: 0 0 8px; color: #8A8580; font-size: 0.7em; line-height: 1.3; letter-spacing: 0.02em; }
-  .projets-liste__entete span:last-child, .projet__rangee span:last-child { text-align: right; }
-  .projet { border-bottom: 1px solid rgba(28,25,23,0.18); }
+  .projets-liste::-webkit-scrollbar { display: none; }
+  .projets-liste ul { list-style: none; margin: 0; padding: 0; }
+  .projet { border-top: 1px solid rgba(28,25,23,0.2); }
+  .projet:last-child { border-bottom: 1px solid rgba(28,25,23,0.2); }
   .projet__rangee {
-    width: 100%; padding: 12px 0; border: 0; background: none; cursor: pointer;
-    font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; text-align: left;
-    transition: padding 220ms ease, color 160ms ease;
+    display: grid; grid-template-columns: 1.15fr 1fr auto; column-gap: 16px; align-items: baseline;
+    width: 100%; padding: 10px 0; border: 0; background: none; cursor: pointer;
+    font: inherit; color: inherit; letter-spacing: inherit; text-align: left;
+    transition: color 160ms ease;
   }
-  /* Survol : la rangée se décale à peine, les autres pâlissent. */
+  .projet__rangee span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .projet__signe { font-variant-numeric: tabular-nums; }
   .projets-liste ul:hover .projet__rangee { color: #A8A29E; }
-  .projets-liste ul .projet__rangee:hover, .projet__rangee[aria-expanded="true"] { color: #1C1917; padding-left: 12px; }
+  .projets-liste ul .projet__rangee:hover, .projet__rangee[aria-expanded="true"] { color: #1C1917; }
   .projet__rangee:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
-  .projet__detail { padding: 4px 0 22px 12px; text-transform: none; letter-spacing: -0.01em; }
-  .projet__detail p { margin: 0 0 16px; max-width: 42ch; font-size: 20px; line-height: 28px; color: #44403C; }
-  .projet__voir {
-    display: inline-block; padding: 9px 16px; border: 1px solid #1C1917; border-radius: 6px;
-    color: #1C1917; text-decoration: none; font-size: 17px; line-height: 20px;
-    transition: background 160ms ease, color 160ms ease;
+  /* Ouvert : trois colonnes. */
+  .projet__detail {
+    display: grid; grid-template-columns: 0.75fr 1.7fr 1.05fr; column-gap: 14px;
+    padding: 2px 0 18px; font-size: 13px; line-height: 17px; letter-spacing: 0;
   }
-  .projet__voir:hover, .projet__voir:focus-visible { background: #1C1917; color: #FFFFFF; outline: none; }
-  /* La vignette qui suit la souris au survol d'une rangée. */
+  .projet__detail[hidden] { display: none; }
+  .projet__vignette { width: 100%; aspect-ratio: 16 / 10; background: #ddd center / cover no-repeat; }
+  .projet__tags { list-style: none; margin: 6px 0 0; padding: 0; }
+  .projet__image { width: 100%; aspect-ratio: 4 / 3; background: #111 center / cover no-repeat; }
+  .projet__annee { display: block; margin-top: 6px; }
+  .projet__texte { display: flex; flex-direction: column; justify-content: flex-end; }
+  .projet__texte p { margin: 0 0 20px; color: #1C1917; }
+  .projet__voir {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 6px; border-top: 1.5px solid #1C1917;
+    font-size: clamp(17px, 1.45vw, 28px); line-height: 1.15; letter-spacing: -0.02em;
+    color: #1C1917; text-decoration: none;
+  }
+  .projet__voir:hover, .projet__voir:focus-visible { outline: none; }
+  .projet__voir:hover .projet__fleche, .projet__voir:focus-visible .projet__fleche { transform: translate(3px, -3px); }
+  .projet__fleche { transition: transform 180ms ease; }
+  /* La vignette qui suit la souris au survol d'une rangée fermée. */
   .projets-vignette {
-    position: fixed; left: 0; top: 0; z-index: 45; width: 340px; height: 226px; pointer-events: none;
-    border-radius: 6px; border: 1px solid rgba(28,25,23,0.2); background: #ddd center / cover no-repeat;
+    position: fixed; left: 0; top: 0; z-index: 45; width: 300px; height: 200px; pointer-events: none;
+    border-radius: 4px; background: #ddd center / cover no-repeat;
     box-shadow: 0 8px 24px -10px rgba(0,0,0,0.3);
     opacity: 0; transform: translate(-50%, -50%) scale(0.85);
     transition: opacity 160ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .projets-vignette.est-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  @media (prefers-reduced-motion: reduce) { .projets-vignette, .projet__rangee { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .projets-vignette, .projet__rangee, .projet__fleche { transition: none; } }
   /* ===== TEMPORAIRE : dossiers cachés (grand écran) =====
      On essaie la liste de projets en accordéon à la place. Pour les
      remettre, supprimer ce bloc. */
@@ -8461,42 +8470,11 @@
        src="fond-hawaii-petit.jpg" srcset="fond-hawaii-petit.jpg 900w, fond-hawaii-grand.jpg 1672w" sizes="40vw"
        alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
   -->
-  <!-- Les projets en rangées (grand écran), à droite de la bio. Survol :
-       la vignette du projet suit la souris. Clic : la rangée se déplie avec
-       une phrase et « Voir projet ». Pour ajouter un projet : copier un <li>.
-       data-img = image de la vignette (sinon data-couleur). -->
-  <section class="projets-liste" aria-label="Projets">
-    <div class="projets-liste__entete" aria-hidden="true"><span>Projet</span><span>Type</span><span>Secteur</span><span>Année</span></div>
-    <ul>
-      <li class="projet" data-couleur="#D33F3F">
-        <button type="button" class="projet__rangee" aria-expanded="false">
-          <span>Pharmaprix</span><span>Outil de gestion</span><span>Pharmacie</span><span>2023</span>
-        </button>
-        <div class="projet__detail" hidden>
-          <p>Un outil de gestion pharmaceutique pour Loblaw — Pharmaprix, pensé pour le quotidien des équipes en pharmacie.</p>
-          <a class="projet__voir" href="#case/loblaw">Voir projet ↗</a>
-        </div>
-      </li>
-      <li class="projet" data-img="gvq-agenda-920.jpg" data-couleur="#1E4D8C">
-        <button type="button" class="projet__rangee" aria-expanded="false">
-          <span>Groupe Voyage Québec</span><span>Outil de gestion</span><span>Voyage</span><span>2024</span>
-        </button>
-        <div class="projet__detail" hidden>
-          <p>Un outil de gestion d’événement pour organiser, suivre et partager chaque voyage de groupe.</p>
-          <a class="projet__voir" href="#case/gvq">Voir projet ↗</a>
-        </div>
-      </li>
-      <li class="projet" data-couleur="#0F6E6E">
-        <button type="button" class="projet__rangee" aria-expanded="false">
-          <span>Roche Diabetes Care</span><span>Campagne web</span><span>Santé</span><span>2022</span>
-        </button>
-        <div class="projet__detail" hidden>
-          <p>Un site pour une campagne marketing de Roche Diabetes Care.</p>
-          <a class="projet__voir" href="#case/roche">Voir projet ↗</a>
-        </div>
-      </li>
-    </ul>
-  </section>
+  <!-- Les projets en accordéon (grand écran), à droite de la bio, à partir
+       de la dernière ligne de la bio. Les rangées sont fabriquées par le
+       script à partir de la liste PROJETS (plus bas) : c'est là qu'on
+       ajoute, retire ou modifie un projet. -->
+  <section class="projets-liste" aria-label="Projets"><ul></ul></section>
   <div class="projets-vignette" aria-hidden="true"></div>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
@@ -15115,48 +15093,129 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 })();
 </script>
 <script>
-/* Projets en rangées : la vignette suit la souris au survol ; un clic
-   déplie la rangée (une seule ouverte à la fois) ; « Voir projet » ouvre
-   l'étude par son adresse, comme les cartes des dossiers. */
+/* ===== Projets en accordéon =====
+   La liste PROJETS fabrique les rangées. Survol d'une rangée fermée : la
+   vignette suit la souris. Clic : la rangée s'ouvre en trois colonnes (une
+   seule ouverte à la fois). « Voir Use Case » ouvre l'étude par son adresse.
+   img : image du projet (sinon un aplat de la couleur). Les projets marqués
+   « fictif » sont des exemples, à remplacer. */
 (function projetsListe() {
+  const PROJETS = [
+    { nom: 'Pharmaprix', secteur: 'Pharmacie', annee: 2023, lien: '#case/loblaw', couleur: '#D33F3F',
+      tags: ['Product design', 'Application', 'SaaS'],
+      texte: 'Un outil de gestion pharmaceutique pour Loblaw — Pharmaprix, pensé pour le quotidien des équipes en pharmacie.' },
+    { nom: 'Groupe Voyage Québec', secteur: 'Voyage', annee: 2024, lien: '#case/gvq', couleur: '#1E4D8C', img: 'gvq-agenda-920.jpg',
+      tags: ['UI/UX', 'Outil de gestion', 'Événements'],
+      texte: 'Un outil de gestion d’événement pour organiser, suivre et partager chaque voyage de groupe.' },
+    { nom: 'Roche Diabetes Care', secteur: 'Santé', annee: 2022, lien: '#case/roche', couleur: '#0F6E6E',
+      tags: ['UI/UX', 'Campagne web', 'Marketing'],
+      texte: 'Un site pour une campagne marketing de Roche Diabetes Care.' },
+    { nom: 'Maison Lumen', secteur: 'Hôtellerie', annee: 2024, lien: '#case/a-venir', couleur: '#C9A227', fictif: true,
+      tags: ['Identité', 'Site web', 'Réservation'],
+      texte: 'Projet fictif. Un site de réservation pour une petite maison d’hôtes, simple à parcourir sur téléphone.' },
+    { nom: 'Fluo Banque', secteur: 'Fintech', annee: 2023, lien: '#case/a-venir', couleur: '#5B3FD3', fictif: true,
+      tags: ['Product design', 'Application', 'Accessibilité'],
+      texte: 'Projet fictif. Une application bancaire qui explique chaque frais en une phrase.' },
+    { nom: 'Studio Marée', secteur: 'Culture', annee: 2022, lien: '#case/a-venir', couleur: '#2F7D5B', fictif: true,
+      tags: ['Direction artistique', 'Site web', 'Motion'],
+      texte: 'Projet fictif. Le site d’un studio de musique, construit autour de ses sons.' },
+    { nom: 'Vélo Cité', secteur: 'Mobilité', annee: 2021, lien: '#case/a-venir', couleur: '#E0662C', fictif: true,
+      tags: ['UX research', 'Application', 'Carte'],
+      texte: 'Projet fictif. Trouver un vélo libre-service et la piste la plus sûre pour rentrer.' },
+    { nom: 'Les Jardins Ouellet', secteur: 'Alimentation', annee: 2021, lien: '#case/a-venir', couleur: '#6E8B2F', fictif: true,
+      tags: ['Commerce en ligne', 'UI', 'Illustration'],
+      texte: 'Projet fictif. Une boutique de paniers de légumes, commandés en trois gestes.' }
+  ];
   const liste = document.querySelector('.projets-liste');
+  const ul = liste && liste.querySelector('ul');
   const vignette = document.querySelector('.projets-vignette');
-  if (!liste || !vignette) return;
-  const projets = [...liste.querySelectorAll('.projet')];
+  if (!ul || !vignette) return;
+  const fond = (p) => (p.img ? 'url("' + p.img + '") center / cover no-repeat, ' : '') + p.couleur;
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+  PROJETS.forEach((p, i) => {
+    const li = el('li', 'projet');
+    const rangee = el('button', 'projet__rangee');
+    rangee.type = 'button'; rangee.setAttribute('aria-expanded', 'false');
+    rangee.setAttribute('aria-controls', 'projet-' + i);
+    const signe = el('span', 'projet__signe', '(+)'); signe.setAttribute('aria-hidden', 'true');
+    rangee.append(el('span', '', p.nom), el('span', '', p.secteur), signe);
+    const detail = el('div', 'projet__detail'); detail.id = 'projet-' + i; detail.hidden = true;
+    const c1 = el('div'), c2 = el('div'), c3 = el('div', 'projet__texte');
+    const v = el('div', 'projet__vignette'); v.style.background = fond(p);
+    const tags = el('ul', 'projet__tags'); p.tags.forEach((t) => tags.append(el('li', '', t)));
+    c1.append(v, tags);
+    const im = el('div', 'projet__image'); im.style.background = fond(p);
+    im.setAttribute('role', 'img'); im.setAttribute('aria-label', 'Aperçu du projet ' + p.nom);
+    c2.append(im, el('span', 'projet__annee', '©' + p.annee));
+    const voir = el('a', 'projet__voir'); voir.href = p.lien;
+    voir.append(el('span', '', 'Voir Use Case'), el('span', 'projet__fleche', '↗'));
+    voir.lastChild.setAttribute('aria-hidden', 'true');
+    c3.append(el('p', '', p.texte), voir);
+    detail.append(c1, c2, c3);
+    li.append(rangee, detail); ul.append(li);
+    li._projet = p;
+  });
+  const projets = [...ul.children];
+
+  // Le haut de la liste : sur la dernière ligne de la bio (« … cliquer »).
+  const bioP = document.querySelector('.profil__bio p');
+  function caler() {
+    if (!bioP || !liste.offsetParent) return;
+    const r = document.createRange(); r.selectNodeContents(bioP);
+    const lignes = r.getClientRects(); if (!lignes.length) return;
+    const derniere = lignes[lignes.length - 1], parent = liste.offsetParent.getBoundingClientRect();
+    liste.style.setProperty('--liste-haut', Math.round(derniere.top - parent.top - 2) + 'px');
+  }
+  caler();
+  addEventListener('resize', caler);
+  addEventListener('load', caler);
+  if (document.fonts) document.fonts.ready.then(caler);
+
+  // La vignette qui suit la souris (seulement sur les rangées fermées).
   const souris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, boucle = 0, visible = false;
-  // À droite du curseur, ou à gauche s'il n'y a plus la place ; jamais hors de l'écran.
   const place = (e) => ({
-    x: e.clientX + 210 + 178 > innerWidth ? e.clientX - 210 : e.clientX + 210,
-    y: Math.max(125, Math.min(e.clientY, innerHeight - 125))
+    x: e.clientX + 190 + 158 > innerWidth ? e.clientX - 190 : e.clientX + 190,
+    y: Math.max(110, Math.min(e.clientY, innerHeight - 110))
   });
   function suivre() {
     pos.x += (cible.x - pos.x) * 0.2; pos.y += (cible.y - pos.y) * 0.2;
     vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px';
     if (visible || Math.abs(cible.x - pos.x) > 0.5) boucle = requestAnimationFrame(suivre); else boucle = 0;
   }
+  const cacher = () => { visible = false; vignette.classList.remove('est-visible'); };
   projets.forEach((li) => {
-    const rangee = li.querySelector('.projet__rangee'), detail = li.querySelector('.projet__detail');
+    const p = li._projet, rangee = li.querySelector('.projet__rangee'), detail = li.querySelector('.projet__detail');
     if (souris) {
       rangee.addEventListener('pointerenter', (e) => {
-        vignette.style.backgroundImage = li.dataset.img ? 'url("' + li.dataset.img + '")' : 'none';
-        vignette.style.backgroundColor = li.dataset.couleur || '#ddd';
+        if (rangee.getAttribute('aria-expanded') === 'true') return;
+        vignette.style.background = fond(p);
         cible = place(e);
         if (!visible) { pos = { ...cible }; vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px'; }
         visible = true; vignette.classList.add('est-visible');
         if (!boucle) boucle = requestAnimationFrame(suivre);
       });
       rangee.addEventListener('pointermove', (e) => { cible = place(e); });
-      rangee.addEventListener('pointerleave', () => { visible = false; vignette.classList.remove('est-visible'); });
+      rangee.addEventListener('pointerleave', cacher);
     }
     rangee.addEventListener('click', () => {
       const ouvrir = rangee.getAttribute('aria-expanded') !== 'true';
       projets.forEach((autre) => {
         autre.querySelector('.projet__rangee').setAttribute('aria-expanded', 'false');
+        autre.querySelector('.projet__signe').textContent = '(+)';
         autre.querySelector('.projet__detail').hidden = true;
       });
       rangee.setAttribute('aria-expanded', String(ouvrir));
+      li.querySelector('.projet__signe').textContent = ouvrir ? '(−)' : '(+)';
       detail.hidden = !ouvrir;
+      if (ouvrir) {
+        cacher();
+        // Le projet ouvert se montre en entier dans la liste.
+        const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const lr = liste.getBoundingClientRect(), r = li.getBoundingClientRect();
+        if (r.bottom > lr.bottom) liste.scrollBy({ top: Math.min(r.bottom - lr.bottom + 8, r.top - lr.top), behavior: calme ? 'auto' : 'smooth' });
+      }
     });
     li.querySelector('.projet__voir').addEventListener('click', (e) => {
       const h = e.currentTarget.getAttribute('href');
