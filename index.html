@@ -7858,10 +7858,13 @@
   }
   .demarrage.est-fini { opacity: 0; pointer-events: none; }
   .demarrage__ligne { display: block; white-space: pre-wrap; }
-  .demarrage__ligne--ok { color: #1C1917; font-weight: 500; }
+  .demarrage__ligne--ok { font-weight: 500; }
+  /* Glitch : le fond saute d'une couleur à l'autre, avec des bandes
+     décalées et un dédoublement rouge/cyan du texte. */
+  .demarrage__bande { position: absolute; left: 0; right: 0; pointer-events: none; }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
-    background: #1C1917; animation: demarrage-clignote 900ms steps(1) infinite;
+    background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
   }
   @keyframes demarrage-clignote { 50% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .demarrage__curseur { animation: none; } }
@@ -8080,7 +8083,39 @@
   const curseur = document.createElement('span');
   curseur.className = 'demarrage__curseur';
   let i = 0;
+  // Glitch d'écran : fond et texte changent par à-coups irréguliers.
+  const COULEURS = [
+    ['#FF2E63', '#FFFFFF'], ['#00E5FF', '#1C1917'], ['#FFE600', '#1C1917'],
+    ['#1C1917', '#FFFFFF'], ['#2B2BFF', '#FFFFFF'], ['#FFFFFF', '#1C1917'], ['#3DFF8A', '#1C1917']
+  ];
+  const hasard = (n) => Math.floor(Math.random() * n);
+  let glitchActif = !calme, derniere = -1, minuteur = 0;
+  function glitch() {
+    if (!glitchActif) return;
+    let k; do { k = hasard(COULEURS.length); } while (k === derniere);
+    derniere = k;
+    const [fond, encre] = COULEURS[k];
+    ecran.style.background = fond;
+    ecran.style.color = encre;
+    ecran.style.textShadow = Math.random() < 0.5 ? (2 + hasard(4)) + 'px 0 #FF2E63, -' + (2 + hasard(4)) + 'px 0 #00E5FF' : 'none';
+    ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
+    for (let n = hasard(3); n > 0; n--) {
+      const b = document.createElement('div');
+      b.className = 'demarrage__bande';
+      b.style.top = hasard(100) + '%';
+      b.style.height = (4 + hasard(60)) + 'px';
+      b.style.background = COULEURS[hasard(COULEURS.length)][0];
+      ecran.append(b);
+    }
+    minuteur = setTimeout(glitch, 50 + hasard(110));
+  }
+  function arreterGlitch() {
+    glitchActif = false; clearTimeout(minuteur);
+    ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
+    ecran.style.background = ''; ecran.style.color = ''; ecran.style.textShadow = '';
+  }
   function finir() {
+    arreterGlitch();
     ecran.classList.add('est-fini');
     setTimeout(() => ecran.remove(), calme ? 0 : 340);
   }
@@ -8096,6 +8131,7 @@
     setTimeout(suivante, calme ? 60 : Math.round(pause * 0.65));
   }
   setTimeout(suivante, calme ? 0 : 100);
+  glitch();
 })();
 </script>
 
