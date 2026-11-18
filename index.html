@@ -15183,10 +15183,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   // La vignette qui suit la souris (seulement sur les rangées fermées).
   const souris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, boucle = 0, visible = false;
-  const place = (e) => ({
-    x: e.clientX + 190 + 158 > innerWidth ? e.clientX - 190 : e.clientX + 190,
-    y: Math.max(110, Math.min(e.clientY, innerHeight - 110))
-  });
+  // Horizontalement, la vignette se pose sur la deuxième colonne (Secteur) de
+  // la rangée, à distance de la souris ; verticalement, elle suit la souris.
+  const place = (e, rangee) => {
+    const col = rangee.children[1].getBoundingClientRect();
+    return {
+      x: Math.min(col.left + 150, innerWidth - 24 - 150),
+      y: Math.max(110, Math.min(e.clientY, innerHeight - 110))
+    };
+  };
   function suivre() {
     pos.x += (cible.x - pos.x) * 0.2; pos.y += (cible.y - pos.y) * 0.2;
     vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px';
@@ -15199,12 +15204,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       rangee.addEventListener('pointerenter', (e) => {
         if (rangee.getAttribute('aria-expanded') === 'true') return;
         vignette.style.background = fond(p);
-        cible = place(e);
+        cible = place(e, rangee);
         if (!visible) { pos = { ...cible }; vignette.style.left = pos.x + 'px'; vignette.style.top = pos.y + 'px'; }
         visible = true; vignette.classList.add('est-visible');
         if (!boucle) boucle = requestAnimationFrame(suivre);
       });
-      rangee.addEventListener('pointermove', (e) => { cible = place(e); });
+      rangee.addEventListener('pointermove', (e) => { cible = place(e, rangee); });
       rangee.addEventListener('pointerleave', cacher);
     }
     rangee.addEventListener('click', () => {
