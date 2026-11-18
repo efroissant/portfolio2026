@@ -7510,7 +7510,7 @@
     position: absolute; top: 92px; width: var(--t, 100px); height: var(--t, 100px); border-radius: 10px; overflow: hidden;
     background: #ddd center / cover no-repeat; color: #FFFFFF; text-decoration: none;
     box-shadow: 0 1px 3px rgba(0,0,0,0.18), 0 6px 14px -6px rgba(0,0,0,0.25);
-    transform: translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg));
+    transform: translate(var(--x, 0px), calc(var(--y, 0px) + var(--lift, 0px))) rotate(var(--r, 0deg));
     transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), width 320ms cubic-bezier(0.22, 1, 0.36, 1), height 320ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   /* Le nom, en haut de la vignette, sur un léger voile pour rester lisible. */
@@ -7530,7 +7530,7 @@
   .dossier:hover .dossier__carte--1, .dossier:focus-within .dossier__carte--1 { --t: 230px; --x: -171px; --y: -205px; --r: -9deg; }
   .dossier:hover .dossier__carte--2, .dossier:focus-within .dossier__carte--2 { --t: 230px; --x: -65px; --y: -220px; --r: 0deg; }
   .dossier:hover .dossier__carte--3, .dossier:focus-within .dossier__carte--3 { --t: 230px; --x: 41px; --y: -205px; --r: 9deg; }
-  .dossier .dossier__carte:hover { --y: -234px; z-index: 2; }
+  .dossier .dossier__carte:hover { --lift: -14px; z-index: 2; }
   .dossier.est-tenu .dossier__carte { transition: none; }
   /* La face avant : verre dépoli, découpe en vague sur le dessus. */
   .dossier__face {
@@ -7639,6 +7639,18 @@
     }
   }
 
+  /* Le dossier « Autre » : six vignettes qui sortent en deux rangées de trois. */
+  .dossier__carte--4 { left: 6px;   --r: -2deg; background-color: #B9B3A7; }
+  .dossier__carte--5 { left: 60px;  --r: 1deg;  background-color: #8E9AA6; }
+  .dossier__carte--6 { left: 114px; --r: 2deg;  background-color: #C9A98A; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte { --t: 150px; --r: 0deg; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--1 { --x: -131px; --y: -322px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--2 { --x: -25px;  --y: -322px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--3 { --x: 81px;   --y: -322px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--4 { --x: -131px; --y: -162px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--5 { --x: -25px;  --y: -162px; }
+  #dossier-3:is(:hover, :focus-within) .dossier__carte--6 { --x: 81px;   --y: -162px; }
+
 </style>
 </head>
 <body>
@@ -7708,10 +7720,13 @@
   </div>
   <div class="dossier" id="dossier-3" data-dx="256" data-dy="-112" role="group" aria-label="Dossier Autre">
     <div class="dossier__fond"></div>
-    <!-- Pour l'instant, les mêmes cartes que Use Case : à remplacer. -->
+    <!-- Six vignettes (deux rangées de trois) : provisoires, à remplacer. -->
     <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span></a>
     <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq" style="background-image:url('gvq-agenda-920.jpg')"><span>Groupe Voyage Québec</span></a>
     <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span></a>
+    <a class="dossier__carte dossier__carte--4" href="#"><span>À venir</span></a>
+    <a class="dossier__carte dossier__carte--5" href="#"><span>À venir</span></a>
+    <a class="dossier__carte dossier__carte--6" href="#"><span>À venir</span></a>
     <div class="dossier__ombre"></div>
     <div class="dossier__face"><p class="dossier__titre">Autre</p></div>
   </div>
