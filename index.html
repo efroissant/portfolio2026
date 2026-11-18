@@ -14719,7 +14719,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
         if (force > 0.0) {
           vec2 a = trait.xy * vec2(aspect, 1.0), b = trait.zw * vec2(aspect, 1.0), q = uv * vec2(aspect, 1.0);
           vec2 ab = b - a; float h = clamp(dot(q - a, ab) / max(dot(ab, ab), 1e-6), 0.0, 1.0);
-          float l = length(q - a - ab * h) / 0.034;
+          float l = length(q - a - ab * h) / 0.045;
           if (l < 1.0) n -= force * (1.0 - l * l) * (1.0 - l * l);
         }
         o = vec4(n, s.r, 0.0, 1.0);
@@ -14732,12 +14732,12 @@ document.querySelectorAll('.dossier').forEach((d) => {
       void main() {
         float dx = texture(etat, uv + vec2(px.x, 0.0)).r - texture(etat, uv - vec2(px.x, 0.0)).r;
         float dy = texture(etat, uv + vec2(0.0, px.y)).r - texture(etat, uv - vec2(0.0, px.y)).r;
-        vec3 c = texture(image, clamp(uv + vec2(dx, dy) * 0.045, 0.001, 0.999)).rgb;
+        vec3 c = texture(image, clamp(uv + vec2(dx, dy) * 0.06, 0.001, 0.999)).rgb;
         vec3 n = normalize(vec3(-dx * 5.0, -dy * 5.0, 1.0));
         vec3 L = normalize(vec3(-0.45, 0.65, 1.0));
         float reflet = pow(max(dot(reflect(-L, n), vec3(0.0, 0.0, 1.0)), 0.0), 48.0);
         float base = pow(L.z, 48.0);
-        c += max(reflet - base, 0.0) * 0.55;
+        c += max(reflet - base, 0.0) * 0.7;
         c *= 1.0 + (dx - dy) * 0.6;                   // un peu d'ombre et de lumière sur les pentes
         o = vec4(c, 1.0);
       }`;
@@ -14835,7 +14835,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
         const bouge = Math.hypot(souris.x - derniere.x, souris.y - derniere.y);
         if (bouge > 0.5) {
           const [ax, ay] = versUV(derniere.x, derniere.y), [bx, by] = versUV(souris.x, souris.y);
-          trait = [ax, ay, bx, by]; force = Math.min(0.32, 0.05 + bouge * 0.011);
+          trait = [ax, ay, bx, by]; force = Math.min(0.6, 0.1 + bouge * 0.02);
           derniereGoutte = t;
         }
       }
