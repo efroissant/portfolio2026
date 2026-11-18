@@ -8109,6 +8109,12 @@
   .bio-loupe.est-visible { opacity: 1; transform: none; }
   /* Cercle retiré pour le moment : la souris reste une flèche normale. */
   .bio-loupe { display: none; }
+  /* Grand écran : un composeur de courriel plus confortable, plus large,
+     avec plus de place pour écrire. */
+  @media (min-width: 1024px) {
+    .stage #mail { width: min(680px, calc(100vw - 48px)); max-height: min(720px, 92vh); }
+    .stage #mail .mail__body { min-height: 340px; padding: 20px 32px; font-size: 16px; line-height: 1.5; }
+  }
 </style>
 </head>
 <body>
