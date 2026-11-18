@@ -7898,7 +7898,7 @@
   @keyframes allumage { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee, .allumage { animation: none; } }
   /* Avant l'allumage, la salle est éteinte : rien ne s'affiche d'abord en plein. */
-  .avant-allumage :is(.menubar__leading, .menubar__titre, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
+  .avant-allumage :is(.menubar__leading, .menubar__titre, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .arbo, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
     background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
@@ -8272,6 +8272,43 @@
   .bio-gris { color: #8F8F8C; }
   /* Début de la colonne 6 de la grille (12 colonnes, marges et gouttières de 24 px). */
   :root { --col-6: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 5 + 5 * 24px); }
+  /* ===== TEMPORAIRE : l'accordéon des projets mis de côté ===== */
+  .stage .projets-liste { display: none !important; }
+
+  /* ===== Les dossiers en colonne, comme une arborescence =====
+     Même place que l'accordéon : colonne 6, à partir de la dernière ligne
+     de la bio. Icônes au trait, dossier fermé ou ouvert, une feuille par
+     projet. */
+  .arbo { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
+      display: block; position: absolute; z-index: 30;
+      left: calc(var(--col-6) - 10px); right: 14px;
+      top: var(--liste-haut, calc(var(--bar-h) + 200px));
+      max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
+      scrollbar-width: none; overscroll-behavior: contain;
+      font: 400 clamp(18px, 1.8vw, 34px)/1.15 "Geist", "Helvetica Neue", Arial, sans-serif;
+      color: #1C1917; letter-spacing: -0.02em;
+    }
+  }
+  .arbo::-webkit-scrollbar { display: none; }
+  .arbo ul { list-style: none; margin: 0; padding: 0; }
+  .arbo__dossier-btn, .arbo__fichier {
+    display: flex; align-items: center; gap: 0.5em; width: fit-content; max-width: 100%;
+    padding: 6px 10px; border: 0; border-radius: 6px; background: none; cursor: pointer;
+    font: inherit; color: inherit; letter-spacing: inherit; text-align: left; text-decoration: none;
+    transition: background-color 140ms ease, color 140ms ease;
+  }
+  .arbo__dossier-btn:hover, .arbo__fichier:hover { background: rgba(28,25,23,0.06); }
+  .arbo__dossier-btn:focus-visible, .arbo__fichier:focus-visible { outline: 1px solid #1C1917; outline-offset: 1px; }
+  .arbo svg { flex: none; width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+  .arbo__icone-ouvert { display: none; }
+  .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ouvert { display: block; }
+  .arbo__dossier-btn[aria-expanded="true"] .arbo__icone-ferme { display: none; }
+  /* Les feuilles : en retrait, un peu plus petites. */
+  .arbo__fichiers { padding-left: 1.45em !important; font-size: 0.78em; }
+  .arbo__fichiers[hidden] { display: none; }
+  .arbo__fictif { color: #8F8F8C; }
 </style>
 </head>
 <body>
@@ -8339,7 +8376,7 @@
       '.menubar__leading', '.menubar__titre', '.menubar__trailing', '.logo-mobile', '.note-mobile',
       '.profil__bio p', '.mob-bio',
       '.profil__image', '.photo-sel', '.face-a-mobile__photo',
-      '.dossier', '.mob-dossier', '.projets-liste',
+      '.dossier', '.mob-dossier', '.projets-liste', '.arbo',
       '.note-bas', '.mob-note', '.radio-bouton'
     ];
     const vus = new Set(), cibles = [];
@@ -8502,6 +8539,10 @@
        ajoute, retire ou modifie un projet. -->
   <section class="projets-liste" aria-label="Projets"><ul></ul></section>
   <div class="projets-vignette" aria-hidden="true"></div>
+  <!-- Les dossiers du bureau, en une colonne (grand écran), comme une
+       arborescence : un clic ouvre le dossier, chaque projet est une feuille.
+       Le contenu vient de la liste DOSSIERS dans le script. -->
+  <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
     <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
@@ -15323,6 +15364,121 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       dispatchEvent(new PopStateEvent('popstate'));
     });
   });
+})();
+</script>
+<script>
+/* ===== Les dossiers en colonne =====
+   Un clic sur un dossier l'ouvre (icône ouverte) et montre ses projets, une
+   feuille par projet ; un second clic le referme. Plusieurs dossiers peuvent
+   être ouverts. Une feuille ouvre l'étude de cas. Survol d'une feuille : la
+   vignette du projet apparaît, comme pour l'accordéon. */
+(function arborescence() {
+  const DOSSIERS = [
+    { nom: 'Use Case', projets: [
+      { nom: 'Pharmaprix', lien: '#case/loblaw', couleur: '#D33F3F' },
+      { nom: 'Groupe Voyage Québec', lien: '#case/gvq', couleur: '#1E4D8C', img: 'gvq-agenda-920.jpg' },
+      { nom: 'Roche Diabetes Care', lien: '#case/roche', couleur: '#0F6E6E' } ] },
+    { nom: 'Web Design', projets: [
+      { nom: 'Maison Lumen', lien: '#case/a-venir', couleur: '#C9A227', fictif: true },
+      { nom: 'Studio Marée', lien: '#case/a-venir', couleur: '#2F7D5B', fictif: true } ] },
+    { nom: 'Autre', projets: [
+      { nom: 'Fluo Banque', lien: '#case/a-venir', couleur: '#5B3FD3', fictif: true },
+      { nom: 'Vélo Cité', lien: '#case/a-venir', couleur: '#E0662C', fictif: true } ] },
+    { nom: 'Perso', projets: [
+      { nom: 'Les Jardins Ouellet', lien: '#case/a-venir', couleur: '#6E8B2F', fictif: true } ] }
+  ];
+  const arbo = document.querySelector('.arbo');
+  const racine = arbo && arbo.querySelector('.arbo__dossiers');
+  if (!racine) return;
+  const ICONES = {
+    ferme: '<svg class="arbo__icone-ferme" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6a1.5 1.5 0 0 1 1.2.6L11.7 7.5h7.8A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>',
+    ouvert: '<svg class="arbo__icone-ouvert" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18.5V6.5A1.5 1.5 0 0 1 4.5 5h4.6a1.5 1.5 0 0 1 1.2.6L11.7 7.5h6.3A1.5 1.5 0 0 1 19.5 9v1.5"/><path d="M3 18.5l2.6-7a1.5 1.5 0 0 1 1.4-1h14a.9.9 0 0 1 .85 1.2l-2.4 6.8a1.5 1.5 0 0 1-1.4 1H4.5A1.5 1.5 0 0 1 3 18.5z"/></svg>',
+    fichier: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8.5z"/><path d="M13.5 3.5v5h5"/></svg>'
+  };
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  const texte = (t) => { const s = document.createElement('span'); s.textContent = t; return s; };
+
+  DOSSIERS.forEach((d, i) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'arbo__dossier-btn';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'arbo-' + i);
+    btn.innerHTML = ICONES.ferme + ICONES.ouvert; btn.append(texte(d.nom));
+    const ul = document.createElement('ul');
+    ul.className = 'arbo__fichiers'; ul.id = 'arbo-' + i; ul.hidden = true;
+    d.projets.forEach((p) => {
+      const f = document.createElement('li');
+      const a = document.createElement('a');
+      a.className = 'arbo__fichier' + (p.fictif ? ' arbo__fictif' : ''); a.href = p.lien;
+      a.innerHTML = ICONES.fichier; a.append(texte(p.nom));
+      a._projet = p;
+      f.append(a); ul.append(f);
+    });
+    btn.addEventListener('click', () => {
+      const ouvrir = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(ouvrir));
+      ul.getAnimations().forEach((a) => a.cancel());
+      if (ouvrir) {
+        ul.hidden = false;
+        if (calme()) return;
+        const h = ul.offsetHeight;
+        ul.animate([{ height: '0px', opacity: 0, overflow: 'hidden' }, { height: h + 'px', opacity: 1, overflow: 'hidden' }], { duration: 380, easing: EASE });
+        [...ul.children].forEach((c, k) => c.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 320, delay: 40 + k * 50, easing: EASE, fill: 'backwards' }));
+      } else {
+        if (calme()) { ul.hidden = true; return; }
+        const h = ul.offsetHeight;
+        const an = ul.animate([{ height: h + 'px', opacity: 1, overflow: 'hidden' }, { height: '0px', opacity: 0, overflow: 'hidden' }], { duration: 260, easing: EASE });
+        const fin = () => { if (btn.getAttribute('aria-expanded') !== 'true') { an.cancel(); ul.hidden = true; } };
+        an.onfinish = fin; setTimeout(fin, 300);
+      }
+    });
+    li.append(btn, ul); racine.append(li);
+  });
+
+  // Une feuille ouvre l'étude de cas par son adresse.
+  arbo.addEventListener('click', (e) => {
+    const a = e.target.closest('.arbo__fichier');
+    if (!a) return;
+    e.preventDefault();
+    const h = a.getAttribute('href');
+    if (location.hash !== h) history.pushState(null, '', h);
+    dispatchEvent(new PopStateEvent('popstate'));
+  });
+
+  // Survol d'une feuille : la vignette du projet, à droite de son nom.
+  const vignette = document.querySelector('.projets-vignette');
+  if (vignette && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let calque = vignette.querySelector('.projets-vignette__calque');
+    if (!calque) { calque = document.createElement('div'); calque.className = 'projets-vignette__calque'; vignette.append(calque); }
+    arbo.addEventListener('pointerover', (e) => {
+      const a = e.target.closest('.arbo__fichier'); if (!a) return;
+      const p = a._projet, r = a.getBoundingClientRect();
+      vignette.querySelectorAll('.projets-vignette__calque').forEach((c) => c.classList.remove('est-actif'));
+      calque.style.background = (p.img ? 'url("' + p.img + '") center / cover no-repeat, ' : '') + p.couleur;
+      calque.classList.add('est-actif');
+      const x = Math.min(r.right + 40 + 150, innerWidth - 24 - 150), y = Math.max(110, Math.min(r.top + r.height / 2, innerHeight - 110));
+      vignette.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+      vignette.classList.add('est-visible');
+    });
+    arbo.addEventListener('pointerout', (e) => {
+      const a = e.target.closest('.arbo__fichier');
+      if (a && !a.contains(e.relatedTarget)) vignette.classList.remove('est-visible');
+    });
+  }
+
+  // Le haut : sur la dernière ligne de la bio, comme l'accordéon.
+  const bioP = document.querySelector('.profil__bio p');
+  function caler() {
+    if (!bioP || !arbo.offsetParent) return;
+    const r = document.createRange(); r.selectNodeContents(bioP);
+    const l = r.getClientRects(); if (!l.length) return;
+    const parent = arbo.offsetParent.getBoundingClientRect();
+    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6) + 'px');
+  }
+  caler(); addEventListener('resize', caler); addEventListener('load', caler);
+  if (document.fonts) document.fonts.ready.then(caler);
 })();
 </script>
 </body>
