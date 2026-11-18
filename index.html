@@ -12653,10 +12653,8 @@ const dire = (function () {
       };
       ['play', 'pause', 'ended'].forEach((ev) => audio.addEventListener(ev, etat));
       etat();
-      // Téléphone : la musique démarre, le lecteur se range, l'onde dans la barre suffit.
-      audio.addEventListener('play', () => {
-        if (note && r.classList.contains('est-ouvert') && getComputedStyle(note).display !== 'none') basculer(false);
-      });
+      // Le lecteur reste ouvert pendant la lecture : il se ferme seulement
+      // par la note (ou l'onde) ou par un clic en dehors.
     }
   })();
   /* Retourner le disque : la pochette pivote d'un quart de tour, on
