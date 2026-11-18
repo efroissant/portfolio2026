@@ -7597,14 +7597,14 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* ===== NAV : Geist, 12 px (était Office Code Pro) =====
+  /* ===== NAV : Geist, 16 px, en casse de phrase =====
      Office Code Pro n'est pas sur Google Fonts : elle s'affiche si elle est
      installée, sinon Source Code Pro (dont elle dérive, quasi identique). */
   .stage .menubar, .stage .menubar :is(a, button, span),
   .stage .menubar .menuitem, .stage .menubar .menuitem--app, .stage .menubar .barlien,
   .stage .lecteur-mini__titre, .stage .lien-bas, .stage .logo-mobile, .stage .sayhi-mobile {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
-    font-size: 12px !important;
+    font-size: 16px !important; text-transform: none !important; letter-spacing: -0.01em !important;
   }
 
 
@@ -7632,7 +7632,7 @@
   .demarrage {
     position: fixed; inset: 0; z-index: 1000; background: #FFFFFF;
     padding: 24px; overflow: hidden;
-    font: 400 13px/20px "Geist", "Helvetica Neue", Arial, sans-serif;
+    font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif;
     color: #1C1917; letter-spacing: 0;
     transition: opacity 300ms ease;
   }
@@ -8389,7 +8389,7 @@
         </button>
 
         <!-- Le nom ramène toujours au recto. -->
-        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">MANU</span></button>
+        <button type="button" class="menuitem menuitem--app" data-node-id="118:187" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">Manu</span></button>
 
         <div class="menubar__items" data-node-id="118:188">
           <button type="button" class="menuitem" id="menu-dossiers" aria-haspopup="menu" aria-expanded="false" aria-controls="dossiersmenu" data-node-id="118:189">Dossiers</button>
@@ -8403,7 +8403,7 @@
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
              Tracés pleins (evenodd) plutôt que masques : un masque ne se
              dessine pas tant que la barre est masquée. -->
-        <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
+        <a class="barlien" href="mailto:efroissant@outlook.com" data-ecrire>Say hi</a>
         <a class="barlien" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener"
            aria-label="LinkedIn — ouvrir mon profil (nouvel onglet)" title="LinkedIn">
           LKD
@@ -8426,8 +8426,8 @@
        côté de la pochette. C'est tout le lecteur visible. -->
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
-  <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>SAY HI</a>
-  <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">MANU</span></button>
+  <a class="sayhi-mobile" href="mailto:efroissant@outlook.com" data-ecrire>Say hi</a>
+  <button type="button" class="logo-mobile" data-rafraichir aria-label="MANU — rafraîchir la page"><span class="barre-logo">Manu</span></button>
   <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
   <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
     <span>VERSO</span>
@@ -8439,7 +8439,7 @@
   </button>
 
   <!-- LinkedIn, en bas à gauche (le pendant du lecteur en bas à droite). -->
-  <a class="lien-bas" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LKD</a>
+  <a class="lien-bas" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">Lkd</a>
 
   <div class="recto-play lecteur-mini" id="recto-play" role="group" aria-label="Lecteur de musique">
     <button type="button" class="lecteur-mini__btn" data-mini="prec" aria-label="Morceau précédent">
