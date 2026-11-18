@@ -14600,7 +14600,7 @@ document.querySelectorAll('.dossier').forEach((d) => {
    déplace les pixels du texte ; le texte reste du vrai texte. */
 (function bioEau() {
   const p = document.querySelector('.profil__bio p');
-  if (!p || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if ( window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   const T = 320, IMAGES = 18;          // diamètre des ronds (px), images de l'animation
   // Cartes de déplacement : rouge = x, vert = y, 128 = immobile. Chaque image
@@ -14626,43 +14626,51 @@ document.querySelectorAll('.dossier').forEach((d) => {
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('aria-hidden', 'true');
   svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
-  svg.innerHTML =
-    '<filter id="bio-eau" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-80" width="4000" height="3000" color-interpolation-filters="sRGB">' +
-      '<feFlood flood-color="rgb(128,128,128)" result="neutre"/>' +
-      '<feImage result="ronds" preserveAspectRatio="none" width="' + T + '" height="' + T + '"/>' +
-      '<feComposite in="ronds" in2="neutre" operator="over" result="carte"/>' +
-      '<feDisplacementMap in="SourceGraphic" in2="carte" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
-    '</filter>';
   document.body.append(svg);
-  const feImage = svg.querySelector('feImage');
-  const deforme = svg.querySelector('feDisplacementMap');
   const loupe = document.createElement('div');
   loupe.className = 'bio-loupe'; loupe.setAttribute('aria-hidden', 'true');
   document.body.append(loupe);
 
-  let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, force = 0, voulu = 0, boucle = 0, n = 0, k = -1;
-  function image() {
-    const r = p.getBoundingClientRect();
-    pos.x += (cible.x - pos.x) * 0.15; pos.y += (cible.y - pos.y) * 0.15;   // l'eau suit avec un peu de retard
-    force += (voulu - force) * 0.08;
-    const kk = Math.floor(n++ / 3) % IMAGES;                                 // ~20 images/s pour les vagues
-    if (kk !== k) { k = kk; feImage.setAttribute('href', cartes[k]); }
-    feImage.setAttribute('x', pos.x - r.left - T / 2);
-    feImage.setAttribute('y', pos.y - r.top - T / 2);
-    deforme.setAttribute('scale', (20 * force).toFixed(1));
-    loupe.style.left = cible.x + 'px'; loupe.style.top = cible.y + 'px';
-    if (voulu === 0 && force < 0.01) { p.style.filter = ''; boucle = 0; return; }
-    boucle = requestAnimationFrame(image);
+  // Un filtre par élément : la bio et la photo ont chacune leurs ronds.
+  function eau(el, id, intensite) {
+    if (!el) return;
+    svg.insertAdjacentHTML('beforeend',
+      '<filter id="' + id + '" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-80" width="4000" height="3000" color-interpolation-filters="sRGB">' +
+        '<feFlood flood-color="rgb(128,128,128)" result="neutre"/>' +
+        '<feImage result="ronds" preserveAspectRatio="none" width="' + T + '" height="' + T + '"/>' +
+        '<feComposite in="ronds" in2="neutre" operator="over" result="carte"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="carte" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
+      '</filter>');
+    const f = svg.lastElementChild;
+    const feImage = f.querySelector('feImage'), deforme = f.querySelector('feDisplacementMap');
+    let cible = { x: 0, y: 0 }, pos = { x: 0, y: 0 }, force = 0, voulu = 0, boucle = 0, n = 0, k = -1;
+    function image() {
+      const r = el.getBoundingClientRect();
+      // Mesures d'avant la rotation de la photo : on part de son coin non tourné.
+      const ox = r.left + (r.width - el.offsetWidth) / 2, oy = r.top + (r.height - el.offsetHeight) / 2;
+      pos.x += (cible.x - pos.x) * 0.15; pos.y += (cible.y - pos.y) * 0.15;   // l'eau suit avec un peu de retard
+      force += (voulu - force) * 0.08;
+      const kk = Math.floor(n++ / 3) % IMAGES;                               // ~20 images/s pour les vagues
+      if (kk !== k) { k = kk; feImage.setAttribute('href', cartes[k]); }
+      feImage.setAttribute('x', pos.x - ox - T / 2);
+      feImage.setAttribute('y', pos.y - oy - T / 2);
+      deforme.setAttribute('scale', (intensite * force).toFixed(1));
+      if (voulu) { loupe.style.left = cible.x + 'px'; loupe.style.top = cible.y + 'px'; }
+      if (voulu === 0 && force < 0.01) { el.style.filter = ''; boucle = 0; return; }
+      boucle = requestAnimationFrame(image);
+    }
+    const lancer = () => { if (!boucle) boucle = requestAnimationFrame(image); };
+    el.addEventListener('pointerenter', (e) => {
+      cible = { x: e.clientX, y: e.clientY };
+      if (force < 0.01) pos = { ...cible };
+      el.style.filter = 'url(#' + id + ')';
+      voulu = 1; loupe.classList.add('est-visible'); lancer();
+    });
+    el.addEventListener('pointermove', (e) => { cible = { x: e.clientX, y: e.clientY }; });
+    el.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
   }
-  const lancer = () => { if (!boucle) boucle = requestAnimationFrame(image); };
-  p.addEventListener('pointerenter', (e) => {
-    cible = { x: e.clientX, y: e.clientY };
-    if (force < 0.01) pos = { ...cible };
-    p.style.filter = 'url(#bio-eau)';
-    voulu = 1; loupe.classList.add('est-visible'); lancer();
-  });
-  p.addEventListener('pointermove', (e) => { cible = { x: e.clientX, y: e.clientY }; });
-  p.addEventListener('pointerleave', () => { voulu = 0; loupe.classList.remove('est-visible'); lancer(); });
+  eau(p, 'bio-eau', 34);
+  eau(document.querySelector('.profil__image'), 'photo-eau', 46);
 })();
 </script>
 </body>
