@@ -7749,7 +7749,7 @@
   @media (min-width: 768px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
       display: block; position: absolute; z-index: 20; margin: 0;
-      left: var(--g-marge, 24px); bottom: 24px; pointer-events: none;
+      left: var(--g-marge, 24px); bottom: 7px; pointer-events: none;   /* même écart au bord que la barre du haut */
       font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
     }
   }
@@ -7777,7 +7777,7 @@
   @media (min-width: 768px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       display: block; position: absolute; z-index: 20;
-      right: var(--g-marge, 24px); bottom: 24px; width: 300px;
+      right: var(--g-marge, 24px); bottom: 7px; width: 300px;
       font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
     }
     /* L'ancien mini-lecteur laisse la place. */
