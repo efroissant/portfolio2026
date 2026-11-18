@@ -7129,7 +7129,7 @@
     .mob-dossier__nb { font: 400 10px/1 "Geist", Arial, sans-serif; color: #7A746B; white-space: nowrap; }
     .mob-dossier:focus-visible { outline: 2px solid #111; outline-offset: 3px; border-radius: 12px; }
 
-    .mob-dossier__panneau { grid-column: 1 / -1; margin: -4px 0 8px; }
+    .mob-dossier__panneau { grid-column: 1 / -1; justify-self: stretch; margin: -4px 0 8px; }
     .mob-dossier__panneau[hidden] { display: none; }
     .mob-dossier__panneau ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(28,25,23,0.2); }
     .mob-ligne {
@@ -8164,10 +8164,7 @@
   </div>
   <div class="dossier" id="dossier-3" data-dx="256" data-dy="-112" role="group" aria-label="Dossier Autre">
     <div class="dossier__fond"></div>
-    <!-- Six vignettes (deux rangées de trois) : provisoires, à remplacer. -->
-    <a class="dossier__carte dossier__carte--1" href="#case/loblaw" data-etude="loblaw"><span>Pharmaprix</span></a>
-    <a class="dossier__carte dossier__carte--2" href="#case/gvq" data-etude="gvq" style="background-image:url('gvq-agenda-920.jpg')"><span>Groupe Voyage Québec</span></a>
-    <a class="dossier__carte dossier__carte--3" href="#case/roche" data-etude="roche"><span>Roche Diabetes Care</span></a>
+    <!-- Seulement les projets à venir (les classes 4 à 6 gardent l'éventail d'une rangée). -->
     <a class="dossier__carte dossier__carte--4" href="#"><span>À venir</span></a>
     <a class="dossier__carte dossier__carte--5" href="#"><span>À venir</span></a>
     <a class="dossier__carte dossier__carte--6" href="#"><span>À venir</span></a>
@@ -12893,7 +12890,9 @@ const dire = (function () {
         face.className = 'mob-dossier__face';
         face.innerHTML = '<span class="mob-dossier__titre"></span><span class="mob-dossier__nb"></span>';
         face.children[0].textContent = nom;
-        face.children[1].textContent = vrais.length + (vrais.length > 1 ? ' projets' : ' projet');
+        face.children[1].textContent = vrais.length
+          ? vrais.length + (vrais.length > 1 ? ' projets' : ' projet')
+          : cartes.length + ' à venir';
         b.append(face);
 
         const p = document.createElement('div');
@@ -12909,8 +12908,9 @@ const dire = (function () {
           el.innerHTML = '<span class="mob-ligne__vignette"></span><span><span class="mob-ligne__client"></span><span class="mob-ligne__titre"></span></span>';
           el.querySelector('.mob-ligne__vignette').style.background = fondDe(c);
           el.querySelector('.mob-ligne__vignette').style.backgroundSize = 'cover';
-          el.querySelector('.mob-ligne__client').textContent = c.textContent.trim();
-          el.querySelector('.mob-ligne__titre').textContent = id ? (TITRES[id] || '') : 'Bientôt';
+          // Projet à venir : une seule ligne, « À venir », pas de doublon.
+          el.querySelector('.mob-ligne__client').textContent = id ? c.textContent.trim() : '';
+          el.querySelector('.mob-ligne__titre').textContent = id ? (TITRES[id] || '') : c.textContent.trim();
           li.append(el); ul.append(li);
         });
         p.append(ul);
