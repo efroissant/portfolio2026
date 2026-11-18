@@ -7744,6 +7744,16 @@
     .stage .menubar :is(.barlien, .menuitem--app), .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas) { transition: none !important; }
   }
 
+  /* Note en bas à gauche (grand écran), dans le style de la nav, non cliquable. */
+  .note-bas { display: none; }
+  @media (min-width: 768px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
+      display: block; position: absolute; z-index: 20; margin: 0;
+      left: var(--g-marge, 24px); bottom: 24px; pointer-events: none;
+      font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -7865,9 +7875,13 @@
     <div class="dossier__face"><p class="dossier__titre">Autre</p></div>
   </div>
   <!-- Cadres libres : data-x, data-y, data-w = position et largeur de départ (px). -->
+  <!-- Frame 36, mise de côté pour plus tard (retirer ce commentaire pour la remettre) :
   <img class="cadre-libre" id="frame-36" data-nom="Frame 36" data-x="560" data-y="110" data-w="380"
        src="fond-hawaii-petit.jpg" srcset="fond-hawaii-petit.jpg 900w, fond-hawaii-grand.jpg 1672w" sizes="40vw"
        alt="Emmanuel, la main en visière, devant un mur clair et des palmiers" width="1672" height="941">
+  -->
+  <!-- En bas à gauche : une note, pas un lien. -->
+  <p class="note-bas">L’IA sera utilisée dans mon travail. Ma tête aussi.</p>
   <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
   <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
        pochette fermée. Le volet gauche est le dos de la couverture. -->
