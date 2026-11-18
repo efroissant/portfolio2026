@@ -8283,9 +8283,10 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
       display: block; position: absolute; z-index: 30;
-      left: calc(var(--col-6) - 10px); right: auto;
+      /* Colonne 7 de la grille (une colonne après le titre de la barre). */
+      left: calc(var(--col-6) + (100vw - 48px - 11 * 24px) / 12 + 24px - 10px); right: auto;
       /* Seulement la largeur de son contenu : ne recouvre pas ce qui est à droite. */
-      width: max-content; max-width: calc(100vw - var(--col-6) - 14px);
+      width: max-content; max-width: calc(100vw - var(--col-6) - (100vw - 48px - 11 * 24px) / 12 - 38px);
       top: var(--liste-haut, calc(var(--bar-h) + 200px));
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
       scrollbar-width: none; overscroll-behavior: contain;
