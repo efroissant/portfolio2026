@@ -7862,6 +7862,32 @@
   /* Glitch : le fond saute d'une couleur à l'autre, avec des bandes
      décalées et un dédoublement rouge/cyan du texte. */
   .demarrage__bande { position: absolute; left: 0; right: 0; pointer-events: none; }
+  /* Un reste de glitch sur la bio et la photo, une seconde après l'arrivée sur le site. */
+  .glitch-reste { animation: glitch-reste 1100ms steps(1, end) both; }
+  .glitch-reste--texte { animation-name: glitch-reste-texte; }
+  @keyframes glitch-reste {
+    0%   { translate: -6px 0;  clip-path: inset(10% 0 55% 0); filter: hue-rotate(90deg) saturate(3); }
+    8%   { translate: 5px 0;   clip-path: inset(40% 0 20% 0); filter: invert(1); }
+    16%  { translate: 0 0;     clip-path: none; filter: none; }
+    24%  { translate: -3px 0;  clip-path: inset(0 0 70% 0); filter: hue-rotate(200deg) saturate(4); }
+    30%  { translate: 0 0;     clip-path: none; filter: none; }
+    46%  { translate: 4px 0;   clip-path: inset(62% 0 8% 0); filter: contrast(2) saturate(3); }
+    52%  { translate: 0 0;     clip-path: none; filter: none; }
+    74%  { translate: -2px 0;  clip-path: inset(30% 0 45% 0); filter: hue-rotate(300deg); }
+    78%, 100% { translate: none; clip-path: none; filter: none; }
+  }
+  @keyframes glitch-reste-texte {
+    0%   { translate: -5px 0; text-shadow: 3px 0 #FF2E63, -3px 0 #00E5FF; clip-path: inset(0 0 50% 0); }
+    8%   { translate: 4px 0;  text-shadow: -4px 0 #FF2E63, 4px 0 #00E5FF; clip-path: inset(45% 0 0 0); }
+    16%  { translate: 0 0;    text-shadow: none; clip-path: none; }
+    26%  { translate: -2px 0; text-shadow: 2px 0 #FF2E63, -2px 0 #00E5FF; clip-path: none; }
+    32%  { translate: 0 0;    text-shadow: none; }
+    50%  { translate: 3px 0;  text-shadow: -3px 0 #FF2E63, 3px 0 #00E5FF; clip-path: inset(20% 0 40% 0); }
+    56%  { translate: 0 0;    text-shadow: none; clip-path: none; }
+    76%  { translate: -1px 0; text-shadow: 1px 0 #FF2E63, -1px 0 #00E5FF; }
+    80%, 100% { translate: none; text-shadow: none; clip-path: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .glitch-reste { animation: none; } }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
     background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
@@ -8114,8 +8140,23 @@
     ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
     ecran.style.background = ''; ecran.style.color = ''; ecran.style.textShadow = '';
   }
+  // Le site apparaît, mais la bio et la photo gardent une seconde de glitch.
+  function resteDeGlitch() {
+    if (calme) return;
+    const cibles = [
+      ...[...document.querySelectorAll('.profil__bio p, .mob-bio')].map((el) => [el, true]),
+      ...[...document.querySelectorAll('.profil__image, .face-a-mobile__photo')].map((el) => [el, false])
+    ];
+    cibles.forEach(([el, texte]) => {
+      el.classList.add('glitch-reste');
+      if (texte) el.classList.add('glitch-reste--texte');
+    });
+    // Un minuteur plutôt qu'animationend : un élément caché (mobile sur bureau) n'anime jamais.
+    setTimeout(() => cibles.forEach(([el]) => el.classList.remove('glitch-reste', 'glitch-reste--texte')), 1200);
+  }
   function finir() {
     arreterGlitch();
+    resteDeGlitch();
     ecran.classList.add('est-fini');
     setTimeout(() => ecran.remove(), calme ? 0 : 340);
   }
