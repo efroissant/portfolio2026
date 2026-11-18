@@ -7626,9 +7626,70 @@
   #dossier-3:is(:hover, :focus-within) .dossier__carte--5 { --x: -65px;  --y: -220px; --r: 0deg; }
   #dossier-3:is(:hover, :focus-within) .dossier__carte--6 { --x: 41px;   --y: -205px; --r: 9deg; }
 
+  /* ===== DÉMARRAGE : un écran blanc, les lignes d'un build qui défilent
+     une à une en haut à gauche, comme un vieux PC qui s'allume ; puis le
+     site apparaît. ===== */
+  .demarrage {
+    position: fixed; inset: 0; z-index: 1000; background: #FFFFFF;
+    padding: 24px; overflow: hidden;
+    font: 400 13px/20px "Office Code Pro", "Source Code Pro", ui-monospace, Menlo, monospace;
+    color: #1C1917; letter-spacing: 0;
+    transition: opacity 450ms ease;
+  }
+  .demarrage.est-fini { opacity: 0; pointer-events: none; }
+  .demarrage__ligne { display: block; white-space: pre-wrap; }
+  .demarrage__ligne--ok { color: #1C1917; font-weight: 500; }
+  .demarrage__curseur {
+    display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
+    background: #1C1917; animation: demarrage-clignote 900ms steps(1) infinite;
+  }
+  @keyframes demarrage-clignote { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .demarrage__curseur { animation: none; } }
+
 </style>
 </head>
 <body>
+<!-- Démarrage : affiché avant tout le reste (retiré par le script ci-dessous). -->
+<div class="demarrage" id="demarrage" aria-hidden="true"></div>
+<noscript><style>#demarrage { display: none; }</style></noscript>
+<script>
+(function demarrage() {
+  const ecran = document.getElementById('demarrage');
+  if (!ecran) return;
+  // [texte, pause avant la ligne suivante (ms)]
+  const LIGNES = [
+    ['Running build in Montreal, CA (Qc) - sfo1', 140],
+    ['Cloning github.com/g-u-x/ijp-site-nuxt (Branch: master, Commit:07ab843)', 420],
+    ['Cloning completed: 222.005ms', 160],
+    ['Running build', 380],
+    ['info - Compiled successfully', 150],
+    ['info - Collecting page data...', 260],
+    ['info - Generating static pages (2/2)', 240],
+    ['Deploying outputs...', 300],
+    ['Uploading build cache [1.48 MB]...', 340],
+    ['Site ready', 650]
+  ];
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const curseur = document.createElement('span');
+  curseur.className = 'demarrage__curseur';
+  let i = 0;
+  function finir() {
+    ecran.classList.add('est-fini');
+    setTimeout(() => ecran.remove(), calme ? 0 : 500);
+  }
+  function suivante() {
+    if (i >= LIGNES.length) { finir(); return; }
+    const [texte, pause] = LIGNES[i++];
+    const l = document.createElement('span');
+    l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
+    l.textContent = texte;
+    l.append(curseur);
+    ecran.append(l);
+    setTimeout(suivante, calme ? 60 : pause);
+  }
+  setTimeout(suivante, calme ? 0 : 250);
+})();
+</script>
 
 <div class="stage" id="stage" data-state="lock">
 
