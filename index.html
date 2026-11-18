@@ -8200,6 +8200,14 @@
     .projets-vignette { display: block; }
   }
   .projets-liste::-webkit-scrollbar { display: none; }
+  /* S'il reste des projets cachés au-dessus ou en dessous, le bord de la
+     liste s'efface en douceur au lieu de couper net. */
+  .projets-liste.a-haut { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px); mask-image: linear-gradient(to bottom, transparent, #000 36px); }
+  .projets-liste.a-bas { -webkit-mask-image: linear-gradient(to top, transparent, #000 36px); mask-image: linear-gradient(to top, transparent, #000 36px); }
+  .projets-liste.a-haut.a-bas {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+            mask-image: linear-gradient(to bottom, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+  }
   .projets-liste ul { list-style: none; margin: 0; padding: 0; }
   .projet { border-top: 1px solid rgba(28,25,23,0.2); }
   .projet:last-child { border-bottom: 1px solid rgba(28,25,23,0.2); }
@@ -8992,7 +9000,7 @@
   <div class="modal-backdrop" id="mail-backdrop" hidden>
     <form class="mail" id="mail" role="dialog" aria-modal="true" aria-labelledby="mail-bartitle" novalidate>
       <div class="mail__bar" id="mail-bar">
-        <span class="mail__bartitle" id="mail-bartitle">Livret&nbsp; /&nbsp; Say hi</span>
+        <span class="mail__bartitle" id="mail-bartitle">Say Hi!</span>
         <button type="button" class="mail__fermer" id="mail-close" aria-label="Fermer le message">FERMER</button>
       </div>
 
@@ -15187,6 +15195,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   caler();
   addEventListener('resize', caler);
+  // Les fondus du haut et du bas, selon ce qui reste caché.
+  function bords() {
+    liste.classList.toggle('a-haut', liste.scrollTop > 2);
+    liste.classList.toggle('a-bas', liste.scrollTop + liste.clientHeight < liste.scrollHeight - 2);
+  }
+  liste.addEventListener('scroll', bords, { passive: true });
+  addEventListener('resize', bords);
+  if (window.ResizeObserver) new ResizeObserver(bords).observe(ul);
+  bords();
   addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
 
@@ -15288,10 +15305,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       if (ouvrir) {
         cacher();
         // Le projet ouvert se montre en entier dans la liste.
-        // (hauteur finale : la rangée s'ouvre encore pendant ce calcul)
-        const lr = liste.getBoundingClientRect(), r = li.getBoundingClientRect();
-        const bas = rangee.getBoundingClientRect().bottom + detail.scrollHeight + 1;
-        if (bas > lr.bottom) liste.scrollBy({ top: Math.min(bas - lr.bottom + 8, r.top - lr.top), behavior: calme() ? 'auto' : 'smooth' });
+        // Calculé une fois l'autre rangée repliée (sinon tout remonte après
+        // coup et le haut de la liste se retrouve coupé), sur la hauteur finale.
+        setTimeout(() => {
+          if (rangee.getAttribute('aria-expanded') !== 'true') return;
+          const lr = liste.getBoundingClientRect(), r = li.getBoundingClientRect();
+          const bas = rangee.getBoundingClientRect().bottom + detail.scrollHeight + 1;
+          if (bas > lr.bottom) liste.scrollBy({ top: Math.min(bas - lr.bottom + 8, r.top - lr.top), behavior: calme() ? 'auto' : 'smooth' });
+          else if (r.top < lr.top) liste.scrollBy({ top: r.top - lr.top, behavior: calme() ? 'auto' : 'smooth' });
+        }, calme() ? 0 : 340);
       }
     });
     li.querySelector('.projet__voir').addEventListener('click', (e) => {
