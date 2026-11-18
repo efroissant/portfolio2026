@@ -8317,6 +8317,41 @@
      agrandir, les ronds pour arrondir et le nom du cadre. */
   .photo-sel:not(.est-visible) { outline-color: transparent; }
   .photo-sel:not(.est-visible) :is(i, .photo-sel__nom) { display: none; }
+  /* ===== Tout en 40 px (grand écran) : barre du haut, note du bas, lecteur =====
+     Même corps que la bio. Le titre de la barre passe sur plusieurs lignes,
+     dans les colonnes 6 à 9, pour laisser la place à LinkedIn et Say Hi!. */
+  @media (min-width: 1024px) {
+    .stage .menubar, .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) {
+      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important; font-weight: 400 !important;
+    }
+    /* La barre grandit pour ces 46 px de ligne : tout est calé en haut, à 7 px du bord. */
+    .stage > .menubar { height: 60px !important; align-items: flex-start !important; padding-top: 7px !important; padding-bottom: 0 !important; }
+    .stage > .menubar :is(.menubar__leading, .menubar__trailing, .menubar__items) { align-items: flex-start !important; height: auto !important; }
+    .stage .menubar .menubar__titre {
+      top: 11px !important; transform: none !important; white-space: normal !important;
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px);
+      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
+      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+    }
+    /* La note de musique et son onde. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { width: 56px; height: 56px; right: calc(var(--g-marge, 24px) - 8px); bottom: 2px; }
+    .radio-bouton svg { width: 40px !important; height: 40px !important; stroke-width: 1 !important; }
+    .radio-bouton::after { font-size: 20px; line-height: 24px; padding: 6px 12px; }
+    /* Le lecteur ouvert. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
+      width: 640px; bottom: 72px; padding: 18px 22px;
+      font-size: 40px !important; line-height: 46px !important; letter-spacing: -1px !important;
+    }
+    .radio .radio__btn { width: 48px; height: 48px; }
+    .radio .radio__btn svg { width: 30px; height: 30px; stroke-width: 1; }
+    .radio .radio__titre { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
+    .radio .radio__temps { font-size: 0.6em; }
+    .radio .radio__jauge { height: 21px; margin: 10px 0 12px; }
+    .radio .radio__jauge::before, .radio .radio__rempli { top: 10px; }
+    .radio .radio__liste button { padding: 8px 0; gap: 18px; }
+  }
 </style>
 </head>
 <body>
