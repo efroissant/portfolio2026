@@ -8686,6 +8686,37 @@
   /* Texte du CTA toujours en #1C1917 (au repos), sur tous les écrans. */
   .stage .doc .cartep a.cartep__cta, .stage .doc .cartep a.cartep__cta span { color: #1C1917 !important; }
   .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible), .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible) span { color: #FFFFFF !important; }
+  /* Accueil : les cartes de projets défilent en bas, de droite à gauche.
+     Elles disparaissent dès qu'un contenu (bio, carte, étude) est ouvert. */
+  .defile-cartes { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .defile-cartes {
+      display: block; position: absolute; left: 0; right: 0; bottom: 64px; z-index: 4; overflow: hidden;
+    }
+    .stage:is(.a-un-doc, .bio-ouverte) .defile-cartes { display: none !important; }
+    /* Les dossiers se déploient (bouton (+) ou un seul dossier) : les cartes
+       s'effacent pour laisser la place à la liste. */
+    .defile-cartes { transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s; }
+    .stage:has(.arbo__dossier-btn[aria-expanded="true"]) .defile-cartes {
+      opacity: 0; visibility: hidden; transform: translateY(16px);
+      transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+    }
+    .defile-cartes__piste { display: flex; width: max-content; animation: defile-cartes 45s linear infinite; }
+    .defile-cartes:hover .defile-cartes__piste, .defile-cartes:focus-within .defile-cartes__piste { animation-play-state: paused; }
+    .defile-cartes__item { flex: none; width: clamp(220px, 30vh, 280px); padding-right: 24px; cursor: pointer; outline: none; }
+    .defile-cartes__item:focus-visible .cartep { outline: 2px solid #0D99FF; outline-offset: 2px; }
+    .defile-cartes__item .cartep { transition: transform 200ms ease; }
+    .defile-cartes__item:hover .cartep { transform: translateY(-6px); }
+    .defile-cartes .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 3px 10px; font-size: 12px; line-height: 16px; }
+    .defile-cartes .cartep .cartep__titre { margin: 16px 0 0; padding: 0 14px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
+    .defile-cartes .cartep__texte { padding: 20px 14px 14px; }
+    .defile-cartes .cartep__texte p { margin: 0; font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .defile-cartes .cartep__texte .cartep__annee { margin-bottom: 6px; }
+    .defile-cartes .cartep__cta { padding: 8px 0; color: #1C1917; }
+    .defile-cartes .cartep__defile span { font-size: 15px; line-height: 20px; }
+    @keyframes defile-cartes { to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .defile-cartes__piste { animation: none; } .defile-cartes { overflow-x: auto; } }
+  }
 </style>
 </head>
 <body>
@@ -8931,6 +8962,8 @@
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
+  <!-- Accueil : copies des cartes de projets qui défilent en bas, de droite à gauche. -->
+  <div class="defile-cartes" role="region" aria-label="Projets en vitrine"><div class="defile-cartes__piste"></div></div>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
     <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
@@ -16350,6 +16383,44 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   // L'effet d'eau au survol, comme avant sur le bureau.
   const brancher = () => { if (window.eauWebGL) window.eauWebGL(img); };
   if (img.complete) brancher(); else img.addEventListener('load', brancher, { once: true });
+})();
+
+/* Accueil : copies des cartes de projets (Use Case puis Web Design) qui
+   défilent en bas. Un clic ouvre la carte, comme le fichier dans la liste. */
+(function defileCartes() {
+  const piste = document.querySelector('.defile-cartes__piste');
+  if (!piste) return;
+  const ids = ['shoppers', 'gvqcarte', 'rochecarte', 'beaconsfield'];
+  const ouvrir = (id) => {
+    const f = document.querySelector('.arbo__fichier[href="#case/' + id + '"]');
+    if (f) f.click();
+    else { history.pushState(null, '', '#case/' + id); dispatchEvent(new PopStateEvent('popstate')); }
+  };
+  const copie = (id, cache) => {
+    const src = document.querySelector('#doc-' + id + ' .cartep');
+    if (!src) return null;
+    const c = src.cloneNode(true);
+    c.querySelectorAll('[id]').forEach((e) => e.removeAttribute('id'));
+    const h = c.querySelector('h1');
+    if (h) { const d = document.createElement('p'); d.className = h.className; d.textContent = h.textContent; h.replaceWith(d); }
+    const a = c.querySelector('a');
+    if (a) { const d = document.createElement('div'); d.className = a.className; d.innerHTML = a.innerHTML; a.replaceWith(d); }
+    const item = document.createElement('div');
+    item.className = 'defile-cartes__item';
+    if (cache) { item.setAttribute('aria-hidden', 'true'); }
+    else { item.tabIndex = 0; item.setAttribute('role', 'link'); item.setAttribute('aria-label', (h ? h.textContent : id) + ' — ouvrir'); }
+    item.appendChild(c);
+    item.addEventListener('click', () => ouvrir(id));
+    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(id); } });
+    return item;
+  };
+  // Deux passes identiques : la piste recule de la moitié et boucle sans couture.
+  // Assez de cartes pour couvrir les grands écrans.
+  const tour = [...ids, ...ids];
+  [false, true].forEach((cache) => tour.forEach((id, i) => {
+    const it = copie(id, cache || i >= ids.length);
+    if (it) piste.appendChild(it);
+  }));
 })();
 </script>
 </body>
