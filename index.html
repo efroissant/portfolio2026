@@ -8349,14 +8349,14 @@
     .radio-bouton::after { font-size: 16px; line-height: 20px; }
     /* Le lecteur ouvert. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
-      width: 420px; bottom: 54px; padding: 14px 18px;
-      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+      width: 320px; bottom: 50px; padding: 12px 14px;
+      font-size: 16px !important; line-height: 20px !important; letter-spacing: -0.2px !important;
     }
-    .radio .radio__btn { width: 32px; height: 32px; }
-    .radio .radio__btn svg { width: 20px; height: 20px; }
+    .radio .radio__btn { width: 26px; height: 26px; }
+    .radio .radio__btn svg { width: 16px; height: 16px; }
     .radio .radio__titre { flex: 1 1 auto !important; width: auto !important; max-width: none !important; }
-    .radio .radio__temps { font-size: 0.7em; }
-    .radio .radio__liste button { padding: 6px 0; gap: 14px; }
+    .radio .radio__temps { font-size: 0.85em; }
+    .radio .radio__liste button { padding: 5px 0; gap: 10px; }
   }
   /* ===== L'heure à Montréal =====
      Une petite carte grise : cadran au trait, aiguilles noires, trotteuse
@@ -8366,14 +8366,14 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .horloge {
       display: flex; position: absolute; z-index: 31; right: var(--g-marge, 24px);
       top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px));
-      align-items: center; gap: 0.7em; padding: 0.5em 1.1em 0.5em 0.5em;
+      align-items: center; gap: 0.875em; padding: 0.625em 1.375em 0.625em 0.625em;
       background: #EFEFEF; border-radius: 14px;
-      font: 400 calc(20px * var(--k, 1))/1.15 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
+      font: 400 calc(16px * var(--k, 1))/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
     }
   }
   .horloge { cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
   .horloge:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
-  .horloge__cadran { width: 3.8em; height: 3.8em; flex: none; }
+  .horloge__cadran { width: 4.75em; height: 4.75em; flex: none; }   /* 76 px : le cadran garde sa taille */
   .horloge__cadran line { transform-origin: 50px 50px; transform-box: view-box; }
   .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0; }
   .horloge__fuseau { color: #A8A29E; }
