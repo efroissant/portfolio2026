@@ -8657,31 +8657,31 @@
   .cartep__cta:hover .cartep__defile { animation-duration: 7s; }
   @keyframes cartep-defile { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .cartep__defile { animation: none; } }
-  .stage .doc#doc-beaconsfield .doc__page > :first-child { padding-right: 0; }
+  .stage .doc.doc--carte .doc__page > :first-child { padding-right: 0; }
   @media (min-width: 1024px) {
     /* La carte est posée en bas à gauche du panneau. */
-    .stage .doc#doc-beaconsfield .doc__scroll { display: flex; flex-direction: column; }
-    .stage .doc#doc-beaconsfield .doc__page { margin-top: auto !important; padding-bottom: 0 !important; }
+    .stage .doc.doc--carte .doc__scroll { display: flex; flex-direction: column; }
+    .stage .doc.doc--carte .doc__page { margin-top: auto !important; padding-bottom: 0 !important; }
     /* Calée à droite, alignée sur l'icône de musique (marge de 24 px), et
        plus étroite et plus haute qu'une colonne de texte. */
-    .stage .doc#doc-beaconsfield { left: auto !important; right: 24px !important; width: clamp(360px, 27vw, 420px) !important; }
-    .stage .doc#doc-beaconsfield .doc__page > .cartep { max-width: none !important; min-height: 504px; }
-    .stage .doc#doc-beaconsfield .cartep__texte { margin-top: auto; padding-top: 24px; }
+    .stage .doc.doc--carte { left: auto !important; right: 24px !important; width: clamp(360px, 27vw, 420px) !important; }
+    .stage .doc.doc--carte .doc__page > .cartep { max-width: none !important; min-height: 504px; }
+    .stage .doc.doc--carte .cartep__texte { margin-top: auto; padding-top: 24px; }
   }
   /* Tablette et téléphone : la carte s'ouvre au centre de l'écran, sur le
      voile flou, sans le cadre sombre des études ; « Fermer » au-dessus. */
   @media (max-width: 1023px) {
-    .stage #doc-beaconsfield { position: fixed; inset: 0; z-index: 60; padding: 16px; align-items: center; }
-    .stage #doc-beaconsfield .doc__win {
+    .stage .doc.doc--carte { position: fixed; inset: 0; z-index: 60; padding: 16px; align-items: center; }
+    .stage .doc.doc--carte .doc__win {
       width: min(520px, 100%); max-height: calc(100dvh - 32px);
       background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; color: #fff;
     }
-    .stage #doc-beaconsfield .doc__bar { background: transparent; border: 0; justify-content: flex-end; padding: 0 0 10px; height: auto; }
-    .stage #doc-beaconsfield .doc__bartitle { display: none; }
-    .stage #doc-beaconsfield .doc__fermer { color: #fff !important; background: transparent !important; }
-    .stage #doc-beaconsfield .doc__scroll { padding: 0; overflow-y: auto; }
-    .stage #doc-beaconsfield .doc__page { padding: 0; margin: 0; max-width: none; display: block; }
-    .stage #doc-beaconsfield .cartep__texte { padding-top: 28px; }
+    .stage .doc.doc--carte .doc__bar { background: transparent; border: 0; justify-content: flex-end; padding: 0 0 10px; height: auto; }
+    .stage .doc.doc--carte .doc__bartitle { display: none; }
+    .stage .doc.doc--carte .doc__fermer { color: #fff !important; background: transparent !important; }
+    .stage .doc.doc--carte .doc__scroll { padding: 0; overflow-y: auto; }
+    .stage .doc.doc--carte .doc__page { padding: 0; margin: 0; max-width: none; display: block; }
+    .stage .doc.doc--carte .cartep__texte { padding-top: 28px; }
   }
   /* Texte du CTA toujours en #1C1917 (au repos), sur tous les écrans. */
   .stage .doc .cartep a.cartep__cta, .stage .doc .cartep a.cartep__cta span { color: #1C1917 !important; }
@@ -9229,6 +9229,36 @@
             <span class="cartep__defile" aria-hidden="true">
               <span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span>
               <span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span>
+            </span>
+          </a>
+        </div>
+      </article>
+    </div>
+   </div>
+  </div>
+  <!-- Use Case : carte Shoppers Drug Mart (même gabarit que Beaconsfield, en rouge). -->
+  <div class="doc doc--carte" id="doc-shoppers" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-shoppers-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Use Case</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer le projet">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page">
+        <div class="cartep" style="--vert: #D43232">
+          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
+          <ul class="cartep__tags" aria-label="Expertises">
+            <li>Design UX/UI</li><li>Recherche</li><li>Logiciel métier</li>
+          </ul>
+          <h1 class="cartep__titre" id="doc-shoppers-titre">Shoppers Drug Mart</h1>
+          <div class="cartep__texte">
+            <p class="cartep__annee">2021–23</p>
+            <p>Refonte de Healthwatch, le logiciel que les pharmaciens de Shoppers Drug Mart et Pharmaprix utilisaient depuis 13&nbsp;ans&nbsp;: audit, observation en pharmacie et analyse heuristique pour un outil plus clair et plus sûr.</p>
+          </div>
+          <a class="cartep__cta" href="#case/loblaw" aria-label="Voir l’étude de cas">
+            <span class="cartep__defile" aria-hidden="true">
+              <span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span>
+              <span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span>
             </span>
           </a>
         </div>
@@ -15911,7 +15941,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/loblaw', couleur: '#D33F3F' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvq', couleur: '#1E4D8C', img: 'gvq-agenda-920.jpg' },
-      { nom: 'Roche Diabetes Care', lien: '#case/roche', couleur: '#0F6E6E' } ] },
+      { nom: 'Roche Diabetes Care', lien: '#case/roche', couleur: '#0F6E6E' },
+      { nom: 'Shoppers Drug Mart', lien: '#case/shoppers', couleur: '#D43232' } ] },
     { nom: 'Web Design', projets: [
       { nom: 'Aéroplan', lien: '#case/a-venir', couleur: '#1F3B73' },
       { nom: 'Budge Studios', lien: '#case/a-venir', couleur: '#E85A9B' },
