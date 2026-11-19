@@ -8389,6 +8389,25 @@
   }
   .arbo__tout:hover { background: rgba(28,25,23,0.06); }
   .arbo__tout:focus-visible { outline: 1px solid #1C1917; outline-offset: 1px; }
+  /* Lecteur : pas de filet au-dessus du premier morceau ni sous le dernier ;
+     assez large pour qu'aucun titre ne soit coupé. */
+  .radio .radio__liste { border-top: 0 !important; }
+  .radio .radio__liste li:last-child button { border-bottom: 0 !important; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio { width: max-content !important; min-width: 360px; }
+    .radio .radio__liste button span { white-space: nowrap; }
+  }
+  /* Liens de la barre : plus de soulignement ; au survol, un fond gris
+     arrondi, comme la note de musique. Le texte ne bouge pas. */
+  .stage .menubar :is(.barlien, .menuitem--app), .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas) {
+    background-image: none !important; text-decoration: none !important;
+    border-radius: 6px;
+    transition: background-color 140ms ease !important;
+  }
+  .stage .menubar :is(.barlien, .menuitem--app):is(:hover, :focus-visible),
+  .stage :is(.sayhi-mobile, .logo-mobile, .lien-bas):is(:hover, :focus-visible) {
+    background-color: rgba(0,0,0,0.05) !important; background-image: none !important;
+  }
 </style>
 </head>
 <body>
