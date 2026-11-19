@@ -8639,7 +8639,7 @@
   .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
   .stage .doc .cartep .cartep__titre {
     margin: 20px 0 0; padding: 0 16px; text-align: right;
-    font-size: min(60px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
+    font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
   }
   .cartep__texte { padding: 40px 16px 20px; }
   .stage .doc .cartep__texte p {
@@ -8651,8 +8651,8 @@
     display: block; overflow: hidden; border-top: 1.5px solid #1C1917; color: #1C1917; text-decoration: none;
     padding: 12px 0; transition: background-color 160ms ease, color 160ms ease;
   }
-  .cartep__cta:hover, .cartep__cta:focus-visible { background: #1C1917; color: var(--vert); outline: none; }
-  .cartep__defile { display: inline-flex; gap: 40px; white-space: nowrap; padding-left: 16px; animation: cartep-defile 14s linear infinite; }
+  .cartep__cta:hover, .cartep__cta:focus-visible { background: #1C1917; color: #FFFFFF; outline: none; }
+  .cartep__defile { display: inline-flex; gap: 40px; white-space: nowrap; padding-left: 16px; animation: cartep-defile 14s linear infinite reverse; }
   .stage .doc .cartep__defile span { font-size: 20px; line-height: 26px; }
   .cartep__cta:hover .cartep__defile { animation-duration: 7s; }
   @keyframes cartep-defile { to { transform: translateX(-50%); } }
@@ -8679,7 +8679,7 @@
   }
   /* Texte du CTA toujours en #1C1917 (au repos), sur tous les écrans. */
   .stage .doc .cartep a.cartep__cta, .stage .doc .cartep a.cartep__cta span { color: #1C1917 !important; }
-  .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible), .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible) span { color: var(--vert) !important; }
+  .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible), .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible) span { color: #FFFFFF !important; }
 </style>
 </head>
 <body>
