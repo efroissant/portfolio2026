@@ -8424,6 +8424,9 @@
   @media (prefers-reduced-motion: reduce) { .radio-encours { transition: none !important; } }
   /* ===== Une seule fonte pour tout le site : Geist ===== */
   body, body *:not(svg):not(svg *) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
+  /* Pendant qu'on déplace la photo ou l'horloge : la même ombre portée. */
+  .stage > .profil__image, .horloge { transition: box-shadow 180ms ease; }
+  .stage > .profil__image.est-tenu, .horloge.est-tenu { box-shadow: 0 10px 24px -12px rgba(0,0,0,0.35); }
 </style>
 </head>
 <body>
@@ -14790,6 +14793,7 @@ window.ajouterRayon = function (img, sel, cle) {
     if (!tir.bouge && Math.hypot(mx, my) < 2) return;
     tir.bouge = true;
     if (!tir.coin) {
+      photo.classList.add('est-tenu');   // l'ombre portée, comme l'horloge
       pos = { dx: tir.dx + mx, dy: tir.dy + my, w: pos.w };
     } else {
       const ratio = tir.h / tir.w;
@@ -14804,7 +14808,7 @@ window.ajouterRayon = function (img, sel, cle) {
   const lacher = () => {
     if (!tir) return;
     const bouge = tir.bouge;
-    tir = null; document.body.style.cursor = '';
+    tir = null; document.body.style.cursor = ''; photo.classList.remove('est-tenu');
     if (!bouge) return;
     try { localStorage.setItem(CLE, JSON.stringify(pos)); } catch (e) {}
     console.log('[photo] décalage et largeur :', JSON.stringify(pos));
@@ -15816,7 +15820,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const dx = e.clientX - tir.x, dy = e.clientY - tir.y;
     if (!tir.bouge && Math.hypot(dx, dy) < 2) return;
     tir.bouge = true;
-    if (!tir.coin) { pos = { x: tir.ox + dx, y: tir.oy + dy }; placer(); return; }
+    if (!tir.coin) { el.classList.add('est-tenu'); pos = { x: tir.ox + dx, y: tir.oy + dy }; placer(); return; }
     // Agrandir ou réduire en gardant les proportions, coin opposé fixe.
     const sx = tir.coin.includes('d') ? 1 : -1, sy = tir.coin[0] === 'b' ? 1 : -1;
     const d = (dx * sx * tir.w + dy * sy * tir.h) / (tir.w * tir.w + tir.h * tir.h) * tir.w;
@@ -15828,7 +15832,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const lacher = () => {
     if (!tir) return;
     if (tir.bouge) sauver();
-    tir = null; document.body.style.cursor = '';
+    tir = null; document.body.style.cursor = ''; el.classList.remove('est-tenu');
   };
   addEventListener('pointerup', lacher); addEventListener('pointercancel', lacher);
   el.addEventListener('dblclick', () => { pos = null; k = 1; try { localStorage.removeItem(CLE); } catch (e) {} placer(); });
