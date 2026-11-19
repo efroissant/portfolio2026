@@ -8686,39 +8686,53 @@
   /* Texte du CTA toujours en #1C1917 (au repos), sur tous les écrans. */
   .stage .doc .cartep a.cartep__cta, .stage .doc .cartep a.cartep__cta span { color: #1C1917 !important; }
   .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible), .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible) span { color: #FFFFFF !important; }
-  /* Accueil : les cartes de projets défilent en bas, de droite à gauche.
-     Elles disparaissent dès qu'un contenu (bio, carte, étude) est ouvert. */
-  .defile-cartes { display: none; }
+  /* Accueil : une toile infinie de cartes de projets qu'on fait glisser dans
+     tous les sens (souris, trackpad, molette). Survol : la carte se soulève ;
+     clic : elle s'ouvre à droite. La toile s'efface dès qu'un dossier ou un
+     contenu (bio, carte, étude) est ouvert. */
+  .toile { display: none; }
   @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .defile-cartes {
-      display: block; position: absolute; left: 0; right: 0; bottom: 64px; z-index: 4; overflow: hidden;
+    .stage:is([data-state="lock"], [data-state="desktop"]) .toile {
+      display: block; position: absolute; left: 0; right: 0; top: var(--bar-h, 48px); bottom: 56px;
+      z-index: 1; overflow: hidden; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+      transition: opacity 260ms ease, visibility 0s linear 0s;
     }
-    .stage:is(.a-un-doc, .bio-ouverte) .defile-cartes { display: none !important; }
-    /* Les dossiers se déploient (bouton (+) ou un seul dossier) : les cartes
-       s'effacent pour laisser la place à la liste. */
-    .defile-cartes { transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s; }
-    .stage:has(.arbo__dossier-btn[aria-expanded="true"]) .defile-cartes {
-      opacity: 0; visibility: hidden; transform: translateY(16px);
-      transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+    .stage .toile.est-tenue { cursor: grabbing; }
+    /* La bio cachée ne doit pas intercepter les clics destinés à la toile. */
+    .stage:not(.bio-ouverte) .profil { pointer-events: none; }
+    .stage:is(.a-un-doc, .bio-ouverte) .toile,
+    .stage:has(.arbo__dossier-btn[aria-expanded="true"]) .toile {
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 260ms ease, visibility 0s linear 260ms;
     }
-    .defile-cartes__piste { display: flex; width: max-content; animation: defile-cartes 45s linear infinite; }
-    .defile-cartes:hover .defile-cartes__piste, .defile-cartes:focus-within .defile-cartes__piste { animation-play-state: paused; }
-    .defile-cartes__item { flex: none; width: clamp(220px, 30vh, 280px); padding-right: 24px; cursor: pointer; outline: none; }
-    .defile-cartes__item:focus-visible .cartep { outline: 2px solid #0D99FF; outline-offset: 2px; }
-    .defile-cartes__item .cartep { transition: transform 200ms ease; }
-    .defile-cartes__item:hover .cartep { transform: translateY(-6px); }
-    .defile-cartes .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 3px 10px; font-size: 12px; line-height: 16px; }
-    .defile-cartes .cartep .cartep__titre { margin: 16px 0 0; padding: 0 14px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
-    .defile-cartes .cartep__texte { padding: 20px 14px 14px; }
-    .defile-cartes .cartep__texte p { margin: 0; font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .defile-cartes .cartep__texte .cartep__annee { margin-bottom: 6px; }
-    .defile-cartes .cartep__cta { padding: 8px 0; color: #1C1917; }
-    .defile-cartes .cartep__defile span { font-size: 15px; line-height: 20px; }
-    /* Dans la bande, le CTA reste immobile : une seule flèche et son libellé. */
-    .defile-cartes .cartep__defile { animation: none !important; gap: 10px; padding-left: 14px; }
-    .defile-cartes .cartep__defile span:nth-child(n+3) { display: none; }
-    @keyframes defile-cartes { to { transform: translateX(-50%); } }
-    @media (prefers-reduced-motion: reduce) { .defile-cartes__piste { animation: none; } .defile-cartes { overflow-x: auto; } }
+    .toile__tuile { position: absolute; left: 0; top: 0; width: 280px; will-change: transform; outline: none; }
+    .toile__tuile .cartep { transition: transform 220ms cubic-bezier(.2,.7,.2,1), box-shadow 220ms ease; }
+    .toile:not(.est-tenue) .toile__tuile:hover .cartep { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 18px 40px rgba(28,25,23,0.18); }
+    .toile__tuile:focus-visible .cartep { outline: 2px solid #0D99FF; outline-offset: 2px; }
+    .toile .cartep { pointer-events: none; }
+    .toile .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 3px 10px; font-size: 12px; line-height: 16px; }
+    .toile .cartep .cartep__titre { margin: 16px 0 0; padding: 0 14px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
+    .toile .cartep__texte { padding: 28px 14px 14px; }
+    .toile .cartep__texte p { margin: 0; font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .toile .cartep__texte .cartep__annee { margin-bottom: 6px; }
+    .toile .cartep__cta { padding: 8px 0; color: #1C1917; }
+    .toile .cartep__defile { animation: none !important; gap: 10px; padding-left: 14px; }
+    .toile .cartep__defile span { font-size: 15px; line-height: 20px; }
+    .toile .cartep__defile span:nth-child(n+3) { display: none; }
+    /* L'indication, en pastille, en bas au centre ; elle s'efface au premier glissé. */
+    .toile__aide {
+      position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 2; pointer-events: none;
+      background: #FFFFFF; color: #1C1917; border-radius: 999px; padding: 10px 18px; font-size: 16px; line-height: 20px;
+      box-shadow: 0 6px 24px rgba(28,25,23,0.14); white-space: nowrap; transition: opacity 400ms ease;
+    }
+    .toile.a-bouge .toile__aide { opacity: 0; }
+    /* La liste des dossiers flotte au-dessus de la toile, dans une pastille blanche. */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { z-index: 3; }
+    .stage:not(.a-un-doc):not(.bio-ouverte):not(:has(.arbo__dossier-btn[aria-expanded="true"])) .arbo::before {
+      content: ""; position: absolute; z-index: -1; pointer-events: none;
+      inset: -10px -14px -10px -12px;
+      background: #FFFFFF; border-radius: 14px; box-shadow: 0 6px 24px rgba(28,25,23,0.12);
+    }
   }
   /* Carte Shoppers Drug Mart ouverte : la photo de la pharmacienne en fond plein écran. */
   .fond-projet { display: none; }
@@ -8978,8 +8992,8 @@
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
-  <!-- Accueil : copies des cartes de projets qui défilent en bas, de droite à gauche. -->
-  <div class="defile-cartes" role="region" aria-label="Projets en vitrine"><div class="defile-cartes__piste"></div></div>
+  <!-- Accueil : toile infinie de cartes de projets, à faire glisser. -->
+  <div class="toile" role="region" aria-label="Projets : faire glisser pour explorer, cliquer pour ouvrir"><p class="toile__aide">Glisse, survole et clique pour explorer.</p></div>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
   <button type="button" class="radio-bouton" id="radio-bouton" aria-label="Musique" aria-expanded="false" aria-controls="radio">
     <svg class="radio-bouton__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
@@ -16487,18 +16501,21 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   if (img.complete) brancher(); else img.addEventListener('load', brancher, { once: true });
 })();
 
-/* Accueil : copies des cartes de projets (Use Case puis Web Design) qui
-   défilent en bas. Un clic ouvre la carte, comme le fichier dans la liste. */
-(function defileCartes() {
-  const piste = document.querySelector('.defile-cartes__piste');
-  if (!piste) return;
+/* Accueil : toile infinie de cartes. La grille (colonnes décalées) se répète
+   à l'infini dans les deux sens : on la tire à la souris ou au trackpad, avec
+   un peu d'inertie au lâcher. Un clic sans glissé ouvre la carte, comme le
+   fichier dans la liste. */
+(function toileCartes() {
+  const toile = document.querySelector('.toile');
+  if (!toile) return;
   const ids = ['shoppers', 'gvqcarte', 'rochecarte', 'beaconsfield', 'aeroplan', 'budge'];
+  const L = 280, G = 24;                       // largeur d'une carte, gouttière
   const ouvrir = (id) => {
     const f = document.querySelector('.arbo__fichier[href="#case/' + id + '"]');
     if (f) f.click();
     else { history.pushState(null, '', '#case/' + id); dispatchEvent(new PopStateEvent('popstate')); }
   };
-  const copie = (id, cache) => {
+  const copie = (id) => {
     const src = document.querySelector('#doc-' + id + ' .cartep');
     if (!src) return null;
     const c = src.cloneNode(true);
@@ -16507,22 +16524,96 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (h) { const d = document.createElement('p'); d.className = h.className; d.textContent = h.textContent; h.replaceWith(d); }
     const a = c.querySelector('a');
     if (a) { const d = document.createElement('div'); d.className = a.className; d.innerHTML = a.innerHTML; a.replaceWith(d); }
-    const item = document.createElement('div');
-    item.className = 'defile-cartes__item';
-    if (cache) { item.setAttribute('aria-hidden', 'true'); }
-    else { item.tabIndex = 0; item.setAttribute('role', 'link'); item.setAttribute('aria-label', (h ? h.textContent : id) + ' — ouvrir'); }
-    item.appendChild(c);
-    item.addEventListener('click', () => ouvrir(id));
-    item.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(id); } });
-    return item;
+    const t = document.createElement('div');
+    t.className = 'toile__tuile'; t.dataset.id = id;
+    t.tabIndex = 0; t.setAttribute('role', 'link'); t.setAttribute('aria-label', (h ? h.textContent : id) + ' — ouvrir');
+    t.appendChild(c);
+    t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(id); } });
+    return t;
   };
-  // Deux passes identiques : la piste recule de la moitié et boucle sans couture.
-  // Assez de cartes pour couvrir les grands écrans.
-  const tour = [...ids, ...ids];
-  [false, true].forEach((cache) => tour.forEach((id, i) => {
-    const it = copie(id, cache || i >= ids.length);
-    if (it) piste.appendChild(it);
-  }));
+  const vivants = ids.filter((id) => document.getElementById('doc-' + id));
+  const n = vivants.length;
+  if (!n) return;
+
+  let tuiles = [], PW = 0, PH = 0, maxH = 0;
+  function construire() {
+    tuiles.forEach((t) => t.el.remove()); tuiles = [];
+    const vw = toile.clientWidth || innerWidth, vh = toile.clientHeight || innerHeight;
+    // Mesure des hauteurs (une copie de chaque carte).
+    const hauteurs = {};
+    vivants.forEach((id) => {
+      const m = copie(id); m.style.visibility = 'hidden'; toile.appendChild(m);
+      hauteurs[id] = m.offsetHeight; m.remove();
+    });
+    maxH = Math.max(...Object.values(hauteurs));
+    const colonne = vivants.reduce((s, id) => s + hauteurs[id] + G, 0);
+    // Assez de motifs empilés pour couvrir la hauteur de l'écran.
+    const tours = Math.max(1, Math.ceil((vh + maxH + G) / colonne));
+    PH = colonne * tours;
+    const C = Math.max(n, Math.ceil((vw + L + G) / (L + G)));
+    PW = C * (L + G);
+    for (let c = 0; c < C; c++) {
+      let y = (c * 157) % colonne;                       // colonnes décalées
+      for (let r = 0; r < n * tours; r++) {
+        const id = vivants[(c * 2 + r) % n];
+        const el = copie(id); toile.appendChild(el);
+        tuiles.push({ el, x: c * (L + G), y });
+        y += hauteurs[id] + G;
+      }
+    }
+    placer();
+  }
+  let ox = -40, oy = -60;
+  const mod = (a, m) => ((a % m) + m) % m;
+  function placer() {
+    for (const t of tuiles) {
+      const x = mod(t.x + ox, PW) - (L + G);
+      const y = mod(t.y + oy, PH) - (maxH + G);
+      t.el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+    }
+  }
+
+  // Glisser, avec inertie.
+  let tenu = false, bouge = 0, lx = 0, ly = 0, vx = 0, vy = 0, raf = 0, cible = null;
+  const elan = () => {
+    vx *= 0.94; vy *= 0.94;
+    if (Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05) { raf = 0; return; }
+    ox += vx; oy += vy; placer(); raf = requestAnimationFrame(elan);
+  };
+  toile.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    tenu = true; bouge = 0; lx = e.clientX; ly = e.clientY; vx = vy = 0;
+    cible = e.target.closest('.toile__tuile');
+    cancelAnimationFrame(raf); raf = 0;
+    toile.setPointerCapture(e.pointerId);
+  });
+  toile.addEventListener('pointermove', (e) => {
+    if (!tenu) return;
+    const dx = e.clientX - lx, dy = e.clientY - ly;
+    lx = e.clientX; ly = e.clientY;
+    bouge += Math.abs(dx) + Math.abs(dy);
+    if (bouge > 4) { toile.classList.add('est-tenue', 'a-bouge'); }
+    ox += dx; oy += dy; vx = dx; vy = dy; placer();
+  });
+  const lacher = (e) => {
+    if (!tenu) return;
+    tenu = false; toile.classList.remove('est-tenue');
+    if (bouge <= 4 && cible) { ouvrir(cible.dataset.id); return; }
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) raf = requestAnimationFrame(elan);
+  };
+  toile.addEventListener('pointerup', lacher);
+  toile.addEventListener('pointercancel', lacher);
+  // Molette et trackpad : la toile se déplace dans les deux axes.
+  toile.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    ox -= e.deltaX; oy -= e.deltaY; placer();
+    toile.classList.add('a-bouge');
+  }, { passive: false });
+
+  construire();
+  let attente = 0;
+  addEventListener('resize', () => { clearTimeout(attente); attente = setTimeout(construire, 150); });
+  if (document.fonts) document.fonts.ready.then(construire);
 })();
 </script>
 </body>
