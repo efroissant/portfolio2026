@@ -8535,6 +8535,18 @@
   .uc__puce--rouge { background: #E5484D; }
   .uc__note { color: #57534E; }
   .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #8F8F8C; font-size: 14px; }
+  /* Use Case court : deux tailles seulement, Geist 16 px pour le texte et
+     24 px pour les titres ; pas de barre de défilement dans le panneau. */
+  .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
+    font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 16px !important; line-height: 24px !important; letter-spacing: -0.1px !important;
+  }
+  .stage .doc .uc :is(.uc__titre, .uc__sous) {
+    font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+  }
+  .stage .doc .doc__scroll { scrollbar-width: none !important; }
+  .stage .doc .doc__scroll::-webkit-scrollbar { display: none; }
 </style>
 </head>
 <body>
