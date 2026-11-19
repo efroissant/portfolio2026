@@ -8486,7 +8486,9 @@
      sur le fichier Profil (grand écran). Sa place est gardée. */
   @media (min-width: 1024px) {
     .stage:not(.bio-ouverte) .profil__bio p { visibility: hidden; }
-    .stage.bio-ouverte .profil__bio p { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+    /* La photo aussi (avec son cadre et son eau) : elle arrive avec la bio. */
+    .stage:not(.bio-ouverte) :is(.profil__image, .photo-eau-gl, .photo-sel--photo) { visibility: hidden !important; }
+    .stage.bio-ouverte .profil__bio p, .stage.bio-ouverte > .profil__image { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
   }
   @keyframes bio-apparait { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .stage.bio-ouverte .profil__bio p { animation: none; } }
