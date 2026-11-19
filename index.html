@@ -8783,6 +8783,10 @@
         transition: transform 200ms cubic-bezier(.2,.7,.2,1);
       }
       & .arbo .arbo__dossier-btn:hover svg { transform: translateY(-6px) scale(1.04); }
+      & .arbo .arbo__dossiers > li { touch-action: none; }
+      & .arbo .arbo__dossiers > li.est-tenu { z-index: 5; }
+      & .arbo .arbo__dossiers > li.est-tenu .arbo__dossier-btn { cursor: grabbing; }
+      & .arbo .arbo__dossiers > li.est-tenu svg { transform: scale(1.06) !important; filter: drop-shadow(0 18px 30px rgba(28,25,23,0.32)); }
       & .arbo .arbo__dossier-btn span {
         background: #FFFFFF; color: #1C1917; border-radius: 999px; padding: 4px 14px;
         box-shadow: 0 4px 14px rgba(28,25,23,0.12);
@@ -16696,6 +16700,52 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   let attente = 0;
   addEventListener('resize', () => { clearTimeout(attente); attente = setTimeout(construire, 150); });
   if (document.fonts) document.fonts.ready.then(construire);
+})();
+/* Dossiers éparpillés : on peut les déplacer à la souris. Un glissé ne
+   les ouvre pas ; un simple clic, si. La place choisie est retenue pour ce
+   visiteur (navigateur), en pourcentage de l'écran. */
+(function dossiersDeplacables() {
+  const arbo = document.querySelector('.arbo');
+  if (!arbo) return;
+  const CLE = 'dossiers-places';
+  let places = {};
+  try { places = JSON.parse(localStorage.getItem(CLE) || '{}') || {}; } catch (e) { places = {}; }
+  const nom = (li) => li.querySelector('.arbo__dossier-btn').textContent.trim();
+  const appliquer = () => arbo.querySelectorAll('.arbo__dossiers > li').forEach((li) => {
+    const p = places[nom(li)];
+    if (p) { li.style.left = p[0] + '%'; li.style.top = p[1] + '%'; }
+  });
+  appliquer();
+  new MutationObserver(appliquer).observe(arbo, { childList: true, subtree: false });
+  let li = null, x0 = 0, y0 = 0, bouge = false, empeche = false;
+  arbo.addEventListener('pointerdown', (e) => {
+    const l = e.target.closest('.arbo__dossiers > li');
+    if (!l || e.button !== 0 || getComputedStyle(l).position !== 'absolute') return;
+    if (e.target.closest('.arbo__fichiers')) return;
+    li = l; x0 = e.clientX; y0 = e.clientY; bouge = false;
+  });
+  addEventListener('pointermove', (e) => {
+    if (!li) return;
+    if (!bouge && Math.abs(e.clientX - x0) + Math.abs(e.clientY - y0) < 5) return;
+    if (!bouge) { bouge = true; li.classList.add('est-tenu'); }
+    const r = arbo.getBoundingClientRect();
+    const px = Math.min(97, Math.max(3, (e.clientX - r.left) / r.width * 100));
+    const py = Math.min(92, Math.max(6, (e.clientY - r.top) / r.height * 100));
+    li.style.left = px + '%'; li.style.top = py + '%';
+    places[nom(li)] = [Math.round(px * 10) / 10, Math.round(py * 10) / 10];
+  });
+  addEventListener('pointerup', () => {
+    if (!li) return;
+    if (bouge) {
+      empeche = true; li.classList.remove('est-tenu');
+      try { localStorage.setItem(CLE, JSON.stringify(places)); } catch (e) {}
+    }
+    li = null;
+  });
+  // Après un glissé, le clic qui suit n'ouvre pas le dossier.
+  arbo.addEventListener('click', (e) => {
+    if (empeche) { empeche = false; e.stopPropagation(); e.preventDefault(); }
+  }, true);
 })();
 </script>
 </body>
