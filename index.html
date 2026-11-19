@@ -8631,7 +8631,7 @@
     background: var(--vert); color: #1C1917; border-radius: 18px; overflow: hidden;
     display: flex; flex-direction: column;
     /* Plus compacte : 4 colonnes de la grille au lieu de 6. */
-    width: 100%; max-width: calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px);
+    width: 100%;
   }
   .cartep__barre { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1.5px solid #1C1917; }
   .cartep__barre i { width: 8px; height: 8px; border-radius: 50%; background: #1C1917; }
@@ -8639,7 +8639,7 @@
   .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
   .stage .doc .cartep .cartep__titre {
     margin: 20px 0 0; padding: 0 16px; text-align: right;
-    font-size: 60px; line-height: 62px; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
+    font-size: min(60px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
   }
   .cartep__texte { padding: 40px 16px 20px; }
   .stage .doc .cartep__texte p {
@@ -8658,7 +8658,28 @@
   @keyframes cartep-defile { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .cartep__defile { animation: none; } }
   .stage .doc#doc-beaconsfield .doc__page > :first-child { padding-right: 0; }
-  .stage .doc#doc-beaconsfield .doc__page > .cartep { max-width: calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px) !important; }
+  @media (min-width: 1024px) {
+    /* 4 colonnes, mais jamais moins de 440 px (petits portables). */
+    .stage .doc#doc-beaconsfield .doc__page > .cartep { max-width: max(calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px), min(100%, 440px)) !important; }
+  }
+  /* Tablette et téléphone : la carte s'ouvre au centre de l'écran, sur le
+     voile flou, sans le cadre sombre des études ; « Fermer » au-dessus. */
+  @media (max-width: 1023px) {
+    .stage #doc-beaconsfield { position: fixed; inset: 0; z-index: 60; padding: 16px; align-items: center; }
+    .stage #doc-beaconsfield .doc__win {
+      width: min(520px, 100%); max-height: calc(100dvh - 32px);
+      background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; color: #fff;
+    }
+    .stage #doc-beaconsfield .doc__bar { background: transparent; border: 0; justify-content: flex-end; padding: 0 0 10px; height: auto; }
+    .stage #doc-beaconsfield .doc__bartitle { display: none; }
+    .stage #doc-beaconsfield .doc__fermer { color: #fff !important; background: transparent !important; }
+    .stage #doc-beaconsfield .doc__scroll { padding: 0; overflow-y: auto; }
+    .stage #doc-beaconsfield .doc__page { padding: 0; margin: 0; max-width: none; display: block; }
+    .stage #doc-beaconsfield .cartep__texte { padding-top: 28px; }
+  }
+  /* Texte du CTA toujours en #1C1917 (au repos), sur tous les écrans. */
+  .stage .doc .cartep a.cartep__cta, .stage .doc .cartep a.cartep__cta span { color: #1C1917 !important; }
+  .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible), .stage .doc .cartep a.cartep__cta:is(:hover, :focus-visible) span { color: var(--vert) !important; }
 </style>
 </head>
 <body>
