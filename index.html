@@ -8498,8 +8498,9 @@
      Profil. L'horloge est masquée pour le moment. */
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image,
-    .stage .photo-eau-gl, .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel.photo-sel--libre.photo-sel--photo { display: none !important; }
-    .profil__place .profil__place-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .stage > .profil__image + .photo-eau-gl, .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel.photo-sel--libre.photo-sel--photo { display: none !important; }
+    .profil__place { position: relative; }
+    .profil__place .profil__place-img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
     .stage:not(.bio-ouverte) .profil__place { visibility: hidden; }
     .stage.bio-ouverte .profil__place { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
     .stage .horloge, .stage .horloge + .photo-sel { display: none !important; }
@@ -15314,6 +15315,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   // La photo : une vraie simulation d'eau en WebGL ; sinon, les ronds SVG.
   const photo = document.querySelector('.profil__image');
   if (!eauWebGL(photo)) eau(photo, 'photo-eau', 46);
+  window.eauWebGL = eauWebGL;   // réutilisée par la photo de Profil
 
   /* ===== Photo dans l'eau (WebGL2) =====
      Une toile se pose exactement sur la photo pendant l'effet. Sur la carte
@@ -16076,6 +16078,9 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   img.alt = photo.alt; img.width = photo.width || 1100; img.height = photo.height || 733;
   place.append(img);
   place.removeAttribute('aria-hidden');
+  // L'effet d'eau au survol, comme avant sur le bureau.
+  const brancher = () => { if (window.eauWebGL) window.eauWebGL(img); };
+  if (img.complete) brancher(); else img.addEventListener('load', brancher, { once: true });
 })();
 </script>
 </body>
