@@ -15913,6 +15913,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (!calque) { calque = document.createElement('div'); calque.className = 'projets-vignette__calque'; vignette.append(calque); }
     arbo.addEventListener('pointerover', (e) => {
       const a = e.target.closest('.arbo__fichier'); if (!a) return;
+      if (a.getAttribute('href') === '#profil') return;   // pas de vignette pour Profil
       const p = a._projet, r = a.getBoundingClientRect();
       vignette.querySelectorAll('.projets-vignette__calque').forEach((c) => c.classList.remove('est-actif'));
       calque.style.background = (p.img ? 'url("' + p.img + '") center / cover no-repeat, ' : '') + p.couleur;
