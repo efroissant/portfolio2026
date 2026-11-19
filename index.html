@@ -9357,6 +9357,64 @@
     </div>
    </div>
   </div>
+  <!-- Web Design : carte Aéroplan. -->
+  <div class="doc doc--carte" id="doc-aeroplan" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-aeroplan-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Web Design</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer le projet">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page">
+        <div class="cartep" style="--vert: #A98BF5">
+          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
+          <ul class="cartep__tags" aria-label="Expertises">
+            <li>Marketing</li><li>Email</li><li>Web design</li><li>Social media</li>
+          </ul>
+          <h1 class="cartep__titre" id="doc-aeroplan-titre">Aéroplan</h1>
+          <div class="cartep__texte">
+            <p class="cartep__annee">2018</p>
+            <p>Campagnes marketing pour Aéroplan&nbsp;: infolettres, pages web et contenus pour les réseaux sociaux.</p>
+          </div>
+          <a class="cartep__cta" href="#" aria-label="Voir les projets">
+            <span class="cartep__defile" aria-hidden="true">
+              <span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span>
+            </span>
+          </a>
+        </div>
+      </article>
+    </div>
+   </div>
+  </div>
+  <!-- Web Design : carte Budge Studios. -->
+  <div class="doc doc--carte" id="doc-budge" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-budge-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Web Design</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer le projet">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page">
+        <div class="cartep" style="--vert: #F07FB7">
+          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
+          <ul class="cartep__tags" aria-label="Expertises">
+            <li>Web design</li><li>Illustration</li><li>Marketing</li><li>Motion</li><li>Jeu vidéo</li>
+          </ul>
+          <h1 class="cartep__titre" id="doc-budge-titre">Budge Studios</h1>
+          <div class="cartep__texte">
+            <p class="cartep__annee">2017</p>
+            <p>Site web, illustrations, animations et contenus marketing pour Budge Studios, studio montréalais de jeux pour enfants.</p>
+          </div>
+          <a class="cartep__cta" href="#" aria-label="Voir les projets">
+            <span class="cartep__defile" aria-hidden="true">
+              <span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span><span>↗</span><span>Voir les projets</span>
+            </span>
+          </a>
+        </div>
+      </article>
+    </div>
+   </div>
+  </div>
   <!-- Panneau des fichiers qui n'ont pas encore de contenu (grand écran). -->
   <div class="doc doc--vide" id="doc-vide" hidden>
    <div class="doc__win">
@@ -16034,8 +16092,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       { nom: 'Groupe Voyage Québec', lien: '#case/gvqcarte', couleur: '#F5C044', img: 'gvq-agenda-920.jpg' },
       { nom: 'Roche Diabetes Care', lien: '#case/rochecarte', couleur: '#5AA2F0' } ] },
     { nom: 'Web Design', projets: [
-      { nom: 'Aéroplan', lien: '#case/a-venir', couleur: '#1F3B73' },
-      { nom: 'Budge Studios', lien: '#case/a-venir', couleur: '#E85A9B' },
+      { nom: 'Aéroplan', lien: '#case/aeroplan', couleur: '#A98BF5' },
+      { nom: 'Budge Studios', lien: '#case/budge', couleur: '#F07FB7' },
       { nom: 'Clinique Médicale Beaconsfield', lien: '#case/beaconsfield', couleur: '#29D177' } ] },
     { nom: 'Autre', projets: [
       { nom: 'Illustrations', lien: '#case/illustrations', couleur: '#F2B33D' },
@@ -16390,7 +16448,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 (function defileCartes() {
   const piste = document.querySelector('.defile-cartes__piste');
   if (!piste) return;
-  const ids = ['shoppers', 'gvqcarte', 'rochecarte', 'beaconsfield'];
+  const ids = ['shoppers', 'gvqcarte', 'rochecarte', 'beaconsfield', 'aeroplan', 'budge'];
   const ouvrir = (id) => {
     const f = document.querySelector('.arbo__fichier[href="#case/' + id + '"]');
     if (f) f.click();
