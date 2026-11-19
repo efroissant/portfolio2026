@@ -8427,6 +8427,19 @@
   /* Pendant qu'on déplace la photo ou l'horloge : la même ombre portée. */
   .stage > .profil__image, .horloge { transition: box-shadow 180ms ease; }
   .stage > .profil__image.est-tenu, .horloge.est-tenu { box-shadow: 0 10px 24px -12px rgba(0,0,0,0.35); }
+  /* ===== Essai : dossiers à gauche, bio à droite =====
+     Les dossiers passent sous « Manu », là où commençait la bio ; la bio
+     passe en colonnes 6 à 10 (sa photo la suit). */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
+      left: calc(var(--g-marge, 24px) - 8px) !important;
+      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px)) !important;
+      max-height: calc(100vh - var(--bar-h) - clamp(40px, 16.667vh - 90px, 200px) - 56px) !important;
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: var(--col-6) !important; }
+  }
+  .profil__bio.est-signalee p { animation: bio-signal 1.4s ease; }
+  @keyframes bio-signal { 0%, 30% { background: rgba(13,153,255,0.12); } 100% { background: transparent; } }
 </style>
 </head>
 <body>
@@ -15536,6 +15549,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
    vignette du projet apparaît, comme pour l'accordéon. */
 (function arborescence() {
   const DOSSIERS = [
+    { nom: 'Bio', projets: [
+      { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' } ] },
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/loblaw', couleur: '#D33F3F' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvq', couleur: '#1E4D8C', img: 'gvq-agenda-920.jpg' },
@@ -15631,6 +15646,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (!a) return;
     e.preventDefault();
     const h = a.getAttribute('href');
+    // « Profil » : la bio, à droite, s'éclaire un instant.
+    if (h === '#profil') {
+      const bio = document.querySelector('.profil__bio');
+      if (bio) { bio.classList.remove('est-signalee'); void bio.offsetWidth; bio.classList.add('est-signalee'); }
+      return;
+    }
     if (location.hash !== h) history.pushState(null, '', h);
     dispatchEvent(new PopStateEvent('popstate'));
   });
