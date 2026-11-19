@@ -8587,6 +8587,11 @@
   .uc .uc__pastille--a11y { background: #F28C28; }
   .uc .uc__pastille--ux { background: #E0242E; }
   .uc .uc__pastille--ai { background: #8E3AA8; }
+  /* Observation : la chaîne de cause à effet, en pastilles au trait reliées par des flèches. */
+  .uc .uc__chaine { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; padding: 0; }
+  .uc .uc__chaine li { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .uc .uc__etape { padding: 2px 12px; border: 1px solid rgba(28,25,23,0.2); border-radius: 999px; }
+  .uc .uc__fleche { color: #8F8F8C; }
 </style>
 </head>
 <body>
@@ -9276,6 +9281,15 @@
             <li><span class="uc__pastille uc__pastille--ai" aria-label="Problème 3, architecture de l’information">3</span><span><strong>« Race » présélectionnée.</strong> « Caucasian » par défaut, sans raison clinique&nbsp;: éthiquement contestable.</span></li>
             <li><span class="uc__pastille uc__pastille--a11y" aria-label="Problème 5, accessibilité">5</span><span><strong>Une fenêtre qui bloque le formulaire.</strong> Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
           </ul>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Observation</h2>
+          <p>Sur place, on a suivi le parcours du pharmacien et observé ses conditions de travail. C’est là qu’est apparue la question de l’éclairage intense.</p>
+          <ol class="uc__chaine" aria-label="Effets de l’éclairage intense">
+            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
+          </ol>
+          <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
         </section>
 
         <section class="uc__bloc">
