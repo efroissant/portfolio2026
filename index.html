@@ -8602,6 +8602,9 @@
   .uc .uc__constats-simples { list-style: none; margin: 0; padding: 0; }
   .uc .uc__constats-simples li { padding: 6px 0; }
   .uc .uc__constats-simples strong { font-weight: 500; }
+  /* Fenêtre de courriel : en minuscules (sentence case) et en Geist, sans capitales forcées. */
+  .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
+  .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
 </style>
 </head>
 <body>
@@ -9417,7 +9420,7 @@
     <form class="mail" id="mail" role="dialog" aria-modal="true" aria-labelledby="mail-bartitle" novalidate>
       <div class="mail__bar" id="mail-bar">
         <span class="mail__bartitle" id="mail-bartitle">Say Hi!</span>
-        <button type="button" class="mail__fermer" id="mail-close" aria-label="Fermer le message">FERMER</button>
+        <button type="button" class="mail__fermer" id="mail-close" aria-label="Fermer le message">Fermer</button>
       </div>
 
       <div class="mail__row">
@@ -9445,8 +9448,8 @@
 </textarea>
 
       <div class="mail__foot">
-        <button type="button" class="mail__cancel" id="mail-cancel">ANNULER</button>
-        <button type="submit" class="mail__send">ENVOYER</button>
+        <button type="button" class="mail__cancel" id="mail-cancel">Annuler</button>
+        <button type="submit" class="mail__send">Envoyer</button>
       </div>
     </form>
   </div>
