@@ -8394,7 +8394,9 @@
   .radio .radio__liste { border-top: 0 !important; }
   .radio .radio__liste li:last-child button { border-bottom: 0 !important; }
   @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .radio { width: max-content !important; min-width: 360px; }
+    /* Largeur fixe : le plus long titre de la liste + 16 px (calculée par le script). */
+    .stage:is([data-state="lock"], [data-state="desktop"]) .radio { width: var(--radio-l, 360px) !important; }
+    .radio .radio__titre { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .radio .radio__liste button span { white-space: nowrap; }
   }
   /* Liens de la barre : plus de soulignement ; au survol, un fond gris
@@ -13086,6 +13088,25 @@ const dire = (function () {
       if (e.key === 'ArrowLeft') { audio.currentTime -= 5; e.preventDefault(); }
     });
     maj(); temps_();
+    // Largeur du lecteur : la plus longue ligne de la liste + 16 px, fixe.
+    function largeur() {
+      if (!r.offsetParent) return;
+      const lignes = [...liste.querySelectorAll('button')];
+      const plusLongue = Math.max(0, ...lignes.map((b) => [...b.children].reduce((t, c) => t + c.scrollWidth, 0)
+        + (parseFloat(getComputedStyle(b).columnGap) || 0) * (b.children.length - 1)));
+      // L'en-tête aussi : boutons + le plus long titre + le temps complet.
+      const haut = r.querySelector('.radio__haut');
+      const garde = [titre.textContent, temps.textContent, titre.style.flex];
+      titre.style.flex = 'none'; temps.textContent = '0:00 / 0:00';
+      let entete = 0;
+      PISTES.forEach((p) => { titre.textContent = p.titre; entete = Math.max(entete, haut.scrollWidth); });
+      [titre.textContent, temps.textContent, titre.style.flex] = garde;
+      const cs = getComputedStyle(r);
+      const l = Math.max(plusLongue, entete) + 16 + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      r.style.setProperty('--radio-l', Math.ceil(l) + 'px');
+    }
+    largeur(); addEventListener('resize', largeur); addEventListener('load', largeur);
+    if (document.fonts) document.fonts.ready.then(largeur);
     // La note ouvre et ferme le lecteur : dans la barre sur téléphone, en bas
     // à droite sur grand écran. Un clic ailleurs le referme ; en lecture,
     // la note devient une onde.
