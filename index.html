@@ -8563,6 +8563,8 @@
   .uc .uc__figure img { display: block; width: 100%; height: auto; border-radius: 4px; }
   .stage .doc .uc .uc__figure figcaption { margin-top: 8px; color: #8F8F8C; }
   .stage .doc .uc em { font-style: normal; }
+  .uc .uc__lien { color: #1C1917; text-decoration: none; border-radius: 6px; padding: 2px 6px; margin: 0 -6px; transition: background-color 140ms ease; }
+  .uc .uc__lien:hover, .uc .uc__lien:focus-visible { background: rgba(0,0,0,0.05); outline: none; }
 </style>
 </head>
 <body>
@@ -9153,7 +9155,7 @@
    </div>
   </div>
 
-  <div class="doc" id="doc-roche" hidden>
+  <div class="doc doc--court" id="doc-roche" hidden>
    <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-roche-titre">
     <div class="doc__bar">
       <span class="doc__bartitle">Use Case 03</span>
@@ -9161,8 +9163,48 @@
     </div>
 
     <div class="doc__scroll">
-      <article class="doc__page">
-</article>
+      <article class="doc__page uc">
+        <header class="uc__tete">
+          <p class="uc__sur">Use Case 03 · Roche Diabetes Care</p>
+          <h1 class="uc__titre" id="doc-roche-titre">Un selfie à l’envers, un don pour la recherche</h1>
+          <dl class="uc__meta">
+            <div><dt>Rôle</dt><dd>Direction artistique, UX/UI</dd></div>
+            <div><dt>Durée</dt><dd>1 mois, 2018</dd></div>
+            <div><dt>Équipe</dt><dd>1 lead UX, 1 directeur de création</dd></div>
+            <div><dt>Outils</dt><dd>Sketch</dd></div>
+          </dl>
+        </header>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Le défi</h2>
+          <p class="uc__texte">Pour le Mois du diabète, chaque selfie retourné publié déclenchait un don de 5&nbsp;$ à la recherche. Le client imposait aussi une publicité produit&nbsp;: il fallait la placer sans trahir la cause.</p>
+          <figure class="uc__figure"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"><figcaption>Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil.</figcaption></figure>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Deux décisions qui ont compté</h2>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">1</span> Laisser les gens s’approprier leur photo</h3>
+            <p>Texte, émojis, autocollants&nbsp;: plus on s’investit dans une image, plus on la partage.</p>
+          </div>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">2</span> Placer la pub dans les temps morts</h3>
+            <p>Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà. Vue, pas subie.</p>
+          <figure class="uc__figure"><img src="roche-pub-1145.webp" alt="Les deux points d’insertion de la publicité." width="1145" height="860" loading="lazy"><figcaption>Les deux points d’insertion de la publicité.</figcaption></figure>
+          </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Résultat</h2>
+          <p class="uc__texte">Campagne couverte par Strategy Magazine et Newswire Canada.</p>
+          <p><a class="uc__lien" href="https://www.newswire.ca/news-releases/roche-diabetes-care-invites-canadians-to-join-the-upsidechallenge-in-support-of-national-diabetes-awareness-month-699286681.html" target="_blank" rel="noopener">Lire le communiqué de presse ↗</a></p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Ce que je ferais autrement</h2>
+          <p>Réduire le formulaire marketing imposé&nbsp;: chaque champ est un risque d’abandon.</p>
+        </section>
+      </article>
     </div>
    </div>
   </div>
@@ -9373,7 +9415,6 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="roche" data-iv="z6SyEi/YplAVrhQt">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</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
   <!-- ============ VEILLE ============ -->
@@ -10302,8 +10343,8 @@ const dire = (function () {
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
     // l'onglet.
-    // Pharmaprix est public (version courte, en clair dans la page).
-    libres: ['loblaw']
+    // Les trois études sont publiques (versions courtes, en clair dans la page).
+    libres: ['loblaw', 'gvq', 'roche']
   };
 
   const b64oct = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
