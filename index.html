@@ -8593,6 +8593,15 @@
   .uc .uc__etape { padding: 2px 12px; border: 1px solid rgba(28,25,23,0.2); border-radius: 999px; }
   .uc .uc__fleche { color: #8F8F8C; }
   .uc .uc__suite { margin-top: 16px !important; }
+  /* Analyse heuristique : deux captures côte à côte, constats par gravité. */
+  .uc .uc__duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .uc .uc__duo .uc__figure { margin: 0; }
+  .uc .uc__gravite { margin-top: 18px; }
+  .uc .uc__niveau { display: flex; align-items: center; margin: 0 0 4px; font-weight: 400; color: #8F8F8C; }
+  .uc .uc__puce--gris { background: #A8A29E; }
+  .uc .uc__constats-simples { list-style: none; margin: 0; padding: 0; }
+  .uc .uc__constats-simples li { padding: 6px 0; }
+  .uc .uc__constats-simples strong { font-weight: 500; }
 </style>
 </head>
 <body>
@@ -9292,6 +9301,36 @@
           </ol>
           <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
           <p class="uc__suite">J’en ai tiré un mode sombre par défaut, pour reposer les yeux. Les retours ont été très positifs, mais l’idée a été mise de côté.</p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Analyse heuristique</h2>
+          <div class="uc__duo">
+            <figure class="uc__figure"><img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" loading="lazy"></figure>
+            <figure class="uc__figure"><img src="lob-healthwatch-courbes.jpg" alt="Healthwatch : les courbes de croissance à côté du formulaire patient." width="869" height="580" loading="lazy"></figure>
+          </div>
+          <div class="uc__gravite">
+            <h3 class="uc__niveau"><span class="uc__puce uc__puce--rouge"></span>Critiques</h3>
+            <ul class="uc__constats-simples">
+              <li><strong>Layout 30/70 déséquilibré.</strong> Sous une forte lumière, deux colonnes denses alourdissent la lecture dès l’ouverture.</li>
+              <li><strong>Aucune hiérarchie typographique.</strong> Tout a le même poids&nbsp;: impossible de scanner une fiche patient.</li>
+              <li><strong>Pas de retour d’état ni de validation.</strong> Sans états clairs, les erreurs de saisie augmentent, avec un impact clinique.</li>
+            </ul>
+          </div>
+          <div class="uc__gravite">
+            <h3 class="uc__niveau"><span class="uc__puce uc__puce--orange"></span>Modérées</h3>
+            <ul class="uc__constats-simples">
+              <li><strong>Barre d’outils surchargée.</strong> Toutes les actions au même niveau, primaires comme secondaires.</li>
+              <li><strong>Onglets peu lisibles.</strong> Faible contraste&nbsp;: on repère mal l’onglet actif, surtout en pleine lumière.</li>
+            </ul>
+          </div>
+          <div class="uc__gravite">
+            <h3 class="uc__niveau"><span class="uc__puce uc__puce--gris"></span>Mineures</h3>
+            <ul class="uc__constats-simples">
+              <li><strong>Légende du graphique illisible.</strong> Contraste couleur/fond insuffisant en pleine lumière.</li>
+              <li><strong>Cases à cocher sans état clair.</strong> Les éléments cochés se repèrent mal.</li>
+            </ul>
+          </div>
         </section>
 
         <section class="uc__bloc">
