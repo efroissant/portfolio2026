@@ -8605,12 +8605,14 @@
   /* Fenêtre de courriel : en minuscules (sentence case) et en Geist, sans capitales forcées. */
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
-  /* Titre des études : le nom du projet en Instrument Serif 44 px noir (seule exception à Geist). */
+  /* Titre des études : le nom du projet en Instrument Serif 60 px noir (seule exception à Geist). */
   :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__titre {
     font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
-    font-size: 44px !important; line-height: 48px !important; letter-spacing: -0.5px !important;
+    font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important;
     color: #000000 !important;
   }
+  /* Photo d'ouverture, sous le titre, avant la carte d'infos. */
+  .stage .doc .uc .uc__couverture { margin: 0 0 24px; }
   /* Études : chaque section en deux colonnes, sur la grille du site.
      À gauche le titre de la section (colonnes 6–7), à droite le contenu
      (colonnes 8–11). */
@@ -9282,6 +9284,7 @@
       <article class="doc__page uc">
         <header class="uc__tete">
           <h1 class="uc__titre" id="doc-loblaw-titre">Pharmaprix (Loblaw)</h1>
+          <figure class="uc__figure uc__couverture"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274"></figure>
           <dl class="uc__meta">
             <div><dt>Rôle</dt><dd>Designer UX/UI</dd></div>
             <div><dt>Durée</dt><dd>2 ans ½</dd></div>
