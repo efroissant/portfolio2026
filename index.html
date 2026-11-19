@@ -8606,7 +8606,7 @@
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
   /* Titre des études : le nom du projet en Instrument Serif 60 px #1C1917 (seule exception à Geist). */
-  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__titre {
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-bibliotheque) .uc .uc__titre {
     font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
     font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important;
     color: #1C1917 !important;
@@ -8745,6 +8745,18 @@
     .fond-projet--shoppers { background-image: linear-gradient(rgba(255,255,255,0.45), rgba(255,255,255,0.45)), url('lob-pharmacienne.webp'); }
     .stage:has(#doc-shoppers:not([hidden])) .fond-projet--shoppers { opacity: 1; }
   }
+  /* Bibliothèque dans le panneau : quatre couvertures par rangée dans la
+     colonne de droite, titre et auteur au survol, en Geist. */
+  #doc-bibliotheque .biblio__intro { margin: 0; color: #8F8F8C; }
+  #doc-bibliotheque .shelf__row {
+    display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 20px;
+    margin: 0; padding-bottom: 40px; align-items: end;
+  }
+  #doc-bibliotheque .shelf__slot { width: 100% !important; }
+  #doc-bibliotheque .shelf__lien, #doc-bibliotheque .shelf__art { width: 100%; }
+  #doc-bibliotheque .shelf__meta { width: 100%; min-height: 0; }
+  #doc-bibliotheque .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
+  #doc-bibliotheque .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
 </style>
 </head>
 <body>
@@ -9469,6 +9481,23 @@
             </span>
           </a>
         </div>
+      </article>
+    </div>
+   </div>
+  </div>
+  <!-- Perso › Bibliothèque : livres, séries, films et musiques. -->
+  <div class="doc doc--court" id="doc-bibliotheque" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-bibliotheque-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Bibliothèque</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer la bibliothèque">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page uc">
+        <header class="uc__tete">
+          <h1 class="uc__titre" id="doc-bibliotheque-titre">Bibliothèque</h1>
+          <p class="uc__texte biblio__intro">Ce que je lis, regarde et écoute en ce moment.</p>
+        </header>
       </article>
     </div>
    </div>
@@ -11451,10 +11480,7 @@ const dire = (function () {
   // Visuels agrandis de moitié : 120 × 180 pour un livre, 144 pour un carré.
   const REPERE = { livre: 120 * 180, affiche: 120 * 180, disque: 144 * 144, carre: 144 * 144 };
 
-  function finderEtagere() {
-    fTitle.textContent = 'Bibliothèque';
-    fBody.replaceChildren();
-
+  function construireEtagere() {
     const shelf = document.createElement('div');
     shelf.className = 'shelf';
 
@@ -11546,10 +11572,34 @@ const dire = (function () {
       shelf.appendChild(sec);
     });
 
-    fBody.appendChild(shelf);
+    return shelf;
+  }
+
+  function finderEtagere() {
+    fTitle.textContent = 'Bibliothèque';
+    fBody.replaceChildren();
+    fBody.appendChild(construireEtagere());
     fStatus.textContent = plural(PASSE_TEMPS.length, 'catégorie', 'catégories');
     fBody.scrollTop = 0;
   }
+
+  /* Perso › Bibliothèque : la même étagère, dans le panneau de droite, au
+     gabarit des études (titre du rayon à gauche, couvertures à droite). */
+  (function remplirBibliotheque() {
+    const page = document.querySelector('#doc-bibliotheque .uc');
+    if (!page) return;
+    const shelf = construireEtagere();
+    [...shelf.children].forEach((sec) => {
+      const bloc = document.createElement('section');
+      bloc.className = 'uc__bloc';
+      const h = document.createElement('h2');
+      h.className = 'uc__label';
+      h.textContent = sec.querySelector('.shelf__label').textContent;
+      const row = sec.querySelector('.shelf__row');
+      bloc.append(h, row);
+      page.appendChild(bloc);
+    });
+  })();
 
   function finderPhotos() {
     fTitle.textContent = 'Galerie';
@@ -16158,7 +16208,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       { nom: 'Vidéo', lien: '#case/a-venir', couleur: '#2B2B2B' } ] },
     { nom: 'Perso', projets: [
       { nom: 'Photos', lien: '#case/a-venir', couleur: '#68BEC9' },
-      { nom: 'Bibliothèque', lien: '#case/a-venir', couleur: '#8B5E3C' } ] }
+      { nom: 'Bibliothèque', lien: '#case/bibliotheque', couleur: '#8B5E3C' } ] }
   ];
   const TRAIT = {
     ferme: '<svg class="arbo__icone-ferme" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6a1.5 1.5 0 0 1 1.2.6L11.7 7.5h7.8A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>',
