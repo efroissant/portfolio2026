@@ -8625,6 +8625,37 @@
     .stage .doc .uc .uc__bloc > .uc__label { grid-column: 1; grid-row: 1 / span 20; margin: 0; }
     .stage .doc .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
   }
+  /* Carte de projet (Web Design) : fenêtre verte, grand titre, CTA qui défile. */
+  .cartep {
+    --vert: #3F8F5F; container-type: inline-size;
+    background: var(--vert); color: #000; border-radius: 18px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .cartep__barre { display: flex; gap: 6px; padding: 14px 16px; border-bottom: 1.5px solid #000; }
+  .cartep__barre i { width: 10px; height: 10px; border-radius: 50%; background: #000; }
+  .cartep__tags { list-style: none; margin: 0; padding: 24px 24px 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px 10px; }
+  .stage .doc .cartep__tags li { border: 1.5px solid #000; border-radius: 999px; padding: 6px 16px; font-size: 16px; line-height: 20px; }
+  .stage .doc .cartep .cartep__titre {
+    margin: 32px 0 0; padding: 0 24px; text-align: right; font-weight: 400;
+    font-size: 12.5cqi; line-height: 0.98; letter-spacing: -0.03em; color: #000;
+  }
+  .cartep__texte { padding: 72px 24px 28px; }
+  .stage .doc .cartep__texte p {
+    margin: 0; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+    font-size: 15px; line-height: 24px; letter-spacing: 0.01em; max-width: 62ch;
+  }
+  .stage .doc .cartep__texte .cartep__annee { margin-bottom: 14px; }
+  .cartep__cta {
+    display: block; overflow: hidden; border-top: 1.5px solid #000; color: #000; text-decoration: none;
+    padding: 18px 0; transition: background-color 160ms ease, color 160ms ease;
+  }
+  .cartep__cta:hover, .cartep__cta:focus-visible { background: #000; color: var(--vert); outline: none; }
+  .cartep__defile { display: inline-flex; gap: 40px; white-space: nowrap; padding-left: 24px; animation: cartep-defile 14s linear infinite; }
+  .stage .doc .cartep__defile span { font-size: 26px; line-height: 32px; }
+  .cartep__cta:hover .cartep__defile { animation-duration: 7s; }
+  @keyframes cartep-defile { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .cartep__defile { animation: none; } }
+  .stage .doc#doc-beaconsfield .doc__page > :first-child { padding-right: 0; }
 </style>
 </head>
 <body>
@@ -9145,6 +9176,36 @@
        de 576px ne peut pas offrir. Surface opaque et non translucide, pour la
        même raison — on ne lit pas huit mille signes à travers un fond
        d'écran. -->
+  <!-- Web Design : carte de projet (fenêtre verte, étiquettes, grand titre, CTA qui défile). -->
+  <div class="doc doc--carte" id="doc-beaconsfield" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-beaconsfield-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Web Design</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer le projet">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page">
+        <div class="cartep">
+          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
+          <ul class="cartep__tags" aria-label="Expertises">
+            <li>Design web</li><li>Direction artistique</li><li>Rédaction</li>
+          </ul>
+          <h1 class="cartep__titre" id="doc-beaconsfield-titre">Clinique Médicale Beaconsfield</h1>
+          <div class="cartep__texte">
+            <p class="cartep__annee">2026</p>
+            <p>Refonte du site d’une clinique médicale de Beaconsfield&nbsp;: une architecture plus claire pour trouver le bon soin en quelques clics, une direction artistique plus chaleureuse, des textes réécrits, et l’ajout des nouveaux services de la clinique.</p>
+          </div>
+          <a class="cartep__cta" href="#" aria-label="Voir la maquette">
+            <span class="cartep__defile" aria-hidden="true">
+              <span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span>
+              <span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span><span>↗</span><span>Voir maquette</span>
+            </span>
+          </a>
+        </div>
+      </article>
+    </div>
+   </div>
+  </div>
   <!-- Panneau des fichiers qui n'ont pas encore de contenu (grand écran). -->
   <div class="doc doc--vide" id="doc-vide" hidden>
    <div class="doc__win">
@@ -15823,7 +15884,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       { nom: 'Roche Diabetes Care', lien: '#case/roche', couleur: '#0F6E6E' } ] },
     { nom: 'Web Design', projets: [
       { nom: 'Aéroplan', lien: '#case/a-venir', couleur: '#1F3B73' },
-      { nom: 'Budge Studios', lien: '#case/a-venir', couleur: '#E85A9B' } ] },
+      { nom: 'Budge Studios', lien: '#case/a-venir', couleur: '#E85A9B' },
+      { nom: 'Clinique Médicale Beaconsfield', lien: '#case/beaconsfield', couleur: '#3F8F5F' } ] },
     { nom: 'Autre', projets: [
       { nom: 'Illustrations', lien: '#case/illustrations', couleur: '#F2B33D' },
       { nom: 'Vidéo', lien: '#case/a-venir', couleur: '#2B2B2B' } ] },
