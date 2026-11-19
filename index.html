@@ -8644,7 +8644,7 @@
   .cartep__texte { padding: 40px 16px 20px; }
   .stage .doc .cartep__texte p {
     margin: 0;
-    font-size: 13px; line-height: 20px; letter-spacing: 0.01em; max-width: 62ch;
+    font-size: 16px; line-height: 22px; max-width: 62ch;
   }
   .stage .doc .cartep__texte .cartep__annee { margin-bottom: 10px; }
   .cartep__cta {
@@ -8659,6 +8659,9 @@
   @media (prefers-reduced-motion: reduce) { .cartep__defile { animation: none; } }
   .stage .doc#doc-beaconsfield .doc__page > :first-child { padding-right: 0; }
   @media (min-width: 1024px) {
+    /* La carte est posée en bas à gauche du panneau. */
+    .stage .doc#doc-beaconsfield .doc__scroll { display: flex; flex-direction: column; }
+    .stage .doc#doc-beaconsfield .doc__page { margin-top: auto !important; padding-bottom: 0 !important; }
     /* 4 colonnes, mais jamais moins de 440 px (petits portables). */
     .stage .doc#doc-beaconsfield .doc__page > .cartep { max-width: max(calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px), min(100%, 440px)) !important; }
   }
