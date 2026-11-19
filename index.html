@@ -8559,6 +8559,10 @@
      le gris distingue les étiquettes et les infos. */
   .stage .doc .uc, .stage .doc .uc * { font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important; }
   .stage .doc .uc .uc__meta { gap: 16px 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .uc .uc__figure { margin: 18px 0 0; }
+  .uc .uc__figure img { display: block; width: 100%; height: auto; border-radius: 4px; }
+  .stage .doc .uc .uc__figure figcaption { margin-top: 8px; color: #8F8F8C; }
+  .stage .doc .uc em { font-style: normal; }
 </style>
 </head>
 <body>
@@ -9091,7 +9095,7 @@
     </div>
    </div>
   </div>
-  <div class="doc" id="doc-gvq" hidden>
+  <div class="doc doc--court" id="doc-gvq" hidden>
    <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-titre">
     <div class="doc__bar">
       <span class="doc__bartitle">Use Case 01</span>
@@ -9099,134 +9103,51 @@
     </div>
 
     <div class="doc__scroll" id="doc-scroll">
-      <article class="doc__page">
-
-        <header>
-          <p class="doc__eyebrow">Use Case 01</p>
-          <h1 class="doc__titre" id="doc-gvq-titre">Outil de gestion d’événement</h1>
-          <p class="doc__client">Groupe Voyage Québec</p>
-          <p class="doc__temps" data-temps>—</p>
-
-          <p class="doc__hook">Réunir en un seul produit ce que le voyage d’affaires fragmentait&nbsp;: organiser un congrès, réserver un hébergement, profiter du séjour.</p>
-
-          <dl class="doc__resume">
+      <article class="doc__page uc">
+        <header class="uc__tete">
+          <p class="uc__sur">Use Case 01 · Groupe Voyage Québec</p>
+          <h1 class="uc__titre" id="doc-gvq-titre">Réunir congrès, hôtel et activités en un seul produit</h1>
+          <dl class="uc__meta">
             <div><dt>Rôle</dt><dd>Designer UX/UI, seul en design</dd></div>
-            <div><dt>Durée</dt><dd>8 mois, janvier à août 2024</dd></div>
-            <div><dt>Livré</dt><dd>Un MVP qui a vendu avant d’exister</dd></div>
-          </dl>
-
-          <dl class="doc__meta">
-            <div><dt>Équipe</dt><dd>Moi-même, 2 PO, équipe de développement délocalisée</dd></div>
+            <div><dt>Durée</dt><dd>8 mois, 2024</dd></div>
+            <div><dt>Équipe</dt><dd>2 PO, devs délocalisés</dd></div>
             <div><dt>Outils</dt><dd>Figma, Jira, Miro</dd></div>
           </dl>
         </header>
 
-        <section class="doc__bloc">
-          <h2>Le point de départ</h2>
-          <p>Avenue voulait tout regrouper — congrès, hôtel, activités — en un seul produit. Mon mandat&nbsp;: concevoir l’expérience du participant, de la page d’accueil au paiement, pour un MVP capable de vendre avant d’exister.</p>
-          <p class="doc__contrainte">Pas de produit existant. Pas d’étude terrain préalable. Une équipe de développement délocalisée, sans user story partagée ni processus formalisé. Et trois pages déjà réalisées, puis rejetées.</p>
-          <p>J’ai commencé par comprendre pourquoi ces trois pages avaient été rejetées, avant de définir les objectifs de design et de cadrer les contraintes techniques.</p>
+        <section class="uc__bloc">
+          <h2 class="uc__label">Le défi</h2>
+          <p class="uc__texte">Concevoir l’expérience du participant, de l’accueil au paiement, pour un MVP qui devait vendre avant d’exister. Sans produit existant, sans recherche terrain, après trois pages déjà rejetées.</p>
         </section>
 
-        <section class="doc__bloc doc__bloc--chapitre">
-          <p class="doc__num">Cadrage</p>
-          <h2>Cartographier avant de dessiner</h2>
-          <p>Étant donné l’ampleur du projet, j’ai cherché à comprendre la vue d’ensemble avant d’entrer dans le détail. J’ai évalué les besoins avec les cheffes de projet, découpé le tout en zones fonctionnelles — Agenda, Registration, Hotels, Activities, Transport, Info — et cartographié ces zones pour monter un plan de site.</p>
+        <section class="uc__bloc">
+          <h2 class="uc__label">Trois décisions qui ont compté</h2>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">1</span> Un onglet par jour</h3>
+            <p>Quarante sessions de congrès deviennent dix à la fois. Moins de charge, et tout se parcourt au clavier.</p>
+          <figure class="uc__figure"><img src="gvq-agenda-920.jpg" srcset="gvq-agenda-1000.jpg 2x" alt="Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante." width="920" height="560" loading="lazy"><figcaption>Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante.</figcaption></figure>
+          </div>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">2</span> Des tags honnêtes sur les hôtels</h3>
+            <p><em>Official Hotel</em> nomme la relation commerciale. <em>Almost Gone</em> et <em>On Request</em> montrent la disponibilité. On sert le client sans tromper le participant.</p>
+          <figure class="uc__figure"><img src="gvq-tags-920.jpg" srcset="gvq-tags-1500.jpg 2x" alt="Les trois tags et ce que chacun annonce au participant." width="920" height="560" loading="lazy"><figcaption>Les trois tags et ce que chacun annonce au participant.</figcaption></figure>
+          </div>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">3</span> Une mise en page déjà connue</h3>
+            <p>Comme Booking ou Expedia&nbsp;: on garde les réflexes des gens, pour qu’ils se concentrent sur leur choix.</p>
+          <figure class="uc__figure"><img src="gvq-resultats-920.jpg" srcset="gvq-resultats-1250.jpg 2x" alt="Résultats de recherche : filtres à gauche, cartes hôtel à droite." width="920" height="560" loading="lazy"><figcaption>Résultats de recherche : filtres à gauche, cartes hôtel à droite.</figcaption></figure>
+          </div>
         </section>
 
-        <figure class="doc__fig doc__fig--pleine">
-            <picture>
-              <source srcset="gvq-sitemap-1750.webp 2x, gvq-sitemap-920.webp 1x" type="image/webp">
-              <img src="gvq-sitemap-920.jpg" srcset="gvq-sitemap-1750.jpg 2x" alt="Plan de site du MVP : les zones retenues en vert, celles hors mandat en gris, le panier unifié en jaune." loading="lazy">
-            </picture>
-            <figcaption>Plan de site du MVP : les zones retenues en vert, celles hors mandat en gris, le panier unifié en jaune.</figcaption>
-          </figure>
-
-        <section class="doc__bloc">
-          <p>Plutôt que de partir d’une page blanche ou de réinventer la roue, je me suis appuyé sur une analyse structurelle de Booking.com publiée par un designer en 2017. Un découpage complet de l’interface m’a permis de comprendre la logique derrière chaque composant, puis de ne retenir que les tranches pertinentes pour le MVP.</p>
+        <section class="uc__bloc">
+          <h2 class="uc__label">Résultat</h2>
+          <p class="uc__texte">Le MVP a convaincu et a vendu avant d’exister. Groupe Voyage Québec reprend le travail sur la plateforme.</p>
         </section>
 
-        <figure class="doc__fig doc__fig--pleine">
-            <!-- Source de 750px seulement : pas de version double, on ne
-                 l'annonce donc pas. Mieux vaut une image servie à sa taille
-                 réelle qu'un srcset qui promet une finesse absente. -->
-            <picture>
-              <source srcset="gvq-slice-750.webp" type="image/webp">
-              <img src="gvq-slice-750.jpg" alt="Découpage de la page de résultats en composants, repris de l’analyse de Booking.com." loading="lazy">
-            </picture>
-            <figcaption>Découpage de la page de résultats en composants, repris de l’analyse de Booking.com.</figcaption>
-          </figure>
-
-        <section class="doc__bloc doc__bloc--chapitre">
-          <p class="doc__num">Le cœur du travail</p>
-          <h2>Trois décisions et ce qui les motive</h2>
-          <p>Sans accès aux utilisateurs, chaque choix devait pouvoir se défendre autrement que par le goût. Voici les trois qui ont le plus pesé sur le produit.</p>
+        <section class="uc__bloc">
+          <h2 class="uc__label">Ce que je ferais autrement</h2>
+          <p>Tester avec de vrais participants et mesurer les pages clés. Le produit vend&nbsp;; il reste à prouver qu’il performe.</p>
         </section>
-
-        <section class="doc__decision">
-          <p class="doc__num">01</p>
-          <h3>Navigation par onglets</h3>
-          <p class="doc__contrainte">Quarante sessions de congrès à présenter sur une seule page.</p>
-          <p>Des onglets par jour plutôt qu’un défilement continu&nbsp;: quarante sessions d’un coup deviennent dix à la fois. Le découpage réduit la charge cognitive, et la navigation par onglets assure une compatibilité clavier complète pour les personnes qui n’utilisent pas de souris.</p>
-          <p class="doc__notion">Lisibilité et accessibilité, une seule décision</p>
-        </section>
-
-        <figure class="doc__fig doc__fig--pleine">
-            <picture>
-              <source srcset="gvq-agenda-1000.webp 2x, gvq-agenda-920.webp 1x" type="image/webp">
-              <img src="gvq-agenda-920.jpg" srcset="gvq-agenda-1000.jpg 2x" alt="Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante." loading="lazy">
-            </picture>
-            <figcaption>Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante.</figcaption>
-          </figure>
-
-        <section class="doc__decision">
-          <p class="doc__num">02</p>
-          <h3>Système de tags sur les hôtels</h3>
-          <p class="doc__contrainte">Mettre en avant les hôtels partenaires, sans tromper le participant.</p>
-          <p>J’ai proposé un système de tags contextuels plutôt qu’un tri invisible. <em>Official Hotel</em> nomme la relation commerciale clairement. <em>Almost Gone</em> et <em>On Request</em> signalent la disponibilité en temps réel.</p>
-          <p>Chaque tag répond à un besoin distinct&nbsp;: le premier sert l’intérêt commercial sans manipuler, les deux suivants réduisent l’anxiété de décision. Chaque tag est interactif.</p>
-          <p class="doc__notion">Transparence, confiance par la contrainte commerciale</p>
-        </section>
-
-        <figure class="doc__fig doc__fig--pleine">
-            <picture>
-              <source srcset="gvq-tags-1500.webp 2x, gvq-tags-920.webp 1x" type="image/webp">
-              <img src="gvq-tags-920.jpg" srcset="gvq-tags-1500.jpg 2x" alt="Les trois tags et ce que chacun annonce au participant." loading="lazy">
-            </picture>
-            <figcaption>Les trois tags et ce que chacun annonce au participant.</figcaption>
-          </figure>
-
-        <section class="doc__decision">
-          <p class="doc__num">03</p>
-          <h3>Une mise en page que les gens connaissent déjà</h3>
-          <p class="doc__contrainte">Des utilisateurs qui arrivent avec les réflexes de Booking et d’Expedia.</p>
-          <p>L’interface s’inspire délibérément des grandes plateformes de réservation. Pas par facilité, mais parce que ces automatismes sont déjà formés&nbsp;: les rééduquer aurait ajouté une friction inutile. J’ai choisi de capitaliser sur les réflexes existants pour libérer l’attention sur ce qui compte — choisir.</p>
-          <p class="doc__notion">Transfert de schéma cognitif et amorçage</p>
-        </section>
-
-        <figure class="doc__fig doc__fig--pleine">
-            <picture>
-              <source srcset="gvq-resultats-1250.webp 2x, gvq-resultats-920.webp 1x" type="image/webp">
-              <img src="gvq-resultats-920.jpg" srcset="gvq-resultats-1250.jpg 2x" alt="Résultats de recherche : filtres à gauche, cartes hôtel à droite, barre de recherche persistante." loading="lazy">
-            </picture>
-            <figcaption>Résultats de recherche : filtres à gauche, cartes hôtel à droite, barre de recherche persistante.</figcaption>
-          </figure>
-
-        <figure class="doc__fig doc__fig--pleine">
-            <picture>
-              <source srcset="gvq-detail-1613.webp 2x, gvq-detail-920.webp 1x" type="image/webp">
-              <img src="gvq-detail-920.jpg" srcset="gvq-detail-1613.jpg 2x" alt="Fiche hôtel : galerie, onglets de contenu, carte de localisation." loading="lazy">
-            </picture>
-            <figcaption>Fiche hôtel : galerie, onglets de contenu, carte de localisation.</figcaption>
-          </figure>
-
-        <section class="doc__bloc doc__bloc--chapitre">
-          <p class="doc__num">Ce que j’en retire</p>
-          <h2>Un MVP qui vend, pas encore un produit qu’on optimise</h2>
-          <p>Sans accès à de vrais utilisateurs, toutes mes décisions reposaient sur l’expertise métier et mon jugement. Le produit a convaincu, mais on ne sait pas encore s’il performe. La prochaine étape est évidente&nbsp;: des tests utilisateurs réels et de l’A/B testing sur les pages clés. Sans données comportementales, on a un MVP qui vend — pas encore un produit qu’on peut optimiser avec confiance.</p>
-          <p>Groupe Voyage Québec prévoit de reprendre le travail sur la plateforme cet été. Je crois que c’est la meilleure validation qu’un MVP puisse recevoir.</p>
-        </section>
-
       </article>
     </div>
    </div>
