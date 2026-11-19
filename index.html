@@ -8492,6 +8492,18 @@
   }
   @keyframes bio-apparait { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .stage.bio-ouverte .profil__bio p { animation: none; } }
+  /* ===== Ma photo vit dans Profil, plus sur le bureau ; horloge cachée =====
+     Grand écran : la photo déplaçable est retirée du bureau ; une copie
+     fixe s'affiche dans la bio, sous le texte, et n'apparaît qu'avec
+     Profil. L'horloge est masquée pour le moment. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image,
+    .stage .photo-eau-gl, .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel.photo-sel--libre.photo-sel--photo { display: none !important; }
+    .profil__place .profil__place-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .stage:not(.bio-ouverte) .profil__place { visibility: hidden; }
+    .stage.bio-ouverte .profil__place { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+    .stage .horloge, .stage .horloge + .photo-sel { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -15949,6 +15961,21 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   };
   addEventListener('pointerup', lacher); addEventListener('pointercancel', lacher);
   el.addEventListener('dblclick', () => { pos = null; k = 1; try { localStorage.removeItem(CLE); } catch (e) {} placer(); });
+})();
+</script>
+<script>
+/* Ma photo dans Profil : une copie fixe dans la bio, à la place réservée
+   sous le texte (la photo du bureau est retirée sur grand écran). */
+(function photoDansProfil() {
+  const place = document.querySelector('.profil__place');
+  const photo = document.querySelector('.profil__image');
+  if (!place || !photo || place.querySelector('img')) return;
+  const img = document.createElement('img');
+  img.className = 'profil__place-img';
+  img.src = photo.currentSrc || photo.src;
+  img.alt = photo.alt; img.width = photo.width || 1100; img.height = photo.height || 733;
+  place.append(img);
+  place.removeAttribute('aria-hidden');
 })();
 </script>
 </body>
