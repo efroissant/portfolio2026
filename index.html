@@ -8757,6 +8757,38 @@
   #doc-bibliotheque .shelf__meta { width: 100%; min-height: 0; }
   #doc-bibliotheque .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
   #doc-bibliotheque .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
+  /* Accueil (rien d'ouvert, dossiers fermés) : les dossiers deviennent de
+     grosses icônes éparpillées sur le bureau, au-dessus de la toile de cartes.
+     Un clic sur un dossier l'ouvre : on repasse alors à la liste, ce dossier
+     déployé. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]):not(.a-un-doc):not(.bio-ouverte):not(:has(.arbo__dossier-btn[aria-expanded="true"])) {
+      & .arbo {
+        top: var(--bar-h, 44px) !important; bottom: 56px; left: 0 !important; right: 0; width: auto; max-width: none; max-height: none;
+        overflow: visible; pointer-events: none;
+      }
+      & .arbo::before, & .arbo .arbo__tout { display: none; }
+      & .arbo .arbo__dossiers > li { position: absolute; pointer-events: auto; transform: translate(-50%, -50%); }
+      & .arbo .arbo__dossiers > li:nth-child(1) { left: 9%;  top: 14%; }
+      & .arbo .arbo__dossiers > li:nth-child(2) { left: 27%; top: 58%; }
+      & .arbo .arbo__dossiers > li:nth-child(3) { left: 50%; top: 22%; }
+      & .arbo .arbo__dossiers > li:nth-child(4) { left: 71%; top: 64%; }
+      & .arbo .arbo__dossiers > li:nth-child(5) { left: 88%; top: 18%; }
+      & .arbo .arbo__dossier-btn {
+        flex-direction: column; align-items: center; gap: 8px; padding: 6px; background: none !important; max-width: none;
+      }
+      & .arbo .arbo__dossier-btn svg {
+        width: 104px !important; height: 104px !important;
+        filter: drop-shadow(0 8px 18px rgba(28,25,23,0.22));
+        transition: transform 200ms cubic-bezier(.2,.7,.2,1);
+      }
+      & .arbo .arbo__dossier-btn:hover svg { transform: translateY(-6px) scale(1.04); }
+      & .arbo .arbo__dossier-btn span {
+        background: #FFFFFF; color: #1C1917; border-radius: 999px; padding: 4px 14px;
+        box-shadow: 0 4px 14px rgba(28,25,23,0.12);
+      }
+    }
+  }
 </style>
 </head>
 <body>
