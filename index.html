@@ -15655,22 +15655,22 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     } catch (e) { return ''; }
   };
   const fuseauMontreal = fuseau.textContent;
-  const aiguilles = [h, m, s].map((a, i) => ({ a, angle: 0, vitesse: 0, cible: 0, max: [700, 1100, 1600][i] }));
+  const aiguilles = [h, m, s].map((a, i) => ({ a, angle: 0, vitesse: 0, cible: 0, max: [2200, 3400, 5000][i] }));
   const angleDe = (a) => { const t = /rotate\(([-\d.]+)deg\)/.exec(a.style.transform || ''); return t ? +t[1] : 0; };
   let boucle = 0, avant = 0, prochaineVille = 0, iVille = 0;
   function affoler(t) {
     const dt = avant ? Math.min(50, t - avant) / 1000 : 0.016; avant = t;
     aiguilles.forEach((g) => {
       // De temps en temps, chaque aiguille change d'avis : vitesse et sens au hasard.
-      if (Math.random() < dt * 2.2) g.cible = (Math.random() < 0.5 ? -1 : 1) * g.max * (0.4 + Math.random() * 0.6);
-      g.vitesse += (g.cible - g.vitesse) * Math.min(1, dt * 6);
+      if (Math.random() < dt * 4) g.cible = (Math.random() < 0.5 ? -1 : 1) * g.max * (0.4 + Math.random() * 0.6);
+      g.vitesse += (g.cible - g.vitesse) * Math.min(1, dt * 12);
       g.angle += g.vitesse * dt;
       g.a.style.transform = 'rotate(' + g.angle.toFixed(1) + 'deg)';
     });
     if (t > prochaineVille) {
       const [nom, zone] = VILLES[iVille++ % VILLES.length];
       ville.textContent = nom; fuseau.textContent = utc(zone);
-      prochaineVille = t + 170;
+      prochaineVille = t + 90;
     }
     boucle = requestAnimationFrame(affoler);
   }
