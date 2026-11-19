@@ -8539,7 +8539,7 @@
      24 px pour les titres ; pas de barre de défilement dans le panneau. */
   .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
-    font-size: 16px !important; line-height: 24px !important; letter-spacing: -0.1px !important;
+    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
   }
   .stage .doc .uc :is(.uc__titre, .uc__sous) {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
@@ -8547,6 +8547,17 @@
   }
   .stage .doc .doc__scroll { scrollbar-width: none !important; }
   .stage .doc .doc__scroll::-webkit-scrollbar { display: none; }
+  /* Use Case court : le texte courant comme la bio (Geist 24/30) ; les
+     étiquettes et infos restent en 16 px gris. */
+  .stage .doc .uc :is(p, li, .uc__texte, .uc__note):not(.uc__sur):not(.uc__fin) {
+    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+  }
+  .stage .doc .uc .uc__liste li { padding: 4px 0; }
+  .stage .doc .uc .uc__puce { width: 12px; height: 12px; transform: translateY(-2px); }
+  /* Use Case court : tout le texte à la taille de la bio (Geist 24/30) ;
+     le gris distingue les étiquettes et les infos. */
+  .stage .doc .uc, .stage .doc .uc * { font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important; }
+  .stage .doc .uc .uc__meta { gap: 16px 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 </style>
 </head>
 <body>
