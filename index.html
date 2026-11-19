@@ -8375,7 +8375,8 @@
   .horloge:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
   .horloge__cadran { width: 4.75em; height: 4.75em; flex: none; }   /* 76 px : le cadran garde sa taille */
   .horloge__cadran line { transform-origin: 50px 50px; transform-box: view-box; }
-  .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0; }
+  .horloge__texte { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 2px 0;
+    min-width: 6.4em; white-space: nowrap; }   /* largeur fixe : la carte ne bouge pas quand les villes défilent */
   .horloge__fuseau { color: #A8A29E; }
   /* Le filet bleu des cadres (photos, horloge) : 2 px, au survol comme à la sélection. */
   .stage > .profil__image:hover, .cadre-libre:hover, .horloge:hover { outline-width: 2px !important; }
@@ -15622,7 +15623,9 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     decalage = nom.replace('GMT', '').replace('-', '−') || '+0';
     fuseau.textContent = '(UTC ' + (decalage.startsWith('−') ? decalage : (decalage.startsWith('+') ? decalage : '+' + decalage)) + ')';
   } catch (e) {}
+  let affole = false;
   function tic() {
+    if (affole) return;
     const p = Object.fromEntries(heure.formatToParts(new Date()).map((x) => [x.type, +x.value]));
     const sec = p.second, min = p.minute + sec / 60, hr = (p.hour % 12) + min / 60;
     s.style.transform = 'rotate(' + sec * 6 + 'deg)';
@@ -15632,6 +15635,66 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   tic();
   setTimeout(() => { tic(); setInterval(tic, 1000); }, 1000 - (Date.now() % 1000));
+
+  // Au survol, l'horloge s'affole : les aiguilles tournent vite, dans un sens
+  // puis dans l'autre, et les grandes villes du monde défilent avec leur
+  // fuseau. En sortant, retour en douceur à l'heure de Montréal.
+  const ville = el.querySelector('.horloge__ville');
+  const VILLES = [
+    ['Tokyo', 'Asia/Tokyo'], ['Paris', 'Europe/Paris'], ['New York', 'America/New_York'], ['Londres', 'Europe/London'],
+    ['Sydney', 'Australia/Sydney'], ['Dubaï', 'Asia/Dubai'], ['São Paulo', 'America/Sao_Paulo'], ['Mumbai', 'Asia/Kolkata'],
+    ['Los Angeles', 'America/Los_Angeles'], ['Le Caire', 'Africa/Cairo'], ['Séoul', 'Asia/Seoul'], ['Mexico', 'America/Mexico_City'],
+    ['Reykjavik', 'Atlantic/Reykjavik'], ['Bangkok', 'Asia/Bangkok'], ['Nairobi', 'Africa/Nairobi'], ['Honolulu', 'Pacific/Honolulu'],
+    ['Auckland', 'Pacific/Auckland'], ['Buenos Aires', 'America/Argentina/Buenos_Aires'], ['Istanbul', 'Europe/Istanbul'], ['Singapour', 'Asia/Singapore']
+  ];
+  const utc = (zone) => {
+    try {
+      const n = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'shortOffset' })
+        .formatToParts(new Date()).find((x) => x.type === 'timeZoneName').value.replace('GMT', '');
+      return '(UTC ' + (n ? n.replace('-', '−') : '+0') + ')';
+    } catch (e) { return ''; }
+  };
+  const fuseauMontreal = fuseau.textContent;
+  const aiguilles = [h, m, s].map((a, i) => ({ a, angle: 0, vitesse: 0, cible: 0, max: [700, 1100, 1600][i] }));
+  const angleDe = (a) => { const t = /rotate\(([-\d.]+)deg\)/.exec(a.style.transform || ''); return t ? +t[1] : 0; };
+  let boucle = 0, avant = 0, prochaineVille = 0, iVille = 0;
+  function affoler(t) {
+    const dt = avant ? Math.min(50, t - avant) / 1000 : 0.016; avant = t;
+    aiguilles.forEach((g) => {
+      // De temps en temps, chaque aiguille change d'avis : vitesse et sens au hasard.
+      if (Math.random() < dt * 2.2) g.cible = (Math.random() < 0.5 ? -1 : 1) * g.max * (0.4 + Math.random() * 0.6);
+      g.vitesse += (g.cible - g.vitesse) * Math.min(1, dt * 6);
+      g.angle += g.vitesse * dt;
+      g.a.style.transform = 'rotate(' + g.angle.toFixed(1) + 'deg)';
+    });
+    if (t > prochaineVille) {
+      const [nom, zone] = VILLES[iVille++ % VILLES.length];
+      ville.textContent = nom; fuseau.textContent = utc(zone);
+      prochaineVille = t + 170;
+    }
+    boucle = requestAnimationFrame(affoler);
+  }
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.addEventListener('pointerenter', () => {
+    if (calme() || affole) return;
+    affole = true; avant = 0; prochaineVille = 0; iVille = Math.floor(Math.random() * VILLES.length);
+    aiguilles.forEach((g) => { g.a.style.transition = 'none'; g.angle = angleDe(g.a); g.vitesse = 0; g.cible = (Math.random() < 0.5 ? -1 : 1) * g.max; });
+    boucle = requestAnimationFrame(affoler);
+  });
+  el.addEventListener('pointerleave', () => {
+    if (!affole) return;
+    cancelAnimationFrame(boucle); boucle = 0;
+    ville.textContent = 'Montréal'; fuseau.textContent = fuseauMontreal;
+    // Retour à l'heure réelle par le plus court chemin, en douceur.
+    const p = Object.fromEntries(heure.formatToParts(new Date()).map((x) => [x.type, +x.value]));
+    const vrais = [((p.hour % 12) + p.minute / 60) * 30, (p.minute + p.second / 60) * 6, p.second * 6];
+    aiguilles.forEach((g, i) => {
+      const d = ((vrais[i] - g.angle) % 360 + 540) % 360 - 180;
+      g.a.style.transition = 'transform 650ms cubic-bezier(0.22, 1, 0.36, 1)';
+      g.a.style.transform = 'rotate(' + (g.angle + d).toFixed(1) + 'deg)';
+    });
+    setTimeout(() => { aiguilles.forEach((g) => { g.a.style.transition = ''; }); affole = false; tic(); }, 680);
+  });
 
   // Comme les photos (Frame 35) : survol = filet bleu ; clic = sélection avec
   // le nom, les carrés pour agrandir, les ronds pour arrondir, la rotation
