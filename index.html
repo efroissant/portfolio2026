@@ -8462,6 +8462,14 @@
     .stage .doc .doc__bar { display: none !important; }
     .stage .doc .doc__scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 0 !important; scrollbar-width: thin; }
     .stage .doc .doc__page { max-width: none !important; margin: 0 !important; padding: 0 0 48px !important; }
+    /* La page d'étude avait ses propres marges (grille interne pensée pour la
+       fenêtre) : dans le panneau, tout part de la colonne 6 et va jusqu'à la
+       colonne 11, comme le reste du site. */
+    .stage .doc .doc__page {
+      grid-template-columns: [pleine-debut libelle-debut texte-debut] minmax(0, 1fr) [texte-fin pleine-fin] !important;
+      justify-content: stretch !important;
+    }
+    .stage .doc .doc__page > * { max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
     .stage.a-un-doc :is(.profil, .profil__image, .photo-eau-gl, .photo-sel--photo) { display: none !important; }
     /* L'horloge reste au-dessus du contenu, et le haut du contenu (en-tête) lui
        laisse sa place à droite, pour ne pas passer dessous. */
@@ -8474,6 +8482,14 @@
     .doc--vide .doc-vide__titre { margin: 0 0 18px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
     .doc--vide .doc-vide__texte { margin: 0; color: #8F8F8C; }
   }
+  /* À l'arrivée, tout est fermé : le texte de la bio n'apparaît qu'au clic
+     sur le fichier Profil (grand écran). Sa place est gardée. */
+  @media (min-width: 1024px) {
+    .stage:not(.bio-ouverte) .profil__bio p { visibility: hidden; }
+    .stage.bio-ouverte .profil__bio p { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+  }
+  @keyframes bio-apparait { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .stage.bio-ouverte .profil__bio p { animation: none; } }
 </style>
 </head>
 <body>
@@ -15700,8 +15716,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       if (location.hash.startsWith('#case/')) { history.pushState(null, '', location.pathname + location.search); dispatchEvent(new PopStateEvent('popstate')); }
     };
     if (vide) vide.hidden = true;
-    // « Profil » : la bio revient à droite.
-    if (h === '#profil') { fermerEtude(); return; }
+    // « Profil » : la bio apparaît à droite (cachée à l'arrivée sur le site).
+    if (h === '#profil') { document.getElementById('stage').classList.add('bio-ouverte'); fermerEtude(); return; }
     // Une étude qui existe : elle s'affiche à droite, à la place de la bio.
     const id = (h.match(/^#case\/(\w[\w-]*)$/) || [])[1];
     if (id && document.getElementById('doc-' + id)) {
