@@ -8571,6 +8571,22 @@
     padding: 14px 18px !important; margin-top: 4px;
   }
   .stage .doc .uc .uc__tete + .uc__bloc { border-top: 0; padding-top: 0; }
+  /* Audit : légende des catégories et constats numérotés (couleurs de la capture). */
+  .uc .uc__legende { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 6px; padding: 0; color: #8F8F8C; }
+  .uc .uc__legende li { display: inline-flex; align-items: center; }
+  .uc .uc__puce--a11y { background: #F28C28; }
+  .uc .uc__puce--ux { background: #E0242E; }
+  .uc .uc__puce--ai { background: #8E3AA8; }
+  .uc .uc__constats { list-style: none; margin: 14px 0 0; padding: 0; }
+  .uc .uc__constats li { display: grid; grid-template-columns: 28px 1fr; column-gap: 12px; align-items: start; padding: 8px 0; }
+  .uc .uc__constats strong { font-weight: 500; }
+  .stage .doc .uc .uc__pastille {
+    display: grid; place-items: center; width: 28px; height: 28px; margin-top: 1px; border-radius: 50%;
+    color: #FFFFFF; font-size: 14px !important; line-height: 1 !important; letter-spacing: 0 !important; font-weight: 500;
+  }
+  .uc .uc__pastille--a11y { background: #F28C28; }
+  .uc .uc__pastille--ux { background: #E0242E; }
+  .uc .uc__pastille--ai { background: #8E3AA8; }
 </style>
 </head>
 <body>
@@ -9244,6 +9260,22 @@
         <section class="uc__bloc">
           <h2 class="uc__label">Le défi</h2>
           <p class="uc__texte">Remplacer Healthwatch, un outil que les pharmaciens utilisaient depuis 13&nbsp;ans&nbsp;: incohérent, peu sécurisé, mais familier.</p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Audit</h2>
+          <p>J’ai audité des écrans existants de Healthwatch pour prioriser les changements UX, en classant chaque problème selon son degré d’importance.</p>
+          <figure class="uc__figure"><img src="lob-audit-healthwatch.jpg" alt="Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit." width="1018" height="698" loading="lazy"><figcaption>Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit.</figcaption></figure>
+          <ul class="uc__legende" aria-label="Catégories de l’audit">
+            <li><span class="uc__puce uc__puce--a11y"></span>Accessibilité</li>
+            <li><span class="uc__puce uc__puce--ux"></span>UX / utilisabilité</li>
+            <li><span class="uc__puce uc__puce--ai"></span>Architecture de l’information</li>
+          </ul>
+          <ul class="uc__constats">
+            <li><span class="uc__pastille uc__pastille--ux" aria-label="Problème 2, UX / utilisabilité">2</span><span><strong>Unités incohérentes.</strong> Pouces et kilos mélangés, sans bascule&nbsp;: calcul mental et fatigue.</span></li>
+            <li><span class="uc__pastille uc__pastille--ai" aria-label="Problème 3, architecture de l’information">3</span><span><strong>« Race » présélectionnée.</strong> « Caucasian » par défaut, sans raison clinique&nbsp;: éthiquement contestable.</span></li>
+            <li><span class="uc__pastille uc__pastille--a11y" aria-label="Problème 5, accessibilité">5</span><span><strong>Une fenêtre qui bloque le formulaire.</strong> Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
+          </ul>
         </section>
 
         <section class="uc__bloc">
