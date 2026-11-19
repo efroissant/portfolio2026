@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&amp;text=ENTRER&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&amp;family=Source+Code+Pro:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&amp;family=Instrument+Serif&amp;family=Source+Code+Pro:wght@400;500&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,500&amp;family=Barlow+Condensed:ital,wght@1,500;1,600&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&amp;family=Noto+Serif+JP:wght@300;400&amp;display=swap" rel="stylesheet">
 <style>
   /* ================================================================
@@ -8605,6 +8605,12 @@
   /* Fenêtre de courriel : en minuscules (sentence case) et en Geist, sans capitales forcées. */
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
+  /* Titre de l'étude Pharmaprix : Instrument Serif 44 px (seule exception à Geist). */
+  #doc-loblaw .uc .uc__titre {
+    font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
+    font-size: 44px !important; line-height: 48px !important; letter-spacing: -0.5px !important;
+    color: #000000 !important;
+  }
 </style>
 </head>
 <body>
@@ -9265,8 +9271,7 @@
     <div class="doc__scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <p class="uc__sur">Pharmaprix (Loblaw)</p>
-          <h1 class="uc__titre" id="doc-loblaw-titre">Repenser un logiciel de pharmacie inchangé depuis 2009</h1>
+          <h1 class="uc__titre" id="doc-loblaw-titre">Pharmaprix (Loblaw)</h1>
           <dl class="uc__meta">
             <div><dt>Rôle</dt><dd>Designer UX/UI</dd></div>
             <div><dt>Durée</dt><dd>2 ans ½</dd></div>
