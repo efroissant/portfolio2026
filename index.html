@@ -8380,6 +8380,14 @@
   /* Le filet bleu des cadres (photos, horloge) : 2 px, au survol comme à la sélection. */
   .stage > .profil__image:hover, .cadre-libre:hover, .horloge:hover { outline-width: 2px !important; }
   .photo-sel { outline-width: 2px !important; }
+  /* (+) / (−) au-dessus des dossiers : tout ouvrir, tout fermer. */
+  .arbo__tout {
+    display: block; padding: 3px 8px; margin: 0 0 6px; border: 0; border-radius: 6px; background: none; cursor: pointer;
+    font: inherit; color: inherit; letter-spacing: inherit; font-variant-numeric: tabular-nums;
+    transition: background-color 140ms ease;
+  }
+  .arbo__tout:hover { background: rgba(28,25,23,0.06); }
+  .arbo__tout:focus-visible { outline: 1px solid #1C1917; outline-offset: 1px; }
 </style>
 </head>
 <body>
@@ -15530,6 +15538,24 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     li.append(btn, ul); racine.append(li);
   });
 
+  // Au-dessus des dossiers : (+) ouvre tout d'un coup, (−) referme tout.
+  const tout = document.createElement('button');
+  tout.type = 'button'; tout.className = 'arbo__tout';
+  arbo.prepend(tout);
+  const boutons = () => [...racine.querySelectorAll('.arbo__dossier-btn')];
+  const majTout = () => {
+    const ouverts = boutons().every((b) => b.getAttribute('aria-expanded') === 'true');
+    tout.textContent = ouverts ? '(−)' : '(+)';
+    tout.setAttribute('aria-label', ouverts ? 'Fermer tous les dossiers' : 'Ouvrir tous les dossiers');
+    tout.dataset.ouverts = ouverts ? '1' : '';
+  };
+  tout.addEventListener('click', () => {
+    const ouvrir = !tout.dataset.ouverts;
+    boutons().forEach((b) => { if ((b.getAttribute('aria-expanded') === 'true') !== ouvrir) b.click(); });
+  });
+  racine.addEventListener('click', (e) => { if (e.target.closest('.arbo__dossier-btn')) setTimeout(majTout, 0); });
+  majTout();
+
   // Une feuille ouvre l'étude de cas par son adresse.
   arbo.addEventListener('click', (e) => {
     const a = e.target.closest('.arbo__fichier');
@@ -15568,8 +15594,11 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const r = document.createRange(); r.selectNodeContents(bioP);
     const l = r.getClientRects(); if (!l.length) return;
     const parent = arbo.offsetParent.getBoundingClientRect();
-    // Sur la dernière ligne de la bio, puis 104 px plus bas (120 − 16).
-    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6 + 104) + 'px');
+    // Les dossiers : sur la dernière ligne de la bio, puis 104 px plus bas (120 − 16) ;
+    // le bouton (+) se loge juste au-dessus d'eux.
+    const bouton = arbo.querySelector('.arbo__tout');
+    const h = bouton ? bouton.offsetHeight + 6 : 0;
+    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6 + 104 - h) + 'px');
   }
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
