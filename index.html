@@ -8503,7 +8503,38 @@
     .stage:not(.bio-ouverte) .profil__place { visibility: hidden; }
     .stage.bio-ouverte .profil__place { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
     .stage .horloge, .stage .horloge + .photo-sel { display: none !important; }
+    /* Horloge cachée : plus besoin de lui laisser sa place en haut du contenu. */
+    .stage .doc .doc__page > :first-child { padding-right: 0 !important; }
   }
+  /* ===== Étude courte (Use Case 02) : minimaliste, faite pour être survolée ===== */
+  .uc { color: #1C1917; font-size: 18px; line-height: 26px; letter-spacing: -0.2px; }
+  .uc p { margin: 0 0 10px; }
+  .stage .doc .uc :is(p, li, dd) { font-size: 18px; line-height: 26px; letter-spacing: -0.2px; }
+  .stage .doc .uc .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
+  .stage .doc .uc .uc__sur { font-size: 16px; line-height: 22px; }
+  .stage .doc .uc .uc__fin, .stage .doc .uc .uc__meta dd { font-size: 16px; line-height: 22px; }
+  .stage .doc .uc .uc__fin { font-size: 14px; }
+  .uc .uc__tete { display: block !important; margin-bottom: 40px; }
+  .uc__sur { color: #8F8F8C; margin: 0 0 8px !important; font-size: 16px; }
+  .uc__titre { margin: 0 0 24px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
+  .uc__meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 14px 0 0; border-top: 1px solid rgba(28,25,23,0.2); }
+  .uc__meta dt { color: #8F8F8C; font-size: 14px; line-height: 18px; margin-bottom: 4px; }
+  .uc__meta dd { margin: 0; font-size: 16px; line-height: 22px; }
+  .uc__bloc { padding: 20px 0 22px; border-top: 1px solid rgba(28,25,23,0.2); }
+  .uc__label { margin: 0 0 12px; color: #8F8F8C; font-size: 14px; line-height: 18px; font-weight: 400; letter-spacing: 0; }
+  .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
+  .uc__decision { margin: 0 0 24px; }
+  .uc__decision:last-child { margin-bottom: 0; }
+  .uc__sous { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -0.4px; }
+  .uc__num { color: #8F8F8C; font-variant-numeric: tabular-nums; }
+  .uc__liste { list-style: none; margin: 0 0 10px; padding: 0; }
+  .uc__liste li { display: block; padding: 6px 0; }
+  .uc__liste strong { font-weight: 500; }
+  .uc__puce { display: inline-block; width: 10px; height: 10px; margin-right: 10px; border-radius: 50%; transform: translateY(-1px); }
+  .uc__puce--orange { background: #F2992E; }
+  .uc__puce--rouge { background: #E5484D; }
+  .uc__note { color: #57534E; }
+  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #8F8F8C; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -9195,7 +9226,9 @@
        cette étude tant que tu ne l'as pas validé — GVQ et Roche gardent
        l'ancien. Deux gabarits coexistent donc un moment ; c'est le prix
        d'un essai qu'on peut abandonner sans rien casser. -->
-  <div class="doc doc--v3" id="doc-loblaw" hidden>
+  <!-- Use Case 02, version courte (les gens survolent) : l'essentiel en
+       haut, une idée par ligne, deux décisions, le résultat, puis les leçons. -->
+  <div class="doc doc--court" id="doc-loblaw" hidden>
    <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-loblaw-titre">
     <div class="doc__bar">
       <span class="doc__bartitle">Use Case 02</span>
@@ -9203,8 +9236,52 @@
     </div>
 
     <div class="doc__scroll">
-      <article class="doc__page">
-</article>
+      <article class="doc__page uc">
+        <header class="uc__tete">
+          <p class="uc__sur">Use Case 02 · Pharmaprix (Loblaw)</p>
+          <h1 class="uc__titre" id="doc-loblaw-titre">Repenser un logiciel de pharmacie inchangé depuis 2009</h1>
+          <dl class="uc__meta">
+            <div><dt>Rôle</dt><dd>Designer UX/UI</dd></div>
+            <div><dt>Durée</dt><dd>2 ans ½</dd></div>
+            <div><dt>Équipe</dt><dd>3 designers, 1 lead, 8 PO/PA, devs</dd></div>
+            <div><dt>Outils</dt><dd>Figma, Jira, Miro</dd></div>
+          </dl>
+        </header>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Le défi</h2>
+          <p class="uc__texte">Remplacer Healthwatch, un outil que les pharmaciens utilisaient depuis 13&nbsp;ans&nbsp;: incohérent, peu sécurisé, mais familier.</p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Deux décisions qui ont compté</h2>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">1</span> Valider les dosages selon la gravité</h3>
+            <p>Une erreur de saisie, ici, c’est un risque pour le patient.</p>
+            <ul class="uc__liste">
+              <li><span class="uc__puce uc__puce--orange"></span><strong>Orange</strong>&nbsp;: erreur probable (1,5 au lieu de 15). On alerte sans bloquer.</li>
+              <li><span class="uc__puce uc__puce--rouge"></span><strong>Rouge</strong>&nbsp;: chiffre incohérent (50 au lieu de 500&nbsp;mg). On demande de retaper le chiffre.</li>
+            </ul>
+            <p class="uc__note">Retaper oblige à relire. Un bouton «&nbsp;Confirmer&nbsp;», on le clique sans lire.</p>
+          </div>
+          <div class="uc__decision">
+            <h3 class="uc__sous"><span class="uc__num">2</span> Sexe ≠ genre ≠ pronoms</h3>
+            <p>Un seul champ «&nbsp;Sexe&nbsp;» est devenu trois&nbsp;: le sexe pour les dosages, le genre pour l’identité, les pronoms pour l’accueil au comptoir. Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
+          </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Résultat</h2>
+          <p class="uc__texte">Aux tests, les pharmaciens ont jugé l’interface plus lisible et plus ergonomique que Healthwatch. Le projet a été arrêté faute de budget, mais le logiciel est devenu plus inclusif.</p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Ce que je ferais autrement</h2>
+          <p>Tester avec les pharmaciens dès le départ, pas au bout de deux ans. Et ne pas laisser coder sans maquettes finalisées.</p>
+        </section>
+
+        <p class="uc__fin">Écrans sur demande (confidentialité).</p>
+      </article>
     </div>
    </div>
   </div>
@@ -9351,7 +9428,6 @@
 
 
   <!-- PAQUETS CHIFFRÉS — produits par verrou.py, ne pas modifier -->
-  <script type="application/octet-stream" data-paquet="loblaw" data-iv="A6e6ir4LxxKG4pQy">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</script>
   <script type="application/octet-stream" data-paquet="roche" data-iv="z6SyEi/YplAVrhQt">AJHIMor3iB1ba2C9XslPcROUezuqChYzmUkHU0NJtWYw6tXeZMwrvQGJpHXvjkY/y77mx3TmaoIkC+VxjNDCZcXcdt2k/zJkOZ+8k4reHYWeYPgstyhtv94e0v65Y+BWtHECiDYPtYui1UY/EnCG3da6212hWNj4Z549jNCZ73PM51VfseUvxy0IblZdZVSYUa22ScK3H5xwWXWNJSdeCNwMIGnYOXXdilHM1FLOCDQFMY2Gt5GaWIDuZzj+z1/I7lwUrDdezn33rSKkEaQ8fazSEp8XzoQLxstnM7Pu5cs3G7g98YNW1CAiGpYpjTGk2FsDsY/ASCQxfVHmm7u7s3hjV1+dtZ6UfgJKOn1VkWQU7Tt3WzndG5j5FXbIb8dLtvePpxfFvd+s7cI+JVKe+i90UoyHrMIjIyqwYVVPu7+nxszkAKmbNpPouKqZFgxscOup6fVbhfGQHM2Vf0R+BY6cW0950/6zNpMoTkk0GUEKhfMZut48Has6czKWncX59KiubSp3YtrPfpydzviOHwAo6++FPjs+Ud6CHsSYbKsnXkufDO1F+ntxCwbCtQTjgV7CRXcEHckOmX8USavlC/EnSL6WjlcC1phYzH1MPO1Oui7t1WCBzL6t3kfFFXHjiDoRFUFF1ofI2U/yV4a20Cs8adDUU5DagMixlLEA8hl7s2TA4vJMxQ1SMZw5Ah+JHrIXaUbd4YDh4TnrJFq7OLuvyDcnGYrEDtdKiXzGXh2VlZ7Golb7CoyudOX7TEGpadVVCJT9sCco8a18KDOawTpY5T1zPV2MgiqY2Vsb7VduZZFxE3+ndBNxkRpwSl6zGUEBIrHYA4fYs3jqLWQhBQAn2Xl1obI1Vcgak6q3VSdZr7XKL8gnHKhdZtB+Qrga8L9WA8HNlyrdo0+u8M0IeulXIbXLXC+TS4XDjJJjZapZk42QCDSAT3uecYLAw5NjagN+DyHcisgiPVquK/uHKpFPnk+2aEEp9nmy2PFfJy2gJofdgmpcdwgWDoLBRO+L40vQE+ATK6K5m6vljxv9/udFRCcAhPJtEtQzo3Qry+v6NhQonwdckEu9QZsGhEruHXSznk2lthl9JDkMsHQTaijz/HZbAm93sJJ8KtfWuR9nFB3plReJIPzi4dqzZzzFFyQm5afDGQFmJQmCGpiIpCM4geRfcCQLv5X4W+0+NIPWuo6wCEVJgdkgGOafpap/5vIXfz8O1pXIayHdKF2BGsC9053Ypu1B5K8NFdNSpq0LTQVmyTp+QcN21TQNc+lORSL8Y19rasPuGFKr7IU2S17igOsJRcFkV9wsh3CFoPUCvcx7HniNrDHJ0SPfqRCl3CwpC23rhdFWgkoiz423Uq/u/QPrxcJ1DDMXuDOAOKrIC4utrpGr+3rZxPBKnQKpWIlRvuCFdXXX/3HmiIZJylUZr7k4SorA55OYN+3QF47BEfxdpgjr500HvZ3i+sb7tbhiab/WFjwgvmDsXp75Gh6FHFWjEzV34uz+ylSqsnh6A7pKTUaTUgeEKfEYO5nudTjxT4OEJPz0jWPA4EpHZJDT0iBG6+LlqRnEMQZpSBwPVLf/JzmNQPB+u/tdrmkULQ0iOCI649bp/aTpuzOH3nI9ZvbfOQ1n4zZbBM0G2HqLJCWDqgv0b6/2uSlTS8GZJb0MiXESIVEN1e2qZSjgS2DkKwM+0gpEf2syukan/OhTSgmFvuBNaYoLToZbUVgZvau7sA63vV1SoBbr82V99x48hNNAxLnxCBdk7Ggt/uFg/j6z3dCu8ZRiCFMhkZ+ODlaa6fC2c8UEperZM6XWcaQNyCuE5soANXA3AVbUmwoiqtwH2711DezH55mEzoxPy3o5JY19/ZRnwWejtL2ojh8pzGLCroM/TeKC1/JVbWYSoV/0Bb/Ee75RLA9//TAc+6lR1JkogllhrZotz58dqEi7v2U0HpiCeT6pNeVhUIpGyigqwWpUix99wZYIM4ABIlFBGx7t+nDv3m74p3X/Fb+D/X73hWP6iWYQwIjtSNqwut281gx6vq/lCsifBboC84HcmF1s25SKPUjWx95QDFc8GvA2FFUBjf3lND2fTcEdGkuSrvQmduAHYVWVQHQy8fJwhoBPbg/mJ6hVTTx4RJNZaKFDGMWRPJg5fGB67P2pyFR1tGZ4bbmf26W0z/lNcKXENptC6imZoGHpZQicztp0LQQ2D7tLquhS9vFYNCPtw+RQfFNOtejknxEZLglOPPOAV2klh9j0oBBAJQy987ANlj88VoAZhAN8oAEZ+lKAiZB3boiNKwX3BimWv7nsDLVCvRcHE2+TlZat5r/A0tpGoCUhCJAVqPIniuyye3NYLWXWN83xeB2o4rGNSIqCSe6dpu6KZFMmu/v4SSehEJrhPwVJT1zzgixPcGttUXR6fjZFiCt23DG1p9n2vPQhY8PZFSE/Dhn5CUX9SQbklDxTbIkZ/0oEOxBWMgiDpeNNnifvv7ogqii8mgk7vHDtg16x/Fqp8hbBNhKnp6O85lXSdGs2K1KKlEikaC9GlKRRK1r6L2m+FAkKvmGPG8FbRWTs6ewosbq3DlyGS822nvX6oKEeqUxvh5pg1Ds7azP9m6IO8kZQUpvLVq//wCc3/cOeyx9Y1XX6Oevk7eKM82LLhIaNose8KF8ZbmeHlMkgtspzqxE/msOWsy036wI2hajJjaQoulMJG6n9zN9Q61ebXLrqsrsxw6KowKWJJMalb8sNVAiHS7whSepEaJpKO+ZLCMerKH0OYljQeViC9lXpW5TH0UROfQ4zYpuW1zVkouYhGc0+DqFh7DuoseePvBS1RtveHsos5Flv6FWnvxSFoxJwiow1gNT6zO6Ttemqxxan9sRNNcPx3Gkv/W/v8iwIS/y4PH1a41FXKtJGDr78YNvFWcjDBRJ2WQajWlLc89t6c85J1pAJrT/vRxT+VvBEy+MYmJvnfCgnAMp3hkBTWmbnIQHqFL2uyboMeOTstlbjI+V4lQDC+H+ISHNZBAY94BeKzhPnpTFlHQb0I5Lk3Wv+uymW/BaWaAfTT7jqwMLygtfifQQAF6XSry71D9n95c5UyqzPJKKaIFPf5RappfK4CEfAKcNMlMvz/JpTaYpDbei0JaHXfYF1EYvgSw4qntTldwnLnGWXJscFaLJ43Z+QXOItZGx8JU9+3WRPCIOdWrQW0tME0+6MyDA5FhJdXgsSuRq/4QvmbziwLQfbuE6gXI4bOX3FTBLDqECqiEqM7UHrxWPHWXo040FmBN29QALrw87RBBrQhd+7dhysaQBrd1UFA6UXG7HE4fg/jdmaGUHB5MTeioEn/t/VjmQmB4fNf9qQV4i/UODbHmp8WfSJm5T2SnpO1M6meTem2b1KXJsCkEOMObnuPI1P1eoKDV6fSmyBrqGfxA2mpDsESWde19HX3KmBQEhU6IHSSDtA2Sf34Q/1BB9+cbS9bW3QR8R1NHupOAhLqTwdQ0sRIJM=</script>
   <!-- /PAQUETS CHIFFRÉS -->
 
@@ -10281,7 +10357,8 @@ const dire = (function () {
     // études se lisent sans qu'on redemande quoi que ce soit — redemander
     // un mot de passe déjà donné est la meilleure façon de faire fermer
     // l'onglet.
-    libres: []
+    // Pharmaprix est public (version courte, en clair dans la page).
+    libres: ['loblaw']
   };
 
   const b64oct = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
