@@ -8320,28 +8320,28 @@
      agrandir, les ronds pour arrondir et le nom du cadre. */
   .photo-sel:not(.est-visible) { outline-color: transparent; }
   .photo-sel:not(.est-visible) :is(i, .photo-sel__nom) { display: none; }
-  /* ===== Tout le texte en 24 px (grand écran) =====
+  /* ===== Tout le texte en 20 px (grand écran) =====
      Bio, dossiers, barre du haut, note du bas et lecteur : un seul corps. */
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio {
-      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+      font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
-      font-size: 24px; line-height: 30px; letter-spacing: -0.4px;
+      font-size: 20px; line-height: 26px; letter-spacing: -0.3px;
     }
     .arbo .arbo__fichiers { font-size: 1em; padding-left: 1.4em !important; }
     .arbo .arbo__dossier-btn, .arbo .arbo__fichier { padding: 3px 8px; }
     .stage .menubar, .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) {
-      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important; font-weight: 400 !important;
+      font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important; font-weight: 400 !important;
     }
     .stage > .menubar { height: 44px !important; align-items: flex-start !important; padding-top: 7px !important; padding-bottom: 0 !important; }
     .stage > .menubar :is(.menubar__leading, .menubar__trailing, .menubar__items) { align-items: flex-start !important; height: auto !important; }
     .stage .menubar .menubar__titre {
       top: 7px !important; transform: none !important;
-      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+      font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
-      font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+      font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
     }
     /* La note de musique et son onde. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { width: 40px; height: 40px; right: calc(var(--g-marge, 24px) - 8px); bottom: 2px; }
@@ -8350,7 +8350,7 @@
     /* Le lecteur ouvert. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       width: 320px; bottom: 50px; padding: 12px 14px;
-      font-size: 16px !important; line-height: 20px !important; letter-spacing: -0.2px !important;
+      font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
     }
     .radio .radio__btn { width: 26px; height: 26px; }
     .radio .radio__btn svg { width: 16px; height: 16px; }
@@ -8368,7 +8368,7 @@
       top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px));
       align-items: center; gap: 0.875em; padding: 0.625em 1.375em 0.625em 0.625em;
       background: #EFEFEF; border-radius: 14px;
-      font: 400 calc(16px * var(--k, 1))/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
+      font: 400 calc(20px * var(--k, 1))/1.3 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
     }
   }
   .horloge { cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
@@ -8416,7 +8416,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio-encours {
       display: block; position: absolute; z-index: 20; margin: 0; pointer-events: none;
       right: calc(var(--g-marge, 24px) + 48px); bottom: 7px; white-space: nowrap;   /* 10 px avant la note, sur la ligne de la note sur l'IA */
-      font: 400 24px/30px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.4px; color: #1C1917;
+      font: 400 20px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.3px; color: #1C1917;
       opacity: 0; transform: translateX(6px); transition: opacity 220ms ease, transform 220ms ease;
     }
     .stage .radio-encours.est-visible { opacity: 1; transform: none; }
@@ -8479,7 +8479,7 @@
     .arbo .arbo__fichier.est-actif { background: #DCEBFC; }   /* bleu pâle, comme une sélection du Finder */
     /* Le panneau des fichiers sans contenu. */
     .doc--vide .doc-vide__dossier { margin: 0 0 6px; color: #8F8F8C; }
-    .doc--vide .doc-vide__titre { margin: 0 0 18px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
+    .doc--vide .doc-vide__titre { margin: 0 0 18px; font-size: 20px; line-height: 26px; letter-spacing: -0.3px; font-weight: 400; }
     .doc--vide .doc-vide__texte { margin: 0; color: #8F8F8C; }
   }
   /* À l'arrivée, tout est fermé : le texte de la bio n'apparaît qu'au clic
@@ -8526,7 +8526,7 @@
   .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
   .uc__decision { margin: 0 0 24px; }
   .uc__decision:last-child { margin-bottom: 0; }
-  .uc__sous { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 24px; line-height: 30px; font-weight: 400; letter-spacing: -0.4px; }
+  .uc__sous { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 20px; line-height: 26px; font-weight: 400; letter-spacing: -0.4px; }
   .uc__num { color: #8F8F8C; font-variant-numeric: tabular-nums; }
   .uc__liste { list-style: none; margin: 0 0 10px; padding: 0; }
   .uc__liste li { display: block; padding: 6px 0; }
@@ -8540,24 +8540,24 @@
      24 px pour les titres ; pas de barre de défilement dans le panneau. */
   .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
-    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+    font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
   }
   .stage .doc .uc :is(.uc__titre, .uc__sous) {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
-    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+    font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
   }
   .stage .doc .doc__scroll { scrollbar-width: none !important; }
   .stage .doc .doc__scroll::-webkit-scrollbar { display: none; }
   /* Use Case court : le texte courant comme la bio (Geist 24/30) ; les
      étiquettes et infos restent en 16 px gris. */
   .stage .doc .uc :is(p, li, .uc__texte, .uc__note):not(.uc__sur):not(.uc__fin) {
-    font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important;
+    font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important;
   }
   .stage .doc .uc .uc__liste li { padding: 4px 0; }
   .stage .doc .uc .uc__puce { width: 12px; height: 12px; transform: translateY(-2px); }
   /* Use Case court : tout le texte à la taille de la bio (Geist 24/30) ;
      le gris distingue les étiquettes et les infos. */
-  .stage .doc .uc, .stage .doc .uc * { font-size: 24px !important; line-height: 30px !important; letter-spacing: -0.4px !important; }
+  .stage .doc .uc, .stage .doc .uc * { font-size: 20px !important; line-height: 26px !important; letter-spacing: -0.3px !important; }
   .stage .doc .uc .uc__meta { gap: 16px 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .uc .uc__figure { margin: 18px 0 0; }
   .uc .uc__figure img { display: block; width: 100%; height: auto; border-radius: 4px; }
