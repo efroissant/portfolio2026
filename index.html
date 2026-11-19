@@ -8611,6 +8611,18 @@
     font-size: 44px !important; line-height: 48px !important; letter-spacing: -0.5px !important;
     color: #000000 !important;
   }
+  /* Études : chaque section en deux colonnes, sur la grille du site.
+     À gauche le titre de la section (colonnes 6–7), à droite le contenu
+     (colonnes 8–11). */
+  @media (min-width: 1024px) {
+    .stage .doc .uc .uc__bloc {
+      display: grid; column-gap: 24px; align-items: start;
+      grid-template-columns: calc((100vw - 48px - 11 * 24px) / 12 * 2 + 24px) minmax(0, 1fr);
+    }
+    .stage .doc .uc .uc__bloc > * { grid-column: 2; }
+    .stage .doc .uc .uc__bloc > .uc__label { grid-column: 1; grid-row: 1 / span 20; margin: 0; }
+    .stage .doc .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
+  }
 </style>
 </head>
 <body>
