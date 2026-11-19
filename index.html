@@ -8628,18 +8628,18 @@
   /* Carte de projet (Web Design) : fenêtre verte, grand titre, CTA qui défile. */
   .cartep {
     --vert: #14AE5C; container-type: inline-size;
-    background: var(--vert); color: #000; border-radius: 18px; overflow: hidden;
+    background: var(--vert); color: #1C1917; border-radius: 18px; overflow: hidden;
     display: flex; flex-direction: column;
     /* Plus compacte : 4 colonnes de la grille au lieu de 6. */
     width: 100%; max-width: calc((100vw - 48px - 11 * 24px) / 12 * 4 + 3 * 24px);
   }
-  .cartep__barre { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1.5px solid #000; }
-  .cartep__barre i { width: 8px; height: 8px; border-radius: 50%; background: #000; }
+  .cartep__barre { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1.5px solid #1C1917; }
+  .cartep__barre i { width: 8px; height: 8px; border-radius: 50%; background: #1C1917; }
   .cartep__tags { list-style: none; margin: 0; padding: 16px 16px 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-  .stage .doc .cartep__tags li { border: 1.5px solid #000; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
+  .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
   .stage .doc .cartep .cartep__titre {
-    margin: 20px 0 0; padding: 0 16px; text-align: right; font-weight: 400;
-    font-size: 12.5cqi; line-height: 0.98; letter-spacing: -0.03em; color: #000;
+    margin: 20px 0 0; padding: 0 16px; text-align: right;
+    font-size: 60px; line-height: 62px; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
   }
   .cartep__texte { padding: 40px 16px 20px; }
   .stage .doc .cartep__texte p {
@@ -8648,10 +8648,10 @@
   }
   .stage .doc .cartep__texte .cartep__annee { margin-bottom: 10px; }
   .cartep__cta {
-    display: block; overflow: hidden; border-top: 1.5px solid #000; color: #000; text-decoration: none;
+    display: block; overflow: hidden; border-top: 1.5px solid #1C1917; color: #1C1917; text-decoration: none;
     padding: 12px 0; transition: background-color 160ms ease, color 160ms ease;
   }
-  .cartep__cta:hover, .cartep__cta:focus-visible { background: #000; color: var(--vert); outline: none; }
+  .cartep__cta:hover, .cartep__cta:focus-visible { background: #1C1917; color: var(--vert); outline: none; }
   .cartep__defile { display: inline-flex; gap: 40px; white-space: nowrap; padding-left: 16px; animation: cartep-defile 14s linear infinite; }
   .stage .doc .cartep__defile span { font-size: 20px; line-height: 26px; }
   .cartep__cta:hover .cartep__defile { animation-duration: 7s; }
