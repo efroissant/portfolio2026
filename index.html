@@ -8605,8 +8605,8 @@
   /* Fenêtre de courriel : en minuscules (sentence case) et en Geist, sans capitales forcées. */
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
-  /* Titre de l'étude Pharmaprix : Instrument Serif 44 px (seule exception à Geist). */
-  #doc-loblaw .uc .uc__titre {
+  /* Titre des études : le nom du projet en Instrument Serif 44 px noir (seule exception à Geist). */
+  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__titre {
     font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
     font-size: 44px !important; line-height: 48px !important; letter-spacing: -0.5px !important;
     color: #000000 !important;
@@ -9153,8 +9153,7 @@
     <div class="doc__scroll" id="doc-scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <p class="uc__sur">Groupe Voyage Québec</p>
-          <h1 class="uc__titre" id="doc-gvq-titre">Réunir congrès, hôtel et activités en un seul produit</h1>
+          <h1 class="uc__titre" id="doc-gvq-titre">Groupe Voyage Québec</h1>
           <dl class="uc__meta">
             <div><dt>Rôle</dt><dd>Designer UX/UI, seul en design</dd></div>
             <div><dt>Durée</dt><dd>8 mois, 2024</dd></div>
@@ -9211,8 +9210,7 @@
     <div class="doc__scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <p class="uc__sur">Roche Diabetes Care</p>
-          <h1 class="uc__titre" id="doc-roche-titre">Un selfie à l’envers, un don pour la recherche</h1>
+          <h1 class="uc__titre" id="doc-roche-titre">Roche Diabetes Care</h1>
           <dl class="uc__meta">
             <div><dt>Rôle</dt><dd>Direction artistique, UX/UI</dd></div>
             <div><dt>Durée</dt><dd>1 mois, 2018</dd></div>
