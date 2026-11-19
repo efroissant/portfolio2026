@@ -8717,6 +8717,16 @@
     @keyframes defile-cartes { to { transform: translateX(-50%); } }
     @media (prefers-reduced-motion: reduce) { .defile-cartes__piste { animation: none; } .defile-cartes { overflow-x: auto; } }
   }
+  /* Carte Shoppers Drug Mart ouverte : la photo de la pharmacienne en fond plein écran. */
+  .fond-projet { display: none; }
+  @media (min-width: 1024px) {
+    .fond-projet {
+      display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: center / cover no-repeat; opacity: 0; transition: opacity 400ms ease;
+    }
+    .fond-projet--shoppers { background-image: url('lob-pharmacienne.webp'); }
+    .stage:has(#doc-shoppers:not([hidden])) .fond-projet--shoppers { opacity: 1; }
+  }
 </style>
 </head>
 <body>
@@ -8841,6 +8851,8 @@
 </script>
 
 <div class="stage" id="stage" data-state="lock">
+  <!-- Fond photo plein écran, affiché quand une carte de projet qui en a un est ouverte. -->
+  <div class="fond-projet fond-projet--shoppers" aria-hidden="true"></div>
 
 
 
