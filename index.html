@@ -8958,10 +8958,10 @@
   let i = 0;
   // Glitch d'écran : fond et texte changent par à-coups irréguliers.
   // Années 80, cassette VHS : magenta, cyan et violet délavés, nuit violette.
-  // Sans rose : nuit violette, cyan, violet délavé, lavande.
+  // Noir, gris et blanc seulement.
   const COULEURS = [
-    ['#1A1033', '#E8D9F0'], ['#3FB8C4', '#1A1033'],
-    ['#6B4C9A', '#E8D9F0'], ['#2E2A6B', '#4FD1D9'], ['#E8D9F0', '#1A1033']
+    ['#0A0A0A', '#F5F5F4'], ['#FFFFFF', '#1C1917'], ['#57534E', '#FFFFFF'],
+    ['#A8A29E', '#0A0A0A'], ['#1C1917', '#D6D3D1'], ['#E7E5E4', '#292524']
   ]
   const hasard = (n) => Math.floor(Math.random() * n);
   let glitchActif = !calme, derniere = -1, minuteur = 0;
@@ -8972,7 +8972,7 @@
     const [fond, encre] = COULEURS[k];
     ecran.style.background = fond;
     ecran.style.color = encre;
-    ecran.style.textShadow = Math.random() < 0.5 ? (2 + hasard(4)) + 'px 0 #6B4C9A, -' + (2 + hasard(4)) + 'px 0 #4FD1D9' : 'none';
+    ecran.style.textShadow = Math.random() < 0.5 ? (2 + hasard(4)) + 'px 0 #78716C, -' + (2 + hasard(4)) + 'px 0 #D6D3D1' : 'none';
     ecran.querySelectorAll('.demarrage__bande').forEach((b) => b.remove());
     for (let n = hasard(3); n > 0; n--) {
       const b = document.createElement('div');
