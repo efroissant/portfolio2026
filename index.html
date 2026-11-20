@@ -8958,8 +8958,11 @@
     document.documentElement.classList.remove('avant-allumage');
     const fin = (rang - 1) * 55 + 460;
     setTimeout(() => cibles.forEach((el) => { el.classList.remove('allumage'); el.style.removeProperty('--delai'); }), fin);
-    // Tout est allumé : une vague part de mon portrait et traverse l'écran.
-    setTimeout(vague, fin + 80);
+    // Dès que mon portrait s'allume (avant le reste), une vague en part et
+    // traverse l'écran pendant que les dossiers apparaissent.
+    const av = cibles.find((el) => el.matches('.avatar-accueil'));
+    const depart = av ? parseFloat(av.style.getPropertyValue('--delai')) || 0 : 0;
+    setTimeout(vague, depart + 200);
   }
   /* La vague : un éclaboussement dans l'eau du portrait, puis deux anneaux
      de « réfraction » (flou et lumière à travers un anneau) qui s'élargissent
