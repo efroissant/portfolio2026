@@ -7868,7 +7868,7 @@
   @keyframes allumage { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee, .allumage { animation: none; } }
   /* Avant l'allumage, la salle est éteinte : rien ne s'affiche d'abord en plein. */
-  .avant-allumage :is(.menubar__leading, .menubar__titre, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .arbo, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
+  .avant-allumage :is(.menubar__leading, .menubar__titre, .avatar-accueil, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .arbo, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
     background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
@@ -8861,6 +8861,7 @@
     if (calme) return;
     const ORDRE = [
       '.menubar__leading', '.menubar__titre', '.menubar__trailing', '.logo-mobile', '.note-mobile',
+      '.avatar-accueil',
       '.profil__bio p', '.mob-bio',
       '.profil__image', '.photo-sel', '.face-a-mobile__photo',
       '.dossier', '.mob-dossier', '.projets-liste', '.arbo',
@@ -8899,9 +8900,8 @@
     // Rapide : chaque pause réduite à 35 %, le démarrage dure moins d'une demi-seconde.
     setTimeout(suivante, calme ? 60 : Math.round(pause * 0.35));
   }
-  // Écran de démarrage retiré pour le moment : passer à true pour le remettre.
-  // Sans lui, on arrive directement sur le site, avec le court reste de glitch.
-  const DEMARRAGE = false;
+  // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
+  const DEMARRAGE = true;
   if (!DEMARRAGE) {
     ecran.remove();
     if (!calme) {
