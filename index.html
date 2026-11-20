@@ -8983,21 +8983,7 @@
       ev('pointermove', cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
       if (++k > 12) { clearInterval(tour); ev('pointerleave', cx, cy); }
     }, 28);
-    // Les anneaux.
-    const R = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy)) + 80;
-    [0, 180].forEach((retard, n) => {
-      const o = document.createElement('div');
-      o.className = 'vague' + (n ? ' vague--seconde' : '');
-      Object.assign(o.style, { left: cx + 'px', top: cy + 'px', width: 2 * R + 'px', height: 2 * R + 'px' });
-      document.body.append(o);
-      const an = o.animate([
-        { transform: 'translate(-50%, -50%) scale(0.04)', opacity: 1 },
-        { transform: 'translate(-50%, -50%) scale(0.55)', opacity: 0.9, offset: 0.45 },
-        { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
-      ], { duration: 1500, delay: retard, easing: 'cubic-bezier(.2,.6,.3,1)', fill: 'both' });
-      an.onfinish = () => o.remove();
-      setTimeout(() => o.remove(), 2000 + retard);
-    });
+    // (Les anneaux qui traversaient l'écran sont retirés : seule l'eau du portrait réagit.)
   }
   function finir() {
     arreterGlitch();
