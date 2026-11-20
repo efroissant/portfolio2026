@@ -8926,7 +8926,6 @@
   @keyframes eclair-trait { 0% { opacity: 0; } 5% { opacity: 1; } 12% { opacity: .15; } 19% { opacity: .9; } 34%, 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .eclair.eclaire :is(.eclair__flash, .eclair__trait) { animation: none; } }
 </style>
-<link rel="preload" as="image" href="portrait-sourire.webp">
 </head>
 <body>
 <!-- Démarrage : affiché avant tout le reste (retiré par le script ci-dessous). -->
@@ -8953,7 +8952,7 @@
   // Mon portrait souriant apparaît par à-coups dans le glitch, pile à la place
   // du portrait de l'accueil : on me voit sourire, puis l'accueil s'allume sans.
   const sourire = new Image();
-  sourire.className = 'demarrage__sourire'; sourire.alt = ''; sourire.src = 'portrait-sourire.webp';
+  sourire.className = 'demarrage__sourire'; sourire.alt = '';   // portrait souriant retiré : plus chargé ni affiché
   const grain = document.createElement('div'); grain.className = 'demarrage__grain';
   let sourireActif = false;
   function placerSourire() {
@@ -9064,7 +9063,6 @@
     const av = cibles.find((el) => el.matches('.avatar-accueil'));
     const depart = av ? parseFloat(av.style.getPropertyValue('--delai')) || 0 : 0;
     // (Plus d'éclaboussure au chargement : l'effet d'eau se découvre au survol.)
-    setTimeout(sourireAccueil, depart);
   }
   /* La vague : un éclaboussement dans l'eau du portrait, puis deux anneaux
      de « réfraction » (flou et lumière à travers un anneau) qui s'élargissent
