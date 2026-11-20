@@ -8854,6 +8854,52 @@
             mask-image: radial-gradient(circle, transparent 62%, #000 66%, #000 68%, transparent 72%);
   }
   @media (prefers-reduced-motion: reduce) { .vague { display: none; } }
+  /* Bio › Photos : « le calme avant la tempête ». La tempête est une petite
+     scène animée : une maquette que les demandes de changement envahissent. */
+  .tempete {
+    position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 4px; background: #EFEFEF;
+    container-type: inline-size; font-family: "Geist", "Helvetica Neue", Arial, sans-serif;
+  }
+  .tempete__fenetre {
+    position: absolute; inset: 9% 8%; background: #FFFFFF; border-radius: 3cqi; overflow: hidden;
+    box-shadow: 0 2cqi 6cqi rgba(28,25,23,0.12); transition: transform 120ms ease;
+  }
+  .tempete.secoue .tempete__fenetre { animation: tempete-secoue 260ms steps(2) infinite; }
+  @keyframes tempete-secoue { 0% { transform: translate(0.6cqi, -0.4cqi); } 50% { transform: translate(-0.6cqi, 0.5cqi); } 100% { transform: none; } }
+  .tempete__barre { display: flex; align-items: center; gap: 1.2cqi; padding: 2.2cqi 3cqi; border-bottom: 1px solid #E7E5E4; }
+  .tempete__barre i { width: 1.8cqi; height: 1.8cqi; border-radius: 50%; background: #D6D3D1; }
+  .tempete .tempete__fichier { margin-left: 2cqi; font-size: 3.4cqi; line-height: 1; color: #8F8F8C; white-space: nowrap; }
+  .tempete__maquette { padding: 4cqi 5cqi; display: flex; flex-direction: column; gap: 2.4cqi; }
+  .tm__nav { display: flex; align-items: center; gap: 2cqi; }
+  .tm__nav b { width: var(--logo, 7cqi); height: 3cqi; border-radius: 1cqi; background: #1C1917; transition: width 300ms ease; }
+  .tm__nav span { width: 7cqi; height: 1.6cqi; border-radius: 1cqi; background: #E7E5E4; margin-left: auto; }
+  .tm__nav span + span { margin-left: 0; }
+  .tempete .tm__titre { margin: 2cqi 0 0; font-size: 7cqi; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; color: var(--encre, #1C1917); transition: color 300ms ease; }
+  .tm__ligne { height: 2cqi; border-radius: 1cqi; background: #E7E5E4; }
+  .tm__ligne--courte { width: 62%; }
+  .tempete .tm__bouton {
+    align-self: flex-start; padding: 1.8cqi 4cqi; border-radius: var(--rayon, 1.4cqi); background: var(--fond, #1C1917);
+    color: #FFFFFF; font-size: 3.4cqi; line-height: 1; transition: background 300ms ease, border-radius 300ms ease;
+  }
+  .tm__visuel { height: 18cqi; border-radius: 2cqi; background: var(--visuel, #D6D3D1); transition: background 300ms ease; }
+  .tempete__pile { position: absolute; inset: 0; pointer-events: none; }
+  .tempete__pop {
+    position: absolute; width: 60cqi; padding: 2.4cqi 3cqi; border-radius: 2.4cqi; background: #FFFFFF;
+    box-shadow: 0 1.5cqi 5cqi rgba(28,25,23,0.18); color: #1C1917;
+    animation: tempete-pop 220ms cubic-bezier(.2,.9,.3,1.2) both;
+  }
+  .tempete .tempete__pop b { display: block; font-size: 3cqi; line-height: 1.2; font-weight: 500; color: #8F8F8C; }
+  .tempete .tempete__pop span { display: block; margin-top: 0.6cqi; font-size: 3.8cqi; line-height: 1.25; }
+  .tempete__pop.urgent b { color: #DC2626; }
+  @keyframes tempete-pop { from { opacity: 0; transform: translateY(3cqi) scale(.85) rotate(var(--r, 0deg)); } to { opacity: 1; transform: rotate(var(--r, 0deg)); } }
+  .tempete.vide .tempete__pop { transition: opacity 250ms ease, transform 250ms ease; opacity: 0; transform: translateY(-4cqi) rotate(var(--r, 0deg)); }
+  .tempete .tempete__fin {
+    position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) scale(.9); opacity: 0;
+    padding: 3cqi 5cqi; border-radius: 999px; background: #1C1917; color: #FFFFFF; font-size: 5cqi; line-height: 1; white-space: nowrap;
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+  .tempete.fini .tempete__fin { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @media (prefers-reduced-motion: reduce) { .tempete__pop { animation: none; } .tempete.secoue .tempete__fenetre { animation: none; } }
 </style>
 <link rel="preload" as="image" href="portrait-sourire.webp">
 </head>
@@ -8976,16 +9022,13 @@
     const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     // Éclaboussure sur la photo (l'effet d'eau réagit au pointeur).
     const ev = (type, x, y) => av.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
-    // Cette éclaboussure-là déborde de la photo (dossiers, « En ce moment »).
-    if (av._eauDeborder) av._eauDeborder();
     ev('pointerenter', cx, cy);
     let k = 0;
     const tour = setInterval(() => {
-      // Le sillage part de la photo et balaie en éventail vers la droite
-      // (« En ce moment ») et vers le bas (les premiers dossiers).
-      const t = k / 22, droite = k % 2, a = (droite ? 0.05 : 1.4) + Math.sin(k * 1.7) * 0.15, rr = 30 + t * (droite ? 560 : 300);
+      // Un tourbillon dans le cadre de la photo.
+      const a = k * 0.9, rr = 18 + k * 4;
       ev('pointermove', cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
-      if (++k > 22) { clearInterval(tour); ev('pointerleave', cx, cy); }
+      if (++k > 16) { clearInterval(tour); ev('pointerleave', cx, cy); }
     }, 28);
     // (Les anneaux qui traversaient l'écran sont retirés : seule l'eau du portrait réagit.)
   }
@@ -9077,8 +9120,24 @@
         <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
           <div class="bio-photos">
-            <figure class="bio-photo bio-photo--portrait"><img src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" data-grand="portrait-capuche-1163.jpg" alt="Emmanuel de profil, cheveux en bataille, en sweat à capuche bleu marine" width="600" height="1032" loading="lazy" draggable="false"><figcaption>Moi, en vrai.</figcaption></figure>
-            <figure class="bio-photo bio-photo--plage"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><figcaption>Face à la mer, avant l’orage.</figcaption></figure>
+            <figure class="bio-photo bio-photo--plage"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><figcaption>Le calme…</figcaption></figure>
+            <figure class="bio-photo bio-tempete" role="img" aria-label="Animation : une maquette envahie de demandes de changement pendant un sprint, jusqu’à « Sprint terminé ».">
+              <div class="tempete" aria-hidden="true">
+                <div class="tempete__fenetre">
+                  <div class="tempete__barre"><i></i><i></i><i></i><span class="tempete__fichier">accueil_v1.fig</span></div>
+                  <div class="tempete__maquette">
+                    <div class="tm__nav"><b></b><span></span><span></span><span></span></div>
+                    <p class="tm__titre">Bienvenue</p>
+                    <div class="tm__ligne"></div><div class="tm__ligne tm__ligne--courte"></div>
+                    <span class="tm__bouton">Commencer</span>
+                    <div class="tm__visuel"></div>
+                  </div>
+                </div>
+                <div class="tempete__pile"></div>
+                <p class="tempete__fin">Sprint terminé ✅</p>
+              </div>
+              <figcaption>… avant la tempête. Un sprint, vu de l’intérieur.</figcaption>
+            </figure>
             <p class="bio-photos__inter">Et voici mon chat<span aria-hidden="true">*</span>, en voyage : je le glisse dans mes vacances.</p>
             <p class="bio-photos__note"><span aria-hidden="true">* </span>J’ai écrit les prompts et créé ces images avec Midjourney.</p>
             <figure class="bio-photo bio-photo--pano"><img src="livret-mur-photo.jpg" alt="Emmanuel penché en avant, la main en visière, devant un long mur blanc au pied des palmiers, sous un ciel bleu" width="1774" height="887" loading="lazy" draggable="false"><figcaption>Quand on me demande où je me vois dans cinq ans.</figcaption></figure>
@@ -17055,8 +17114,87 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const av = document.querySelector('.avatar-accueil');
   if (!av) return;
   // Plus fort que sur les autres photos : sillage x1,8, déformation x2.
-  const brancher = () => { if (window.eauWebGL) window.eauWebGL(av, { force: 1.8, refraction: 0.24, debord: { g: 24, h: 24, d: 620, b: 230 } }); };
+  const brancher = () => { if (window.eauWebGL) window.eauWebGL(av, { force: 1.8, refraction: 0.24 }); };
   if (av.complete && av.naturalWidth) brancher(); else av.addEventListener('load', brancher, { once: true });
+})();
+/* La tempête d'un sprint : des demandes arrivent de plus en plus vite sur
+   la maquette, qui change sous les pop-ups ; puis tout se ferme d'un coup,
+   « Sprint terminé », et la boucle repart. Ne tourne que si on la voit. */
+(function tempete() {
+  const scene = document.querySelector('.tempete');
+  if (!scene) return;
+  const pile = scene.querySelector('.tempete__pile'), fichier = scene.querySelector('.tempete__fichier');
+  const titre = scene.querySelector('.tm__titre');
+  const MESSAGES = [
+    ['💬 PO', 'On peut essayer le bouton en vert ?'],
+    ['📌 Commentaire Figma', 'Le logo, un peu plus gros ?'],
+    ['🔴 Jira', 'URGENT : nouvelle priorité pour le sprint', 1],
+    ['💬 Client', 'J’ai vu un site que j’aime bien…'],
+    ['📅 Invitation', 'Sync rapide (1 h)'],
+    ['💬 Dev', 'Ça, pas faisable d’ici vendredi.'],
+    ['📌 Commentaire Figma', 'Et en mode sombre ?'],
+    ['💬 Direction', 'Petite idée de dernière minute 💡'],
+    ['🔴 Jira', 'Le scope a changé (encore)', 1],
+    ['📌 Commentaire Figma', 'Peut-on rendre ça plus « wow » ?'],
+    ['💬 PO', 'Finalement, on revient à la v1 ?'],
+    ['📅 Invitation', 'Rétro du sprint précédent'],
+    ['💬 Client', 'Mon neveu fait du design, il a des idées'],
+    ['🔴 Jira', 'Démo demain 9 h', 1]
+  ];
+  // Ce qui change dans la maquette, étape par étape.
+  const VERSIONS = ['v1', 'v2', 'v3_final', 'v5', 'v7_final', 'v9', 'v12_final', 'v12_final_FINAL'];
+  const BOUTONS = ['#1C1917', '#16A34A', '#2563EB', '#16A34A', '#F59E0B', '#7C3AED', '#1C1917'];
+  const TITRES = ['Bienvenue', 'Bienvenue !', 'BIENVENUE', 'Salut 👋', 'Bienvenue', 'Welcome', 'Bienvenue'];
+  const hasard = (a, b) => a + Math.random() * (b - a);
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, minuteur = 0, visible = false;
+  function remettre() {
+    pile.replaceChildren(); i = 0;
+    scene.classList.remove('vide', 'fini', 'secoue');
+    fichier.textContent = 'accueil_v1.fig'; titre.textContent = 'Bienvenue';
+    ['--fond', '--logo', '--rayon', '--visuel', '--encre'].forEach((v) => scene.style.removeProperty(v));
+  }
+  function pop() {
+    const [qui, quoi, urgent] = MESSAGES[i % MESSAGES.length];
+    const p = document.createElement('div');
+    p.className = 'tempete__pop' + (urgent ? ' urgent' : '');
+    p.innerHTML = '<b></b><span></span>';
+    p.querySelector('b').textContent = qui; p.querySelector('span').textContent = quoi;
+    p.style.left = hasard(3, 38) + '%'; p.style.top = hasard(12, 74) + '%';
+    p.style.setProperty('--r', hasard(-5, 5).toFixed(1) + 'deg');
+    pile.append(p);
+    // La maquette bouge sous les demandes.
+    const k = Math.floor(i / 2);
+    fichier.textContent = 'accueil_' + VERSIONS[Math.min(VERSIONS.length - 1, k)] + '.fig';
+    scene.style.setProperty('--fond', BOUTONS[k % BOUTONS.length]);
+    titre.textContent = TITRES[k % TITRES.length];
+    if (i % 3 === 1) scene.style.setProperty('--logo', hasard(6, 16).toFixed(1) + 'cqi');
+    if (i % 4 === 2) scene.style.setProperty('--rayon', ['0', '1.4cqi', '99px'][i % 3]);
+    if (i % 5 === 3) scene.style.setProperty('--visuel', ['#D6D3D1', '#BFDBFE', '#FDE68A', '#1C1917'][i % 4]);
+    if (i % 6 === 5) scene.style.setProperty('--encre', i % 12 === 5 ? '#2563EB' : '#1C1917');
+    if (i >= MESSAGES.length - 4) scene.classList.add('secoue');
+    i++;
+  }
+  function suite() {
+    if (!visible) return;
+    if (i < MESSAGES.length) {
+      pop();
+      // De plus en plus vite : de 900 ms à 220 ms entre deux demandes.
+      minuteur = setTimeout(suite, Math.max(220, 900 - i * 60));
+    } else {
+      scene.classList.remove('secoue'); scene.classList.add('vide');
+      minuteur = setTimeout(() => {
+        pile.replaceChildren(); scene.classList.add('fini');
+        minuteur = setTimeout(() => { remettre(); minuteur = setTimeout(suite, 900); }, 1800);
+      }, 450);
+    }
+  }
+  if (calme) { remettre(); for (let n = 0; n < 5; n++) pop(); scene.querySelectorAll('.tempete__pop').forEach((p) => (p.style.animation = 'none')); return; }
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    clearTimeout(minuteur);
+    if (visible) { remettre(); minuteur = setTimeout(suite, 600); }
+  }, { threshold: 0.35 }).observe(scene);
 })();
 </script>
 </body>
