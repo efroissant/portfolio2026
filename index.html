@@ -8976,12 +8976,16 @@
     const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     // Éclaboussure sur la photo (l'effet d'eau réagit au pointeur).
     const ev = (type, x, y) => av.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
+    // Cette éclaboussure-là déborde de la photo (dossiers, « En ce moment »).
+    if (av._eauDeborder) av._eauDeborder();
     ev('pointerenter', cx, cy);
     let k = 0;
     const tour = setInterval(() => {
-      const a = k * 0.9, rr = 18 + k * 3;
+      // Le sillage part de la photo et balaie en éventail vers la droite
+      // (« En ce moment ») et vers le bas (les premiers dossiers).
+      const t = k / 22, droite = k % 2, a = (droite ? 0.05 : 1.4) + Math.sin(k * 1.7) * 0.15, rr = 30 + t * (droite ? 560 : 300);
       ev('pointermove', cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
-      if (++k > 12) { clearInterval(tour); ev('pointerleave', cx, cy); }
+      if (++k > 22) { clearInterval(tour); ev('pointerleave', cx, cy); }
     }, 28);
     // (Les anneaux qui traversaient l'écran sont retirés : seule l'eau du portrait réagit.)
   }
@@ -15903,6 +15907,11 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   // opts.force : intensité du sillage (1 = normal) ; opts.refraction : déformation de l'image.
   function eauWebGL(img, opts) {
     const FORCE = (opts && opts.force) || 1, REFR = (opts && opts.refraction) || 0.12;
+    // Débordement (px autour de la photo), utilisé une seule fois sur demande :
+    // l'eau s'étend alors au-delà du cadre, en reflets sur la page.
+    const DEB = (opts && opts.debord) || null;
+    let etendu = false;
+    const marges = () => (etendu && DEB) ? DEB : { g: 0, h: 0, d: 0, b: 0 };
     if (!img) return false;
     const toile = document.createElement('canvas');
     toile.className = 'photo-eau-gl'; toile.setAttribute('aria-hidden', 'true');
@@ -15949,19 +15958,28 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     // Le rendu : la photo vue à travers l'eau, plus un reflet sur les crêtes.
     const RENDU = `#version 300 es
       precision highp float;
-      uniform sampler2D etat; uniform sampler2D image; uniform vec2 px; uniform float refr;
+      uniform sampler2D etat; uniform sampler2D image; uniform vec2 px; uniform float refr; uniform vec4 cadre;
       in vec2 uv; out vec4 o;
       void main() {
         float dx = texture(etat, uv + vec2(px.x, 0.0)).r - texture(etat, uv - vec2(px.x, 0.0)).r;
         float dy = texture(etat, uv + vec2(0.0, px.y)).r - texture(etat, uv - vec2(0.0, px.y)).r;
-        vec3 c = texture(image, clamp(uv + vec2(dx, dy) * refr, 0.001, 0.999)).rgb;
+        vec2 taille = cadre.zw - cadre.xy;
+        vec2 pu = (uv - cadre.xy) / taille;             // position dans la photo
+        vec3 c = texture(image, clamp(pu + vec2(dx, dy) * refr / taille, 0.001, 0.999)).rgb;
         vec3 n = normalize(vec3(-dx * 5.0, -dy * 5.0, 1.0));
         vec3 L = normalize(vec3(-0.45, 0.65, 1.0));
         float reflet = pow(max(dot(reflect(-L, n), vec3(0.0, 0.0, 1.0)), 0.0), 48.0);
         float base = pow(L.z, 48.0);
-        c += max(reflet - base, 0.0) * 0.7;
+        float lum = max(reflet - base, 0.0);
+        c += lum * 0.7;
         c *= 1.0 + (dx - dy) * 0.6;                   // un peu d'ombre et de lumière sur les pentes
-        o = vec4(c, 1.0);
+        float dedans = step(0.0, pu.x) * step(pu.x, 1.0) * step(0.0, pu.y) * step(pu.y, 1.0);
+        // Hors de la photo : l'eau se voit en reflets bleutés sur la page.
+        float pente = clamp((abs(dx) + abs(dy)) * 6.0, 0.0, 0.4);
+        vec3 teinte = mix(vec3(0.50, 0.76, 0.95), vec3(1.0), clamp(lum * 2.0, 0.0, 1.0));
+        float bord = smoothstep(0.0, 0.14, uv.x) * smoothstep(1.0, 0.86, uv.x) * smoothstep(0.0, 0.18, uv.y) * smoothstep(1.0, 0.82, uv.y);
+        vec4 dehors = vec4(teinte, clamp(pente + lum * 0.5, 0.0, 0.42) * bord);   // fondu vers les bords de la toile
+        o = mix(dehors, vec4(c, 1.0), dedans);
       }`;
     function programme(fs) {
       const pr = gl.createProgram();
@@ -15990,7 +16008,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       return { t, fb };
     }
     function preparerSurfaces() {
-      const w = 256, h = Math.max(32, Math.round(256 * img.offsetHeight / Math.max(1, img.offsetWidth)));
+      const M = marges(), cw = img.offsetWidth + M.g + M.d, ch = img.offsetHeight + M.h + M.b;
+      const w = etendu ? 384 : 256, h = Math.max(32, Math.round(w * ch / Math.max(1, cw)));
       if (w === W && h === H) { surfaces.forEach((s) => { gl.bindFramebuffer(gl.FRAMEBUFFER, s.fb); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); }); return; }
       W = w; H = h; surfaces = [surface(), surface()];
       preparerSurfaces();
@@ -16028,11 +16047,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     img.after(toile);
     function caler() {
       const cs = getComputedStyle(img), dpr = Math.min(2, devicePixelRatio || 1);
-      const w = img.offsetWidth, h = img.offsetHeight;
+      const M = marges();
+      const w = img.offsetWidth + M.g + M.d, h = img.offsetHeight + M.h + M.b;
       Object.assign(toile.style, {
-        left: img.offsetLeft + 'px', top: img.offsetTop + 'px', width: w + 'px', height: h + 'px',
+        left: (img.offsetLeft - M.g) + 'px', top: (img.offsetTop - M.h) + 'px', width: w + 'px', height: h + 'px',
         transform: cs.transform, rotate: cs.rotate, transformOrigin: cs.transformOrigin,
-        borderRadius: cs.borderRadius, zIndex: cs.zIndex
+        borderRadius: etendu ? '0' : cs.borderRadius, zIndex: cs.zIndex
       });
       const bw = Math.round(w * dpr), bh = Math.round(h * dpr);
       if (toile.width !== bw || toile.height !== bh) { toile.width = bw; toile.height = bh; }
@@ -16045,7 +16065,9 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
       const dx = x - cx, dy = y - cy, co = Math.cos(-a), si = Math.sin(-a);
       const lx = dx * co - dy * si, ly = dx * si + dy * co;
-      return [lx / img.offsetWidth + 0.5, 0.5 - ly / img.offsetHeight];
+      const M = marges(), cw = img.offsetWidth + M.g + M.d, ch = img.offsetHeight + M.h + M.b;
+      // Coordonnées dans la toile (qui peut déborder de la photo).
+      return [(lx + img.offsetWidth / 2 + M.g) / cw, 1 - (ly + img.offsetHeight / 2 + M.h) / ch];
     }
 
     let actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0;
@@ -16085,10 +16107,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       gl.uniform1i(u(pRendu, 'etat'), 0); gl.uniform1i(u(pRendu, 'image'), 1);
       gl.uniform2f(u(pRendu, 'px'), 1 / W, 1 / H);
       gl.uniform1f(u(pRendu, 'refr'), REFR);
+      { const M = marges(), cw = img.offsetWidth + M.g + M.d, ch = img.offsetHeight + M.h + M.b;
+        gl.uniform4f(u(pRendu, 'cadre'), M.g / cw, M.b / ch, (M.g + img.offsetWidth) / cw, (M.b + img.offsetHeight) / ch); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (survol) { loupe.style.left = souris.x + 'px'; loupe.style.top = souris.y + 'px'; }
       // Souris partie et eau calmée : on range la toile.
-      if (!survol && t - derniereGoutte > 3000) { actif = false; boucle = 0; toile.style.display = 'none'; return; }
+      if (!survol && t - derniereGoutte > 3000) { actif = false; boucle = 0; toile.style.display = 'none'; etendu = false; return; }
       boucle = requestAnimationFrame(image);
     }
     img.addEventListener('pointerenter', (e) => {
@@ -16102,6 +16126,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     });
     img.addEventListener('pointermove', (e) => { souris = { x: e.clientX, y: e.clientY }; });
     img.addEventListener('pointerleave', () => { survol = false; loupe.classList.remove('est-visible'); });
+    // Déborder une fois (l'éclaboussure du chargement) ; ensuite, le cadre.
+    img._eauDeborder = () => { if (DEB && !actif) etendu = true; };
     toile.addEventListener('webglcontextlost', (e) => { e.preventDefault(); actif = false; cancelAnimationFrame(boucle); toile.style.display = 'none'; });
     return true;
   }
@@ -17029,7 +17055,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const av = document.querySelector('.avatar-accueil');
   if (!av) return;
   // Plus fort que sur les autres photos : sillage x1,8, déformation x2.
-  const brancher = () => { if (window.eauWebGL) window.eauWebGL(av, { force: 1.8, refraction: 0.24 }); };
+  const brancher = () => { if (window.eauWebGL) window.eauWebGL(av, { force: 1.8, refraction: 0.24, debord: { g: 24, h: 24, d: 620, b: 230 } }); };
   if (av.complete && av.naturalWidth) brancher(); else av.addEventListener('load', brancher, { once: true });
 })();
 </script>
