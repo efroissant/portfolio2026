@@ -9135,7 +9135,7 @@
         <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
           <div class="bio-photos">
-            <figure class="bio-photo bio-photo--plage"><span class="eclair"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><span class="eclair__flash" aria-hidden="true"></span><svg class="eclair__trait" viewBox="0 0 60 120" aria-hidden="true"><path d="M34 0 L24 38 L33 40 L18 78 L27 80 L14 120"/><path d="M24 38 L12 52" /><path d="M18 78 L6 90" /></svg></span><figcaption>Le calme…</figcaption></figure>
+            <figure class="bio-photo bio-photo--plage"><span class="eclair"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"></span><figcaption>Le calme…</figcaption></figure>
             <figure class="bio-photo bio-tempete" role="img" aria-label="Animation : une maquette envahie de demandes de changement pendant un sprint, jusqu’à « Sprint terminé ».">
               <div class="tempete" aria-hidden="true">
                 <div class="tempete__fenetre">
@@ -17187,8 +17187,6 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (i % 4 === 2) scene.style.setProperty('--rayon', ['0', '1.4cqi', '99px'][i % 3]);
     if (i % 5 === 3) scene.style.setProperty('--visuel', ['#D6D3D1', '#BFDBFE', '#FDE68A', '#1C1917'][i % 4]);
     if (i % 6 === 5) scene.style.setProperty('--encre', i % 12 === 5 ? '#2563EB' : '#1C1917');
-    if (i >= MESSAGES.length - 4) scene.classList.add('secoue');
-    if (i === MESSAGES.length - 4) document.dispatchEvent(new CustomEvent('tempete:pic'));
     i++;
   }
   function suite() {
@@ -17211,25 +17209,6 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     clearTimeout(minuteur);
     if (visible) { remettre(); minuteur = setTimeout(suite, 600); }
   }, { threshold: 0.35 }).observe(scene);
-})();
-/* L'éclair de la plage : au survol (au plus une fois toutes les 3 s) et
-   quand la tempête du sprint, à côté, arrive à son pic. */
-(function eclair() {
-  const cadre = document.querySelector('.bio-photo--plage .eclair');
-  if (!cadre || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let dernier = 0;
-  function frapper() {
-    const t = performance.now();
-    if (t - dernier < 3000) return;
-    dernier = t;
-    // Le trait tombe un peu ailleurs à chaque fois.
-    const trait = cadre.querySelector('.eclair__trait');
-    trait.style.left = (40 + Math.random() * 40).toFixed(0) + '%';
-    trait.style.transform = 'scaleX(' + (Math.random() < 0.5 ? -1 : 1) + ')';
-    cadre.classList.remove('eclaire'); void cadre.offsetWidth; cadre.classList.add('eclaire');
-  }
-  cadre.addEventListener('pointerenter', frapper);
-  document.addEventListener('tempete:pic', frapper);
 })();
 </script>
 </body>
