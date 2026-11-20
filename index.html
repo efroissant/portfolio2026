@@ -16134,7 +16134,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       preparerSurfaces();
     }
     const texImage = gl.createTexture();
-    let imageChargee = '';
+    let imageChargee = '', brute = null;
     function chargerImage() {
       const src = img.currentSrc || img.src;
       if (src === imageChargee || !img.complete || !img.naturalWidth) return;
@@ -16145,13 +16145,19 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       let source = img;
       const csi = getComputedStyle(img);
       if (csi.objectFit === 'cover' && img.offsetWidth && img.offsetHeight) {
-        const ew = img.offsetWidth, eh = img.offsetHeight, nw = img.naturalWidth, nh = img.naturalHeight;
+        // Avec srcset (2x), naturalWidth est « corrigé » de la densité alors que
+        // drawImage lit les vrais pixels : on passe par une copie sans srcset.
+        if (!brute || brute.dataset.src !== src) {
+          brute = new Image(); brute.dataset.src = src; brute.src = src;
+        }
+        if (!brute.complete || !brute.naturalWidth) { gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); return; }
+        const ew = img.offsetWidth, eh = img.offsetHeight, nw = brute.naturalWidth, nh = brute.naturalHeight;
         const k = Math.max(ew / nw, eh / nh), cw = ew / k, ch = eh / k;
         const pos = csi.objectPosition.split(' ').map((v) => parseFloat(v) / 100);
         const sx = (nw - cw) * (isFinite(pos[0]) ? pos[0] : 0.5), sy = (nh - ch) * (isFinite(pos[1]) ? pos[1] : 0.5);
         const c = document.createElement('canvas');
         c.width = Math.min(1024, Math.round(cw)); c.height = Math.round(c.width * eh / ew);
-        c.getContext('2d').drawImage(img, sx, sy, cw, ch, 0, 0, c.width, c.height);
+        c.getContext('2d').drawImage(brute, sx, sy, cw, ch, 0, 0, c.width, c.height);
         source = c;
       }
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
@@ -16206,6 +16212,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     }
     function image(t) {
       caler(); chargerImage();
+      // Tant que l'image n'est pas prête, on laisse voir la vraie photo.
+      toile.style.display = imageChargee ? 'block' : 'none';
       // Seul le mouvement de la souris touche l'eau : un trait continu, plus
       // marqué quand on va vite ; immobile, l'eau se calme.
       let trait = [0, 0, 0, 0], force = 0;
