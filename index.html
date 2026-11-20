@@ -8611,7 +8611,7 @@
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
   /* Titre des études : le nom du projet en Instrument Serif 60 px #1C1917 (seule exception à Geist). */
-  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-bibliotheque) .uc .uc__titre {
+  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__titre {
     font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
     font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important;
     color: #1C1917 !important;
@@ -8745,25 +8745,39 @@
   }
   /* Bibliothèque dans le panneau : quatre couvertures par rangée dans la
      colonne de droite, titre et auteur au survol, en Geist. */
-  #doc-bibliotheque .biblio__intro { margin: 0; color: #8F8F8C; }
-  #doc-bibliotheque .shelf__row {
+  .bio-biblio .biblio__intro { margin: 0 0 24px; color: #8F8F8C; }
+  .bio-biblio .shelf__row {
     display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 20px;
     margin: 0; padding-bottom: 40px; align-items: end;
   }
-  #doc-bibliotheque .shelf__slot { width: 100% !important; }
-  #doc-bibliotheque .shelf__lien, #doc-bibliotheque .shelf__art { width: 100%; }
+  .bio-biblio .shelf__slot { width: 100% !important; }
+  .bio-biblio .shelf__lien, .bio-biblio .shelf__art { width: 100%; }
   /* Titre et auteur toujours visibles, sous chaque couverture, dans le flux :
      chaque rangée leur fait la place qu'il faut. */
-  #doc-bibliotheque .shelf__row { align-items: start !important; gap: 32px 20px !important; }
-  #doc-bibliotheque .shelf__slot { flex-direction: column; }
-  #doc-bibliotheque .shelf__meta {
+  .bio-biblio .shelf__row { align-items: start !important; gap: 32px 20px !important; }
+  .bio-biblio .shelf__slot { flex-direction: column; }
+  .bio-biblio .shelf__meta {
     position: static; width: 100%; min-height: 0; margin-top: 10px;
     opacity: 1 !important; transform: none !important;
   }
-  #doc-bibliotheque .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
-  #doc-bibliotheque .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
+  .bio-biblio .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
+  .bio-biblio .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
   /* Toile de cartes masquée pour le moment (le code reste en place). */
   .stage .toile { display: none !important; }
+  /* Bio : la suite (Photos, Bibliothèque) dans le même défilement. */
+  .bio-suite { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .bio-suite { display: block; }
+    .stage:not(.bio-ouverte) .bio-suite { visibility: hidden; }
+    .bio-section { padding-top: 72px; }
+    .bio-section__titre { margin: 0 0 16px; font: inherit; color: #8F8F8C; }
+    .bio-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .bio-photo { margin: 0; }
+    .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+    .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #8F8F8C; }
+    .bio-rayon + .bio-rayon { margin-top: 8px; }
+    .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
+  }
 </style>
 </head>
 <body>
@@ -8931,6 +8945,18 @@
     <div class="profil__bio">
       <p>Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Les rencontres que je fais nourrissent aussi mon travail. Faire tenir tout ça dans un même parcours, c’est un drôle de défi que j’essaie encore de relever.<br><br>Je conçois surtout des interfaces et des produits SaaS. Selon le projet, je fais aussi un peu d’analyse, de rédaction et parfois d’illustration.<br><br>En ce moment, j’explore l’IA et le vibe coding. Je n’aspire à devenir ni master ni ninja de quoi que ce soit. J’aime apprendre et voir ce que je peux faire avec ce que je viens de découvrir.</p>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
+      <!-- La suite de la bio, dans le même défilement : les fichiers de
+           « Bio » sont des ancres vers ces sections. -->
+      <div class="bio-suite">
+        <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
+          <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
+          <div class="bio-photos"></div>
+        </section>
+        <section class="bio-section bio-biblio" id="bio-bibliotheque" aria-labelledby="bio-biblio-titre">
+          <h2 class="bio-section__titre" id="bio-biblio-titre">Bibliothèque</h2>
+          <p class="biblio__intro">Ce que je lis, regarde et écoute en ce moment.</p>
+        </section>
+      </div>
     </div>
   </aside>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
@@ -9488,22 +9514,6 @@
             </span>
           </a>
         </div>
-      </article>
-    </div>
-   </div>
-  </div>
-  <!-- Perso › Bibliothèque : livres, séries, films et musiques. -->
-  <div class="doc doc--court" id="doc-bibliotheque" hidden>
-   <div class="doc__win" role="dialog" aria-label="Bibliothèque">
-    <div class="doc__bar">
-      <span class="doc__bartitle">Bibliothèque</span>
-      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer la bibliothèque">FERMER</button>
-    </div>
-    <div class="doc__scroll">
-      <article class="doc__page uc">
-        <header class="uc__tete">
-          <p class="uc__texte biblio__intro">Ce que je lis, regarde et écoute en ce moment.</p>
-        </header>
       </article>
     </div>
    </div>
@@ -11592,14 +11602,14 @@ const dire = (function () {
   /* Perso › Bibliothèque : la même étagère, dans le panneau de droite, au
      gabarit des études (titre du rayon à gauche, couvertures à droite). */
   (function remplirBibliotheque() {
-    const page = document.querySelector('#doc-bibliotheque .uc');
+    const page = document.querySelector('.bio-biblio');
     if (!page) return;
     const shelf = construireEtagere();
     [...shelf.children].forEach((sec) => {
-      const bloc = document.createElement('section');
-      bloc.className = 'uc__bloc';
-      const h = document.createElement('h2');
-      h.className = 'uc__label';
+      const bloc = document.createElement('div');
+      bloc.className = 'bio-rayon';
+      const h = document.createElement('h3');
+      h.className = 'bio-rayon__titre';
       h.textContent = sec.querySelector('.shelf__label').textContent;
       const row = sec.querySelector('.shelf__row');
       bloc.append(h, row);
@@ -12269,6 +12279,24 @@ const dire = (function () {
       alt: 'Un chat blanc en lunettes de soleil et foulard rose, allongé dans '
          + 'une bouée, flottant dans une crique devant un village méditerranéen' }
   ];
+
+  /* Bio › Photos : les photos de la galerie, sous la bio. */
+  (function remplirPhotosBio() {
+    const grille = document.querySelector('.bio-photos');
+    if (!grille) return;
+    PHOTOS.forEach((ph) => {
+      const fig = document.createElement('figure');
+      fig.className = 'bio-photo';
+      const img = document.createElement('img');
+      img.src = ph.grand + '-' + ph.tailles[0] + '.jpg';
+      img.srcset = ph.grand + '-' + ph.tailles[1] + '.jpg 2x';
+      img.alt = ph.alt; img.loading = 'lazy'; img.draggable = false;
+      const cap = document.createElement('figcaption');
+      cap.textContent = ph.nom;
+      fig.append(img, cap);
+      grille.appendChild(fig);
+    });
+  })();
 
   /* Le mème du bureau. Livré en JPEG seul : pas de WebP, et pas de
      2x — la source ne fait que 540 px, l'agrandir serait l'inventer. */
@@ -15399,7 +15427,14 @@ window.ajouterRayon = function (img, sel, cle) {
     const pw = p.width || innerWidth, ph = p.height || innerHeight;
     const x = r.left - p.left + pos.dx, y = r.top - p.top + pos.dy;
     photo.style.left = Math.round(Math.max(8, Math.min(x, pw - photo.offsetWidth - 8))) + 'px';
-    photo.style.top = Math.round(Math.max(40, Math.min(y, ph - photo.offsetHeight - 48))) + 'px';
+    // Bio défilée : la photo suit le texte (plus de butée en haut) et se
+    // coupe aux bords de la colonne, comme si elle était dedans.
+    const defile = bio.scrollTop > 0;
+    photo.style.top = Math.round(defile ? y : Math.max(40, Math.min(y, ph - photo.offsetHeight - 48))) + 'px';
+    const b = bio.getBoundingClientRect(), f = photo.getBoundingClientRect();
+    const haut = Math.max(0, b.top - f.top), bas = Math.max(0, f.bottom - b.bottom);
+    photo.style.clipPath = defile && (haut || bas) ? 'inset(' + Math.round(haut) + 'px 0 ' + Math.round(bas) + 'px 0)' : '';
+    photo.dataset.coupe = defile && (haut || bas) ? '1' : '';
     apres();
   }
   placer();
@@ -15425,6 +15460,8 @@ window.ajouterRayon = function (img, sel, cle) {
     sel.style.left = photo.style.left; sel.style.top = photo.style.top;
     sel.style.width = photo.offsetWidth + 'px'; sel.style.height = photo.offsetHeight + 'px';
     taille.textContent = photo.offsetWidth + ' × ' + photo.offsetHeight;
+    // Photo coupée par le défilement : pas de cadre de sélection par-dessus le vide.
+    sel.style.visibility = photo.dataset.coupe ? 'hidden' : '';
   }
   apres = cadre;
   cadre();
@@ -16201,8 +16238,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const DOSSIERS = [
     { nom: 'Bio', projets: [
       { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' },
-      { nom: 'Photos', lien: '#case/a-venir', couleur: '#68BEC9' },
-      { nom: 'Bibliothèque', lien: '#case/bibliotheque', couleur: '#8B5E3C' } ] },
+      { nom: 'Photos', lien: '#profil-photos', couleur: '#68BEC9' },
+      { nom: 'Bibliothèque', lien: '#profil-bibliotheque', couleur: '#8B5E3C' } ] },
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/shoppers', couleur: '#F05454' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvqcarte', couleur: '#F5C044', img: 'gvq-agenda-920.jpg' },
@@ -16305,7 +16342,18 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     };
     if (vide) vide.hidden = true;
     // « Profil » : la bio apparaît à droite (cachée à l'arrivée sur le site).
-    if (h === '#profil') { document.getElementById('stage').classList.add('bio-ouverte'); fermerEtude(); return; }
+    // Fichiers de « Bio » : des ancres dans la même page (bio, photos, bibliothèque).
+    if (h.startsWith('#profil')) {
+      document.getElementById('stage').classList.add('bio-ouverte'); fermerEtude();
+      const bioEl = document.querySelector('.profil__bio');
+      const cible = h === '#profil' ? null : document.getElementById('bio-' + h.slice('#profil-'.length));
+      if (bioEl) {
+        bioEl.dataset.saut = '1';
+        bioEl.scrollTo({ top: cible ? cible.offsetTop - 4 : 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        clearTimeout(bioEl._saut); bioEl._saut = setTimeout(() => { delete bioEl.dataset.saut; }, 900);
+      }
+      return;
+    }
     // Une étude qui existe : elle s'affiche à droite, à la place de la bio.
     const id = (h.match(/^#case\/(\w[\w-]*)$/) || [])[1];
     if (id && document.getElementById('doc-' + id)) {
@@ -16330,7 +16378,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (!calque) { calque = document.createElement('div'); calque.className = 'projets-vignette__calque'; vignette.append(calque); }
     arbo.addEventListener('pointerover', (e) => {
       const a = e.target.closest('.arbo__fichier'); if (!a) return;
-      if (a.getAttribute('href') === '#profil') return;   // pas de vignette pour Profil
+      if ((a.getAttribute('href') || '').startsWith('#profil')) return;   // pas de vignette pour les fichiers de Bio
       const p = a._projet, r = a.getBoundingClientRect();
       vignette.querySelectorAll('.projets-vignette__calque').forEach((c) => c.classList.remove('est-actif'));
       calque.style.background = (p.img ? 'url("' + p.img + '") center / cover no-repeat, ' : '') + p.couleur;
@@ -16351,7 +16399,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const majLecture = () => {
     const ouvert = docs.some((d) => !d.hidden);
     stage.classList.toggle('a-un-doc', ouvert);
-    if (!ouvert) arbo.querySelectorAll('.arbo__fichier.est-actif').forEach((x) => { if (x.getAttribute('href') !== '#profil') x.classList.remove('est-actif'); });
+    if (!ouvert) arbo.querySelectorAll('.arbo__fichier.est-actif').forEach((x) => { if (!(x.getAttribute('href') || '').startsWith('#profil')) x.classList.remove('est-actif'); });
   };
   docs.forEach((d) => new MutationObserver(majLecture).observe(d, { attributes: true, attributeFilter: ['hidden'] }));
   majLecture();
@@ -16672,6 +16720,30 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   let attente = 0;
   addEventListener('resize', () => { clearTimeout(attente); attente = setTimeout(construire, 150); });
   if (document.fonts) document.fonts.ready.then(construire);
+})();
+/* Bio : les fichiers Profil, Photos et Bibliothèque suivent le défilement.
+   La section qui occupe le haut de la colonne marque son fichier en bleu. */
+(function ancresBio() {
+  const bio = document.querySelector('.profil__bio');
+  const stage = document.getElementById('stage');
+  if (!bio || !stage) return;
+  const sections = [['#profil', null], ['#profil-photos', 'bio-photos'], ['#profil-bibliotheque', 'bio-bibliotheque']];
+  function marquer() {
+    if (!stage.classList.contains('bio-ouverte') || stage.classList.contains('a-un-doc')) return;
+    let actif = '#profil';
+    const fin = bio.scrollTop + bio.clientHeight >= bio.scrollHeight - 4;
+    sections.forEach(([h, id]) => {
+      const el = id && document.getElementById(id);
+      if (el && el.offsetTop - bio.scrollTop <= bio.clientHeight * 0.35) actif = h;
+    });
+    if (fin) actif = sections[sections.length - 1][0];
+    document.querySelectorAll('.arbo .arbo__fichier').forEach((a) => {
+      const h = a.getAttribute('href') || '';
+      if (h.startsWith('#profil')) a.classList.toggle('est-actif', h === actif);
+    });
+  }
+  bio.addEventListener('scroll', marquer, { passive: true });
+  new MutationObserver(marquer).observe(stage, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 </body>
