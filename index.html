@@ -16318,10 +16318,10 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const li = document.createElement('li');
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'arbo__dossier-btn';
-    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'arbo-' + numero + '-' + i);
+    btn.setAttribute('aria-expanded', 'true'); btn.setAttribute('aria-controls', 'arbo-' + numero + '-' + i);   // déployé à l'arrivée
     btn.innerHTML = ICONES.ferme + ICONES.ouvert; btn.append(texte(d.nom));
     const ul = document.createElement('ul');
-    ul.className = 'arbo__fichiers'; ul.id = 'arbo-' + numero + '-' + i; ul.hidden = true;
+    ul.className = 'arbo__fichiers'; ul.id = 'arbo-' + numero + '-' + i; ul.hidden = false;
     d.projets.forEach((p) => {
       const f = document.createElement('li');
       const a = document.createElement('a');
