@@ -9077,6 +9077,8 @@
     const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     // Éclaboussure sur la photo (l'effet d'eau réagit au pointeur).
     const ev = (type, x, y) => av.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
+    // Très léger : juste de quoi attirer l'œil ; au survol, l'effet reprend sa force.
+    if (av._eauDoux) av._eauDoux();
     ev('pointerenter', cx, cy);
     let k = 0;
     const tour = setInterval(() => {
@@ -9101,8 +9103,8 @@
     l.textContent = texte;
     l.append(curseur);
     ecran.append(l);
-    // Rapide : chaque pause réduite à 35 %, le démarrage dure moins d'une demi-seconde.
-    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.35));
+    // Un peu ralenti : chaque pause à 75 %, le démarrage dure un peu plus d.une seconde.
+    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.75));
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
   const DEMARRAGE = true;
@@ -14061,23 +14063,28 @@ const dire = (function () {
     });
     maj(); temps_();
     // Largeur du lecteur : la plus longue ligne de la liste + 16 px, fixe.
+    // Mesure à « largeur naturelle » (max-content), donc indépendante de la
+    // largeur actuelle : le résultat est toujours le même, quel que soit le
+    // morceau affiché. On l'essaie avec chaque titre dans l'en-tête.
+    let largeurFixe = 0;
     function largeur() {
       if (!r.offsetParent) return;
-      const lignes = [...liste.querySelectorAll('button')];
-      const plusLongue = Math.max(0, ...lignes.map((b) => [...b.children].reduce((t, c) => t + c.scrollWidth, 0)
-        + (parseFloat(getComputedStyle(b).columnGap) || 0) * (b.children.length - 1)));
-      // L'en-tête aussi : boutons + le plus long titre + le temps complet.
-      const haut = r.querySelector('.radio__haut');
-      const garde = [titre.textContent, temps.textContent, titre.style.flex];
-      titre.style.flex = 'none'; temps.textContent = '0:00 / 0:00';
-      let entete = 0;
-      PISTES.forEach((p) => { titre.textContent = p.titre; entete = Math.max(entete, haut.scrollWidth); });
-      [titre.textContent, temps.textContent, titre.style.flex] = garde;
-      const cs = getComputedStyle(r);
-      const l = Math.max(plusLongue, entete) + 16 + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
-      r.style.setProperty('--radio-l', Math.ceil(l) + 'px');
+      if (largeurFixe) { if (r.style.getPropertyValue('--radio-l') !== largeurFixe + 'px') r.style.setProperty('--radio-l', largeurFixe + 'px'); return; }
+      const garde = [titre.textContent, temps.textContent];
+      r.style.setProperty('--radio-l', 'max-content');
+      temps.textContent = '0:00 / 0:00';
+      let max = 0;
+      PISTES.forEach((p) => { titre.textContent = p.titre; max = Math.max(max, r.offsetWidth); });
+      [titre.textContent, temps.textContent] = garde;
+      if (!max) return;
+      largeurFixe = Math.ceil(max) + 16;
+      r.style.setProperty('--radio-l', largeurFixe + 'px');
     }
     largeur(); addEventListener('resize', largeur); addEventListener('load', largeur);
+    // Le lecteur est caché au chargement (rien à mesurer) : on mesure à chaque
+    // ouverture, avant l'affichage, pour qu'il ait toujours la même largeur.
+    new MutationObserver(largeur).observe(r, { attributes: true, attributeFilter: ['hidden', 'class'] });
+    if (document.fonts) document.fonts.ready.then(() => { largeurFixe = 0; largeur(); });
     // À gauche de la note de musique : le titre du morceau, tant qu'il joue.
     const enCours = document.createElement('p');
     enCours.className = 'radio-encours'; enCours.setAttribute('aria-hidden', 'true');
@@ -14088,7 +14095,7 @@ const dire = (function () {
     };
     ['play', 'pause', 'ended', 'loadstart'].forEach((ev) => audio.addEventListener(ev, majEnCours));
     majEnCours();
-    if (document.fonts) document.fonts.ready.then(largeur);
+    if (document.fonts) document.fonts.ready.then(() => { largeurFixe = 0; largeur(); });
     // La note ouvre et ferme le lecteur : dans la barre sur téléphone, en bas
     // à droite sur grand écran. Un clic ailleurs le referme ; en lecture,
     // la note devient une onde.
@@ -16022,7 +16029,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     // Débordement (px autour de la photo), utilisé une seule fois sur demande :
     // l'eau s'étend alors au-delà du cadre, en reflets sur la page.
     const DEB = (opts && opts.debord) || null;
-    let etendu = false;
+    let etendu = false, doux = false;   // doux : la première éclaboussure, très légère
     const marges = () => (etendu && DEB) ? DEB : { g: 0, h: 0, d: 0, b: 0 };
     if (!img) return false;
     const toile = document.createElement('canvas');
@@ -16206,7 +16213,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
         const bouge = Math.hypot(souris.x - derniere.x, souris.y - derniere.y);
         if (bouge > 0.5) {
           const [ax, ay] = versUV(derniere.x, derniere.y), [bx, by] = versUV(souris.x, souris.y);
-          trait = [ax, ay, bx, by]; force = Math.min(0.6 * FORCE, (0.1 + bouge * 0.02) * FORCE);
+          const F = doux ? 0.22 : FORCE;
+          trait = [ax, ay, bx, by]; force = Math.min(0.6 * F, (0.1 + bouge * 0.02) * F);
           derniereGoutte = t;
         }
       }
@@ -16218,7 +16226,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texImage);
       gl.uniform1i(u(pRendu, 'etat'), 0); gl.uniform1i(u(pRendu, 'image'), 1);
       gl.uniform2f(u(pRendu, 'px'), 1 / W, 1 / H);
-      gl.uniform1f(u(pRendu, 'refr'), REFR);
+      gl.uniform1f(u(pRendu, 'refr'), doux ? REFR * 0.3 : REFR);
       { const M = marges(), cw = img.offsetWidth + M.g + M.d, ch = img.offsetHeight + M.h + M.b;
         gl.uniform4f(u(pRendu, 'cadre'), M.g / cw, M.b / ch, (M.g + img.offsetWidth) / cw, (M.b + img.offsetHeight) / ch); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -16228,6 +16236,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       boucle = requestAnimationFrame(image);
     }
     img.addEventListener('pointerenter', (e) => {
+      if (e.isTrusted) doux = false;   // la vraie souris : l'effet retrouve sa force
       survol = true; souris = { x: e.clientX, y: e.clientY }; derniere = { ...souris };
       loupe.classList.add('est-visible');
       if (!actif) {
@@ -16240,6 +16249,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     img.addEventListener('pointerleave', () => { survol = false; loupe.classList.remove('est-visible'); });
     // Déborder une fois (l'éclaboussure du chargement) ; ensuite, le cadre.
     img._eauDeborder = () => { if (DEB && !actif) etendu = true; };
+    img._eauDoux = () => { doux = true; };
     toile.addEventListener('webglcontextlost', (e) => { e.preventDefault(); actif = false; cancelAnimationFrame(boucle); toile.style.display = 'none'; });
     return true;
   }
