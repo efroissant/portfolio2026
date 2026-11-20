@@ -9777,35 +9777,6 @@
     </div>
    </div>
   </div>
-  <!-- Bio : carte Profil. « Découvrir » ouvre la bio (texte, photos, bibliothèque). -->
-  <div class="doc doc--carte" id="doc-profilcarte" hidden>
-   <div class="doc__win" role="dialog" aria-labelledby="doc-profilcarte-titre">
-    <div class="doc__bar">
-      <span class="doc__bartitle">Bio</span>
-      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer">FERMER</button>
-    </div>
-    <div class="doc__scroll">
-      <article class="doc__page">
-        <div class="cartep" style="--vert: #9FD3FF">
-          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
-          <ul class="cartep__tags" aria-label="En bref">
-            <li>Personnalité</li><li>Humour</li><li>Designer</li><li>Bibliothèque</li>
-          </ul>
-          <h1 class="cartep__titre" id="doc-profilcarte-titre">Profil</h1>
-          <div class="cartep__texte">
-            <p class="cartep__annee">b.1981</p>
-            <p>Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Ma bio, quelques photos et ce que je lis, regarde et écoute.</p>
-          </div>
-          <a class="cartep__cta" href="#profil" data-ouvrir-bio aria-label="Découvrir mon profil">
-            <span class="cartep__defile" aria-hidden="true">
-              <span>↗</span><span>Découvrir</span><span>↗</span><span>Découvrir</span><span>↗</span><span>Découvrir</span><span>↗</span><span>Découvrir</span><span>↗</span><span>Découvrir</span><span>↗</span><span>Découvrir</span>
-            </span>
-          </a>
-        </div>
-      </article>
-    </div>
-   </div>
-  </div>
   <!-- Panneau des fichiers qui n'ont pas encore de contenu (grand écran). -->
   <div class="doc doc--vide" id="doc-vide" hidden>
    <div class="doc__win">
@@ -16507,7 +16478,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 (function arborescence() {
   const DOSSIERS = window.DOSSIERS_SITE = [
     { nom: 'Bio', projets: [
-      { nom: 'Profil', lien: '#case/profilcarte', couleur: '#9FD3FF' } ] },   // bio, photos et bibliothèque : un seul fichier
+      { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' } ] },   // bio, photos et bibliothèque : un seul fichier
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/shoppers', couleur: '#F05454' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvqcarte', couleur: '#F5C044', img: 'gvq-agenda-920.jpg' },
@@ -17293,25 +17264,6 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (visible) { remettre(); minuteur = setTimeout(suite, 600); }
   }, { threshold: 0.35 }).observe(scene);
 })();
-/* Carte Profil : « Découvrir » ferme la carte et ouvre la bio (texte,
-   photos, bibliothèque), en gardant « Profil » marqué dans la liste. */
-document.addEventListener('click', (e) => {
-  const cta = e.target.closest('[data-ouvrir-bio]');
-  if (!cta) return;
-  e.preventDefault();
-  if (location.hash.startsWith('#case/')) {
-    history.pushState(null, '', location.pathname + location.search);
-    dispatchEvent(new PopStateEvent('popstate'));
-  }
-  const stage = document.getElementById('stage');
-  stage.classList.add('bio-ouverte');
-  const bio = document.querySelector('.profil__bio');
-  if (bio) bio.scrollTop = 0;
-  setTimeout(() => {
-    const f = document.querySelector('.arbo .arbo__fichier[href="#case/profilcarte"]');
-    if (f) { document.querySelectorAll('.arbo .arbo__fichier.est-actif').forEach((x) => x.classList.remove('est-actif')); f.classList.add('est-actif'); }
-  }, 0);
-});
 </script>
 </body>
 </html>
