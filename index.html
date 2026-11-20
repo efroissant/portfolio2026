@@ -8783,6 +8783,19 @@
   @media (prefers-reduced-motion: reduce) { .visionneuse, .visionneuse__img { transition: none; } }
   /* Bibliothèque : séries et films au même format d'affiche (2:3), recadrées. */
   .bio-biblio .shelf__row[data-forme="affiche"] .shelf__art { aspect-ratio: 2 / 3 !important; width: 100%; height: auto; object-fit: cover; }
+  /* Accueil : mon portrait sous « Manu » (≈ 200 px, carré), les dossiers dessous. */
+  .avatar-accueil { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .avatar-accueil {
+      display: block; position: absolute; z-index: 30;
+      left: var(--g-marge, 24px); top: calc(var(--bar-h) + 16px);
+      width: 200px; height: 200px; object-fit: cover; object-position: 50% 18%; border-radius: 6px;
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo {
+      top: calc(var(--bar-h) + 16px + 200px + 24px) !important;
+      max-height: calc(100vh - var(--bar-h) - 16px - 200px - 24px - 56px) !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -9047,6 +9060,8 @@
   <!-- Les dossiers du bureau, en une colonne (grand écran), comme une
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
+  <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
+  <img class="avatar-accueil" src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
   <!-- Accueil : toile infinie de cartes de projets, à faire glisser. -->
   <div class="toile" role="region" aria-label="Projets : faire glisser pour explorer, cliquer pour ouvrir"><p class="toile__aide">Glisse, survole et clique pour explorer.</p></div>
