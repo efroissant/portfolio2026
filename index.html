@@ -8962,7 +8962,7 @@
     if (!r || !r.width) return false;
     const place = { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' };
     Object.assign(sourire.style, place); Object.assign(grain.style, place);
-    if (!sourire.isConnected) ecran.append(sourire, grain);
+    if (!sourire.isConnected) document.body.append(sourire, grain);
     return true;
   }
   const curseur = document.createElement('span');
@@ -8994,8 +8994,12 @@
       b.style.background = COULEURS[hasard(COULEURS.length)][0];
       ecran.append(b);
     }
-    if (sourireActif) {
-      // À 50 %, qui vacille et se décale comme un signal d'écran instable.
+    if (sourireActif) vaciller();
+    minuteur = setTimeout(glitch, 50 + hasard(110));
+  }
+  // Le portrait souriant à 50 %, qui vacille et se décale comme un signal d'écran instable.
+  function vaciller() {
+    {
       const on = Math.random() < 0.8;
       sourire.style.opacity = on ? '0.5' : '0.15';
       grain.style.opacity = on ? '0.9' : '0.4';
@@ -9003,7 +9007,22 @@
       sourire.style.transform = dx ? 'translateX(' + dx + 'px)' : '';
       sourire.style.clipPath = Math.random() < 0.25 ? 'inset(' + hasard(60) + '% 0 ' + hasard(30) + '% 0)' : '';
     }
-    minuteur = setTimeout(glitch, 50 + hasard(110));
+  }
+  // Sur l'accueil : quand mon portrait s'allume, le portrait souriant le
+  // recouvre un instant (grain, lignes d'écran), puis s'efface.
+  function sourireAccueil() {
+    if (calme || !placerSourire()) return;
+    const fin = performance.now() + 1300;
+    (function tic() {
+      if (performance.now() > fin) {
+        sourire.style.transition = grain.style.transition = 'opacity 260ms ease';
+        sourire.style.opacity = grain.style.opacity = '0';
+        setTimeout(() => { sourire.remove(); grain.remove(); }, 320);
+        return;
+      }
+      vaciller();
+      setTimeout(tic, 60 + hasard(110));
+    })();
   }
   function arreterGlitch() {
     glitchActif = false; clearTimeout(minuteur);
@@ -9045,6 +9064,7 @@
     const av = cibles.find((el) => el.matches('.avatar-accueil'));
     const depart = av ? parseFloat(av.style.getPropertyValue('--delai')) || 0 : 0;
     setTimeout(vague, depart + 200);
+    setTimeout(sourireAccueil, depart);
   }
   /* La vague : un éclaboussement dans l'eau du portrait, puis deux anneaux
      de « réfraction » (flou et lumière à travers un anneau) qui s'élargissent
@@ -9075,8 +9095,6 @@
   }
   function suivante() {
     if (i >= LIGNES.length) { finir(); return; }
-    // En fin de démarrage, juste avant l'accueil : le portrait souriant.
-    if (i === LIGNES.length - 3 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '0.5'; grain.style.opacity = '0.9'; }
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
     l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
