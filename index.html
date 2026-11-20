@@ -8796,6 +8796,48 @@
       max-height: calc(100vh - var(--bar-h) - 16px - 200px - 24px - 56px) !important;
     }
   }
+  /* ===== Accueil, à droite : « En ce moment » et aperçu au survol =====
+     Dans l'espace du contenu (colonnes 6 à 11), quand rien n'est ouvert. */
+  .accueil-droite { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite {
+      display: block; position: absolute; z-index: 5;
+      left: var(--col-6); width: calc((100vw - 48px - 11 * 24px) / 12 * 6 + 5 * 24px);
+      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px)); bottom: 64px;
+      color: #1C1917;
+    }
+    .stage:is(.a-un-doc, .bio-ouverte) .accueil-droite { display: none !important; }
+    .en-ce-moment, .apercu { transition: opacity 200ms ease; }
+    .accueil-droite.a-un-apercu .en-ce-moment { opacity: 0; pointer-events: none; }
+    .apercu { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+    .accueil-droite.a-un-apercu .apercu { opacity: 1; }
+    .en-ce-moment__heure {
+      margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
+      font-size: 60px; line-height: 64px; letter-spacing: -0.5px; color: #1C1917;
+    }
+    .en-ce-moment__heure [data-heure] { font-family: "Instrument Serif", Georgia, serif !important; }
+    .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; }
+    .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; max-width: 560px; }
+    .en-ce-moment__liste dt { color: #8F8F8C; margin-bottom: 2px; }
+    .en-ce-moment__liste dd { margin: 0; }
+    .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    /* Aperçu : la carte du projet, ou une image, avec le nom du fichier. */
+    .apercu__nom { margin: 0 0 16px; color: #8F8F8C; }
+    .apercu .cartep { width: 360px; box-shadow: 0 18px 44px rgba(28,25,23,0.16); }
+    .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
+    .apercu .cartep .cartep__titre { margin: 20px 0 0; padding: 0 16px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
+    .apercu .cartep__texte { padding: 40px 16px 18px; }
+    .apercu .cartep__texte p { margin: 0; font-size: 15px; line-height: 21px; }
+    .apercu .cartep__texte .cartep__annee { margin-bottom: 8px; }
+    .apercu .cartep__cta { padding: 10px 0; color: #1C1917; }
+    .apercu .cartep__defile span { font-size: 18px; line-height: 24px; }
+    .apercu__img { display: block; max-width: 100%; max-height: calc(100% - 60px); width: auto; height: auto; border-radius: 6px; }
+    .apercu__grille { display: grid; grid-template-columns: repeat(4, 110px); gap: 16px; }
+    .apercu__grille img { width: 110px; height: 165px; object-fit: cover; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.16); }
+    .apercu__vide { width: 360px; height: 220px; border-radius: 18px; background: #EFEFEF; display: flex; align-items: center; justify-content: center; color: #8F8F8C; }
+    /* La petite vignette qui suivait la souris n'a plus lieu d'être. */
+    .projets-vignette { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -9060,6 +9102,21 @@
   <!-- Les dossiers du bureau, en une colonne (grand écran), comme une
        arborescence : un clic ouvre le dossier, chaque projet est une feuille.
        Le contenu vient de la liste DOSSIERS dans le script. -->
+  <!-- Accueil, à droite : « En ce moment » par défaut ; au survol d'un
+       fichier de la liste, son aperçu en grand. -->
+  <section class="accueil-droite" aria-label="En ce moment">
+    <div class="en-ce-moment">
+      <p class="en-ce-moment__heure">Il est <span data-heure>—</span> à Montréal.</p>
+      <p class="en-ce-moment__activite" data-activite></p>
+      <dl class="en-ce-moment__liste">
+        <div><dt>J’apprends</dt><dd>L’IA et le vibe coding</dd></div>
+        <div><dt>Dernier projet</dt><dd><a href="#case/beaconsfield" data-fichier="#case/beaconsfield">Clinique Médicale Beaconsfield</a>, 2026</dd></div>
+        <div><dt>Basé à</dt><dd>Montréal, Québec</dd></div>
+        <div><dt>Disponibilité</dt><dd>Ouvert aux nouvelles opportunités</dd></div>
+      </dl>
+    </div>
+    <div class="apercu" aria-hidden="true"></div>
+  </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
   <img class="avatar-accueil" src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
   <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
@@ -16799,6 +16856,83 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     else if (e.key === 'ArrowRight') montrer(i + 1);
     else if (e.key === 'ArrowLeft') montrer(i - 1);
   }, true);
+})();
+/* Accueil, à droite : l'heure de Montréal et ce que je fais à cette heure-là ;
+   au survol d'un fichier de la liste, son aperçu en grand. */
+(function accueilDroite() {
+  const zone = document.querySelector('.accueil-droite');
+  const arbo = document.querySelector('.arbo');
+  if (!zone || !arbo) return;
+  const heure = zone.querySelector('[data-heure]'), activite = zone.querySelector('[data-activite]');
+  const apercu = zone.querySelector('.apercu');
+  function maj() {
+    const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
+    const h = d.getHours(), m = d.getMinutes(), jour = d.getDay();
+    heure.textContent = h + ' h ' + String(m).padStart(2, '0');
+    let t;
+    if (h >= 4 && h < 6) t = 'Je suis au gym, avec les amis du matin (oui, à 4 h).';
+    else if (h >= 6 && h < 9) t = 'Café, puis on attaque la journée.';
+    else if (h >= 9 && h < 18 && jour > 0 && jour < 6) t = 'Probablement en train de designer.';
+    else if (h >= 9 && h < 18) t = 'Week-end : je lis, je dessine ou je fouille ma généalogie.';
+    else if (h >= 18 && h < 22) t = 'Soirée en famille, ou un peu d’animation image par image.';
+    else t = 'Je dors : le gym m’attend à 4 h.';
+    activite.textContent = t;
+  }
+  maj(); setInterval(maj, 30000);
+
+  // Aperçus.
+  const copieCarte = (src) => {
+    const c = src.cloneNode(true);
+    c.querySelectorAll('[id]').forEach((e) => e.removeAttribute('id'));
+    const h = c.querySelector('h1');
+    if (h) { const p = document.createElement('p'); p.className = h.className; p.textContent = h.textContent; h.replaceWith(p); }
+    const a = c.querySelector('a');
+    if (a) { const d = document.createElement('div'); d.className = a.className; d.innerHTML = a.innerHTML; a.replaceWith(d); }
+    c.querySelectorAll('.cartep__defile span:nth-child(n+3)').forEach((e) => e.remove());
+    c.querySelector('.cartep__defile') && (c.querySelector('.cartep__defile').style.animation = 'none');
+    return c;
+  };
+  const img = (src, alt) => { const i = document.createElement('img'); i.className = 'apercu__img'; i.src = src; i.alt = alt || ''; return i; };
+  function construire(f) {
+    const h = f.getAttribute('href') || '', nom = f.textContent.trim();
+    const box = document.createDocumentFragment();
+    const titre = document.createElement('p'); titre.className = 'apercu__nom'; titre.textContent = nom;
+    const m = h.match(/^#case\/(\w+)$/);
+    const carte = m && document.querySelector('#doc-' + m[1] + ' .cartep');
+    if (carte) { box.append(copieCarte(carte)); return box; }
+    box.append(titre);
+    if (h === '#profil') box.append(img('profil-plage.jpg'));
+    else if (h === '#profil-photos') box.append(img('livret-mur-photo.jpg'));
+    else if (h === '#profil-bibliotheque') {
+      const g = document.createElement('div'); g.className = 'apercu__grille';
+      [...document.querySelectorAll('.bio-biblio .shelf__row[data-forme="livre"] img')].slice(0, 4).forEach((i) => {
+        const c = document.createElement('img'); c.src = i.currentSrc || i.src; c.alt = ''; g.append(c);
+      });
+      box.append(g);
+    } else { const v = document.createElement('div'); v.className = 'apercu__vide'; v.textContent = 'À venir'; box.append(v); }
+    return box;
+  }
+  let courant = null, sortie = 0;
+  function montrer(f) {
+    clearTimeout(sortie);
+    if (courant === f) return;
+    courant = f;
+    apercu.replaceChildren(construire(f));
+    zone.classList.add('a-un-apercu');
+  }
+  function cacher() {
+    clearTimeout(sortie);
+    sortie = setTimeout(() => { courant = null; zone.classList.remove('a-un-apercu'); }, 120);
+  }
+  arbo.addEventListener('pointerover', (e) => { const f = e.target.closest('.arbo__fichier'); if (f) montrer(f); else cacher(); });
+  arbo.addEventListener('pointerleave', cacher);
+  arbo.addEventListener('focusin', (e) => { const f = e.target.closest('.arbo__fichier'); if (f) montrer(f); });
+  arbo.addEventListener('focusout', cacher);
+  // « Dernier projet » : ouvre la carte, comme le fichier.
+  zone.querySelectorAll('[data-fichier]').forEach((a) => a.addEventListener('click', (e) => {
+    const f = arbo.querySelector('.arbo__fichier[href="' + a.dataset.fichier + '"]');
+    if (f) { e.preventDefault(); f.click(); }
+  }));
 })();
 </script>
 </body>
