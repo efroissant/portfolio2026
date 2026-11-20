@@ -8838,7 +8838,10 @@
     /* La petite vignette qui suivait la souris n'a plus lieu d'être. */
     .projets-vignette { display: none !important; }
   }
+  /* Démarrage : mon portrait souriant, furtif, à la place exacte de celui de l'accueil. */
+  .demarrage__sourire { position: fixed; z-index: 2; object-fit: cover; object-position: 50% 18%; border-radius: 6px; pointer-events: none; opacity: 0; }
 </style>
+<link rel="preload" as="image" href="portrait-sourire.webp">
 </head>
 <body>
 <!-- Démarrage : affiché avant tout le reste (retiré par le script ci-dessous). -->
@@ -8862,6 +8865,19 @@
     ['Site ready', 292]
   ];
   const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Mon portrait souriant apparaît par à-coups dans le glitch, pile à la place
+  // du portrait de l'accueil : on me voit sourire, puis l'accueil s'allume sans.
+  const sourire = new Image();
+  sourire.className = 'demarrage__sourire'; sourire.alt = ''; sourire.src = 'portrait-sourire.webp';
+  let sourireActif = false;
+  function placerSourire() {
+    const av = document.querySelector('.avatar-accueil');
+    const r = av && av.getBoundingClientRect();
+    if (!r || !r.width) return false;
+    Object.assign(sourire.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+    if (!sourire.isConnected) ecran.append(sourire);
+    return true;
+  }
   const curseur = document.createElement('span');
   curseur.className = 'demarrage__curseur';
   let i = 0;
@@ -8890,6 +8906,7 @@
       b.style.background = COULEURS[hasard(COULEURS.length)][0];
       ecran.append(b);
     }
+    if (sourireActif) sourire.style.opacity = Math.random() < 0.7 ? '1' : '0';
     minuteur = setTimeout(glitch, 50 + hasard(110));
   }
   function arreterGlitch() {
@@ -8933,6 +8950,8 @@
   }
   function suivante() {
     if (i >= LIGNES.length) { finir(); return; }
+    // À mi-parcours, le portrait souriant commence à apparaître.
+    if (i === 4 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '1'; }
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
     l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
