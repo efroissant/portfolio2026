@@ -8935,9 +8935,9 @@
   .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
   .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; }
   .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 16px !important; line-height: 24px !important; color: #1C1917; }
-  .stage .doc .uc .uc__enonce, .stage #doc-loblaw .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
+  .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
-  #doc-loblaw .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
 </style>
 </head>
 <body>
@@ -9812,45 +9812,47 @@
     <div class="doc__scroll" id="doc-scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <h1 class="uc__titre" id="doc-gvq-titre">Groupe Voyage Québec</h1>
+          <p class="uc__surtitre">Groupe Voyage Québec</p>
+          <h1 class="uc__titre" id="doc-gvq-titre">Comment vendre un produit qui n’existe pas encore&nbsp;?</h1>
+          <dl class="uc__fiche">
+            <div><dt>Mon rôle</dt><dd>Designer UX/UI<br>Seul en design</dd></div>
+            <div><dt>Équipe</dt><dd>2 PO<br>Devs délocalisés</dd></div>
+            <div><dt>Durée</dt><dd>8 mois, 2024</dd></div>
+            <div><dt>Outils</dt><dd>Figma<br>Jira<br>Miro</dd></div>
+          </dl>
+          <p class="uc__enonce">Un MVP de réservation pour congrès, qui devait convaincre avant d’exister.</p>
+          <p class="uc__corps">Sans produit existant, sans recherche terrain, après trois pages déjà rejetées. Mon rôle&nbsp;: l’expérience du participant, de l’accueil au paiement. Trois choix l’ont rendue évidente.</p>
         </header>
 
-        <section class="uc__bloc uc__apropos">
-          <h2 class="uc__label">À propos</h2>
-          <dl class="uc__meta">
-            <div><dt>Rôle</dt><dd>Designer UX/UI, seul en design</dd></div>
-            <div><dt>Durée</dt><dd>8 mois, 2024</dd></div>
-            <div><dt>Équipe</dt><dd>2 PO, devs délocalisés</dd></div>
-            <div><dt>Outils</dt><dd>Figma, Jira, Miro</dd></div>
-          </dl>
-        </section>
-
         <section class="uc__bloc">
-          <h2 class="uc__label">Le défi</h2>
-          <p class="uc__texte">Concevoir l’expérience du participant, de l’accueil au paiement, pour un MVP qui devait vendre avant d’exister. Sans produit existant, sans recherche terrain, après trois pages déjà rejetées.</p>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Trois décisions qui ont compté</h2>
+          <h2 class="uc__label">En réduisant la charge</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">1</span> Un onglet par jour</h3>
+            <h3 class="uc__sous">Un onglet par jour</h3>
             <p>Quarante sessions de congrès deviennent dix à la fois. Moins de charge, et tout se parcourt au clavier.</p>
           <figure class="uc__figure"><img src="gvq-agenda-920.jpg" srcset="gvq-agenda-1000.jpg 2x" alt="Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante." width="920" height="560" loading="lazy"><figcaption>Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante.</figcaption></figure>
           </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">En restant honnête</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">2</span> Des tags honnêtes sur les hôtels</h3>
+            <h3 class="uc__sous">Des tags clairs sur les hôtels</h3>
             <p><em>Official Hotel</em> nomme la relation commerciale. <em>Almost Gone</em> et <em>On Request</em> montrent la disponibilité. On sert le client sans tromper le participant.</p>
           <figure class="uc__figure"><img src="gvq-tags-920.jpg" srcset="gvq-tags-1500.jpg 2x" alt="Les trois tags et ce que chacun annonce au participant." width="920" height="560" loading="lazy"><figcaption>Les trois tags et ce que chacun annonce au participant.</figcaption></figure>
           </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">En gardant les réflexes</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">3</span> Une mise en page déjà connue</h3>
+            <h3 class="uc__sous">Une mise en page déjà connue</h3>
             <p>Comme Booking ou Expedia&nbsp;: on garde les réflexes des gens, pour qu’ils se concentrent sur leur choix.</p>
           <figure class="uc__figure"><img src="gvq-resultats-920.jpg" srcset="gvq-resultats-1250.jpg 2x" alt="Résultats de recherche : filtres à gauche, cartes hôtel à droite." width="920" height="560" loading="lazy"><figcaption>Résultats de recherche : filtres à gauche, cartes hôtel à droite.</figcaption></figure>
           </div>
         </section>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Résultat</h2>
+          <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__texte">Le MVP a convaincu et a vendu avant d’exister. Groupe Voyage Québec reprend le travail sur la plateforme.</p>
         </section>
 
@@ -9873,40 +9875,38 @@
     <div class="doc__scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <h1 class="uc__titre" id="doc-roche-titre">Roche Diabetes Care</h1>
-        </header>
-
-        <section class="uc__bloc uc__apropos">
-          <h2 class="uc__label">À propos</h2>
-          <dl class="uc__meta">
-            <div><dt>Rôle</dt><dd>Direction artistique, UX/UI</dd></div>
+          <p class="uc__surtitre">Roche Diabetes Care</p>
+          <h1 class="uc__titre" id="doc-roche-titre">Comment placer une pub sans trahir une cause&nbsp;?</h1>
+          <dl class="uc__fiche">
+            <div><dt>Mon rôle</dt><dd>Direction artistique<br>UX/UI</dd></div>
+            <div><dt>Équipe</dt><dd>1 lead UX<br>1 directeur de création</dd></div>
             <div><dt>Durée</dt><dd>1 mois, 2018</dd></div>
-            <div><dt>Équipe</dt><dd>1 lead UX, 1 directeur de création</dd></div>
             <div><dt>Outils</dt><dd>Sketch</dd></div>
           </dl>
-        </section>
+          <p class="uc__enonce">Pour le Mois du diabète, chaque selfie retourné publié déclenchait un don de 5&nbsp;$ à la recherche.</p>
+          <p class="uc__corps">Mais le client imposait aussi une publicité produit. Il fallait qu’elle se voie, sans casser l’élan de ceux qui participaient.</p>
+          <figure class="uc__figure uc__couverture"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"></figure>
+        </header>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Le défi</h2>
-          <p class="uc__texte">Pour le Mois du diabète, chaque selfie retourné publié déclenchait un don de 5&nbsp;$ à la recherche. Le client imposait aussi une publicité produit&nbsp;: il fallait la placer sans trahir la cause.</p>
-          <figure class="uc__figure"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"><figcaption>Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil.</figcaption></figure>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Deux décisions qui ont compté</h2>
+          <h2 class="uc__label">En donnant envie de partager</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">1</span> Laisser les gens s’approprier leur photo</h3>
+            <h3 class="uc__sous">Laisser les gens s’approprier leur photo</h3>
             <p>Texte, émojis, autocollants&nbsp;: plus on s’investit dans une image, plus on la partage.</p>
           </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">En choisissant le bon moment</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">2</span> Placer la pub dans les temps morts</h3>
+            <h3 class="uc__sous">Placer la pub dans les temps morts</h3>
             <p>Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà. Vue, pas subie.</p>
           <figure class="uc__figure"><img src="roche-pub-1145.webp" alt="Les deux points d’insertion de la publicité." width="1145" height="860" loading="lazy"><figcaption>Les deux points d’insertion de la publicité.</figcaption></figure>
           </div>
         </section>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Résultat</h2>
+          <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__texte">Campagne couverte par Strategy Magazine et Newswire Canada.</p>
           <p><a class="uc__lien" href="https://www.newswire.ca/news-releases/roche-diabetes-care-invites-canadians-to-join-the-upsidechallenge-in-support-of-national-diabetes-awareness-month-699286681.html" target="_blank" rel="noopener">Lire le communiqué de presse ↗</a></p>
         </section>
