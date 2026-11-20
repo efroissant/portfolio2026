@@ -8840,6 +8840,20 @@
   }
   /* Démarrage : mon portrait souriant, furtif, à la place exacte de celui de l'accueil. */
   .demarrage__sourire { position: fixed; z-index: 2; object-fit: cover; object-position: 50% 18%; border-radius: 6px; pointer-events: none; opacity: 0; }
+  /* La vague de fin de chargement : un anneau qui « réfracte » ce qu'il traverse. */
+  .vague {
+    position: fixed; z-index: 900; pointer-events: none; border-radius: 50%;
+    -webkit-backdrop-filter: blur(3px) brightness(1.08) saturate(1.35) hue-rotate(-8deg);
+            backdrop-filter: blur(3px) brightness(1.08) saturate(1.35) hue-rotate(-8deg);
+    -webkit-mask-image: radial-gradient(circle, transparent 58%, #000 64%, #000 67%, transparent 73%);
+            mask-image: radial-gradient(circle, transparent 58%, #000 64%, #000 67%, transparent 73%);
+    background: radial-gradient(circle, transparent 60%, rgba(79,163,227,0.10) 65%, transparent 72%);
+  }
+  .vague--seconde {
+    -webkit-mask-image: radial-gradient(circle, transparent 62%, #000 66%, #000 68%, transparent 72%);
+            mask-image: radial-gradient(circle, transparent 62%, #000 66%, #000 68%, transparent 72%);
+  }
+  @media (prefers-reduced-motion: reduce) { .vague { display: none; } }
 </style>
 <link rel="preload" as="image" href="portrait-sourire.webp">
 </head>
@@ -8906,7 +8920,7 @@
       b.style.background = COULEURS[hasard(COULEURS.length)][0];
       ecran.append(b);
     }
-    if (sourireActif) sourire.style.opacity = Math.random() < 0.7 ? '1' : '0';
+    if (sourireActif) sourire.style.opacity = Math.random() < 0.85 ? '1' : '0';
     minuteur = setTimeout(glitch, 50 + hasard(110));
   }
   function arreterGlitch() {
@@ -8944,6 +8958,42 @@
     document.documentElement.classList.remove('avant-allumage');
     const fin = (rang - 1) * 55 + 460;
     setTimeout(() => cibles.forEach((el) => { el.classList.remove('allumage'); el.style.removeProperty('--delai'); }), fin);
+    // Tout est allumé : une vague part de mon portrait et traverse l'écran.
+    setTimeout(vague, fin + 80);
+  }
+  /* La vague : un éclaboussement dans l'eau du portrait, puis deux anneaux
+     de « réfraction » (flou et lumière à travers un anneau) qui s'élargissent
+     jusqu'aux bords de l'écran, comme un mini tsunami. */
+  function vague() {
+    if (calme) return;
+    const av = document.querySelector('.avatar-accueil');
+    const r = av && av.getBoundingClientRect();
+    if (!r || !r.width) return;
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // Éclaboussure sur la photo (l'effet d'eau réagit au pointeur).
+    const ev = (type, x, y) => av.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
+    ev('pointerenter', cx, cy);
+    let k = 0;
+    const tour = setInterval(() => {
+      const a = k * 0.9, rr = 18 + k * 3;
+      ev('pointermove', cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
+      if (++k > 12) { clearInterval(tour); ev('pointerleave', cx, cy); }
+    }, 28);
+    // Les anneaux.
+    const R = Math.hypot(Math.max(cx, innerWidth - cx), Math.max(cy, innerHeight - cy)) + 80;
+    [0, 180].forEach((retard, n) => {
+      const o = document.createElement('div');
+      o.className = 'vague' + (n ? ' vague--seconde' : '');
+      Object.assign(o.style, { left: cx + 'px', top: cy + 'px', width: 2 * R + 'px', height: 2 * R + 'px' });
+      document.body.append(o);
+      const an = o.animate([
+        { transform: 'translate(-50%, -50%) scale(0.04)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(0.55)', opacity: 0.9, offset: 0.45 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
+      ], { duration: 1500, delay: retard, easing: 'cubic-bezier(.2,.6,.3,1)', fill: 'both' });
+      an.onfinish = () => o.remove();
+      setTimeout(() => o.remove(), 2000 + retard);
+    });
   }
   function finir() {
     arreterGlitch();
@@ -8953,8 +9003,8 @@
   }
   function suivante() {
     if (i >= LIGNES.length) { finir(); return; }
-    // À mi-parcours, le portrait souriant commence à apparaître.
-    if (i === 4 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '1'; }
+    // En fin de démarrage, juste avant l'accueil : le portrait souriant.
+    if (i === LIGNES.length - 3 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '1'; }
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
     l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
