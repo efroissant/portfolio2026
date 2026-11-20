@@ -8443,7 +8443,7 @@
       justify-content: stretch !important;
     }
     .stage .doc .doc__page > * { max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
-    .stage.a-un-doc :is(.profil, .profil__image, .photo-eau-gl, .photo-sel--photo) { display: none !important; }
+    .stage.a-un-doc :is(.profil, .profil__image, .profil__image + .photo-eau-gl, .photo-sel--photo) { display: none !important; }
     /* L'horloge reste au-dessus du contenu, et le haut du contenu (en-tête) lui
        laisse sa place à droite, pour ne pas passer dessous. */
     .stage .horloge, .stage .horloge + .photo-sel { z-index: 35 !important; }
@@ -8460,7 +8460,7 @@
   @media (min-width: 1024px) {
     .stage:not(.bio-ouverte) .profil__bio p { visibility: hidden; }
     /* La photo aussi (avec son cadre et son eau) : elle arrive avec la bio. */
-    .stage:not(.bio-ouverte) :is(.profil__image, .photo-eau-gl, .photo-sel--photo) { visibility: hidden !important; }
+    .stage:not(.bio-ouverte) :is(.profil__image, .profil__image + .photo-eau-gl, .photo-sel--photo) { visibility: hidden !important; }
     .stage.bio-ouverte .profil__bio p, .stage.bio-ouverte > .profil__image { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
   }
   @keyframes bio-apparait { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -15957,7 +15957,21 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       if (src === imageChargee || !img.complete || !img.naturalWidth) return;
       gl.bindTexture(gl.TEXTURE_2D, texImage);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      // Photo recadrée (object-fit: cover) : on envoie la partie visible
+      // seulement, sinon l'eau montrerait l'image entière, écrasée.
+      let source = img;
+      const csi = getComputedStyle(img);
+      if (csi.objectFit === 'cover' && img.offsetWidth && img.offsetHeight) {
+        const ew = img.offsetWidth, eh = img.offsetHeight, nw = img.naturalWidth, nh = img.naturalHeight;
+        const k = Math.max(ew / nw, eh / nh), cw = ew / k, ch = eh / k;
+        const pos = csi.objectPosition.split(' ').map((v) => parseFloat(v) / 100);
+        const sx = (nw - cw) * (isFinite(pos[0]) ? pos[0] : 0.5), sy = (nh - ch) * (isFinite(pos[1]) ? pos[1] : 0.5);
+        const c = document.createElement('canvas');
+        c.width = Math.min(1024, Math.round(cw)); c.height = Math.round(c.width * eh / ew);
+        c.getContext('2d').drawImage(img, sx, sy, cw, ch, 0, 0, c.width, c.height);
+        source = c;
+      }
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((w) => gl.texParameteri(gl.TEXTURE_2D, w, gl.CLAMP_TO_EDGE));
@@ -16952,6 +16966,13 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const f = arbo.querySelector('.arbo__fichier[href="' + a.dataset.fichier + '"]');
     if (f) { e.preventDefault(); f.click(); }
   }));
+})();
+/* L'effet d'eau sur mon portrait de l'accueil, comme sur la photo de la bio. */
+(function eauAvatar() {
+  const av = document.querySelector('.avatar-accueil');
+  if (!av) return;
+  const brancher = () => { if (window.eauWebGL) window.eauWebGL(av); };
+  if (av.complete && av.naturalWidth) brancher(); else av.addEventListener('load', brancher, { once: true });
 })();
 </script>
 </body>
