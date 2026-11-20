@@ -8900,6 +8900,21 @@
   }
   .tempete.fini .tempete__fin { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   @media (prefers-reduced-motion: reduce) { .tempete__pop { animation: none; } .tempete.secoue .tempete__fenetre { animation: none; } }
+  /* Un éclair léger sur la photo de la plage : un flash discret et un trait
+     dans les nuages, au survol et quand la tempête du sprint culmine. */
+  .eclair { position: relative; display: block; overflow: hidden; border-radius: 4px; }
+  .eclair__flash { position: absolute; inset: 0; background: #F4F7FF; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+  .eclair__trait {
+    position: absolute; left: 58%; top: 2%; width: 13%; height: 42%; opacity: 0; pointer-events: none; overflow: visible;
+    fill: none; stroke: #F8FAFF; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px rgba(200,220,255,0.9)) drop-shadow(0 0 10px rgba(170,200,255,0.6));
+  }
+  .eclair__trait path + path { stroke-width: 1; }
+  .eclair.eclaire .eclair__flash { animation: eclair-flash 900ms ease-out; }
+  .eclair.eclaire .eclair__trait { animation: eclair-trait 900ms ease-out; }
+  @keyframes eclair-flash { 0% { opacity: 0; } 6% { opacity: .32; } 12% { opacity: .04; } 20% { opacity: .22; } 45%, 100% { opacity: 0; } }
+  @keyframes eclair-trait { 0% { opacity: 0; } 5% { opacity: 1; } 12% { opacity: .15; } 19% { opacity: .9; } 34%, 100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .eclair.eclaire :is(.eclair__flash, .eclair__trait) { animation: none; } }
 </style>
 <link rel="preload" as="image" href="portrait-sourire.webp">
 </head>
@@ -9120,7 +9135,7 @@
         <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
           <div class="bio-photos">
-            <figure class="bio-photo bio-photo--plage"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><figcaption>Le calme…</figcaption></figure>
+            <figure class="bio-photo bio-photo--plage"><span class="eclair"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><span class="eclair__flash" aria-hidden="true"></span><svg class="eclair__trait" viewBox="0 0 60 120" aria-hidden="true"><path d="M34 0 L24 38 L33 40 L18 78 L27 80 L14 120"/><path d="M24 38 L12 52" /><path d="M18 78 L6 90" /></svg></span><figcaption>Le calme…</figcaption></figure>
             <figure class="bio-photo bio-tempete" role="img" aria-label="Animation : une maquette envahie de demandes de changement pendant un sprint, jusqu’à « Sprint terminé ».">
               <div class="tempete" aria-hidden="true">
                 <div class="tempete__fenetre">
@@ -17173,6 +17188,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (i % 5 === 3) scene.style.setProperty('--visuel', ['#D6D3D1', '#BFDBFE', '#FDE68A', '#1C1917'][i % 4]);
     if (i % 6 === 5) scene.style.setProperty('--encre', i % 12 === 5 ? '#2563EB' : '#1C1917');
     if (i >= MESSAGES.length - 4) scene.classList.add('secoue');
+    if (i === MESSAGES.length - 4) document.dispatchEvent(new CustomEvent('tempete:pic'));
     i++;
   }
   function suite() {
@@ -17195,6 +17211,25 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     clearTimeout(minuteur);
     if (visible) { remettre(); minuteur = setTimeout(suite, 600); }
   }, { threshold: 0.35 }).observe(scene);
+})();
+/* L'éclair de la plage : au survol (au plus une fois toutes les 3 s) et
+   quand la tempête du sprint, à côté, arrive à son pic. */
+(function eclair() {
+  const cadre = document.querySelector('.bio-photo--plage .eclair');
+  if (!cadre || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let dernier = 0;
+  function frapper() {
+    const t = performance.now();
+    if (t - dernier < 3000) return;
+    dernier = t;
+    // Le trait tombe un peu ailleurs à chaque fois.
+    const trait = cadre.querySelector('.eclair__trait');
+    trait.style.left = (40 + Math.random() * 40).toFixed(0) + '%';
+    trait.style.transform = 'scaleX(' + (Math.random() < 0.5 ? -1 : 1) + ')';
+    cadre.classList.remove('eclaire'); void cadre.offsetWidth; cadre.classList.add('eclaire');
+  }
+  cadre.addEventListener('pointerenter', frapper);
+  document.addEventListener('tempete:pic', frapper);
 })();
 </script>
 </body>
