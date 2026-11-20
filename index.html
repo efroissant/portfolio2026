@@ -8779,6 +8779,15 @@
     .bio-rayon + .bio-rayon { margin-top: 8px; }
     .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
   }
+  /* Plus de cadre façon Figma dans la bio : la photo de la plage vit dans
+     la section Photos ; la photo déplaçable et sa place sont retirées. */
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image,
+    .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel.photo-sel--photo,
+    .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image + .photo-eau-gl,
+    .stage .profil__place { display: none !important; }
+    .bio-photo--plage img { object-position: 45% 60%; }
+  }
 </style>
 </head>
 <body>
@@ -8953,6 +8962,7 @@
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
           <div class="bio-photos">
             <figure class="bio-photo bio-photo--portrait"><img src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, cheveux en bataille, en sweat à capuche bleu marine" width="600" height="1032" loading="lazy" draggable="false"><figcaption>Moi, en vrai.</figcaption></figure>
+            <figure class="bio-photo bio-photo--plage"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><figcaption>Face à la mer, avant l’orage.</figcaption></figure>
           </div>
         </section>
         <section class="bio-section bio-biblio" id="bio-bibliotheque" aria-labelledby="bio-biblio-titre">
