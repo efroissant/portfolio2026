@@ -8970,10 +8970,10 @@
   let i = 0;
   // Glitch d'écran : fond et texte changent par à-coups irréguliers.
   // Années 80, cassette VHS : magenta, cyan et violet délavés, nuit violette.
-  // Noir, gris et blanc seulement.
+  // Noir, gris et blanc seulement, surtout clair : le noir ne revient que rarement.
   const COULEURS = [
-    ['#0A0A0A', '#F5F5F4'], ['#FFFFFF', '#1C1917'], ['#57534E', '#FFFFFF'],
-    ['#A8A29E', '#0A0A0A'], ['#1C1917', '#D6D3D1'], ['#E7E5E4', '#292524']
+    ['#FFFFFF', '#1C1917'], ['#FFFFFF', '#1C1917'], ['#F5F5F4', '#1C1917'], ['#E7E5E4', '#292524'],
+    ['#D6D3D1', '#1C1917'], ['#FFFFFF', '#1C1917'], ['#A8A29E', '#0A0A0A'], ['#1C1917', '#E7E5E4']
   ]
   const hasard = (n) => Math.floor(Math.random() * n);
   let glitchActif = !calme, derniere = -1, minuteur = 0;
@@ -8995,7 +8995,7 @@
       ecran.append(b);
     }
     if (sourireActif) vaciller();
-    minuteur = setTimeout(glitch, 50 + hasard(110));
+    minuteur = setTimeout(glitch, 90 + hasard(160));
   }
   // Le portrait souriant à 50 %, qui vacille et se décale comme un signal d'écran instable.
   function vaciller() {
