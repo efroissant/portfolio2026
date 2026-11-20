@@ -16480,9 +16480,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 (function arborescence() {
   const DOSSIERS = window.DOSSIERS_SITE = [
     { nom: 'Bio', projets: [
-      { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' },
-      { nom: 'Photos', lien: '#profil-photos', couleur: '#68BEC9' },
-      { nom: 'Bibliothèque', lien: '#profil-bibliotheque', couleur: '#8B5E3C' } ] },
+      { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' } ] },   // bio, photos et bibliothèque : un seul fichier
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/shoppers', couleur: '#F05454' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvqcarte', couleur: '#F5C044', img: 'gvq-agenda-920.jpg' },
@@ -17038,6 +17036,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       if (el && el.offsetTop - bio.scrollTop <= bio.clientHeight * 0.35) actif = h;
     });
     if (fin) actif = sections[sections.length - 1][0];
+    // Section sans fichier dans la liste (tout est sous « Profil ») : Profil reste marqué.
+    if (!document.querySelector('.arbo .arbo__fichier[href="' + actif + '"]')) actif = '#profil';
     document.querySelectorAll('.arbo .arbo__fichier').forEach((a) => {
       const h = a.getAttribute('href') || '';
       if (h.startsWith('#profil')) a.classList.toggle('est-actif', h === actif);
