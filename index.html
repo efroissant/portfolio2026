@@ -8774,6 +8774,7 @@
     .bio-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
     .bio-photo { margin: 0; }
     .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+    .bio-photo--portrait img { object-position: 50% 22%; }
     .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #8F8F8C; }
     .bio-rayon + .bio-rayon { margin-top: 8px; }
     .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
@@ -8950,7 +8951,9 @@
       <div class="bio-suite">
         <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
-          <div class="bio-photos"></div>
+          <div class="bio-photos">
+            <figure class="bio-photo bio-photo--portrait"><img src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, cheveux en bataille, en sweat à capuche bleu marine" width="600" height="1032" loading="lazy" draggable="false"><figcaption>Moi, en vrai.</figcaption></figure>
+          </div>
         </section>
         <section class="bio-section bio-biblio" id="bio-bibliotheque" aria-labelledby="bio-biblio-titre">
           <h2 class="bio-section__titre" id="bio-biblio-titre">Bibliothèque</h2>
