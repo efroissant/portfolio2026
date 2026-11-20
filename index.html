@@ -8925,6 +8925,19 @@
   @keyframes eclair-flash { 0% { opacity: 0; } 6% { opacity: .32; } 12% { opacity: .04; } 20% { opacity: .22; } 45%, 100% { opacity: 0; } }
   @keyframes eclair-trait { 0% { opacity: 0; } 5% { opacity: 1; } 12% { opacity: .15; } 19% { opacity: .9; } 34%, 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .eclair.eclaire :is(.eclair__flash, .eclair__trait) { animation: none; } }
+  /* Étude Pharmaprix : surtitre (le client) et chapeau sous le titre-question. */
+  .stage .doc .uc .uc__surtitre { margin: 0 0 12px; color: #8F8F8C; }
+  .stage .doc .uc .uc__chapeau { margin: 20px 0 32px; max-width: 34em; color: #1C1917; }
+  .stage .doc .uc .uc__tete .uc__titre { margin-bottom: 0; }
+  /* Étude Pharmaprix : hiérarchie « fiche → énoncé → corps », comme la référence.
+     Fiche en 4 colonnes (intitulés en petites capitales grises), un énoncé en
+     grand, puis le texte courant en gris. */
+  .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
+  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; }
+  .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 16px !important; line-height: 24px !important; color: #1C1917; }
+  .stage .doc .uc .uc__enonce, .stage #doc-loblaw .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
+  .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
+  #doc-loblaw .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
 </style>
 </head>
 <body>
@@ -9923,28 +9936,22 @@
     <div class="doc__scroll">
       <article class="doc__page uc">
         <header class="uc__tete">
-          <h1 class="uc__titre" id="doc-loblaw-titre">Pharmaprix (Loblaw)</h1>
+          <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
+          <h1 class="uc__titre" id="doc-loblaw-titre">Où se cachent les erreurs dans un logiciel de pharmacie&nbsp;?</h1>
+          <dl class="uc__fiche">
+            <div><dt>Mon rôle</dt><dd>Designer UX/UI<br>Audit<br>Recherche terrain</dd></div>
+            <div><dt>Équipe</dt><dd>3 designers<br>1 lead<br>8 PO/PA, devs</dd></div>
+            <div><dt>Durée</dt><dd>2 ans ½</dd></div>
+            <div><dt>Outils</dt><dd>Figma<br>Jira<br>Miro</dd></div>
+          </dl>
+          <p class="uc__enonce">Healthwatch servait les pharmaciens depuis 13&nbsp;ans&nbsp;: incohérent, peu sûr, mais familier.</p>
+          <p class="uc__corps">Avant de le refaire, j’ai cherché où il les laissait se tromper&nbsp;: dans l’écran, dans la lumière du comptoir, dans un chiffre mal tapé, et jusque dans un seul champ «&nbsp;Sexe&nbsp;».</p>
           <figure class="uc__figure uc__couverture"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274"></figure>
         </header>
 
-        <section class="uc__bloc uc__apropos">
-          <h2 class="uc__label">À propos</h2>
-          <dl class="uc__meta">
-            <div><dt>Rôle</dt><dd>Designer UX/UI</dd></div>
-            <div><dt>Durée</dt><dd>2 ans ½</dd></div>
-            <div><dt>Équipe</dt><dd>3 designers, 1 lead, 8 PO/PA, devs</dd></div>
-            <div><dt>Outils</dt><dd>Figma, Jira, Miro</dd></div>
-          </dl>
-        </section>
-
         <section class="uc__bloc">
-          <h2 class="uc__label">Le défi</h2>
-          <p class="uc__texte">Remplacer Healthwatch, un outil que les pharmaciens utilisaient depuis 13&nbsp;ans&nbsp;: incohérent, peu sécurisé, mais familier.</p>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Audit</h2>
-          <p>J’ai audité des écrans existants de Healthwatch pour prioriser les changements UX, en classant chaque problème selon son degré d’importance.</p>
+          <h2 class="uc__label">Dans l’écran</h2>
+          <p>J’ai audité Healthwatch écran par écran, et classé chaque problème selon sa gravité.</p>
           <figure class="uc__figure"><img src="lob-audit-healthwatch.jpg" alt="Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit." width="1018" height="698" loading="lazy"><figcaption>Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit.</figcaption></figure>
           <ul class="uc__legende" aria-label="Catégories de l’audit">
             <li><span class="uc__puce uc__puce--a11y"></span>Accessibilité</li>
@@ -9956,20 +9963,6 @@
             <li><span class="uc__pastille uc__pastille--ai" aria-label="Problème 3, architecture de l’information">3</span><span><strong>« Race » présélectionnée.</strong> « Caucasian » par défaut, sans raison clinique&nbsp;: éthiquement contestable.</span></li>
             <li><span class="uc__pastille uc__pastille--a11y" aria-label="Problème 5, accessibilité">5</span><span><strong>Une fenêtre qui bloque le formulaire.</strong> Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
           </ul>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Observation</h2>
-          <p>Sur place, on a suivi le parcours du pharmacien et observé ses conditions de travail. C’est là qu’est apparue la question de l’éclairage intense.</p>
-          <ol class="uc__chaine" aria-label="Effets de l’éclairage intense">
-            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
-          </ol>
-          <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
-          <p class="uc__suite">J’en ai tiré un mode sombre par défaut, pour reposer les yeux. Les retours ont été très positifs, mais l’idée a été mise de côté.</p>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Analyse heuristique</h2>
           <div class="uc__duo">
             <figure class="uc__figure"><img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" loading="lazy"></figure>
             <figure class="uc__figure"><img src="lob-healthwatch-courbes.jpg" alt="Healthwatch : les courbes de croissance à côté du formulaire patient." width="869" height="580" loading="lazy"></figure>
@@ -9999,30 +9992,48 @@
         </section>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Deux décisions qui ont compté</h2>
+          <h2 class="uc__label">Dans la lumière du comptoir</h2>
+          <p>Sur place, en suivant les pharmaciens, une cause d’erreur ne se voyait dans aucun écran&nbsp;: l’éclairage.</p>
+          <ol class="uc__chaine" aria-label="Effets de l’éclairage intense">
+            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
+          </ol>
+          <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
+          <p class="uc__suite">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Dans un chiffre mal tapé</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">1</span> Valider les dosages selon la gravité</h3>
-            <p>Une erreur de saisie, ici, c’est un risque pour le patient.</p>
+            <p>Ici, une faute de frappe peut devenir une erreur de dosage. La validation suit donc la gravité&nbsp;:</p>
             <ul class="uc__liste">
-              <li><span class="uc__puce uc__puce--orange"></span><strong>Orange</strong>&nbsp;: erreur probable (1,5 au lieu de 15). On alerte sans bloquer.</li>
-              <li><span class="uc__puce uc__puce--rouge"></span><strong>Rouge</strong>&nbsp;: chiffre incohérent (50 au lieu de 500&nbsp;mg). On demande de retaper le chiffre.</li>
+              <li><span class="uc__puce uc__puce--orange"></span><strong>Orange</strong>&nbsp;: erreur probable (1,5 au lieu de 15). On alerte, sans bloquer.</li>
+              <li><span class="uc__puce uc__puce--rouge"></span><strong>Rouge</strong>&nbsp;: chiffre incohérent (50 au lieu de 500&nbsp;mg). On demande de retaper.</li>
             </ul>
             <p class="uc__note">Retaper oblige à relire. Un bouton «&nbsp;Confirmer&nbsp;», on le clique sans lire.</p>
           </div>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
           <div class="uc__decision">
-            <h3 class="uc__sous"><span class="uc__num">2</span> Sexe ≠ genre ≠ pronoms</h3>
-            <p>Un seul champ «&nbsp;Sexe&nbsp;» est devenu trois&nbsp;: le sexe pour les dosages, le genre pour l’identité, les pronoms pour l’accueil au comptoir. Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
+            <p>Un champ mélangeait trois informations. Il en est devenu trois&nbsp;:</p>
+            <ul class="uc__liste">
+              <li><strong>Le sexe</strong>, pour calculer les dosages.</li>
+              <li><strong>Le genre</strong>, pour l’identité.</li>
+              <li><strong>Les pronoms</strong>, pour l’accueil au comptoir.</li>
+            </ul>
+            <p class="uc__note">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
           </div>
         </section>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Résultat</h2>
-          <p class="uc__texte">Aux tests, les pharmaciens ont jugé l’interface plus lisible et plus ergonomique que Healthwatch. Le projet a été arrêté faute de budget, mais le logiciel est devenu plus inclusif.</p>
+          <h2 class="uc__label">Ce qu’on a trouvé</h2>
+          <p class="uc__texte">Aux tests, les pharmaciens ont jugé l’interface plus lisible et plus ergonomique que Healthwatch. Le projet a été arrêté faute de budget, mais le logiciel en est sorti plus inclusif.</p>
         </section>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Ce que je ferais autrement</h2>
-          <p>Tester avec les pharmaciens dès le départ, pas au bout de deux ans. Et ne pas laisser coder sans maquettes finalisées.</p>
+          <h2 class="uc__label">Ce que je chercherais autrement</h2>
+          <p>Avec les pharmaciens dès le premier jour, pas au bout de deux ans. Et pas de code sans maquettes finalisées.</p>
         </section>
 
         <p class="uc__fin">Écrans sur demande (confidentialité).</p>
