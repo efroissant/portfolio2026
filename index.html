@@ -8811,6 +8811,8 @@
   .visionneuse__legende { margin: 0; max-width: 60ch; text-align: center; color: #1C1917; font-size: 16px; line-height: 22px; }
   .visionneuse__legende:empty { display: none; }
   @media (prefers-reduced-motion: reduce) { .visionneuse, .visionneuse__img { transition: none; } }
+  /* Bibliothèque : séries et films au même format d'affiche (2:3), recadrées. */
+  .bio-biblio .shelf__row[data-forme="affiche"] .shelf__art { aspect-ratio: 2 / 3 !important; width: 100%; height: auto; object-fit: cover; }
 </style>
 </head>
 <body>
