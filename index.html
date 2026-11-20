@@ -8839,7 +8839,17 @@
     .projets-vignette { display: none !important; }
   }
   /* Démarrage : mon portrait souriant, furtif, à la place exacte de celui de l'accueil. */
-  .demarrage__sourire { position: fixed; z-index: 2; object-fit: cover; object-position: 50% 18%; border-radius: 6px; pointer-events: none; opacity: 0; }
+  .demarrage__sourire { position: fixed; z-index: 2; object-fit: cover; object-position: 50% 18%; border-radius: 6px; pointer-events: none; opacity: 0; filter: contrast(1.15) saturate(0.8); }
+  /* Grain et lignes d'écran par-dessus, qui sautent à chaque image : un portrait
+     capté sur un vieil écran qui décroche. */
+  .demarrage__grain {
+    position: fixed; z-index: 3; border-radius: 6px; pointer-events: none; opacity: 0; mix-blend-mode: overlay;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0 1px, transparent 1px 3px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    animation: demarrage-grain 120ms steps(3) infinite;
+  }
+  @keyframes demarrage-grain { 0% { background-position: 0 0, 0 0; } 33% { background-position: 0 1px, -40px 25px; } 66% { background-position: 0 2px, 30px -35px; } 100% { background-position: 0 0, -15px 10px; } }
   /* La vague de fin de chargement : un anneau qui « réfracte » ce qu'il traverse. */
   .vague {
     position: fixed; z-index: 900; pointer-events: none; border-radius: 50%;
@@ -8944,13 +8954,15 @@
   // du portrait de l'accueil : on me voit sourire, puis l'accueil s'allume sans.
   const sourire = new Image();
   sourire.className = 'demarrage__sourire'; sourire.alt = ''; sourire.src = 'portrait-sourire.webp';
+  const grain = document.createElement('div'); grain.className = 'demarrage__grain';
   let sourireActif = false;
   function placerSourire() {
     const av = document.querySelector('.avatar-accueil');
     const r = av && av.getBoundingClientRect();
     if (!r || !r.width) return false;
-    Object.assign(sourire.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-    if (!sourire.isConnected) ecran.append(sourire);
+    const place = { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' };
+    Object.assign(sourire.style, place); Object.assign(grain.style, place);
+    if (!sourire.isConnected) ecran.append(sourire, grain);
     return true;
   }
   const curseur = document.createElement('span');
@@ -8982,7 +8994,15 @@
       b.style.background = COULEURS[hasard(COULEURS.length)][0];
       ecran.append(b);
     }
-    if (sourireActif) sourire.style.opacity = Math.random() < 0.85 ? '1' : '0';
+    if (sourireActif) {
+      // À 50 %, qui vacille et se décale comme un signal d'écran instable.
+      const on = Math.random() < 0.8;
+      sourire.style.opacity = on ? '0.5' : '0.15';
+      grain.style.opacity = on ? '0.9' : '0.4';
+      const dx = Math.random() < 0.3 ? (hasard(9) - 4) : 0;
+      sourire.style.transform = dx ? 'translateX(' + dx + 'px)' : '';
+      sourire.style.clipPath = Math.random() < 0.25 ? 'inset(' + hasard(60) + '% 0 ' + hasard(30) + '% 0)' : '';
+    }
     minuteur = setTimeout(glitch, 50 + hasard(110));
   }
   function arreterGlitch() {
@@ -9056,7 +9076,7 @@
   function suivante() {
     if (i >= LIGNES.length) { finir(); return; }
     // En fin de démarrage, juste avant l'accueil : le portrait souriant.
-    if (i === LIGNES.length - 3 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '1'; }
+    if (i === LIGNES.length - 3 && !calme && placerSourire()) { sourireActif = true; sourire.style.opacity = '0.5'; grain.style.opacity = '0.9'; }
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
     l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
