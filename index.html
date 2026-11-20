@@ -8497,8 +8497,10 @@
      fixe s'affiche dans la bio, sous le texte, et n'apparaît qu'avec
      Profil. L'horloge est masquée pour le moment. */
   @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image,
-    .stage > .profil__image + .photo-eau-gl, .stage:is([data-state="lock"], [data-state="desktop"]) .photo-sel.photo-sel--libre.photo-sel--photo { display: none !important; }
+    /* La photo déplaçable revient (cadre, poignées, arrondi, eau) quand Profil
+       est ouvert ; la place réservée dans la bio reste vide. */
+    .profil__place .profil__place-img { display: none !important; }
+    .stage .profil__place { width: 80%; }
     .profil__place { position: relative; }
     .profil__place .profil__place-img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
     .stage:not(.bio-ouverte) .profil__place { visibility: hidden; }
@@ -16598,6 +16600,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 /* Ma photo dans Profil : une copie fixe dans la bio, à la place réservée
    sous le texte (la photo du bureau est retirée sur grand écran). */
 (function photoDansProfil() {
+  return;   // la photo déplaçable du bureau a repris sa place
   const place = document.querySelector('.profil__place');
   const photo = document.querySelector('.profil__image');
   if (!place || !photo || place.querySelector('img')) return;
