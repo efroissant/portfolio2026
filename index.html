@@ -8791,6 +8791,25 @@
     .stage .profil__place { display: none !important; }
     .bio-photo--plage img { object-position: 45% 60%; }
   }
+  /* Photos de la bio : un clic les agrandit, le reste de l'écran devient flou. */
+  .bio-photos img { cursor: zoom-in; }
+  .visionneuse {
+    position: fixed; inset: 0; z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    padding: 48px; background: rgba(255,255,255,0.35);
+    -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1);
+    cursor: zoom-out; opacity: 0; transition: opacity 220ms ease;
+  }
+  .visionneuse[hidden] { display: none; }
+  .visionneuse.est-ouverte { opacity: 1; }
+  .visionneuse__img {
+    display: block; max-width: min(92vw, 1400px); max-height: calc(100vh - 140px); width: auto; height: auto;
+    border-radius: 6px; box-shadow: 0 24px 60px rgba(28,25,23,0.28);
+    transform: scale(.96); transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+  }
+  .visionneuse.est-ouverte .visionneuse__img { transform: none; }
+  .visionneuse__legende { margin: 0; max-width: 60ch; text-align: center; color: #1C1917; font-size: 16px; line-height: 22px; }
+  .visionneuse__legende:empty { display: none; }
+  @media (prefers-reduced-motion: reduce) { .visionneuse, .visionneuse__img { transition: none; } }
 </style>
 </head>
 <body>
@@ -8964,7 +8983,7 @@
         <section class="bio-section" id="bio-photos" aria-labelledby="bio-photos-titre">
           <h2 class="bio-section__titre" id="bio-photos-titre">Photos</h2>
           <div class="bio-photos">
-            <figure class="bio-photo bio-photo--portrait"><img src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, cheveux en bataille, en sweat à capuche bleu marine" width="600" height="1032" loading="lazy" draggable="false"><figcaption>Moi, en vrai.</figcaption></figure>
+            <figure class="bio-photo bio-photo--portrait"><img src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" data-grand="portrait-capuche-1163.jpg" alt="Emmanuel de profil, cheveux en bataille, en sweat à capuche bleu marine" width="600" height="1032" loading="lazy" draggable="false"><figcaption>Moi, en vrai.</figcaption></figure>
             <figure class="bio-photo bio-photo--plage"><img src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false"><figcaption>Face à la mer, avant l’orage.</figcaption></figure>
             <p class="bio-photos__inter">Et voici mon chat, en voyage : je le glisse dans mes vacances.</p>
             <figure class="bio-photo bio-photo--pano"><img src="livret-mur-photo.jpg" alt="Emmanuel penché en avant, la main en visière, devant un long mur blanc au pied des palmiers, sous un ciel bleu" width="1774" height="887" loading="lazy" draggable="false"></figure>
@@ -12309,6 +12328,7 @@ const dire = (function () {
       img.src = ph.grand + '-' + ph.tailles[0] + '.jpg';
       img.srcset = ph.grand + '-' + ph.tailles[1] + '.jpg 2x';
       img.alt = ph.alt; img.loading = 'lazy'; img.draggable = false;
+      img.dataset.grand = ph.grand + '-' + ph.tailles[1] + '.jpg';
       const cap = document.createElement('figcaption');
       cap.textContent = ph.nom;
       fig.append(img, cap);
@@ -16765,6 +16785,52 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   bio.addEventListener('scroll', marquer, { passive: true });
   new MutationObserver(marquer).observe(stage, { attributes: true, attributeFilter: ['class'] });
+})();
+/* Visionneuse des photos de la bio : clic pour agrandir, fond flou ;
+   clic n'importe où ou Échap pour fermer, flèches pour passer à la suivante. */
+(function visionneuse() {
+  const grille = document.querySelector('.bio-photos');
+  if (!grille) return;
+  const v = document.createElement('div');
+  v.className = 'visionneuse'; v.hidden = true;
+  v.setAttribute('role', 'dialog'); v.setAttribute('aria-modal', 'true'); v.setAttribute('aria-label', 'Photo agrandie');
+  v.innerHTML = '<img class="visionneuse__img" alt=""><p class="visionneuse__legende"></p>';
+  document.body.appendChild(v);
+  const vi = v.querySelector('img'), vl = v.querySelector('p');
+  let liste = [], i = 0, retour = null;
+  function montrer(n) {
+    i = (n + liste.length) % liste.length;
+    const img = liste[i];
+    vi.src = img.dataset.grand || img.currentSrc || img.src;
+    vi.alt = img.alt;
+    const cap = img.closest('figure') && img.closest('figure').querySelector('figcaption');
+    vl.textContent = cap ? cap.textContent : '';
+  }
+  function ouvrir(img) {
+    liste = [...grille.querySelectorAll('img')];
+    retour = document.activeElement;
+    montrer(liste.indexOf(img));
+    v.hidden = false;
+    requestAnimationFrame(() => v.classList.add('est-ouverte'));
+    v.tabIndex = -1; v.focus();
+  }
+  function fermer() {
+    if (v.hidden) return;
+    v.classList.remove('est-ouverte');
+    setTimeout(() => { v.hidden = true; vi.removeAttribute('src'); }, 220);
+    if (retour && retour.focus) retour.focus();
+  }
+  grille.addEventListener('click', (e) => {
+    const img = e.target.closest('img');
+    if (img) { e.preventDefault(); ouvrir(img); }
+  });
+  v.addEventListener('click', fermer);
+  document.addEventListener('keydown', (e) => {
+    if (v.hidden) return;
+    if (e.key === 'Escape') { e.stopPropagation(); fermer(); }
+    else if (e.key === 'ArrowRight') montrer(i + 1);
+    else if (e.key === 'ArrowLeft') montrer(i - 1);
+  }, true);
 })();
 </script>
 </body>
