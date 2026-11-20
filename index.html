@@ -7081,71 +7081,41 @@
     }
   }
   @media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .mob-carte { transition: none; } }
-  /* ===== TÉLÉPHONE ET TABLETTE : LES QUATRE DOSSIERS EN ACCORDÉON =====
-     Deux rangées de deux. Toucher un dossier déplie ses projets juste sous
-     sa rangée ; un seul ouvert à la fois. */
+  /* ===== TÉLÉPHONE ET TABLETTE : LES DOSSIERS EN LISTE =====
+     Mêmes dossiers que la liste du grand écran (Bio à part, déjà affichée).
+     Un dossier par ligne ; toucher la ligne déplie ses projets juste
+     dessous, sur place. Plusieurs peuvent être ouverts. Grille de 8. */
   .mob-dossiers { display: none; }
   @media (max-width: 1023px) {
     .face-a-mobile .mob-dossiers {
-      display: grid; grid-template-columns: 1fr 1fr; justify-items: center; column-gap: 12px; row-gap: 20px;
-      margin-top: 64px;
+      display: block; list-style: none; margin: 64px 0 0; padding: 0;
+      border-top: 1px solid rgba(28,25,23,0.2);
     }
+    .mob-dossiers > li { border-bottom: 1px solid rgba(28,25,23,0.2); }
     .mob-dossier {
-      position: relative; display: block; width: 116px; height: 88px; padding: 0;
-      border: 0; background: none; cursor: pointer; text-align: left;
-      -webkit-tap-highlight-color: transparent;
+      display: flex; align-items: baseline; gap: 8px; width: 100%;
+      padding: 16px 0; border: 0; background: none; cursor: pointer; text-align: left;
+      color: #1C1917; -webkit-tap-highlight-color: transparent;
     }
-    .mob-dossier__fond {
-      position: absolute; left: 3px; right: 3px; top: 8px; bottom: 5px;
-      background: #F2CF4E; border-radius: 3px 8px 8px 8px;
-    }
-    .mob-dossier__fond::before {   /* l'onglet, à gauche */
-      content: ""; position: absolute; left: 0; top: -8px; width: 42%; height: 11px;
-      background: #F2CF4E; border-radius: 6px 8px 0 0;
-    }
-    .mob-dossier__vignette {
-      /* Presque la taille du dossier, empilées : chacune cache la précédente. */
-      position: absolute; top: 13px; width: 96px; height: 70px; border-radius: 6px;
-      background: var(--fond, #ddd) center top / cover no-repeat;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.18);
-      transform: translateY(var(--y, 0px)) rotate(var(--r, 0deg));
-      transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .mob-dossier__vignette:nth-child(2) { left: 6px;  --r: -4deg; }
-    .mob-dossier__vignette:nth-child(3) { left: 10px; --r: 0deg; }
-    .mob-dossier__vignette:nth-child(4) { left: 14px; --r: 4deg; }
-    .mob-dossier[aria-expanded="true"] .mob-dossier__vignette { --y: -14px; }
-    .mob-dossier[aria-expanded="true"] .mob-dossier__vignette:nth-child(2) { --r: -9deg; }
-    .mob-dossier[aria-expanded="true"] .mob-dossier__vignette:nth-child(4) { --r: 9deg; }
-    .mob-dossier__face {
-      position: absolute; left: 0; right: 0; bottom: 0; height: 58px;
-      display: flex; flex-direction: column; justify-content: flex-end; gap: 3px;
-      padding: 0 8px 8px; border-radius: 8px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,246,206,0.9));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), inset 0 0 0 1px rgba(255,255,255,0.35), 0 10px 18px -12px rgba(0,0,0,0.3);
-      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-    }
-    .mob-dossier__titre { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: 400 14px/1 "Geist", Arial, sans-serif; color: #2B2B2B; letter-spacing: -0.01em; }
-    .mob-dossier__nb { font: 400 10px/1 "Geist", Arial, sans-serif; color: #7A746B; white-space: nowrap; }
-    .mob-dossier:focus-visible { outline: 2px solid #111; outline-offset: 3px; border-radius: 12px; }
+    .mob-dossier__titre { font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
+    .mob-dossier__nb { font: 400 16px/24px "Geist", Arial, sans-serif; color: #7A746B; }
+    .mob-dossier__signe { margin-left: auto; font: 400 16px/24px "Geist", Arial, sans-serif; color: #1C1917; }
+    .mob-dossier:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
 
-    .mob-dossier__panneau { grid-column: 1 / -1; justify-self: stretch; margin: -4px 0 8px; }
+    .mob-dossier__panneau { list-style: none; margin: 0; padding: 0 0 16px; }
     .mob-dossier__panneau[hidden] { display: none; }
-    .mob-dossier__panneau ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(28,25,23,0.2); }
     .mob-ligne {
-      display: grid; grid-template-columns: 56px 1fr; column-gap: 14px; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid rgba(28,25,23,0.12);
-      color: #1C1917; text-decoration: none;
+      display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; align-items: center;
+      padding: 8px 0; color: #1C1917; text-decoration: none;
     }
-    .mob-ligne__vignette { width: 56px; height: 56px; border-radius: 8px; background: var(--fond, #ddd) center top / cover no-repeat; }
-    .mob-ligne__client { display: block; font: 400 13px/1.2 "Geist", Arial, sans-serif; color: #6A6A6A; }
-    .mob-ligne__titre { display: block; margin-top: 2px; font: 400 16px/1.2 "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
+    .mob-ligne__vignette { width: 48px; height: 48px; border-radius: 8px; background: #ddd center top / cover no-repeat; }
+    .mob-ligne__titre { font: 400 16px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
+    .mob-ligne__bientot { display: block; font: 400 13px/16px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-ligne--bientot { color: #A8A29A; }
     .mob-ligne--bientot .mob-ligne__vignette { opacity: 0.45; }
     a.mob-ligne:active { background: rgba(0,0,0,0.03); }
     a.mob-ligne:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
   }
-  @media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .mob-dossier__vignette { transition: none; } }
 
   /* ===== TÉLÉPHONE : LA MUSIQUE EN OPTION =====
      Une note au milieu de la barre. Elle déplie le lecteur en traits du
@@ -9242,7 +9212,7 @@
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
          le script à partir des .dossier : une seule source. Un toucher
          déplie le contenu du dossier sous sa rangée. -->
-    <div class="mob-dossiers" id="mob-dossiers"></div>
+    <ul class="mob-dossiers" id="mob-dossiers" aria-label="Projets"></ul>
     <p class="mob-note">J’utilise l’IA dans mon travail — mon bon sens fait le reste.</p>
     <div class="face-a-mobile__liste" hidden></div>
   </section>
@@ -14106,86 +14076,6 @@ const dire = (function () {
     }
     placerFaceA();
     grandEcran.addEventListener('change', placerFaceA);
-    // Téléphone et tablette : les quatre dossiers, construits à partir de
-    // ceux du grand écran. Deux par rangée ; le panneau d'un dossier se
-    // place sous sa rangée et se déplie au toucher.
-    const mobDossiers = document.getElementById('mob-dossiers');
-    if (mobDossiers) {
-      const TITRES = {
-        gvq: 'Outil de gestion d’événement',
-        loblaw: 'Outil de gestion pharmaceutique',
-        roche: 'Site pour campagne marketing'
-      };
-      const fondDe = (carte) => {
-        const cs = carte.style;
-        return (cs.backgroundImage ? cs.backgroundImage + ', ' : '') +
-               (getComputedStyle(carte).backgroundColor || '#ddd');
-      };
-      const dossiers = [...document.querySelectorAll('.dossier')];
-      const boutons = [], panneaux = [];
-      dossiers.forEach((d, i) => {
-        const nom = d.querySelector('.dossier__titre')?.textContent.trim() || 'Dossier';
-        const cartes = [...d.querySelectorAll('.dossier__carte')];
-        const vrais = cartes.filter((c) => c.dataset.etude);
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'mob-dossier';
-        b.setAttribute('aria-expanded', 'false');
-        b.setAttribute('aria-controls', 'mob-panneau-' + i);
-        b.innerHTML = '<span class="mob-dossier__fond"></span>';
-        cartes.slice(0, 3).forEach((c) => {
-          const v = document.createElement('span');
-          v.className = 'mob-dossier__vignette';
-          v.style.background = fondDe(c);
-          v.style.backgroundSize = 'cover';
-          b.append(v);
-        });
-        const face = document.createElement('span');
-        face.className = 'mob-dossier__face';
-        face.innerHTML = '<span class="mob-dossier__titre"></span><span class="mob-dossier__nb"></span>';
-        face.children[0].textContent = nom;
-        face.children[1].textContent = vrais.length
-          ? vrais.length + (vrais.length > 1 ? ' projets' : ' projet')
-          : cartes.length + ' à venir';
-        b.append(face);
-
-        const p = document.createElement('div');
-        p.className = 'mob-dossier__panneau'; p.id = 'mob-panneau-' + i; p.hidden = true;
-        p.setAttribute('role', 'region'); p.setAttribute('aria-label', 'Dossier ' + nom);
-        const ul = document.createElement('ul');
-        cartes.forEach((c) => {
-          const li = document.createElement('li');
-          const id = c.dataset.etude;
-          const el = document.createElement(id ? 'a' : 'div');
-          el.className = 'mob-ligne' + (id ? '' : ' mob-ligne--bientot');
-          if (id) { el.href = c.getAttribute('href'); el.dataset.etude = id; }
-          el.innerHTML = '<span class="mob-ligne__vignette"></span><span><span class="mob-ligne__client"></span><span class="mob-ligne__titre"></span></span>';
-          el.querySelector('.mob-ligne__vignette').style.background = fondDe(c);
-          el.querySelector('.mob-ligne__vignette').style.backgroundSize = 'cover';
-          // Projet à venir : une seule ligne, « À venir », pas de doublon.
-          el.querySelector('.mob-ligne__client').textContent = id ? c.textContent.trim() : '';
-          el.querySelector('.mob-ligne__titre').textContent = id ? (TITRES[id] || '') : c.textContent.trim();
-          li.append(el); ul.append(li);
-        });
-        p.append(ul);
-        boutons.push(b); panneaux.push(p);
-      });
-      // Ordre dans la grille : deux dossiers, puis leurs deux panneaux.
-      for (let i = 0; i < boutons.length; i += 2) {
-        mobDossiers.append(...boutons.slice(i, i + 2), ...panneaux.slice(i, i + 2));
-      }
-      boutons.forEach((b, i) => b.addEventListener('click', () => {
-        const ouvrir = b.getAttribute('aria-expanded') !== 'true';
-        boutons.forEach((x, j) => { x.setAttribute('aria-expanded', 'false'); panneaux[j].hidden = true; });
-        if (ouvrir) { b.setAttribute('aria-expanded', 'true'); panneaux[i].hidden = false; }
-      }));
-      mobDossiers.addEventListener('click', (ev) => {
-        const a = ev.target.closest('a[data-etude]');
-        if (!a) return;
-        ev.preventDefault();
-        ev.stopPropagation();
-        openEtude(a.dataset.etude, a);
-      });
-    }
     if (faceA) faceA.addEventListener('click', (ev) => {
       const a = ev.target.closest('[data-etude]');
       if (!a) return;
@@ -16280,7 +16170,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
    être ouverts. Une feuille ouvre l'étude de cas. Survol d'une feuille : la
    vignette du projet apparaît, comme pour l'accordéon. */
 (function arborescence() {
-  const DOSSIERS = [
+  const DOSSIERS = window.DOSSIERS_SITE = [
     { nom: 'Bio', projets: [
       { nom: 'Profil', lien: '#profil', couleur: '#EFEFEF' },
       { nom: 'Photos', lien: '#profil-photos', couleur: '#68BEC9' },
@@ -16466,6 +16356,65 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
+  });
+})();
+
+/* Téléphone et tablette : les dossiers en liste, construits à partir des
+   mêmes données que la liste du grand écran (DOSSIERS_SITE). Bio est déjà
+   affichée en haut de page : elle n'a pas de ligne ici. */
+(function dossiersMobile() {
+  const liste = document.getElementById('mob-dossiers');
+  const DOSSIERS = window.DOSSIERS_SITE;
+  if (!liste || !DOSSIERS) return;
+  const existe = (lien) => {
+    const id = (lien.match(/^#case\/(\w[\w-]*)$/) || [])[1];
+    return id && document.getElementById('doc-' + id) ? id : null;
+  };
+  DOSSIERS.filter((d) => d.nom !== 'Bio').forEach((d, i) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'mob-dossier';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'mob-panneau-' + i);
+    btn.innerHTML = '<span class="mob-dossier__titre"></span><span class="mob-dossier__nb"></span><span class="mob-dossier__signe" aria-hidden="true">(+)</span>';
+    btn.children[0].textContent = d.nom;
+    btn.children[1].textContent = String(d.projets.length);
+    const ul = document.createElement('ul');
+    ul.className = 'mob-dossier__panneau'; ul.id = 'mob-panneau-' + i; ul.hidden = true;
+    d.projets.forEach((p) => {
+      const f = document.createElement('li');
+      const id = existe(p.lien);
+      const el = document.createElement(id ? 'a' : 'div');
+      el.className = 'mob-ligne' + (id ? '' : ' mob-ligne--bientot');
+      if (id) el.href = p.lien;
+      el.innerHTML = '<span class="mob-ligne__vignette"></span><span><span class="mob-ligne__titre"></span></span>';
+      const v = el.querySelector('.mob-ligne__vignette');
+      v.style.backgroundColor = p.couleur || '#ddd';
+      if (p.img) v.style.backgroundImage = 'url("' + p.img + '")';
+      el.querySelector('.mob-ligne__titre').textContent = p.nom;
+      if (!id) {
+        const s = document.createElement('span');
+        s.className = 'mob-ligne__bientot'; s.textContent = 'À venir';
+        el.lastElementChild.append(s);
+      }
+      f.append(el); ul.append(f);
+    });
+    btn.addEventListener('click', () => {
+      const ouvrir = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(ouvrir));
+      btn.querySelector('.mob-dossier__signe').textContent = ouvrir ? '(−)' : '(+)';
+      ul.hidden = !ouvrir;
+    });
+    li.append(btn, ul); liste.append(li);
+  });
+  // Un projet ouvre son étude par son adresse, comme sur grand écran.
+  liste.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a.mob-ligne');
+    if (!a) return;
+    ev.preventDefault(); ev.stopPropagation();
+    const h = a.getAttribute('href');
+    if (location.hash !== h) history.pushState(null, '', h);
+    dispatchEvent(new PopStateEvent('popstate'));
   });
 })();
 </script>
