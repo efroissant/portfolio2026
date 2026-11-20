@@ -8433,8 +8433,11 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .arbo {
       left: calc(var(--g-marge, 24px) - 8px) !important;
-      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px)) !important;
-      max-height: calc(100vh - var(--bar-h) - clamp(40px, 16.667vh - 90px, 200px) - 56px) !important;
+      /* « Bio » (le premier dossier) sur la même ligne que le haut du contenu
+         de droite : on remonte la liste de la hauteur du bouton (+) (32 + 6)
+         et du retrait haut du bouton du dossier (3). */
+      top: calc(var(--bar-h) + clamp(40px, 16.667vh - 90px, 200px) - 41px) !important;
+      max-height: calc(100vh - var(--bar-h) - clamp(40px, 16.667vh - 90px, 200px) + 41px - 56px) !important;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: var(--col-6) !important; }
   }
@@ -16361,11 +16364,13 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const r = document.createRange(); r.selectNodeContents(bioP);
     const l = r.getClientRects(); if (!l.length) return;
     const parent = arbo.offsetParent.getBoundingClientRect();
-    // Les dossiers : sur la dernière ligne de la bio, puis 104 px plus bas (120 − 16) ;
-    // le bouton (+) se loge juste au-dessus d'eux.
+    // Le premier dossier (Bio) sur la même ligne que le haut du contenu de
+    // droite (bio, études, bibliothèque) ; le bouton (+) se loge juste au-dessus.
     const bouton = arbo.querySelector('.arbo__tout');
     const h = bouton ? bouton.offsetHeight + 6 : 0;
-    arbo.style.setProperty('--liste-haut', Math.round(l[l.length - 1].top - parent.top - 6 + 104 - h) + 'px');
+    const premier = arbo.querySelector('.arbo__dossier-btn');
+    const pad = premier ? parseFloat(getComputedStyle(premier).paddingTop) || 0 : 0;
+    arbo.style.setProperty('--liste-haut', Math.round(l[0].top - parent.top - pad - h) + 'px');
   }
   caler(); addEventListener('resize', caler); addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
