@@ -9063,7 +9063,7 @@
     // traverse l'écran pendant que les dossiers apparaissent.
     const av = cibles.find((el) => el.matches('.avatar-accueil'));
     const depart = av ? parseFloat(av.style.getPropertyValue('--delai')) || 0 : 0;
-    setTimeout(vague, depart + 200);
+    // (Plus d'éclaboussure au chargement : l'effet d'eau se découvre au survol.)
     setTimeout(sourireAccueil, depart);
   }
   /* La vague : un éclaboussement dans l'eau du portrait, puis deux anneaux
