@@ -8711,16 +8711,16 @@
     .toile__tuile .cartep { transition: transform 220ms cubic-bezier(.2,.7,.2,1), box-shadow 220ms ease; }
     .toile:not(.est-tenue) .toile__tuile:hover .cartep { transform: translateY(-6px) rotate(-0.6deg); box-shadow: 0 18px 40px rgba(28,25,23,0.18); }
     .toile__tuile:focus-visible .cartep { outline: 2px solid #0D99FF; outline-offset: 2px; }
-    :is(.toile, .eventail) .cartep { pointer-events: none; }
-    :is(.toile, .eventail) .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 3px 10px; font-size: 12px; line-height: 16px; }
-    :is(.toile, .eventail) .cartep .cartep__titre { margin: 16px 0 0; padding: 0 14px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
-    :is(.toile, .eventail) .cartep__texte { padding: 28px 14px 14px; }
-    :is(.toile, .eventail) .cartep__texte p { margin: 0; font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    :is(.toile, .eventail) .cartep__texte .cartep__annee { margin-bottom: 6px; }
-    :is(.toile, .eventail) .cartep__cta { padding: 8px 0; color: #1C1917; }
-    :is(.toile, .eventail) .cartep__defile { animation: none !important; gap: 10px; padding-left: 14px; }
-    :is(.toile, .eventail) .cartep__defile span { font-size: 15px; line-height: 20px; }
-    :is(.toile, .eventail) .cartep__defile span:nth-child(n+3) { display: none; }
+    .toile .cartep { pointer-events: none; }
+    .toile .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 3px 10px; font-size: 12px; line-height: 16px; }
+    .toile .cartep .cartep__titre { margin: 16px 0 0; padding: 0 14px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
+    .toile .cartep__texte { padding: 28px 14px 14px; }
+    .toile .cartep__texte p { margin: 0; font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .toile .cartep__texte .cartep__annee { margin-bottom: 6px; }
+    .toile .cartep__cta { padding: 8px 0; color: #1C1917; }
+    .toile .cartep__defile { animation: none !important; gap: 10px; padding-left: 14px; }
+    .toile .cartep__defile span { font-size: 15px; line-height: 20px; }
+    .toile .cartep__defile span:nth-child(n+3) { display: none; }
     /* L'indication, en pastille, en bas au centre ; elle s'efface au premier glissé. */
     .toile__aide {
       position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 2; pointer-events: none;
@@ -8728,13 +8728,6 @@
       box-shadow: 0 6px 24px rgba(28,25,23,0.14); white-space: nowrap; transition: opacity 400ms ease;
     }
     .toile.a-bouge .toile__aide { opacity: 0; }
-    /* La liste des dossiers flotte au-dessus de la toile, dans une pastille blanche. */
-    .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { z-index: 3; }
-    .stage:not(.a-un-doc):not(.bio-ouverte):not(:has(.arbo__dossier-btn[aria-expanded="true"])) .arbo::before {
-      content: ""; position: absolute; z-index: -1; pointer-events: none;
-      inset: -10px -14px -10px -12px;
-      background: #FFFFFF; border-radius: 14px; box-shadow: 0 6px 24px rgba(28,25,23,0.12);
-    }
   }
   /* Carte Shoppers Drug Mart ouverte : la photo de la pharmacienne en fond plein écran. */
   .fond-projet { display: none; }
@@ -8766,67 +8759,8 @@
   }
   #doc-bibliotheque .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
   #doc-bibliotheque .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
-  /* Accueil (rien d'ouvert, dossiers fermés) : les dossiers deviennent de
-     grosses icônes éparpillées sur le bureau, au-dessus de la toile de cartes.
-     Un clic sur un dossier l'ouvre : on repasse alors à la liste, ce dossier
-     déployé. */
-  @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]):not(.a-un-doc):not(.bio-ouverte):not(:has(.arbo__dossier-btn[aria-expanded="true"])) {
-      & .arbo {
-        top: var(--bar-h, 44px) !important; bottom: 56px; left: 0 !important; right: 0; width: auto; max-width: none; max-height: none;
-        overflow: visible; pointer-events: none;
-      }
-      & .arbo::before, & .arbo .arbo__tout { display: none; }
-      & .arbo .arbo__dossiers > li { position: absolute; pointer-events: auto; transform: translate(-50%, -50%); }
-      & .arbo .arbo__dossiers > li:nth-child(1) { left: 9%;  top: 14%; }
-      & .arbo .arbo__dossiers > li:nth-child(2) { left: 27%; top: 58%; }
-      & .arbo .arbo__dossiers > li:nth-child(3) { left: 50%; top: 22%; }
-      & .arbo .arbo__dossiers > li:nth-child(4) { left: 71%; top: 64%; }
-      & .arbo .arbo__dossiers > li:nth-child(5) { left: 88%; top: 18%; }
-      & .arbo .arbo__dossier-btn {
-        flex-direction: column; align-items: center; gap: 8px; padding: 6px; background: none !important; max-width: none;
-      }
-      & .arbo .arbo__dossier-btn svg {
-        width: 104px !important; height: 104px !important;
-        filter: drop-shadow(0 8px 18px rgba(28,25,23,0.22));
-        transition: transform 200ms cubic-bezier(.2,.7,.2,1);
-      }
-      & .arbo .arbo__dossier-btn:hover svg { transform: translateY(-6px) scale(1.04); }
-      & .arbo .arbo__dossiers > li { touch-action: none; }
-      & .arbo .arbo__dossiers > li.est-tenu { z-index: 5; }
-      & .arbo .arbo__dossiers > li.est-tenu .arbo__dossier-btn { cursor: grabbing; }
-      & .arbo .arbo__dossiers > li.est-tenu svg { transform: scale(1.06) !important; filter: drop-shadow(0 18px 30px rgba(28,25,23,0.32)); }
-      & .arbo .arbo__dossier-btn span {
-        background: #FFFFFF; color: #1C1917; border-radius: 999px; padding: 4px 14px;
-        box-shadow: 0 4px 14px rgba(28,25,23,0.12);
-      }
-    }
-  }
   /* Toile de cartes masquée pour le moment (le code reste en place). */
   .stage .toile { display: none !important; }
-  /* Dossiers éparpillés : au survol, les projets du dossier sortent en
-     éventail (mini-cartes) ; un clic sur une carte ouvre le projet. */
-  .eventail { display: none; }
-  @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]):not(.a-un-doc):not(.bio-ouverte):not(:has(.arbo__dossier-btn[aria-expanded="true"])) {
-      & .arbo .arbo__dossiers > li:hover { z-index: 6; }
-      & .eventail { display: block; position: absolute; left: calc(50% + var(--decal, 0px)); top: 50%; width: 0; height: 0; pointer-events: none; }
-      & .eventail__carte {
-        position: absolute; left: -77px; width: 154px; cursor: pointer; outline: none;
-        opacity: 0; pointer-events: none;
-        transition: transform 340ms cubic-bezier(.2,.8,.2,1) var(--d, 0ms), opacity 200ms ease var(--d, 0ms);
-      }
-      & .eventail[data-sens="haut"] .eventail__carte { bottom: 60px; transform-origin: 50% 100%; transform: translate(calc(-1 * var(--decal, 0px)), 70px) scale(.4) rotate(0deg); }
-      & .eventail[data-sens="bas"] .eventail__carte { top: 84px; transform-origin: 50% 0%; transform: translate(calc(-1 * var(--decal, 0px)), -90px) scale(.4) rotate(0deg); }
-      & li:hover:not(.est-tenu) .eventail__carte { opacity: 1; pointer-events: auto; transform: translate(var(--x), var(--y)) rotate(var(--r)); }
-      & li:hover:not(.est-tenu) .eventail__carte:is(:hover, :focus-visible) { z-index: 2; transform: translate(var(--x), calc(var(--y) + var(--leve))) rotate(var(--r)) scale(1.06); }
-      & .eventail__carte .cartep { zoom: 0.55; width: 280px; box-shadow: 0 10px 28px rgba(28,25,23,0.22); }
-      & .eventail__carte:focus-visible .cartep { outline: 3px solid #0D99FF; outline-offset: 3px; }
-      & .eventail .cartep--vide .cartep__titre { margin-top: 28px; }
-      & .eventail .cartep--vide .cartep__texte { padding-top: 80px; color: #8F8F8C; }
-    }
-  }
-  @media (prefers-reduced-motion: reduce) { .eventail__carte { transition: opacity 120ms ease !important; } }
 </style>
 </head>
 <body>
@@ -16734,131 +16668,6 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   let attente = 0;
   addEventListener('resize', () => { clearTimeout(attente); attente = setTimeout(construire, 150); });
   if (document.fonts) document.fonts.ready.then(construire);
-})();
-/* Dossiers éparpillés : on peut les déplacer à la souris. Un glissé ne
-   les ouvre pas ; un simple clic, si. La place choisie est retenue pour ce
-   visiteur (navigateur), en pourcentage de l'écran. */
-(function dossiersDeplacables() {
-  const arbo = document.querySelector('.arbo');
-  if (!arbo) return;
-  const CLE = 'dossiers-places';
-  let places = {};
-  try { places = JSON.parse(localStorage.getItem(CLE) || '{}') || {}; } catch (e) { places = {}; }
-  const nom = (li) => li.querySelector('.arbo__dossier-btn').textContent.trim();
-  const appliquer = () => arbo.querySelectorAll('.arbo__dossiers > li').forEach((li) => {
-    const p = places[nom(li)];
-    if (p) { li.style.left = p[0] + '%'; li.style.top = p[1] + '%'; }
-  });
-  appliquer();
-  new MutationObserver(appliquer).observe(arbo, { childList: true, subtree: false });
-  let li = null, x0 = 0, y0 = 0, bouge = false, empeche = false;
-  arbo.addEventListener('pointerdown', (e) => {
-    const l = e.target.closest('.arbo__dossiers > li');
-    if (!l || e.button !== 0 || getComputedStyle(l).position !== 'absolute') return;
-    if (e.target.closest('.arbo__fichiers, .eventail')) return;
-    li = l; x0 = e.clientX; y0 = e.clientY; bouge = false;
-  });
-  addEventListener('pointermove', (e) => {
-    if (!li) return;
-    if (!bouge && Math.abs(e.clientX - x0) + Math.abs(e.clientY - y0) < 5) return;
-    if (!bouge) { bouge = true; li.classList.add('est-tenu'); }
-    const r = arbo.getBoundingClientRect();
-    const px = Math.min(97, Math.max(3, (e.clientX - r.left) / r.width * 100));
-    const py = Math.min(92, Math.max(6, (e.clientY - r.top) / r.height * 100));
-    li.style.left = px + '%'; li.style.top = py + '%';
-    places[nom(li)] = [Math.round(px * 10) / 10, Math.round(py * 10) / 10];
-  });
-  addEventListener('pointerup', () => {
-    if (!li) return;
-    if (bouge) {
-      empeche = true; li.classList.remove('est-tenu');
-      try { localStorage.setItem(CLE, JSON.stringify(places)); } catch (e) {}
-    }
-    li = null;
-  });
-  // Après un glissé, le clic qui suit n'ouvre pas le dossier.
-  arbo.addEventListener('click', (e) => {
-    if (empeche) { empeche = false; e.stopPropagation(); e.preventDefault(); }
-  }, true);
-})();
-/* Éventail : chaque dossier éparpillé porte les mini-cartes de ses fichiers.
-   Les projets qui ont une carte la reprennent ; les autres ont une carte
-   neutre à leur nom. L'éventail s'ouvre vers le haut, ou vers le bas pour
-   les dossiers près du haut de l'écran, et se décale pour rester visible. */
-(function eventails() {
-  const arbo = document.querySelector('.arbo');
-  if (!arbo) return;
-  const ECART = 118, ANGLE = 9, ARC = 16, DEMI = 77;
-  const miniDe = (f) => {
-    const m = (f.getAttribute('href') || '').match(/^#case\/(\w+)$/);
-    const src = m && document.querySelector('#doc-' + m[1] + ' .cartep');
-    let c;
-    if (src) {
-      c = src.cloneNode(true);
-      c.querySelectorAll('[id]').forEach((e) => e.removeAttribute('id'));
-      const h = c.querySelector('h1');
-      if (h) { const d = document.createElement('p'); d.className = h.className; d.textContent = h.textContent; h.replaceWith(d); }
-      const a = c.querySelector('a');
-      if (a) { const d = document.createElement('div'); d.className = a.className; d.innerHTML = a.innerHTML; a.replaceWith(d); }
-    } else {
-      c = document.createElement('div');
-      c.className = 'cartep cartep--vide';
-      c.style.setProperty('--vert', '#EFEFEF');
-      c.innerHTML = '<div class="cartep__barre"><i></i><i></i><i></i></div><p class="cartep__titre"></p><div class="cartep__texte"><p></p></div>';
-      c.querySelector('.cartep__titre').textContent = f.textContent.trim();
-      c.querySelector('.cartep__texte p').textContent = f.getAttribute('href') === '#profil' ? 'Qui je suis.' : 'À venir.';
-    }
-    c.setAttribute('aria-hidden', 'true');
-    const carte = document.createElement('div');
-    carte.className = 'eventail__carte';
-    carte.tabIndex = -1;
-    carte.setAttribute('role', 'link');
-    carte.setAttribute('aria-label', f.textContent.trim() + ' — ouvrir');
-    carte.appendChild(c);
-    carte.addEventListener('click', (e) => { e.stopPropagation(); f.click(); });
-    return carte;
-  };
-  function construire() {
-    arbo.querySelectorAll('.arbo__dossiers > li').forEach((li) => {
-      if (li.querySelector(':scope > .eventail')) return;
-      const fichiers = [...li.querySelectorAll('.arbo__fichier')];
-      if (!fichiers.length) return;
-      const ev = document.createElement('div');
-      ev.className = 'eventail';
-      ev.dataset.sens = 'haut';
-      const n = fichiers.length;
-      fichiers.forEach((f, i) => {
-        const carte = miniDe(f);
-        const t = i - (n - 1) / 2;
-        carte.style.setProperty('--d', (i * 40) + 'ms');
-        carte.style.setProperty('--x', (t * ECART) + 'px');
-        carte.style.setProperty('--r', (t * ANGLE) + 'deg');
-        carte.dataset.t = t;
-        ev.appendChild(carte);
-      });
-      li.appendChild(ev);
-      li.addEventListener('pointerenter', () => orienter(li, ev));
-    });
-  }
-  function orienter(li, ev) {
-    const r = li.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    const bas = cy < innerHeight * 0.45;
-    ev.dataset.sens = bas ? 'bas' : 'haut';
-    const n = ev.children.length;
-    const demi = ((n - 1) / 2) * ECART + DEMI + 24;
-    const decal = Math.max(demi - cx, Math.min(0, innerWidth - demi - cx));
-    ev.style.setProperty('--decal', Math.round(decal) + 'px');
-    [...ev.children].forEach((c) => {
-      const t = parseFloat(c.dataset.t);
-      c.style.setProperty('--x', (t * ECART + decal) + 'px');
-      c.style.setProperty('--r', ((bas ? -1 : 1) * t * ANGLE) + 'deg');
-      c.style.setProperty('--y', (bas ? Math.abs(t) * ARC * -1 + Math.abs(t) * 0 : Math.abs(t) * ARC) + 'px');
-      c.style.setProperty('--leve', (bas ? 8 : -8) + 'px');
-    });
-  }
-  construire();
-  new MutationObserver(construire).observe(arbo, { childList: true, subtree: true });
 })();
 </script>
 </body>
