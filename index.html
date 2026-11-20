@@ -8815,8 +8815,8 @@
       margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
       font-size: 60px; line-height: 64px; letter-spacing: -0.5px; color: #1C1917;
     }
-    .en-ce-moment__heure [data-heure] { font-family: "Instrument Serif", Georgia, serif !important; }
-    .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; }
+    .en-ce-moment__heure [data-heure] { font-family: "Instrument Serif", Georgia, serif !important; font-variant-numeric: tabular-nums; }
+    .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; max-width: 560px; }
     .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; max-width: 560px; }
     .en-ce-moment__liste dt { color: #8F8F8C; margin-bottom: 2px; }
     .en-ce-moment__liste dd { margin: 0; }
@@ -16901,20 +16901,31 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   if (!zone || !arbo) return;
   const heure = zone.querySelector('[data-heure]'), activite = zone.querySelector('[data-activite]');
   const apercu = zone.querySelector('.apercu');
+  // Ce que je fais, selon l'heure à Montréal (en minutes depuis minuit).
+  const JOURNEE = [
+    [0,        3 * 60 + 45, 'de rêver. Freud y verrait sûrement un message caché ; moi, j’y vois surtout des maquettes.'],
+    [3 * 60 + 45, 4 * 60 + 10, 'de me préparer pour aller au gym.'],
+    [4 * 60 + 10, 6 * 60,      'de m’entraîner.'],
+    [6 * 60,      8 * 60,      'de prendre un café et de gérer mes deux petits gars.'],
+    [8 * 60,      9 * 60,      'de prendre un second café et de vérifier mes courriels.'],
+    [9 * 60,      12 * 60,     'de transformer des post-it en prototypes (et de renommer mes calques, pour une fois).'],
+    [12 * 60,     14 * 60,     'de manger un repas parfaitement équilibré, comme le veut le Guide alimentaire canadien : une moitié de légumes, l’autre de chips.'],
+    [14 * 60,     16 * 60 + 30, 'de tester mes maquettes sur de vrais humains. Ils cliquent toujours ailleurs.'],
+    [16 * 60 + 30, 20 * 60,    'de faire mon shift de parent : bains, devoirs et négociations de haut niveau.'],
+    [20 * 60,     22 * 60,     'de regarder Netflix ou Crave… ou de lire un bon livre.'],
+    [22 * 60,     24 * 60,     'de rêver. Freud y verrait sûrement un message caché ; moi, j’y vois surtout des maquettes.']
+  ];
+  const deux = (n) => String(n).padStart(2, '0');
+  let dernier = '';
   function maj() {
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
-    const h = d.getHours(), m = d.getMinutes(), jour = d.getDay();
-    heure.textContent = h + ' h ' + String(m).padStart(2, '0');
-    let t;
-    if (h >= 4 && h < 6) t = 'Je suis au gym, avec les amis du matin (oui, à 4 h).';
-    else if (h >= 6 && h < 9) t = 'Café, puis on attaque la journée.';
-    else if (h >= 9 && h < 18 && jour > 0 && jour < 6) t = 'Probablement en train de designer.';
-    else if (h >= 9 && h < 18) t = 'Week-end : je lis, je dessine ou je fouille ma généalogie.';
-    else if (h >= 18 && h < 22) t = 'Soirée en famille, ou un peu d’animation image par image.';
-    else t = 'Je dors : le gym m’attend à 4 h.';
-    activite.textContent = t;
+    const h = d.getHours(), m = d.getMinutes(), sec = d.getSeconds();
+    heure.textContent = h + ':' + deux(m) + ':' + deux(sec);
+    const t = h * 60 + m;
+    const ligne = (JOURNEE.find(([a, b]) => t >= a && t < b) || JOURNEE[0])[2];
+    if (ligne !== dernier) { dernier = ligne; activite.textContent = 'Je suis probablement en train ' + ligne; }
   }
-  maj(); setInterval(maj, 30000);
+  maj(); setInterval(maj, 1000);
 
   // Aperçus.
   const copieCarte = (src) => {
