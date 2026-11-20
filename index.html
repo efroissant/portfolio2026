@@ -8756,7 +8756,14 @@
   }
   #doc-bibliotheque .shelf__slot { width: 100% !important; }
   #doc-bibliotheque .shelf__lien, #doc-bibliotheque .shelf__art { width: 100%; }
-  #doc-bibliotheque .shelf__meta { width: 100%; min-height: 0; }
+  /* Titre et auteur toujours visibles, sous chaque couverture, dans le flux :
+     chaque rangée leur fait la place qu'il faut. */
+  #doc-bibliotheque .shelf__row { align-items: start !important; gap: 32px 20px !important; }
+  #doc-bibliotheque .shelf__slot { flex-direction: column; }
+  #doc-bibliotheque .shelf__meta {
+    position: static; width: 100%; min-height: 0; margin-top: 10px;
+    opacity: 1 !important; transform: none !important;
+  }
   #doc-bibliotheque .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
   #doc-bibliotheque .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
   /* Accueil (rien d'ouvert, dossiers fermés) : les dossiers deviennent de
