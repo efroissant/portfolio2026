@@ -9127,19 +9127,19 @@
   }
   /* ===== Pharmaprix, version « à regarder » : une phrase forte par section,
      un visuel (souvent animé), le détail en petit, et beaucoup d'air. ===== */
-  #doc-loblaw .uc .uc__bloc { border-top: 0 !important; padding-top: 112px !important; margin-top: 0 !important; }
-  .stage #doc-loblaw .uc p.uc__fort { margin: 0 0 32px; max-width: 18em; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917 !important; }
-  .stage #doc-loblaw .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 16px !important; line-height: 24px !important; color: #8F8F8C !important; }
-  .stage #doc-loblaw .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
-  #doc-loblaw .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-  .stage #doc-loblaw .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
-  .stage #doc-loblaw .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C; }
-  #doc-loblaw .uc .uc__detail { margin-top: 32px; }
-  #doc-loblaw .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: 999px; font-size: 16px; color: #1C1917; }
-  #doc-loblaw .uc .uc__detail summary::-webkit-details-marker { display: none; }
-  #doc-loblaw .uc .uc__detail summary::after { content: "＋"; }
-  #doc-loblaw .uc .uc__detail[open] summary::after { content: "−"; }
-  #doc-loblaw .uc .uc__detail[open] > :not(summary) { margin-top: 24px; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { border-top: 0 !important; padding-top: 112px !important; margin-top: 0 !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { margin: 0 0 32px; max-width: 18em; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917 !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 16px !important; line-height: 24px !important; color: #8F8F8C !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail { margin-top: 32px; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: 999px; font-size: 16px; color: #1C1917; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::-webkit-details-marker { display: none; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::after { content: "＋"; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail[open] summary::after { content: "−"; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail[open] > :not(summary) { margin-top: 24px; }
   /* La chaîne de la lumière : les étapes apparaissent une à une et s'assombrissent. */
   #doc-loblaw .uc__chaine.uc__anime li { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms ease; }
   #doc-loblaw .uc__chaine.uc__anime.est-vu li { opacity: 1; transform: none; }
@@ -10115,18 +10115,21 @@
           <p class="uc__corps">Treize lignes d’émojis, de 1981 à aujourd’hui, qui défilent en une seconde. On n’a pas le temps de tout lire&nbsp;: c’est voulu. Voici la clé.</p>
         </header>
 
+        <ul class="uc__chiffres" aria-label="En bref">
+          <li><strong>45&nbsp;ans</strong><span>de vie racontés</span></li>
+          <li><strong>13</strong><span>lignes d’émojis</span></li>
+          <li><strong>1&nbsp;s</strong><span>à l’écran, pas plus</span></li>
+        </ul>
+
         <section class="uc__bloc">
           <h2 class="uc__label">Pourquoi des émojis</h2>
-          <ul class="uc__liste">
-            <li><strong>Ils se lisent dans toutes les langues.</strong> Pas besoin de traduire.</li>
-            <li><strong>Ils laissent deviner.</strong> On sourit, on reconnaît, on se pose des questions.</li>
-            <li><strong>Ils ne font pas un CV.</strong> Des phrases, personne ne les lirait en une seconde.</li>
-          </ul>
+          <p class="uc__fort">Des images que tout le monde lit, dans toutes les langues.</p>
+          <p class="uc__petit">Elles laissent deviner, on reconnaît, on se pose des questions. Et elles ne font pas un CV&nbsp;: des phrases, personne ne les lirait en une seconde.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Pourquoi des signes</h2>
-          <p>Cinq signes suffisent pour transformer une suite d’images en phrases&nbsp;:</p>
+          <p class="uc__fort">Cinq signes pour transformer des images en phrases.</p>
           <ul class="uc__liste uc__signes">
             <li><span class="uc__cle-signe">→</span> un passage, d’un lieu ou d’une étape à l’autre&nbsp;;</li>
             <li><span class="uc__cle-signe">+</span> ce qui me compose&nbsp;;</li>
@@ -10138,6 +10141,7 @@
 
         <section class="uc__bloc">
           <h2 class="uc__label">La clé, ligne par ligne</h2>
+          <p class="uc__fort">Ce que chaque ligne raconte.</p>
           <ol class="uc__cle">
             <li><span class="uc__cle-emo" aria-hidden="true">👶 <span class="uc__cle-signe">→</span> 🇫🇷 🌾</span><span><strong>1981.</strong> Une naissance en France, à la campagne.</span></li>
             <li><span class="uc__cle-emo" aria-hidden="true">✏️ <span class="uc__cle-signe">→</span> 🎨</span><span>Un enfant qui dessine sans arrêt.</span></li>
@@ -10157,7 +10161,8 @@
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce que ça dit de mon travail</h2>
-          <p class="uc__texte">Une seconde, pas un mot&nbsp;: la contrainte oblige à choisir l’essentiel, à soigner le rythme et l’ordre de lecture. C’est ce que je fais avec une interface.</p>
+          <p class="uc__fort">Une seconde, pas un mot&nbsp;: il faut choisir l’essentiel.</p>
+          <p class="uc__petit">Choisir, soigner le rythme et l’ordre de lecture&nbsp;: c’est ce que je fais avec une interface.</p>
         </section>
 
         <p class="uc__fin"><a class="uc__lien" href="#" data-revoir-demarrage>Revoir le démarrage ↻</a></p>
@@ -10197,44 +10202,46 @@
             <div><dt>Outils</dt><dd>Figma<br>Jira<br>Miro</dd></div>
           </dl>
           <p class="uc__enonce">Un MVP de réservation pour congrès, qui devait convaincre avant d’exister.</p>
-          <p class="uc__corps">Sans produit existant, sans recherche terrain, après trois pages déjà rejetées. Mon rôle&nbsp;: l’expérience du participant, de l’accueil au paiement. Trois choix l’ont rendue évidente.</p>
+          <p class="uc__corps">Sans produit existant ni recherche terrain. Trois choix ont rendu l’expérience évidente.</p>
         </header>
+
+        <ul class="uc__chiffres" aria-label="En bref">
+          <li><strong>40&nbsp;→&nbsp;10</strong><span>sessions affichées à la fois</span></li>
+          <li><strong>3</strong><span>pages déjà rejetées avant moi</span></li>
+          <li><strong>8&nbsp;mois</strong><span>de l’accueil au paiement</span></li>
+        </ul>
 
         <section class="uc__bloc">
           <h2 class="uc__label">En réduisant la charge</h2>
-          <div class="uc__decision">
-            <h3 class="uc__sous">Un onglet par jour</h3>
-            <p>Quarante sessions de congrès deviennent dix à la fois. Moins de charge, et tout se parcourt au clavier.</p>
+          <p class="uc__fort">Quarante sessions, c’est trop. Dix à la fois, ça se lit.</p>
           <figure class="uc__figure"><img src="gvq-agenda-920.jpg" srcset="gvq-agenda-1000.jpg 2x" alt="Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante." width="920" height="560" loading="lazy"><figcaption>Agenda : un onglet par jour, dix sessions à la fois plutôt que quarante.</figcaption></figure>
-          </div>
+          <p class="uc__petit">Un onglet par jour, et tout se parcourt au clavier.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">En restant honnête</h2>
-          <div class="uc__decision">
-            <h3 class="uc__sous">Des tags clairs sur les hôtels</h3>
-            <p><em>Official Hotel</em> nomme la relation commerciale. <em>Almost Gone</em> et <em>On Request</em> montrent la disponibilité. On sert le client sans tromper le participant.</p>
+          <p class="uc__fort">Dire qui paie, et ce qui reste.</p>
           <figure class="uc__figure"><img src="gvq-tags-920.jpg" srcset="gvq-tags-1500.jpg 2x" alt="Les trois tags et ce que chacun annonce au participant." width="920" height="560" loading="lazy"><figcaption>Les trois tags et ce que chacun annonce au participant.</figcaption></figure>
-          </div>
+          <p class="uc__petit"><strong>Official Hotel</strong> nomme la relation commerciale. <strong>Almost Gone</strong> et <strong>On Request</strong> montrent la disponibilité. On sert le client sans tromper le participant.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">En gardant les réflexes</h2>
-          <div class="uc__decision">
-            <h3 class="uc__sous">Une mise en page déjà connue</h3>
-            <p>Comme Booking ou Expedia&nbsp;: on garde les réflexes des gens, pour qu’ils se concentrent sur leur choix.</p>
+          <p class="uc__fort">Ne pas réinventer ce que les gens savent déjà faire.</p>
           <figure class="uc__figure"><img src="gvq-resultats-920.jpg" srcset="gvq-resultats-1250.jpg 2x" alt="Résultats de recherche : filtres à gauche, cartes hôtel à droite." width="920" height="560" loading="lazy"><figcaption>Résultats de recherche : filtres à gauche, cartes hôtel à droite.</figcaption></figure>
-          </div>
+          <p class="uc__petit">Une mise en page à la Booking ou Expedia&nbsp;: les gens gardent leurs réflexes et se concentrent sur leur choix.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
-          <p class="uc__texte">Le MVP a convaincu et a vendu avant d’exister. Groupe Voyage Québec reprend le travail sur la plateforme.</p>
+          <p class="uc__fort">Le MVP a vendu avant d’exister.</p>
+          <p class="uc__petit">Groupe Voyage Québec reprend le travail sur la plateforme.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce que je ferais autrement</h2>
-          <p>Tester avec de vrais participants et mesurer les pages clés. Le produit vend&nbsp;; il reste à prouver qu’il performe.</p>
+          <p class="uc__fort">Tester avec de vrais participants.</p>
+          <p class="uc__petit">Et mesurer les pages clés&nbsp;: le produit vend, il reste à prouver qu’il performe.</p>
         </section>
       </article>
     </div>
@@ -10265,32 +10272,35 @@
           <figure class="uc__figure uc__couverture"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"></figure>
         </header>
 
+        <ul class="uc__chiffres" aria-label="En bref">
+          <li><strong>5&nbsp;$</strong><span>donnés à la recherche par selfie publié</span></li>
+          <li><strong>2</strong><span>moments choisis pour la publicité</span></li>
+          <li><strong>1&nbsp;mois</strong><span>de l’idée à la mise en ligne</span></li>
+        </ul>
+
         <section class="uc__bloc">
           <h2 class="uc__label">En donnant envie de partager</h2>
-          <div class="uc__decision">
-            <h3 class="uc__sous">Laisser les gens s’approprier leur photo</h3>
-            <p>Texte, émojis, autocollants&nbsp;: plus on s’investit dans une image, plus on la partage.</p>
-          </div>
+          <p class="uc__fort">Plus on s’investit dans une image, plus on la partage.</p>
+          <p class="uc__petit">Texte, émojis, autocollants&nbsp;: chacun s’approprie son selfie retourné.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">En choisissant le bon moment</h2>
-          <div class="uc__decision">
-            <h3 class="uc__sous">Placer la pub dans les temps morts</h3>
-            <p>Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà. Vue, pas subie.</p>
+          <p class="uc__fort">Une pub vue, pas subie.</p>
           <figure class="uc__figure"><img src="roche-pub-1145.webp" alt="Les deux points d’insertion de la publicité." width="1145" height="860" loading="lazy"><figcaption>Les deux points d’insertion de la publicité.</figcaption></figure>
-          </div>
+          <p class="uc__petit">Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
-          <p class="uc__texte">Campagne couverte par Strategy Magazine et Newswire Canada.</p>
+          <p class="uc__fort">Une campagne reprise par Strategy Magazine et Newswire Canada.</p>
           <p><a class="uc__lien" href="https://www.newswire.ca/news-releases/roche-diabetes-care-invites-canadians-to-join-the-upsidechallenge-in-support-of-national-diabetes-awareness-month-699286681.html" target="_blank" rel="noopener">Lire le communiqué de presse ↗</a></p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce que je ferais autrement</h2>
-          <p>Réduire le formulaire marketing imposé&nbsp;: chaque champ est un risque d’abandon.</p>
+          <p class="uc__fort">Moins de champs, moins d’abandons.</p>
+          <p class="uc__petit">Réduire le formulaire marketing imposé&nbsp;: chaque champ est un risque d’abandon.</p>
         </section>
       </article>
     </div>
