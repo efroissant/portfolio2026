@@ -9029,7 +9029,8 @@
   /* Essai : l'étude « Le démarrage » présentée dans une carte (fenêtre jaune,
      trois points), comme les cartes de projets. */
   .stage .doc .doc__page.uc--carte {
-    background: var(--carte, #FFD84D); border-radius: 18px; overflow: hidden; padding: 0 0 48px !important;
+    /* Sans couleur : fond blanc, trait fin, la barre à trois points garde la structure. */
+    background: #FFFFFF; border: 1px solid rgba(28,25,23,0.18); border-radius: 18px; overflow: hidden; padding: 0 0 48px !important;
   }
   .stage .doc .doc__page.uc--carte > :first-child { padding-right: 16px; }
   /* De l'air autour du texte : 40 px de chaque côté, 40 px sous la barre.
