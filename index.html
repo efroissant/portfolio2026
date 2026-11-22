@@ -9023,6 +9023,9 @@
   .uc .uc__signes .uc__cle-signe { display: inline-block; width: 1.4em; color: #1C1917; }
   .apercu__question { margin: 0 0 24px; max-width: 14em; font-family: "Instrument Serif", Georgia, serif !important; font-size: 48px; line-height: 52px; letter-spacing: -0.4px; color: #1C1917; }
   .apercu .apercu__img--etude { max-height: 260px; max-width: 460px; object-fit: cover; }
+  .en-ce-moment__heure [data-heure] span { font-family: inherit !important; }
+  .en-ce-moment__heure .heure__chiffre { display: inline-block; width: 0.46em; text-align: center; }
+  .en-ce-moment__heure .heure__sep { display: inline-block; width: 0.26em; text-align: center; }
 </style>
 </head>
 <body>
@@ -17390,12 +17393,17 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   ];
   const deux = (n) => String(n).padStart(2, '0');
   let dernier = '';
+  // Chaque chiffre dans une case de largeur fixe : 41, 42 ou 11, l'heure
+  // garde exactement la même largeur, quelle que soit la police chargée.
+  function ecrireHeure(t) {
+    heure.innerHTML = t.split('').map((c) => '<span class="' + (c === ':' ? 'heure__sep' : 'heure__chiffre') + '">' + c + '</span>').join('');
+  }
   let affole = false;
   function maj() {
     if (affole) return;
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
     const h = d.getHours(), m = d.getMinutes(), sec = d.getSeconds();
-    heure.textContent = deux(h) + ':' + deux(m) + ':' + deux(sec);
+    ecrireHeure(deux(h) + ':' + deux(m) + ':' + deux(sec));
     const t = h * 60 + m;
     const ligne = (JOURNEE.find(([a, b]) => t >= a && t < b) || JOURNEE[0])[2];
     if (ligne !== dernier) { dernier = ligne; activite.textContent = 'Je suis probablement en train ' + ligne; }
@@ -17425,15 +17433,13 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     heure.textContent = t;
     heure.style.minWidth = Math.ceil(max) + 'px';
   }
-  fixerLargeur(); addEventListener('resize', fixerLargeur);
-  if (document.fonts) document.fonts.ready.then(fixerLargeur);
   let tourne = 0, derniere = -1;
   function affoler() {
     let k; do { k = Math.floor(Math.random() * VILLES.length); } while (k === derniere);
     derniere = k;
     const [nom, tz] = VILLES[k];
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));
-    heure.textContent = deux(d.getHours()) + ':' + deux(d.getMinutes()) + ':' + deux(d.getSeconds());
+    ecrireHeure(deux(d.getHours()) + ':' + deux(d.getMinutes()) + ':' + deux(d.getSeconds()));
     ville.textContent = nom;
   }
   if (ville && ligneHeure) {
