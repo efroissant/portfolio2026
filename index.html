@@ -9439,7 +9439,7 @@
     html body .stage #doc-loblaw .uc__intro > .cartep__barre { grid-row: 1; }
     html body .stage #doc-loblaw .uc__intro > .cartep__tags { grid-row: 2; }
     html body .stage #doc-loblaw .uc__intro .cartep__texte { display: contents !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__titre { grid-column: 2; grid-row: 4; align-self: last baseline; justify-self: end; text-align: right; font-size: 68px !important; line-height: 60px !important; letter-spacing: -0.04em !important; white-space: nowrap; margin: 0 !important; padding: 0 16px 0 8px !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__titre { grid-column: 2; grid-row: 4; align-self: last baseline; justify-self: end; text-align: right; font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.04em !important; white-space: nowrap; margin: 0 !important; padding: 0 16px 0 8px !important; }
     html body .stage #doc-loblaw .uc__intro .cartep__annee { grid-column: 1; grid-row: 4; align-self: last baseline; font-size: 16px !important; line-height: 24px !important; margin: 0 !important; padding: 0 0 0 16px !important; white-space: nowrap; }
     html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { grid-column: 1 / -1; grid-row: 5; margin: 16px 16px 8px !important; }
     html body .stage #doc-loblaw .uc__intro-fiche { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin: 0; padding-top: 12px; border-top: 1.5px solid #1C1917; }
@@ -9554,6 +9554,14 @@
 
     /* Note de fin : une petite carte, en bas. */
     html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__fin { grid-row: 2 !important; width: calc(var(--col) * 3 + 48px) !important; padding: 24px !important; background: #F7F6F4 !important; display: flex !important; align-items: flex-end; }
+  }
+  /* Carte d'intro Pharmaprix : fond noir (#1C1917, le noir du site), tout en blanc. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw .uc__intro, html body .stage #doc-loblaw .uc__intro :is(p, li, dt, dd, .cartep__titre, .cartep__annee) { color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__barre { border-bottom-color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__barre i { background: #FFFFFF !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__tags li { border-color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { border-top-color: #FFFFFF !important; }
   }
 </style>
 </head>
@@ -10700,7 +10708,7 @@
     <div class="doc__scroll">
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="cartep uc__intro" style="--vert: #F56060">
+        <div class="cartep uc__intro" style="--vert: #1C1917">
           <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
           <ul class="cartep__tags" aria-label="Expertises"><li>Design UX/UI</li><li>Recherche</li><li>Logiciel métier</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
           <p class="cartep__titre">Shoppers<br>Drug<br>Mart</p>
