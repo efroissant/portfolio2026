@@ -9049,8 +9049,10 @@
   .stage .doc .uc--carte .uc__bloc { border-top-color: rgba(28,25,23,0.2); }
   /* Les cartes d'études vont jusqu'à la dernière colonne (colonnes 6 à 12). */
   @media (min-width: 1024px) {
+    /* Plus près du menu : de la colonne 5 à la 12. */
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc {
-      width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important;
+      left: calc(24px + ((100vw - 48px - 11 * 24px) / 12 + 24px) * 4) !important;
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 8 + 7 * 24px) !important;
     }
   }
   /* Aperçu de Profil : une grande icône de fichier (trait noir, coin plié en haut à droite). */
@@ -9152,8 +9154,16 @@
   #doc-loblaw .uc__chaine li:nth-child(1) .uc__etape { background: #FEF3C7; border-color: #FCD34D; color: #78350F; }
   #doc-loblaw .uc__chaine li:nth-child(2) .uc__etape { background: #FDBA74; border-color: #FB923C; color: #7C2D12; }
   #doc-loblaw .uc__chaine li:nth-child(3) .uc__etape { background: #F97316; border-color: #EA580C; color: #FFFFFF; }
-  #doc-loblaw .uc__chaine li:nth-child(4) .uc__etape { background: #DC2626; border-color: #B91C1C; color: #FFFFFF; }
-  #doc-loblaw .uc__chaine li:nth-child(5) .uc__etape { background: #7F1D1D; border-color: #7F1D1D; color: #FFFFFF; }
+  /* « Erreurs » : rouge vif, et un petit tremblement quand il apparaît. */
+  #doc-loblaw .uc__chaine li:nth-child(4) .uc__etape { background: #FF1F1F; border-color: #E00000; color: #FFFFFF; font-weight: 500; display: inline-block; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(4) .uc__etape { animation: erreur-tremble 520ms ease-in-out 1.75s both; }
+  @keyframes erreur-tremble {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    15% { transform: translateX(-5px) rotate(-2deg); } 30% { transform: translateX(5px) rotate(2deg); }
+    45% { transform: translateX(-4px) rotate(-1.5deg); } 60% { transform: translateX(3px) rotate(1deg); }
+    75% { transform: translateX(-2px); } 90% { transform: translateX(1px); }
+  }
+  @media (prefers-reduced-motion: reduce) { #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(4) .uc__etape { animation: none; } }
   /* Le champ de dosage animé. */
   .dose { padding: 40px; border-radius: 12px; background: #F5F5F4; }
   .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 14px !important; line-height: 18px !important; color: #57534E; }
@@ -10446,7 +10456,7 @@
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
           <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
           <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
-            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
+            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
           <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
           <p class="uc__petit">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
