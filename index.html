@@ -7050,6 +7050,11 @@
     }
     /* Accueil : titre, heure à Montréal, activité, puis les quatre infos
        en deux colonnes. Grille de 8. */
+    /* Grille de 4 colonnes : marges et gouttières de 16 px. --col est la
+       largeur d'une colonne, à utiliser en calc() dans tout l'accueil. */
+    .stage[data-state="lock"] .face-a-mobile {
+      --gout: 16px; --col: calc((100% - 3 * var(--gout)) / 4);
+    }
     .face-a-mobile .mob-accueil { display: block; margin: 0 0 64px; color: #1C1917; }
     .face-a-mobile img.face-a-mobile__photo {
       display: block; width: 100%; height: auto; aspect-ratio: 3 / 2;
@@ -7058,7 +7063,8 @@
     }
     /* Mon portrait, comme sous « Manu » au grand écran : carré, même cadrage. */
     .mob-portrait {
-      display: block; width: 120px; height: 120px; margin: 0 0 24px;
+      /* 2 colonnes de large, carré. */
+      display: block; width: calc(2 * var(--col) + var(--gout)); height: auto; aspect-ratio: 1; margin: 0 0 32px;
       object-fit: cover; object-position: 50% 18%; border-radius: 6px;
     }
     .mob-titre { margin: 0 0 32px; font: 400 16px/24px "Geist", Arial, sans-serif; }
@@ -7066,9 +7072,10 @@
       margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
       font-size: 40px; line-height: 48px; letter-spacing: -0.5px;
     }
+    .mob-accueil .en-ce-moment__ville { display: block; }
     .mob-accueil .en-ce-moment__heure [data-heure] { font-family: inherit !important; font-variant-numeric: tabular-nums; }
     .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #8F8F8C; font-size: 16px; line-height: 24px; }
-    .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin: 0; font-size: 16px; line-height: 24px; }
+    .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--gout); margin: 0; font-size: 16px; line-height: 24px; }
     .mob-accueil .en-ce-moment__liste dt { color: #8F8F8C; }
     .mob-accueil .en-ce-moment__liste dd { margin: 0; }
     .mob-accueil .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -7091,7 +7098,7 @@
     .mob-carte:active { transform: scale(0.985); }
     .mob-carte:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
     .face-a-mobile .mob-note {
-      display: block; margin: 60px 0 0; text-align: center;
+      display: block; margin: 64px 0 0; text-align: center;
       font: 400 16px/1.35 "Geist", Arial, sans-serif; color: #1C1917;
     }
   }
@@ -7120,10 +7127,10 @@
     .mob-dossier__panneau { list-style: none; margin: 0; padding: 0 0 16px; }
     .mob-dossier__panneau[hidden] { display: none; }
     .mob-ligne {
-      display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; align-items: center;
+      display: grid; grid-template-columns: var(--col) 1fr; column-gap: var(--gout); align-items: center;
       padding: 8px 0; color: #1C1917; text-decoration: none;
     }
-    .mob-ligne__vignette { width: 48px; height: 48px; border-radius: 8px; background: #ddd center top / cover no-repeat; }
+    .mob-ligne__vignette { width: 100%; height: auto; aspect-ratio: 1; border-radius: 8px; background: #ddd center top / cover no-repeat; }
     .mob-ligne__titre { font: 400 16px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-ligne__bientot { display: block; font: 400 13px/16px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-ligne--bientot { color: #A8A29A; }
@@ -7167,8 +7174,8 @@
     .stage[data-state="lock"] .note-mobile.note-mobile {
       position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px);
     }
-    /* La bio commence 104 px sous la barre (40 + 64). */
-    .stage[data-state="lock"] .face-a-mobile { margin-top: calc(var(--nav-h) + 104px); }
+    /* L'accueil commence 32 px sous la barre. */
+    .stage[data-state="lock"] .face-a-mobile { margin-top: calc(var(--nav-h) + 32px); }
     .stage[data-state="lock"] .radio.est-ouvert {
       display: block; position: fixed; z-index: 40;
       top: calc(var(--nav-h) + 4px); left: 16px; right: 16px; padding: 12px 14px 10px;
@@ -8811,6 +8818,9 @@
       max-height: calc(100vh - var(--bar-h) - 16px - 200px - 24px - 56px) !important;
     }
   }
+  /* « à Montréal. » dans son propre span (pour passer à la ligne sur
+     mobile) : il garde la police de l'heure, sur toutes les tailles. */
+  .en-ce-moment__heure .en-ce-moment__ville { font-family: "Instrument Serif", Georgia, serif !important; }
   /* ===== Accueil, à droite : « En ce moment » et aperçu au survol =====
      Dans l'espace du contenu (colonnes 6 à 11), quand rien n'est ouvert. */
   .accueil-droite { display: none; }
@@ -9310,7 +9320,7 @@
        fichier de la liste, son aperçu en grand. -->
   <section class="accueil-droite" aria-label="En ce moment">
     <div class="en-ce-moment">
-      <p class="en-ce-moment__heure">Il est <span data-heure>—</span> à Montréal.</p>
+      <p class="en-ce-moment__heure">Il est <span data-heure>—</span> <span class="en-ce-moment__ville">à Montréal.</span></p>
       <p class="en-ce-moment__activite" data-activite></p>
       <dl class="en-ce-moment__liste">
         <div><dt>J’apprends</dt><dd>L’IA et le vibe coding</dd></div>
