@@ -7084,6 +7084,7 @@
     }
     .mob-accueil .en-ce-moment__ville { display: block; }
     .mob-accueil .en-ce-moment__heure [data-heure] { font-family: inherit !important; font-variant-numeric: tabular-nums; }
+    .mob-accueil .en-ce-moment__heure [data-ville] { font-family: inherit !important; }
     .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #8F8F8C; font-size: 16px; line-height: 24px; }
     .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--gout); margin: 0; font-size: 16px; line-height: 24px; }
     .mob-accueil .en-ce-moment__liste dt { color: #8F8F8C; }
@@ -8878,6 +8879,8 @@
       font-size: 60px; line-height: 64px; letter-spacing: -0.5px; color: #1C1917;
     }
     .en-ce-moment__heure [data-heure] { font-family: "Instrument Serif", Georgia, serif !important; font-variant-numeric: tabular-nums; }
+    .en-ce-moment__heure [data-ville] { font-family: "Instrument Serif", Georgia, serif !important; }
+    .en-ce-moment__heure { cursor: default; }
     .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; max-width: 560px; }
     .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; max-width: 560px; }
     .en-ce-moment__liste dt { color: #8F8F8C; margin-bottom: 2px; }
@@ -9384,7 +9387,7 @@
        fichier de la liste, son aperçu en grand. -->
   <section class="accueil-droite" aria-label="En ce moment">
     <div class="en-ce-moment">
-      <p class="en-ce-moment__heure">Il est <span data-heure>—</span> <span class="en-ce-moment__ville">à Montréal.</span></p>
+      <p class="en-ce-moment__heure">Il est <span data-heure>—</span> <span class="en-ce-moment__ville">à <span data-ville>Montréal</span>.</span></p>
       <p class="en-ce-moment__activite" data-activite></p>
       <dl class="en-ce-moment__liste">
         <div><dt>J’apprends</dt><dd>L’IA et le vibe coding</dd></div>
@@ -17379,7 +17382,9 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   ];
   const deux = (n) => String(n).padStart(2, '0');
   let dernier = '';
+  let affole = false;
   function maj() {
+    if (affole) return;
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
     const h = d.getHours(), m = d.getMinutes(), sec = d.getSeconds();
     heure.textContent = h + ':' + deux(m) + ':' + deux(sec);
@@ -17388,6 +17393,39 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (ligne !== dernier) { dernier = ligne; activite.textContent = 'Je suis probablement en train ' + ligne; }
   }
   maj(); setInterval(maj, 1000);
+
+  // Au survol de l'heure ou de « Montréal », tout s'affole : les villes du
+  // monde défilent à toute vitesse, chacune avec son heure. On sort : retour
+  // à Montréal.
+  const ville = zone.querySelector('[data-ville]');
+  const ligneHeure = zone.querySelector('.en-ce-moment__heure');
+  const VILLES = [
+    ['Tokyo', 'Asia/Tokyo'], ['Paris', 'Europe/Paris'], ['New York', 'America/New_York'],
+    ['Londres', 'Europe/London'], ['Sydney', 'Australia/Sydney'], ['Dubaï', 'Asia/Dubai'],
+    ['São Paulo', 'America/Sao_Paulo'], ['Mumbai', 'Asia/Kolkata'], ['Séoul', 'Asia/Seoul'],
+    ['Reykjavik', 'Atlantic/Reykjavik'], ['Honolulu', 'Pacific/Honolulu'], ['Los Angeles', 'America/Los_Angeles'],
+    ['Lagos', 'Africa/Lagos'], ['Bangkok', 'Asia/Bangkok'], ['Mexico', 'America/Mexico_City'], ['Lisbonne', 'Europe/Lisbon']
+  ];
+  let tourne = 0, derniere = -1;
+  function affoler() {
+    let k; do { k = Math.floor(Math.random() * VILLES.length); } while (k === derniere);
+    derniere = k;
+    const [nom, tz] = VILLES[k];
+    const d = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));
+    heure.textContent = d.getHours() + ':' + deux(d.getMinutes()) + ':' + deux(d.getSeconds());
+    ville.textContent = nom;
+  }
+  if (ville && ligneHeure) {
+    ligneHeure.addEventListener('pointerover', (e) => {
+      if (affole || !e.target.closest('[data-heure], [data-ville]')) return;
+      affole = true; affoler(); tourne = setInterval(affoler, 45);
+    });
+    ligneHeure.addEventListener('pointerleave', () => {
+      if (!affole) return;
+      clearInterval(tourne); affole = false;
+      ville.textContent = 'Montréal'; maj();
+    });
+  }
 
   // Aperçus.
   const copieCarte = (src) => {
