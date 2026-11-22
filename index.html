@@ -9196,8 +9196,8 @@
       el.textContent = (k > 1 ? ' ' : '') + m;
       if (/^[→+=≠×\d]+$/.test(m)) el.className = 'demarrage__signe';
       l.append(el, curseur);
-      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 45);
-      else setTimeout(suivante, calme ? 40 : Math.round(pause * 0.5));
+      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 20);
+      else setTimeout(suivante, calme ? 40 : Math.round(pause * 0.2));
     })();
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
