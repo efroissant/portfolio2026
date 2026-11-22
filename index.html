@@ -9051,6 +9051,26 @@
       width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important;
     }
   }
+  /* Aperçu de Profil : une grande icône de fichier (trait noir, coin plié en haut à droite). */
+  .apercu__fichier {
+    position: relative; width: min(440px, 100%); padding: 36px 36px 32px; background: #FFFFFF; color: #1C1917;
+    border: 1.5px solid #1C1917; border-radius: 8px;
+    clip-path: polygon(0 0, calc(100% - 56px) 0, 100% 56px, 100% 100%, 0 100%);
+  }
+  /* Le coin plié : un triangle au trait, posé dans l'angle coupé. */
+  .apercu__fichier::after {
+    content: ""; position: absolute; top: -1.5px; right: -1.5px; width: 56px; height: 56px;
+    background: linear-gradient(to bottom left, transparent 50%, #1C1917 50%, #1C1917 calc(50% + 1.5px), #FFFFFF calc(50% + 1.5px));
+    border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: 6px; box-sizing: border-box;
+  }
+  .apercu__fichier p { margin: 0; }
+  .apercu .apercu__fichier-nom { font-size: 14px; line-height: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: #8F8F8C; margin-bottom: 20px; }
+  .apercu .apercu__fichier-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; }
+  .apercu .apercu__fichier-role { margin-top: 6px; color: #8F8F8C; }
+  .apercu .apercu__fichier-texte { margin-top: 24px; font-size: 16px; line-height: 24px; }
+  .apercu .apercu__fichier-infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.18); }
+  .apercu .apercu__fichier-infos dt { font-size: 12px; line-height: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: #8F8F8C; }
+  .apercu .apercu__fichier-infos dd { margin: 2px 0 0; font-size: 15px; line-height: 20px; }
 </style>
 </head>
 <body>
@@ -17514,9 +17534,23 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       if (im) { const c = img(im.currentSrc || im.src, ''); c.classList.add('apercu__img--etude'); box.append(c); }
       return box;
     }
+    // Profil : la bio en bref, présentée comme une icône de fichier (page au coin plié).
+    if (h === '#profil') {
+      const f = document.createElement('div');
+      f.className = 'apercu__fichier';
+      const bio = document.querySelector('.profil__bio p');
+      const premier = bio ? bio.innerHTML.split(/<br\s*\/?>\s*<br\s*\/?>/i)[0] : '';
+      f.innerHTML = '<p class="apercu__fichier-nom">Profil</p>'
+        + '<p class="apercu__fichier-titre">Emmanuel Froissant</p>'
+        + '<p class="apercu__fichier-role">Designer digital — UI, UX, marketing et produit SaaS</p>'
+        + '<p class="apercu__fichier-texte"></p>'
+        + '<dl class="apercu__fichier-infos"><div><dt>Basé à</dt><dd>Montréal</dd></div><div><dt>Né en</dt><dd>1981</dd></div><div><dt>En ce moment</dt><dd>L’IA et le vibe coding</dd></div></dl>';
+      f.querySelector('.apercu__fichier-texte').innerHTML = premier;
+      box.append(f);
+      return box;
+    }
     box.append(titre);
-    if (h === '#profil') box.append(img('profil-plage.jpg'));
-    else if (h === '#profil-photos') box.append(img('livret-mur-photo.jpg'));
+    if (h === '#profil-photos') box.append(img('livret-mur-photo.jpg'));
     else if (h === '#profil-bibliotheque') {
       const g = document.createElement('div'); g.className = 'apercu__grille';
       [...document.querySelectorAll('.bio-biblio .shelf__row[data-forme="livre"] img')].slice(0, 4).forEach((i) => {
