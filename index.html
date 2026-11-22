@@ -9555,13 +9555,14 @@
     /* Note de fin : une petite carte, en bas. */
     html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__fin { grid-row: 2 !important; width: calc(var(--col) * 3 + 48px) !important; padding: 24px !important; background: #F7F6F4 !important; display: flex !important; align-items: flex-end; }
   }
-  /* Carte d'intro Pharmaprix : fond noir (#1C1917, le noir du site), tout en blanc. */
+  /* Carte d'intro Pharmaprix : fond blanc, texte et traits en noir (#1C1917), contour de 1 px. */
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw .uc__intro, html body .stage #doc-loblaw .uc__intro :is(p, li, dt, dd, .cartep__titre, .cartep__annee) { color: #FFFFFF !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__barre { border-bottom-color: #FFFFFF !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__barre i { background: #FFFFFF !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__tags li { border-color: #FFFFFF !important; }
-    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { border-top-color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .uc__intro { outline: 1px solid #1C1917; outline-offset: -1px; }
+    html body .stage #doc-loblaw .uc__intro, html body .stage #doc-loblaw .uc__intro :is(p, li, dt, dd, .cartep__titre, .cartep__annee) { color: #1C1917 !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__barre { border-bottom: 1px solid #1C1917 !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__barre i { background: #1C1917 !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__tags li { border: 1px solid #1C1917 !important; }
+    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { border-top: 1px solid #1C1917 !important; }
   }
 </style>
 </head>
@@ -10708,7 +10709,7 @@
     <div class="doc__scroll">
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="cartep uc__intro" style="--vert: #1C1917">
+        <div class="cartep uc__intro" style="--vert: #FFFFFF">
           <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
           <ul class="cartep__tags" aria-label="Expertises"><li>Design UX/UI</li><li>Recherche</li><li>Logiciel métier</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
           <p class="cartep__titre">Shoppers<br>Drug<br>Mart</p>
