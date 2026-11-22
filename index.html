@@ -17423,7 +17423,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   if (ville && ligneHeure) {
     ligneHeure.addEventListener('pointerover', (e) => {
       if (affole || !e.target.closest('[data-ville]')) return;
-      affole = true; affoler(); tourne = setInterval(affoler, 45);
+      affole = true; affoler(); tourne = setInterval(affoler, 160);
     });
     ville.addEventListener('pointerleave', () => {
       if (!affole) return;
