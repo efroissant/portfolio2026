@@ -9026,6 +9026,20 @@
   .en-ce-moment__heure [data-heure] span { font-family: inherit !important; }
   .en-ce-moment__heure .heure__chiffre { display: inline-block; width: 0.46em; text-align: center; }
   .en-ce-moment__heure .heure__sep { display: inline-block; width: 0.26em; text-align: center; }
+  /* Essai : l'étude « Le démarrage » présentée dans une carte (fenêtre jaune,
+     trois points), comme les cartes de projets. */
+  .stage .doc .doc__page.uc--carte {
+    background: #FFD84D; border-radius: 18px; overflow: hidden; padding: 0 0 36px !important;
+  }
+  .stage .doc .doc__page.uc--carte > :first-child { padding-right: 16px; }
+  .stage .doc .uc--carte > :not(.cartep__barre) { margin-left: 28px !important; margin-right: 28px !important; }
+  .stage .doc .uc--carte .uc__tete { padding-top: 28px; }
+  .stage .doc .uc--carte .cartep__barre { border-bottom-color: #1C1917; }
+  .stage .doc .uc--carte .cartep__barre i { background: #1C1917; }
+  .stage #doc-demarrage .uc--carte :is(.uc__surtitre, .uc__corps, .uc__fiche dt, .uc__label),
+  .stage #doc-demarrage .uc--carte .uc__bloc p:not(.uc__note):not(.uc__suite) { color: rgba(28,25,23,0.62) !important; }
+  .stage #doc-demarrage .uc--carte .uc__cle-signe { color: rgba(28,25,23,0.45); }
+  .stage #doc-demarrage .uc--carte .uc__bloc { border-top-color: rgba(28,25,23,0.18); }
 </style>
 </head>
 <body>
@@ -9936,7 +9950,8 @@
       <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer l’étude de cas">FERMER</button>
     </div>
     <div class="doc__scroll">
-      <article class="doc__page uc">
+      <article class="doc__page uc uc--carte">
+        <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <header class="uc__tete">
           <p class="uc__surtitre">Ce portfolio · L’écran de démarrage</p>
           <h1 class="uc__titre" id="doc-demarrage-titre">Comment raconter 45&nbsp;ans en une seconde&nbsp;?</h1>
