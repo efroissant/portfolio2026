@@ -9114,6 +9114,17 @@
     .stage #doc-vide { width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important; }
   }
   .apercu .apercu__fichier-img { display: block; width: 100%; max-height: 200px; object-fit: cover; margin-top: 24px; border-radius: 4px; }
+  /* Études sur une seule colonne, dans la page : chaque titre de section
+     au-dessus de son contenu, en petites capitales grises ; texte et images
+     sur toute la largeur intérieure. */
+  @media (min-width: 1024px) {
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { display: block !important; }
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > .uc__label {
+      margin: 0 0 16px !important; font-size: 14px !important; line-height: 18px !important;
+      letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C !important;
+    }
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
+  }
 </style>
 </head>
 <body>
