@@ -9001,8 +9001,11 @@
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
   /* Démarrage en émojis : une ligne par étape, en grand. */
-  .demarrage .demarrage__ligne { font-size: 64px; line-height: 80px; letter-spacing: 0.08em; }
-  @media (max-width: 767px) { .demarrage .demarrage__ligne { font-size: 44px; line-height: 56px; } }
+  /* Les 11 lignes tiennent toujours dans la hauteur de l'écran (ordinateur
+     comme téléphone) : la taille se règle sur la hauteur disponible. */
+  .demarrage .demarrage__ligne {
+    font-size: clamp(20px, calc((100dvh - 48px) / var(--n, 13) / 1.2), 64px); line-height: 1.2; letter-spacing: 0.08em;
+  }
 </style>
 </head>
 <body>
@@ -9014,21 +9017,24 @@
   const ecran = document.getElementById('demarrage');
   if (!ecran) return;
   // [texte, pause avant la ligne suivante (ms)]
-  // Le chargement raconté en émojis : le réveil, le gym, le café, le design…
+  // Ma vie jusqu'ici, en émojis (expliquée dans le case study « Le démarrage »).
   const LIGNES = [
-    ['🌙 ⏰', 120],
-    ['🏋️ 💪', 140],
-    ['☕ ☕', 120],
-    ['👨‍👨‍👦‍👦', 140],
-    ['🏳️‍🌈 🏳️‍🌈', 140],
-    ['💻 🎨', 140],
-    ['🧠 💡', 120],
-    ['📐 ✏️', 120],
-    ['🐈 😎', 140],
-    ['🚀', 160],
-    ['✅', 292]
+    ['👶 🇫🇷 🌾', 160],     // 1981 : naissance en France, à la campagne
+    ['✏️ 🖍️ 🎨', 140],     // un enfant qui dessine beaucoup
+    ['🏫 😵‍💫 🧠', 140],     // l'école, pas mon truc : un TDAH pas encore diagnostiqué
+    ['🎤 🐶 🐱', 140],     // chanter, les animaux
+    ['🗼 🥐', 140],        // l'installation à Paris
+    ['✈️ 🌍 🌏 🌎', 160],  // le tourisme, 15 pays sur quatre continents
+    ['👨‍❤️‍👨 ⚡ 🏳️‍🌈', 160],    // un coup de foudre, avec un homme
+    ['🌧️ 🔥 🐦‍🔥', 160],    // des épreuves, et une renaissance
+    ['📦 ✈️ ⚜️', 140],     // le départ pour le Québec
+    ['🎓 💻 🎨', 140],     // les études, puis designer
+    ['👨‍👨‍👦‍👦', 160],         // une famille, deux enfants
+    ['🍁 🎉', 140],        // citoyen canadien
+    ['🧠 ✍️ 🤝', 292]      // aujourd'hui : la psycho, l'illustration, les gens
   ];
   const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ecran.style.setProperty('--n', LIGNES.length);   // la taille suit le nombre de lignes
   // Mon portrait souriant apparaît par à-coups dans le glitch, pile à la place
   // du portrait de l'accueil : on me voit sourire, puis l'accueil s'allume sans.
   const sourire = new Image();
