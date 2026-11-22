@@ -9031,7 +9031,9 @@
      trois points), comme les cartes de projets. */
   .stage .doc .doc__page.uc--carte {
     /* Sans couleur : fond blanc, trait fin, la barre à trois points garde la structure. */
-    background: #FFFFFF; border: 1px solid rgba(28,25,23,0.18); border-radius: 18px; overflow: hidden; padding: 0 0 48px !important;
+    /* Forme de fichier, comme Profil : trait noir, coin plié en haut à droite. */
+    position: relative; background: #FFFFFF; border: 1.5px solid #1C1917; border-radius: 8px; padding: 0 0 48px !important;
+    clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%);
   }
   .stage .doc .doc__page.uc--carte > :first-child { padding-right: 16px; }
   /* De l'air autour du texte : 40 px de chaque côté, 40 px sous la barre.
@@ -9071,6 +9073,47 @@
   .apercu .apercu__fichier-infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.18); }
   .apercu .apercu__fichier-infos dt { font-size: 12px; line-height: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: #8F8F8C; }
   .apercu .apercu__fichier-infos dd { margin: 2px 0 0; font-size: 15px; line-height: 20px; }
+  /* Profil ouvert : la bio complète dans la même forme de fichier qu'au survol
+     (page blanche, trait noir, coin plié), de la colonne 6 à la 12. */
+  .profil__entete { display: none; }
+  @media (min-width: 1024px) {
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important;
+      box-sizing: border-box; padding: 40px 40px 0; background: #FFFFFF;
+      border: 1.5px solid #1C1917; border-radius: 8px;
+      clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%);
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]):not(.bio-ouverte) .profil { visibility: hidden; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil::after {
+      content: ""; position: absolute; top: -1.5px; right: -1.5px; width: 64px; height: 64px; pointer-events: none;
+      background: linear-gradient(to bottom left, transparent 50%, #1C1917 50%, #1C1917 calc(50% + 1.5px), #FFFFFF calc(50% + 1.5px));
+      border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: 6px; box-sizing: border-box;
+    }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil__entete { display: block; flex: none; margin-bottom: 28px; padding-right: 64px; }
+    .profil__entete p { margin: 0; }
+    .stage .profil .profil__entete-nom { font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; margin-bottom: 20px; }
+    .stage .profil .profil__entete-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important; color: #1C1917; }
+    .stage .profil .profil__entete-role { margin-top: 8px; color: #8F8F8C; }
+  }
+  /* Tous les fichiers ouverts ont la forme de fichier : coin plié, pas de barre. */
+  .stage .doc .doc__page.uc--carte > .cartep__barre { display: none !important; }
+  .stage .doc .doc__page.uc--carte::after,
+  .stage #doc-vide .doc__page::after {
+    content: ""; position: absolute; top: -1.5px; right: -1.5px; width: 64px; height: 64px; pointer-events: none;
+    background: linear-gradient(to bottom left, transparent 50%, #1C1917 50%, #1C1917 calc(50% + 1.5px), #FFFFFF calc(50% + 1.5px));
+    border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: 6px; box-sizing: border-box;
+  }
+  .stage .doc .doc__page.uc--carte .uc__tete { padding-right: 104px !important; }
+  /* « Contenu à venir » : la même page. */
+  @media (min-width: 1024px) {
+    .stage #doc-vide .doc__page {
+      position: relative; background: #FFFFFF; border: 1.5px solid #1C1917; border-radius: 8px;
+      padding: 40px 104px 48px 40px !important;
+      clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%);
+    }
+    .stage #doc-vide { width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important; }
+  }
+  .apercu .apercu__fichier-img { display: block; width: 100%; max-height: 200px; object-fit: cover; margin-top: 24px; border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -9322,6 +9365,11 @@
   <!-- Sous MANU, en haut à gauche : ma photo et ma bio, en petit
        (grand écran). Remplace l'obi de la pochette. -->
   <aside class="profil" aria-label="À propos">
+    <div class="profil__entete">
+      <p class="profil__entete-nom">Profil</p>
+      <p class="profil__entete-titre">Emmanuel Froissant</p>
+      <p class="profil__entete-role">Designer digital — UI, UX, marketing et produit SaaS</p>
+    </div>
     <div class="profil__bio">
       <p>Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Les rencontres que je fais nourrissent aussi mon travail. Faire tenir tout ça dans un même parcours, c’est un drôle de défi que j’essaie encore de relever.<br><br>Je conçois surtout des interfaces et des produits SaaS. Selon le projet, je fais aussi un peu d’analyse, de rédaction et parfois d’illustration.<br><br>En ce moment, j’explore l’IA et le vibe coding. Je n’aspire à devenir ni master ni ninja de quoi que ce soit. J’aime apprendre et voir ce que je peux faire avec ce que je viens de découvrir.</p>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
@@ -17527,11 +17575,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const etude = m && document.querySelector('#doc-' + m[1] + ' .uc');
     if (etude) {
       const sur = etude.querySelector('.uc__surtitre'), q = etude.querySelector('.uc__titre');
-      const t1 = document.createElement('p'); t1.className = 'apercu__nom'; t1.textContent = sur ? sur.textContent : nom;
-      const t2 = document.createElement('p'); t2.className = 'apercu__question'; t2.textContent = q ? q.textContent : nom;
-      box.append(t1, t2);
+      const f = document.createElement('div'); f.className = 'apercu__fichier';
+      const t1 = document.createElement('p'); t1.className = 'apercu__fichier-nom'; t1.textContent = sur ? sur.textContent : nom;
+      const t2 = document.createElement('p'); t2.className = 'apercu__fichier-titre'; t2.textContent = q ? q.textContent : nom;
+      f.append(t1, t2);
+      const en = etude.querySelector('.uc__enonce');
+      if (en) { const t3 = document.createElement('p'); t3.className = 'apercu__fichier-texte'; t3.textContent = en.textContent; f.append(t3); }
       const im = etude.querySelector('.uc__couverture img, .uc__figure img');
-      if (im) { const c = img(im.currentSrc || im.src, ''); c.classList.add('apercu__img--etude'); box.append(c); }
+      if (im) { const c = img(im.currentSrc || im.src, ''); c.className = 'apercu__fichier-img'; f.append(c); }
+      box.append(f);
       return box;
     }
     // Profil : la bio en bref, présentée comme une icône de fichier (page au coin plié).
@@ -17557,7 +17609,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
         const c = document.createElement('img'); c.src = i.currentSrc || i.src; c.alt = ''; g.append(c);
       });
       box.append(g);
-    } else { const v = document.createElement('div'); v.className = 'apercu__vide'; v.textContent = 'À venir'; box.append(v); }
+    } else {
+      // Pas encore de contenu : une page vide, au nom du fichier.
+      box.replaceChildren();
+      const f = document.createElement('div'); f.className = 'apercu__fichier';
+      f.innerHTML = '<p class="apercu__fichier-nom"></p><p class="apercu__fichier-titre"></p><p class="apercu__fichier-role">Contenu à venir.</p>';
+      f.querySelector('.apercu__fichier-nom').textContent = (f.closest ? '' : '') + 'Fichier';
+      f.querySelector('.apercu__fichier-titre').textContent = nom;
+      box.append(f);
+    }
     return box;
   }
   let courant = null, sortie = 0;
