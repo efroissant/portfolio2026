@@ -9286,6 +9286,56 @@
   @media (min-width: 1024px) {
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc { width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important; }
   }
+  /* ===== Prototype : Pharmaprix en défilement horizontal (grand écran) =====
+     Chaque section devient un panneau de la largeur de l'étude ; on passe de
+     l'un à l'autre à la molette, au trackpad, aux flèches ou aux boutons.
+     Hauteur : du dossier Bio à 40 px sous le dernier fichier du menu (posée
+     par le script dans --panneau-haut et --panneau-h). */
+  @media (min-width: 1024px) {
+    .stage #doc-loblaw.doc { top: var(--panneau-haut, 120px) !important; bottom: auto !important; height: var(--panneau-h, 480px) !important; }
+    .stage #doc-loblaw .doc__win { height: 100% !important; position: relative !important; }
+    .stage #doc-loblaw .doc__scroll {
+      overflow-x: auto !important; overflow-y: hidden !important; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      scrollbar-width: none; height: 100%;
+    }
+    .stage #doc-loblaw .doc__scroll::-webkit-scrollbar { display: none; }
+    .stage #doc-loblaw .doc__page.uc { display: flex !important; flex-direction: row; align-items: stretch; gap: 0; height: 100%; padding: 0 !important; }
+    .stage #doc-loblaw .doc__page.uc > :not(.cartep__barre) {
+      flex: 0 0 100%; height: 100%; box-sizing: border-box; scroll-snap-align: start;
+      margin: 0 !important; padding: 0 48px 56px 0 !important; overflow-y: auto; scrollbar-width: none;
+    }
+    .stage #doc-loblaw .doc__page.uc > ::-webkit-scrollbar { display: none; }
+    .stage #doc-loblaw .doc__page.uc > .cartep__barre { display: none !important; }
+    .stage #doc-loblaw .doc__page.uc > .uc__fin { flex: 0 0 40%; display: flex; align-items: flex-end; }
+    /* En-tête : texte à gauche, photo à droite. */
+    .stage #doc-loblaw .uc .uc__tete { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); column-gap: 40px; align-content: start; }
+    .stage #doc-loblaw .uc .uc__tete > * { grid-column: 1; }
+    .stage #doc-loblaw .uc .uc__tete > .uc__couverture { grid-column: 2; grid-row: 1 / span 6; margin: 0 !important; align-self: start; }
+    .stage #doc-loblaw .uc .uc__tete > .uc__couverture img { max-height: calc(var(--panneau-h, 480px) - 72px); width: 100%; object-fit: cover; }
+    .stage #doc-loblaw .uc .uc__fiche { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; row-gap: 16px !important; }
+    .stage #doc-loblaw .uc .uc__tete > .uc__enonce { margin-top: var(--e-bloc) !important; }
+    /* Chiffres : seuls sur leur panneau, centrés en hauteur. */
+    .stage #doc-loblaw .uc .uc__chiffres { align-content: center; margin: 0 !important; }
+    /* Sections : texte à gauche, visuel à droite. */
+    .stage #doc-loblaw .uc .uc__bloc { display: grid !important; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr); grid-template-rows: repeat(7, auto) 1fr; column-gap: 40px; align-content: start; padding-top: 0 !important; }
+    .stage #doc-loblaw .uc .uc__bloc > * { grid-column: 1; }
+    .stage #doc-loblaw .uc .uc__bloc > :is(.uc__figure, .uc__duo, .dose, .sexe, .uc__chaine) { grid-column: 2; margin-top: 0 !important; }
+    .stage #doc-loblaw .uc .uc__bloc > .uc__chaine { grid-row: 1 !important; align-self: start; }
+    .stage #doc-loblaw .uc .uc__bloc > .uc__chaine + .uc__figure { grid-row: 2 / span 7 !important; margin-top: var(--e-proche) !important; }
+    .stage #doc-loblaw .uc .uc__bloc > :is(.uc__figure, .dose, .sexe, .uc__chaine):first-of-type { grid-row: 1 / span 8; }
+    .stage #doc-loblaw .uc .uc__bloc .uc__figure img { max-height: calc(var(--panneau-h, 480px) - 110px); width: 100%; object-fit: contain; object-position: left top; }
+    .stage #doc-loblaw .uc .uc__constats--cartes { grid-template-columns: 1fr !important; gap: 8px !important; }
+    .stage #doc-loblaw .uc .uc__constats--cartes li { padding: 12px 14px !important; }
+    .stage #doc-loblaw .uc .uc__bilan { padding-top: 0 !important; align-content: start; }
+    /* La navigation, en bas à droite. */
+    .stage #doc-loblaw .panneaux-nav { position: absolute; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; z-index: 2; }
+    .stage #doc-loblaw .panneaux-nav button { width: 36px; height: 36px; border: 1px solid rgba(28,25,23,0.25); border-radius: 50%; background: #FFFFFF; color: #1C1917; cursor: pointer; font: inherit; font-size: 16px; line-height: 1; }
+    .stage #doc-loblaw .panneaux-nav button:hover { background: #1C1917; color: #FFFFFF; }
+    .stage #doc-loblaw .panneaux-nav button:disabled { opacity: 0.3; cursor: default; background: #FFFFFF; color: #1C1917; }
+    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 14px; color: #8F8F8C; font-variant-numeric: tabular-nums; }
+  }
+  .panneaux-nav { display: none; }
+  @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-nav { display: flex; } }
 </style>
 </head>
 <body>
@@ -10424,6 +10474,7 @@
       <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer l’étude de cas">FERMER</button>
     </div>
 
+    <div class="panneaux-nav" aria-label="Navigation de l’étude"><button type="button" data-panneau="-1" aria-label="Panneau précédent">←</button><span class="panneaux-compte">1 / 1</span><button type="button" data-panneau="1" aria-label="Panneau suivant">→</button></div>
     <div class="doc__scroll">
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -18004,6 +18055,80 @@ document.addEventListener('click', (e) => {
       sexe.classList.add('trois'); await attendre(3600);
     }
   }
+})();
+/* Pharmaprix en panneaux horizontaux : hauteur calée sur le menu, navigation
+   à la molette, au trackpad, aux flèches du clavier et aux boutons. */
+(function panneauxPharmaprix() {
+  const doc = document.getElementById('doc-loblaw');
+  if (!doc) return;
+  const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
+  const nav = doc.querySelector('.panneaux-nav'), compte = nav && nav.querySelector('.panneaux-compte');
+  const grand = () => matchMedia('(min-width: 1024px)').matches;
+  // Hauteur : du dossier Bio à 40 px sous le dernier fichier visible du menu (déployé).
+  let bas = 0;
+  function caler() {
+    if (!grand()) return;
+    const arbo = document.querySelector('.arbo');
+    const bio = arbo && arbo.querySelector('.arbo__dossier-btn');
+    const stage = document.getElementById('stage');
+    if (!bio || !stage) return;
+    const s = stage.getBoundingClientRect();
+    const fichiers = [...arbo.querySelectorAll('.arbo__fichier')].filter((f) => f.getClientRects().length);
+    const dernier = fichiers.length ? Math.max(...fichiers.map((f) => f.getBoundingClientRect().bottom)) : 0;
+    bas = Math.max(bas, dernier);   // on garde la hauteur du menu déployé
+    const haut = bio.getBoundingClientRect().top - s.top;
+    doc.style.setProperty('--panneau-haut', Math.round(haut) + 'px');
+    doc.style.setProperty('--panneau-h', Math.max(320, Math.round(bas - s.top + 40 - haut)) + 'px');
+  }
+  caler();
+  addEventListener('resize', () => { bas = 0; caler(); });
+  addEventListener('load', caler);
+  if (document.fonts) document.fonts.ready.then(caler);
+  // Navigation.
+  const panneaux = () => [...page.children].filter((el) => getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0);
+  function indice() {
+    const p = panneaux(), x = sc.scrollLeft + 2;
+    let k = 0; p.forEach((el, i) => { if (el.offsetLeft - page.offsetLeft <= x) k = i; });
+    return k;
+  }
+  function maj() {
+    if (!compte) return;
+    const n = panneaux().length, k = indice();
+    compte.textContent = (k + 1) + ' / ' + n;
+    nav.querySelector('[data-panneau="-1"]').disabled = k === 0;
+    nav.querySelector('[data-panneau="1"]').disabled = k >= n - 1;
+  }
+  function aller(k) {
+    const p = panneaux(); k = Math.max(0, Math.min(p.length - 1, k));
+    sc.scrollTo({ left: p[k].offsetLeft - page.offsetLeft, behavior: 'smooth' });
+  }
+  nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(indice() + Number(b.dataset.panneau)); });
+  sc.addEventListener('scroll', () => requestAnimationFrame(maj), { passive: true });
+  // La molette verticale fait avancer les panneaux (un panneau par geste) ;
+  // à l'intérieur d'un panneau trop haut, elle le fait d'abord défiler.
+  let verrou = 0;
+  sc.addEventListener('wheel', (e) => {
+    if (!grand()) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // trackpad horizontal : natif
+    const p = panneaux()[indice()];
+    if (p && p.scrollHeight > p.clientHeight + 2) {
+      const finBas = p.scrollTop + p.clientHeight >= p.scrollHeight - 2, finHaut = p.scrollTop <= 0;
+      if ((e.deltaY > 0 && !finBas) || (e.deltaY < 0 && !finHaut)) return;   // le panneau défile d'abord
+    }
+    e.preventDefault();
+    const t = performance.now();
+    if (t < verrou || Math.abs(e.deltaY) < 4) return;
+    verrou = t + 550;
+    aller(indice() + (e.deltaY > 0 ? 1 : -1));
+  }, { passive: false });
+  document.addEventListener('keydown', (e) => {
+    if (doc.hidden || !grand()) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); aller(indice() + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); aller(indice() - 1); }
+  });
+  // À chaque ouverture : premier panneau, hauteur recalée.
+  new MutationObserver(() => { if (!doc.hidden) { caler(); sc.scrollLeft = 0; setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  maj();
 })();
 </script>
 </body>
