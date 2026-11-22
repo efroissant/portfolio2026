@@ -9410,23 +9410,23 @@
   }
   /* ===== Pharmaprix : carrousel dans une carte bordée =====
      La carte part de la colonne 4 et file jusqu'au bord droit de l'écran ;
-     chaque panneau s'arrête à la colonne 11, le suivant dépasse à droite. */
+     un panneau à la fois, la carte s'arrête à la colonne 12. */
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw {
       --col: calc((100vw - 48px - 11 * 24px) / 12);
       --c4: calc(24px + (var(--col) + 24px) * 3);
-      --slide: calc(var(--col) * 8 + 7 * 24px - 24px);
+      --slide: calc(100vw - var(--c4) - 24px - 2px - 48px);
     }
-    html body .stage #doc-loblaw.doc { left: var(--c4) !important; right: 0 !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
-    html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: #FFFFFF !important; border: 1px solid #D6D3D1 !important; border-right: 0 !important; border-radius: 16px 0 0 16px !important; display: flex !important; flex-direction: column; }
+    html body .stage #doc-loblaw.doc { left: var(--c4) !important; right: 24px !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
+    html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: #FFFFFF !important; border: 1px solid #D6D3D1 !important; border-radius: 16px !important; display: flex !important; flex-direction: column; }
     html body .stage #doc-loblaw .panneaux-tete { flex: none; display: flex; justify-content: space-between; align-items: baseline; padding: 14px 20px 0 24px; font-size: 20px; line-height: 26px; letter-spacing: -0.3px; color: #1C1917; }
     html body .stage #doc-loblaw .panneaux-tete .panneaux-compte { font-variant-numeric: tabular-nums; }
-    html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 0 0 24px !important; overflow-x: auto !important; overflow-y: hidden !important; }
-    html body .stage #doc-loblaw .doc__page.uc.uc { gap: 24px !important; padding: 0 max(0px, calc(100vw - var(--c4) - var(--slide) - 25px)) 0 0 !important; width: max-content !important; height: 100%; }
+    html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 24px !important; overflow-x: auto !important; overflow-y: hidden !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc { gap: 24px !important; padding: 0 !important; width: max-content !important; height: 100%; }
     html body .stage #doc-loblaw .doc__page.uc.uc > :not(.cartep__barre) { flex: 0 0 var(--slide) !important; width: var(--slide) !important; padding: 24px 0 !important; margin: 0 !important; }
 
     /* Flèches longues sous la carte, calées sur la fin de la colonne 11. */
-    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav { position: absolute; top: calc(100% + 10px); right: calc(var(--col) + 48px); bottom: auto; display: flex; gap: 20px; z-index: 2; }
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav { position: absolute; top: calc(100% + 10px); right: 0; bottom: auto; display: flex; gap: 20px; z-index: 2; }
     html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button { width: auto; height: 28px; padding: 0; border: 0; border-radius: 0; background: none !important; color: #1C1917 !important; cursor: pointer; display: flex; align-items: center; transition: transform 180ms ease; }
     html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button:hover { transform: translateX(3px); }
     html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button[data-panneau="-1"]:hover { transform: translateX(-3px); }
