@@ -9125,6 +9125,66 @@
     }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
   }
+  /* ===== Pharmaprix, version « à regarder » : une phrase forte par section,
+     un visuel (souvent animé), le détail en petit, et beaucoup d'air. ===== */
+  #doc-loblaw .uc .uc__bloc { border-top: 0 !important; padding-top: 112px !important; margin-top: 0 !important; }
+  .stage #doc-loblaw .uc p.uc__fort { margin: 0 0 32px; max-width: 18em; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917 !important; }
+  .stage #doc-loblaw .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 16px !important; line-height: 24px !important; color: #8F8F8C !important; }
+  .stage #doc-loblaw .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
+  #doc-loblaw .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .stage #doc-loblaw .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
+  .stage #doc-loblaw .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C; }
+  #doc-loblaw .uc .uc__detail { margin-top: 32px; }
+  #doc-loblaw .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: 999px; font-size: 16px; color: #1C1917; }
+  #doc-loblaw .uc .uc__detail summary::-webkit-details-marker { display: none; }
+  #doc-loblaw .uc .uc__detail summary::after { content: "＋"; }
+  #doc-loblaw .uc .uc__detail[open] summary::after { content: "−"; }
+  #doc-loblaw .uc .uc__detail[open] > :not(summary) { margin-top: 24px; }
+  /* La chaîne de la lumière : les étapes apparaissent une à une et s'assombrissent. */
+  #doc-loblaw .uc__chaine.uc__anime li { opacity: 0; transform: translateY(8px); transition: opacity 400ms ease, transform 400ms ease; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li { opacity: 1; transform: none; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(2) { transition-delay: 350ms; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(3) { transition-delay: 700ms; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(4) { transition-delay: 1050ms; }
+  #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(5) { transition-delay: 1400ms; }
+  #doc-loblaw .uc__chaine .uc__etape { transition: background-color 400ms ease, color 400ms ease; }
+  #doc-loblaw .uc__chaine li:nth-child(1) .uc__etape { background: #FFFBEA; }
+  #doc-loblaw .uc__chaine li:nth-child(2) .uc__etape { background: #E7E5E4; }
+  #doc-loblaw .uc__chaine li:nth-child(3) .uc__etape { background: #A8A29E; color: #FFFFFF; }
+  #doc-loblaw .uc__chaine li:nth-child(4) .uc__etape { background: #57534E; color: #FFFFFF; }
+  #doc-loblaw .uc__chaine li:nth-child(5) .uc__etape { background: #1C1917; color: #FFFFFF; }
+  /* Le champ de dosage animé. */
+  .dose { padding: 40px; border-radius: 12px; background: #F5F5F4; }
+  .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 14px !important; line-height: 18px !important; color: #57534E; }
+  .dose__champ { display: flex; align-items: center; height: 64px; padding: 0 20px; max-width: 320px; background: #FFFFFF; border: 2px solid #D6D3D1; border-radius: 10px; transition: border-color 200ms ease, box-shadow 200ms ease; }
+  .stage .doc .dose .dose__valeur { font-size: 28px !important; line-height: 1 !important; font-variant-numeric: tabular-nums; color: #1C1917; }
+  .dose__curseur { width: 2px; height: 30px; margin-left: 2px; background: #1C1917; animation: dose-curseur 900ms steps(1) infinite; }
+  @keyframes dose-curseur { 50% { opacity: 0; } }
+  .stage .doc .dose .dose__message { margin: 12px 0 0; min-height: 24px; font-size: 16px !important; line-height: 24px !important; color: #57534E; }
+  .dose.orange .dose__champ { border-color: #F59E0B; box-shadow: 0 0 0 4px rgba(245,158,11,0.15); }
+  .stage .doc .dose.orange .dose__message { color: #B45309; }
+  .dose.rouge .dose__champ { border-color: #DC2626; box-shadow: 0 0 0 4px rgba(220,38,38,0.15); }
+  .stage .doc .dose.rouge .dose__message { color: #B91C1C; }
+  .dose.vert .dose__champ { border-color: #16A34A; box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
+  .stage .doc .dose.vert .dose__message { color: #15803D; }
+  /* Le champ « Sexe » qui devient trois. */
+  .sexe { position: relative; padding: 40px; border-radius: 12px; background: #F5F5F4; min-height: 264px; }
+  .sexe__unique, .sexe__trois > div { display: grid; grid-template-columns: 110px 1fr auto; align-items: center; gap: 12px; height: 56px; padding: 0 18px; background: #FFFFFF; border: 2px solid #D6D3D1; border-radius: 10px; }
+  .sexe__unique { grid-template-columns: 110px 1fr; transition: opacity 300ms ease, transform 300ms ease; }
+  .sexe__trois { position: absolute; left: 40px; right: 40px; top: 40px; display: flex; flex-direction: column; gap: 12px; }
+  .sexe__trois > div { opacity: 0; transform: translateY(-12px) scale(0.98); transition: opacity 350ms ease, transform 350ms ease; }
+  .sexe.trois .sexe__unique { opacity: 0; transform: scale(0.96); }
+  .sexe.trois .sexe__trois > div { opacity: 1; transform: none; }
+  .sexe.trois .sexe__trois > div:nth-child(2) { transition-delay: 180ms; }
+  .sexe.trois .sexe__trois > div:nth-child(3) { transition-delay: 360ms; }
+  .stage .doc .sexe .sexe__nom { font-size: 16px !important; color: #1C1917; font-weight: 500; }
+  .stage .doc .sexe .sexe__pour { font-size: 14px !important; color: #8F8F8C; }
+  .stage .doc .sexe .sexe__val { font-size: 16px !important; color: #1C1917; justify-self: end; }
+  .sexe__unique .sexe__val { justify-self: start; }
+  @media (prefers-reduced-motion: reduce) {
+    #doc-loblaw .uc__chaine.uc__anime li { opacity: 1; transform: none; transition: none; }
+    .sexe__trois > div, .sexe__unique { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -10263,13 +10323,19 @@
             <div><dt>Outils</dt><dd>Figma<br>Jira<br>Miro</dd></div>
           </dl>
           <p class="uc__enonce">Healthwatch servait les pharmaciens depuis 13&nbsp;ans&nbsp;: incohérent, peu sûr, mais familier.</p>
-          <p class="uc__corps">Avant de le refaire, j’ai cherché où il les laissait se tromper&nbsp;: dans l’écran, dans la lumière du comptoir, dans un chiffre mal tapé, et jusque dans un seul champ «&nbsp;Sexe&nbsp;».</p>
+          <p class="uc__corps">Avant de le refaire, j’ai cherché où il les laissait se tromper.</p>
           <figure class="uc__figure uc__couverture"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274"></figure>
         </header>
 
+        <ul class="uc__chiffres" aria-label="En bref">
+          <li><strong>13&nbsp;ans</strong><span>d’habitudes avec l’ancien logiciel</span></li>
+          <li><strong>7</strong><span>problèmes classés, du critique au mineur</span></li>
+          <li><strong>1&nbsp;→&nbsp;3</strong><span>un champ devenu trois</span></li>
+        </ul>
+
         <section class="uc__bloc">
           <h2 class="uc__label">Dans l’écran</h2>
-          <p>J’ai audité Healthwatch écran par écran, et classé chaque problème selon sa gravité.</p>
+          <p class="uc__fort">Un logiciel de 13&nbsp;ans, où chaque écran cache un piège.</p>
           <figure class="uc__figure"><img src="lob-audit-healthwatch.jpg" alt="Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit." width="1018" height="698" loading="lazy"><figcaption>Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit.</figcaption></figure>
           <ul class="uc__legende" aria-label="Catégories de l’audit">
             <li><span class="uc__puce uc__puce--a11y"></span>Accessibilité</li>
@@ -10281,6 +10347,8 @@
             <li><span class="uc__pastille uc__pastille--ai" aria-label="Problème 3, architecture de l’information">3</span><span><strong>« Race » présélectionnée.</strong> « Caucasian » par défaut, sans raison clinique&nbsp;: éthiquement contestable.</span></li>
             <li><span class="uc__pastille uc__pastille--a11y" aria-label="Problème 5, accessibilité">5</span><span><strong>Une fenêtre qui bloque le formulaire.</strong> Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
           </ul>
+          <details class="uc__detail">
+            <summary>Voir l’analyse heuristique</summary>
           <div class="uc__duo">
             <figure class="uc__figure"><img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" loading="lazy"></figure>
             <figure class="uc__figure"><img src="lob-healthwatch-courbes.jpg" alt="Healthwatch : les courbes de croissance à côté du formulaire patient." width="869" height="580" loading="lazy"></figure>
@@ -10307,51 +10375,54 @@
               <li><strong>Cases à cocher sans état clair.</strong> Les éléments cochés se repèrent mal.</li>
             </ul>
           </div>
+          </details>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
-          <p>Sur place, en suivant les pharmaciens, une cause d’erreur ne se voyait dans aucun écran&nbsp;: l’éclairage.</p>
-          <ol class="uc__chaine" aria-label="Effets de l’éclairage intense">
+          <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
+          <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
           <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
-          <p class="uc__suite">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
+          <p class="uc__petit">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un chiffre mal tapé</h2>
-          <div class="uc__decision">
-            <p>Ici, une faute de frappe peut devenir une erreur de dosage. La validation suit donc la gravité&nbsp;:</p>
-            <ul class="uc__liste">
-              <li><span class="uc__puce uc__puce--orange"></span><strong>Orange</strong>&nbsp;: erreur probable (1,5 au lieu de 15). On alerte, sans bloquer.</li>
-              <li><span class="uc__puce uc__puce--rouge"></span><strong>Rouge</strong>&nbsp;: chiffre incohérent (50 au lieu de 500&nbsp;mg). On demande de retaper.</li>
-            </ul>
-            <p class="uc__note">Retaper oblige à relire. Un bouton «&nbsp;Confirmer&nbsp;», on le clique sans lire.</p>
+          <p class="uc__fort">Ralentir seulement là où une erreur peut blesser.</p>
+          <div class="dose uc__anime" aria-label="Animation : un champ de dose qui alerte en orange, puis demande de retaper en rouge, puis valide en vert.">
+            <p class="dose__label">Amoxicilline — dose (mg)</p>
+            <div class="dose__champ"><span class="dose__valeur"></span><span class="dose__curseur"></span></div>
+            <p class="dose__message">&nbsp;</p>
           </div>
+          <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: chiffre incohérent, on fait retaper. Retaper oblige à relire&nbsp;; un bouton «&nbsp;Confirmer&nbsp;», on le clique sans lire.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
-          <div class="uc__decision">
-            <p>Un champ mélangeait trois informations. Il en est devenu trois&nbsp;:</p>
-            <ul class="uc__liste">
-              <li><strong>Le sexe</strong>, pour calculer les dosages.</li>
-              <li><strong>Le genre</strong>, pour l’identité.</li>
-              <li><strong>Les pronoms</strong>, pour l’accueil au comptoir.</li>
-            </ul>
-            <p class="uc__note">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
+          <p class="uc__fort">Un champ en cachait trois.</p>
+          <div class="sexe uc__anime" aria-label="Animation : le champ unique « Sexe » se divise en trois champs, sexe, genre et pronoms.">
+            <div class="sexe__unique"><span class="sexe__nom">Sexe</span><span class="sexe__val">Féminin ▾</span></div>
+            <div class="sexe__trois">
+              <div><span class="sexe__nom">Sexe</span><span class="sexe__pour">pour les dosages</span><span class="sexe__val">Féminin ▾</span></div>
+              <div><span class="sexe__nom">Genre</span><span class="sexe__pour">pour l’identité</span><span class="sexe__val">Non binaire ▾</span></div>
+              <div><span class="sexe__nom">Pronoms</span><span class="sexe__pour">pour l’accueil au comptoir</span><span class="sexe__val">iel ▾</span></div>
+            </div>
           </div>
+          <p class="uc__petit">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a trouvé</h2>
-          <p class="uc__texte">Aux tests, les pharmaciens ont jugé l’interface plus lisible et plus ergonomique que Healthwatch. Le projet a été arrêté faute de budget, mais le logiciel en est sorti plus inclusif.</p>
+          <p class="uc__fort">Plus lisible. Plus ergonomique. Plus inclusif.</p>
+          <p class="uc__petit">C’est ce qu’ont dit les pharmaciens aux tests, face à Healthwatch. Le projet a été arrêté faute de budget.</p>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce que je chercherais autrement</h2>
-          <p>Avec les pharmaciens dès le premier jour, pas au bout de deux ans. Et pas de code sans maquettes finalisées.</p>
+          <p class="uc__fort">Les pharmaciens, dès le premier jour.</p>
+          <p class="uc__petit">Pas au bout de deux ans. Et pas de code sans maquettes finalisées.</p>
         </section>
 
         <p class="uc__fin">Écrans sur demande (confidentialité).</p>
@@ -17787,6 +17858,51 @@ document.addEventListener('click', (e) => {
   e.preventDefault();
   location.href = location.pathname + location.search;
 });
+/* Pharmaprix : les animations démarrent quand on les voit (et s'arrêtent sinon). */
+(function animationsPharmaprix() {
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const attendre = (ms) => new Promise((r) => setTimeout(r, calme ? Math.min(ms, 400) : ms));
+  // La chaîne de la lumière.
+  const chaine = document.querySelector('#doc-loblaw .uc__chaine.uc__anime');
+  // Le champ de dosage.
+  const dose = document.querySelector('#doc-loblaw .dose');
+  const sexe = document.querySelector('#doc-loblaw .sexe');
+  const visibles = new Set();
+  const obs = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { visibles.add(e.target); e.target.classList.add('est-vu'); demarrer(e.target); }
+    else visibles.delete(e.target);
+  }), { threshold: 0.4 });
+  [chaine, dose, sexe].forEach((el) => el && obs.observe(el));
+  const enCours = new Set();
+  function demarrer(el) {
+    if (enCours.has(el)) return;
+    if (el === dose) { enCours.add(el); boucleDose().finally(() => enCours.delete(el)); }
+    if (el === sexe) { enCours.add(el); boucleSexe().finally(() => enCours.delete(el)); }
+  }
+  async function boucleDose() {
+    const val = dose.querySelector('.dose__valeur'), msg = dose.querySelector('.dose__message');
+    const etat = (c, m) => { dose.classList.remove('orange', 'rouge', 'vert'); if (c) dose.classList.add(c); msg.textContent = m || ' '; };
+    const taper = async (t) => { for (const ch of t) { val.textContent += ch; await attendre(230); } };
+    while (visibles.has(dose)) {
+      val.textContent = ''; etat(); await attendre(700);
+      await taper('1,5'); await attendre(300);
+      etat('orange', 'Vous vouliez dire 15 mg ? On alerte, sans bloquer.'); await attendre(2200);
+      val.textContent = ''; etat(); await attendre(500);
+      await taper('50'); await attendre(300);
+      etat('rouge', '50 mg : dose incohérente. Retapez-la pour confirmer.'); await attendre(2200);
+      val.textContent = ''; await attendre(400);
+      await taper('500'); await attendre(300);
+      etat('vert', '500 mg ✓ Dose confirmée.'); await attendre(2400);
+    }
+    val.textContent = ''; etat();
+  }
+  async function boucleSexe() {
+    while (visibles.has(sexe)) {
+      sexe.classList.remove('trois'); await attendre(1800);
+      sexe.classList.add('trois'); await attendre(3600);
+    }
+  }
+})();
 </script>
 </body>
 </html>
