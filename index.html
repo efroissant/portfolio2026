@@ -9185,6 +9185,16 @@
     #doc-loblaw .uc__chaine.uc__anime li { opacity: 1; transform: none; transition: none; }
     .sexe__trois > div, .sexe__unique { transition: none; }
   }
+  /* Fin des études : pas de mot orphelin, un rythme plus serré, le bilan en
+     deux colonnes côte à côte, et une mention discrète en pied. */
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { text-wrap: balance; margin-bottom: 16px !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort + p.uc__petit { margin-top: 0 !important; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; padding-top: 112px; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan .uc__bloc { padding-top: 0 !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan p.uc__fort { font-size: 26px !important; line-height: 32px !important; letter-spacing: -0.4px !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__fin {
+    margin-top: 96px !important; padding-top: 20px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C !important;
+  }
 </style>
 </head>
 <body>
@@ -10232,6 +10242,7 @@
           <p class="uc__petit">Une mise en page à la Booking ou Expedia&nbsp;: les gens gardent leurs réflexes et se concentrent sur leur choix.</p>
         </section>
 
+        <div class="uc__bilan">
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__fort">Le MVP a vendu avant d’exister.</p>
@@ -10243,6 +10254,7 @@
           <p class="uc__fort">Tester avec de vrais participants.</p>
           <p class="uc__petit">Et mesurer les pages clés&nbsp;: le produit vend, il reste à prouver qu’il performe.</p>
         </section>
+        </div>
       </article>
     </div>
    </div>
@@ -10291,6 +10303,7 @@
           <p class="uc__petit">Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà.</p>
         </section>
 
+        <div class="uc__bilan">
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__fort">Une campagne reprise par Strategy Magazine et Newswire Canada.</p>
@@ -10302,6 +10315,7 @@
           <p class="uc__fort">Moins de champs, moins d’abandons.</p>
           <p class="uc__petit">Réduire le formulaire marketing imposé&nbsp;: chaque champ est un risque d’abandon.</p>
         </section>
+        </div>
       </article>
     </div>
    </div>
@@ -10423,6 +10437,7 @@
           <p class="uc__petit">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
         </section>
 
+        <div class="uc__bilan">
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a trouvé</h2>
           <p class="uc__fort">Plus lisible. Plus ergonomique. Plus inclusif.</p>
@@ -10434,6 +10449,7 @@
           <p class="uc__fort">Les pharmaciens, dès le premier jour.</p>
           <p class="uc__petit">Pas au bout de deux ans. Et pas de code sans maquettes finalisées.</p>
         </section>
+        </div>
 
         <p class="uc__fin">Écrans sur demande (confidentialité).</p>
       </article>
