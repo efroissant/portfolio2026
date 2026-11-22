@@ -8849,11 +8849,11 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .avatar-accueil {
       display: block; position: absolute; z-index: 30;
       left: var(--g-marge, 24px); top: calc(var(--bar-h) + 16px);
-      width: 200px; height: 200px; object-fit: cover; object-position: 50% 18%; border-radius: 6px;
+      width: 168px; height: 168px; object-fit: cover; object-position: 50% 18%; border-radius: 6px;
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo {
-      top: calc(var(--bar-h) + 16px + 200px + 24px) !important;
-      max-height: calc(100vh - var(--bar-h) - 16px - 200px - 24px - 56px) !important;
+      top: calc(var(--bar-h) + 16px + 168px + 24px) !important;
+      max-height: calc(100vh - var(--bar-h) - 16px - 168px - 24px - 56px) !important;
     }
   }
   /* « à Montréal. » dans son propre span (pour passer à la ligne sur
@@ -9317,7 +9317,7 @@
     /* Chiffres : seuls sur leur panneau, centrés en hauteur. */
     .stage #doc-loblaw .uc .uc__chiffres { align-content: center; margin: 0 !important; }
     /* Sections : texte à gauche, visuel à droite. */
-    .stage #doc-loblaw .uc .uc__bloc { display: grid !important; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr); grid-template-rows: repeat(7, auto) 1fr; column-gap: 40px; align-content: start; padding-top: 0 !important; }
+    .stage #doc-loblaw .uc .uc__bloc { display: grid !important; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr); grid-template-rows: auto auto auto auto 1fr; column-gap: 40px; align-content: start; padding-top: 0 !important; }
     .stage #doc-loblaw .uc .uc__bloc > * { grid-column: 1; }
     .stage #doc-loblaw .uc .uc__bloc > :is(.uc__figure, .uc__duo, .dose, .sexe, .uc__chaine) { grid-column: 2; margin-top: 0 !important; }
     .stage #doc-loblaw .uc .uc__bloc > .uc__chaine { grid-row: 1 !important; align-self: start; }
@@ -9336,6 +9336,50 @@
   }
   .panneaux-nav { display: none; }
   @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-nav { display: flex; } }
+  /* ===== Échelle allégée sur grand écran (≈ −15 %) =====
+     Fontes un cran plus bas, de façon proportionnelle, et visuels plafonnés
+     pour qu'ils ne grossissent plus sans fin sur un grand écran (iMac). */
+  @media (min-width: 1024px) {
+    html body .stage .menubar, html body .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) { font-size: 18px !important; line-height: 24px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { font-size: 18px !important; line-height: 24px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 18px !important; line-height: 25px !important; }
+    html body .en-ce-moment__heure { font-size: 50px; line-height: 54px; }
+    html body .apercu__question { font-size: 40px; line-height: 44px; }
+    html body .apercu .apercu__fichier-titre { font-size: 34px; line-height: 38px; }
+    html body .stage .profil .profil__entete-titre { font-size: 50px !important; line-height: 54px !important; }
+    /* Études */
+    html body :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) { --e-section: 104px; --e-groupe: 56px; --e-bloc: 32px; }
+    html body .stage .doc .uc :is(p, li, dd) { font-size: 17px !important; line-height: 25px !important; }
+    html body :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__titre { font-size: 50px !important; line-height: 54px !important; }
+    html body .stage .doc .uc .uc__enonce, html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce,
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { font-size: 27px !important; line-height: 33px !important; letter-spacing: -0.5px !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bilan p.uc__fort { font-size: 22px !important; line-height: 28px !important; }
+    html body .stage .doc .uc .uc__corps { font-size: 18px !important; line-height: 28px !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit, html body .stage .doc .uc .uc__fiche dd { font-size: 15px !important; line-height: 22px !important; }
+    html body .stage .doc .uc .uc__fiche dt, html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { font-size: 13px !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { font-size: 52px !important; line-height: 54px !important; }
+    html body .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 16px !important; line-height: 22px !important; }
+    html body .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage .doc .dose .dose__valeur { font-size: 24px !important; }
+    html body .stage .doc .uc .uc__cle .uc__cle-emo { font-size: 20px !important; line-height: 26px !important; }
+    /* Visuels : plafonnés en hauteur, sans se déformer. */
+    html body :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__figure img { max-height: 520px; width: auto; max-width: 100%; }
+    html body :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__duo .uc__figure img { max-height: 420px; }
+    /* Pharmaprix en panneaux : colonnes équilibrées, visuels un peu plus petits. */
+    html body .stage #doc-loblaw .uc .uc__bloc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc .uc__figure img { max-height: min(calc(var(--panneau-h, 480px) - 130px), 440px) !important; width: auto !important; max-width: 100%; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture img { max-height: min(calc(var(--panneau-h, 480px) - 72px), 460px) !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > :is(.dose, .sexe, .uc__chaine, .uc__duo, .uc__figure) { max-width: 560px; }
+    /* Rangées explicites : le texte reste groupé en haut à gauche, le visuel
+       occupe toute la hauteur à droite (la dernière rangée absorbe le surplus). */
+    html body .stage #doc-loblaw .uc .uc__bloc > .uc__label { grid-row: 1 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > .uc__fort { grid-row: 2 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > :is(.uc__petit, .uc__constats) { grid-row: 3 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > .uc__detail { grid-row: 4 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > :is(.uc__figure, .dose, .sexe, .uc__duo):first-of-type { grid-row: 1 / -1 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > .uc__chaine { grid-row: 1 / 3 !important; }
+    html body .stage #doc-loblaw .uc .uc__bloc > .uc__chaine + .uc__figure { grid-row: 3 / -1 !important; }
+  }
 </style>
 </head>
 <body>
