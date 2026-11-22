@@ -9000,6 +9000,8 @@
   .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
+  /* Démarrage en émojis : une ligne par étape, en grand. */
+  .demarrage .demarrage__ligne { font-size: 32px; line-height: 46px; letter-spacing: 0.08em; }
 </style>
 </head>
 <body>
@@ -9011,17 +9013,18 @@
   const ecran = document.getElementById('demarrage');
   if (!ecran) return;
   // [texte, pause avant la ligne suivante (ms)]
+  // Le chargement raconté en émojis : le réveil, le gym, le café, le design…
   const LIGNES = [
-    ['Running build in Montreal, CA (Qc) - sfo1', 63],
-    ['Cloning github.com/g-u-x/ijp-site-nuxt (Branch: master, Commit:07ab843)', 189],
-    ['Cloning completed: 222.005ms', 72],
-    ['Running build', 171],
-    ['info - Compiled successfully', 68],
-    ['info - Collecting page data...', 117],
-    ['info - Generating static pages (2/2)', 108],
-    ['Deploying outputs...', 135],
-    ['Uploading build cache [1.48 MB]...', 153],
-    ['Site ready', 292]
+    ['🌙 ⏰', 120],
+    ['🏋️ 💪', 140],
+    ['☕ ☕', 120],
+    ['👦 👦', 120],
+    ['💻 🎨', 140],
+    ['🧠 💡', 120],
+    ['📐 ✏️', 120],
+    ['🐈 😎', 140],
+    ['🚀', 160],
+    ['✅', 292]
   ];
   const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Mon portrait souriant apparaît par à-coups dans le glitch, pile à la place
@@ -9172,7 +9175,7 @@
     if (i >= LIGNES.length) { finir(); return; }
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
-    l.className = 'demarrage__ligne' + (texte === 'Site ready' ? ' demarrage__ligne--ok' : '');
+    l.className = 'demarrage__ligne' + (i === LIGNES.length ? ' demarrage__ligne--ok' : '');
     l.textContent = texte;
     l.append(curseur);
     ecran.append(l);
