@@ -9264,6 +9264,24 @@
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, #doc-vide) .doc__win { overflow: visible !important; }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, #doc-vide) .doc__scroll { padding: 24px !important; margin: -24px !important; }
   }
+  /* ===== Plus de cartes : le contenu se pose directement sur la page =====
+     Études, Profil, « à venir » et aperçus commencent tous à la colonne 5 et
+     vont jusqu'à la 12, sans fond, ni ombre, ni marge intérieure. */
+  .stage .doc .doc__page.uc--carte, .stage #doc-vide .doc__page, .apercu .apercu__fichier,
+  .stage:is([data-state="lock"], [data-state="desktop"]) .profil {
+    background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; clip-path: none !important;
+  }
+  .stage .doc .doc__page.uc--carte { padding: 0 0 48px !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__page.uc--carte > :not(.cartep__barre) { margin-left: 0 !important; margin-right: 0 !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__page.uc--carte > header.uc__tete { padding: 0 !important; }
+  .stage #doc-vide .doc__page { padding: 0 !important; }
+  .apercu .apercu__fichier { padding: 0 !important; width: auto !important; }
+  @media (min-width: 1024px) {
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc, .stage #doc-vide.doc { left: calc(24px + ((100vw - 48px - 11 * 24px) / 12 + 24px) * 4) !important; width: calc((100vw - 48px - 11 * 24px) / 12 * 8 + 7 * 24px) !important; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: calc(24px + ((100vw - 48px - 11 * 24px) / 12 + 24px) * 4) !important; width: calc((100vw - 48px - 11 * 24px) / 12 * 8 + 7 * 24px) !important; padding: 0 !important; }
+    .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite { left: calc(24px + ((100vw - 48px - 11 * 24px) / 12 + 24px) * 4) !important; width: calc((100vw - 48px - 11 * 24px) / 12 * 8 + 7 * 24px) !important; }
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__scroll, .stage #doc-vide .doc__scroll { padding: 0 !important; margin: 0 !important; }
+  }
 </style>
 </head>
 <body>
