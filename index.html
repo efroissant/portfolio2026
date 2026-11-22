@@ -9370,6 +9370,34 @@
     html body .stage #doc-loblaw .uc .uc__bloc .uc__figure img { max-height: min(calc(var(--panneau-h, 480px) - 130px), 440px) !important; width: auto !important; max-width: 100%; }
     html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture img { max-height: min(calc(var(--panneau-h, 480px) - 72px), 460px) !important; }
     html body .stage #doc-loblaw .uc .uc__bloc > :is(.dose, .sexe, .uc__chaine, .uc__duo, .uc__figure) { max-width: 560px; }
+    /* En-tête : titre et fiche (4 colonnes) à gauche ; photo, énoncé et texte à droite. */
+    html body .stage #doc-loblaw .uc .uc__tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; grid-template-rows: auto auto auto auto 1fr; column-gap: 40px !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__surtitre { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__titre { grid-column: 1 !important; grid-row: 2 !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__fiche { grid-column: 1 !important; grid-row: 3 / -1 !important; align-self: start; grid-template-columns: repeat(3, minmax(0, auto)) !important; column-gap: 32px !important; margin: 8px 0 0 !important; }
+    /* Fiche en 3 colonnes : rôle (et durée dessous), équipe, outils. */
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__fiche > div:nth-child(1) { grid-column: 1; grid-row: 1; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__fiche > div:nth-child(2) { grid-column: 2; grid-row: 1; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__fiche > div:nth-child(3) { grid-column: 1; grid-row: 2; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__fiche > div:nth-child(4) { grid-column: 3; grid-row: 1; }
+    /* Audit : à gauche le texte, l'écran annoté et le bouton de l'analyse ; à droite les constats. */
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; grid-template-rows: auto auto auto auto 1fr !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; margin-bottom: 16px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__figure { grid-column: 1 !important; grid-row: 3 !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__figure img { max-height: calc(var(--panneau-h, 480px) - 300px) !important; width: auto !important; max-width: 100%; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__detail { grid-column: 1 !important; grid-row: 4 !important; margin-top: 12px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__constats { grid-column: 2 !important; grid-row: 1 / -1 !important; margin: 0 !important; align-self: start; gap: 6px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc:has(> .uc__constats) > .uc__constats li { padding: 9px 12px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__bloc > .uc__chaine + .uc__figure img { max-height: calc(var(--panneau-h, 480px) - 210px) !important; width: auto !important; max-width: 100%; }
+    /* L'analyse heuristique ouverte reprend tout le panneau (et seulement alors, il défile). */
+    html body .stage #doc-loblaw .uc .uc__bloc:has(> .uc__detail[open]) { overflow-y: auto !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture { grid-column: 2 !important; grid-row: 1 / 4 !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture img { height: calc(var(--panneau-h, 480px) - 190px) !important; max-height: 420px !important; width: 100% !important; object-fit: cover; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__enonce { grid-column: 2 !important; grid-row: 4 !important; margin: 20px 0 6px !important; font-size: 22px !important; line-height: 28px !important; letter-spacing: -0.3px !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__corps { grid-column: 2 !important; grid-row: 5 !important; margin: 0 !important; font-size: 16px !important; line-height: 24px !important; }
+    /* Plus de défilement vertical dans les panneaux : tout tient dans la hauteur. */
+    html body .stage #doc-loblaw .doc__page.uc > :not(.cartep__barre) { overflow-y: hidden !important; }
     /* Rangées explicites : le texte reste groupé en haut à gauche, le visuel
        occupe toute la hauteur à droite (la dernière rangée absorbe le surplus). */
     html body .stage #doc-loblaw .uc .uc__bloc > .uc__label { grid-row: 1 !important; }
