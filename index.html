@@ -9206,6 +9206,8 @@
   .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 24px !important; font-weight: 500; color: #1C1917; }
   .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 15px !important; line-height: 22px !important; color: #78716C; }
   .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 14px !important; line-height: 20px !important; color: #8F8F8C !important; }
+  #doc-loblaw .uc .uc__constats--cartes .uc__puce { flex: none; width: 10px; height: 10px; margin: 0 4px 0 0; border-radius: 50%; }
+  #doc-loblaw .uc .uc__detail .uc__constats--cartes { margin-top: 24px; }
 </style>
 </head>
 <body>
@@ -10382,28 +10384,15 @@
             <figure class="uc__figure"><img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" loading="lazy"></figure>
             <figure class="uc__figure"><img src="lob-healthwatch-courbes.jpg" alt="Healthwatch : les courbes de croissance à côté du formulaire patient." width="869" height="580" loading="lazy"></figure>
           </div>
-          <div class="uc__gravite">
-            <h3 class="uc__niveau"><span class="uc__puce uc__puce--rouge"></span>Critiques</h3>
-            <ul class="uc__constats-simples">
-              <li><strong>Layout 30/70 déséquilibré.</strong> Sous une forte lumière, deux colonnes denses alourdissent la lecture dès l’ouverture.</li>
-              <li><strong>Aucune hiérarchie typographique.</strong> Tout a le même poids&nbsp;: impossible de scanner une fiche patient.</li>
-              <li><strong>Pas de retour d’état ni de validation.</strong> Sans états clairs, les erreurs de saisie augmentent, avec un impact clinique.</li>
+            <ul class="uc__constats uc__constats--cartes" aria-label="Analyse heuristique, par gravité">
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Layout 30/70 déséquilibré</strong><span>Sous une forte lumière, deux colonnes denses alourdissent la lecture dès l’ouverture.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Aucune hiérarchie typographique</strong><span>Tout a le même poids&nbsp;: impossible de scanner une fiche patient.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Pas de retour d’état ni de validation</strong><span>Sans états clairs, les erreurs de saisie augmentent, avec un impact clinique.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--orange" aria-hidden="true"></span><span class="uc__categorie">Modérée</span></span><strong>Barre d’outils surchargée</strong><span>Toutes les actions au même niveau, primaires comme secondaires.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--orange" aria-hidden="true"></span><span class="uc__categorie">Modérée</span></span><strong>Onglets peu lisibles</strong><span>Faible contraste&nbsp;: on repère mal l’onglet actif, surtout en pleine lumière.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--gris" aria-hidden="true"></span><span class="uc__categorie">Mineure</span></span><strong>Légende du graphique illisible</strong><span>Contraste couleur/fond insuffisant en pleine lumière.</span></li>
+              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--gris" aria-hidden="true"></span><span class="uc__categorie">Mineure</span></span><strong>Cases à cocher sans état clair</strong><span>Les éléments cochés se repèrent mal.</span></li>
             </ul>
-          </div>
-          <div class="uc__gravite">
-            <h3 class="uc__niveau"><span class="uc__puce uc__puce--orange"></span>Modérées</h3>
-            <ul class="uc__constats-simples">
-              <li><strong>Barre d’outils surchargée.</strong> Toutes les actions au même niveau, primaires comme secondaires.</li>
-              <li><strong>Onglets peu lisibles.</strong> Faible contraste&nbsp;: on repère mal l’onglet actif, surtout en pleine lumière.</li>
-            </ul>
-          </div>
-          <div class="uc__gravite">
-            <h3 class="uc__niveau"><span class="uc__puce uc__puce--gris"></span>Mineures</h3>
-            <ul class="uc__constats-simples">
-              <li><strong>Légende du graphique illisible.</strong> Contraste couleur/fond insuffisant en pleine lumière.</li>
-              <li><strong>Cases à cocher sans état clair.</strong> Les éléments cochés se repèrent mal.</li>
-            </ul>
-          </div>
           </details>
         </section>
 
