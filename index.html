@@ -7134,17 +7134,17 @@
     .mob-dossier__signe { margin-left: auto; font: 400 16px/24px "Geist", Arial, sans-serif; color: #1C1917; }
     .mob-dossier:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
 
-    .mob-dossier__panneau { list-style: none; margin: 0; padding: 0 0 16px; }
+    .mob-dossier__panneau { list-style: none; margin: 0; padding: 8px 0 32px; }
     .mob-dossier__panneau[hidden] { display: none; }
     .mob-ligne {
-      display: grid; grid-template-columns: var(--col) 1fr; column-gap: var(--gout); align-items: center;
-      padding: 8px 0; color: #1C1917; text-decoration: none;
+      display: grid; grid-template-columns: var(--col) 1fr; column-gap: var(--gout); align-items: baseline;
+      padding: 12px 0; color: #1C1917; text-decoration: none;
     }
-    .mob-ligne__vignette { width: 100%; height: auto; aspect-ratio: 1; border-radius: 8px; background: #ddd center top / cover no-repeat; }
-    .mob-ligne__titre { font: 400 16px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
+    /* Pas d'image : un numéro, un nom, de l'air. */
+    .mob-ligne__num { font: 400 16px/24px "Geist", Arial, sans-serif; font-variant-numeric: tabular-nums; color: #8F8F8C; }
+    .mob-ligne__titre { font: 400 20px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-ligne__bientot { display: block; font: 400 13px/16px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-ligne--bientot { color: #A8A29A; }
-    .mob-ligne--bientot .mob-ligne__vignette { opacity: 0.45; }
     a.mob-ligne:active { background: rgba(0,0,0,0.03); }
     a.mob-ligne:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
   }
@@ -10276,7 +10276,7 @@
       </div>
 
       <!-- Le titre, au centre de la barre : du texte, pas un lien. -->
-      <p class="menubar__titre">Digital Designer — UI, UX, Marketing et Produit</p>
+      <p class="menubar__titre">Designer digital — UI, UX, Marketing et Produit SaaS</p>
 
       <div class="menubar__trailing" data-node-id="118:195">
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
@@ -16770,14 +16770,13 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     ul.className = 'mob-dossier__panneau'; ul.id = 'mob-panneau-' + i; ul.hidden = true;
     d.projets.forEach((p) => {
       const f = document.createElement('li');
-      const id = existe(p.lien);
+      const id = existe(p.lien), j = d.projets.indexOf(p);
       const el = document.createElement(id ? 'a' : 'div');
       el.className = 'mob-ligne' + (id ? '' : ' mob-ligne--bientot');
       if (id) el.href = p.lien;
-      el.innerHTML = '<span class="mob-ligne__vignette"></span><span><span class="mob-ligne__titre"></span></span>';
-      const v = el.querySelector('.mob-ligne__vignette');
-      v.style.backgroundColor = p.couleur || '#ddd';
-      if (p.img) v.style.backgroundImage = 'url("' + p.img + '")';
+      // Style suisse : un numéro en colonne 1, le nom dès la colonne 2.
+      el.innerHTML = '<span class="mob-ligne__num" aria-hidden="true"></span><span><span class="mob-ligne__titre"></span></span>';
+      el.querySelector('.mob-ligne__num').textContent = String(j + 1).padStart(2, '0');
       el.querySelector('.mob-ligne__titre').textContent = p.nom;
       if (!id) {
         const s = document.createElement('span');
@@ -17270,12 +17269,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const bloc = zone && zone.querySelector('.en-ce-moment');
   if (!slot || !bloc) return;
   const titre = document.querySelector('.menubar__titre');
-  // Sur 2 colonnes, les coupures sont choisies : « Digital Designer — » /
-  // « UI, UX, Marketing » / « et Produit » (espaces insécables ailleurs).
+  // Sur 2 colonnes, les coupures sont choisies : « Designer digital — » /
+  // « UI, UX, Marketing » / « et Produit SaaS » (espaces insécables ailleurs).
   if (titre) {
     const [qui, quoi] = titre.textContent.trim().split(' — ');
     const p = slot.querySelector('.mob-titre');
-    if (quoi) p.append(qui + ' —', document.createElement('br'), quoi.replace('UI, UX,', 'UI,\u00A0UX,').replace('et Produit', 'et\u00A0Produit'));
+    if (quoi) p.append(qui + ' —', document.createElement('br'), quoi.replace('UI, UX,', 'UI,\u00A0UX,').replace(/et .+$/, (m) => m.replace(/ /g, '\u00A0')));
     else p.textContent = qui;
   }
   const mq = matchMedia('(max-width: 1023px)');
