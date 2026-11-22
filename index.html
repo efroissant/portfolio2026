@@ -8880,7 +8880,12 @@
     }
     .en-ce-moment__heure [data-heure] { font-family: "Instrument Serif", Georgia, serif !important; font-variant-numeric: tabular-nums; }
     .en-ce-moment__heure [data-ville] { font-family: "Instrument Serif", Georgia, serif !important; }
-    .en-ce-moment__heure { cursor: default; }
+    /* « Montréal » invite au survol : souligné en pointillés, qui se remplit au passage. */
+    .accueil-droite .en-ce-moment__heure [data-ville] {
+      cursor: pointer; text-decoration: underline dotted #A8A29E; text-decoration-thickness: 2px; text-underline-offset: 8px;
+      transition: text-decoration-color 160ms ease;
+    }
+    .accueil-droite .en-ce-moment__heure [data-ville]:hover { text-decoration-style: solid; text-decoration-color: #1C1917; }
     .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; max-width: 560px; }
     .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; max-width: 560px; }
     .en-ce-moment__liste dt { color: #8F8F8C; margin-bottom: 2px; }
@@ -17417,10 +17422,10 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   if (ville && ligneHeure) {
     ligneHeure.addEventListener('pointerover', (e) => {
-      if (affole || !e.target.closest('[data-heure], [data-ville]')) return;
+      if (affole || !e.target.closest('[data-ville]')) return;
       affole = true; affoler(); tourne = setInterval(affoler, 45);
     });
-    ligneHeure.addEventListener('pointerleave', () => {
+    ville.addEventListener('pointerleave', () => {
       if (!affole) return;
       clearInterval(tourne); affole = false;
       ville.textContent = 'Montréal'; maj();
