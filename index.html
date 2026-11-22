@@ -7037,7 +7037,7 @@
   /* ===== TÉLÉPHONE ET TABLETTE : BIO + TROIS PROJETS =====
      La pochette n'est plus là : la page commence sous la barre, avec la
      bio, ma photo et les projets en cartes qu'on touche pour ouvrir. */
-  .mob-bio, .mob-projets__titre, .mob-projets, .mob-note { display: none; }
+  .mob-accueil, .mob-projets__titre, .mob-projets, .mob-note { display: none; }
   @media (max-width: 1023px) {
     .stage[data-state="lock"] :is(.stage__bg, .stage__video, .stage__tint, .stage__scrim) { display: none; }
     .stage[data-state="lock"] .face-a-mobile {
@@ -7048,15 +7048,25 @@
       left: auto; right: max(16px, (100vw - 640px) / 2);
       bottom: auto; top: calc(var(--haut-v) - 4px);
     }
-    .face-a-mobile .mob-bio {
-      display: block; margin: 0 0 64px;
-      font: 400 32px/40px "Geist", Arial, sans-serif;
-      letter-spacing: -0.02em; color: #1C1917;
+    /* Accueil : titre, heure à Montréal, activité, puis les quatre infos
+       en deux colonnes. Grille de 8. */
+    .face-a-mobile .mob-accueil { display: block; margin: 0 0 64px; color: #1C1917; }
+    .face-a-mobile img.face-a-mobile__photo {
+      display: block; width: 100%; height: auto; aspect-ratio: 3 / 2;
+      object-fit: cover; object-position: 30% 50%;
+      background: #D9D4CC; border-radius: 8px; box-shadow: none;
     }
-    .face-a-mobile .face-a-mobile__photo {
-      background: #D9D4CC url("profil-plage.jpg") 30% 50% / cover no-repeat;
-      aspect-ratio: 3 / 2; border-radius: 10px; box-shadow: none;
+    .mob-titre { margin: 0 0 32px; font: 400 16px/24px "Geist", Arial, sans-serif; }
+    .mob-accueil .en-ce-moment__heure {
+      margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
+      font-size: 40px; line-height: 48px; letter-spacing: -0.5px;
     }
+    .mob-accueil .en-ce-moment__heure [data-heure] { font-family: inherit !important; font-variant-numeric: tabular-nums; }
+    .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #8F8F8C; font-size: 16px; line-height: 24px; }
+    .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin: 0; font-size: 16px; line-height: 24px; }
+    .mob-accueil .en-ce-moment__liste dt { color: #8F8F8C; }
+    .mob-accueil .en-ce-moment__liste dd { margin: 0; }
+    .mob-accueil .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
     .face-a-mobile .mob-projets__titre {
       display: block; margin: 40px 0 12px;
       font: 400 16px/1 "Geist", Arial, sans-serif; color: #6A6A6A;
@@ -7868,7 +7878,7 @@
   @keyframes allumage { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .glitch-reste, .glitch-arrivee, .allumage { animation: none; } }
   /* Avant l'allumage, la salle est éteinte : rien ne s'affiche d'abord en plein. */
-  .avant-allumage :is(.menubar__leading, .menubar__titre, .avatar-accueil, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-bio, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .en-ce-moment, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
+  .avant-allumage :is(.menubar__leading, .menubar__titre, .avatar-accueil, .menubar__trailing, .logo-mobile, .note-mobile, .profil__bio p, .mob-accueil, .profil__image, .photo-sel, .face-a-mobile__photo, .dossier, .mob-dossier, .projets-liste, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .en-ce-moment, .note-bas, .mob-note, .radio-bouton) { opacity: 0; }
   .demarrage__curseur {
     display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px;
     background: currentColor; animation: demarrage-clignote 900ms steps(1) infinite;
@@ -9048,7 +9058,7 @@
     const ORDRE = [
       '.menubar__leading', '.menubar__titre', '.menubar__trailing', '.logo-mobile', '.note-mobile',
       '.avatar-accueil',
-      '.profil__bio p', '.mob-bio',
+      '.profil__bio p', '.mob-accueil',
       '.profil__image', '.photo-sel', '.face-a-mobile__photo',
       '.dossier', '.mob-dossier', '.projets-liste',
       // Les dossiers, ligne par ligne : (−), chaque dossier, chaque fichier.
@@ -9466,10 +9476,14 @@
        La liste FACE A y est déplacée par le script (une seule source,
        dans .livret-droite). -->
   <section class="face-a-mobile" id="face-a-mobile" aria-label="L’intérieur de la pochette">
-    <!-- Téléphone et tablette : la bio, ma photo, puis les trois projets en
-         direct (les dossiers du grand écran n'existent pas ici). -->
-    <p class="mob-bio">Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Les rencontres que je fais nourrissent aussi mon travail. Faire tenir tout ça dans un même parcours, c’est un drôle de défi que j’essaie encore de relever.<br><br>Je conçois surtout des interfaces et des produits SaaS. Selon le projet, je fais aussi un peu d’analyse, de rédaction et parfois d’illustration.<br><br>En ce moment, j’explore l’IA et le vibe coding. Je n’aspire à devenir ni master ni ninja de quoi que ce soit. J’aime apprendre et voir ce que je peux faire avec ce que je viens de découvrir.</p>
-    <div class="face-a-mobile__photo" role="img" aria-label="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage"></div>
+    <!-- Téléphone et tablette : le même accueil que le grand écran, à la
+         verticale. Le titre est copié de la barre ; le bloc « En ce moment »
+         (heure, activité, infos) est déplacé ici par le script : une seule
+         source pour les deux tailles d'écran. -->
+    <div class="mob-accueil" id="mob-accueil"><p class="mob-titre"></p></div>
+    <!-- La plage : l'eau passe d'elle-même quand la photo arrive à l'écran,
+         puis suit le doigt. -->
+    <img class="face-a-mobile__photo" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false">
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
          le script à partir des .dossier : une seule source. Un toucher
          déplie le contenu du dossier sous sa rangée. -->
@@ -15940,7 +15954,9 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 (function bioEau() {
   const p = document.querySelector('.profil__bio p');
   if ( window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  // Souris : la photo de la bio. Au doigt, seule eauWebGL sert (la plage
+  // de l'accueil mobile) : on ne prépare ni les ronds ni la photo.
+  const finSouris = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   // Diamètre des ronds à l'écran, résolution des cartes, images de l'animation.
   // Les cartes sont calculées petites puis agrandies : le navigateur les
   // lisse en les agrandissant, ce qui adoucit les vagues.
@@ -15971,7 +15987,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   }
   }
   const plusTard = window.requestIdleCallback || ((f) => setTimeout(f, 200));
-  if (document.readyState === 'complete') plusTard(preparer);
+  if (!finSouris) {}
+  else if (document.readyState === 'complete') plusTard(preparer);
   else addEventListener('load', () => plusTard(preparer), { once: true });
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
@@ -16025,7 +16042,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   // eau(p, 'bio-eau', 58);   // effet d'eau sur la bio retiré (décommenter pour le remettre)
   // La photo : une vraie simulation d'eau en WebGL ; sinon, les ronds SVG.
   const photo = document.querySelector('.profil__image');
-  if (!eauWebGL(photo)) eau(photo, 'photo-eau', 46);
+  if (finSouris && !eauWebGL(photo)) eau(photo, 'photo-eau', 46);
   window.eauWebGL = eauWebGL;   // réutilisée par la photo de Profil
 
   /* ===== Photo dans l'eau (WebGL2) =====
@@ -16205,7 +16222,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       return [(lx + img.offsetWidth / 2 + M.g) / cw, 1 - (ly + img.offsetHeight / 2 + M.h) / ch];
     }
 
-    let actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0;
+    let auto = null, actif = false, survol = false, boucle = 0, cur = 0, souris = null, derniere = null, derniereGoutte = 0;
     function pas(trait, force) {
       const lire = surfaces[cur], ecrire = surfaces[1 - cur];
       gl.bindFramebuffer(gl.FRAMEBUFFER, ecrire.fb); gl.viewport(0, 0, W, H);
@@ -16222,6 +16239,15 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     }
     function image(t) {
       caler(); chargerImage();
+      if (auto) {
+        const k = (t - auto.t0) / auto.duree;
+        if (k >= 1) { auto = null; survol = false; }
+        else {
+          const r = img.getBoundingClientRect(), q = Math.max(0, k);
+          souris = { x: r.left + r.width * (0.1 + 0.8 * q), y: r.top + r.height * (0.55 + 0.2 * Math.sin(q * Math.PI * 2.5)) };
+          if (!derniere) derniere = { ...souris };
+        }
+      }
       // Tant que l'image n'est pas prête, on laisse voir la vraie photo.
       toile.style.display = imageChargee ? 'block' : 'none';
       // Seul le mouvement de la souris touche l'eau : un trait continu, plus
@@ -16248,23 +16274,42 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
       { const M = marges(), cw = img.offsetWidth + M.g + M.d, ch = img.offsetHeight + M.h + M.b;
         gl.uniform4f(u(pRendu, 'cadre'), M.g / cw, M.b / ch, (M.g + img.offsetWidth) / cw, (M.b + img.offsetHeight) / ch); }
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      if (survol) { loupe.style.left = souris.x + 'px'; loupe.style.top = souris.y + 'px'; }
+      if (survol && souris) { loupe.style.left = souris.x + 'px'; loupe.style.top = souris.y + 'px'; }
       // Souris partie et eau calmée : on range la toile.
       if (!survol && t - derniereGoutte > 3000) { actif = false; boucle = 0; toile.style.display = 'none'; etendu = false; return; }
       boucle = requestAnimationFrame(image);
     }
+    function demarrer() {
+      if (actif) return;
+      actif = true; derniereGoutte = performance.now(); caler(); preparerSurfaces(); chargerImage();
+      toile.style.display = 'block';
+      boucle = requestAnimationFrame(image);
+    }
+    // Le doigt passe par les événements tactiles : ceux du pointeur
+    // s'interrompent dès que la page défile.
     img.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'touch') return;
       if (e.isTrusted) doux = false;   // la vraie souris : l'effet retrouve sa force
+      auto = null;
       survol = true; souris = { x: e.clientX, y: e.clientY }; derniere = { ...souris };
       loupe.classList.add('est-visible');
-      if (!actif) {
-        actif = true; derniereGoutte = performance.now(); caler(); preparerSurfaces(); chargerImage();
-        toile.style.display = 'block';
-        boucle = requestAnimationFrame(image);
-      }
+      demarrer();
     });
-    img.addEventListener('pointermove', (e) => { souris = { x: e.clientX, y: e.clientY }; });
-    img.addEventListener('pointerleave', () => { survol = false; loupe.classList.remove('est-visible'); });
+    img.addEventListener('pointermove', (e) => { if (e.pointerType !== 'touch') souris = { x: e.clientX, y: e.clientY }; });
+    img.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch') return; survol = false; loupe.classList.remove('est-visible'); });
+    // Au doigt : l'eau suit le doigt, même pendant que la page défile.
+    const toucher = (e) => { const t = e.touches[0]; if (t) souris = { x: t.clientX, y: t.clientY }; };
+    img.addEventListener('touchstart', (e) => {
+      doux = false; auto = null; toucher(e); derniere = { ...souris }; survol = true; demarrer();
+    }, { passive: true });
+    img.addEventListener('touchmove', toucher, { passive: true });
+    ['touchend', 'touchcancel'].forEach((n) => img.addEventListener(n, () => { survol = false; }));
+    // Un doigt invisible traverse la photo, de gauche à droite, en vague.
+    img._eauAuto = (duree) => {
+      if (survol) return;
+      auto = { t0: performance.now(), duree: duree || 2400 };
+      survol = true; souris = null; derniere = null; demarrer();
+    };
     // Déborder une fois (l'éclaboussure du chargement) ; ensuite, le cadre.
     img._eauDeborder = () => { if (DEB && !actif) etendu = true; };
     img._eauDoux = () => { doux = true; };
@@ -17188,6 +17233,41 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     const f = arbo.querySelector('.arbo__fichier[href="' + a.dataset.fichier + '"]');
     if (f) { e.preventDefault(); f.click(); }
   }));
+})();
+/* Téléphone et tablette : « En ce moment » descend dans l'accueil mobile,
+   sous le titre de la barre ; il remonte à droite sur grand écran. */
+(function accueilMobile() {
+  const slot = document.getElementById('mob-accueil');
+  const zone = document.querySelector('.accueil-droite');
+  const bloc = zone && zone.querySelector('.en-ce-moment');
+  if (!slot || !bloc) return;
+  const titre = document.querySelector('.menubar__titre');
+  if (titre) slot.querySelector('.mob-titre').textContent = titre.textContent.trim();
+  const mq = matchMedia('(max-width: 1023px)');
+  const placer = () => { if (mq.matches) slot.append(bloc); else zone.prepend(bloc); };
+  placer(); mq.addEventListener('change', placer);
+
+  // La plage : l'eau, un passage automatique à chaque arrivée à l'écran
+  // (au plus toutes les 8 s ; jamais si les animations sont réduites).
+  const plage = document.querySelector('img.face-a-mobile__photo');
+  if (!plage) return;
+  const calme = matchMedia('(prefers-reduced-motion: reduce)');
+  let branche = false, dernier = -Infinity;
+  const brancher = () => { if (!branche && window.eauWebGL) branche = window.eauWebGL(plage, { force: 1.4, refraction: 0.2 }); };
+  if (plage.complete && plage.naturalWidth) brancher(); else plage.addEventListener('load', brancher, { once: true });
+  new IntersectionObserver((entrees) => entrees.forEach((en) => {
+    if (!en.isIntersecting || calme.matches || !mq.matches) return;
+    brancher();
+    const t = performance.now();
+    if (!branche || !plage._eauAuto || t - dernier < 8000) return;
+    dernier = t;
+    // Pas pendant l'arrivée sur le site : la photo n'est pas encore là.
+    const lancer = () => {
+      if (document.documentElement.classList.contains('avant-allumage')) setTimeout(lancer, 300);
+      else setTimeout(() => plage._eauAuto(2400), 600);
+    };
+    lancer();
+  }), { threshold: 0.6 }).observe(plage);
 })();
 /* L'effet d'eau sur mon portrait de l'accueil, comme sur la photo de la bio. */
 (function eauAvatar() {
