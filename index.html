@@ -9044,6 +9044,12 @@
   .stage .doc .uc--carte .uc__bloc p:not(.uc__note):not(.uc__suite) { color: rgba(28,25,23,0.68) !important; }
   .stage .doc .uc--carte .uc__cle-signe { color: rgba(28,25,23,0.45); }
   .stage .doc .uc--carte .uc__bloc { border-top-color: rgba(28,25,23,0.2); }
+  /* Les cartes d'études vont jusqu'à la dernière colonne (colonnes 6 à 12). */
+  @media (min-width: 1024px) {
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc {
+      width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important;
+    }
+  }
 </style>
 </head>
 <body>
