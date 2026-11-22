@@ -9454,11 +9454,9 @@
     html body .stage #doc-loblaw .uc.uc.uc .uc__tete > .uc__corps { margin: 0 !important; font-size: 15px !important; line-height: 22px !important; }
     html body .stage #doc-loblaw .uc.uc.uc .uc__chiffres { align-content: end; }
     html body .stage #doc-loblaw .uc.uc.uc .uc__fin { display: flex; align-items: flex-end; }
-    /* Voile flou au bord droit : la carte suivante se devine. */
+    /* Fondu blanc au bord droit : la carte suivante se devine. */
     html body .stage #doc-loblaw .panneaux-voile { display: block; position: absolute; top: 0; bottom: 0; right: 0; width: 180px; z-index: 3; pointer-events: none;
-      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-      background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.85));
-      -webkit-mask-image: linear-gradient(to right, transparent, #000 75%); mask-image: linear-gradient(to right, transparent, #000 75%);
+      background: linear-gradient(to right, rgba(255,255,255,0), #FFFFFF 85%);
       transition: opacity 240ms ease; }
     html body .stage #doc-loblaw .panneaux-voile.est-cache { opacity: 0; }
     /* Le curseur devient une pastille « Glisser » sur la rangée. */
