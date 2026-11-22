@@ -9410,12 +9410,12 @@
   }
   /* ===== Pharmaprix : une rangée de cartes qu'on fait glisser =====
      Carte d'intro (rouge), photo plus large, puis les sections, chacune dans
-     sa carte ; la rangée part de la colonne 5 et s'arrête dans un cadre
+     sa carte ; la rangée part de la colonne 4 et s'arrête dans un cadre
      invisible calé sur la fin de « LinkedIn », où un voile flou laisse
      deviner la suite. On l'attrape à la souris. */
   .panneaux-voile, .panneaux-curseur, .uc__intro, .uc__photo { display: none; }
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw { --col: calc((100vw - 48px - 11 * 24px) / 12); --c5: calc(24px + (var(--col) + 24px) * 4); }
+    html body .stage #doc-loblaw { --col: calc((100vw - 48px - 11 * 24px) / 12); --c5: calc(24px + (var(--col) + 24px) * 3); }   /* départ : colonne 4 */
     html body .stage #doc-loblaw.doc { left: var(--c5) !important; right: var(--droite, 100px) !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
     html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: transparent !important; border: 0 !important; border-radius: 0 !important; display: flex !important; flex-direction: column; }
     html body .stage #doc-loblaw :is(.panneaux-tete, .panneaux-nav.panneaux-nav) { display: none !important; }
