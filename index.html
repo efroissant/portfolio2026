@@ -9184,11 +9184,16 @@
     const [texte, pause] = LIGNES[i++];
     const l = document.createElement('span');
     l.className = 'demarrage__ligne' + (i === LIGNES.length ? ' demarrage__ligne--ok' : '');
-    l.textContent = texte;
-    l.append(curseur);
     ecran.append(l);
-    // Un peu ralenti : chaque pause à 75 %, le démarrage dure un peu plus d.une seconde.
-    setTimeout(suivante, calme ? 60 : Math.round(pause * 0.75));
+    // Les émojis arrivent un par un, vite ; puis une courte pause avant la ligne suivante.
+    const morceaux = texte.split(' ');
+    let k = 0;
+    (function ajouter() {
+      l.textContent = morceaux.slice(0, ++k).join(' ');
+      l.append(curseur);
+      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 60);
+      else setTimeout(suivante, calme ? 40 : Math.round(pause * 0.5));
+    })();
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
   const DEMARRAGE = true;
