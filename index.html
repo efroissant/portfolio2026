@@ -7149,6 +7149,33 @@
     a.mob-ligne:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
   }
 
+  /* ===== TÉLÉPHONE ET TABLETTE : PROFIL EN PLEIN ÉCRAN =====
+     La bio du grand écran (.profil), sous la barre, sur la grille de 4. */
+  .profil-retour { display: none; }
+  @media (max-width: 1023px) {
+    html.profil-mobile-ouvert, html.profil-mobile-ouvert body { overflow: hidden; }
+    .stage.profil-mobile .profil {
+      display: block; position: fixed; left: 0; right: 0; bottom: 0; top: var(--nav-h, 44px);
+      z-index: 18; overflow-y: auto; overscroll-behavior: contain;
+      padding: 0 16px 64px; background: #FFFFFF; color: #1C1917;
+    }
+    .stage.profil-mobile .profil > * { max-width: 640px; margin-left: auto; margin-right: auto; }
+    .stage.profil-mobile .profil-retour {
+      display: block; margin: 32px auto 32px; padding: 0; border: 0; background: none; cursor: pointer;
+      font: 400 16px/24px "Geist", Arial, sans-serif; color: #1C1917; text-align: left; width: 100%;
+    }
+    .stage.profil-mobile .profil__bio > p {
+      margin: 0 0 32px; font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em;
+    }
+    /* La photo de tête reste au grand écran (elle ouvre la section Photos,
+       qui la reprend) ; sa place vide n'a pas lieu d'être ici. */
+    .stage.profil-mobile .profil__place { display: none; }
+    .stage.profil-mobile .bio-suite { display: block; }
+    .stage.profil-mobile .bio-photo { margin: 0 0 32px; }
+    .stage.profil-mobile .bio-section__titre { margin: 64px 0 24px; font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
+    .stage.profil-mobile .profil__bio img { display: block; width: 100%; height: auto; border-radius: 8px; }
+  }
+
   /* ===== TÉLÉPHONE : LA MUSIQUE EN OPTION =====
      Une note au milieu de la barre. Elle déplie le lecteur en traits du
      grand écran juste dessous, sans voile : on lance un morceau et on
@@ -16747,17 +16774,18 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
 })();
 
 /* Téléphone et tablette : les dossiers en liste, construits à partir des
-   mêmes données que la liste du grand écran (DOSSIERS_SITE). Bio est déjà
-   affichée en haut de page : elle n'a pas de ligne ici. */
+   mêmes données que la liste du grand écran (DOSSIERS_SITE), Bio compris.
+   Profil ouvre la bio du grand écran (.profil) en plein écran. */
 (function dossiersMobile() {
   const liste = document.getElementById('mob-dossiers');
   const DOSSIERS = window.DOSSIERS_SITE;
   if (!liste || !DOSSIERS) return;
   const existe = (lien) => {
+    if (lien === '#profil') return 'profil';
     const id = (lien.match(/^#case\/(\w[\w-]*)$/) || [])[1];
     return id && document.getElementById('doc-' + id) ? id : null;
   };
-  DOSSIERS.filter((d) => d.nom !== 'Bio').forEach((d, i) => {
+  DOSSIERS.forEach((d, i) => {
     const li = document.createElement('li');
     const btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'mob-dossier';
@@ -16799,9 +16827,34 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (!a) return;
     ev.preventDefault(); ev.stopPropagation();
     const h = a.getAttribute('href');
+    if (h === '#profil') { ouvrirProfil(); return; }
     if (location.hash !== h) history.pushState(null, '', h);
     dispatchEvent(new PopStateEvent('popstate'));
   });
+
+  // Profil en plein écran, sous la barre. « ← Accueil » ou le bouton
+  // retour du téléphone le referment.
+  const stage = document.getElementById('stage');
+  const profil = document.querySelector('.profil');
+  const mq = matchMedia('(max-width: 1023px)');
+  if (!profil) return;
+  const retour = document.createElement('button');
+  retour.type = 'button'; retour.className = 'profil-retour'; retour.textContent = '← Accueil';
+  profil.prepend(retour);
+  const fermer = () => { stage.classList.remove('profil-mobile'); document.documentElement.classList.remove('profil-mobile-ouvert'); };
+  function ouvrirProfil(sansHistorique) {
+    if (!sansHistorique && location.hash !== '#profil') history.pushState({ profilMobile: 1 }, '', '#profil');
+    stage.classList.add('profil-mobile'); document.documentElement.classList.add('profil-mobile-ouvert');
+    profil.scrollTop = 0;
+    retour.focus({ preventScroll: true });
+  }
+  retour.addEventListener('click', () => {
+    if (history.state && history.state.profilMobile) history.back();
+    else { history.pushState(null, '', location.pathname + location.search); fermer(); }
+  });
+  addEventListener('popstate', () => { if (location.hash !== '#profil') fermer(); });
+  mq.addEventListener('change', () => { if (!mq.matches) fermer(); });
+  if (mq.matches && location.hash === '#profil') ouvrirProfil(true);
 })();
 </script>
 <script>
