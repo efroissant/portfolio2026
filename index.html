@@ -9282,6 +9282,10 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite { left: calc(24px + ((100vw - 48px - 11 * 24px) / 12 + 24px) * 4) !important; width: calc((100vw - 48px - 11 * 24px) / 12 * 8 + 7 * 24px) !important; }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__scroll, .stage #doc-vide .doc__scroll { padding: 0 !important; margin: 0 !important; }
   }
+  /* Les études s'arrêtent à l'avant-dernière colonne (colonnes 5 à 11). */
+  @media (min-width: 1024px) {
+    .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc { width: calc((100vw - 48px - 11 * 24px) / 12 * 7 + 6 * 24px) !important; }
+  }
 </style>
 </head>
 <body>
