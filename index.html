@@ -4269,7 +4269,7 @@
      bleu-vert de la carte Musique —, un rond noir pour fermer et le titre
      centré. Les filets blancs translucides du thème sombre passent au noir.
      Tout passe par l'ID : les autres études ne bougent pas. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__win {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__win {
     --ink: #000000;
     --ink-rgb: 0, 0, 0;
     background: #FFFFFF;
@@ -4280,14 +4280,14 @@
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bar {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bar {
     height: 32px;
     padding: 0 12px;
     background: #FF795C;
     border-bottom: 1px solid #000000;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bartitle { font-size: 13px; font-weight: 700; color: #000000; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .modal__light--close { border: 1.5px solid #000000; background: transparent; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bartitle { font-size: 13px; font-weight: 700; color: #000000; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .modal__light--close { border: 1.5px solid #000000; background: transparent; }
   /* --- Use Case 01 : système typographique ---------------------------
      Une échelle courte et franche, en Helvetica Neue, sans capitales
      espacées : 13 · 15 · 17 · 22 · 28 · 40. Chaque niveau a un seul
@@ -4304,96 +4304,96 @@
      trait entre les blocs. Le seul contour qui reste est celui des
      captures, le même que celui de la fenêtre. Le corail du bandeau sert
      d'unique accent : la pastille des décisions. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page {
     padding: 72px 0 120px;
     font-size: 17px; line-height: 28px;
     color: #1A1A1A;
     letter-spacing: 0;
   }
   /* Une colonne de lecture de 620, centrée ; les captures gardent 772. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page > header,
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc,
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page > header,
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc,
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision {
     width: 100%; max-width: 620px; justify-self: center;
   }
   /* :where(p) : le paragraphe par défaut ne doit pas écraser les marges
      propres au client, à la durée et au chapeau définies juste après. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page :where(p) { margin: 0 0 20px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page :where(p) { margin: 0 0 20px; }
 
   /* En-tête */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__eyebrow {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__eyebrow {
     margin: 0 0 16px;
     font-size: 15px; line-height: 22px; font-weight: 500;
     letter-spacing: 0; text-transform: none;
     color: rgba(0, 0, 0, 0.55);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__titre {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre {
     font-size: 40px; line-height: 44px; font-weight: 700;
     letter-spacing: -0.025em;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__client {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__client {
     margin: 12px 0 0;
     font-size: 17px; line-height: 24px; font-weight: 500;
     color: #000000;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__temps {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__temps {
     margin: 4px 0 0;
     font-size: 15px; line-height: 22px;
     color: rgba(0, 0, 0, 0.55);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__hook {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook {
     margin: 32px 0 0;
     font-size: 22px; line-height: 32px; font-weight: 500;
     letter-spacing: -0.01em;
     color: #000000;
   }
   /* Les cinq faits dans un seul panneau crème, sans filets. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume,
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume,
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta {
     border: 0;
     background: #F7F4EF;
     margin: 0;
     gap: 20px 24px;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume {
     margin-top: 40px;
     padding: 24px 24px 20px;
     border-radius: 4px 4px 0 0;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta {
     padding: 0 24px 24px;
     border-radius: 0 0 4px 4px;
     /* Mêmes trois colonnes que la rangée du dessus : « Outils » tombe sous
        « Livré », « Équipe » prend les deux premières. */
     grid-template-columns: repeat(3, 1fr);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta > div:first-child { grid-column: span 2; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume dt,
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta dt {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta > div:first-child { grid-column: span 2; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume dt,
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta dt {
     margin: 0 0 4px;
     font-size: 13px; line-height: 20px; font-weight: 500;
     letter-spacing: 0; text-transform: none;
     color: rgba(0, 0, 0, 0.55);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume dd,
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta dd {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume dd,
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta dd {
     margin: 0;
     font-size: 15px; line-height: 22px; font-weight: 500;
     color: #000000;
   }
 
   /* Chapitres : l'espace sépare, l'étiquette situe, le titre affirme. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc { margin-top: 48px; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc--chapitre {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc { margin-top: 48px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc--chapitre {
     margin-top: 112px; padding-top: 0; border: 0;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__num {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__num {
     margin: 0 0 12px; padding: 0;
     font-size: 15px; line-height: 22px; font-weight: 500;
     letter-spacing: 0; text-transform: none;
     color: rgba(0, 0, 0, 0.55);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h2 {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 {
     margin: 0 0 20px;
     font-size: 28px; line-height: 36px; font-weight: 700;
     letter-spacing: -0.02em;
@@ -4401,10 +4401,10 @@
   }
 
   /* Décisions : pastille corail numérotée, titre, contrainte en encadré. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision {
     margin-top: 80px; padding-top: 0; border: 0;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision .doc__num {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision .doc__num {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 40px; height: 28px; padding: 0 10px;
     margin: 0 0 16px;
@@ -4414,13 +4414,13 @@
     color: #000000;
     font-variant-numeric: tabular-nums;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision h3 {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision h3 {
     margin: 0 0 20px;
     font-size: 22px; line-height: 30px; font-weight: 700;
     letter-spacing: -0.015em;
     color: #000000;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__contrainte {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte {
     margin: 0 0 24px;
     padding: 16px 20px;
     border: 0;
@@ -4429,7 +4429,7 @@
     font-size: 17px; line-height: 26px; font-weight: 500;
     color: #000000;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__notion {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion {
     margin: 4px 0 0;
     padding: 5px 12px;
     border-radius: 4px;
@@ -4438,29 +4438,29 @@
     letter-spacing: 0; text-transform: none;
     color: rgba(0, 0, 0, 0.7);
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__notion::before { content: "Principe · "; color: rgba(0, 0, 0, 0.45); }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion::before { content: "Principe · "; color: rgba(0, 0, 0, 0.45); }
 
   /* Captures : le trait de la fenêtre, une légende courte et discrète. */
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig { margin: 48px 0 0; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig + .doc__fig { margin-top: 32px; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig img { border: 1px solid #000000; border-radius: 4px; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig figcaption {
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig { margin: 48px 0 0; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig + .doc__fig { margin-top: 32px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig img { border: 1px solid #000000; border-radius: 4px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig figcaption {
     margin-top: 12px;
     font-size: 13px; line-height: 20px;
     color: rgba(0, 0, 0, 0.55);
   }
 
   @media (max-width: 767px) {
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page { padding: 40px 0 72px; font-size: 16px; line-height: 26px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__titre { font-size: 30px; line-height: 36px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__hook { font-size: 19px; line-height: 28px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__resume { grid-template-columns: 1fr; padding: 20px 20px 16px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta { grid-template-columns: 1fr; padding: 0 20px 20px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__meta > div:first-child { grid-column: auto; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc--chapitre { margin-top: 72px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h2 { font-size: 24px; line-height: 32px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision { margin-top: 56px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__contrainte { font-size: 16px; line-height: 24px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 40px 0 72px; font-size: 16px; line-height: 26px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre { font-size: 30px; line-height: 36px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook { font-size: 19px; line-height: 28px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume { grid-template-columns: 1fr; padding: 20px 20px 16px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta { grid-template-columns: 1fr; padding: 0 20px 20px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta > div:first-child { grid-column: auto; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc--chapitre { margin-top: 72px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 { font-size: 24px; line-height: 32px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision { margin-top: 56px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font-size: 16px; line-height: 24px; }
   }
 
   /* --- le filet de séparation --------------------------------------- */
@@ -7480,12 +7480,12 @@
      voile bleu nuit ; en-tête « LIVRET / USE CASE 0X » et FERMER en
      capitales ; titres en Cormorant Garamond, texte en DM Sans, repères
      en petites capitales espacées. Les accents corail disparaissent. */
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) {
     inset: 0; z-index: 60;
     background: rgba(20, 28, 50, 0.55);
     -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__win {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__win {
     width: min(1520px, 100%);   /* deux fois l'ancienne largeur (760) */
     background: #FBF8F1; color: #1F1F1F;
     border: 0; border-radius: 4px;
@@ -7493,12 +7493,12 @@
     font-family: "DM Sans", sans-serif;
     --ink: #141414; --ink-rgb: 20, 20, 20;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bar {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bar {
     height: auto; min-height: 52px; padding: 4px 10px 4px clamp(20px, 5vw, 40px);
     justify-content: space-between;
     background: none; border-bottom: 1px solid #1A1A1A;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bartitle {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bartitle {
     position: static; transform: none;
     font: 500 12px/1.2 "DM Sans", sans-serif; letter-spacing: 0.14em;
     text-transform: uppercase; color: #4A4A4A;
@@ -7515,68 +7515,68 @@
 
   /* Fenêtre large : les captures s'élargissent jusqu'à 1200, le texte
      garde une colonne de lecture d'environ 720. */
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page {
     grid-template-columns:
       [pleine-debut] minmax(20px, 80px)
       [libelle-debut texte-debut] minmax(0, 1200px)
       [texte-fin] minmax(20px, 80px)
       [pleine-fin];
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) :is(.doc__page > header, .doc__bloc, .doc__decision) { max-width: 720px; }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page > :is(figure, .doc__fig, .doc__hero) { max-width: none; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__page > header, .doc__bloc, .doc__decision) { max-width: 720px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page > :is(figure, .doc__fig, .doc__hero) { max-width: none; }
   /* Texte */
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page {
     padding: 56px 0 96px;
     font: 400 15px/1.7 "DM Sans", sans-serif; color: #1F1F1F;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page a { color: #141414; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page a { color: #141414; }
   /* Repères : petites capitales espacées, comme « LIVRET / FACE A ». */
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) :is(.doc__eyebrow, .doc__num, .doc__temps, .doc__resume dt, .doc__meta dt) {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__eyebrow, .doc__num, .doc__temps, .doc__resume dt, .doc__meta dt) {
     font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.12em;
     text-transform: uppercase; color: #4A4A4A;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__titre {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre {
     font: 300 44px/1.05 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__client {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__client {
     font: 500 13px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em;
     text-transform: uppercase; color: #4A4A4A;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__hook {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook {
     font: 300 26px/1.3 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h2 {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 {
     font: 300 34px/1.1 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision h3,
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h3 {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision h3,
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h3 {
     font: 300 26px/1.2 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
   }
   /* Panneaux : un crème un cran plus soutenu, sans corail. */
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) :is(.doc__resume, .doc__meta, .doc__contrainte, .doc__notion) {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume, .doc__meta, .doc__contrainte, .doc__notion) {
     background: #F1EBDD;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) :is(.doc__resume dd, .doc__meta dd) {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume dd, .doc__meta dd) {
     font: 400 14px/1.5 "DM Sans", sans-serif; color: #1F1F1F;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1F1F1F; border-radius: 2px; }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__notion { font: 500 12px/1.5 "DM Sans", sans-serif; color: #4A4A4A; border-radius: 2px; }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__decision .doc__num {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1F1F1F; border-radius: 2px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion { font: 500 12px/1.5 "DM Sans", sans-serif; color: #4A4A4A; border-radius: 2px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision .doc__num {
     background: none; border: 1px solid #1A1A1A; border-radius: 0;
     height: 26px; min-width: 36px;
     font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; color: #141414;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig img { border: 1px solid rgba(20, 20, 20, 0.25); border-radius: 2px; }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__fig figcaption {
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig img { border: 1px solid rgba(20, 20, 20, 0.25); border-radius: 2px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig figcaption {
     font: 400 13px/1.5 "DM Sans", sans-serif; color: #4A4A4A;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__tags li { background: #F1EBDD; color: #4A4A4A; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 0; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__tags li { background: #F1EBDD; color: #4A4A4A; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 0; }
   @media (max-width: 767px) {
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) { padding: 12px; }
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__page { padding: 36px 0 64px; font-size: 16px; }
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__titre { font-size: 34px; }
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__hook { font-size: 22px; }
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw) .doc__bloc h2 { font-size: 28px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) { padding: 12px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 36px 0 64px; font-size: 16px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre { font-size: 34px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook { font-size: 22px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 { font-size: 28px; }
   }
   /* ---- Bas de page : LKD à gauche, lecteur à droite ----
      Les deux coins du bas, sur la ligne du bas de la pochette. Le lecteur
@@ -8640,7 +8640,7 @@
   .stage #mail, .stage #mail * { text-transform: none !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .stage #mail :is(.mail__bartitle, .mail__fermer, .mail__cancel, .mail__send, .mail__lab) { letter-spacing: -0.1px !important; }
   /* Titre des études : le nom du projet en Instrument Serif 60 px #1C1917 (seule exception à Geist). */
-  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__titre {
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__titre {
     font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important;
     font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important;
     color: #1C1917 !important;
@@ -8997,9 +8997,9 @@
   .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
   .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; }
   .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 16px !important; line-height: 24px !important; color: #1C1917; }
-  .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
+  .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
-  :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
   /* Démarrage en émojis : une ligne par étape, en grand. */
   /* Les 11 lignes tiennent toujours dans la hauteur de l'écran (ordinateur
      comme téléphone) : la taille se règle sur la hauteur disponible. */
@@ -9007,6 +9007,12 @@
     font-size: clamp(18px, calc((100dvh - 48px) / var(--n, 13) / 1.2), 36px); line-height: 1.2; letter-spacing: 0.08em;
   }
   .demarrage .demarrage__signe { color: #A8A29E; font-weight: 300; }
+  /* Étude « Le démarrage » : la clé des émojis, ligne par ligne. */
+  .uc .uc__cle { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .uc .uc__cle li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px; align-items: baseline; }
+  .stage .doc .uc .uc__cle .uc__cle-emo { font-size: 24px !important; line-height: 30px !important; letter-spacing: 0.06em; color: #1C1917; white-space: nowrap; }
+  .uc .uc__cle-signe { color: #A8A29E; font-weight: 300; }
+  .uc .uc__signes .uc__cle-signe { display: inline-block; width: 1.4em; color: #1C1917; }
 </style>
 </head>
 <body>
@@ -9876,6 +9882,107 @@
             </span>
           </a>
         </div>
+      </article>
+    </div>
+   </div>
+  </div>
+  <!-- Use Case : carte « Le démarrage ». -->
+  <div class="doc doc--carte" id="doc-demarragecarte" hidden>
+   <div class="doc__win" role="dialog" aria-labelledby="doc-demarragecarte-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Use Case</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer le projet">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page">
+        <div class="cartep" style="--vert: #FFD84D">
+          <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
+          <ul class="cartep__tags" aria-label="Expertises">
+            <li>Storytelling</li><li>Motion</li><li>Code</li>
+          </ul>
+          <h1 class="cartep__titre" id="doc-demarragecarte-titre">Le démarrage</h1>
+          <div class="cartep__texte">
+            <p class="cartep__annee">1981–aujourd’hui</p>
+            <p>L’écran de chargement de ce portfolio raconte ma vie en émojis, en une seconde. Voici la clé.</p>
+          </div>
+          <a class="cartep__cta" href="#case/demarrage" aria-label="Voir l’étude de cas">
+            <span class="cartep__defile" aria-hidden="true">
+              <span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span><span>↗</span><span>Case Study</span>
+            </span>
+          </a>
+        </div>
+      </article>
+    </div>
+   </div>
+  </div>
+  <!-- Étude de cas : l'écran de démarrage, ma vie en émojis. -->
+  <div class="doc doc--court" id="doc-demarrage" hidden>
+   <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-demarrage-titre">
+    <div class="doc__bar">
+      <span class="doc__bartitle">Use Case</span>
+      <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer l’étude de cas">FERMER</button>
+    </div>
+    <div class="doc__scroll">
+      <article class="doc__page uc">
+        <header class="uc__tete">
+          <p class="uc__surtitre">Ce portfolio · L’écran de démarrage</p>
+          <h1 class="uc__titre" id="doc-demarrage-titre">Comment raconter 45&nbsp;ans en une seconde&nbsp;?</h1>
+          <dl class="uc__fiche">
+            <div><dt>Mon rôle</dt><dd>Concept<br>Design<br>Code</dd></div>
+            <div><dt>Matière</dt><dd>13 lignes<br>Émojis<br>5 signes</dd></div>
+            <div><dt>Durée à l’écran</dt><dd>Environ 1 seconde</dd></div>
+            <div><dt>Outils</dt><dd>HTML, CSS<br>JavaScript<br>L’IA</dd></div>
+          </dl>
+          <p class="uc__enonce">Un portfolio s’ouvre souvent sur un écran de chargement. Le mien raconte déjà qui je suis.</p>
+          <p class="uc__corps">Treize lignes d’émojis, de 1981 à aujourd’hui, qui défilent en une seconde. On n’a pas le temps de tout lire&nbsp;: c’est voulu. Voici la clé.</p>
+        </header>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Pourquoi des émojis</h2>
+          <ul class="uc__liste">
+            <li><strong>Ils se lisent dans toutes les langues.</strong> Pas besoin de traduire.</li>
+            <li><strong>Ils laissent deviner.</strong> On sourit, on reconnaît, on se pose des questions.</li>
+            <li><strong>Ils ne font pas un CV.</strong> Des phrases, personne ne les lirait en une seconde.</li>
+          </ul>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Pourquoi des signes</h2>
+          <p>Cinq signes suffisent pour transformer une suite d’images en phrases&nbsp;:</p>
+          <ul class="uc__liste uc__signes">
+            <li><span class="uc__cle-signe">→</span> un passage, d’un lieu ou d’une étape à l’autre&nbsp;;</li>
+            <li><span class="uc__cle-signe">+</span> ce qui me compose&nbsp;;</li>
+            <li><span class="uc__cle-signe">=</span> ce que ça donne&nbsp;;</li>
+            <li><span class="uc__cle-signe">≠</span> ce qui coince, sans avoir à le nommer&nbsp;;</li>
+            <li><span class="uc__cle-signe">×</span> combien, sans un mot.</li>
+          </ul>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">La clé, ligne par ligne</h2>
+          <ol class="uc__cle">
+            <li><span class="uc__cle-emo" aria-hidden="true">👶 <span class="uc__cle-signe">→</span> 🇫🇷 🌾</span><span><strong>1981.</strong> Je nais en France, à la campagne.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">✏️ <span class="uc__cle-signe">+</span> 🖍️ <span class="uc__cle-signe">=</span> 🎨</span><span>Un enfant qui dessine sans arrêt.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🏫 <span class="uc__cle-signe">≠</span> 🧠 ⚡</span><span>L’école et moi, ça ne colle pas&nbsp;: un TDAH, pas encore diagnostiqué.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🎤 <span class="uc__cle-signe">+</span> 🐶 🐱</span><span>J’aime chanter, et les animaux.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🌾 <span class="uc__cle-signe">→</span> 🗼</span><span>De la campagne à Paris.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">✈️ <span class="uc__cle-signe">×</span> <span class="uc__cle-signe">15</span> 🌍</span><span>Le tourisme&nbsp;: quinze pays, sur quatre continents.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">👨 ⚡ 👨 <span class="uc__cle-signe">=</span> 👨‍❤️‍👨 🏳️‍🌈</span><span>Un coup de foudre, avec un homme.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🌧️ <span class="uc__cle-signe">→</span> 🔥 <span class="uc__cle-signe">→</span> 🐦‍🔥</span><span>Des épreuves parfois dures, et une renaissance.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🇫🇷 <span class="uc__cle-signe">→</span> ⚜️</span><span>Le départ pour le Québec.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🎓 <span class="uc__cle-signe">→</span> 💻 🎨</span><span>Des études, puis designer.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">👨‍❤️‍👨 <span class="uc__cle-signe">+</span> 👦 👦 <span class="uc__cle-signe">=</span> 👨‍👨‍👦‍👦</span><span>La famille s’agrandit&nbsp;: deux enfants.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🇫🇷 <span class="uc__cle-signe">+</span> 🍁 <span class="uc__cle-signe">=</span> 🎉</span><span>Citoyen canadien.</span></li>
+            <li><span class="uc__cle-emo" aria-hidden="true">🧠 <span class="uc__cle-signe">+</span> ✍️ <span class="uc__cle-signe">+</span> 🤝 <span class="uc__cle-signe">=</span> 🙂</span><span><strong>Aujourd’hui.</strong> La psycho, l’illustration, et les gens.</span></li>
+          </ol>
+        </section>
+
+        <section class="uc__bloc">
+          <h2 class="uc__label">Ce que ça dit de mon travail</h2>
+          <p class="uc__texte">Une seconde, pas un mot&nbsp;: la contrainte oblige à choisir l’essentiel, à soigner le rythme et l’ordre de lecture. C’est ce que je fais avec une interface.</p>
+        </section>
+
+        <p class="uc__fin"><a class="uc__lien" href="#" data-revoir-demarrage>Revoir le démarrage ↻</a></p>
       </article>
     </div>
    </div>
@@ -16614,7 +16721,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     { nom: 'Use Case', projets: [
       { nom: 'Pharmaprix', lien: '#case/shoppers', couleur: '#F05454' },
       { nom: 'Groupe Voyage Québec', lien: '#case/gvqcarte', couleur: '#F5C044', img: 'gvq-agenda-920.jpg' },
-      { nom: 'Roche Diabetes Care', lien: '#case/rochecarte', couleur: '#5AA2F0' } ] },
+      { nom: 'Roche Diabetes Care', lien: '#case/rochecarte', couleur: '#5AA2F0' },
+      { nom: 'Le démarrage', lien: '#case/demarragecarte', couleur: '#FFD84D' } ] },
     { nom: 'Web Design', projets: [
       { nom: 'Aéroplan', lien: '#case/aeroplan', couleur: '#A98BF5' },
       { nom: 'Budge Studios', lien: '#case/budge', couleur: '#F07FB7' },
@@ -17463,6 +17571,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (visible) { remettre(); minuteur = setTimeout(suite, 600); }
   }, { threshold: 0.35 }).observe(scene);
 })();
+/* « Revoir le démarrage » : on recharge la page, sans l'étude ouverte. */
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('[data-revoir-demarrage]')) return;
+  e.preventDefault();
+  location.href = location.pathname + location.search;
+});
 </script>
 </body>
 </html>
