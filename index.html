@@ -7056,6 +7056,11 @@
       object-fit: cover; object-position: 30% 50%;
       background: #D9D4CC; border-radius: 8px; box-shadow: none;
     }
+    /* Mon portrait, comme sous « Manu » au grand écran : carré, même cadrage. */
+    .mob-portrait {
+      display: block; width: 120px; height: 120px; margin: 0 0 24px;
+      object-fit: cover; object-position: 50% 18%; border-radius: 6px;
+    }
     .mob-titre { margin: 0 0 32px; font: 400 16px/24px "Geist", Arial, sans-serif; }
     .mob-accueil .en-ce-moment__heure {
       margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
@@ -9480,7 +9485,10 @@
          verticale. Le titre est copié de la barre ; le bloc « En ce moment »
          (heure, activité, infos) est déplacé ici par le script : une seule
          source pour les deux tailles d'écran. -->
-    <div class="mob-accueil" id="mob-accueil"><p class="mob-titre"></p></div>
+    <div class="mob-accueil" id="mob-accueil">
+      <img class="mob-portrait" src="portrait-capuche-600.jpg" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
+      <p class="mob-titre"></p>
+    </div>
     <!-- La plage : l'eau passe d'elle-même quand la photo arrive à l'écran,
          puis suit le doigt. -->
     <img class="face-a-mobile__photo" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false">
