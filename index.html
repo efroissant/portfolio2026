@@ -9029,17 +9029,20 @@
   /* Essai : l'étude « Le démarrage » présentée dans une carte (fenêtre jaune,
      trois points), comme les cartes de projets. */
   .stage .doc .doc__page.uc--carte {
-    background: #FFD84D; border-radius: 18px; overflow: hidden; padding: 0 0 36px !important;
+    background: var(--carte, #FFD84D); border-radius: 18px; overflow: hidden; padding: 0 0 48px !important;
   }
   .stage .doc .doc__page.uc--carte > :first-child { padding-right: 16px; }
-  .stage .doc .uc--carte > :not(.cartep__barre) { margin-left: 28px !important; margin-right: 28px !important; }
-  .stage .doc .uc--carte .uc__tete { padding-top: 28px; }
+  /* De l'air autour du texte : 40 px de chaque côté, 40 px sous la barre.
+     (Sélecteur par identifiant : d'anciennes règles des études imposent leurs marges.) */
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__page.uc--carte > :not(.cartep__barre) { margin-left: 40px !important; margin-right: 40px !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .doc__page.uc--carte > header.uc__tete { margin: 0 !important; padding: 40px 40px 0 !important; }
+  .stage .doc .uc--carte .uc__tete { padding-top: 40px; }
   .stage .doc .uc--carte .cartep__barre { border-bottom-color: #1C1917; }
   .stage .doc .uc--carte .cartep__barre i { background: #1C1917; }
-  .stage #doc-demarrage .uc--carte :is(.uc__surtitre, .uc__corps, .uc__fiche dt, .uc__label),
-  .stage #doc-demarrage .uc--carte .uc__bloc p:not(.uc__note):not(.uc__suite) { color: rgba(28,25,23,0.62) !important; }
-  .stage #doc-demarrage .uc--carte .uc__cle-signe { color: rgba(28,25,23,0.45); }
-  .stage #doc-demarrage .uc--carte .uc__bloc { border-top-color: rgba(28,25,23,0.18); }
+  .stage .doc .uc--carte :is(.uc__surtitre, .uc__corps, .uc__fiche dt, .uc__label, figcaption, .uc__legende),
+  .stage .doc .uc--carte .uc__bloc p:not(.uc__note):not(.uc__suite) { color: rgba(28,25,23,0.68) !important; }
+  .stage .doc .uc--carte .uc__cle-signe { color: rgba(28,25,23,0.45); }
+  .stage .doc .uc--carte .uc__bloc { border-top-color: rgba(28,25,23,0.2); }
 </style>
 </head>
 <body>
@@ -10035,7 +10038,8 @@
     </div>
 
     <div class="doc__scroll" id="doc-scroll">
-      <article class="doc__page uc">
+      <article class="doc__page uc uc--carte" style="--carte: #F5C044">
+        <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <header class="uc__tete">
           <p class="uc__surtitre">Groupe Voyage Québec</p>
           <h1 class="uc__titre" id="doc-gvq-titre">Comment vendre un produit qui n’existe pas encore&nbsp;?</h1>
@@ -10098,7 +10102,8 @@
     </div>
 
     <div class="doc__scroll">
-      <article class="doc__page uc">
+      <article class="doc__page uc uc--carte" style="--carte: #5AA2F0">
+        <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <header class="uc__tete">
           <p class="uc__surtitre">Roche Diabetes Care</p>
           <h1 class="uc__titre" id="doc-roche-titre">Comment placer une pub sans trahir une cause&nbsp;?</h1>
@@ -10159,7 +10164,8 @@
     </div>
 
     <div class="doc__scroll">
-      <article class="doc__page uc">
+      <article class="doc__page uc uc--carte" style="--carte: #F05454">
+        <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <header class="uc__tete">
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
           <h1 class="uc__titre" id="doc-loblaw-titre">Où se cachent les erreurs dans un logiciel de pharmacie&nbsp;?</h1>
