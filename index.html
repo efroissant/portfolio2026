@@ -9419,9 +9419,9 @@
     html body .stage #doc-loblaw.doc { left: var(--c5) !important; right: var(--droite, 100px) !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
     html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: transparent !important; border: 0 !important; border-radius: 0 !important; display: flex !important; flex-direction: column; }
     html body .stage #doc-loblaw :is(.panneaux-tete, .panneaux-nav.panneaux-nav) { display: none !important; }
-    html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; scroll-snap-type: x mandatory; cursor: none; user-select: none; -webkit-user-select: none; }
+    html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; scroll-snap-type: x mandatory; cursor: default; user-select: none; -webkit-user-select: none; }
     html body .stage #doc-loblaw .doc__scroll.doc__scroll :is(a, button, summary, select, input) { cursor: pointer; }
-    html body .stage #doc-loblaw .doc__scroll.est-tire { scroll-snap-type: none !important; scroll-behavior: auto !important; }
+    html body .stage #doc-loblaw .doc__scroll.est-tire, html body .stage #doc-loblaw .doc__scroll.est-tire * { scroll-snap-type: none !important; scroll-behavior: auto !important; cursor: grabbing !important; }
     html body .stage #doc-loblaw .doc__page.uc.uc { display: flex !important; gap: 24px !important; padding: 0 160px 0 0 !important; width: max-content !important; height: 100%; }
     html body .stage #doc-loblaw .doc__page.uc.uc > :not(.cartep__barre) { flex: 0 0 calc(var(--col) * 7 + 6 * 24px) !important; width: auto !important; height: 100% !important; box-sizing: border-box; margin: 0 !important; padding: 28px !important; border-radius: 18px; background: #F7F6F4; overflow: hidden !important; scroll-snap-align: start; }
     html body .stage #doc-loblaw .doc__page.uc.uc > .uc__intro { flex-basis: max(300px, calc(var(--col) * 3 + 2 * 24px)) !important; padding: 0 !important; background: var(--vert) !important; display: flex !important; flex-direction: column; }
@@ -9461,7 +9461,7 @@
       transition: opacity 240ms ease; }
     html body .stage #doc-loblaw .panneaux-voile.est-cache { opacity: 0; }
     /* Le curseur devient une pastille « Glisser » sur la rangée. */
-    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 6px 12px; border-radius: 999px; background: #1C1917; color: #FFFFFF; font-size: 14px; line-height: 18px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
+    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: 999px; background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 14px; line-height: 20px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
     html body .stage #doc-loblaw .panneaux-curseur.est-visible { opacity: 1; }
   }
   /* ===== Pharmaprix : cartes de tailles variées =====
