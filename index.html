@@ -9014,7 +9014,8 @@
   .demarrage .demarrage__ligne {
     font-size: clamp(16px, calc((100dvh - 48px) / var(--n, 13) / 1.2), 24px); line-height: 1.2; letter-spacing: 0.08em;
   }
-  .demarrage .demarrage__signe { color: #1C1917; font-weight: 300; }
+  /* Signes plus petits et discrets : 60 % de la taille des émojis, un peu transparents. */
+  .demarrage .demarrage__signe { color: #1C1917; font-weight: 300; font-size: 0.6em; opacity: 0.55; vertical-align: 0.2em; }
   /* Étude « Le démarrage » : la clé des émojis, ligne par ligne. */
   .uc .uc__cle { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
   .uc .uc__cle li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px; align-items: baseline; }
