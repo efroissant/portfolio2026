@@ -9457,6 +9457,95 @@
     html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 6px 12px; border-radius: 999px; background: #1C1917; color: #FFFFFF; font-size: 14px; line-height: 18px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
     html body .stage #doc-loblaw .panneaux-curseur.est-visible { opacity: 1; }
   }
+  /* ===== Pharmaprix : cartes de tailles variées =====
+     La rangée est une grille de deux rangées : une carte prend toute la
+     hauteur ou la moitié (deux cartes empilées). Les sections se découpent
+     en plusieurs cartes (texte, visuel, animation) ; les fonds des cartes de
+     texte sont dessinés par ::before / ::after de la section. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw .doc__scroll.doc__scroll { container-type: inline-size; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc { display: grid !important; grid-template-rows: repeat(2, minmax(0, 1fr)); grid-auto-flow: column; grid-auto-columns: max-content; gap: 24px !important; height: 100%; width: max-content !important; padding: 0 160px 0 0 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > :is(.uc__chiffres, .uc__bilan) { display: contents !important; }
+    /* Toute carte : coins arrondis, fond pâle, rien ne déborde. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > :not(.cartep__barre), html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section { flex: none !important; box-sizing: border-box; margin: 0 !important; border-radius: 18px; overflow: hidden !important; scroll-snap-align: start; height: auto !important; min-height: 0; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > :not(.cartep__barre), html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section { grid-column: auto !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > :not(.cartep__barre) { grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__intro { width: max(300px, calc(var(--col) * 3 + 48px)) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__photo { width: max(calc(var(--col) * 3 + 48px), calc(100cqw - max(300px, calc(var(--col) * 3 + 48px)) - 158px)) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__tete { width: calc(var(--col) * 4 + 72px) !important; padding: 28px !important; background: #F7F6F4 !important; }
+    /* Chiffres : deux petites cartes empilées, puis une grande carte sombre. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li { grid-row: span 1; width: calc(var(--col) * 3 + 48px); padding: 24px 28px !important; background: #F7F6F4; display: flex !important; flex-direction: column; justify-content: flex-end; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li:nth-child(3) { grid-row: 1 / -1; width: calc(var(--col) * 2.5 + 36px); background: #1C1917; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li:nth-child(3) :is(strong, span) { color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__chiffres > li:nth-child(3) strong { font-size: 96px !important; line-height: 0.95 !important; }
+    /* Sections : groupes de cartes, sans fond propre. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section { position: relative; display: grid !important; padding: 0 !important; background: transparent !important; column-gap: 24px !important; row-gap: 0 !important; grid-template-rows: auto auto minmax(0, 1fr) auto !important; overflow: visible !important; align-items: stretch !important; align-content: stretch !important; height: 100% !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section > *, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > * { position: relative; z-index: 1; margin: 0 !important; max-width: none !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section::before, html body .stage #doc-loblaw .doc__page.uc.uc.uc > section::after, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section::before { content: ""; border-radius: 18px; background: #F7F6F4; z-index: 0; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__label { padding: 24px 24px 0 !important; margin-bottom: 14px !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section > .uc__fort, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__fort { padding: 0 24px !important; font-size: 24px !important; line-height: 30px !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section > .uc__petit, html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__petit { padding: 0 24px 24px !important; align-self: end; font-size: 15px !important; line-height: 22px !important; }
+    /* Visuels : leur propre carte, image qui remplit la hauteur. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section > :is(.uc__figure, .dose, .sexe) { grid-row: 1 / -1 !important; border-radius: 18px; background: #F7F6F4; padding: 20px !important; display: flex !important; flex-direction: column; justify-content: center; min-height: 0; max-width: none !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section .uc__figure img { flex: 1 1 0; min-height: 0; width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain !important; object-position: center !important; border-radius: 8px; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section .uc__figure figcaption { flex: none; margin-top: 10px; }
+
+    /* 1. Audit : texte | écran annoté | constats (petites cartes). */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) { grid-template-columns: calc(var(--col) * 3 + 48px) calc(var(--col) * 4 + 72px) calc(var(--col) * 3 + 48px) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1)::before { grid-column: 1; grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1)::after { display: none; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__detail { grid-column: 1 !important; grid-row: 4 !important; padding: 0 24px 24px !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__figure { grid-column: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__constats { grid-column: 3 !important; grid-row: 1 / -1 !important; display: flex !important; flex-direction: column; gap: 12px !important; padding: 0 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__constats li { flex: 1 1 0; justify-content: flex-end; padding: 16px 18px !important; border-radius: 18px !important; }
+    /* L'analyse heuristique ouverte recouvre tout le groupe et défile seule. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(1) > .uc__detail[open] { position: absolute !important; inset: 0; z-index: 5; overflow-y: auto; background: #FFFFFF; border-radius: 18px; padding: 24px !important; box-shadow: 0 0 0 1px #E7E5E4; }
+
+    /* 2. Lumière : texte | chaîne + photo dans une même carte. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) { grid-template-columns: calc(var(--col) * 3 + 48px) calc(var(--col) * 4 + 72px) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2)::before { grid-column: 1; grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2)::after { grid-column: 2; grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > :is(.uc__label, .uc__fort, .uc__petit) { grid-column: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > .uc__label { grid-row: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > .uc__fort { grid-row: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > .uc__petit { grid-row: 4 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > .uc__chaine { grid-column: 2 !important; grid-row: 1 !important; padding: 20px 20px 0 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(2) > .uc__figure { grid-column: 2 !important; grid-row: 2 / -1 !important; background: transparent !important; padding: 14px 20px 20px !important; }
+
+    /* 3. Dose : l'animation en grande carte, le texte à droite. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) { grid-template-columns: calc(var(--col) * 4 + 72px) calc(var(--col) * 3 + 48px) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3)::before { grid-column: 2; grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3)::after { display: none; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) > .dose { grid-column: 1 !important; padding: 32px !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) > :is(.uc__label, .uc__fort, .uc__petit) { grid-column: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) > .uc__label { grid-row: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) > .uc__fort { grid-row: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(3) > .uc__petit { grid-row: 4 !important; }
+
+    /* 4. Sexe : texte en haut, note en bas (deux cartes), l'animation à côté. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4) { grid-template-columns: calc(var(--col) * 3 + 48px) calc(var(--col) * 4 + 72px) !important; grid-template-rows: auto minmax(0, 1fr) 24px auto !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4)::before { grid-column: 1; grid-row: 1 / 3; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4)::after { grid-column: 1; grid-row: 4; background: #FDE9E9; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4) > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4) > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; align-self: start; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4) > .uc__petit { grid-column: 1 !important; grid-row: 4 !important; padding: 24px !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > section:nth-of-type(4) > .sexe { grid-column: 2 !important; }
+
+    /* Bilan : deux cartes pleine hauteur, la seconde sombre. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section { grid-template-columns: calc(var(--col) * 3 + 48px) !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section::before { grid-column: 1; grid-row: 1 / -1; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__label { grid-row: 1 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__fort { grid-row: 2 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section > .uc__petit { grid-row: 4 !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section:nth-of-type(2)::before { background: #1C1917; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section:nth-of-type(2) > * { color: #FFFFFF !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__bilan > section:nth-of-type(2) > :is(.uc__label, .uc__petit) { color: #A8A29E !important; }
+
+    /* Note de fin : une petite carte, en bas. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__fin { grid-row: 2 !important; width: calc(var(--col) * 3 + 48px) !important; padding: 24px !important; background: #F7F6F4 !important; display: flex !important; align-items: flex-end; }
+  }
 </style>
 </head>
 <body>
@@ -18222,7 +18311,17 @@ document.addEventListener('click', (e) => {
   addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
   // Navigation.
-  const panneaux = () => [...page.children].filter((el) => getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0);
+  // Les « panneaux » sont les colonnes de la rangée : une carte, ou deux cartes empilées.
+  const panneaux = () => {
+    const vus = new Map();
+    page.querySelectorAll(':scope > *, :scope > .uc__chiffres > li, :scope > .uc__bilan > *').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.width < 1 || getComputedStyle(el).display === 'none') return;
+      const x = Math.round(r.left);
+      if (!vus.has(x)) vus.set(x, el);
+    });
+    return [...vus.entries()].sort((a, b) => a[0] - b[0]).map((e) => e[1]);
+  };
   function indice() {
     const p = panneaux(), g = sc.getBoundingClientRect().left + 12;
     let k = 0; p.forEach((el, i) => { if (el.getBoundingClientRect().left <= g) k = i; });
@@ -18241,7 +18340,7 @@ document.addEventListener('click', (e) => {
   function aller(k) {
     const p = panneaux(); k = Math.max(0, Math.min(p.length - 1, k));
     cible = k; finCible = performance.now() + 700;
-    sc.scrollTo({ left: p[k].offsetLeft - page.offsetLeft, behavior: 'smooth' });
+    sc.scrollTo({ left: sc.scrollLeft + p[k].getBoundingClientRect().left - sc.getBoundingClientRect().left, behavior: 'smooth' });
   }
   nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(courant() + Number(b.dataset.panneau)); });
   sc.addEventListener('scroll', maj, { passive: true });
