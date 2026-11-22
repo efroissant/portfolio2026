@@ -9408,6 +9408,43 @@
     html body .stage #doc-loblaw .uc .uc__bloc > .uc__chaine { grid-row: 1 / 3 !important; }
     html body .stage #doc-loblaw .uc .uc__bloc > .uc__chaine + .uc__figure { grid-row: 3 / -1 !important; }
   }
+  /* ===== Pharmaprix : carrousel dans une carte bordée =====
+     La carte part de la colonne 4 et file jusqu'au bord droit de l'écran ;
+     chaque panneau s'arrête à la colonne 11, le suivant dépasse à droite. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw {
+      --col: calc((100vw - 48px - 11 * 24px) / 12);
+      --c4: calc(24px + (var(--col) + 24px) * 3);
+      --slide: calc(var(--col) * 8 + 7 * 24px - 24px);
+    }
+    html body .stage #doc-loblaw.doc { left: var(--c4) !important; right: 0 !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
+    html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: #FFFFFF !important; border: 1px solid #D6D3D1 !important; border-right: 0 !important; border-radius: 16px 0 0 16px !important; display: flex !important; flex-direction: column; }
+    html body .stage #doc-loblaw .panneaux-tete { flex: none; display: flex; justify-content: space-between; align-items: baseline; padding: 14px 20px 0 24px; font-size: 20px; line-height: 26px; letter-spacing: -0.3px; color: #1C1917; }
+    html body .stage #doc-loblaw .panneaux-tete .panneaux-compte { font-variant-numeric: tabular-nums; }
+    html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 0 0 24px !important; overflow-x: auto !important; overflow-y: hidden !important; }
+    html body .stage #doc-loblaw .doc__page.uc.uc { gap: 24px !important; padding: 0 max(0px, calc(100vw - var(--c4) - var(--slide) - 25px)) 0 0 !important; width: max-content !important; height: 100%; }
+    html body .stage #doc-loblaw .doc__page.uc.uc > :not(.cartep__barre) { flex: 0 0 var(--slide) !important; width: var(--slide) !important; padding: 24px 0 !important; margin: 0 !important; }
+
+    /* Flèches longues sous la carte, calées sur la fin de la colonne 11. */
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav { position: absolute; top: calc(100% + 10px); right: calc(var(--col) + 48px); bottom: auto; display: flex; gap: 20px; z-index: 2; }
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button { width: auto; height: 28px; padding: 0; border: 0; border-radius: 0; background: none !important; color: #1C1917 !important; cursor: pointer; display: flex; align-items: center; transition: transform 180ms ease; }
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button:hover { transform: translateX(3px); }
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button[data-panneau="-1"]:hover { transform: translateX(-3px); }
+    html body .stage #doc-loblaw .panneaux-nav.panneaux-nav button:disabled { visibility: hidden; }
+    /* Premier panneau : titre et fiche en bas à gauche ; photo pleine hauteur, énoncé dessous. */
+    html body .stage #doc-loblaw .uc.uc .uc__tete { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr) !important; grid-template-rows: minmax(0, 1fr) auto auto !important; column-gap: 36px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__surtitre { display: none !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__titre { grid-column: 1 !important; grid-row: 1 !important; align-self: end; margin: 0 0 36px !important; font-size: 44px !important; line-height: 48px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__fiche { grid-column: 1 !important; grid-row: 2 / 4 !important; align-self: end; margin: 0 !important; padding: 18px 20px !important; row-gap: 14px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__fiche dt { font-size: 11px !important; line-height: 14px !important; margin-bottom: 4px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__fiche dd { font-size: 13px !important; line-height: 18px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__couverture { grid-column: 2 !important; grid-row: 1 !important; position: relative; min-height: 0; height: 100%; margin: 0 !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__couverture img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; max-height: none !important; object-fit: cover; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__enonce { grid-column: 2 !important; grid-row: 2 !important; align-self: end; margin: 22px 0 6px !important; font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw .uc.uc .uc__tete > .uc__corps { grid-column: 2 !important; grid-row: 3 !important; align-self: start; margin: 0 !important; font-size: 13px !important; line-height: 18px !important; }
+  }
+  .panneaux-tete { display: none; }
+  @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-tete { display: flex; } }
 </style>
 </head>
 <body>
@@ -10540,13 +10577,14 @@
   <!-- Use Case 02, version courte (les gens survolent) : l'essentiel en
        haut, une idée par ligne, deux décisions, le résultat, puis les leçons. -->
   <div class="doc doc--court" id="doc-loblaw" hidden>
+   <div class="panneaux-nav" aria-label="Navigation de l’étude"><button type="button" data-panneau="-1" aria-label="Panneau précédent"><svg viewBox="0 0 58 12" width="58" height="12" aria-hidden="true"><path d="M57 6H1M6 1L1 6l5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" data-panneau="1" aria-label="Panneau suivant"><svg viewBox="0 0 58 12" width="58" height="12" aria-hidden="true"><path d="M1 6h56M52 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
    <div class="doc__win" role="dialog" aria-modal="true" aria-labelledby="doc-loblaw-titre">
     <div class="doc__bar">
       <span class="doc__bartitle">Use Case 02</span>
       <button type="button" class="doc__fermer" data-doc-close aria-label="Fermer l’étude de cas">FERMER</button>
     </div>
 
-    <div class="panneaux-nav" aria-label="Navigation de l’étude"><button type="button" data-panneau="-1" aria-label="Panneau précédent">←</button><span class="panneaux-compte">1 / 1</span><button type="button" data-panneau="1" aria-label="Panneau suivant">→</button></div>
+    <div class="panneaux-tete"><span>Shoppers Drug Mart · Étude de cas</span><span class="panneaux-compte">1/1</span></div>
     <div class="doc__scroll">
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -18134,48 +18172,47 @@ document.addEventListener('click', (e) => {
   const doc = document.getElementById('doc-loblaw');
   if (!doc) return;
   const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
-  const nav = doc.querySelector('.panneaux-nav'), compte = nav && nav.querySelector('.panneaux-compte');
+  const nav = doc.querySelector('.panneaux-nav'), compte = doc.querySelector('.panneaux-compte');
   const grand = () => matchMedia('(min-width: 1024px)').matches;
-  // Hauteur : du dossier Bio à 40 px sous le dernier fichier visible du menu (déployé).
-  let bas = 0;
+  // La carte : environ deux tiers de la hauteur de l'écran, centrée.
   function caler() {
     if (!grand()) return;
-    const arbo = document.querySelector('.arbo');
-    const bio = arbo && arbo.querySelector('.arbo__dossier-btn');
     const stage = document.getElementById('stage');
-    if (!bio || !stage) return;
-    const s = stage.getBoundingClientRect();
-    const fichiers = [...arbo.querySelectorAll('.arbo__fichier')].filter((f) => f.getClientRects().length);
-    const dernier = fichiers.length ? Math.max(...fichiers.map((f) => f.getBoundingClientRect().bottom)) : 0;
-    bas = Math.max(bas, dernier);   // on garde la hauteur du menu déployé
-    const haut = bio.getBoundingClientRect().top - s.top;
-    doc.style.setProperty('--panneau-haut', Math.round(haut) + 'px');
-    doc.style.setProperty('--panneau-h', Math.max(320, Math.round(bas - s.top + 40 - haut)) + 'px');
+    if (!stage) return;
+    const h = stage.clientHeight || innerHeight;
+    const carte = Math.round(Math.max(440, Math.min(680, h * 0.67)));
+    doc.style.setProperty('--panneau-haut', Math.round((h - carte) / 2) + 'px');
+    doc.style.setProperty('--carte-h', carte + 'px');
+    doc.style.setProperty('--panneau-h', (carte - 52) + 'px');
   }
   caler();
-  addEventListener('resize', () => { bas = 0; caler(); });
+  addEventListener('resize', caler);
   addEventListener('load', caler);
   if (document.fonts) document.fonts.ready.then(caler);
   // Navigation.
   const panneaux = () => [...page.children].filter((el) => getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0);
   function indice() {
-    const p = panneaux(), x = sc.scrollLeft + 2;
-    let k = 0; p.forEach((el, i) => { if (el.offsetLeft - page.offsetLeft <= x) k = i; });
+    const p = panneaux(), g = sc.getBoundingClientRect().left + 12;
+    let k = 0; p.forEach((el, i) => { if (el.getBoundingClientRect().left <= g) k = i; });
     return k;
   }
   function maj() {
     if (!compte) return;
     const n = panneaux().length, k = indice();
-    compte.textContent = (k + 1) + ' / ' + n;
+    compte.textContent = (k + 1) + '/' + n;
     nav.querySelector('[data-panneau="-1"]').disabled = k === 0;
     nav.querySelector('[data-panneau="1"]').disabled = k >= n - 1;
   }
+  // Pendant un défilement animé, on part du panneau visé (deux clics rapides = deux panneaux).
+  let cible = null, finCible = 0;
+  const courant = () => (cible !== null && performance.now() < finCible ? cible : indice());
   function aller(k) {
     const p = panneaux(); k = Math.max(0, Math.min(p.length - 1, k));
+    cible = k; finCible = performance.now() + 700;
     sc.scrollTo({ left: p[k].offsetLeft - page.offsetLeft, behavior: 'smooth' });
   }
-  nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(indice() + Number(b.dataset.panneau)); });
-  sc.addEventListener('scroll', () => requestAnimationFrame(maj), { passive: true });
+  nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(courant() + Number(b.dataset.panneau)); });
+  sc.addEventListener('scroll', maj, { passive: true });
   // La molette verticale fait avancer les panneaux (un panneau par geste) ;
   // à l'intérieur d'un panneau trop haut, elle le fait d'abord défiler.
   let verrou = 0;
@@ -18191,12 +18228,12 @@ document.addEventListener('click', (e) => {
     const t = performance.now();
     if (t < verrou || Math.abs(e.deltaY) < 4) return;
     verrou = t + 550;
-    aller(indice() + (e.deltaY > 0 ? 1 : -1));
+    aller(courant() + (e.deltaY > 0 ? 1 : -1));
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
     if (doc.hidden || !grand()) return;
-    if (e.key === 'ArrowRight') { e.preventDefault(); aller(indice() + 1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); aller(indice() - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); aller(courant() + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); aller(courant() - 1); }
   });
   // À chaque ouverture : premier panneau, hauteur recalée.
   new MutationObserver(() => { if (!doc.hidden) { caler(); sc.scrollLeft = 0; setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
