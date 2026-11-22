@@ -9197,6 +9197,15 @@
   }
   /* La fiche des études (rôle, équipe, durée, outils) sur un fond très pâle. */
   .stage .doc .uc .uc__fiche { background: #F7F6F4; border-radius: 10px; padding: 24px 28px; }
+  /* Audit : les trois constats en cartes côte à côte (numéro, catégorie, titre, une ligne). */
+  #doc-loblaw .uc .uc__constats--cartes { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  #doc-loblaw .uc .uc__constats--cartes li { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 20px; background: #F7F6F4; border-radius: 10px; }
+  #doc-loblaw .uc .uc__constat-tete { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  #doc-loblaw .uc .uc__constats--cartes .uc__pastille { flex: none; margin: 0; }
+  .stage #doc-loblaw .uc .uc__categorie { font-size: 12px !important; line-height: 16px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #8F8F8C; }
+  .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 24px !important; font-weight: 500; color: #1C1917; }
+  .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 15px !important; line-height: 22px !important; color: #78716C; }
+  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 14px !important; line-height: 20px !important; color: #8F8F8C !important; }
 </style>
 </head>
 <body>
@@ -10362,15 +10371,10 @@
           <h2 class="uc__label">Dans l’écran</h2>
           <p class="uc__fort">Un logiciel de 13&nbsp;ans, où chaque écran cache un piège.</p>
           <figure class="uc__figure"><img src="lob-audit-healthwatch.jpg" alt="Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit." width="1018" height="698" loading="lazy"><figcaption>Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit.</figcaption></figure>
-          <ul class="uc__legende" aria-label="Catégories de l’audit">
-            <li><span class="uc__puce uc__puce--a11y"></span>Accessibilité</li>
-            <li><span class="uc__puce uc__puce--ux"></span>UX / utilisabilité</li>
-            <li><span class="uc__puce uc__puce--ai"></span>Architecture de l’information</li>
-          </ul>
-          <ul class="uc__constats">
-            <li><span class="uc__pastille uc__pastille--ux" aria-label="Problème 2, UX / utilisabilité">2</span><span><strong>Unités incohérentes.</strong> Pouces et kilos mélangés, sans bascule&nbsp;: calcul mental et fatigue.</span></li>
-            <li><span class="uc__pastille uc__pastille--ai" aria-label="Problème 3, architecture de l’information">3</span><span><strong>« Race » présélectionnée.</strong> « Caucasian » par défaut, sans raison clinique&nbsp;: éthiquement contestable.</span></li>
-            <li><span class="uc__pastille uc__pastille--a11y" aria-label="Problème 5, accessibilité">5</span><span><strong>Une fenêtre qui bloque le formulaire.</strong> Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
+          <ul class="uc__constats uc__constats--cartes">
+            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--ux" aria-hidden="true">2</span><span class="uc__categorie">UX / utilisabilité</span></span><strong>Unités incohérentes</strong><span>Pouces et kilos mélangés, sans bascule&nbsp;: calcul mental et fatigue.</span></li>
+            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--ai" aria-hidden="true">3</span><span class="uc__categorie">Architecture de l’information</span></span><strong>«&nbsp;Race&nbsp;» présélectionnée</strong><span>«&nbsp;Caucasian&nbsp;» par défaut, sans raison clinique.</span></li>
+            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--a11y" aria-hidden="true">5</span><span class="uc__categorie">Accessibilité</span></span><strong>Une fenêtre qui bloque</strong><span>Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
           </ul>
           <details class="uc__detail">
             <summary>Voir l’analyse heuristique</summary>
