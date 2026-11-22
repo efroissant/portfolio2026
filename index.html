@@ -9433,9 +9433,15 @@
     /* Carte d'intro : la carte de projet, avec la fiche à la place du résumé. */
     html body .stage #doc-loblaw .uc__intro .cartep__tags { padding: 12px 12px 0 !important; gap: 8px !important; }
     html body .stage #doc-loblaw .uc__intro .cartep__tags li { font-size: 16px !important; line-height: 24px !important; padding: 0 8px; }
-    html body .stage #doc-loblaw .uc__intro .cartep__titre { font-size: 52px !important; line-height: 1 !important; letter-spacing: -0.03em !important; white-space: nowrap; margin-top: 8px !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__texte { margin-top: auto; padding: 8px 16px 8px; }
-    html body .stage #doc-loblaw .uc__intro .cartep__annee { font-size: 16px !important; line-height: 22px !important; margin: 0 0 12px !important; }
+    /* Grille : barre, tags, vide, puis la date (à gauche) et le titre (à droite, en bas) sur la même ligne, la fiche dessous. */
+    html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__intro { display: grid !important; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto auto; }
+    html body .stage #doc-loblaw .uc__intro > :is(.cartep__barre, .cartep__tags) { grid-column: 1 / -1; }
+    html body .stage #doc-loblaw .uc__intro > .cartep__barre { grid-row: 1; }
+    html body .stage #doc-loblaw .uc__intro > .cartep__tags { grid-row: 2; }
+    html body .stage #doc-loblaw .uc__intro .cartep__texte { display: contents !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__titre { grid-column: 2; grid-row: 4; align-self: last baseline; justify-self: end; text-align: right; font-size: 68px !important; line-height: 60px !important; letter-spacing: -0.04em !important; white-space: nowrap; margin: 0 !important; padding: 0 16px 0 8px !important; }
+    html body .stage #doc-loblaw .uc__intro .cartep__annee { grid-column: 1; grid-row: 4; align-self: last baseline; font-size: 16px !important; line-height: 24px !important; margin: 0 !important; padding: 0 0 0 16px !important; white-space: nowrap; }
+    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { grid-column: 1 / -1; grid-row: 5; margin: 16px 16px 8px !important; }
     html body .stage #doc-loblaw .uc__intro-fiche { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin: 0; padding-top: 12px; border-top: 1.5px solid #1C1917; }
     html body .stage #doc-loblaw .uc__intro-fiche dt { font-size: 16px !important; line-height: 22px !important; letter-spacing: 0; text-transform: none; font-weight: 500; margin-bottom: 2px; }
     html body .stage #doc-loblaw .uc__intro-fiche dd { margin: 0; font-size: 16px !important; line-height: 22px !important; letter-spacing: -0.2px !important; }
@@ -10697,7 +10703,7 @@
         <div class="cartep uc__intro" style="--vert: #F56060">
           <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
           <ul class="cartep__tags" aria-label="Expertises"><li>Design UX/UI</li><li>Recherche</li><li>Logiciel métier</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
-          <p class="cartep__titre">Shoppers<br>Drug Mart</p>
+          <p class="cartep__titre">Shoppers<br>Drug<br>Mart</p>
           <div class="cartep__texte">
             <p class="cartep__annee">2021–23</p>
             <dl class="uc__intro-fiche">
@@ -18301,7 +18307,7 @@ document.addEventListener('click', (e) => {
     const stage = document.getElementById('stage');
     if (!stage) return;
     const h = stage.clientHeight || innerHeight;
-    const carte = Math.round(Math.max(520, Math.min(680, h * 0.67)));
+    const carte = Math.round(Math.max(544, Math.min(680, h * 0.67)));
     doc.style.setProperty('--panneau-haut', Math.round((h - carte) / 2) + 'px');
     doc.style.setProperty('--carte-h', carte + 'px');
     doc.style.setProperty('--panneau-h', carte + 'px');
