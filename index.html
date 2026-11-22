@@ -17392,7 +17392,7 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (affole) return;
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
     const h = d.getHours(), m = d.getMinutes(), sec = d.getSeconds();
-    heure.textContent = h + ':' + deux(m) + ':' + deux(sec);
+    heure.textContent = deux(h) + ':' + deux(m) + ':' + deux(sec);
     const t = h * 60 + m;
     const ligne = (JOURNEE.find(([a, b]) => t >= a && t < b) || JOURNEE[0])[2];
     if (ligne !== dernier) { dernier = ligne; activite.textContent = 'Je suis probablement en train ' + ligne; }
@@ -17411,13 +17411,26 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     ['Reykjavik', 'Atlantic/Reykjavik'], ['Honolulu', 'Pacific/Honolulu'], ['Los Angeles', 'America/Los_Angeles'],
     ['Lagos', 'Africa/Lagos'], ['Bangkok', 'Asia/Bangkok'], ['Mexico', 'America/Mexico_City'], ['Lisbonne', 'Europe/Lisbon']
   ];
+  // L'heure garde toujours la même largeur (celle de « 88:88:88 », la plus
+  // large) : « à » ne bouge plus quand les chiffres changent.
+  function fixerLargeur() {
+    if (!heure.offsetParent) return;
+    const t = heure.textContent;
+    heure.style.display = 'inline-block'; heure.style.minWidth = '';
+    let max = 0;
+    ['88:88:88', '00:00:00', '22:22:22', '44:44:44'].forEach((x) => { heure.textContent = x; max = Math.max(max, heure.getBoundingClientRect().width); });
+    heure.textContent = t;
+    heure.style.minWidth = Math.ceil(max) + 'px';
+  }
+  fixerLargeur(); addEventListener('resize', fixerLargeur);
+  if (document.fonts) document.fonts.ready.then(fixerLargeur);
   let tourne = 0, derniere = -1;
   function affoler() {
     let k; do { k = Math.floor(Math.random() * VILLES.length); } while (k === derniere);
     derniere = k;
     const [nom, tz] = VILLES[k];
     const d = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));
-    heure.textContent = d.getHours() + ':' + deux(d.getMinutes()) + ':' + deux(d.getSeconds());
+    heure.textContent = deux(d.getHours()) + ':' + deux(d.getMinutes()) + ':' + deux(d.getSeconds());
     ville.textContent = nom;
   }
   if (ville && ligneHeure) {
