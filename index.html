@@ -7055,7 +7055,7 @@
     .stage[data-state="lock"] .face-a-mobile {
       --gout: 16px; --col: calc((100% - 3 * var(--gout)) / 4);
     }
-    /* Rangée 1 : portrait (colonnes 1-2) et titre (colonne 4, calé à droite
+    /* Rangée 1 : portrait (colonnes 1-2) et titre (colonnes 3-4, calé à droite
        sous « Say Hi! »). Rangée 2 : « En ce moment » sur toute la largeur. */
     .face-a-mobile .mob-accueil {
       display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -7075,7 +7075,7 @@
       object-fit: cover; object-position: 50% 18%; border-radius: 6px;
     }
     .mob-titre {
-      grid-column: 4; grid-row: 1; align-self: start; margin: 0; text-align: right;
+      grid-column: 3 / 5; grid-row: 1; align-self: start; margin: 0; text-align: right;
       font: 400 16px/24px "Geist", Arial, sans-serif;
     }
     .mob-accueil .en-ce-moment__heure {
@@ -17270,7 +17270,14 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const bloc = zone && zone.querySelector('.en-ce-moment');
   if (!slot || !bloc) return;
   const titre = document.querySelector('.menubar__titre');
-  if (titre) slot.querySelector('.mob-titre').textContent = titre.textContent.trim();
+  // Sur 2 colonnes, les coupures sont choisies : « Digital Designer — » /
+  // « UI, UX, Marketing » / « et Produit » (espaces insécables ailleurs).
+  if (titre) {
+    const [qui, quoi] = titre.textContent.trim().split(' — ');
+    const p = slot.querySelector('.mob-titre');
+    if (quoi) p.append(qui + ' —', document.createElement('br'), quoi.replace('UI, UX,', 'UI,\u00A0UX,').replace('et Produit', 'et\u00A0Produit'));
+    else p.textContent = qui;
+  }
   const mq = matchMedia('(max-width: 1023px)');
   const placer = () => { if (mq.matches) slot.append(bloc); else zone.prepend(bloc); };
   placer(); mq.addEventListener('change', placer);
