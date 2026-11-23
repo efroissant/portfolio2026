@@ -9811,6 +9811,40 @@
   }
   /* Pharmaprix : une seule carte de bilan, sur toute la largeur hors parcours. */
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc .uc__bilan { grid-template-columns: minmax(0, 1fr) !important; padding-top: 0 !important; } html body .stage #doc-loblaw.doc .uc .uc__bilan > .uc__bloc { padding: 16px !important; box-sizing: border-box; } }
+  /* Mobile : les études s'ouvrent comme une page, sans fenêtre, sans fond crème, sans barre. Le logo Manu sert de retour. */
+  @media (max-width: 767px) {
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc { padding: 0 !important; background: var(--blanc) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc > .doc__win { width: 100% !important; max-width: none !important; margin: 0 !important; background: var(--blanc) !important; border: 0 !important; outline: 0 !important; border-radius: 0 !important; box-shadow: none !important; animation: none !important; transform: none !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .doc__bar { display: none !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .doc__scroll { background: transparent !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .doc__page { background: transparent !important; padding: 60px 16px 48px !important; }
+    /* Première carte : la fiche descend en 16/24 pour respirer. */
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .uc__intro-fiche { gap: 24px 16px !important; margin-top: 24px !important; padding-top: 24px !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .uc__intro-fiche :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .uc__intro-fiche dt { margin-bottom: 4px !important; }
+    /* Tags : une colonne centrée, les flèches pointent vers le bas. */
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; align-items: center !important; justify-content: center !important; gap: 0 !important; height: auto !important; margin: 0 0 40px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 0 !important; width: 232px !important; max-width: 100%; padding: 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine .uc__etape { box-sizing: border-box; width: 100% !important; text-align: center !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:last-child) .uc__fleche { position: relative; display: block !important; flex: none !important; width: 1px !important; height: 32px !important; margin: 8px 0 !important; font-size: 0 !important; line-height: 0 !important; color: transparent !important; background: var(--encre) !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:last-child) .uc__fleche::after { content: ""; position: absolute; left: 50%; bottom: 1px; width: 8px; height: 8px; box-sizing: border-box; border-right: 1px solid var(--encre); border-bottom: 1px solid var(--encre); transform: translateX(-50%) rotate(45deg); }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:last-child .uc__fleche { display: none !important; }
+  }
+  /* Pharmaprix sur mobile : mêmes cartes que le desktop, empilées. */
+  @media (max-width: 767px) {
+    /* La barre Manu reste visible au-dessus de l'étude : c'est le chemin de retour. */
+    html body .stage.a-un-doc .nav-fond-mobile { display: block !important; visibility: visible !important; opacity: 1 !important; z-index: 9000 !important; background: var(--blanc) !important; }
+    html body .stage.a-un-doc :is(.logo-mobile, .sayhi-mobile, .note-mobile) { visibility: visible !important; opacity: 1 !important; z-index: 9001 !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc { padding: 60px 16px 48px !important; }
+    .stage.a-un-doc .face-a-mobile { visibility: hidden !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage, .doc).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__contexte, .uc__tete, .uc__audit, .uc__passerelle, .uc__lumiere, .uc__dosage, .uc__formulaire, .uc__bloc:has(> .sexe)), html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { box-sizing: border-box !important; min-height: 520px !important; padding: 24px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-titre { font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete, html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete :is(h1, h2, p, figcaption) { text-align: center !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { display: flex !important; flex-direction: column !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc > .uc__petit { margin-top: auto !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { flex: 1 1 auto; }
+  }
 </style>
 </head>
 <body>
