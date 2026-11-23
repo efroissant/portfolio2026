@@ -18572,13 +18572,17 @@ document.addEventListener('click', (e) => {
   // Glisser à la souris : on attrape la rangée de cartes et on la tire vers la gauche.
   const voile = doc.querySelector('.panneaux-voile'), curseur = doc.querySelector('.panneaux-curseur');
   let tir = null, bouge = false, clicBloque = false;
+  // La bulle « Glisser » disparaît dès que l'utilisateur a fait défiler les cartes une fois.
+  let aGlisse = false;
+  const glisse = () => { if (aGlisse) return; aGlisse = true; curseur && curseur.classList.remove('est-visible'); };
+  sc.addEventListener('scroll', () => { if (!tir && sc.scrollLeft > 20) glisse(); }, { passive: true });
   const interactif = (t) => t.closest('a, button, summary, select, input, textarea, label');
   sc.addEventListener('pointerdown', (e) => {
     if (!grand() || e.pointerType !== 'mouse' || e.button !== 0 || interactif(e.target)) return;
     tir = { x: e.clientX, s: sc.scrollLeft, k: indice() }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
-    if (curseur) {
+    if (curseur && !aGlisse) {
       const r = sc.getBoundingClientRect(), dedans = !doc.hidden && grand() && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       curseur.classList.toggle('est-visible', !!(dedans && (tir || !interactif(e.target))));
       curseur.style.transform = 'translate(' + (e.clientX - doc.getBoundingClientRect().left + 14) + 'px,' + (e.clientY - doc.getBoundingClientRect().top + 14) + 'px)';
@@ -18592,7 +18596,7 @@ document.addEventListener('click', (e) => {
     if (!tir) return;
     const t = tir, dx = e.clientX - t.x; tir = null;
     if (!bouge) return;
-    sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
+    glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
     const p = panneaux(), g = sc.getBoundingClientRect().left;
     let k = 0, d = Infinity;
     p.forEach((el, i) => { const v = Math.abs(el.getBoundingClientRect().left - g); if (v < d) { d = v; k = i; } });
