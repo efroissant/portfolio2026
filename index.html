@@ -8626,7 +8626,6 @@
   .uc .uc__chaine { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; padding: 0; }
   .uc .uc__chaine li { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
   .uc .uc__etape { padding: 2px 12px; border: 1px solid rgba(28,25,23,0.2); border-radius: 999px; }
-  .uc .uc__fleche { color: #8F8F8C; }
   .uc .uc__suite { margin-top: 16px !important; }
   /* Analyse heuristique : deux captures côte à côte, constats par gravité. */
   .uc .uc__duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
@@ -9786,14 +9785,9 @@
   @media (max-width: 1023px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel img { aspect-ratio: 16 / 9; object-position: 50% 38%; }
   }
-  /* Flèche fine et longue sous la photo N&B : elle invite à faire glisser. */
-  .uc__fleche { display: none; }
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo:not(.uc__photo--terrain) { grid-column: 2 !important; grid-row: 1 / -1 !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__fleche { display: block; grid-column: 2 !important; grid-row: 1 / -1 !important; align-self: end; width: 100% !important; height: 28% !important; min-width: 0; padding: 24px 0 0 !important; background: transparent !important; outline: 0 !important; border-radius: 0; overflow: visible !important; pointer-events: none; scroll-snap-align: none; }
     html body .stage #doc-loblaw.doc .panneaux-voile { width: 120px !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__fleche i { position: relative; display: block; width: calc((100% - 140px) / 2); height: 1px; background: #000000; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__fleche i::after { content: ""; position: absolute; right: 0; top: -5px; width: 10px; height: 10px; box-sizing: border-box; border-top: 1px solid #000000; border-right: 1px solid #000000; transform: rotate(45deg); transform-origin: center; }
   }
   /* Carte 3 : titre, puis les deux paragraphes en deux colonnes au-dessus du panorama. */
   @media (min-width: 1024px) {
@@ -11000,7 +10994,6 @@
           </div>
         </div>
         <figure class="uc__photo"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274" draggable="false"></figure>
-        <div class="uc__fleche" aria-hidden="true"><i></i></div>
         <div class="uc__contexte">
           <div class="uc__contexte-texte">
             <h2 class="uc__contexte-titre">Repenser un SaaS en place depuis 2009</h2>
@@ -11068,7 +11061,6 @@
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
           <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
           <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
-            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
           <figure class="uc__figure"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy"><figcaption>Un éclairage blanc intense au-dessus des postes de travail, avec des reflets sur les écrans tout au long du quart. Reconstitution visuelle.</figcaption></figure>
           <p class="uc__petit">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
