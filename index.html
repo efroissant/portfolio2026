@@ -9449,6 +9449,7 @@
   .demarrage .dm--forme b { font: 500 .24em/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; }
   .demarrage .dm--pile { flex-direction: column; align-items: stretch; padding: .05em .1em; border: 1px solid currentColor; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; }
   .demarrage .dm--pile b { font-size: .26em; font-weight: 500; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  .demarrage .dm--pile b:only-child { font-size: .34em; padding: .24em .12em; }
   .demarrage .dm--pile b + b { border-top: 1px solid currentColor; }
   @media (prefers-reduced-motion: reduce) {
     .demarrage .dm.est-la { animation: none; }
@@ -9468,7 +9469,7 @@
   // @nom = signe dessiné · ○XX / □XX / ◇XX = lettres dans une forme ·
   // ^a/b = deux mots empilés · -> = flèche longue · ~> = flèche en vague.
   const LIGNES = [
-    '@bebe|1981|->|Lille|○FR|^59152/enfance|@epi',
+    '@bebe|1981|->|Lille|○FR|^59152|@epi',
     'Crayon|@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
     '@tv|Télé|+|Jeux|@manette|+|@livre|Livres|+|Micro|@micro|+|@piano',
     '@epi|○59|~>|Rue de Milan|□IX|Paris|@tour',
