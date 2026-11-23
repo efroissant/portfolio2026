@@ -9436,7 +9436,7 @@
   html body .demarrage .demarrage__ligne .dm { font-family: "Instrument Serif", Georgia, serif !important; }
   html body .demarrage .demarrage__ligne :is(.dm--forme b, .dm--pile, .dm--pile b) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .demarrage .dm { display: inline-flex; align-items: center; justify-content: center; flex: none; opacity: 0; }
-  .demarrage .dm.est-la { opacity: 1; animation: dm-entree 180ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .demarrage .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
   @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
   .demarrage .dm__svg { display: block; width: .78em; height: .78em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
   .demarrage .dm__svg path { vector-effect: non-scaling-stroke; }
@@ -9688,7 +9688,7 @@
     const H = ecran.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom);
     const etroit = W < 700;
     ecran.classList.toggle('demarrage--etroit', etroit);
-    let bas = 14, haut = 150;
+    let bas = 14, haut = etroit ? 25 : 41;   // au plus 24 px sur mobile, 40 px sur grand écran
     for (let n = 0; n < 9; n++) {
       const t = (bas + haut) / 2;
       ecran.style.setProperty('--dm', t + 'px');
@@ -9699,13 +9699,13 @@
     ecran.style.setProperty('--dm', Math.floor(bas) + 'px');
   }
   function suivante() {
-    if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 420); return; }
+    if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 240); return; }
     const morceaux = [...lignes[i++].children];
     let k = 0;
     (function ajouter() {
       morceaux[k++].classList.add('est-la');
-      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 34);
-      else setTimeout(suivante, calme ? 0 : 90);
+      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 12);
+      else setTimeout(suivante, calme ? 0 : 30);
     })();
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
