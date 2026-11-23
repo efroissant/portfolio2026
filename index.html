@@ -9721,6 +9721,9 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { display: flex !important; flex-direction: column; gap: 16px; grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
   }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__lumiere > .uc__fort { font-size: 32px !important; line-height: 36px !important; }
+  /* Champ de dosage : texte en noir dans tous les états (lisible sur un vrai écran), message décollé du champ. */
+  html body .stage #doc-loblaw.doc .uc__dosage .dose.dose :is(.dose__label, .dose__message) { color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc__dosage .dose.dose .dose__message { margin-top: 16px !important; }
 </style>
 </head>
 <body>
