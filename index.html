@@ -9798,6 +9798,17 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo img { object-position: 52% 40%; }
   }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-titre br { display: none; } }
+  /* Carte sexe, genre, pronoms : cobalt, texte blanc, sans contour. Les champs restent blancs. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { background: var(--cobalt) !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; border-radius: var(--r-carte) !important; overflow: hidden !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe)::before { background: transparent !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > :is(.uc__label, .uc__fort, .uc__petit) { color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { background: transparent !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__trois { top: calc(50% + 16px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__unique { transform: translateY(16px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe.trois .sexe__unique { transform: translateY(16px) scale(0.96); } }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { grid-column: pleine-debut / pleine-fin !important; width: auto !important; box-sizing: border-box; margin: 0 0 40px !important; padding: 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { min-height: 238px; margin: 16px 0 !important; padding: 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__trois { left: 0; right: 0; }
+  }
 </style>
 </head>
 <body>
@@ -10967,7 +10978,7 @@
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
-          <p class="uc__fort">Un champ en cachait trois.</p>
+          <p class="uc__fort">Séparer le sexe, le genre et les pronoms.</p>
           <div class="sexe uc__anime" aria-label="Animation : le champ unique « Sexe » se divise en trois champs, sexe, genre et pronoms.">
             <div class="sexe__unique"><span class="sexe__nom">Sexe</span><span class="sexe__val">Féminin ▾</span></div>
             <div class="sexe__trois">
