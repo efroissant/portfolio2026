@@ -9625,6 +9625,7 @@
   }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { opacity: 1; transform: none; transition: none !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 72px minmax(0, 1fr); column-gap: 16px; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { order: 3 !important; display: block !important; flex: none; margin: 12px 0 0 !important; padding: 0 !important; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
 </style>
 </head>
 <body>
@@ -10713,6 +10714,7 @@
             <img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" draggable="false">
             <ol class="ecran-erreurs__points" aria-label="Erreurs repérées pendant l’audit"><li class="ecran-erreurs__point ecran-erreurs__point--a11y" style="--x: 13%; --y: 23.1%; --i: 0" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">1</span><span class="ecran-erreurs__info">Aucune validation de saisie</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ai" style="--x: 28.2%; --y: 36.2%; --i: 1" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">2</span><span class="ecran-erreurs__info">« Caucasian » présélectionné</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux" style="--x: 32.4%; --y: 42.9%; --i: 2" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">3</span><span class="ecran-erreurs__info">Options mal alignées</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux" style="--x: 20.2%; --y: 57.9%; --i: 3" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">4</span><span class="ecran-erreurs__info">Pouces et kilos mélangés</span></li><li class="ecran-erreurs__point ecran-erreurs__point--a11y" style="--x: 58.5%; --y: 18.7%; --i: 4" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">5</span><span class="ecran-erreurs__info">Une fenêtre qui bloque tout</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ai" style="--x: 61.7%; --y: 58.5%; --i: 5" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">6</span><span class="ecran-erreurs__info">Champ grisé ambigu</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux ecran-erreurs__point--droite" style="--x: 94.7%; --y: 72.9%; --i: 6" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">7</span><span class="ecran-erreurs__info">Actions hors de la fenêtre</span></li><li class="ecran-erreurs__point ecran-erreurs__point--a11y ecran-erreurs__point--droite" style="--x: 94%; --y: 89%; --i: 7" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">8</span><span class="ecran-erreurs__info">Accessibilité : couleurs peu lisibles</span></li></ol>
           </div></figure>
+          <p class="uc__tete-note">Audit des écrans&nbsp;: 8 problèmes relevés sur cette seule fenêtre.</p>
           <dl class="uc__fiche">
             <div><dt>Mon rôle</dt><dd>Designer UX/UI<br>Audit<br>Recherche terrain</dd></div>
             <div><dt>Équipe</dt><dd>3 designers<br>1 lead<br>8 PO/PA, devs</dd></div>
@@ -17610,7 +17612,7 @@ document.addEventListener('click', (e) => {
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     // L'écran garde toute la largeur de sa carte : la carte s'ajuste si la hauteur manque.
-    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16) * 869 / 580) + 48);
+    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 36) * 869 / 580) + 48);
     poser(c.tete, x, haut, lTete, H); x += lTete + G;
     const xAudit = x;
     poser(c.audit, x, haut, L(4), H);
