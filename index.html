@@ -9459,6 +9459,15 @@
   html body .demarrage .demarrage__ligne .dm--vide { visibility: hidden !important; }
   html body .demarrage .demarrage__ligne .dm--note { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: .42em; letter-spacing: 0; }
   html body .demarrage .dm--carre.dm--romain b { font-size: .46em; }
+  /* Bio : la plage et la tempête au même format carré, sur 3 colonnes chacune. */
+  @media (min-width: 1024px) {
+    html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 4 !important; }
+    html body .stage .profil .bio-photos > .bio-tempete { grid-column: 4 / 7 !important; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage .profil .bio-photos > .bio-photo--plage .eclair { aspect-ratio: 1; }
+    html body .stage .profil .bio-photos > .bio-photo--plage img { width: 100% !important; height: 100% !important; aspect-ratio: 1 !important; object-fit: cover; }
+  }
 </style>
 </head>
 <body>
@@ -9808,7 +9817,6 @@
               </div>
               <figcaption>… avant la tempête (d’un sprint).</figcaption>
             </figure>
-            <figure class="bio-photo bio-photo--pano"><img src="livret-mur-photo.jpg" alt="Emmanuel penché en avant, la main en visière, devant un long mur blanc au pied des palmiers, sous un ciel bleu" width="1774" height="887" loading="lazy" draggable="false"><figcaption>Quand on me demande où je me vois dans cinq ans.</figcaption></figure>
           </div>
         </section>
         <section class="bio-section bio-biblio" id="bio-bibliotheque" aria-labelledby="bio-biblio-titre">
