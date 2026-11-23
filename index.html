@@ -9346,6 +9346,28 @@
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { width: var(--w4) !important; grid-template-columns: var(--w4) !important; }
   }
+  /* Échelle typographique : grands titres, lecture en 18, interface en 16, bulles en 14. */
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li, html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 64px !important; line-height: 60px !important; letter-spacing: -1px !important; }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 48px !important; line-height: 48px !important; letter-spacing: -0.5px !important; } }
+  @media (min-width: 1024px) {
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.arbo, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span),
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar :is(.barlien, .barre-logo, .menubar__titre),
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; }
+    html body .stage .accueil-droite :is(.en-ce-moment__heure, .en-ce-moment__heure *), html body .stage .profil .profil__entete-titre { font-size: 56px !important; line-height: 60px !important; letter-spacing: -0.5px !important; }
+    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .profil .profil__entete-role { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .barlien[data-bulle]::after,
+    html body .stage .radio-bouton::after,
+    html body .stage .dock__tip,
+    html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
+    html body .bulle-site,
+    html body .stage #doc-loblaw .panneaux-curseur,
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 14px !important; line-height: 18px !important; }
+  }
+  /* Mobile : la première carte ne colle plus à la barre de la fenêtre. */
+  @media (max-width: 767px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc { padding-top: 16px !important; } }
 </style>
 </head>
 <body>
