@@ -9455,6 +9455,10 @@
     html body .stage .profil .bio-photos > .bio-photo--plage img { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; object-fit: cover; }
     html body .stage .profil .bio-photos > .bio-tempete .tempete { width: 100%; height: var(--w3) !important; aspect-ratio: auto !important; }
   }
+  /* Démarrage : morceaux retirés (leur vide reste), note en grotesque, chiffres romains plus grands. */
+  html body .demarrage .demarrage__ligne .dm--vide { visibility: hidden !important; }
+  html body .demarrage .demarrage__ligne .dm--note { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: .42em; letter-spacing: 0; }
+  html body .demarrage .dm--carre.dm--romain b { font-size: .46em; }
 </style>
 </head>
 <body>
@@ -9469,18 +9473,20 @@
   // (expliquée dans le case study « Le démarrage »). Un morceau par « | » :
   // @nom = signe dessiné · ○XX / □XX / ◇XX = lettres dans une forme ·
   // ^a/b = deux mots empilés · -> = flèche longue · ~> = flèche en vague.
+  // « _ » devant un morceau : il disparaît mais garde sa place, ce qui creuse
+  // des vides dans la composition. « % » : petite note en grotesque.
   const LIGNES = [
-    '@bebe|1981|->|Lille|○FR|^59152|@epi',
-    'Crayon|@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
+    '@bebe|1981|_->|Lille|○FR|^59152|@epi',
+    '_Crayon|_@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
     '@livre|Livres|+|Lalala|+|@piano',
-    '@epi|○59|~>|Rue de Milan|□IX|Paris|@tour',
-    'Monde|^×15/voyages|@globe',
-    'Lui|@personne|+|@personne|Moi|=|Amour|@coeur',
-    'Pluie|@nuage|->|Feu|@flamme|->|Phénix|@oiseau',
-    'France|○FR|~>|@lys|Québec|□QC',
+    '_@epi|○59|~>|Rue de Milan|□IX|Paris|@tour',
+    '_Monde|^×15/voyages|@globe',
+    'Lui|@personne|+|@personne|Moi|_=|%e=Mc',
+    '_Pluie|_@nuage',
+    'France|_○FR|~>|@lys|_Québec|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
-    'Nous|@coeur|+|^2/garçons|=|Famille|@maison',
-    'France|+|Canada|@feuille|=|@trophee',
+    '_Nous|_@coeur|_+|_^2/garçons|=|Famille|@maison',
+    '_France|_+|_Canada|@feuille|=|@trophee',
     '@maison|+|@cerveau|+|Sport|@haltere|+|Mots|@plume|+|Code|@ecran'
   ];
   // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
@@ -9655,14 +9661,17 @@
     setTimeout(() => ecran.remove(), calme ? 0 : 220);
   }
   const svg = (vb, d, cls) => '<svg class="' + cls + '" viewBox="' + vb + '" aria-hidden="true"><path d="' + d + '"/></svg>';
-  function morceau(m) {
+  function morceau(brut) {
+    const vide = brut[0] === '_', m = vide ? brut.slice(1) : brut;
     const el = document.createElement('span');
-    el.className = 'dm';
+    el.className = vide ? 'dm dm--vide' : 'dm';
+    if (m[0] === '%') { el.classList.add('dm--note'); el.textContent = m.slice(1); return el; }
     if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
     else if (m === '->') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 48 24', 'M1 12h46 M39 5l8 7-8 7', 'dm__svg dm__svg--long'); }
     else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
     else if (m[0] === '○' || m[0] === '□' || m[0] === '◇') {
       el.classList.add('dm--forme', m[0] === '○' ? 'dm--rond' : m[0] === '□' ? 'dm--carre' : 'dm--losange');
+      if (/^[IVXLCDM]+$/.test(m.slice(1))) el.classList.add('dm--romain');
       const t = document.createElement('b'); t.textContent = m.slice(1); el.append(t);
     } else if (m[0] === '^') {
       el.classList.add('dm--pile');
@@ -9698,7 +9707,8 @@
   }
   function suivante() {
     if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 240); return; }
-    const morceaux = [...lignes[i++].children];
+    const morceaux = [...lignes[i++].querySelectorAll(':scope > .dm:not(.dm--vide)')];
+    if (!morceaux.length) { suivante(); return; }
     let k = 0;
     (function ajouter() {
       morceaux[k++].classList.add('est-la');
