@@ -9666,6 +9666,10 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; height: 26px; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { white-space: nowrap; }
   }
+  /* Pharmaprix : un mot géant entre deux cartes, posé sur leur ligne de base. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { display: flex !important; align-items: flex-end; box-sizing: border-box; margin: 0 !important; padding: 0 !important; border: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; white-space: nowrap; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: clamp(120px, 14vw, 200px) !important; line-height: 0.8 !important; letter-spacing: -0.03em !important; color: var(--encre) !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { transform: translateY(0.06em); } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 16px 0 32px !important; font-size: clamp(96px, 32vw, 160px) !important; } }
 </style>
 </head>
 <body>
@@ -10746,6 +10750,7 @@
           </div>
           <figure class="uc__contexte-visuel"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"></figure>
         </div>
+        <p class="uc__grand-mot">Audit</p>
         <header class="uc__tete">
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
           <h2 class="uc__titre" id="doc-loblaw-titre">Où se cachent les erreurs dans un logiciel de pharmacie&nbsp;?</h2>
@@ -17593,6 +17598,7 @@ document.addEventListener('click', (e) => {
   const cartes = () => ({
     intro: page.querySelector(':scope > .uc__intro'),
     contexte: page.querySelector(':scope > .uc__contexte'),
+    mot: page.querySelector(':scope > .uc__grand-mot'),
     tete: page.querySelector(':scope > .uc__tete'),
     audit: page.querySelector(':scope > .uc__audit'),
     passerelle: page.querySelector(':scope > .uc__passerelle'),
@@ -17657,7 +17663,11 @@ document.addEventListener('click', (e) => {
     const W = sc.clientWidth;
     if (!W) return;
     // Rien ne bouge si les dimensions n'ont pas changé : pas de saut pendant le défilement.
-    const sig = [W, H, haut, innerWidth].join('|');
+    // Le grand mot garde sa largeur réelle, une fois sa police chargée.
+    const mesure = document.createRange();
+    if (c.mot) mesure.selectNodeContents(c.mot);
+    const lMot = c.mot ? Math.ceil(mesure.getBoundingClientRect().width) + 8 : 0;
+    const sig = [W, H, haut, innerWidth, lMot].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -17669,6 +17679,7 @@ document.addEventListener('click', (e) => {
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
+    poser(c.mot, x, haut, lMot, H); x += lMot + G;
     // L'écran garde toute la largeur de sa carte : la carte s'ajuste si la hauteur manque.
     const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 90) * 869 / 580) + 48);
     poser(c.tete, x, haut, lTete, H); x += lTete + G;
