@@ -9485,6 +9485,40 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important; overflow: visible !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain img { border: 0 !important; border-radius: 12px !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain figcaption { position: static !important; padding: 8px 0 0 !important; border: 0 !important; background: transparent !important; color: var(--gris-texte, #666666) !important; }
+  /* Pharmaprix, la lumière du comptoir : l'ampoule grésille, s'allume et renverse la carte
+     du blanc sur noir au noir sur blanc. Elle se rejoue à chaque passage. */
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > :is(.uc__label, .uc__fort, .uc__petit) { color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) > :is(.uc__label, .uc__fort, .uc__petit) { color: var(--encre) !important; transition: color 200ms ease 760ms; }
+  .ampoule svg { display: block; overflow: visible; }
+  .ampoule path { stroke: #FFFFFF; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
+  .ampoule.est-vu path { stroke: var(--encre); transition: stroke 200ms ease 760ms; }
+  .ampoule__halo, .ampoule__rayon { opacity: 0; }
+  .ampoule__verre { fill: #FFFFFF; fill-opacity: 0; }
+  .ampoule.est-vu .ampoule__halo { animation: ampoule-halo 1200ms linear forwards; }
+  .ampoule.est-vu .ampoule__verre { animation: ampoule-verre 1200ms linear forwards; }
+  .ampoule.est-vu .ampoule__rayon { animation: ampoule-rayon 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(900ms + var(--i) * 45ms); }
+  @keyframes ampoule-verre { 0%, 16% { fill-opacity: 0; } 18%, 22% { fill-opacity: .7; } 24%, 32% { fill-opacity: 0; } 34%, 38% { fill-opacity: .9; } 40%, 48% { fill-opacity: .12; } 54%, 100% { fill-opacity: 1; } }
+  @keyframes ampoule-halo { 0%, 16% { opacity: 0; } 18%, 22% { opacity: .5; } 24%, 32% { opacity: 0; } 34%, 38% { opacity: .7; } 40%, 48% { opacity: .1; } 58% { opacity: 1; } 76%, 100% { opacity: 0; } }
+  @keyframes ampoule-rayon { from { opacity: 0; } to { opacity: 1; } }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule)::before { background: var(--encre) !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu)::before { background: #FFFFFF !important; transition: background-color 200ms ease 760ms; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > .ampoule { position: absolute; z-index: 2; left: 24px; top: 168px; bottom: 112px; display: flex; align-items: center; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) { padding: 24px !important; border: 1px solid var(--encre) !important; border-radius: 12px; background: var(--encre) !important; color: #FFFFFF; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) { background: #FFFFFF !important; color: var(--encre); transition: background-color 200ms ease 760ms, color 200ms ease 760ms; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > :is(.uc__label, .uc__fort, .uc__petit, .uc__chaine), html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) figcaption { color: #FFFFFF !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) > :is(.uc__label, .uc__fort, .uc__petit, .uc__chaine), html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) figcaption { color: var(--encre) !important; transition: color 200ms ease 760ms; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > .uc__figure { background: transparent !important; border: 0 !important; padding: 0 !important; }
+    .ampoule { margin: 24px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ampoule.est-vu :is(.ampoule__halo, .ampoule__verre, .ampoule__rayon) { animation: none; }
+    .ampoule.est-vu .ampoule__rayon { opacity: 1; }
+    .ampoule.est-vu .ampoule__verre { fill-opacity: 1; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) *, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu)::before { transition: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -10597,6 +10631,7 @@
         <section class="uc__bloc">
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
           <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
+          <div class="ampoule" aria-hidden="true"><svg viewBox="0 0 120 120" width="120" height="120" fill="none"><defs><radialGradient id="ampoule-halo"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".42"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><circle class="ampoule__halo" cx="60" cy="54" r="58" fill="url(#ampoule-halo)"/><path class="ampoule__rayon" style="--i:0" d="M60 8V18"/><path class="ampoule__rayon" style="--i:1" d="M27.5 21.5l7 7"/><path class="ampoule__rayon" style="--i:2" d="M92.5 21.5l-7 7"/><path class="ampoule__rayon" style="--i:3" d="M14 54h10"/><path class="ampoule__rayon" style="--i:4" d="M106 54H96"/><path class="ampoule__rayon" style="--i:5" d="M27.5 86.5l7-7"/><path class="ampoule__rayon" style="--i:6" d="M92.5 86.5l-7-7"/><path class="ampoule__verre" d="M60 28a26 26 0 0 0-15 47c3 2.5 5 6 5 10v3h20v-3c0-4 2-7.5 5-10A26 26 0 0 0 60 28Z"/><path class="ampoule__fil" d="M54 88V64l-4-6M66 88V64l4-6M50 58q3.3 5 6.6 0q3.4 5 6.8 0q3.3 5 6.6 0"/><path class="ampoule__culot" d="M52 93h16M54 98h12"/></svg></div>
           <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
@@ -17246,16 +17281,17 @@ document.addEventListener('click', (e) => {
   // Le champ de dosage.
   const dose = document.querySelector('#doc-loblaw .dose');
   const sexe = document.querySelector('#doc-loblaw .sexe');
+  const ampoule = document.querySelector('#doc-loblaw .ampoule');
   const visibles = new Set();
   const obs = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { visibles.add(e.target); e.target.classList.add('est-vu'); demarrer(e.target); }
     else {
       visibles.delete(e.target);
       // La chaîne se rejoue à chaque passage : les étiquettes réapparaissent une à une.
-      if (e.target === chaine) e.target.classList.remove('est-vu');
+      if (e.target === chaine || e.target === ampoule) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, ampoule].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
