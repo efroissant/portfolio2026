@@ -17396,7 +17396,7 @@ document.addEventListener('click', (e) => {
   // toujours dans le même ordre : droite, bas, droite, haut, droite. Le défilement
   // n'est plus natif : une seule valeur, la progression, déplace le plan. Rien d'autre ne
   // peut le décaler, et chaque tronçon reste strictement horizontal ou vertical.
-  let pos = 0, but = 0, raf = 0, avant = 0, signature = '', progres = 0, suivi = null;
+  let pos = 0, but = 0, raf = 0, avant = 0, signature = '', progres = 0, suivi = null, coins = [];
   const total = () => (chemin.length ? chemin[chemin.length - 1].l : 0);
   const rail = document.createElement('div');
   rail.className = 'parcours-rail';
@@ -17444,6 +17444,11 @@ document.addEventListener('click', (e) => {
     const a = chemin[bas], b = chemin[haut], n = Math.max(0.001, b.l - a.l), t = Math.max(0, Math.min(1, (p - a.l) / n));
     return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, dx: (b.x - a.x) / n, dy: (b.y - a.y) / n };
   }
+  // Le défilement ralentit à l'approche de chaque virage, pour bien voir l'alignement.
+  const frein = (p) => {
+    const d = coins.reduce((m, c) => Math.min(m, Math.abs(p - c)), Infinity);
+    return 0.3 + 0.7 * Math.min(1, d / 180);
+  };
   function camera() {
     if (!grand()) return;
     const q = surChemin(progres);
@@ -17478,7 +17483,7 @@ document.addEventListener('click', (e) => {
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     const xTete = x;
     poser(c.tete, x, haut, L(5), H);
-    const cam1 = Math.max(0, xTete + L(5) - W);
+    const cam1 = xTete;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
@@ -17486,9 +17491,9 @@ document.addEventListener('click', (e) => {
     poser(c.terrain, x, y2, L(2), H); x += L(2) + G;
     const xLumiere = x;
     poser(c.lumiere, x, y2, L(7), H);
-    const cam2 = Math.max(cam1, xLumiere + L(7) - W);
+    const cam2 = xLumiere;   // même chose avant de remonter
     // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
-    x = Math.max(cam2, xTete + L(5) + G);
+    x = cam2;   // la carte suivante arrive exactement au-dessus, à la même largeur
     const xFinal = x;
     poser(c.dose, x, haut, L(7), H); x += L(7) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
@@ -17500,6 +17505,7 @@ document.addEventListener('click', (e) => {
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
       { x: cam2, y: 0 }, { x: cam3, y: 0 },
     ], 0);
+    coins = [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2];
     progres = avance * total();
     camera();
   }
@@ -17586,7 +17592,7 @@ document.addEventListener('click', (e) => {
     if (!axeGeste || t - dernierGeste > 180) axeGeste = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
     dernierGeste = t;
     const delta = axeGeste === 'x' ? e.deltaX : e.deltaY;
-    vers(base() + delta * unite * 1.2);
+    vers(base() + delta * unite * 0.7 * frein(base()));
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
     if (doc.hidden || !grand()) return;
