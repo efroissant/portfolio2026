@@ -10900,6 +10900,8 @@
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreur de saisie</span><span class="uc__fleche" aria-hidden="true">→</span></li>
           </ol>
 
+        <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir">Prévenir<br>des erreurs</h2>
+
         <section class="uc__bloc uc__dosage">
           <h2 class="uc__label">Dans un chiffre mal tapé</h2>
           <p class="uc__fort">Ralentir seulement là où une erreur peut blesser.</p>
@@ -17693,7 +17695,8 @@ document.addEventListener('click', (e) => {
     intro: page.querySelector(':scope > .uc__intro'),
     contexte: page.querySelector(':scope > .uc__contexte'),
     mot: page.querySelector(':scope > .uc__grand-mot:not(.uc__grand-mot--terrain)'),
-    motTerrain: page.querySelector(':scope > .uc__grand-mot--terrain'),
+    motTerrain: page.querySelector(':scope > .uc__grand-mot--terrain:not(.uc__grand-mot--prevenir)'),
+    motPrevenir: page.querySelector(':scope > .uc__grand-mot--prevenir'),
     tete: page.querySelector(':scope > .uc__tete'),
     audit: page.querySelector(':scope > .uc__audit'),
     passerelle: page.querySelector(':scope > .uc__passerelle'),
@@ -17765,9 +17768,9 @@ document.addEventListener('click', (e) => {
       mesure.selectNodeContents(el);
       return Math.ceil(mesure.getBoundingClientRect().width) + 8;
     };
-    const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain);
+    const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain), lMotPrevenir = largeurMot(c.motPrevenir);
     const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lTitre].join('|');
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -17804,6 +17807,7 @@ document.addEventListener('click', (e) => {
     // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
     x = cam2;   // la carte suivante arrive exactement au-dessus, à la même largeur
     const xFinal = x;
+    poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;   // la flèche des tags monte jusqu'à ce titre
     poser(c.dose, x, haut, L(7), H); x += L(7) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
