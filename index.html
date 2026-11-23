@@ -9551,6 +9551,27 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 50%; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 2 + 24px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 47% 50%; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 3 / 4 !important; height: auto !important; } }
+  /* Pharmaprix en parcours : toutes les cartes ont un contour, la caméra suit un serpentin. */
+  .parcours-rail { display: contents; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__photo, .uc__contexte, .uc__tete, .uc__fin), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo img { border-radius: 12px !important; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .parcours-rail { display: block; position: relative; height: 100%; }
+    html body .stage #doc-loblaw.doc .doc__scroll.doc__scroll.doc__scroll { overflow-x: auto !important; overflow-y: hidden !important; }
+    html body .stage #doc-loblaw.doc .doc__win.doc__win { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc { display: block !important; position: sticky !important; left: 0 !important; top: 0 !important; width: var(--fenetre, 100%) !important; max-width: none !important; height: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; will-change: transform; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > :not(.cartep__barre, .uc__bilan), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { position: absolute !important; margin: 0 !important; box-sizing: border-box; flex: none !important; align-self: auto !important; grid-row: auto !important; grid-column: auto !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan { display: contents !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__contexte, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__tete { padding: 24px !important; background: #FFFFFF !important; overflow: hidden !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__photo { background: #FFFFFF !important; overflow: hidden !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__photo img { width: 100% !important; height: 100% !important; object-fit: cover; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { grid-template-columns: minmax(0, 1fr) !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > *, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe)::before { grid-column: 1 !important; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > :is(.uc__contexte, .uc__tete) { padding: 16px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo { outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
+  }
 </style>
 </head>
 <body>
@@ -17371,9 +17392,116 @@ document.addEventListener('click', (e) => {
   const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
   const nav = doc.querySelector('.panneaux-nav'), compte = doc.querySelector('.panneaux-compte');
   const grand = () => matchMedia('(min-width: 1024px)').matches;
+  // Le parcours : les cartes sont posées sur un grand plan et une caméra les suit en
+  // serpentin (vers la droite, on descend, encore vers la droite, on descend, puis retour
+  // vers la gauche). Le défilement horizontal natif sert de progression le long du chemin.
+  const rail = document.createElement('div');
+  rail.className = 'parcours-rail';
+  page.before(rail);
+  rail.append(page);
+  let chemin = [];
+  const cartes = () => ({
+    intro: page.querySelector(':scope > .uc__intro'),
+    photo: page.querySelector(':scope > .uc__photo:not(.uc__photo--terrain)'),
+    contexte: page.querySelector(':scope > .uc__contexte'),
+    tete: page.querySelector(':scope > .uc__tete'),
+    chiffres: page.querySelector(':scope > .uc__chiffres'),
+    terrain: page.querySelector(':scope > .uc__photo--terrain'),
+    lumiere: page.querySelector(':scope > .uc__bloc:has(> .ampoule)'),
+    dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
+    sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
+    bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
+    bilan2: page.querySelector(':scope > .uc__bilan > :nth-child(2)'),
+    fin: page.querySelector(':scope > .uc__fin'),
+  });
+  const COTES = ['left', 'top', 'width', 'height'];
+  const poser = (el, x, y, w, h) => { if (el) [x, y, w, h].forEach((v, i) => el.style.setProperty(COTES[i], Math.round(v) + 'px', 'important')); };
+  // Les virages sont arrondis pour que la caméra ne casse jamais sa trajectoire.
+  function tracer(points, rayon) {
+    const brut = [points[0]];
+    for (let i = 1; i < points.length - 1; i++) {
+      const [a, b, c] = [points[i - 1], points[i], points[i + 1]];
+      const da = Math.hypot(a.x - b.x, a.y - b.y) || 1, dc = Math.hypot(c.x - b.x, c.y - b.y) || 1;
+      const ra = Math.min(rayon, da / 2), rc = Math.min(rayon, dc / 2);
+      const d = { x: b.x + (a.x - b.x) / da * ra, y: b.y + (a.y - b.y) / da * ra };
+      const f = { x: b.x + (c.x - b.x) / dc * rc, y: b.y + (c.y - b.y) / dc * rc };
+      for (let k = 0; k <= 16; k++) {
+        const t = k / 16, u = 1 - t;
+        brut.push({ x: u * u * d.x + 2 * u * t * b.x + t * t * f.x, y: u * u * d.y + 2 * u * t * b.y + t * t * f.y });
+      }
+    }
+    brut.push(points[points.length - 1]);
+    let l = 0;
+    return brut.map((q, i) => { if (i) l += Math.hypot(q.x - brut[i - 1].x, q.y - brut[i - 1].y); return { x: q.x, y: q.y, l }; });
+  }
+  function surChemin(p) {
+    if (!chemin.length) return { x: 0, y: 0, dx: 1, dy: 0 };
+    let bas = 0, haut = chemin.length - 1;
+    while (haut - bas > 1) { const m = (bas + haut) >> 1; if (chemin[m].l <= p) bas = m; else haut = m; }
+    const a = chemin[bas], b = chemin[haut], n = Math.max(0.001, b.l - a.l), t = Math.max(0, Math.min(1, (p - a.l) / n));
+    return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, dx: (b.x - a.x) / n, dy: (b.y - a.y) / n };
+  }
+  function camera() {
+    if (!grand()) return;
+    const q = surChemin(sc.scrollLeft);
+    page.style.setProperty('transform', 'translate3d(' + (-q.x).toFixed(2) + 'px,' + (-q.y).toFixed(2) + 'px,0)', 'important');
+  }
+  function composer(H, haut) {
+    const c = cartes();
+    if (!grand()) {
+      Object.values(c).forEach((el) => el && COTES.forEach((k) => el.style.removeProperty(k)));
+      page.style.removeProperty('transform');
+      rail.style.removeProperty('width');
+      chemin = [];
+      return;
+    }
+    const W = sc.clientWidth;
+    if (!W) return;
+    const avance = chemin.length ? sc.scrollLeft / Math.max(1, chemin[chemin.length - 1].l) : 0;
+    doc.style.setProperty('--fenetre', W + 'px');
+    const col = (innerWidth - 48 - 11 * 24) / 12, L = (n) => col * n + 24 * (n - 1);
+    const G = 72, pas = H + 96;
+    // Rangée 1, on avance vers la droite.
+    let x = 0;
+    poser(c.intro, x, haut, L(5), H); x += L(5) + G;
+    poser(c.photo, x, haut, L(4), Math.round(H * 0.68)); x += L(4) + G;
+    poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
+    const xTete = x;
+    poser(c.tete, x, haut, L(5), H);
+    const cam1 = Math.max(0, xTete + L(5) - W);
+    // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
+    const y2 = haut + pas;
+    x = cam1;
+    poser(c.chiffres, x, y2 + Math.round(H * 0.16), L(5), Math.round(H * 0.84)); x += L(5) + G;
+    poser(c.terrain, x, y2 - 48, L(2), H + 48); x += L(2) + G;
+    const xLumiere = x;
+    poser(c.lumiere, x, y2, L(7), H);
+    const cam2 = Math.max(cam1, xLumiere + L(7) - W);
+    // Rangée 3, sous la fin de la deuxième : on descend et on revient vers la gauche.
+    const y3 = y2 + pas, droite = xLumiere + L(7);
+    x = droite - L(7);
+    poser(c.dose, x, y3, L(7), H);
+    x -= G + L(4);
+    poser(c.sexe, x, y3, L(4), Math.round(H * 0.84));
+    x -= G + L(4);
+    const moitie = Math.round((H - 24) / 2);
+    poser(c.bilan1, x, y3, L(4), moitie);
+    poser(c.bilan2, x, y3 + moitie + 24, L(4), moitie);
+    x -= G + L(3);
+    poser(c.fin, x, y3 + moitie + 24, L(3), moitie);
+    chemin = tracer([
+      { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
+      { x: cam2, y: pas * 2 }, { x: Math.max(0, x), y: pas * 2 },
+    ], 160);
+    const longueur = chemin[chemin.length - 1].l;
+    rail.style.width = Math.ceil(longueur + W) + 'px';
+    sc.scrollLeft = avance * longueur;
+    camera();
+  }
+  sc.addEventListener('scroll', camera, { passive: true });
   // La carte : environ deux tiers de la hauteur de l'écran, centrée.
   function caler() {
-    if (!grand()) return;
+    if (!grand()) { composer(0, 0); return; }
     const stage = document.getElementById('stage');
     if (!stage) return;
     const h = stage.clientHeight || innerHeight;
@@ -17381,14 +17509,16 @@ document.addEventListener('click', (e) => {
     // barre du haut, de 72 à 144 px selon la hauteur de l'écran.
     const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
     const carte = Math.round(Math.max(520, Math.min(600, h * 0.62)));   // moins hautes : du vide autour de la navigation
-    doc.style.setProperty('--panneau-haut', axe + 'px');
-    doc.style.setProperty('--carte-h', carte + 'px');
+    // La fenêtre va de la barre du haut au pied de page : les cartes y circulent librement.
+    doc.style.setProperty('--panneau-haut', '44px');
+    doc.style.setProperty('--carte-h', Math.max(carte + 40, h - 44 - 48) + 'px');
     doc.style.setProperty('--panneau-h', carte + 'px');
     // Le cadre invisible va une colonne plus loin que la fin du lien « LinkedIn »,
     // sans dépasser la marge droite de la grille.
     const lien = [...document.querySelectorAll('.menubar .barlien')].find((e) => /linkedin/i.test(e.textContent) && e.offsetWidth);
     const colonne = (innerWidth - 48 - 11 * 24) / 12;
     if (lien) doc.style.setProperty('--droite', Math.max(24, Math.round(innerWidth - lien.getBoundingClientRect().right - colonne - 24)) + 'px');
+    composer(carte, axe - 44);
   }
   caler();
   addEventListener('resize', caler);
@@ -17412,7 +17542,7 @@ document.addEventListener('click', (e) => {
     return k;
   }
   function maj() {
-    if (!compte) return;
+    if (!compte || !compte.offsetParent) return;
     const n = panneaux().length, k = indice();
     compte.textContent = (k + 1) + '/' + n;
     nav.querySelector('[data-panneau="-1"]').disabled = k === 0;
@@ -17444,15 +17574,17 @@ document.addEventListener('click', (e) => {
   // La molette verticale fait défiler la rangée ; le trackpad horizontal reste natif.
   sc.addEventListener('wheel', (e) => {
     if (!grand() || e.ctrlKey || e.target.closest('.uc__detail[open]')) return;
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { arret(); return; }
     e.preventDefault();
     const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? sc.clientWidth : 1;
-    vers(base() + e.deltaY * unite * 1.2);
+    // Un geste horizontal suit le sens de la rangée : il s'inverse sur la rangée retour.
+    const lateral = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+    const delta = lateral ? e.deltaX * (surChemin(base()).dx < -0.5 ? -1 : 1) : e.deltaY;
+    vers(base() + delta * unite * 1.2);
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
     if (doc.hidden || !grand()) return;
-    if (e.key === 'ArrowRight') { e.preventDefault(); vers(base() + sc.clientWidth * 0.45); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); vers(base() - sc.clientWidth * 0.45); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); vers(base() + sc.clientWidth * 0.45); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); vers(base() - sc.clientWidth * 0.45); }
   });
   // À chaque ouverture : premier panneau, hauteur recalée.
   // Glisser à la souris : on attrape la rangée de cartes et on la tire vers la gauche.
@@ -17466,7 +17598,7 @@ document.addEventListener('click', (e) => {
   sc.addEventListener('pointerdown', (e) => {
     if (!grand() || e.pointerType !== 'mouse' || e.button !== 0 || interactif(e.target)) return;
     arret();
-    tir = { x: e.clientX, s: sc.scrollLeft, traces: [[performance.now(), e.clientX]] }; bouge = false;
+    tir = { x: e.clientX, y: e.clientY, p: sc.scrollLeft, total: 0, traces: [[performance.now(), sc.scrollLeft]] }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
     if (curseur && !aGlisse) {
@@ -17475,20 +17607,23 @@ document.addEventListener('click', (e) => {
       curseur.style.transform = 'translate(' + (e.clientX - doc.getBoundingClientRect().left + 14) + 'px,' + (e.clientY - doc.getBoundingClientRect().top + 14) + 'px)';
     }
     if (!tir) return;
-    const dx = e.clientX - tir.x;
-    if (!bouge && Math.abs(dx) > 4) { bouge = true; sc.classList.add('est-tire'); }
-    if (bouge) { vers(tir.s - dx); e.preventDefault(); }
-    tir.traces.push([performance.now(), e.clientX]); if (tir.traces.length > 6) tir.traces.shift();
+    // On tire les cartes dans le sens où elles circulent à cet endroit du parcours.
+    const mx = e.clientX - tir.x, my = e.clientY - tir.y, sens = surChemin(tir.p);
+    tir.x = e.clientX; tir.y = e.clientY; tir.total += Math.abs(mx) + Math.abs(my);
+    tir.p = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, tir.p - (mx * sens.dx + my * sens.dy)));
+    if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); }
+    if (bouge) { vers(tir.p); e.preventDefault(); }
+    tir.traces.push([performance.now(), tir.p]); if (tir.traces.length > 6) tir.traces.shift();
   });
   addEventListener('pointerup', (e) => {
     if (!tir) return;
-    const t = tir, dx = e.clientX - t.x; tir = null;
+    const t = tir; tir = null;
     if (!bouge) return;
     glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
     // Élan : la rangée continue sur sa lancée et ralentit, sans se caler sur une carte.
     const maintenant = performance.now(), tr = t.traces.filter((q) => maintenant - q[0] < 100);
     const a = tr[0], vitesse = tr.length > 1 ? (tr[tr.length - 1][1] - a[1]) / Math.max(16, tr[tr.length - 1][0] - a[0]) : 0;
-    vers((t.s - dx) - vitesse * 420);
+    vers(t.p + vitesse * 420);
   });
   sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
   sc.addEventListener('dragstart', (e) => e.preventDefault());
