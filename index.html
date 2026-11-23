@@ -9780,6 +9780,15 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-column: pleine-debut / pleine-fin !important; grid-template-columns: minmax(0, 1fr); width: auto !important; margin: 0 0 40px !important; padding: 16px !important; gap: 16px; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo { aspect-ratio: 3 / 2; }
   }
+  /* Carte du dosage : titre, champ animé, puis explication, sur une seule colonne. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; text-transform: none !important; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { grid-template-columns: minmax(0, 1fr) !important; grid-template-rows: auto minmax(0, 1fr) auto !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__fort { grid-column: 1 !important; grid-row: 1 !important; margin-top: 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .dose { grid-column: 1 !important; grid-row: 2 !important; align-self: center !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__petit { grid-column: 1 !important; grid-row: 3 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose .dose__message { max-width: none; min-height: 56px; }
+  }
 </style>
 </head>
 <body>
@@ -10929,15 +10938,14 @@
         <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir">Sécuriser<br>la saisie</h2>
 
         <section class="uc__bloc uc__dosage">
-          <h2 class="uc__label">Dans un chiffre mal tapé</h2>
-          <p class="uc__fort">Ralentir seulement là où une erreur peut blesser.</p>
+          <h2 class="uc__fort">Ralentir seulement là où une erreur peut blesser.</h2>
           <div class="dose uc__anime" role="img" aria-label="Animation d’un champ de dose : une valeur douteuse déclenche un avertissement, une valeur incohérente une erreur à ressaisir, une valeur correcte est confirmée.">
             <p class="dose__label">Dose d’amoxicilline</p>
             <p class="dose__aide">Par prise, en milligrammes</p>
             <div class="dose__champ"><span class="dose__saisie"><span class="dose__valeur"></span><span class="dose__curseur"></span></span><span class="dose__unite">mg</span></div>
             <p class="dose__message"><svg class="dose__icone dose__icone--orange" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 2.5 20h19L12 3.5ZM12 10v4.5M12 17.5v.01"/></svg><svg class="dose__icone dose__icone--rouge" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM9 9l6 6M15 9l-6 6"/></svg><svg class="dose__icone dose__icone--vert" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM8 12.5l2.7 2.7L16 9.5"/></svg><span class="dose__phrase"><strong class="dose__statut"></strong> <span class="dose__texte"></span></span></p>
           </div>
-          <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
+          <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer.<br><strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
         </section>
 
         <div class="uc__formulaire">
@@ -17689,7 +17697,7 @@ document.addEventListener('click', (e) => {
     while (visibles.has(dose)) {
       val.textContent = ''; etat(); await attendre(700);
       await taper('1,5'); await attendre(300);
-      etat('orange', 'vouliez-vous dire 15 mg ?'); await attendre(2600);
+      etat('orange', 'vouliez-vous dire 15\u00A0mg\u00A0?'); await attendre(2600);
       val.textContent = ''; etat(); await attendre(500);
       await taper('50'); await attendre(300);
       etat('rouge', 'dose incohérente. Ressaisissez-la pour confirmer.'); await attendre(2800);
@@ -17845,7 +17853,7 @@ document.addEventListener('click', (e) => {
     // Le titre commence exactement sur l'axe de la flèche qui monte des tags (tag de 232 px).
     x += Math.round(L(7) / 2 + 12 + 116 - 4);   // - 4 : compense l'approche de la lettre
     poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;
-    poser(c.dose, x, haut, L(7), H); x += L(7) + G;
+    poser(c.dose, x, haut, L(5), H); x += L(5) + G;
     poser(c.formulaire, x, haut, L(9), H); x += L(9) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
