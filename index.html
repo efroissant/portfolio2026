@@ -9881,6 +9881,66 @@
     html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__cle-emo { width: auto !important; min-width: 0 !important; white-space: normal !important; }
     html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__fin { padding: 0 !important; border: 0 !important; background: transparent !important; text-align: center !important; font-size: 20px !important; line-height: 28px !important; }
   }
+  /* GVQ, Roche et Le démarrage sur grand écran : le même parcours de cartes que Pharmaprix. */
+  @media (min-width: 1024px) {
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc { --col: max(94px, calc((100vw - 48px - 11 * 24px) / 12)); --c5: calc(24px + (calc((100vw - 48px - 11 * 24px) / 12) + 24px) * 3); left: var(--c5) !important; right: var(--droite, 100px) !important; width: auto !important; top: var(--panneau-haut, 44px) !important; height: var(--carte-h, 600px) !important; bottom: auto !important; padding: 0 !important; overflow: visible !important; background: transparent !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__win.doc__win { display: flex !important; flex-direction: column; position: relative !important; width: 100% !important; max-width: none !important; height: 100% !important; margin: 0 !important; overflow: hidden !important; background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__bar { display: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__scroll.doc__scroll.doc__scroll { flex: 1; position: relative; min-height: 0; padding: 0 !important; margin: 0 !important; overflow: clip !important; background: transparent !important; touch-action: none; cursor: default; user-select: none; -webkit-user-select: none; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__scroll.est-tire, html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__scroll.est-tire * { cursor: grabbing !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .parcours-rail { display: block; position: relative; height: 100%; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-voile { display: block; position: absolute; top: 0; bottom: 0; right: 0; width: 120px; z-index: 3; pointer-events: none; background: linear-gradient(to right, rgba(255,255,255,0), #FFFFFF 85%); transition: opacity 240ms ease; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-voile.est-cache { opacity: 0; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: var(--r-rond); background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 20px; line-height: 28px; white-space: nowrap; opacity: 0; transition: opacity 160ms ease; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-curseur.est-visible { opacity: 1; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc { display: block !important; position: absolute !important; left: 0 !important; top: 0 !important; width: var(--fenetre, 100%) !important; max-width: none !important; height: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; will-change: transform; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .cartep__barre { display: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan { display: contents !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__tete, .uc__chiffres, .uc__bloc, .uc__fin), html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { position: absolute !important; box-sizing: border-box !important; max-width: none !important; margin: 0 !important; padding: 24px !important; border: 0 !important; border-radius: var(--r-carte) !important; overflow: hidden !important; background: var(--blanc) !important; outline: 1px solid var(--encre) !important; outline-offset: -1px !important; grid-column: auto !important; grid-row: auto !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__bloc, .uc__tete)::before, html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__bloc, .uc__tete)::after, html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc::before, html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc::after { content: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__bloc, .uc__tete) > * { width: auto !important; max-width: none !important; margin: 0 !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__label { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--gris-texte) !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-size: 32px !important; line-height: 36px !important; font-weight: 400 !important; letter-spacing: -0.4px !important; color: var(--encre) !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__petit, .uc__liste li, .uc__cle li) { font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; }
+    /* Carte d'ouverture cobalt. */
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-template-rows: auto auto 1fr auto !important; gap: 16px 48px !important; background: var(--cobalt) !important; outline: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete:has(> .uc__figure) { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete :is(.uc__surtitre, .uc__titre, .uc__enonce, .uc__corps, dt, dd) { color: #FFFFFF !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__surtitre { grid-column: 1 !important; grid-row: 1 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__titre { grid-column: 1 !important; grid-row: 2 / 4 !important; font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete :is(.uc__enonce, .uc__corps) { grid-column: 2 !important; font-family: inherit; font-size: 20px !important; line-height: 28px !important; font-weight: 400 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce { grid-row: 1 / 3 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__corps { grid-row: 3 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche { grid-column: 1 / 3 !important; grid-row: 4 !important; display: grid !important; grid-template-columns: repeat(4, auto) !important; justify-content: space-between; gap: 0 16px !important; padding: 16px 0 0 !important; background: transparent !important; border: 0 !important; border-top: 1px solid rgba(255, 255, 255, 0.5) !important; border-radius: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche > div { min-width: 0; padding: 0 !important; border: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; text-transform: none !important; writing-mode: horizontal-tb !important; white-space: normal !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche dt { margin-bottom: 4px !important; font-weight: 500 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__figure { grid-column: 3 !important; grid-row: 1 / -1 !important; }
+    /* Chiffres. */
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chiffres { display: flex !important; flex-direction: column !important; justify-content: space-between !important; gap: 16px !important; list-style: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chiffres > li { display: flex !important; flex-direction: column !important; gap: 4px !important; width: auto !important; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chiffres strong { font-family: "Instrument Serif", Georgia, serif !important; font-size: 56px !important; line-height: 52px !important; font-weight: 400 !important; color: var(--cobalt) !important; white-space: nowrap; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chiffres span { font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; }
+    /* Cartes de texte : titre en haut, texte en bas. */
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc, html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__bloc > .uc__petit { margin-top: auto !important; }
+    /* Cartes avec image : le texte à gauche, l'écran entier à droite. */
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .uc__figure) { display: grid !important; grid-template-columns: minmax(0, 3fr) minmax(0, 5fr) !important; grid-template-rows: auto auto 1fr !important; gap: 16px 24px !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .uc__figure) > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .uc__figure) > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .uc__figure) > .uc__petit { grid-column: 1 !important; grid-row: 3 !important; align-self: end !important; margin-top: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .uc__figure) > .uc__figure { grid-column: 2 !important; grid-row: 1 / -1 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__figure { display: flex !important; align-items: center; justify-content: center; min-width: 0; min-height: 0; height: 100% !important; margin: 0 !important; overflow: hidden; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__figure img { display: block; width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: var(--r-carte) !important; }
+    /* La légende passe sous l'image, qui prend la hauteur restante. */
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__figure:has(> figcaption) { flex-direction: column !important; align-items: stretch !important; gap: 8px; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__figure:has(> figcaption) > img { flex: 1 1 0; width: 100% !important; height: 0 !important; min-height: 0; max-height: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__figure > figcaption { flex: none; margin: 0 !important; padding: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; text-align: left !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__cle { display: grid !important; grid-auto-flow: column; grid-template-rows: repeat(3, auto); grid-auto-columns: minmax(0, 1fr); gap: 16px 24px !important; padding: 0 !important; list-style: none !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__cle > li { display: flex !important; flex-direction: column !important; gap: 4px !important; margin: 0 !important; padding: 0 !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__cle-emo { width: auto !important; min-width: 0 !important; white-space: normal !important; }
+    html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__fin { display: flex !important; align-items: flex-end !important; font-size: 20px !important; line-height: 28px !important; }
+  }
 </style>
 </head>
 <body>
@@ -18083,6 +18143,159 @@ document.addEventListener('click', (e) => {
   suivi = () => { maj(); bout(); if (!tir && progres > 20) glisse(); };
   new MutationObserver(() => { if (!doc.hidden) { arret(); caler(); progres = 0; camera(); setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
   maj();
+})();
+
+// GVQ, Roche et Le démarrage : le même parcours de cartes que Pharmaprix.
+// Droite, bas, droite, haut, droite. La caméra ne suit qu'une seule valeur, la progression.
+(function parcoursEtudes() {
+  const RANGEES = { gvq: [3, 2], roche: [2, 2], demarrage: [3, 2] };
+  const grand = () => matchMedia('(min-width: 1024px)').matches;
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const COTES = ['left', 'top', 'width', 'height'];
+  const poser = (el, x, y, w, h) => [x, y, w, h].forEach((v, i) => el.style.setProperty(COTES[i], Math.round(v) + 'px', 'important'));
+  Object.entries(RANGEES).forEach(([id, [n1, n2]]) => {
+    const doc = document.getElementById('doc-' + id);
+    if (!doc) return;
+    const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
+    const rail = document.createElement('div');
+    rail.className = 'parcours-rail';
+    page.before(rail);
+    rail.append(page);
+    const voile = document.createElement('div'), curseur = document.createElement('div');
+    voile.className = 'panneaux-voile'; curseur.className = 'panneaux-curseur';
+    voile.setAttribute('aria-hidden', 'true'); curseur.setAttribute('aria-hidden', 'true');
+    curseur.textContent = 'Glisser';
+    doc.prepend(voile, curseur);
+    const cartes = [...page.children].flatMap((e) => (e.classList.contains('uc__bilan') ? [...e.children] : e.classList.contains('cartep__barre') ? [] : [e]));
+    let points = [], coins = [], progres = 0, pos = 0, but = 0, raf = 0, avant = 0, signature = '', tir = null, bouge = false, aGlisse = false, clicBloque = false, axeGeste = '', dernierGeste = 0;
+    const total = () => (points.length ? points[points.length - 1].l : 0);
+    const borne = (v) => Math.max(0, Math.min(total(), v));
+    const base = () => (raf ? but : progres);
+    const frein = (p) => 0.3 + 0.7 * Math.min(1, coins.reduce((m, c) => Math.min(m, Math.abs(p - c)), Infinity) / 180);
+    const largeur = (el, L) => {
+      if (el.classList.contains('uc__tete')) return el.querySelector(':scope > .uc__figure') ? L(12) : L(9);
+      if (el.classList.contains('uc__fin')) return L(3);
+      if (el.querySelector('.uc__cle')) return L(15);
+      if (el.querySelector(':scope > .uc__figure')) return L(9);
+      if (el.querySelector('.uc__signes')) return L(5);
+      return L(4);
+    };
+    function camera() {
+      if (!grand() || !points.length) return;
+      let k = 1;
+      while (k < points.length - 1 && points[k].l < progres) k++;
+      const a = points[k - 1], b = points[k], t = Math.max(0, Math.min(1, (progres - a.l) / Math.max(0.001, b.l - a.l)));
+      page.style.setProperty('transform', 'translate3d(' + (-(a.x + (b.x - a.x) * t)).toFixed(2) + 'px,' + (-(a.y + (b.y - a.y) * t)).toFixed(2) + 'px,0)', 'important');
+      voile.classList.toggle('est-cache', progres >= total() - 4);
+      if (!tir && progres > 20) glisse();
+    }
+    function composer(H, haut) {
+      const W = sc.clientWidth;
+      if (!W) return;
+      const sig = [W, H, haut, innerWidth].join('|');
+      if (sig === signature && points.length) return;
+      signature = sig;
+      cancelAnimationFrame(raf); raf = 0;
+      const avance = points.length ? progres / Math.max(1, total()) : 0;
+      doc.style.setProperty('--fenetre', W + 'px');
+      const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1), G = 72, pas = H + 96;
+      let x = 0, cam1 = 0, cam2 = 0, finRangee1 = 0;
+      cartes.slice(0, n1).forEach((el) => { const w = largeur(el, L); poser(el, x, haut, w, H); cam1 = x; finRangee1 = x + w; x += w + G; });
+      x = cam1;
+      cartes.slice(n1, n1 + n2).forEach((el) => { const w = largeur(el, L); poser(el, x, haut + pas, w, H); cam2 = x; x += w + G; });
+      // La suite remonte au-dessus de la dernière carte, sans toucher la première rangée.
+      x = Math.max(cam2, finRangee1 + G);
+      let fin = x;
+      cartes.slice(n1 + n2).forEach((el) => { const w = largeur(el, L); poser(el, x, haut, w, H); fin = x + w; x += w + G; });
+      const cam3 = Math.max(cam2, fin - W);
+      const brut = [[0, 0], [cam1, 0], [cam1, pas], [cam2, pas], [cam2, 0], [cam3, 0]];
+      let l = 0;
+      points = brut.map(([px, py], i) => { if (i) l += Math.abs(px - brut[i - 1][0]) + Math.abs(py - brut[i - 1][1]); return { x: px, y: py, l }; });
+      coins = points.slice(1, -1).map((q) => q.l);
+      progres = avance * total();
+      camera();
+    }
+    function caler() {
+      if (!grand()) {
+        cartes.forEach((el) => COTES.forEach((k) => el.style.removeProperty(k)));
+        page.style.removeProperty('transform');
+        points = []; progres = 0; signature = '';
+        return;
+      }
+      const stage = document.getElementById('stage');
+      if (!stage) return;
+      const h = stage.clientHeight || innerHeight;
+      const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
+      const carte = Math.round(Math.max(520, Math.min(600, h * 0.62)));
+      doc.style.setProperty('--panneau-haut', '44px');
+      doc.style.setProperty('--carte-h', Math.max(carte + 40, h - 44 - 48) + 'px');
+      const lien = [...document.querySelectorAll('.menubar .barlien')].find((e) => /linkedin/i.test(e.textContent) && e.offsetWidth);
+      const colonne = (innerWidth - 48 - 11 * 24) / 12;
+      if (lien) doc.style.setProperty('--droite', Math.max(24, Math.round(innerWidth - lien.getBoundingClientRect().right - colonne - 24)) + 'px');
+      composer(carte, axe - 44);
+    }
+    const glisse = () => { if (aGlisse) return; aGlisse = true; curseur.classList.remove('est-visible'); };
+    function boucle(t) {
+      const dt = Math.min(40, t - avant || 16); avant = t;
+      pos += (but - pos) * (1 - Math.exp(-dt / (tir && bouge ? 32 : 170)));
+      if (Math.abs(but - pos) < 0.25) { pos = but; progres = pos; raf = 0; camera(); return; }
+      progres = pos; camera();
+      raf = requestAnimationFrame(boucle);
+    }
+    function vers(v) {
+      but = borne(v);
+      if (calme()) { cancelAnimationFrame(raf); raf = 0; progres = but; camera(); return; }
+      if (!raf) { pos = progres; avant = performance.now(); raf = requestAnimationFrame(boucle); }
+    }
+    sc.addEventListener('wheel', (e) => {
+      if (!grand() || e.ctrlKey) return;
+      e.preventDefault();
+      const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? sc.clientWidth : 1, t = performance.now();
+      if (!axeGeste || t - dernierGeste > 180) axeGeste = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
+      dernierGeste = t;
+      vers(base() + (axeGeste === 'x' ? e.deltaX : e.deltaY) * unite * 0.7 * frein(base()));
+    }, { passive: false });
+    document.addEventListener('keydown', (e) => {
+      if (doc.hidden || !grand()) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); vers(base() + sc.clientWidth * 0.45); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); vers(base() - sc.clientWidth * 0.45); }
+    });
+    const interactif = (t) => t.closest('a, button, summary, select, input, textarea, label');
+    sc.addEventListener('pointerdown', (e) => {
+      if (!grand() || e.button !== 0 || interactif(e.target)) return;
+      cancelAnimationFrame(raf); raf = 0;
+      tir = { x: e.clientX, y: e.clientY, p: progres, total: 0, traces: [[performance.now(), progres]] }; bouge = false;
+    });
+    addEventListener('pointermove', (e) => {
+      if (!aGlisse) {
+        const r = sc.getBoundingClientRect(), dedans = !doc.hidden && grand() && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+        curseur.classList.toggle('est-visible', !!(dedans && (tir || !interactif(e.target))));
+        const d = doc.getBoundingClientRect();
+        curseur.style.transform = 'translate(' + (e.clientX - d.left + 14) + 'px,' + (e.clientY - d.top + 14) + 'px)';
+      }
+      if (!tir) return;
+      const mx = e.clientX - tir.x, my = e.clientY - tir.y;
+      tir.x = e.clientX; tir.y = e.clientY; tir.total += Math.abs(mx) + Math.abs(my);
+      tir.p = borne(tir.p - (Math.abs(mx) >= Math.abs(my) ? mx : my));
+      if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); }
+      if (bouge) { vers(tir.p); e.preventDefault(); }
+      tir.traces.push([performance.now(), tir.p]); if (tir.traces.length > 6) tir.traces.shift();
+    });
+    addEventListener('pointerup', () => {
+      if (!tir) return;
+      const t = tir; tir = null;
+      if (!bouge) return;
+      glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
+      const m = performance.now(), tr = t.traces.filter((q) => m - q[0] < 100), a = tr[0];
+      vers(t.p + (tr.length > 1 ? (tr[tr.length - 1][1] - a[1]) / Math.max(16, tr[tr.length - 1][0] - a[0]) : 0) * 420);
+    });
+    sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
+    sc.addEventListener('dragstart', (e) => e.preventDefault());
+    addEventListener('resize', caler);
+    addEventListener('load', caler);
+    new MutationObserver(() => { if (!doc.hidden) { cancelAnimationFrame(raf); raf = 0; caler(); progres = 0; camera(); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+    caler();
+  });
 })();
 
 // Pharmaprix, carte question : les pastilles d'erreurs apparaissent une à une
