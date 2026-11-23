@@ -9457,7 +9457,6 @@
   }
   /* Démarrage : morceaux retirés (leur vide reste), note en grotesque, chiffres romains plus grands. */
   html body .demarrage .demarrage__ligne .dm--vide { visibility: hidden !important; }
-  html body .demarrage .demarrage__ligne .dm--note { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: .42em; letter-spacing: 0; }
   html body .demarrage .dm--carre.dm--romain b { font-size: .46em; }
   /* Bio : la plage et la tempête au même format carré, sur 3 colonnes chacune. */
   @media (min-width: 1024px) {
@@ -9468,31 +9467,18 @@
     html body .stage .profil .bio-photos > .bio-photo--plage .eclair { aspect-ratio: 1; }
     html body .stage .profil .bio-photos > .bio-photo--plage img { width: 100% !important; height: 100% !important; aspect-ratio: 1 !important; object-fit: cover; }
   }
-  /* Bio : « Hello, » à la place de l'en-tête, puis une signature qui se trace. */
+  /* Bio : « Hello, » à la place de l'en-tête, puis l'initiale E. */
   .bio-hello { margin: 0 0 24px; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; color: var(--encre); }
-  @keyframes signature-trace { to { stroke-dashoffset: 0; } }
   @media (min-width: 1024px) {
     html body .stage .profil .bio-hello { font-size: 48px; line-height: 52px; letter-spacing: -0.4px; }
-    html body .stage:not(.bio-ouverte) .profil :is(.bio-hello, .bio-signature) { visibility: hidden; }
+    html body .stage:not(.bio-ouverte) .profil .bio-hello { visibility: hidden; }
     html body .stage.bio-ouverte .profil .bio-hello { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
   }
   @media (prefers-reduced-motion: reduce) {
     html body .stage.bio-ouverte .profil .bio-hello { animation: none; }
   }
-  /* Signature : le vrai tracé de Manu, révélé lettre par lettre le long du geste. */
-  .bio-signature { display: block; width: 120px; height: auto; margin: 24px 0 0; overflow: visible; }
-  .bio-signature .sig-lettre { fill: var(--encre); }
-  .bio-signature .sig-geste { fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-  .bio-signature .sig-plein { fill: #FFFFFF; opacity: 0; }
-  .bio-signature.est-signee .sig-geste { animation: signature-trace var(--d) cubic-bezier(0.45, 0.05, 0.55, 0.95) calc(var(--t) + 250ms) forwards; }
-  .bio-signature.est-signee .sig-plein { animation: sig-complet 1ms linear calc(var(--fin) + 250ms) forwards; }
-  @keyframes sig-complet { to { opacity: 1; } }
-  @media (min-width: 1024px) { html body .stage .profil .bio-signature { width: 136px; } }
-  @media (max-width: 1023px) { html body .stage .profil .bio-signature { margin-bottom: 48px; } }
-  @media (prefers-reduced-motion: reduce) {
-    .bio-signature .sig-plein { opacity: 1; }
-    .bio-signature.est-signee :is(.sig-geste, .sig-plein) { animation: none; }
-  }
+  html body .stage .profil .profil__bio > p.bio-initiale { margin: 24px 0 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0; color: var(--encre); }
+  @media (max-width: 1023px) { html body .stage .profil .profil__bio > p.bio-initiale { margin-bottom: 48px !important; } }
 </style>
 </head>
 <body>
@@ -9508,7 +9494,7 @@
   // @nom = signe dessiné · ○XX / □XX / ◇XX = lettres dans une forme ·
   // ^a/b = deux mots empilés · -> = flèche longue · ~> = flèche en vague.
   // « _ » devant un morceau : il disparaît mais garde sa place, ce qui creuse
-  // des vides dans la composition. « % » : petite note en grotesque.
+  // des vides dans la ligne. En début de ligne, il est retiré : tout part de la gauche.
   const LIGNES = [
     '@bebe|1981|_->|Lille|○FR|^59152|@epi',
     '_Crayon|_@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
@@ -9519,7 +9505,7 @@
     '_Pluie|_@nuage',
     'France|_○FR|~>|@lys|_Québec|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
-    '_Nous|_@coeur|_+|_^2/garçons|=|Famille|@maison|%E=mc² mon amour',
+    '_Nous|_@coeur|_+|_^2/garçons|=|Famille|@maison|E=mc² mon amour',
     '_France|_+|_Canada|@feuille|=|@trophee',
     '@maison|+|@cerveau|+|Sport|@haltere|+|Mots|@plume|+|Code|@ecran'
   ];
@@ -9699,7 +9685,6 @@
     const vide = brut[0] === '_', m = vide ? brut.slice(1) : brut;
     const el = document.createElement('span');
     el.className = vide ? 'dm dm--vide' : 'dm';
-    if (m[0] === '%') { el.classList.add('dm--note'); el.textContent = m.slice(1); return el; }
     if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
     else if (m === '->') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 48 24', 'M1 12h46 M39 5l8 7-8 7', 'dm__svg dm__svg--long'); }
     else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
@@ -9719,7 +9704,9 @@
   const lignes = LIGNES.map((t) => {
     const l = document.createElement('span');
     l.className = 'demarrage__ligne';
-    t.split('|').forEach((m) => l.append(morceau(m)));
+    const parts = t.split('|');
+    if (parts.some((m) => m[0] !== '_')) while (parts[0][0] === '_') parts.shift();
+    parts.forEach((m) => l.append(morceau(m)));
     ecran.append(l);
     return l;
   });
@@ -9813,8 +9800,7 @@
     <div class="profil__bio">
       <h1 class="bio-hello">Hello,</h1>
       <p>Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Les rencontres que je fais nourrissent aussi mon travail. Faire tenir tout ça dans un même parcours, c’est un drôle de défi que j’essaie encore de relever.<br><br>Je conçois surtout des interfaces et des produits SaaS. Selon le projet, je fais aussi un peu d’analyse, de rédaction et parfois d’illustration.<br><br>En ce moment, j’explore l’IA et le vibe coding. Je n’aspire à devenir ni master ni ninja de quoi que ce soit. J’aime apprendre et voir ce que je peux faire avec ce que je viens de découvrir.</p>
-      <!-- Signature « Manu » tracée à l'ouverture de la bio. -->
-      <svg class="bio-signature" viewBox="0 0 735 518" role="img" aria-label="Signature : Manu"><defs><mask id="sig-m" maskUnits="userSpaceOnUse" x="-20" y="-20" width="775" height="558"><path class="sig-geste" style="--t:0ms;--d:620ms" pathLength="1" d="M8 432C24 330 30 200 10 52C30 30 50 60 75 140C90 190 105 270 122 295C150 200 165 90 195 20C215 120 232 300 232 510" stroke-width="76"/><rect class="sig-plein" style="--fin:620ms" x="-20" y="-20" width="775" height="558"/></mask><mask id="sig-a" maskUnits="userSpaceOnUse" x="-20" y="-20" width="775" height="558"><path class="sig-geste" style="--t:620ms;--d:360ms" pathLength="1" d="M372 160C320 165 275 230 272 360C272 420 295 432 320 410C350 370 365 300 370 230C375 300 395 390 438 392" stroke-width="66"/><rect class="sig-plein" style="--fin:980ms" x="-20" y="-20" width="775" height="558"/></mask><mask id="sig-n" maskUnits="userSpaceOnUse" x="-20" y="-20" width="775" height="558"><path class="sig-geste" style="--t:980ms;--d:340ms" pathLength="1" d="M432 118C436 220 432 320 430 395C434 280 455 150 505 108C535 130 535 260 530 450" stroke-width="62"/><rect class="sig-plein" style="--fin:1320ms" x="-20" y="-20" width="775" height="558"/></mask><mask id="sig-u" maskUnits="userSpaceOnUse" x="-20" y="-20" width="775" height="558"><path class="sig-geste" style="--t:1320ms;--d:340ms" pathLength="1" d="M595 195C570 200 572 260 580 300C590 370 605 405 628 400C665 385 695 300 705 200C708 160 715 130 726 122" stroke-width="62"/><rect class="sig-plein" style="--fin:1660ms" x="-20" y="-20" width="775" height="558"/></mask></defs><path class="sig-lettre" mask="url(#sig-m)" d="M195.966 0C211.532 5.3701 219.315 13.4253 219.315 24.1655L246 398.288V463.16C246 494.816 242.201 513.096 234.603 518H226.542L215.146 499.943L219.315 361.505V351.009C219.315 253.697 211.532 167.205 195.966 91.5358H192.353C176.786 133.846 160.108 208.051 142.319 314.151L118.969 323.915C104.886 323.915 95.991 294.786 92.2848 236.529C64.1175 161.51 46.235 120.99 38.6373 114.969H34.7458L38.6373 165.497V226.521C38.6373 368.259 30.8542 439.128 15.2881 439.128H3.89153L0 422.041L15.2881 283.639H11.3966L15.2881 280.466V236.529C15.2881 129.289 11.4893 68.5095 3.89153 54.1892C8.89492 43.7745 14.0836 38.2416 19.4576 37.5907H30.8542C43.6407 38.2416 59.0215 71.9268 76.9966 138.646C89.7831 159.964 103.774 198.287 118.969 253.615H130.922L180.4 47.5986V37.5907L177.064 17.0867C177.064 8.13652 183.365 3.66143 195.966 3.66143V0Z"/><path class="sig-lettre" mask="url(#sig-a)" d="M363.94 141H377.182L389.809 148.075L385.189 198.091C393.196 317.642 406.028 377.417 423.685 377.417H432V380.345C432 392.707 447.792 400.758 436.5 404.499H397.816C386.524 404.499 376.669 379.695 368.251 330.085H363.94C347.515 406.695 322.057 445 287.565 445C267.855 445 258 421.171 258 373.514V336.917C258 233.306 281.919 174.832 329.756 161.494C337.763 161.494 349.158 154.663 363.94 141ZM287.565 326.425V373.514C287.565 398.4 291.773 410.843 300.191 410.843C318.669 410.843 337.147 352.45 355.625 235.665V232.005C353.572 200.45 349.363 184.673 342.998 184.673H329.756C301.628 184.673 287.565 231.923 287.565 326.425Z"/><path class="sig-lettre" mask="url(#sig-n)" d="M502.383 92.2437L505.31 92.372C531.977 93.5409 545.54 144.64 546 245.668L543.327 306.645L545.371 343.635L541.114 374.222L543.436 443.672L532.67 457C521.741 449.269 516.555 431.034 517.111 402.294L521.996 258.057C525.439 179.519 519.339 136.567 503.696 129.202L500.769 129.074C476.162 140.377 459.279 189.163 450.122 275.434L445.984 369.825L445.984 383C445 399.5 441.869 404.192 437.479 404C426.259 403.508 416.659 397.702 414.619 388.489L422.255 297.917L418.915 145.525L419.792 125.524L433.795 112.697C442.595 116.341 446.921 119.871 446.771 123.286L441.144 173.624L444.409 177.189L450.994 177.477C452.441 144.469 469.571 116.058 502.383 92.2437Z"/><path class="sig-lettre" mask="url(#sig-u)" d="M725.954 114.164L732.738 130.611L718.241 188.842L715.856 211.943L716.806 239.248C692.968 358.522 662.606 416.254 625.718 412.445C588.002 408.549 566.542 348.652 561.338 232.751L563.392 212.865C565.145 195.888 571.871 186.534 583.569 184.8L592.584 185.731L604.652 193.596L597.585 216.396L594.153 249.621C589.562 294.083 597.997 339.155 619.459 384.837L628.474 385.768C649.019 381.517 666.139 340.473 679.832 262.636L683.339 228.684C684.975 212.839 684.5 190.063 680.939 169.786C684.194 138.267 699.199 119.726 725.954 114.164Z"/></svg>
+      <p class="bio-initiale">E.</p>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
       <!-- La suite de la bio, dans le même défilement : les fichiers de
            « Bio » sont des ancres vers ces sections. -->
@@ -17518,28 +17504,6 @@ document.addEventListener('click', (e) => {
   document.documentElement.addEventListener('pointerleave', cacher);
 })();
 
-// Bio : la signature se trace à chaque ouverture.
-(function signatureBio() {
-  const sig = document.querySelector('.bio-signature'), stage = document.getElementById('stage');
-  if (!sig || !stage) return;
-  let ouverte = false;
-  const maj = () => {
-    const o = stage.classList.contains('bio-ouverte') || stage.classList.contains('profil-mobile');
-    if (o === ouverte) return;
-    ouverte = o;
-    sig.classList.remove('est-signee');
-    if (o) requestAnimationFrame(() => requestAnimationFrame(signer));
-  };
-  // Elle ne se trace que lorsqu'on la voit (sur mobile, elle est plus bas dans la page).
-  function signer() {
-    if (!ouverte || sig.classList.contains('est-signee')) return;
-    const r = sig.getBoundingClientRect();
-    if (r.width && r.top < innerHeight * 0.9 && r.bottom > 0) sig.classList.add('est-signee');
-  }
-  new IntersectionObserver(signer, { threshold: [0, 0.5, 1] }).observe(sig);
-  new MutationObserver(maj).observe(stage, { attributes: true, attributeFilter: ['class'] });
-  maj();
-})();
 </script>
 </body>
 </html>
