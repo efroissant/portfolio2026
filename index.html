@@ -9510,7 +9510,7 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
   @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 62%; }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 9 + 192px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 50% 62%; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 5 + 96px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 34% 50%; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 16 / 9 !important; height: auto !important; } }
   /* Pharmaprix en parcours : toutes les cartes ont un contour, la caméra suit un serpentin. */
   .parcours-rail { display: contents; }
@@ -9592,6 +9592,38 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; }
   }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { opacity: 1; transform: none; transition: none !important; } }
+  /* Pharmaprix : écran pleine largeur sous son titre, audit en cobalt, passerelle vers la lumière. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes.uc__chiffres--masque { display: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete { justify-content: flex-start !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__titre { order: 1 !important; padding: 0 0 16px !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-visuel { order: 2 !important; flex: none !important; height: auto !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete .ecran-erreurs { flex: none !important; width: 100% !important; max-width: none !important; height: auto !important; align-self: stretch !important; aspect-ratio: 869 / 580; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { background: var(--cobalt) !important; outline-color: var(--cobalt) !important; color: #FFFFFF; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit :is(.uc__audit-label, .uc__audit-titre, .uc__audit-texte, .uc__urgence, .uc__urgence-detail strong, .uc__urgence-detail span) { color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences { margin-top: 16px !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { padding: 12px 0 !important; border-top-color: rgba(255, 255, 255, 0.32); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li:last-child { padding-bottom: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { border-color: #FFFFFF; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: #FFFFFF; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; overflow: hidden !important; color: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-label { margin: 0 0 8px !important; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-texte { margin: 0 !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; min-height: 0; list-style: none; margin: 16px 0 !important; padding: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { position: relative; margin: 0 !important; padding: 2px 0 2px 24px !important; font-size: 14px !important; line-height: 20px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-6px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li:not(:last-child)::after { content: ""; position: absolute; left: 3.5px; top: 16px; width: 1px; height: calc(100% - 8px); background: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li { opacity: 1; transform: none; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(2) { transition-delay: 180ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(3) { transition-delay: 360ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(4) { transition-delay: 540ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(5) { transition-delay: 720ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-suite { margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-size: 20px !important; line-height: 24px !important; color: var(--encre) !important; }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__titre { padding: 0 0 16px !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { opacity: 1; transform: none; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -10702,13 +10734,27 @@
           </ol>
         </section>
 
-        <ul class="uc__chiffres uc__chiffres--signes" aria-label="En bref">
+        <ul class="uc__chiffres uc__chiffres--signes uc__chiffres--masque" aria-label="En bref" hidden>
           <li><strong>13&nbsp;ans</strong><span>d’habitudes avec l’ancien logiciel</span><div class="signes signes--traits" data-n="13" aria-hidden="true"></div></li>
           <li><strong>150</strong><span>user stories traitées</span><div class="signes signes--points" data-n="150" aria-hidden="true"></div></li>
           <li><strong>30</strong><span>écrans redesignés ou créés, à ma charge</span><div class="signes signes--ecrans" data-n="30" aria-hidden="true"></div></li>
         </ul>
 
         <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+
+        <section class="uc__passerelle">
+          <p class="uc__passerelle-label">L’observation terrain</p>
+          <h2 class="uc__passerelle-titre">Recréer le flow du pharmacien.</h2>
+          <p class="uc__passerelle-texte">Avec l’équipe produit, nous avons analysé les observations de terrain pour reconstituer le parcours d’une ordonnance, et voir dans quel environnement il se déroule.</p>
+          <ol class="uc__flow" aria-label="Parcours d’une ordonnance">
+            <li>Réception de l’ordonnance</li>
+            <li>Saisie au poste</li>
+            <li>Vérification</li>
+            <li>Étiquette et préparation</li>
+            <li>Remise au patient</li>
+          </ol>
+          <p class="uc__passerelle-suite">Et au-dessus de chaque poste, ce qu’aucun écran ne montrait.</p>
+        </section>
 
         <section class="uc__bloc uc__lumiere">
           <figure class="lumiere__scene"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy" draggable="false"><span class="lumiere__voile" aria-hidden="true"></span></figure>
@@ -17416,6 +17462,7 @@ document.addEventListener('click', (e) => {
   // Les chiffres, comptés en signes : 13 traits, 150 points, 30 écrans.
   const compte = document.querySelector('#doc-loblaw .uc__chiffres--signes');
   const audit = document.querySelector('#doc-loblaw .uc__audit');
+  const passerelle = document.querySelector('#doc-loblaw .uc__passerelle');
   document.querySelectorAll('#doc-loblaw .signes').forEach((b) => {
     b.append(...Array.from({ length: +b.dataset.n }, (_, k) => {
       const i = document.createElement('i');
@@ -17429,10 +17476,10 @@ document.addEventListener('click', (e) => {
     else {
       visibles.delete(e.target);
       // La chaîne se rejoue à chaque passage : les étiquettes réapparaissent une à une.
-      if (e.target === chaine || e.target === scene || e.target === compte || e.target === audit) e.target.classList.remove('est-vu');
+      if (e.target === chaine || e.target === scene || e.target === compte || e.target === audit || e.target === passerelle) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe, scene, compte, audit].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, scene, compte, audit, passerelle].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
@@ -17487,6 +17534,7 @@ document.addEventListener('click', (e) => {
     contexte: page.querySelector(':scope > .uc__contexte'),
     tete: page.querySelector(':scope > .uc__tete'),
     audit: page.querySelector(':scope > .uc__audit'),
+    passerelle: page.querySelector(':scope > .uc__passerelle'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
     terrain: page.querySelector(':scope > .uc__photo--terrain'),
     chaine: page.querySelector(':scope > .uc__chaine'),
@@ -17560,15 +17608,17 @@ document.addEventListener('click', (e) => {
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
-    poser(c.tete, x, haut, L(5), H); x += L(5) + G;
+    // L'écran garde toute la largeur de sa carte : la carte s'ajuste si la hauteur manque.
+    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16) * 869 / 580) + 48);
+    poser(c.tete, x, haut, lTete, H); x += lTete + G;
     const xAudit = x;
-    poser(c.audit, x, haut, L(6), H);
+    poser(c.audit, x, haut, L(5), H);
     const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
-    poser(c.chiffres, x, y2, L(6), H); x += L(6) + G;
-    poser(c.terrain, x, y2, L(9), H); x += L(9) + G;   // panoramique, à la hauteur des autres cartes
+    poser(c.terrain, x, y2, L(5), H); x += L(5) + G;   // exactement sous l'audit
+    poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
     poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
     const xChaine = x;
     poser(c.chaine, x, y2, L(7), H);
