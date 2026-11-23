@@ -9548,9 +9548,9 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { align-self: stretch !important; width: 100% !important; box-sizing: border-box; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
   @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 50%; }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 2 + 24px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 47% 50%; } }
-  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 3 / 4 !important; height: auto !important; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 62%; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 9 + 192px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 50% 62%; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 16 / 9 !important; height: auto !important; } }
   /* Pharmaprix en parcours : toutes les cartes ont un contour, la caméra suit un serpentin. */
   .parcours-rail { display: contents; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__photo, .uc__contexte, .uc__tete, .uc__fin), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
@@ -17485,7 +17485,7 @@ document.addEventListener('click', (e) => {
     const y2 = haut + pas;
     x = cam1;
     poser(c.chiffres, x, y2, L(5), H); x += L(5) + G;
-    poser(c.terrain, x, y2, L(2), H); x += L(2) + G;
+    poser(c.terrain, x, y2, L(9), H); x += L(9) + G;   // panoramique, à la hauteur des autres cartes
     const xLumiere = x;
     poser(c.lumiere, x, y2, L(7), H);
     const cam2 = xLumiere;   // même chose avant de remonter
