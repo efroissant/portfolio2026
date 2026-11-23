@@ -9519,6 +9519,35 @@
     .ampoule.est-vu .ampoule__verre { fill-opacity: 1; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) *, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu)::before { transition: none !important; }
   }
+  /* Pharmaprix : les chiffres comptés en signes, dans une seule carte à trois rangées. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { display: flex !important; flex-direction: column; gap: 0 !important; padding: 0 24px !important; border: 0 !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; background: #FFFFFF !important; overflow: hidden !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { flex: 1 1 0 !important; display: grid !important; grid-template-columns: calc(var(--col) * 2 + 24px) minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; align-items: start; column-gap: 24px; row-gap: 4px; width: auto !important; height: auto !important; min-height: 0; margin: 0 !important; padding: 16px 0 !important; border: 0 !important; border-top: 1px solid var(--filet) !important; border-radius: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:first-child { border-top: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > strong { grid-column: 1; grid-row: 1; margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > span { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { grid-column: 2; grid-row: 1 / -1; align-self: center; }
+  .signes { display: grid; justify-content: space-between; align-content: center; }
+  .signes i { display: block; background: var(--encre); opacity: 0; }
+  .signes--traits { grid-template-columns: repeat(13, 1px); }
+  .signes--traits i { width: 1px; height: 64px; }
+  .signes--points { grid-template-columns: repeat(25, 4px); row-gap: 8px; }
+  .signes--points i { width: 4px; height: 4px; border-radius: 50%; }
+  .signes--ecrans { grid-template-columns: repeat(10, 20px); row-gap: 8px; }
+  .signes--ecrans i { width: 20px; height: 14px; border-radius: 2px; }
+  .uc__chiffres--signes.est-vu .signes i { opacity: 1; transition: opacity 160ms ease; transition-delay: calc(var(--depart) + var(--k) * var(--pas)); }
+  .signes--traits { --depart: 0ms; --pas: 40ms; }
+  .signes--points { --depart: 520ms; --pas: 5ms; }
+  .signes--ecrans { --depart: 1300ms; --pas: 24ms; }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { padding: 0 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { flex: none !important; grid-template-columns: minmax(0, 1fr); padding: 24px 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { grid-column: 1; grid-row: 3; margin-top: 16px; }
+  }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__intro { width: calc(var(--col) * 5 + 96px) !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { width: calc(var(--col) * 5 + 96px) !important; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { align-self: stretch !important; width: 100% !important; box-sizing: border-box; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
+  @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
 </style>
 </head>
 <body>
@@ -10620,10 +10649,10 @@
           <figure class="uc__figure uc__couverture"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274"></figure>
         </header>
 
-        <ul class="uc__chiffres" aria-label="En bref">
-          <li><strong>13&nbsp;ans</strong><span>d’habitudes avec l’ancien logiciel</span></li>
-          <li><strong>150</strong><span>user stories traitées</span></li>
-          <li><strong>30</strong><span>écrans redesignés ou créés, à ma charge</span></li>
+        <ul class="uc__chiffres uc__chiffres--signes" aria-label="En bref">
+          <li><strong>13&nbsp;ans</strong><span>d’habitudes avec l’ancien logiciel</span><div class="signes signes--traits" data-n="13" aria-hidden="true"></div></li>
+          <li><strong>150</strong><span>user stories traitées</span><div class="signes signes--points" data-n="150" aria-hidden="true"></div></li>
+          <li><strong>30</strong><span>écrans redesignés ou créés, à ma charge</span><div class="signes signes--ecrans" data-n="30" aria-hidden="true"></div></li>
         </ul>
 
         <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"><figcaption>Reconstitution visuelle du traitement d’une ordonnance, inspirée des photos de terrain du projet Healthwatch.</figcaption></figure>
@@ -17282,16 +17311,25 @@ document.addEventListener('click', (e) => {
   const dose = document.querySelector('#doc-loblaw .dose');
   const sexe = document.querySelector('#doc-loblaw .sexe');
   const ampoule = document.querySelector('#doc-loblaw .ampoule');
+  // Les chiffres, comptés en signes : 13 traits, 150 points, 30 écrans.
+  const compte = document.querySelector('#doc-loblaw .uc__chiffres--signes');
+  document.querySelectorAll('#doc-loblaw .signes').forEach((b) => {
+    b.append(...Array.from({ length: +b.dataset.n }, (_, k) => {
+      const i = document.createElement('i');
+      i.style.setProperty('--k', k);
+      return i;
+    }));
+  });
   const visibles = new Set();
   const obs = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { visibles.add(e.target); e.target.classList.add('est-vu'); demarrer(e.target); }
     else {
       visibles.delete(e.target);
       // La chaîne se rejoue à chaque passage : les étiquettes réapparaissent une à une.
-      if (e.target === chaine || e.target === ampoule) e.target.classList.remove('est-vu');
+      if (e.target === chaine || e.target === ampoule || e.target === compte) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe, ampoule].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, ampoule, compte].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
