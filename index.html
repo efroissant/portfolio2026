@@ -9430,6 +9430,29 @@
   html body .stage .profil #bio-biblio-titre { position: absolute !important; width: 1px; height: 1px; margin: -1px !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   html body .stage .profil .biblio__intro { margin-bottom: 24px !important; }
   html body .stage .profil .profil__bio { -webkit-mask-image: none !important; mask-image: none !important; }
+  /* Écran de démarrage : mots clés en serif et signes au trait de 1 px, ligne après ligne. */
+  .demarrage .demarrage__ligne { display: flex; flex-wrap: nowrap; align-items: center; gap: .16em; width: max-content; max-width: none; font-family: "Instrument Serif", Georgia, serif !important; font-size: var(--dm, 48px) !important; font-weight: 400; line-height: 1.06 !important; letter-spacing: -.01em !important; white-space: nowrap; color: var(--encre, #1C1917); }
+  .demarrage.demarrage--etroit .demarrage__ligne { flex-wrap: wrap; width: 100%; }
+  html body .demarrage .demarrage__ligne .dm { font-family: "Instrument Serif", Georgia, serif !important; }
+  html body .demarrage .demarrage__ligne :is(.dm--forme b, .dm--pile, .dm--pile b) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
+  .demarrage .dm { display: inline-flex; align-items: center; justify-content: center; flex: none; opacity: 0; }
+  .demarrage .dm.est-la { opacity: 1; animation: dm-entree 180ms cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
+  .demarrage .dm__svg { display: block; width: .78em; height: .78em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
+  .demarrage .dm__svg path { vector-effect: non-scaling-stroke; }
+  .demarrage .dm__svg--long { width: 1.1em; height: .55em; }
+  .demarrage .dm__svg--vague { width: 1.5em; height: .56em; }
+  .demarrage .dm--op { font-size: .72em; padding: 0 .08em; }
+  .demarrage .dm--forme { width: .78em; height: .78em; border: 1px solid currentColor; }
+  .demarrage .dm--rond { border-radius: 50%; }
+  .demarrage .dm--losange { transform: rotate(45deg) scale(.8); }
+  .demarrage .dm--forme b { font: 500 .24em/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; }
+  .demarrage .dm--pile { flex-direction: column; align-items: stretch; padding: .05em .1em; border: 1px solid currentColor; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; }
+  .demarrage .dm--pile b { font-size: .26em; font-weight: 500; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  .demarrage .dm--pile b + b { border-top: 1px solid currentColor; }
+  @media (prefers-reduced-motion: reduce) {
+    .demarrage .dm.est-la { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -9440,26 +9463,53 @@
 (function demarrage() {
   const ecran = document.getElementById('demarrage');
   if (!ecran) return;
-  // [texte, pause avant la ligne suivante (ms)]
-  // Ma vie jusqu'ici, en émojis et en signes, à lire de haut en bas
-  // (expliquée dans le case study « Le démarrage »).
+  // Ma vie jusqu'ici, en mots clés et en signes au trait, à lire de haut en bas
+  // (expliquée dans le case study « Le démarrage »). Un morceau par « | » :
+  // @nom = signe dessiné · ○XX / □XX / ◇XX = lettres dans une forme ·
+  // ^a/b = deux mots empilés · -> = flèche longue · ~> = flèche en vague.
   const LIGNES = [
-    ['👶 → 🇫🇷 🌾', 160],
-    ['✏️ → 🎨', 140],
-    ['🏫 ≠ 🧠 ⚡', 140],
-    ['📺 + 🎮 + 📚 + 🎤 + 🎹', 160],
-    ['🌾 → 🗼', 140],
-    ['✈️ × 15 🌍', 160],
-    ['👨 + 👨 = ❤️ 🏳️‍🌈', 160],
-    ['🌧️ → 🔥 → 🐦‍🔥', 160],
-    ['🇫🇷 → ⚜️', 140],
-    ['🎓 → 💻 🎨', 140],
-    ['👨‍❤️‍👨 + 👦 👦 = 👨‍👨‍👦‍👦', 160],
-    ['🇫🇷 + 🍁 = 🏆', 140],
-    ['👨‍👨‍👦‍👦 + 🧠 + 🏋️ + ✍️ + 💻', 292]
+    '@bebe|Né|->|France|○FR|@epi|Campagne',
+    'Crayon|@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
+    '@tv|Télé|+|Jeux|@manette|+|@livre|Livres|+|Micro|@micro|+|@piano',
+    'Campagne|@epi|~>|Paris|@tour|^×15/voyages|@globe',
+    'Lui|@personne|+|@personne|Moi|=|Amour|@coeur',
+    'Pluie|@nuage|->|Feu|@flamme|->|Phénix|@oiseau',
+    'France|○FR|~>|@lys|Québec|□QC',
+    'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
+    'Nous|@coeur|+|^2/garçons|=|Famille|@maison',
+    'France|+|Canada|@feuille|=|@trophee',
+    '@maison|+|@cerveau|+|Sport|@haltere|+|Mots|@plume|+|Code|@ecran'
   ];
+  // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
+  const SIGNES = {
+    bebe: 'M12 4a8 8 0 1 0 0 16a8 8 0 0 0 0-16z M9 11h.01 M15 11h.01 M9.5 15c1.5 1 3.5 1 5 0 M12 4c-1-1 0-2 1-2',
+    epi: 'M12 22V7 M12 7c-2-1-2-3 0-5c2 2 2 4 0 5z M12 12c-1-3-4-4-6-4c0 3 3 5 6 4z M12 12c1-3 4-4 6-4c0 3-3 5-6 4z M12 18c-1-3-4-4-6-4c0 3 3 5 6 4z M12 18c1-3 4-4 6-4c0 3-3 5-6 4z',
+    crayon: 'M4 20l1-5L16 4l4 4L9 19z M14 6l4 4 M5 15l4 4',
+    palette: 'M12 3a9 9 0 1 0 0 18c2 0 2-1.5 1.5-3s.5-3 2.5-3h2c2 0 3-1 3-3 0-5-4-9-9-9z M8 8a1 1 0 1 0 .01 0z M13 6a1 1 0 1 0 .01 0z M6 13a1 1 0 1 0 .01 0z',
+    eclair: 'M13 2L5 14h6l-1 8 8-12h-6z',
+    cerveau: 'M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V6a2.5 2.5 0 0 0-3-2z M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1 M12 6a2.5 2.5 0 0 1 3-2',
+    tv: 'M3 7h18v12H3z M8 3l4 4 4-4',
+    manette: 'M7 8h10a5 5 0 0 1 4.8 6.4l-.6 2a2.5 2.5 0 0 1-4.4.7L15 15H9l-1.8 2.1a2.5 2.5 0 0 1-4.4-.7l-.6-2A5 5 0 0 1 7 8z M8 10v3 M6.5 11.5h3 M15.5 11h.01 M17.5 13h.01',
+    livre: 'M12 6C10 4 7 4 3 5v14c4-1 7-1 9 1 2-2 5-2 9-1V5c-4-1-7-1-9 1z M12 6v14',
+    micro: 'M9 5a3 3 0 0 1 6 0v6a3 3 0 0 1-6 0z M5 11a7 7 0 0 0 14 0 M12 18v4 M8 22h8',
+    piano: 'M3 5h18v14H3z M7.5 19v-5 M12 19v-5 M16.5 19v-5 M6 5v9h3V5 M10.5 5v9h3V5 M15 5v9h3V5',
+    tour: 'M12 2v4 M10 6h4l1 6H9z M9 12h6l4 10h-3l-4-5-4 5H5z M7.5 16h9',
+    globe: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z M3 12h18 M12 3c3 3 3 15 0 18 M12 3c-3 3-3 15 0 18',
+    personne: 'M12 3a4 4 0 1 0 0 8a4 4 0 0 0 0-8z M4 21c1-5 4-7 8-7s7 2 8 7',
+    coeur: 'M12 21C5 15 3 12 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 12 19 15 12 21z',
+    nuage: 'M7 17a4 4 0 0 1-.5-8A6 6 0 0 1 18 8a4.5 4.5 0 0 1-.5 9z M8 22l1-3 M12 22l1-3 M16 22l1-3',
+    flamme: 'M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-4 2-7 2 1 3 2 3 4 1-2 2-5 1-9z',
+    oiseau: 'M3 12c4-1 6-5 9-8 0 4 1 6 3 7l6-1-4 4c-1 4-5 7-10 6l3-4c-3 1-5-1-7-4z',
+    lys: 'M12 2c-3 4-3 7 0 11 3-4 3-7 0-11z M4 7c-1 4 2 6 8 6 M20 7c1 4-2 6-8 6 M7 15h10 M9 15c-1 3-3 4-5 3 M15 15c1 3 3 4 5 3 M12 15v6',
+    toque: 'M12 5L2 10l10 5 10-5z M6 12v5c3 2 9 2 12 0v-5 M22 10v6',
+    ecran: 'M3 4h18v13H3z M9 21h6 M12 17v4',
+    feuille: 'M12 2l2 4 3-1-1 5 4-1-2 3 3 2-5 2 1 3-4-1v4h-2v-4l-4 1 1-3-5-2 3-2-2-3 4 1-1-5 3 1z',
+    trophee: 'M7 3h10v7a5 5 0 0 1-10 0z M7 5H3c0 4 2 6 4 6 M17 5h4c0 4-2 6-4 6 M12 15v4 M8 21h8',
+    haltere: 'M3 9v6 M6 6v12 M18 6v12 M21 9v6 M6 12h12',
+    plume: 'M20 3C12 3 6 8 5 16l-2 5 5-2c8-1 13-7 12-16z M5 19L14 10',
+    maison: 'M3 11l9-8 9 8 M5 9v12h14V9 M10 21v-6h4v6'
+  };
   const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  ecran.style.setProperty('--n', LIGNES.length);   // la taille suit le nombre de lignes
   // Mon portrait souriant apparaît par à-coups dans le glitch, pile à la place
   // du portrait de l'accueil : on me voit sourire, puis l'accueil s'allume sans.
   const sourire = new Image();
@@ -9604,23 +9654,56 @@
     ecran.classList.add('est-fini');
     setTimeout(() => ecran.remove(), calme ? 0 : 220);
   }
-  function suivante() {
-    if (i >= LIGNES.length) { finir(); return; }
-    const [texte, pause] = LIGNES[i++];
+  const svg = (vb, d, cls) => '<svg class="' + cls + '" viewBox="' + vb + '" aria-hidden="true"><path d="' + d + '"/></svg>';
+  function morceau(m) {
+    const el = document.createElement('span');
+    el.className = 'dm';
+    if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
+    else if (m === '->') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 48 24', 'M1 12h46 M39 5l8 7-8 7', 'dm__svg dm__svg--long'); }
+    else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
+    else if (m[0] === '○' || m[0] === '□' || m[0] === '◇') {
+      el.classList.add('dm--forme', m[0] === '○' ? 'dm--rond' : m[0] === '□' ? 'dm--carre' : 'dm--losange');
+      const t = document.createElement('b'); t.textContent = m.slice(1); el.append(t);
+    } else if (m[0] === '^') {
+      el.classList.add('dm--pile');
+      m.slice(1).split('/').forEach((x) => { const t = document.createElement('b'); t.textContent = x; el.append(t); });
+    } else if (m === '+' || m === '=' || m === '≠') { el.classList.add('dm--op'); el.textContent = m; }
+    else el.textContent = m;
+    return el;
+  }
+  // Toutes les lignes sont posées d'avance, invisibles : la taille est calculée
+  // une fois pour remplir l'écran, et rien ne bouge pendant l'apparition.
+  const lignes = LIGNES.map((t) => {
     const l = document.createElement('span');
-    l.className = 'demarrage__ligne' + (i === LIGNES.length ? ' demarrage__ligne--ok' : '');
+    l.className = 'demarrage__ligne';
+    t.split('|').forEach((m) => l.append(morceau(m)));
     ecran.append(l);
-    // Les émojis arrivent un par un, vite ; puis une courte pause avant la ligne suivante.
-    const morceaux = texte.split(' ');
+    return l;
+  });
+  function ajuster() {
+    const st = getComputedStyle(ecran);
+    const W = ecran.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight);
+    const H = ecran.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom);
+    const etroit = W < 700;
+    ecran.classList.toggle('demarrage--etroit', etroit);
+    let bas = 14, haut = 150;
+    for (let n = 0; n < 9; n++) {
+      const t = (bas + haut) / 2;
+      ecran.style.setProperty('--dm', t + 'px');
+      const large = Math.max(...lignes.map((l) => l.scrollWidth));
+      const total = lignes.reduce((h, l) => h + l.offsetHeight, 0);
+      if (large <= W + 1 && total <= H) bas = t; else haut = t;
+    }
+    ecran.style.setProperty('--dm', Math.floor(bas) + 'px');
+  }
+  function suivante() {
+    if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 420); return; }
+    const morceaux = [...lignes[i++].children];
     let k = 0;
     (function ajouter() {
-      // Les signes (→ + = ≠ × chiffres) en gris clair : ils guident sans voler la vedette.
-      const m = morceaux[k++], el = document.createElement('span');
-      el.textContent = (k > 1 ? ' ' : '') + m;
-      if (/^[→+=≠×\d]+$/.test(m)) el.className = 'demarrage__signe';
-      l.append(el, curseur);
-      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 10);
-      else setTimeout(suivante, calme ? 40 : Math.round(pause * 0.1));
+      morceaux[k++].classList.add('est-la');
+      if (k < morceaux.length) setTimeout(ajouter, calme ? 0 : 34);
+      else setTimeout(suivante, calme ? 0 : 90);
     })();
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
@@ -9637,7 +9720,10 @@
     else arrivee();
     return;
   }
-  setTimeout(suivante, calme ? 0 : 30);
+  ajuster();
+  addEventListener('resize', ajuster);
+  const serif = document.fonts && document.fonts.load ? document.fonts.load('48px "Instrument Serif"', 'Né') : Promise.resolve();
+  Promise.race([serif, new Promise((r) => setTimeout(r, 450))]).catch(() => {}).then(() => { ajuster(); suivante(); });
   // Plus de glitch : le démarrage reste sobre, texte noir sur fond blanc.
 })();
 </script>
