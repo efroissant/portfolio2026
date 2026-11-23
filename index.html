@@ -9372,6 +9372,38 @@
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo:not(.uc__photo--terrain) img { transform: scale(1.7); transform-origin: 96% 34%; }
   }
+  /* Échelle typographique, un cran plus bas : titres 56 / 48 / 32, lecture 16, interface 14, bulles 12. */
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-titre { font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-tags li { padding: 4px 12px !important; font-size: 14px !important; line-height: 20px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 14px !important; line-height: 20px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__intro-texte, .uc__contexte-texte p, .uc__petit) { font-size: 16px !important; line-height: 24px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__tete > .uc__titre) { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 28px !important; line-height: 32px !important; letter-spacing: 0 !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li strong { font-size: 28px !important; line-height: 32px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li:nth-child(3) strong { font-size: 96px !important; line-height: 96px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li span { font-size: 16px !important; line-height: 24px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .ecran-erreurs__compte { font-size: 16px !important; line-height: 24px !important; }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-titre { font-size: 40px !important; line-height: 40px !important; letter-spacing: -0.4px !important; } }
+  @media (min-width: 1024px) {
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.arbo, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span),
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar :is(.barlien, .barre-logo, .menubar__titre),
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage .accueil-droite :is(.en-ce-moment__heure, .en-ce-moment__heure *), html body .stage .profil .profil__entete-titre { font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; }
+    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage .profil .profil__entete-role { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .profil .bio-section__titre { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px; }
+    html body .stage .profil .bio-rayon__titre { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .profil .biblio__intro { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .barlien[data-bulle]::after,
+    html body .stage .radio-bouton::after,
+    html body .stage .dock__tip,
+    html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
+    html body .bulle-site,
+    html body .stage #doc-loblaw .panneaux-curseur,
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 12px !important; line-height: 16px !important; }
+  }
 </style>
 </head>
 <body>
