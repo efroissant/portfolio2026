@@ -9456,7 +9456,6 @@
     html body .stage .profil .bio-photos > .bio-tempete .tempete { width: 100%; height: var(--w3) !important; aspect-ratio: auto !important; }
   }
   /* Démarrage : morceaux retirés (leur vide reste), note en grotesque, chiffres romains plus grands. */
-  html body .demarrage .demarrage__ligne .dm--vide { visibility: hidden !important; }
   html body .demarrage .dm--carre.dm--romain b { font-size: .46em; }
   /* Bio : la plage et la tempête au même format carré, sur 3 colonnes chacune. */
   @media (min-width: 1024px) {
@@ -9493,20 +9492,17 @@
   // (expliquée dans le case study « Le démarrage »). Un morceau par « | » :
   // @nom = signe dessiné · ○XX / □XX / ◇XX = lettres dans une forme ·
   // ^a/b = deux mots empilés · -> = flèche longue · ~> = flèche en vague.
-  // « _ » devant un morceau : il disparaît mais garde sa place, ce qui creuse
-  // des vides dans la ligne. En début de ligne, il est retiré : tout part de la gauche.
   const LIGNES = [
-    '@bebe|1981|_->|Lille|○FR|^59152|@epi',
-    '_Crayon|_@crayon|->|Art|@palette|École|≠|@cerveau|@eclair',
+    '@bebe|1981|Lille|○FR|^59152|@epi',
+    '->|Art|@palette|École|≠|@cerveau|@eclair',
     '@livre|Livres|+|Lalala|+|@piano',
-    '_@epi|○59|~>|Rue de Milan|□IX|Paris|@tour',
-    '_Monde|^×15/voyages|@globe',
+    '○59|~>|Rue de Milan|□IX|Paris|@tour',
+    '^×15/voyages|@globe',
     'Lui|@personne|+|@personne|Moi',
-    '_Pluie|_@nuage',
-    'France|_○FR|~>|@lys|_Québec|□QC',
+    'France|~>|@lys|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
-    '_Nous|_@coeur|_+|_^2/garçons|=|Famille|@maison|E=mc² mon amour',
-    '_France|_+|_Canada|@feuille|=|@trophee',
+    '=|Famille|@maison|E=mc² mon amour',
+    '@feuille|=|@trophee',
     '@maison|+|@cerveau|+|Sport|@haltere|+|Mots|@plume|+|Code|@ecran'
   ];
   // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
@@ -9681,10 +9677,9 @@
     setTimeout(() => ecran.remove(), calme ? 0 : 220);
   }
   const svg = (vb, d, cls) => '<svg class="' + cls + '" viewBox="' + vb + '" aria-hidden="true"><path d="' + d + '"/></svg>';
-  function morceau(brut) {
-    const vide = brut[0] === '_', m = vide ? brut.slice(1) : brut;
+  function morceau(m) {
     const el = document.createElement('span');
-    el.className = vide ? 'dm dm--vide' : 'dm';
+    el.className = 'dm';
     if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
     else if (m === '->') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 48 24', 'M1 12h46 M39 5l8 7-8 7', 'dm__svg dm__svg--long'); }
     else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
@@ -9704,9 +9699,7 @@
   const lignes = LIGNES.map((t) => {
     const l = document.createElement('span');
     l.className = 'demarrage__ligne';
-    const parts = t.split('|');
-    if (parts.some((m) => m[0] !== '_')) while (parts[0][0] === '_') parts.shift();
-    parts.forEach((m) => l.append(morceau(m)));
+    t.split('|').forEach((m) => l.append(morceau(m)));
     ecran.append(l);
     return l;
   });
@@ -9728,7 +9721,7 @@
   }
   function suivante() {
     if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 240); return; }
-    const morceaux = [...lignes[i++].querySelectorAll(':scope > .dm:not(.dm--vide)')];
+    const morceaux = [...lignes[i++].querySelectorAll(':scope > .dm')];
     if (!morceaux.length) { suivante(); return; }
     let k = 0;
     (function ajouter() {
