@@ -8215,7 +8215,6 @@
     .bio-photo--pano { grid-column: 1 / -1; }
     .bio-photos .bio-photo--pano img { aspect-ratio: 1774 / 887; }
     .bio-photos__inter { grid-column: 1 / -1; margin: 24px 0 0; color: #1C1917; }
-    .bio-photos__note { grid-column: 1 / -1; margin: 8px 0 0; font-size: 14px; line-height: 18px; color: #666666; }
     .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
     .bio-photo--portrait img { object-position: 50% 22%; }
     .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #666666; }
@@ -9294,7 +9293,6 @@
     html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 1 / -1; }
     html body .stage .profil .bio-photos > .bio-photo:not(.bio-photo--pano):not(.bio-tempete) img { height: var(--w4); aspect-ratio: auto; }
     html body .stage .profil .bio-photo figcaption { margin-top: 8px; line-height: 20px; }
-    html body .stage .profil .bio-photos__note { order: 99; grid-column: 1 / -1; margin: 0; line-height: 20px; }
     html body .stage .profil .biblio__intro { margin: 0 0 72px; max-width: var(--w5); }
     html body .stage .profil .bio-rayon + .bio-rayon { margin-top: 72px; }
     html body .stage .profil .bio-rayon__titre { margin: 0 0 16px; font-weight: 500; line-height: 24px; }
@@ -9415,11 +9413,7 @@
     html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 5 !important; grid-row: 1; }
     html body .stage .profil .bio-photos > .bio-tempete { grid-column: 5 / 8 !important; grid-row: 1; margin-top: 96px; }
     html body .stage .profil .bio-photos > .bio-chats { grid-column: 1 / -1 !important; grid-row: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
-    .bio-chats .bio-photo:nth-child(2) { margin-top: 72px; }
-    .bio-chats .bio-photo:nth-child(3) { margin-top: 24px; }
-    .bio-chats .bio-photo:nth-child(4) { margin-top: 96px; }
     .bio-chats .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 20px; color: var(--gris-texte); }
-    html body .stage .profil .bio-photos > .bio-photos__note { order: 0; grid-column: 1 / 3 !important; grid-row: 3; align-self: end; font-size: 14px; line-height: 20px; }
     html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 3 / 8 !important; grid-row: 3; }
     html body .stage .profil .bio-biblio .shelf__row { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 32px 24px !important; }
     html body .stage .profil .bio-biblio .shelf__meta { font-size: 12px; line-height: 16px; }
@@ -9427,13 +9421,15 @@
   }
   @media (max-width: 1023px) {
     .bio-chats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; margin-bottom: 32px; }
-    .bio-chats .bio-photo:nth-child(even) { margin-top: 32px; }
     .stage.profil-mobile .bio-chats .bio-photo { margin-bottom: 0; }
-    .stage.profil-mobile .bio-chats .bio-photo:nth-child(even) { margin-top: 32px; }
     html body .stage .bio-biblio .shelf__row { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 24px 16px !important; }
   }
   /* Bio sur mobile : fond opaque, l'accueil ne transparaît plus dessous. */
   @media (max-width: 1023px) { html body .stage.profil-mobile .profil { background: var(--blanc) !important; } }
+  /* Bio : titre « Bibliothèque » masqué (gardé pour les lecteurs d'écran), plus de fondu en bas. */
+  html body .stage .profil #bio-biblio-titre { position: absolute !important; width: 1px; height: 1px; margin: -1px !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  html body .stage .profil .biblio__intro { margin-bottom: 24px !important; }
+  html body .stage .profil .profil__bio { -webkit-mask-image: none !important; mask-image: none !important; }
 </style>
 </head>
 <body>
@@ -9716,7 +9712,6 @@
               </div>
               <figcaption>… avant la tempête (d’un sprint).</figcaption>
             </figure>
-            <p class="bio-photos__note">Certaines images sont générées par prompt et Midjourney.</p>
             <figure class="bio-photo bio-photo--pano"><img src="livret-mur-photo.jpg" alt="Emmanuel penché en avant, la main en visière, devant un long mur blanc au pied des palmiers, sous un ciel bleu" width="1774" height="887" loading="lazy" draggable="false"><figcaption>Quand on me demande où je me vois dans cinq ans.</figcaption></figure>
           </div>
         </section>
@@ -12197,7 +12192,7 @@ const dire = (function () {
      par un tableau d'objets { img, titre, sous } — la mise en page ne
      changera pas, seuls les visuels et les textes apparaîtront. */
   const PASSE_TEMPS = [
-    { titre: 'Livres', forme: 'livre', items: [
+    { titre: 'Livres que je ❤️', forme: 'livre', items: [
       { img: 'livre-earle', ratio: '1787 / 1399', titre: 'Awaking Beauty, the Art of Eyvind Earle', auteur: 'Eyvind Earle' },
       { img: 'livre-yeonmi', ratio: '658 / 1000', titre: 'In Order to Live', auteur: 'Yeonmi Park' },
       { img: 'livre-content', ratio: '625 / 1000', titre: 'Content Design', auteur: 'Sarah Winters' },
@@ -12207,19 +12202,17 @@ const dire = (function () {
       { img: 'livre-norman', ratio: '1000 / 1500', titre: 'The Design of Everyday Things', auteur: 'Donald A. Norman' },
       { img: 'livre-remodelista', ratio: '640 / 867', titre: 'Remodelista, The Low-Impact Home', auteur: 'Margot Guralnick et Fan Winston' }
     ] },
-    { titre: 'Séries', forme: 'affiche', items: [
+    { titre: 'Séries et films', forme: 'affiche', items: [
       { img: 'serie-fall',    ratio: '1000 / 1414', titre: 'The Fall',        auteur: 'Allan Cubitt' },
       { img: 'serie-secrets', ratio: '1000 / 1400', titre: 'Secrets We Keep', auteur: 'Ingeborg Topsøe' },
       { img: 'serie-ozark',   ratio: '376 / 531', titre: 'Ozark',           auteur: 'Bill Dubuque' },
       { img: 'serie-sexeducation', ratio: '667 / 1000', titre: 'Sex Education',  auteur: 'Laurie Nunn' },
-      { img: 'serie-punky',   ratio: '1152 / 1638', titre: 'Punky Brewster', auteur: 'David W. Duclon' }
-    ] },
-    { titre: 'Films', forme: 'affiche', items: [
+      { img: 'serie-punky',   ratio: '1152 / 1638', titre: 'Punky Brewster', auteur: 'David W. Duclon' },
       { img: 'film-labyrinth', ratio: '830 / 1236', titre: 'Labyrinth',         auteur: 'Jim Henson' },
       { img: 'film-sirene',    ratio: '918 / 1426', titre: 'La Petite Sirène', auteur: 'Ron Clements et John Musker' },
       { img: 'film-misfits',   ratio: '1006 / 1490', titre: 'The Misfits',      auteur: 'John Huston' }
     ] },
-    { titre: 'Musiques', forme: 'disque', items: [
+    { titre: 'Musiques en boucle', forme: 'disque', items: [
       { img: 'disque-bea', ratio: '1000 / 1000', titre: 'Smoking Lessons', auteur: 'Bea' },
       { img: 'disque-purple', ratio: '300 / 300', titre: 'Hypnotized', auteur: 'Purple Disco Machine' },
       { img: 'disque-kavinsky', ratio: '640 / 640', titre: 'Nightcall', auteur: 'Kavinsky' },
