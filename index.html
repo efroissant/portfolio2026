@@ -9485,40 +9485,6 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important; overflow: visible !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain img { border: 0 !important; border-radius: 12px !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain figcaption { position: static !important; padding: 8px 0 0 !important; border: 0 !important; background: transparent !important; color: var(--gris-texte, #666666) !important; }
-  /* Pharmaprix, la lumière du comptoir : l'ampoule grésille, s'allume et renverse la carte
-     du blanc sur noir au noir sur blanc. Elle se rejoue à chaque passage. */
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > :is(.uc__label, .uc__fort, .uc__petit) { color: #FFFFFF !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) > :is(.uc__label, .uc__fort, .uc__petit) { color: var(--encre) !important; transition: color 200ms ease 3760ms; }
-  .ampoule svg { display: block; overflow: visible; }
-  .ampoule path { stroke: #FFFFFF; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
-  .ampoule.est-vu path { stroke: var(--encre); transition: stroke 200ms ease 3760ms; }
-  .ampoule__halo, .ampoule__rayon { opacity: 0; }
-  .ampoule__verre { fill: #FFFFFF; fill-opacity: 0; }
-  .ampoule.est-vu .ampoule__halo { animation: ampoule-halo 1200ms linear 3000ms forwards; }
-  .ampoule.est-vu .ampoule__verre { animation: ampoule-verre 1200ms linear 3000ms forwards; }
-  .ampoule.est-vu .ampoule__rayon { animation: ampoule-rayon 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(3900ms + var(--i) * 45ms); }
-  @keyframes ampoule-verre { 0%, 16% { fill-opacity: 0; } 18%, 22% { fill-opacity: .7; } 24%, 32% { fill-opacity: 0; } 34%, 38% { fill-opacity: .9; } 40%, 48% { fill-opacity: .12; } 54%, 100% { fill-opacity: 1; } }
-  @keyframes ampoule-halo { 0%, 16% { opacity: 0; } 18%, 22% { opacity: .5; } 24%, 32% { opacity: 0; } 34%, 38% { opacity: .7; } 40%, 48% { opacity: .1; } 58% { opacity: 1; } 76%, 100% { opacity: 0; } }
-  @keyframes ampoule-rayon { from { opacity: 0; } to { opacity: 1; } }
-  @media (min-width: 1024px) {
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule)::before { background: var(--encre) !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu)::before { background: #FFFFFF !important; transition: background-color 200ms ease 3760ms; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > .ampoule { position: absolute; z-index: 2; left: 24px; top: 168px; bottom: 112px; display: flex; align-items: center; }
-  }
-  @media (max-width: 1023px) {
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) { padding: 24px !important; border: 1px solid var(--encre) !important; border-radius: 12px; background: var(--encre) !important; color: #FFFFFF; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) { background: #FFFFFF !important; color: var(--encre); transition: background-color 200ms ease 3760ms, color 200ms ease 3760ms; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > :is(.uc__label, .uc__fort, .uc__petit, .uc__chaine), html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) figcaption { color: #FFFFFF !important; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) > :is(.uc__label, .uc__fort, .uc__petit, .uc__chaine), html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) figcaption { color: var(--encre) !important; transition: color 200ms ease 3760ms; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > .uc__figure { background: transparent !important; border: 0 !important; padding: 0 !important; }
-    .ampoule { margin: 24px 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ampoule.est-vu :is(.ampoule__halo, .ampoule__verre, .ampoule__rayon) { animation: none; }
-    .ampoule.est-vu .ampoule__rayon { opacity: 1; }
-    .ampoule.est-vu .ampoule__verre { fill-opacity: 1; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu) *, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule.est-vu)::before { transition: none !important; }
-  }
   /* Pharmaprix : les chiffres comptés en signes, dans une seule carte à trois rangées. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { display: flex !important; flex-direction: column; gap: 0 !important; padding: 0 24px !important; border: 0 !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; background: #FFFFFF !important; overflow: hidden !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { flex: 1 1 0 !important; display: grid !important; grid-template-columns: calc(var(--col) * 2 + 24px) minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; align-items: start; column-gap: 24px; row-gap: 4px; width: auto !important; height: auto !important; min-height: 0; margin: 0 !important; padding: 16px 0 !important; border: 0 !important; border-top: 1px solid var(--filet) !important; border-radius: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; }
@@ -9572,17 +9538,40 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > :is(.uc__contexte, .uc__tete) { padding: 16px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo { outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; }
   }
-  /* Pharmaprix : après l'ampoule, une carte photo puis une carte avec la chaîne de la fatigue. */
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain.uc__photo--neons img { object-position: 50% 42% !important; }
+  /* Pharmaprix : après la scène de lumière, une carte avec la chaîne de la fatigue. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chaine { display: flex !important; flex-wrap: wrap; align-items: center; align-content: center; gap: 16px 8px; list-style: none; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; color: var(--encre) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chaine > li { display: inline-flex; align-items: center; gap: 8px; margin: 0; }
-  @media (min-width: 1024px) {
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) { grid-template-columns: minmax(0, 1fr) !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) > *, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule)::before { grid-column: 1 !important; }
-  }
   @media (max-width: 1023px) {
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chaine { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .ampoule) { margin-bottom: 40px !important; }
+  }
+  /* Pharmaprix, la lumière : le texte s'écrit sur la photo éteinte, puis les néons
+     grésillent et la pièce s'allume. La scène se rejoue à chaque passage. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; overflow: hidden !important; isolation: isolate; border-radius: 12px !important; background: var(--encre) !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere::before { content: none !important; display: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > .lumiere__scene { position: absolute !important; inset: 0; z-index: 0; width: auto !important; height: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important; border: 0 !important; background: var(--encre) !important; overflow: hidden; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene :is(img, canvas) { position: absolute !important; inset: 0; display: block; width: 100% !important; height: 100% !important; max-width: none !important; object-fit: cover; object-position: 50% 50%; border: 0 !important; border-radius: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene img { filter: brightness(0.16) saturate(0.5); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene canvas { opacity: 0; mix-blend-mode: screen; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 28px rgba(255, 255, 255, 0.55)); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__voile { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(28, 25, 23, 0.9) 0, rgba(28, 25, 23, 0.78) 30%, rgba(28, 25, 23, 0) 58%); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > :is(.uc__label, .uc__fort, .uc__petit) { position: relative !important; z-index: 2; width: auto !important; max-width: calc(var(--col) * 3 + 48px) !important; margin: 0 !important; align-self: flex-start !important; color: #FFFFFF !important; opacity: 0; transform: translateY(8px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > .uc__fort { margin-top: 16px !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > .uc__petit { margin-top: auto !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu > :is(.uc__label, .uc__fort, .uc__petit) { opacity: 1; transform: none; transition: opacity 560ms ease, transform 560ms cubic-bezier(0.22, 1, 0.36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu > .uc__label { transition-delay: 120ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu > .uc__fort { transition-delay: 420ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu > .uc__petit { transition-delay: 1100ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu .lumiere__scene img { filter: brightness(0.96) saturate(1); transition: filter 1300ms ease 2800ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere.est-vu .lumiere__scene canvas { animation: lumiere-neon 1000ms linear forwards; animation-delay: calc(2200ms + var(--n) * 150ms); }
+  @keyframes lumiere-neon { 0%, 10% { opacity: 0; } 12%, 16% { opacity: 0.8; } 18%, 30% { opacity: 0; } 32%, 36% { opacity: 1; } 38%, 46% { opacity: 0.15; } 52%, 100% { opacity: 1; } }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere { grid-column: pleine-debut / pleine-fin !important; position: relative !important; min-height: 520px; margin: 0 0 40px !important; padding: 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > :is(.uc__label, .uc__fort, .uc__petit) { max-width: none !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__voile { background: linear-gradient(180deg, rgba(28, 25, 23, 0.88) 0, rgba(28, 25, 23, 0.5) 38%, rgba(28, 25, 23, 0.28) 58%, rgba(28, 25, 23, 0.9) 100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > :is(.uc__label, .uc__fort, .uc__petit) { opacity: 1; transform: none; transition: none !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene img { filter: none; transition: none !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene canvas { opacity: 1; animation: none !important; }
   }
 </style>
 </head>
@@ -10692,14 +10681,12 @@
 
         <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
 
-        <section class="uc__bloc">
+        <section class="uc__bloc uc__lumiere">
+          <figure class="lumiere__scene"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy" draggable="false"><span class="lumiere__voile" aria-hidden="true"></span></figure>
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
-          <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
-          <div class="ampoule" aria-hidden="true"><svg viewBox="0 0 120 120" width="120" height="120" fill="none"><defs><radialGradient id="ampoule-halo"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".42"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><circle class="ampoule__halo" cx="60" cy="54" r="58" fill="url(#ampoule-halo)"/><path class="ampoule__rayon" style="--i:0" d="M60 8V18"/><path class="ampoule__rayon" style="--i:1" d="M27.5 21.5l7 7"/><path class="ampoule__rayon" style="--i:2" d="M92.5 21.5l-7 7"/><path class="ampoule__rayon" style="--i:3" d="M14 54h10"/><path class="ampoule__rayon" style="--i:4" d="M106 54H96"/><path class="ampoule__rayon" style="--i:5" d="M27.5 86.5l7-7"/><path class="ampoule__rayon" style="--i:6" d="M92.5 86.5l-7-7"/><path class="ampoule__verre" d="M60 28a26 26 0 0 0-15 47c3 2.5 5 6 5 10v3h20v-3c0-4 2-7.5 5-10A26 26 0 0 0 60 28Z"/><path class="ampoule__fil" d="M54 88V64l-4-6M66 88V64l4-6M50 58q3.3 5 6.6 0q3.4 5 6.8 0q3.3 5 6.6 0"/><path class="ampoule__culot" d="M52 93h16M54 98h12"/></svg></div>
+          <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran, mais dans l’éclairage.</p>
           <p class="uc__petit">Un éclairage blanc intense au-dessus des postes, des reflets sur les écrans, tout au long du quart. Pour les yeux, c’est épuisant.</p>
         </section>
-
-        <figure class="uc__photo uc__photo--terrain uc__photo--neons"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy"></figure>
 
         <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
@@ -17347,7 +17334,56 @@ document.addEventListener('click', (e) => {
   // Le champ de dosage.
   const dose = document.querySelector('#doc-loblaw .dose');
   const sexe = document.querySelector('#doc-loblaw .sexe');
-  const ampoule = document.querySelector('#doc-loblaw .ampoule');
+  // La scène de la lumière : les vrais néons de la photo sont extraits sur quatre calques,
+  // pour qu'ils se rallument par vagues pendant que la pièce sort de l'ombre.
+  const scene = document.querySelector('#doc-loblaw .uc__lumiere');
+  function extraireNeons() {
+    const lieu = scene && scene.querySelector('.lumiere__scene');
+    if (!lieu || lieu.querySelector('canvas')) return;
+    const img = lieu.querySelector('img');
+    if (!img.complete || !img.naturalWidth) { img.addEventListener('load', extraireNeons, { once: true }); return; }
+    try {
+      const w = 768, h = Math.round(w * img.naturalHeight / img.naturalWidth), plafond = Math.round(h * 0.62);
+      const source = document.createElement('canvas'); source.width = w; source.height = h;
+      const cs = source.getContext('2d', { willReadFrequently: true });
+      cs.drawImage(img, 0, 0, w, h);
+      const d = cs.getImageData(0, 0, w, h).data;
+      const lum = (x, y) => { const i = (y * w + x) * 4; return 0.3 * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2]; };
+      const vu = new Uint8Array(w * h), zones = [];
+      for (let y = 0; y < plafond; y++) for (let x = 0; x < w; x++) {
+        if (vu[y * w + x] || lum(x, y) < 225) continue;
+        const pile = [[x, y]]; vu[y * w + x] = 1;
+        let n = 0, x0 = x, x1 = x, y0 = y, y1 = y;
+        while (pile.length) {
+          const [u, v] = pile.pop(); n++;
+          x0 = Math.min(x0, u); x1 = Math.max(x1, u); y0 = Math.min(y0, v); y1 = Math.max(y1, v);
+          [[u + 1, v], [u - 1, v], [u, v + 1], [u, v - 1]].forEach(([a, b]) => {
+            if (a >= 0 && a < w && b >= 0 && b < plafond && !vu[b * w + a] && lum(a, b) >= 225) { vu[b * w + a] = 1; pile.push([a, b]); }
+          });
+        }
+        const lg = x1 - x0 + 1, ht = y1 - y0 + 1;
+        if (n >= 60 && lg >= 14 && lg / ht > 1.15 && n / (lg * ht) > 0.28) zones.push({ x0, x1, y0, y1 });
+      }
+      zones.sort((a, b) => a.x0 - b.x0);
+      const voile = lieu.querySelector('.lumiere__voile');
+      for (let g = 0; g < 4; g++) {
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.style.setProperty('--n', g); c.setAttribute('aria-hidden', 'true');
+        const cc = c.getContext('2d'), sortie = cc.createImageData(w, h);
+        zones.forEach((z, i) => {
+          if (i % 4 !== g) return;
+          for (let y = Math.max(0, z.y0 - 6); y <= Math.min(h - 1, z.y1 + 6); y++) for (let x = Math.max(0, z.x0 - 6); x <= Math.min(w - 1, z.x1 + 6); x++) {
+            const l = lum(x, y); if (l < 185) continue;
+            const o = (y * w + x) * 4; sortie.data[o] = sortie.data[o + 1] = sortie.data[o + 2] = 255;
+            sortie.data[o + 3] = Math.min(255, (l - 185) / 45 * 255);
+          }
+        });
+        cc.putImageData(sortie, 0, 0);
+        lieu.insertBefore(c, voile);
+      }
+    } catch (err) { /* sans calques, la photo s'allume quand même */ }
+  }
+  extraireNeons();
   // Les chiffres, comptés en signes : 13 traits, 150 points, 30 écrans.
   const compte = document.querySelector('#doc-loblaw .uc__chiffres--signes');
   document.querySelectorAll('#doc-loblaw .signes').forEach((b) => {
@@ -17363,10 +17399,10 @@ document.addEventListener('click', (e) => {
     else {
       visibles.delete(e.target);
       // La chaîne se rejoue à chaque passage : les étiquettes réapparaissent une à une.
-      if (e.target === chaine || e.target === ampoule || e.target === compte) e.target.classList.remove('est-vu');
+      if (e.target === chaine || e.target === scene || e.target === compte) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe, ampoule, compte].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, scene, compte].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
@@ -17421,10 +17457,9 @@ document.addEventListener('click', (e) => {
     contexte: page.querySelector(':scope > .uc__contexte'),
     tete: page.querySelector(':scope > .uc__tete'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
-    terrain: page.querySelector(':scope > .uc__photo--terrain:not(.uc__photo--neons)'),
-    neons: page.querySelector(':scope > .uc__photo--neons'),
+    terrain: page.querySelector(':scope > .uc__photo--terrain'),
     chaine: page.querySelector(':scope > .uc__chaine'),
-    lumiere: page.querySelector(':scope > .uc__bloc:has(> .ampoule)'),
+    lumiere: page.querySelector(':scope > .uc__lumiere'),
     dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
     sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
     bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
@@ -17502,8 +17537,7 @@ document.addEventListener('click', (e) => {
     x = cam1;
     poser(c.chiffres, x, y2, L(5), H); x += L(5) + G;
     poser(c.terrain, x, y2, L(9), H); x += L(9) + G;   // panoramique, à la hauteur des autres cartes
-    poser(c.lumiere, x, y2, L(3), H); x += L(3) + G;
-    poser(c.neons, x, y2, L(5), H); x += L(5) + G;
+    poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
     const xChaine = x;
     poser(c.chaine, x, y2, L(7), H);
     const cam2 = xChaine;   // même chose avant de remonter
