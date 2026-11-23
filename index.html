@@ -9689,6 +9689,37 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete .ecran-erreurs { width: var(--ecran-l, 100%) !important; align-self: center !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { width: 100%; text-align: center; }
   }
+  /* Pharmaprix : la chaîne de la fatigue, sans carte, remonte jusqu'au champ de dosage. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { padding: 0 !important; outline: 0 !important; border: 0 !important; background: transparent !important; overflow: visible !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine .uc__etape { flex: none; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border: 0 !important; border-radius: var(--r-carte) !important; overflow: hidden !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage::before { content: none !important; display: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > :is(.uc__label, .uc__fort, .uc__petit, .dose) { margin: 0 !important; padding: 0 !important; max-width: none !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; border-radius: 0 !important; background: transparent !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__petit strong { color: var(--encre) !important; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { display: grid !important; grid-template-columns: calc(50% + 12px) minmax(0, 1fr); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 0 !important; align-content: stretch; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li { display: flex !important; min-height: 0; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) { grid-column: 1; grid-row: 3; align-self: end; align-items: center; gap: 8px; padding-right: 8px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(2) { grid-column: 2; grid-row: 3; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(3) { grid-column: 2; grid-row: 2; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(4) { grid-column: 2; grid-row: 1; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:first-child) { flex-direction: column-reverse; align-items: flex-start; align-self: stretch; gap: 0; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine .uc__fleche { position: relative; display: block; font-size: 0 !important; line-height: 0 !important; background: var(--encre); }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) .uc__fleche { flex: 1 1 auto; height: 1px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) .uc__fleche::after { content: ""; position: absolute; right: 0; top: -4px; width: 8px; height: 8px; box-sizing: border-box; border-top: 1px solid var(--encre); border-right: 1px solid var(--encre); transform: rotate(45deg); }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:first-child) .uc__fleche { flex: 1 1 auto; width: 1px; min-height: 0; margin: 8px 0 8px 32px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:first-child) .uc__fleche::after { content: ""; position: absolute; left: -4px; top: 0; width: 8px; height: 8px; box-sizing: border-box; border-top: 1px solid var(--encre); border-left: 1px solid var(--encre); transform: rotate(45deg); }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(4) .uc__fleche { margin-top: -80px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; grid-template-rows: auto auto minmax(0, 1fr) !important; column-gap: 24px !important; row-gap: 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; margin-top: 8px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__petit { grid-column: 1 !important; grid-row: 3 !important; align-self: end !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .dose { grid-column: 2 !important; grid-row: 1 / -1 !important; align-self: center !important; height: auto !important; min-height: 0 !important; display: block !important; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:last-child .uc__fleche { display: none; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { display: flex !important; flex-direction: column; gap: 16px; grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -10832,10 +10863,10 @@
         </section>
 
         <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
-            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
+            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreur de saisie</span><span class="uc__fleche" aria-hidden="true">→</span></li>
           </ol>
 
-        <section class="uc__bloc">
+        <section class="uc__bloc uc__dosage">
           <h2 class="uc__label">Dans un chiffre mal tapé</h2>
           <p class="uc__fort">Ralentir seulement là où une erreur peut blesser.</p>
           <div class="dose uc__anime" aria-label="Animation : un champ de dose qui alerte en orange, puis demande de retaper en rouge, puis valide en vert.">
@@ -10843,7 +10874,7 @@
             <div class="dose__champ"><span class="dose__valeur"></span><span class="dose__curseur"></span></div>
             <p class="dose__message">&nbsp;</p>
           </div>
-          <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: chiffre incohérent, on fait retaper. Retaper oblige à relire&nbsp;; un bouton «&nbsp;Confirmer&nbsp;», on le clique sans lire.</p>
+          <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
         </section>
 
         <section class="uc__bloc">
