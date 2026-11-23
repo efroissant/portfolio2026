@@ -10644,7 +10644,6 @@
             </dl>
           </div>
         </div>
-        <figure class="uc__photo"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274" draggable="false"></figure>
         <div class="uc__contexte">
           <div class="uc__contexte-texte">
             <h2 class="uc__contexte-titre">Repenser un SaaS en place depuis 2009</h2>
@@ -17405,7 +17404,6 @@ document.addEventListener('click', (e) => {
   let chemin = [];
   const cartes = () => ({
     intro: page.querySelector(':scope > .uc__intro'),
-    photo: page.querySelector(':scope > .uc__photo:not(.uc__photo--terrain)'),
     contexte: page.querySelector(':scope > .uc__contexte'),
     tete: page.querySelector(':scope > .uc__tete'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
@@ -17479,7 +17477,6 @@ document.addEventListener('click', (e) => {
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
-    poser(c.photo, x, haut, L(4), H); x += L(4) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     const xTete = x;
     poser(c.tete, x, haut, L(5), H);
