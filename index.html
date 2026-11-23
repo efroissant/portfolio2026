@@ -9652,6 +9652,21 @@
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li:nth-child(3) strong { font-size: 120px !important; line-height: 120px !important; color: #FFFFFF !important; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li:nth-child(3) span { color: #FFFFFF !important; }
   }
+  /* Pharmaprix, carte d'intro sans photo : tags en haut, puis en bas à
+     droite le titre et la phrase, et la fiche (rôle, équipe, durée…). */
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__intro, html body .stage #doc-loblaw.doc .uc.uc > .uc__intro { display: flex !important; flex-direction: column; justify-content: space-between; gap: 24px; padding: 24px !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags { padding: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li { font-size: 18px !important; line-height: 24px !important; padding: 6px 16px !important; }
+  html body .stage #doc-loblaw.doc .uc__intro-contenu { padding: 0 !important; display: flex; flex-direction: column; gap: 8px; }
+  html body .stage #doc-loblaw.doc .uc__intro :is(.uc__intro-titre, .uc__intro-texte) { text-align: right; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-texte { font-size: 18px !important; line-height: 24px !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 16px; margin: 8px 0 0 !important; padding: 16px 0 0 !important; border-top: 1px solid #1C1917 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche > div { margin: 0; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { margin: 0 !important; font-size: 18px !important; line-height: 24px !important; letter-spacing: 0 !important; text-transform: none !important; color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche dt { font-weight: 500 !important; }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__intro { padding: 16px !important; gap: 40px; }
+  }
 </style>
 </head>
 <body>
@@ -10798,13 +10813,17 @@
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="uc__intro">
-          <figure class="uc__intro-visuel"><img src="lob-observation-terrain.webp" alt="Une pharmacie : postes de saisie et comptoirs sous un éclairage intense." width="1423" height="715" draggable="false"></figure>
+          <ul class="uc__intro-tags" aria-label="Expertises"><li>Design UX/UI</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
           <div class="uc__intro-contenu">
-            <p class="uc__intro-annee">2021–23</p>
-            <div class="uc__intro-entete"><p class="uc__intro-type">Étude de cas</p><h2 class="uc__intro-titre">Shoppers Drug Mart</h2></div>
+            <h2 class="uc__intro-titre">Shoppers Drug Mart</h2>
             <p class="uc__intro-texte">Refonte de Healthwatch, le logiciel des pharmaciens depuis 13&nbsp;ans.</p>
-            <hr class="uc__intro-trait">
-            <ul class="uc__intro-tags" aria-label="Expertises"><li>Design UX/UI</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
+            <dl class="uc__intro-fiche">
+              <div><dt>Mon rôle</dt><dd>Designer UX/UI<br>Audit<br>Recherche terrain</dd></div>
+              <div><dt>Équipe</dt><dd>3 designers<br>1 lead<br>8 PO/PA, devs</dd></div>
+              <div><dt>Durée</dt><dd>2 ans ½</dd></div>
+              <div><dt>Outils</dt><dd>Figma<br>Jira</dd></div>
+              <div><dt>Années</dt><dd>2021–23</dd></div>
+            </dl>
           </div>
         </div>
         <figure class="uc__photo"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274" draggable="false"></figure>
