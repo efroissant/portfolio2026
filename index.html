@@ -9678,6 +9678,9 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche > div:not(:first-child) dd { white-space: normal; }
   }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc { --col: max(94px, calc((100vw - 48px - 11 * 24px) / 12)); } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { display: block !important; align-self: auto; padding-top: 0 !important; line-height: 0.88 !important; text-transform: none !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { display: flex !important; align-items: flex-end; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain::before { content: none; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { font-size: min(22vw, 120px) !important; } }
 </style>
 </head>
 <body>
@@ -10798,8 +10801,9 @@
 
         <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
 
+        <h2 class="uc__grand-mot uc__grand-mot--terrain">Observation<br>terrain</h2>
+
         <section class="uc__passerelle">
-          <p class="uc__passerelle-label">L’observation terrain</p>
           <h2 class="uc__passerelle-titre">Recréer le flow du pharmacien.</h2>
           <p class="uc__passerelle-texte">Avec l’équipe produit, nous avons analysé les observations de terrain pour reconstituer le parcours d’une ordonnance, et voir dans quel environnement il se déroule.</p>
           <ol class="uc__flow" aria-label="Parcours d’une ordonnance">
@@ -17606,7 +17610,8 @@ document.addEventListener('click', (e) => {
   const cartes = () => ({
     intro: page.querySelector(':scope > .uc__intro'),
     contexte: page.querySelector(':scope > .uc__contexte'),
-    mot: page.querySelector(':scope > .uc__grand-mot'),
+    mot: page.querySelector(':scope > .uc__grand-mot:not(.uc__grand-mot--terrain)'),
+    motTerrain: page.querySelector(':scope > .uc__grand-mot--terrain'),
     tete: page.querySelector(':scope > .uc__tete'),
     audit: page.querySelector(':scope > .uc__audit'),
     passerelle: page.querySelector(':scope > .uc__passerelle'),
@@ -17672,10 +17677,14 @@ document.addEventListener('click', (e) => {
     if (!W) return;
     // Rien ne bouge si les dimensions n'ont pas changé : pas de saut pendant le défilement.
     // Le grand mot garde sa largeur réelle, une fois sa police chargée.
-    const mesure = document.createRange();
-    if (c.mot) mesure.selectNodeContents(c.mot);
-    const lMot = c.mot ? Math.ceil(mesure.getBoundingClientRect().width) + 8 : 0;
-    const sig = [W, H, haut, innerWidth, lMot].join('|');
+    const largeurMot = (el) => {
+      if (!el) return 0;
+      const mesure = document.createRange();
+      mesure.selectNodeContents(el);
+      return Math.ceil(mesure.getBoundingClientRect().width) + 8;
+    };
+    const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain);
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -17701,6 +17710,7 @@ document.addEventListener('click', (e) => {
     const y2 = haut + pas;
     x = cam1;
     poser(c.terrain, x, y2, lAudit, H); x += lAudit + G;   // exactement sous l'audit, à la même largeur
+    poser(c.motTerrain, x, y2, lMotTerrain, H); x += lMotTerrain + G;
     poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
     poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
     const xChaine = x;
