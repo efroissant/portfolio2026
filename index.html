@@ -9754,7 +9754,6 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:first-child) .uc__fleche::after { left: -3.5px; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) .uc__fleche::after { top: -3.5px; }
   }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__photo--comptoir img { object-position: 50% 50% !important; }
   /* Champs sexe, genre, pronoms en 20 px : nom et valeur sur une ligne, usage dessous. */
   html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe :is(.sexe__unique, .sexe__trois > div) { grid-template-columns: minmax(0, 1fr) auto !important; column-gap: 12px; row-gap: 0; box-sizing: border-box; height: auto; min-height: 56px; padding: 8px 16px; background: #FFFFFF; border: 1px solid var(--encre); border-radius: var(--r-controle); }
   html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__nom { grid-column: 1; grid-row: 1; line-height: 28px; }
@@ -9769,6 +9768,17 @@
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { background: transparent !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > :is(.uc__label, .uc__fort, .uc__petit) { position: relative; z-index: 1; }
+  }
+  /* Pharmaprix : la carte qui amène les champs sexe, genre et pronoms. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { display: grid !important; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 24px; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: var(--r-carte) !important; overflow: hidden !important; color: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-texte { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-width: 0; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-titre { margin: 0 !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-texte p { margin: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo { position: relative; min-height: 0; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo img { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; max-width: none !important; object-fit: cover; object-position: 56% 40%; }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-column: pleine-debut / pleine-fin !important; grid-template-columns: minmax(0, 1fr); width: auto !important; margin: 0 0 40px !important; padding: 16px !important; gap: 16px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo { aspect-ratio: 3 / 2; }
   }
 </style>
 </head>
@@ -10930,7 +10940,13 @@
           <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
         </section>
 
-        <figure class="uc__photo uc__photo--terrain uc__photo--comptoir"><img src="lob-terrain-comptoir.jpg" alt="Au comptoir, une pharmacienne, ordonnance en main, lève les yeux vers une personne vue de dos." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+        <div class="uc__formulaire">
+          <div class="uc__formulaire-texte">
+            <h2 class="uc__formulaire-titre">Améliorer un formulaire qui ne demandait que le sexe</h2>
+            <p>L’ancien formulaire ne proposait qu’un champ «&nbsp;Sexe&nbsp;», et l’idée de le faire évoluer a rencontré de la résistance. Ma solution proposée était de distinguer le sexe, lorsqu’il est nécessaire à la prise en charge, du genre et des pronoms, que chaque personne peut renseigner si elle le souhaite. Au comptoir, l’équipe peut ainsi s’adresser à la personne en fonction de ses préférences.</p>
+          </div>
+          <figure class="uc__formulaire-photo"><img src="lob-terrain-formulaire.webp" alt="Au comptoir, une pharmacienne, ordonnance en main, écoute une personne vue de dos." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+        </div>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
@@ -17719,8 +17735,8 @@ document.addEventListener('click', (e) => {
     audit: page.querySelector(':scope > .uc__audit'),
     passerelle: page.querySelector(':scope > .uc__passerelle'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
-    terrain: page.querySelector(':scope > .uc__photo--terrain:not(.uc__photo--comptoir)'),
-    comptoir: page.querySelector(':scope > .uc__photo--comptoir'),
+    terrain: page.querySelector(':scope > .uc__photo--terrain'),
+    formulaire: page.querySelector(':scope > .uc__formulaire'),
     chaine: page.querySelector(':scope > .uc__chaine'),
     lumiere: page.querySelector(':scope > .uc__lumiere'),
     dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
@@ -17828,7 +17844,7 @@ document.addEventListener('click', (e) => {
     const xFinal = x;
     poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;   // la flèche des tags monte jusqu'à ce titre
     poser(c.dose, x, haut, L(7), H); x += L(7) + G;
-    poser(c.comptoir, x, haut, L(7), H); x += L(7) + G;
+    poser(c.formulaire, x, haut, L(9), H); x += L(9) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan2, x, haut, L(4), H); x += L(4) + G;
