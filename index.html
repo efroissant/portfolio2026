@@ -9368,6 +9368,10 @@
   }
   /* Mobile : la première carte ne colle plus à la barre de la fenêtre. */
   @media (max-width: 767px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc { padding-top: 16px !important; } }
+  /* Photo N&B : recadrée sur le visage, pour qu'il reste net avant le fondu à l'ouverture. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo:not(.uc__photo--terrain) img { transform: scale(1.7); transform-origin: 96% 34%; }
+  }
 </style>
 </head>
 <body>
