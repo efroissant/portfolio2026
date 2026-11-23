@@ -362,7 +362,7 @@
     border: 1px solid #1C1917;
     box-shadow: 3px 4px 0 #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 20px;
     text-shadow: none;
   }
   .lecteur__barre {
@@ -404,7 +404,7 @@
   .lecteur__pochette img[hidden] { display: none; }
   .lecteur__titre { margin: 0; font-size: 24px; font-weight: 700; line-height: 28px; letter-spacing: -0.02em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lecteur__artiste { margin: 2px 0 0; font-size: 18px; line-height: 26px; font-weight: 500; }
+  .lecteur__artiste { margin: 2px 0 0; font-size: 20px; line-height: 28px; font-weight: 500; }
   /* La barre de progression reprend le filet sous le chiffre du jour. */
   .lecteur__progres {
     position: relative; height: 8px; margin: 16px 0 6px;
@@ -1372,7 +1372,7 @@
   .shelf__label {
     flex-shrink: 0; margin: 0;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 18px; line-height: 26px; font-weight: 400; letter-spacing: 0;
+    font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0;
     text-transform: none;
     color: var(--ink); white-space: nowrap;
   }
@@ -1558,7 +1558,7 @@
      sans lui, rien ne dit que cette ligne mène ailleurs. */
   .ctxmenu__chev {
     flex-shrink: 0;
-    font-size: 18px; line-height: 1;
+    font-size: 20px; line-height: 1;
     opacity: 0.55;
     transform: translateY(-1px);
   }
@@ -1707,7 +1707,7 @@
   .notes__item:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .notes__nom {
     display: block;
-    font-size: 18px; line-height: 26px; font-weight: 590;
+    font-size: 20px; line-height: 28px; font-weight: 590;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   /* L'aperçu : la première ligne du corps, exactement comme l'application.
@@ -1733,22 +1733,22 @@
   .notes__page:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .notes__page h2 {
     margin: 0 0 24px;
-    font-size: 18px; line-height: 26px; font-weight: 590;
+    font-size: 20px; line-height: 28px; font-weight: 590;
     letter-spacing: 0.01em;
   }
   .notes__page h3 {
     margin: 32px 0 8px;
-    font-size: 18px; line-height: 26px; font-weight: 590;
+    font-size: 20px; line-height: 28px; font-weight: 590;
   }
   .notes__page h3:first-of-type { margin-top: 0; }
-  .notes__page p { margin: 0 0 8px; font-size: 18px; line-height: 26px; }
+  .notes__page p { margin: 0 0 8px; font-size: 20px; line-height: 28px; }
   .notes__page ul { margin: 0; padding: 0; list-style: none; }
   /* Le point en pseudo-élément plutôt qu'une puce native : il se cale sur la
      grille de 8 et ne dépend pas du rendu des listes du navigateur. */
   .notes__page li {
     position: relative;
     padding-left: 16px; margin-bottom: 8px;
-    font-size: 18px; line-height: 26px;
+    font-size: 20px; line-height: 28px;
   }
   .notes__page li::before {
     content: "•";
@@ -1812,9 +1812,9 @@
   }
   .verrou__sceau svg { width: 24px; height: 24px; }
 
-  .verrou__titre { margin: 16px 0 0; font-size: 18px; line-height: 26px; font-weight: 590; }
+  .verrou__titre { margin: 16px 0 0; font-size: 20px; line-height: 28px; font-weight: 590; }
   .verrou__sous  { margin: 0; font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
-  .verrou__texte { margin: 24px 0 0; font-size: 18px; line-height: 26px; text-align: left; }
+  .verrou__texte { margin: 24px 0 0; font-size: 20px; line-height: 28px; text-align: left; }
 
   /* Souligné, et un bouton plutôt qu'un mailto : le composeur du bureau
      s'ouvre à côté sans arracher le visiteur à la page — et sans réveiller
@@ -1822,7 +1822,7 @@
   .verrou__mail {
     margin: 16px 0 0; align-self: flex-start;
     padding: 0; border: 0; background: none;
-    font: inherit; font-size: 18px; line-height: 26px;
+    font: inherit; font-size: 20px; line-height: 28px;
     color: var(--ink); text-decoration: underline;
     text-underline-offset: 3px; cursor: default;
   }
@@ -1834,7 +1834,7 @@
     padding: 12px 16px;
     border: 1px solid rgba(var(--ink-rgb), 0.28); border-radius: var(--r-detail);
     background: rgba(255, 255, 255, 0.07);
-    font: inherit; font-size: 18px; line-height: 26px; color: var(--ink);
+    font: inherit; font-size: 20px; line-height: 28px; color: var(--ink);
   }
   .verrou__champ::placeholder { color: rgba(var(--ink-rgb), 0.42); }
   .verrou__champ:focus { outline: none; border-color: var(--ink); }
@@ -1941,7 +1941,7 @@
   .etude:hover { background: rgba(255, 255, 255, 0.10); }
   .etude:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .etude__num { font-size: 11px; line-height: 16px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb), 0.62); }
-  .etude__titre { font-size: 18px; line-height: 26px; font-weight: 590; }
+  .etude__titre { font-size: 20px; line-height: 28px; font-weight: 590; }
   .etude__client { font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
 
   .doc__win {
@@ -2018,8 +2018,8 @@
     margin: 0;
     padding: 48px 0 80px;
     overflow-wrap: anywhere;
-    font-size: 18px;
-    line-height: 26px;
+    font-size: 20px;
+    line-height: 28px;
   }
   /* Le bloc utile va du libellé à la fin du texte : 160 px de colonne de
      repère + 32 d'écart + 72 caractères de lecture, soit 71 % de la fenêtre
@@ -2075,11 +2075,11 @@
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
     text-transform: uppercase; color: rgba(var(--ink-rgb), 0.62);
   }
-  .doc__resume dd { margin: 4px 0 0; font-size: 18px; line-height: 26px; font-weight: 510; }
+  .doc__resume dd { margin: 4px 0 0; font-size: 20px; line-height: 28px; font-weight: 510; }
 
   /* --- décisions ------------------------------------------------------ */
   .doc__decision { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.20); }
-  .doc__decision h3 { margin: 8px 0 16px; font-size: 18px; line-height: 26px; font-weight: 590; }
+  .doc__decision h3 { margin: 8px 0 16px; font-size: 20px; line-height: 28px; font-weight: 590; }
   /* La contrainte d'abord, en une ligne : c'est elle qui donne son poids à
      la décision qui suit. Une décision sans contrainte n'est qu'un goût. */
   .doc__contrainte {
@@ -2112,7 +2112,7 @@
     color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__titre { margin: 0; font-size: 24px; font-weight: 590; line-height: 32px; letter-spacing: -0.01em; }
-  .doc__client { margin: 4px 0 0; font-size: 18px; line-height: 26px; color: rgba(var(--ink-rgb), 0.62); }
+  .doc__client { margin: 4px 0 0; font-size: 20px; line-height: 28px; color: rgba(var(--ink-rgb), 0.62); }
 
   /* min-width: 0 sur les cellules : par défaut une cellule de grille refuse
      de devenir plus étroite que son contenu, ce qui suffit à faire déborder
@@ -2131,12 +2131,12 @@
 
   .doc__hook {
     margin: 32px 0 0;
-    font-size: 18px; line-height: 26px; font-weight: 510;
+    font-size: 20px; line-height: 28px; font-weight: 510;
   }
 
   .doc__bloc { margin-top: 40px; }
-  .doc__bloc h2 { margin: 0 0 8px; font-size: 18px; font-weight: 590; line-height: 26px; }
-  .doc__bloc h3 { margin: 32px 0 8px; font-size: 18px; font-weight: 590; line-height: 26px; }
+  .doc__bloc h2 { margin: 0 0 8px; font-size: 20px; font-weight: 590; line-height: 28px; }
+  .doc__bloc h3 { margin: 32px 0 8px; font-size: 20px; font-weight: 590; line-height: 28px; }
 
   /* Le numéro de chapitre n'est plus un grand chiffre gris mais une étiquette
      comme celles des rayons. Un chiffre de 48px introduisait un niveau
@@ -2158,7 +2158,7 @@
     margin: 16px 0;
     padding: 0 0 0 16px;
     border-left: 2px solid rgba(var(--ink-rgb), 0.35);
-    font-size: 18px; font-weight: 510; line-height: 26px;
+    font-size: 20px; font-weight: 510; line-height: 28px;
   }
 
   /* Les images débordent de la colonne de lecture : un texte se lit étroit,
@@ -2187,7 +2187,7 @@
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: var(--r-detail);
-    font-size: 18px; line-height: 26px; color: rgba(var(--ink-rgb), 0.62);
+    font-size: 20px; line-height: 28px; color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__fig img { display: block; width: 100%; height: auto; border-radius: var(--r-detail); }
   .doc__fig figcaption {
@@ -2352,7 +2352,7 @@
     flex: 1; min-height: 150px;
     padding: 16px 20px;
     border: 0; background: none; resize: none;
-    font: inherit; font-size: 18px; line-height: 1.45; color: var(--ink);
+    font: inherit; font-size: 20px; line-height: 1.45; color: var(--ink);
   }
   .mail__body:focus { outline: none; }
 
@@ -3231,14 +3231,14 @@
   .about__fullname {
     font-size: 20px; font-weight: 590; color: var(--ink); line-height: 1.15;
   }
-  .about__role { font-size: 18px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); line-height: 1.2; }
+  .about__role { font-size: 20px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); line-height: 1.2; }
 
 
   .about__lead {
     margin: 0;
     padding-top: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.20);
-    font-size: 18px; font-weight: 400; line-height: 1.3;
+    font-size: 20px; font-weight: 400; line-height: 1.3;
     /* Ce filet suit le texte, il ne traverse pas la fenêtre : seul celui
        de la barre de titre va d'un bord à l'autre. On remplace donc la
        gouttière héritée par une marge, pour que la bordure s'arrête où
@@ -3257,7 +3257,7 @@
     width: 99px; height: 99px;
     border-radius: var(--r-detail);
     display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 18px; font-weight: 510;
+    color: #fff; font-size: 20px; font-weight: 510;
     flex-shrink: 0;
   }
   /* Couleurs reprises des cartes du bureau (Projets, Bibliothèque,
@@ -3267,7 +3267,7 @@
   .about__skill--marketing { background: #8EDDA6; }
   .about__skill { color: #1C1917; border: 1px solid #1C1917;
     /* Même typo que le nom des cartes du bureau. */
-    font-size: 18px; font-weight: 700; letter-spacing: -0.4px; line-height: 26px; }
+    font-size: 20px; font-weight: 700; letter-spacing: -0.4px; line-height: 28px; }
 
   .about__text { margin: 8px 0 0; font-size: 12px; font-weight: 510; line-height: 1.25; }
   .about__text + .about__text { margin-top: 8px; }
@@ -3329,7 +3329,7 @@
     padding: 8px 0 0;
   }
   .about__callout svg { flex-shrink: 0; display: block; }
-  .about__callout p { margin: 0; font-size: 18px; font-weight: 400; line-height: 1.3; }
+  .about__callout p { margin: 0; font-size: 20px; font-weight: 400; line-height: 1.3; }
   .about__callout p + p { margin-top: 8px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); }
 
   /* ---- À propos : fond blanc, texte noir, seul un trait noir de 1px ----
@@ -3900,7 +3900,7 @@
       position: relative; left: auto !important; top: auto !important;
       width: 100%; height: 110px; padding: 12px 14px;
     }
-    .stage .minis .mini .mini__label { font-size: 18px; }
+    .stage .minis .mini .mini__label { font-size: 20px; }
   }
 
   /* ================= GRILLE DE 8 =================
@@ -3913,7 +3913,7 @@
   }
   .stage .clock { gap: 8px; }
   .stage .clock .clock__time { line-height: 1; }                 /* 128 (96 sur mobile) */
-  .stage .clock .clock__date { font-size: 18px; line-height: 26px; }
+  .stage .clock .clock__date { font-size: 20px; line-height: 28px; }
   .stage .cluster { gap: 32px; }
   .stage .cluster__identity-group { gap: 16px; }
   .stage:not([data-wall="blanc"]) .lock #avatar-lock { width: 64px; height: 48px; }
@@ -3958,7 +3958,7 @@
   .stage .lock .avatar-photo, .stage .lock .avatar-photo img { display: block; width: 96px; height: 96px; }
   .stage .identity { display: flex; flex-direction: column; align-items: center; gap: 0; }
   .stage .identity .identity__name { font-size: 20px; line-height: 24px; font-weight: 600; letter-spacing: -0.3px; }
-  .stage .identity .identity__role { font-size: 18px; line-height: 26px; margin-top: 0; }
+  .stage .identity .identity__role { font-size: 20px; line-height: 28px; margin-top: 0; }
   /* Date et métier une graisse au-dessus du normal : Medium (500).
      Helvetica Neue possède bien une graisse Medium. */
 
@@ -3973,7 +3973,7 @@
     border-radius: var(--r-detail);
     /* Helvetica, comme la date et le métier. */
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 18px; font-weight: 400; line-height: 26px;
+    font-size: 20px; font-weight: 400; line-height: 28px;
     color: #1C1917;
   }
   /* Texte noir en Medium. */
@@ -3982,11 +3982,11 @@
   /* Cartes du bureau : 168 × 136, marges de 16, libellé 16 / 24.
      À 24 px, « Bibliothèque » ne tenait pas et se coupait en plein mot. */
   .stage .minis .mini:not(.mini--mobile) { width: 168px; height: 136px; padding: 16px; }
-  .stage .minis .mini:not(.mini--mobile)::after { top: 16px; right: 16px; font-size: 18px; }
-  .stage .minis .mini .mini__label { font-size: 18px; line-height: 26px; }
+  .stage .minis .mini:not(.mini--mobile)::after { top: 16px; right: 16px; font-size: 20px; }
+  .stage .minis .mini .mini__label { font-size: 20px; line-height: 28px; }
   @media (max-width: 767px) {
     .stage .minis .mini:not(.mini--mobile) { width: 100%; height: 112px; padding: 16px; }
-    .stage .minis .mini .mini__label { font-size: 18px; line-height: 26px; }
+    .stage .minis .mini .mini__label { font-size: 20px; line-height: 28px; }
   }
 
   /* ================= ÉTUDE DE CAS, GABARIT V2 =================
@@ -4051,7 +4051,7 @@
     row-gap: 64px;
     justify-content: center;
     padding: 64px 0 96px;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.6;
     color: var(--v3-encre);
   }
@@ -4306,7 +4306,7 @@
   }
 
   @media (max-width: 767px) {
-    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 40px 0 72px; font-size: 18px; line-height: 26px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 40px 0 72px; font-size: 20px; line-height: 28px; }
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre { font-size: 30px; line-height: 36px; }
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook { font-size: 19px; line-height: 28px; }
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume { grid-template-columns: 1fr; padding: 20px 20px 16px; }
@@ -4315,7 +4315,7 @@
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc--chapitre { margin-top: 72px; }
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 { font-size: 24px; line-height: 32px; }
     :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision { margin-top: 56px; }
-    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font-size: 18px; line-height: 26px; }
+    :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font-size: 20px; line-height: 28px; }
   }
 
   /* --- le filet de séparation --------------------------------------- */
@@ -4411,7 +4411,7 @@
      coiffent une grille de trois colonnes et doivent s'entendre. */
   .doc--v3 .doc__bloc h3 {
     margin: 0 0 24px;
-    font-size: 18px; line-height: 1.3; font-weight: 700;
+    font-size: 20px; line-height: 1.3; font-weight: 700;
     color: var(--v3-encre);
   }
 
@@ -4472,7 +4472,7 @@
     gap: 24px;
     margin: 0; padding: 0; list-style: none;
   }
-  .doc--v3 .doc__releves li { margin: 0; font-size: 18px; line-height: 1.5; color: var(--v3-gris); }
+  .doc--v3 .doc__releves li { margin: 0; font-size: 20px; line-height: 1.5; color: var(--v3-gris); }
   .doc--v3 .doc__releves strong {
     display: block; margin: 0 0 8px;
     font-size: 15px; line-height: 1.3; font-weight: 700;
@@ -4503,7 +4503,7 @@
   }
   .doc--v3 .doc__gravite ul {
     margin: 0; padding-left: 18px; list-style: disc;
-    font-size: 18px; line-height: 1.5;
+    font-size: 20px; line-height: 1.5;
   }
   /* #4a0b07 et non le blanc de la maquette : blanc sur #ff5f56 mesure
      2,96:1, sous le seuil de 4,5. Le brun rouge remonte à 5,23:1 en
@@ -4575,11 +4575,11 @@
   }
   .doc--v3 .doc__decision h3 {
     margin: 0 0 4px;
-    font-size: 18px; line-height: 1.25; font-weight: 700;
+    font-size: 20px; line-height: 1.25; font-weight: 700;
   }
   .doc--v3 .doc__dtete .doc__contrainte {
     margin: 0; padding: 0; border: 0;
-    font-size: 18px; line-height: 1.4; font-style: normal;
+    font-size: 20px; line-height: 1.4; font-style: normal;
     color: var(--v3-gris);
   }
   .doc--v3 .doc__decision > p { margin: 0 0 24px; font-size: 15px; line-height: 1.6; }
@@ -4601,7 +4601,7 @@
   }
   .doc--v3 .doc__alerte strong {
     display: block; margin: 0 0 8px;
-    font-size: 18px; line-height: 1.2; font-weight: 700;
+    font-size: 20px; line-height: 1.2; font-weight: 700;
   }
   .doc--v3 .doc__alerte--avert   { --a-fond: #262112; --a-bord: #5c4a1c; --a-texte: #f0b34a; }
   .doc--v3 .doc__alerte--bloquant{ --a-fond: #2a1616; --a-bord: #6e2a2a; --a-texte: #f08a8a; }
@@ -4639,7 +4639,7 @@
   }
   .doc--v3 .doc__citation p {
     margin: 0 0 12px;
-    font-size: 18px; line-height: 1.5;
+    font-size: 20px; line-height: 1.5;
   }
   .doc--v3 .doc__citation footer {
     font-size: 13px; line-height: 1.2; font-weight: 700;
@@ -4956,7 +4956,7 @@
     }
     .mhead__id { pointer-events: none; }
     .mhead__nom  { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -0.01em; }
-    .mhead__role { margin: 0; font-size: 18px; line-height: 26px; font-weight: 400; }
+    .mhead__role { margin: 0; font-size: 20px; line-height: 28px; font-weight: 400; }
     .mhead__plus {
       flex-shrink: 0;
       /* 44 px : la cible tactile minimale recommandée. Le glyphe fait 24, le
@@ -5245,7 +5245,7 @@
       pointer-events: auto;
     }
     .shelf { gap: 20px; }
-    .shelf__label { font-size: 18px; }
+    .shelf__label { font-size: 20px; }
 
     /* --- Galerie au doigt : une colonne, images pleine largeur ---
        Plus de vignettes, plus de fenêtre par-dessus la fenêtre. On fait
@@ -5265,7 +5265,7 @@
     }
     .gal figcaption {
       margin-top: 10px;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.4;
       color: rgba(var(--ink-rgb), 0.72);
     }
@@ -5470,7 +5470,7 @@
       gap: 8px 16px;
     }
     .mhead { padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 0; }
-    .mhead__nom  { font-size: 18px; line-height: 22px; }
+    .mhead__nom  { font-size: 20px; line-height: 28px; }
     .mhead__role { font-size: 13px; line-height: 20px; }
     .dock { --dock-icon: 46px; }
   }
@@ -5509,8 +5509,8 @@
     color: #FFFFFF;
   }
   .stage[data-wall="blanc"] .lock .clock .clock__date { color: var(--text); }
-  @media (max-width: 767px) { .stage .lock .clock .clock__date { font-size: 18px; line-height: 24px; } }
-  @media (max-height: 600px) { .stage .lock .clock .clock__date { font-size: 18px; line-height: 26px; } }
+  @media (max-width: 767px) { .stage .lock .clock .clock__date { font-size: 20px; line-height: 28px; } }
+  @media (max-height: 600px) { .stage .lock .clock .clock__date { font-size: 20px; line-height: 28px; } }
   .stage .lock .clock__time {
     margin: 0;
     font-size: clamp(72px, min(13vw, 18vh), 160px);
@@ -5533,7 +5533,7 @@
     font-size: 20px; line-height: 26px; font-weight: 500; letter-spacing: -0.01em;
   }
   .stage .lock .identity .identity__role {
-    font-size: 18px; line-height: 26px; font-weight: 400; letter-spacing: 0;
+    font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0;
   }
   .stage .lock .unlock {
     height: 48px;
@@ -5591,7 +5591,7 @@
   }
   @media (max-height: 600px) {
     .stage .lock .clock .clock__time.clock__time { font-size: clamp(72px, 24vh, 140px); }
-    .stage .lock .clock .clock__date.clock__date { font-size: 18px; line-height: 22px; }
+    .stage .lock .clock .clock__date.clock__date { font-size: 20px; line-height: 28px; }
   }
 
   /* Écran verrouillé : le nom en katakana, en petit au-dessus du nom,
@@ -5695,7 +5695,7 @@
       1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917, 4px 4px 0 #1C1917;
   }
   @media (max-width: 767px) {
-    .stage .lock .identity .identity__name.identity__name { font-size: 18px; -webkit-text-stroke-width: 1.5px; text-shadow: 1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917; }
+    .stage .lock .identity .identity__name.identity__name { font-size: 20px; -webkit-text-stroke-width: 1.5px; text-shadow: 1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917; }
   }
   /* La date dans la même typo que le nom : capitales grasses italiques
      très espacées (Helvetica Neue normale, sans l'inclinaison ajoutée). */
@@ -5704,7 +5704,7 @@
     font-stretch: normal;
     font-style: italic; font-weight: 700;
     text-transform: uppercase;
-    font-size: 18px; line-height: 24px;
+    font-size: 20px; line-height: 28px;
     letter-spacing: 0.32em;
     margin-right: -0.32em;
     transform: none;
@@ -5934,7 +5934,7 @@
     .stage:not([data-wall="blanc"]) .lock #avatar-lock,
     .stage .lock .yeux { width: 54px; height: 43px; }
     .stage .lock .identity .identity__name { font-size: 20px; line-height: 26px; }
-    .stage .lock .identity .identity__role { font-size: 18px; line-height: 26px; }
+    .stage .lock .identity .identity__role { font-size: 20px; line-height: 28px; }
   }
 
   /* Écrans bas (téléphone à l'horizontale, petite fenêtre) : on resserre
@@ -5951,7 +5951,7 @@
     .stage:not([data-wall="blanc"]) .lock #avatar-lock,
     .stage .lock .yeux { width: 46px; height: 37px; }
     .stage .lock .identity .identity__name { font-size: 20px; line-height: 26px; }
-    .stage .lock .identity .identity__role { font-size: 18px; line-height: 26px; }
+    .stage .lock .identity .identity__role { font-size: 20px; line-height: 28px; }
     .stage .lock .unlock { height: 40px; padding: 8px 24px; }
   }
 
@@ -5982,13 +5982,13 @@
   .stage .menubar .menuitem--app,
   .stage .menubar .menubar__clock,
   .stage .menubar .menubar__clock * {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
   }
   /* Le nom ressort par la graisse : 14 px Bold, comme le reste de la barre en taille. */
-  .stage .menubar .menuitem--app { font-size: 18px; font-weight: 700; }
+  .stage .menubar .menuitem--app { font-size: 20px; font-weight: 700; }
   /* Intitulés au-dessus du dock : même 14 Regular que la barre. */
-  .stage .dock__label { font-size: 18px; font-weight: 400; line-height: 26px; }
+  .stage .dock__label { font-size: 20px; font-weight: 400; line-height: 28px; }
   /* LinkedIn, Pinterest et le son forment un groupe : 4 px entre eux au
      lieu des 16 qui séparent les blocs de la barre. */
   .stage .menubar .barlien + .barlien,
@@ -6096,11 +6096,11 @@
     display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center top;
   }
-  #about .about__lead { border-top: 0; padding-top: 4px; font-size: 18px; line-height: 26px; }
+  #about .about__lead { border-top: 0; padding-top: 4px; font-size: 20px; line-height: 28px; }
   #about .about__lead p { margin: 0 0 12px; }
   #about .about__lead p:last-child { margin-bottom: 0; }
   /* Le texte sous le filet, au même corps que l'intro. */
-  #about .about__callout p { font-size: 18px; line-height: 26px; }
+  #about .about__callout p { font-size: 20px; line-height: 28px; }
   #about .about__etincelle { filter: drop-shadow(2px 2px 0 #1C1917); }
   #about .about__skill { box-shadow: 3px 4px 0 #1C1917; }
 
@@ -6149,7 +6149,7 @@
      téléphone garde ses tailles, pensées pour le doigt. */
   @media (min-width: 768px) {
     .stage .minis .mini.mini:not(.mini--mobile):not(.mini--fichier) { width: 144px; height: 116px; padding: 14px; }
-    .stage .minis .mini.mini:not(.mini--fichier) .mini__label { font-size: 18px; line-height: 20px; }
+    .stage .minis .mini.mini:not(.mini--fichier) .mini__label { font-size: 20px; line-height: 28px; }
     .stage .minis .mini.mini:not(.mini--mobile):not(.mini--fichier)::after {
       top: 8px; right: 8px; width: 36px; height: 36px;
     }
@@ -6246,7 +6246,7 @@
   .recto-play.lecteur-mini {
     display: flex; align-items: center; gap: 2px;
     width: auto; height: auto; cursor: default;
-    font: 400 18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 400 20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #1C1917; white-space: nowrap;
   }
   .lecteur-mini__btn {
@@ -6465,14 +6465,14 @@
       display: inline-flex; align-items: center; position: absolute; z-index: 20;
       right: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
       color: #1C1917; text-decoration: none;
-      font: 400 12px/18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+      font: 400 12px/20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     }
     /* Logo MANU en haut à gauche (SAY HI passe à droite) : il rafraîchit la page. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .logo-mobile {
       display: inline-flex; align-items: center; position: absolute; z-index: 20;
       left: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
       border: 0; background: none; cursor: pointer; color: #1C1917;
-      font: italic 400 12px/18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+      font: italic 400 12px/20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     }
     .logo-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .logo-mobile:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
@@ -6604,7 +6604,7 @@
     }
     .mob-titre {
       grid-column: 3 / 5; grid-row: 1; align-self: start; margin: 0; text-align: right;
-      font: 400 18px/26px "Geist", Arial, sans-serif;
+      font: 400 20px/28px "Geist", Arial, sans-serif;
     }
     .mob-accueil .en-ce-moment__heure {
       margin: 0; font-family: "Instrument Serif", Georgia, serif !important;
@@ -6613,14 +6613,14 @@
     .mob-accueil .en-ce-moment__ville { display: block; }
     .mob-accueil .en-ce-moment__heure [data-heure] { font-family: inherit !important; font-variant-numeric: tabular-nums; }
     .mob-accueil .en-ce-moment__heure [data-ville] { font-family: inherit !important; }
-    .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #666666; font-size: 18px; line-height: 26px; }
-    .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--gout); margin: 0; font-size: 18px; line-height: 26px; }
+    .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #666666; font-size: 20px; line-height: 28px; }
+    .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--gout); margin: 0; font-size: 20px; line-height: 28px; }
     .mob-accueil .en-ce-moment__liste dt { color: #666666; }
     .mob-accueil .en-ce-moment__liste dd { margin: 0; }
     .mob-accueil .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
     .face-a-mobile .mob-projets__titre {
       display: block; margin: 40px 0 12px;
-      font: 400 18px/26px "Geist", Arial, sans-serif; color: #6A6A6A;
+      font: 400 20px/28px "Geist", Arial, sans-serif; color: #6A6A6A;
     }
     .face-a-mobile .mob-projets {
       display: grid; gap: 28px; margin: 0; padding: 0; list-style: none;
@@ -6632,13 +6632,13 @@
       background: var(--fond) center top / cover no-repeat;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
     }
-    .mob-carte__client { font: 400 18px/26px "Geist", Arial, sans-serif; color: #6A6A6A; }
+    .mob-carte__client { font: 400 20px/28px "Geist", Arial, sans-serif; color: #6A6A6A; }
     .mob-carte__titre { margin-top: 2px; font: 400 20px/1.2 "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-carte:active { transform: scale(0.985); }
     .mob-carte:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
     .face-a-mobile .mob-note {
       display: block; margin: 64px 0 0; text-align: center;
-      font: 400 18px/26px "Geist", Arial, sans-serif; color: #1C1917;
+      font: 400 20px/28px "Geist", Arial, sans-serif; color: #1C1917;
     }
   }
   @media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .mob-carte { transition: none; } }
@@ -6659,8 +6659,8 @@
       color: #1C1917; -webkit-tap-highlight-color: transparent;
     }
     .mob-dossier__titre { font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
-    .mob-dossier__nb { font: 400 18px/26px "Geist", Arial, sans-serif; color: #7A746B; }
-    .mob-dossier__signe { margin-left: auto; font: 400 18px/26px "Geist", Arial, sans-serif; color: #1C1917; }
+    .mob-dossier__nb { font: 400 20px/28px "Geist", Arial, sans-serif; color: #7A746B; }
+    .mob-dossier__signe { margin-left: auto; font: 400 20px/28px "Geist", Arial, sans-serif; color: #1C1917; }
     .mob-dossier:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
 
     .mob-dossier__panneau { list-style: none; margin: 0; padding: 8px 0 32px; }
@@ -6670,9 +6670,9 @@
       padding: 12px 0; color: #1C1917; text-decoration: none;
     }
     /* Pas d'image : un numéro, un nom, de l'air. */
-    .mob-ligne__num { font: 400 18px/26px "Geist", Arial, sans-serif; font-variant-numeric: tabular-nums; color: #666666; }
+    .mob-ligne__num { font: 400 20px/28px "Geist", Arial, sans-serif; font-variant-numeric: tabular-nums; color: #666666; }
     .mob-ligne__titre { font: 400 20px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
-    .mob-ligne__bientot { display: block; font: 400 13px/18px/26px "Geist", Arial, sans-serif; color: #7A746B; }
+    .mob-ligne__bientot { display: block; font: 400 13px/20px/28px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-ligne--bientot { color: #A8A29A; }
     a.mob-ligne:active { background: rgba(0,0,0,0.03); }
     a.mob-ligne:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
@@ -6691,7 +6691,7 @@
     .stage.profil-mobile .profil > * { max-width: 640px; margin-left: auto; margin-right: auto; }
     .stage.profil-mobile .profil-retour {
       display: block; margin: 32px auto 32px; padding: 0; border: 0; background: none; cursor: pointer;
-      font: 400 18px/26px "Geist", Arial, sans-serif; color: #1C1917; text-align: left; width: 100%;
+      font: 400 20px/28px "Geist", Arial, sans-serif; color: #1C1917; text-align: left; width: 100%;
     }
     .stage.profil-mobile .profil__bio > p {
       margin: 0 0 32px; font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em;
@@ -6746,7 +6746,7 @@
       display: block; position: fixed; z-index: 40;
       top: calc(var(--nav-h) + 4px); left: 16px; right: 16px; padding: 12px 14px 10px;
       background: #FFFFFF; border: 1px solid #1C1917; border-radius: var(--r-controle);
-      font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
     }
     .radio.est-ouvert .radio__btn { width: 36px; height: 36px; }
     .radio.est-ouvert .radio__btn svg { width: 18px; height: 18px; }
@@ -6763,7 +6763,7 @@
     .sayhi-menu a {
       /* Même corps que le lecteur : 16/20. */
       display: block; padding: 10px 0; color: #1C1917; text-decoration: none;
-      font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em;
+      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em;
     }
     .sayhi-menu a + a { border-top: 1px solid rgba(28,25,23,0.12); }
     .sayhi-menu a:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
@@ -6776,7 +6776,7 @@
     @keyframes onde { to { transform: translateX(-8px); } }
     /* Démarrage : le texte du build en 32 px. */
     /* Démarrage : même corps que la nav (18 px). */
-    .demarrage.demarrage { padding: 20px 16px; font-size: 18px; line-height: 27px; }
+    .demarrage.demarrage { padding: 20px 16px; font-size: 20px; line-height: 28px; }
   }
   @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
     .note-mobile__onde path { animation: none; }
@@ -6928,7 +6928,7 @@
   .doc__fermer {
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px;
     border: 0; background: none; color: #1C1917; cursor: pointer;
-    font: 400 12px/18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    font: 400 12px/20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
   }
   .doc__fermer:focus { outline: none; }
   .doc__fermer:hover, .doc__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -6978,7 +6978,7 @@
     background: #F1EBDD;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume dd, .doc__meta dd) {
-    font: 400 18px/26px "DM Sans", sans-serif; color: #1C1917;
+    font: 400 20px/28px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1C1917; border-radius: var(--r-detail); }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion { font: 500 12px/1.5 "DM Sans", sans-serif; color: #4A4A4A; border-radius: var(--r-detail); }
@@ -6994,7 +6994,7 @@
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__tags li { background: #F1EBDD; color: #4A4A4A; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 0; }
   @media (max-width: 767px) {
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) { padding: 12px; }
-    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 36px 0 64px; font-size: 18px; }
+    .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page { padding: 36px 0 64px; font-size: 20px; }
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre { font-size: 34px; }
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook { font-size: 22px; }
     .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 { font-size: 28px; }
@@ -7018,7 +7018,7 @@
     top: calc(var(--haut-v) + var(--carre-v) + 8px);
     color: #1C1917;
     text-decoration: none; text-underline-offset: 3px; text-decoration-thickness: 1px;
-    font: 400 12px/18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
+    font: 400 12px/20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
   }
   .stage .lien-bas:hover { text-decoration: underline; }
   .lien-bas:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
@@ -7077,7 +7077,7 @@
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px;
     margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
     transform: none; transition: none; cursor: pointer;
-    font: 400 12px/18px/26px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
+    font: 400 12px/20px/28px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     color: #1C1917;
   }
   .stage #mail .mail__cancel { color: #4A4A4A; }
@@ -7100,21 +7100,21 @@
   }
   .stage #mail .mail__chip {
     padding: 0; background: none; border-radius: 0;
-    font: 400 18px/26px "DM Sans", sans-serif; color: #1C1917;
+    font: 400 20px/28px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__chip img { display: none; }
-  .stage #mail .mail__field { font: 400 18px/26px "DM Sans", sans-serif; color: #1C1917; }
+  .stage #mail .mail__field { font: 400 20px/28px "DM Sans", sans-serif; color: #1C1917; }
   .stage #mail .mail__field::placeholder { color: #8A8A8A; }
   .stage #mail .mail__body {
     padding: 16px clamp(20px, 5vw, 32px);
-    font: 400 18px/26px "DM Sans", sans-serif; color: #1C1917;
+    font: 400 20px/28px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__foot {
     padding: 4px clamp(10px, 4vw, 22px);
     border-top: 1px solid #1C1917;
   }
   @media (max-width: 767px) {
-    .stage #mail .mail__body, .stage #mail .mail__field, .stage #mail .mail__chip { font-size: 18px; }
+    .stage #mail .mail__body, .stage #mail .mail__field, .stage #mail .mail__chip { font-size: 20px; }
   }
   /* ===== GRILLE (grand écran) =====
      Deux colonnes sur une marge commune :
@@ -7274,7 +7274,7 @@
   .stage .menubar .menuitem, .stage .menubar .menuitem--app, .stage .menubar .barlien,
   .stage .lecteur-mini__titre, .stage .lien-bas, .stage .logo-mobile, .stage .sayhi-mobile {
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important;
-    font-size: 18px !important; text-transform: none !important; letter-spacing: -0.01em !important;
+    font-size: 20px !important; text-transform: none !important; letter-spacing: -0.01em !important;
   }
 
 
@@ -7298,7 +7298,7 @@
   .demarrage {
     position: fixed; inset: 0; z-index: 1000; background: #FFFFFF;
     padding: 24px; overflow: hidden;
-    font: 400 18px/27px "Geist", "Helvetica Neue", Arial, sans-serif;
+    font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif;
     color: #1C1917; letter-spacing: 0;
     transition: opacity 200ms ease;
   }
@@ -7409,7 +7409,7 @@
       /* Calé sur la colonne 6 de la grille, comme la liste des projets en dessous. */
       display: block; position: absolute; left: var(--col-6); top: 50%; transform: translateY(-50%);
       margin: 0; white-space: nowrap; pointer-events: none; user-select: none;
-      font: 400 18px/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: inherit;
+      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: inherit;
     }
     .stage .menubar .recto-play.dans-barre.dans-barre {
       position: static !important; inset: auto !important; transform: none !important; margin: 0 6px 0 0;
@@ -7452,7 +7452,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .note-bas {
       display: block; position: absolute; z-index: 20; margin: 0;
       left: var(--g-marge, 24px); bottom: 7px; pointer-events: none;   /* même écart au bord que la barre du haut */
-      font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
+      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
     }
   }
 
@@ -7488,7 +7488,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       display: block; position: absolute; z-index: 20;
       right: var(--g-marge, 24px); bottom: 54px; width: 300px;
-      font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
       /* Replié par défaut : la note en bas à droite l'ouvre. */
       padding: 12px 14px; background: #FFFFFF; border: 1px solid rgba(28,25,23,0.2); border-radius: var(--r-controle);
       opacity: 0; visibility: hidden; transform: translateY(6px);
@@ -7516,7 +7516,7 @@
   .radio-bouton::after {
     content: "Couper le son"; position: absolute; right: 0; bottom: calc(100% + 6px);
     padding: 4px 8px; border: 1px solid #1C1917; border-radius: var(--r-controle); background: #FFFFFF; color: #1C1917;
-    font: 400 18px/26px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap;
+    font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap;
     opacity: 0; transform: translateY(3px); pointer-events: none;
     transition: opacity 120ms ease, transform 120ms ease;
   }
@@ -7568,7 +7568,7 @@
      avec plus de place pour écrire. */
   @media (min-width: 1024px) {
     .stage #mail { width: min(680px, calc(100vw - 48px)); max-height: min(720px, 92vh); }
-    .stage #mail .mail__body { min-height: 340px; padding: 20px 32px; font-size: 18px; line-height: 1.5; }
+    .stage #mail .mail__body { min-height: 340px; padding: 20px 32px; font-size: 20px; line-height: 1.5; }
   }
   /* ===== Use Case : les vignettes deviennent des cartes en éventail =====
      Rangées, ce sont de petites photos dans le dossier. Au survol, elles
@@ -7640,7 +7640,7 @@
       max-height: calc(100vh - var(--liste-haut, 240px) - 56px); overflow-y: auto;
       scrollbar-width: none; overscroll-behavior: contain;
       /* 26 px sur un écran de 1440, proportionnel ailleurs. */
-      font: 400 clamp(18px, 1.8vw, 34px)/1.15 "Geist", "Helvetica Neue", Arial, sans-serif;
+      font: 400 clamp(20px/28px, 1.8vw, 34px)/1.15 "Geist", "Helvetica Neue", Arial, sans-serif;
       color: #1C1917; letter-spacing: -0.02em;
     }
     .projets-vignette { display: block; }
@@ -7792,7 +7792,7 @@
     /* La note de musique et son onde. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio-bouton { width: 40px; height: 40px; right: calc(var(--g-marge, 24px) - 8px); bottom: 2px; }
     .radio-bouton svg { width: 24px !important; height: 24px !important; }
-    .radio-bouton::after { font-size: 18px; line-height: 26px; }
+    .radio-bouton::after { font-size: 20px; line-height: 28px; }
     /* Le lecteur ouvert. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       width: 320px; bottom: 50px; padding: 12px 14px;
@@ -7959,21 +7959,21 @@
     .stage .doc .doc__page > :first-child { padding-right: 0 !important; }
   }
   /* ===== Étude courte (Use Case 02) : minimaliste, faite pour être survolée ===== */
-  .uc { color: #1C1917; font-size: 18px; line-height: 26px; letter-spacing: -0.2px; }
+  .uc { color: #1C1917; font-size: 20px; line-height: 28px; letter-spacing: -0.2px; }
   .uc p { margin: 0 0 10px; }
-  .stage .doc .uc :is(p, li, dd) { font-size: 18px; line-height: 26px; letter-spacing: -0.2px; }
+  .stage .doc .uc :is(p, li, dd) { font-size: 20px; line-height: 28px; letter-spacing: -0.2px; }
   .stage .doc .uc .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
-  .stage .doc .uc .uc__sur { font-size: 18px; line-height: 26px; }
-  .stage .doc .uc .uc__fin, .stage .doc .uc .uc__meta dd { font-size: 18px; line-height: 26px; }
-  .stage .doc .uc .uc__fin { font-size: 18px; }
+  .stage .doc .uc .uc__sur { font-size: 20px; line-height: 28px; }
+  .stage .doc .uc .uc__fin, .stage .doc .uc .uc__meta dd { font-size: 20px; line-height: 28px; }
+  .stage .doc .uc .uc__fin { font-size: 20px; }
   .uc .uc__tete { display: block !important; margin-bottom: 40px; }
-  .uc__sur { color: #666666; margin: 0 0 8px !important; font-size: 18px; }
+  .uc__sur { color: #666666; margin: 0 0 8px !important; font-size: 20px; }
   .uc__titre { margin: 0 0 24px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
   .uc__meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 14px 0 0; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__meta dt { color: #666666; font-size: 18px; line-height: 26px; margin-bottom: 4px; }
-  .uc__meta dd { margin: 0; font-size: 18px; line-height: 26px; }
+  .uc__meta dt { color: #666666; font-size: 20px; line-height: 28px; margin-bottom: 4px; }
+  .uc__meta dd { margin: 0; font-size: 20px; line-height: 28px; }
   .uc__bloc { padding: 20px 0 22px; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__label { margin: 0 0 12px; color: #666666; font-size: 18px; line-height: 26px; font-weight: 400; letter-spacing: 0; }
+  .uc__label { margin: 0 0 12px; color: #666666; font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0; }
   .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
   .uc__decision { margin: 0 0 24px; }
   .uc__decision:last-child { margin-bottom: 0; }
@@ -7986,7 +7986,7 @@
   .uc__puce--orange { background: #F2992E; }
   .uc__puce--rouge { background: #E5484D; }
   .uc__note { color: #57534E; }
-  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #666666; font-size: 18px; }
+  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #666666; font-size: 20px; }
   /* Use Case court : deux tailles seulement, Geist 16 px pour le texte et
      24 px pour les titres ; pas de barre de défilement dans le panneau. */
   .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
@@ -8033,7 +8033,7 @@
   .uc .uc__constats strong { font-weight: 500; }
   .stage .doc .uc .uc__pastille {
     display: grid; place-items: center; width: 28px; height: 28px; margin-top: 1px; border-radius: 50%;
-    color: #FFFFFF; font-size: 18px !important; line-height: 1 !important; letter-spacing: 0 !important; font-weight: 500;
+    color: #FFFFFF; font-size: 20px !important; line-height: 1 !important; letter-spacing: 0 !important; font-weight: 500;
   }
   .uc .uc__pastille--a11y { background: #F28C28; }
   .uc .uc__pastille--ux { background: #E0242E; }
@@ -8086,7 +8086,7 @@
   .cartep__barre { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1.5px solid #1C1917; }
   .cartep__barre i { width: 8px; height: 8px; border-radius: 50%; background: #1C1917; }
   .cartep__tags { list-style: none; margin: 0; padding: 16px 16px 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-  .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: var(--r-rond); padding: 4px 12px; font-size: 18px; line-height: 26px; }
+  .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: var(--r-rond); padding: 4px 12px; font-size: 20px; line-height: 28px; }
   .stage .doc .cartep .cartep__titre {
     margin: 20px 0 0; padding: 0 16px; text-align: right;
     font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
@@ -8094,7 +8094,7 @@
   .cartep__texte { padding: 40px 16px 20px; }
   .stage .doc .cartep__texte p {
     margin: 0;
-    font-size: 18px; line-height: 26px; max-width: 62ch;
+    font-size: 20px; line-height: 28px; max-width: 62ch;
   }
   .stage .doc .cartep__texte .cartep__annee { margin-bottom: 10px; }
   .cartep__cta {
@@ -8172,7 +8172,7 @@
     /* L'indication, en pastille, en bas au centre ; elle s'efface au premier glissé. */
     .toile__aide {
       position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 2; pointer-events: none;
-      background: #FFFFFF; color: #1C1917; border-radius: var(--r-rond); padding: 10px 18px; font-size: 18px; line-height: 26px;
+      background: #FFFFFF; color: #1C1917; border-radius: var(--r-rond); padding: 10px 18px; font-size: 20px; line-height: 28px;
       box-shadow: 0 6px 24px rgba(28,25,23,0.14); white-space: nowrap; transition: opacity 400ms ease;
     }
     .toile.a-bouge .toile__aide { opacity: 0; }
@@ -8205,7 +8205,7 @@
     position: static; width: 100%; min-height: 0; margin-top: 10px;
     opacity: 1 !important; transform: none !important;
   }
-  .bio-biblio .shelf__metaTitre { font-size: 18px; line-height: 26px; color: #1C1917; }
+  .bio-biblio .shelf__metaTitre { font-size: 20px; line-height: 28px; color: #1C1917; }
   .bio-biblio .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #666666; }
   /* Toile de cartes masquée pour le moment (le code reste en place). */
   .stage .toile { display: none !important; }
@@ -8223,7 +8223,7 @@
     .bio-photos__inter { grid-column: 1 / -1; margin: 24px 0 0; color: #1C1917; }
     .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-detail); }
     .bio-photo--portrait img { object-position: 50% 22%; }
-    .bio-photo figcaption { margin-top: 8px; font-size: 18px; line-height: 26px; color: #666666; }
+    .bio-photo figcaption { margin-top: 8px; font-size: 20px; line-height: 28px; color: #666666; }
     .bio-rayon + .bio-rayon { margin-top: 8px; }
     .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
   }
@@ -8252,7 +8252,7 @@
     transform: scale(.96); transition: transform 260ms cubic-bezier(.2,.8,.2,1);
   }
   .visionneuse.est-ouverte .visionneuse__img { transform: none; }
-  .visionneuse__legende { margin: 0; max-width: 60ch; text-align: center; color: #1C1917; font-size: 18px; line-height: 26px; }
+  .visionneuse__legende { margin: 0; max-width: 60ch; text-align: center; color: #1C1917; font-size: 20px; line-height: 28px; }
   .visionneuse__legende:empty { display: none; }
   @media (prefers-reduced-motion: reduce) { .visionneuse, .visionneuse__img { transition: none; } }
   /* Bibliothèque : séries et films au même format d'affiche (2:3), recadrées. */
@@ -8308,13 +8308,13 @@
     /* Aperçu : la carte du projet, ou une image, avec le nom du fichier. */
     .apercu__nom { margin: 0 0 16px; color: #666666; }
     .apercu .cartep { width: 360px; box-shadow: 0 18px 44px rgba(28,25,23,0.16); }
-    .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: var(--r-rond); padding: 4px 12px; font-size: 18px; line-height: 26px; }
+    .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: var(--r-rond); padding: 4px 12px; font-size: 20px; line-height: 28px; }
     .apercu .cartep .cartep__titre { margin: 20px 0 0; padding: 0 16px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
     .apercu .cartep__texte { padding: 40px 16px 18px; }
     .apercu .cartep__texte p { margin: 0; font-size: 15px; line-height: 21px; }
     .apercu .cartep__texte .cartep__annee { margin-bottom: 8px; }
     .apercu .cartep__cta { padding: 10px 0; color: #1C1917; }
-    .apercu .cartep__defile span { font-size: 18px; line-height: 24px; }
+    .apercu .cartep__defile span { font-size: 20px; line-height: 28px; }
     .apercu__img { display: block; max-width: 100%; max-height: calc(100% - 60px); width: auto; height: auto; border-radius: var(--r-controle); }
     .apercu__grille { display: grid; grid-template-columns: repeat(4, 110px); gap: 16px; }
     .apercu__grille img { width: 110px; height: 165px; object-fit: cover; border-radius: var(--r-detail); box-shadow: 0 2px 8px rgba(0,0,0,0.16); }
@@ -8417,8 +8417,8 @@
      Fiche en 4 colonnes (intitulés en petites capitales grises), un énoncé en
      grand, puis le texte courant en gris. */
   .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
-  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; }
-  .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 18px !important; line-height: 26px !important; color: #1C1917; }
+  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; }
+  .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 20px !important; line-height: 28px !important; color: #1C1917; }
   .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #666666; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
@@ -8482,10 +8482,10 @@
     border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: var(--r-controle); box-sizing: border-box;
   }
   .apercu__fichier p { margin: 0; }
-  .apercu .apercu__fichier-nom { font-size: 18px; line-height: 26px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
+  .apercu .apercu__fichier-nom { font-size: 20px; line-height: 28px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
   .apercu .apercu__fichier-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; }
   .apercu .apercu__fichier-role { margin-top: 6px; color: #666666; }
-  .apercu .apercu__fichier-texte { margin-top: 24px; font-size: 18px; line-height: 26px; }
+  .apercu .apercu__fichier-texte { margin-top: 24px; font-size: 20px; line-height: 28px; }
   .apercu .apercu__fichier-infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.18); }
   .apercu .apercu__fichier-infos dt { font-size: 12px; line-height: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; }
   .apercu .apercu__fichier-infos dd { margin: 2px 0 0; font-size: 15px; line-height: 20px; }
@@ -8507,7 +8507,7 @@
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil__entete { display: block; flex: none; margin-bottom: 28px; padding-right: 64px; }
     .profil__entete p { margin: 0; }
-    .stage .profil .profil__entete-nom { font-size: 18px !important; line-height: 26px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
+    .stage .profil .profil__entete-nom { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
     .stage .profil .profil__entete-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important; color: #1C1917; }
     .stage .profil .profil__entete-role { margin-top: 8px; color: #666666; }
   }
@@ -8536,7 +8536,7 @@
   @media (min-width: 1024px) {
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { display: block !important; }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > .uc__label {
-      margin: 0 0 16px !important; font-size: 18px !important; line-height: 26px !important;
+      margin: 0 0 16px !important; font-size: 20px !important; line-height: 28px !important;
       letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666 !important;
     }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
@@ -8545,13 +8545,13 @@
      un visuel (souvent animé), le détail en petit, et beaucoup d'air. ===== */
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { border-top: 0 !important; padding-top: 112px !important; margin-top: 0 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { margin: 0 0 32px; max-width: 18em; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917 !important; }
-  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 18px !important; line-height: 26px !important; color: #666666 !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 20px !important; line-height: 28px !important; color: #666666 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
-  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 18px !important; line-height: 26px !important; color: #666666; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 20px !important; line-height: 28px !important; color: #666666; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail { margin-top: 32px; }
-  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: var(--r-rond); font-size: 18px; color: #1C1917; }
+  :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: var(--r-rond); font-size: 20px; color: #1C1917; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::-webkit-details-marker { display: none; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::after { content: "＋"; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail[open] summary::after { content: "−"; }
@@ -8580,12 +8580,12 @@
   @media (prefers-reduced-motion: reduce) { #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(4) .uc__etape { animation: none; } }
   /* Le champ de dosage animé. */
   .dose { padding: 40px; border-radius: var(--r-carte); background: #F5F5F4; }
-  .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 18px !important; line-height: 26px !important; color: #57534E; }
+  .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 20px !important; line-height: 28px !important; color: #57534E; }
   .dose__champ { display: flex; align-items: center; height: 64px; padding: 0 20px; max-width: 320px; background: #FFFFFF; border: 2px solid #D6D3D1; border-radius: var(--r-controle); transition: border-color 200ms ease, box-shadow 200ms ease; }
   .stage .doc .dose .dose__valeur { font-size: 28px !important; line-height: 1 !important; font-variant-numeric: tabular-nums; color: #1C1917; }
   .dose__curseur { width: 2px; height: 30px; margin-left: 2px; background: #1C1917; animation: dose-curseur 900ms steps(1) infinite; }
   @keyframes dose-curseur { 50% { opacity: 0; } }
-  .stage .doc .dose .dose__message { margin: 12px 0 0; min-height: 24px; font-size: 18px !important; line-height: 26px !important; color: #57534E; }
+  .stage .doc .dose .dose__message { margin: 12px 0 0; min-height: 24px; font-size: 20px !important; line-height: 28px !important; color: #57534E; }
   .dose.orange .dose__champ { border-color: #F59E0B; box-shadow: 0 0 0 4px rgba(245,158,11,0.15); }
   .stage .doc .dose.orange .dose__message { color: #B45309; }
   .dose.rouge .dose__champ { border-color: #DC2626; box-shadow: 0 0 0 4px rgba(220,38,38,0.15); }
@@ -8602,9 +8602,9 @@
   .sexe.trois .sexe__trois > div { opacity: 1; transform: none; }
   .sexe.trois .sexe__trois > div:nth-child(2) { transition-delay: 180ms; }
   .sexe.trois .sexe__trois > div:nth-child(3) { transition-delay: 360ms; }
-  .stage .doc .sexe .sexe__nom { font-size: 18px !important; color: #1C1917; font-weight: 500; }
-  .stage .doc .sexe .sexe__pour { font-size: 18px !important; color: #666666; }
-  .stage .doc .sexe .sexe__val { font-size: 18px !important; color: #1C1917; justify-self: end; }
+  .stage .doc .sexe .sexe__nom { font-size: 20px !important; color: #1C1917; font-weight: 500; }
+  .stage .doc .sexe .sexe__pour { font-size: 20px !important; color: #666666; }
+  .stage .doc .sexe .sexe__val { font-size: 20px !important; color: #1C1917; justify-self: end; }
   .sexe__unique .sexe__val { justify-self: start; }
   @media (prefers-reduced-motion: reduce) {
     #doc-loblaw .uc__chaine.uc__anime li { opacity: 1; transform: none; transition: none; }
@@ -8618,7 +8618,7 @@
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan .uc__bloc { padding-top: 0 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan p.uc__fort { font-size: 26px !important; line-height: 32px !important; letter-spacing: -0.4px !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__fin {
-    margin-top: 96px !important; padding-top: 20px; font-size: 18px !important; line-height: 26px !important; color: #666666 !important;
+    margin-top: 96px !important; padding-top: 20px; font-size: 20px !important; line-height: 28px !important; color: #666666 !important;
   }
   /* La fiche des études (rôle, équipe, durée, outils) sur un fond très pâle. */
   .stage .doc .uc .uc__fiche { background: #F7F6F4; border-radius: var(--r-controle); padding: 24px 28px; }
@@ -8628,9 +8628,9 @@
   #doc-loblaw .uc .uc__constat-tete { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
   #doc-loblaw .uc .uc__constats--cartes .uc__pastille { flex: none; margin: 0; }
   .stage #doc-loblaw .uc .uc__categorie { font-size: 12px !important; line-height: 16px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #666666; }
-  .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 24px !important; font-weight: 500; color: #1C1917; }
+  .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 20px !important; line-height: 28px !important; font-weight: 500; color: #1C1917; }
   .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 15px !important; line-height: 22px !important; color: #78716C; }
-  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 18px !important; line-height: 26px !important; color: #666666 !important; }
+  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 20px !important; line-height: 28px !important; color: #666666 !important; }
   #doc-loblaw .uc .uc__constats--cartes .uc__puce { flex: none; width: 10px; height: 10px; margin: 0 4px 0 0; border-radius: 50%; }
   #doc-loblaw .uc .uc__detail .uc__constats--cartes { margin-top: 24px; }
   /* ===== Règle d'espacement des études =====
@@ -8743,10 +8743,10 @@
     .stage #doc-loblaw .uc .uc__bilan { padding-top: 0 !important; align-content: start; }
     /* La navigation, en bas à droite. */
     .stage #doc-loblaw .panneaux-nav { position: absolute; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px; z-index: 2; }
-    .stage #doc-loblaw .panneaux-nav button { width: 36px; height: 36px; border: 1px solid rgba(28,25,23,0.25); border-radius: 50%; background: #FFFFFF; color: #1C1917; cursor: pointer; font: inherit; font-size: 18px; line-height: 1; }
+    .stage #doc-loblaw .panneaux-nav button { width: 36px; height: 36px; border: 1px solid rgba(28,25,23,0.25); border-radius: 50%; background: #FFFFFF; color: #1C1917; cursor: pointer; font: inherit; font-size: 20px; line-height: 1; }
     .stage #doc-loblaw .panneaux-nav button:hover { background: #1C1917; color: #FFFFFF; }
     .stage #doc-loblaw .panneaux-nav button:disabled { opacity: 0.3; cursor: default; background: #FFFFFF; color: #1C1917; }
-    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 18px; color: #666666; font-variant-numeric: tabular-nums; }
+    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 20px; color: #666666; font-variant-numeric: tabular-nums; }
   }
   .panneaux-nav { display: none; }
   @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-nav { display: flex; } }
@@ -8754,9 +8754,9 @@
      Fontes un cran plus bas, de façon proportionnelle, et visuels plafonnés
      pour qu'ils ne grossissent plus sans fin sur un grand écran (iMac). */
   @media (min-width: 1024px) {
-    html body .stage .menubar, html body .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) { font-size: 18px !important; line-height: 24px !important; }
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { font-size: 18px !important; line-height: 24px !important; }
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 18px !important; line-height: 25px !important; }
+    html body .stage .menubar, html body .stage .menubar :is(.menuitem, .menuitem--app, .barlien, .menubar__logo, .barre-logo) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 20px !important; line-height: 28px !important; }
     html body .en-ce-moment__heure { font-size: 50px; line-height: 54px; }
     html body .apercu__question { font-size: 40px; line-height: 44px; }
     html body .apercu .apercu__fichier-titre { font-size: 34px; line-height: 38px; }
@@ -8768,12 +8768,12 @@
     html body .stage .doc .uc .uc__enonce, html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce,
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { font-size: 27px !important; line-height: 33px !important; letter-spacing: -0.5px !important; }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bilan p.uc__fort { font-size: 22px !important; line-height: 28px !important; }
-    html body .stage .doc .uc .uc__corps { font-size: 18px !important; line-height: 28px !important; }
+    html body .stage .doc .uc .uc__corps { font-size: 20px !important; line-height: 28px !important; }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit, html body .stage .doc .uc .uc__fiche dd { font-size: 15px !important; line-height: 22px !important; }
     html body .stage .doc .uc .uc__fiche dt, html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { font-size: 13px !important; }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { font-size: 52px !important; line-height: 54px !important; }
-    html body .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 20px !important; line-height: 28px !important; }
     html body .stage .doc .dose .dose__valeur { font-size: 24px !important; }
     html body .stage .doc .uc .uc__cle .uc__cle-emo { font-size: 20px !important; line-height: 26px !important; }
     /* Visuels : plafonnés en hauteur, sans se déformer. */
@@ -8809,7 +8809,7 @@
     html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture { grid-column: 2 !important; grid-row: 1 / 4 !important; }
     html body .stage #doc-loblaw .uc .uc__tete > .uc__couverture img { height: calc(var(--panneau-h, 480px) - 190px) !important; max-height: 420px !important; width: 100% !important; object-fit: cover; }
     html body .stage #doc-loblaw .uc .uc__tete > .uc__enonce { grid-column: 2 !important; grid-row: 4 !important; margin: 20px 0 6px !important; font-size: 22px !important; line-height: 28px !important; letter-spacing: -0.3px !important; }
-    html body .stage #doc-loblaw .uc .uc__tete > .uc__corps { grid-column: 2 !important; grid-row: 5 !important; margin: 0 !important; font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw .uc .uc__tete > .uc__corps { grid-column: 2 !important; grid-row: 5 !important; margin: 0 !important; font-size: 20px !important; line-height: 28px !important; }
     /* Plus de défilement vertical dans les panneaux : tout tient dans la hauteur. */
     html body .stage #doc-loblaw .doc__page.uc > :not(.cartep__barre) { overflow-y: hidden !important; }
     /* Rangées explicites : le texte reste groupé en haut à gauche, le visuel
@@ -8847,20 +8847,20 @@
     html body .stage #doc-loblaw .doc__page.uc.uc > .uc__fin { flex-basis: calc(var(--col) * 3 + 2 * 24px) !important; }
     /* Carte d'intro : la carte de projet, avec la fiche à la place du résumé. */
     html body .stage #doc-loblaw .uc__intro .cartep__tags { padding: 12px 12px 0 !important; gap: 8px !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__tags li { font-size: 18px !important; line-height: 26px !important; padding: 0 8px; }
+    html body .stage #doc-loblaw .uc__intro .cartep__tags li { font-size: 20px !important; line-height: 28px !important; padding: 0 8px; }
     /* Grille : barre, tags, vide, puis la date (à gauche) et le titre (à droite, en bas) sur la même ligne, la fiche dessous. */
     html body .stage #doc-loblaw .doc__page.uc.uc.uc > .uc__intro { display: grid !important; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto auto auto; }
-    html body .stage #doc-loblaw .uc__intro .uc__intro-projet { grid-column: 1 / -1; grid-row: 4; justify-self: end; text-align: right; margin: 0 0 8px !important; padding: 0 16px 0 16px !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: -0.2px !important; color: #1C1917 !important; }
+    html body .stage #doc-loblaw .uc__intro .uc__intro-projet { grid-column: 1 / -1; grid-row: 4; justify-self: end; text-align: right; margin: 0 0 8px !important; padding: 0 16px 0 16px !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: -0.2px !important; color: #1C1917 !important; }
     html body .stage #doc-loblaw .uc__intro > :is(.cartep__barre, .cartep__tags) { grid-column: 1 / -1; }
     html body .stage #doc-loblaw .uc__intro > .cartep__barre { grid-row: 1; }
     html body .stage #doc-loblaw .uc__intro > .cartep__tags { grid-row: 2; }
     html body .stage #doc-loblaw .uc__intro .cartep__texte { display: contents !important; }
     html body .stage #doc-loblaw .uc__intro .cartep__titre { grid-column: 2; grid-row: 5; align-self: last baseline; justify-self: end; text-align: right; font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.04em !important; white-space: nowrap; margin: 0 !important; padding: 0 16px 0 8px !important; }
-    html body .stage #doc-loblaw .uc__intro .cartep__annee { grid-column: 1; grid-row: 5; align-self: last baseline; font-size: 18px !important; line-height: 26px !important; margin: 0 !important; padding: 0 0 0 16px !important; white-space: nowrap; }
+    html body .stage #doc-loblaw .uc__intro .cartep__annee { grid-column: 1; grid-row: 5; align-self: last baseline; font-size: 20px !important; line-height: 28px !important; margin: 0 !important; padding: 0 0 0 16px !important; white-space: nowrap; }
     html body .stage #doc-loblaw .uc__intro .uc__intro-fiche { grid-column: 1 / -1; grid-row: 6; margin: 16px 16px 8px !important; }
     html body .stage #doc-loblaw .uc__intro-fiche { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin: 0; padding-top: 12px; border-top: 1.5px solid #1C1917; }
-    html body .stage #doc-loblaw .uc__intro-fiche dt { font-size: 18px !important; line-height: 26px !important; letter-spacing: 0; text-transform: none; font-weight: 500; margin-bottom: 2px; }
-    html body .stage #doc-loblaw .uc__intro-fiche dd { margin: 0; font-size: 18px !important; line-height: 26px !important; letter-spacing: -0.2px !important; }
+    html body .stage #doc-loblaw .uc__intro-fiche dt { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0; text-transform: none; font-weight: 500; margin-bottom: 2px; }
+    html body .stage #doc-loblaw .uc__intro-fiche dd { margin: 0; font-size: 20px !important; line-height: 28px !important; letter-spacing: -0.2px !important; }
     /* Carte de la question : titre, énoncé, texte (la fiche et la photo sont déjà devant). */
     html body .stage #doc-loblaw .uc.uc.uc .uc__tete { display: flex !important; flex-direction: column; justify-content: flex-end; }
     html body .stage #doc-loblaw .uc.uc.uc .uc__tete > :is(.uc__surtitre, .uc__fiche, .uc__couverture) { display: none !important; }
@@ -8875,7 +8875,7 @@
       transition: opacity 240ms ease; }
     html body .stage #doc-loblaw .panneaux-voile.est-cache { opacity: 0; }
     /* Le curseur devient une pastille « Glisser » sur la rangée. */
-    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: var(--r-rond); background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 18px; line-height: 26px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
+    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: var(--r-rond); background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 20px; line-height: 28px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
     html body .stage #doc-loblaw .panneaux-curseur.est-visible { opacity: 1; }
   }
   /* ===== Pharmaprix : cartes de tailles variées =====
@@ -8980,8 +8980,8 @@
   }
   /* Carte d'intro Pharmaprix : texte courant en 18 px. */
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw .uc__intro :is(.uc__intro-projet, .cartep__annee, .cartep__tags li) { font-size: 18px !important; line-height: 24px !important; }
-    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 18px !important; line-height: 24px !important; }
+    html body .stage #doc-loblaw .uc__intro :is(.uc__intro-projet, .cartep__annee, .cartep__tags li) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage #doc-loblaw .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; }
   }
 
   /* Pharmaprix, cartes d'ouverture, inspirées de la maquette Figma (504:396) :
@@ -9002,7 +9002,7 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure { outline: 0 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__constats > li { background: #FFFFFF !important; outline: 1px solid #1C1917 !important; outline-offset: -1px; }
     /* Texte courant à 18 px dans toute la rangée. */
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc :is(.uc__petit, .uc__intro-texte) { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc :is(.uc__petit, .uc__intro-texte) { font-size: 20px !important; line-height: 28px !important; }
     /* Largeurs en colonnes : intro 4, photo 4, question 6. */
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__intro { width: calc(var(--col) * 4 + 72px) !important; display: flex !important; flex-direction: column; padding: 0 !important; border-radius: var(--r-carte); font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo { width: calc(var(--col) * 5 + 96px) !important; } /* 5 colonnes : plus large que l'intro */
@@ -9010,14 +9010,14 @@
     html body .stage #doc-loblaw.doc .uc__intro-visuel { flex: 1 1 0; min-height: 0; margin: 0 !important; }
     html body .stage #doc-loblaw.doc .uc__intro-visuel img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
     html body .stage #doc-loblaw.doc .uc__intro-contenu { flex: none; display: flex; flex-direction: column; gap: 16px; padding: 24px; }
-    html body .stage #doc-loblaw.doc .uc__intro .uc__intro-annee { font-size: 18px !important; color: #1C1917 !important; }
+    html body .stage #doc-loblaw.doc .uc__intro .uc__intro-annee { font-size: 20px !important; color: #1C1917 !important; }
     html body .stage #doc-loblaw.doc .uc__intro-entete { display: flex; flex-direction: column; gap: 4px; }
-    html body .stage #doc-loblaw.doc .uc__intro .uc__intro-type { font-size: 18px !important; color: #666666 !important; }
+    html body .stage #doc-loblaw.doc .uc__intro .uc__intro-type { font-size: 20px !important; color: #666666 !important; }
     html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 40px !important; line-height: 44px !important; letter-spacing: -0.3px !important; color: #1C1917 !important; }
     html body .stage #doc-loblaw.doc .uc__intro .uc__intro-texte { color: #666666 !important; }
     html body .stage #doc-loblaw.doc .uc__intro-trait { border: 0; height: 1px; margin: 0; background: #1C1917; }
     html body .stage #doc-loblaw.doc .uc__intro-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-    html body .stage #doc-loblaw.doc .uc__intro-tags li { margin: 0; padding: 6px 16px; border: 1px solid #1C1917; border-radius: var(--r-rond); font-size: 18px; line-height: 24px; color: #1C1917; white-space: nowrap; }
+    html body .stage #doc-loblaw.doc .uc__intro-tags li { margin: 0; padding: 6px 16px; border: 1px solid #1C1917; border-radius: var(--r-rond); font-size: 20px; line-height: 28px; color: #1C1917; white-space: nowrap; }
     /* Question en h2 sur un visuel (une maquette viendra le remplacer). */
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__tete { width: calc(var(--col) * 6 + 120px) !important; padding: 0 !important; display: flex !important; flex-direction: column; justify-content: flex-start !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc .uc__tete > :is(.uc__enonce, .uc__corps) { display: none !important; }
@@ -9031,7 +9031,7 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li:nth-child(2) { grid-column: 1 !important; grid-row: 2 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li:nth-child(3) { grid-column: 2 !important; grid-row: 1 / -1 !important; background: #1C1917 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li strong { margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li span { margin: 0 !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li span { margin: 0 !important; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li:nth-child(3) strong { font-size: 120px !important; line-height: 120px !important; color: #FFFFFF !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres > li:nth-child(3) span { color: #FFFFFF !important; }
   }
@@ -9047,12 +9047,12 @@
     html body .stage #doc-loblaw.doc .uc__intro-contenu { display: flex; flex-direction: column; gap: 16px; padding: 16px; }
     html body .stage #doc-loblaw.doc .uc__intro :is(p, h2) { margin: 0 !important; padding: 0 !important; letter-spacing: 0; line-height: 1.3; text-transform: none; color: #1C1917; }
     html body .stage #doc-loblaw.doc .uc__intro-entete { display: flex; flex-direction: column; gap: 4px; }
-    html body .stage #doc-loblaw.doc .uc__intro :is(.uc__intro-annee, .uc__intro-type, .uc__intro-texte) { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw.doc .uc__intro :is(.uc__intro-annee, .uc__intro-type, .uc__intro-texte) { font-size: 20px !important; line-height: 28px !important; }
     html body .stage #doc-loblaw.doc .uc__intro :is(.uc__intro-type, .uc__intro-texte) { color: #666666 !important; }
     html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 40px !important; line-height: 44px !important; letter-spacing: -0.3px !important; }
     html body .stage #doc-loblaw.doc .uc__intro-trait { border: 0; height: 1px; margin: 0; background: #1C1917; }
     html body .stage #doc-loblaw.doc .uc__intro-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-    html body .stage #doc-loblaw.doc .uc__intro-tags li { margin: 0; padding: 6px 16px; border: 1px solid #1C1917; border-radius: var(--r-rond); font-size: 18px; line-height: 24px; color: #1C1917; white-space: nowrap; }
+    html body .stage #doc-loblaw.doc .uc__intro-tags li { margin: 0; padding: 6px 16px; border: 1px solid #1C1917; border-radius: var(--r-rond); font-size: 20px; line-height: 28px; color: #1C1917; white-space: nowrap; }
     html body .stage #doc-loblaw.doc .uc__photo { margin: 0 0 16px !important; aspect-ratio: 4 / 3; border: 1px solid #1C1917; border-radius: var(--r-carte); overflow: hidden; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__tete { margin: 0 0 16px !important; padding: 0 !important; border: 1px solid #1C1917; border-radius: var(--r-carte); overflow: hidden; background: #FFFFFF; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__tete > :is(.uc__surtitre, .uc__fiche, .uc__couverture, .uc__enonce, .uc__corps) { display: none !important; }
@@ -9063,7 +9063,7 @@
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li { display: flex !important; flex-direction: column; gap: 8px; margin: 0 !important; padding: 16px !important; border: 1px solid #1C1917 !important; border-radius: var(--r-carte); background: #FFFFFF; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li:nth-child(3) { grid-column: 1 / -1; background: #1C1917; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li strong { margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
-    html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li span { margin: 0 !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li span { margin: 0 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; color: #1C1917 !important; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li:nth-child(3) strong { font-size: 120px !important; line-height: 120px !important; color: #FFFFFF !important; }
     html body .stage #doc-loblaw.doc .uc.uc .uc__chiffres > li:nth-child(3) span { color: #FFFFFF !important; }
   }
@@ -9071,13 +9071,13 @@
      droite le titre et la phrase, et la fiche (rôle, équipe, durée…). */
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__intro, html body .stage #doc-loblaw.doc .uc.uc > .uc__intro { display: flex !important; flex-direction: column; justify-content: space-between; gap: 24px; padding: 24px !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags { padding: 0 !important; }
-  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li { font-size: 18px !important; line-height: 24px !important; padding: 6px 16px !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li { font-size: 20px !important; line-height: 28px !important; padding: 6px 16px !important; }
   html body .stage #doc-loblaw.doc .uc__intro-contenu { padding: 0 !important; display: flex; flex-direction: column; gap: 8px; }
   html body .stage #doc-loblaw.doc .uc__intro :is(.uc__intro-titre, .uc__intro-texte) { text-align: right; }
-  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-texte { font-size: 18px !important; line-height: 24px !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-texte { font-size: 20px !important; line-height: 28px !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 16px; margin: 8px 0 0 !important; padding: 16px 0 0 !important; border-top: 1px solid #1C1917 !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche > div { margin: 0; }
-  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { margin: 0 !important; font-size: 18px !important; line-height: 24px !important; letter-spacing: 0 !important; text-transform: none !important; color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { margin: 0 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; text-transform: none !important; color: #1C1917 !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche dt { font-weight: 500 !important; }
   @media (max-width: 1023px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__intro { padding: 16px !important; gap: 40px; }
@@ -9104,7 +9104,7 @@
   html body .stage #doc-loblaw.doc .uc__contexte-texte { display: flex; flex-direction: column; gap: 12px; }
   html body .stage #doc-loblaw.doc .uc__contexte-texte :is(h2, p) { margin: 0 !important; padding: 0 !important; max-width: none !important; color: #1C1917 !important; letter-spacing: 0 !important; text-transform: none !important; }
   html body .stage #doc-loblaw.doc .uc__contexte-titre { margin-bottom: 4px !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 40px !important; line-height: 44px !important; letter-spacing: -0.3px !important; }
-  html body .stage #doc-loblaw.doc .uc__contexte-texte p { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 18px !important; line-height: 26px !important; }
+  html body .stage #doc-loblaw.doc .uc__contexte-texte p { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 20px !important; line-height: 28px !important; }
   html body .stage #doc-loblaw.doc .uc__contexte-visuel { flex: 1 1 0; min-height: 0; margin: 0 !important; border: 1px solid #1C1917; border-radius: var(--r-carte); overflow: hidden; background: #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc__contexte-visuel img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
   @media (min-width: 1024px) {
@@ -9120,7 +9120,7 @@
   /* Légende commune des photos de terrain reconstituées. */
   html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { display: flex !important; flex-direction: column; }
   html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { position: static !important; flex: 1 1 0; min-height: 0; width: 100%; height: auto; object-fit: cover; }
-  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) figcaption { flex: none; margin: 0; padding: 12px 16px; border-top: 1px solid #1C1917; background: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; color: #666666 !important; }
+  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) figcaption { flex: none; margin: 0; padding: 12px 16px; border-top: 1px solid #1C1917; background: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; color: #666666 !important; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { aspect-ratio: auto !important; } html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { flex: none; aspect-ratio: 4 / 3; } }
   /* Carte 3 : la photo sans contour, coins arrondis seulement. */
   html body .stage #doc-loblaw.doc .uc__contexte-visuel { border: 0 !important; outline: 0 !important; }
@@ -9138,7 +9138,7 @@
   html body .stage #doc-loblaw.doc .ecran-erreurs.est-vu .ecran-erreurs__point::after { animation: ecran-onde 0.9s ease-out calc(1150ms + var(--i) * 400ms) 1; }
   @keyframes ecran-onde { from { opacity: 0.5; transform: scale(1); } to { opacity: 0; transform: scale(2.6); } }
   html body .stage #doc-loblaw.doc .ecran-erreurs__num { position: relative; z-index: 1; display: block; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 13px; font-weight: 500; line-height: 26px; text-align: center; color: #FFFFFF; }
-  html body .stage #doc-loblaw.doc .ecran-erreurs__info { position: absolute; z-index: 2; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); padding: 4px 10px; border-radius: var(--r-controle); background: #1C1917; color: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 18px; line-height: 26px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+  html body .stage #doc-loblaw.doc .ecran-erreurs__info { position: absolute; z-index: 2; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); padding: 4px 10px; border-radius: var(--r-controle); background: #1C1917; color: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 20px; line-height: 28px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point--droite .ecran-erreurs__info { left: auto; right: -6px; transform: none; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point:is(:hover, :focus-visible) { z-index: 3; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point:is(:hover, :focus-visible) .ecran-erreurs__info { opacity: 1; }
@@ -9232,7 +9232,7 @@
     padding: 4px 8px !important; border: 1px solid #1C1917 !important; border-radius: var(--r-controle) !important;
     background: #FFFFFF !important; color: #1C1917 !important; box-shadow: none !important; text-shadow: none !important;
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-weight: 400 !important;
-    font-size: 18px !important; line-height: 26px !important; letter-spacing: -0.01em !important;
+    font-size: 20px !important; line-height: 28px !important; letter-spacing: -0.01em !important;
   }
 
 
@@ -9243,7 +9243,7 @@
     html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
     html body .bulle-site,
     html body .stage #doc-loblaw .panneaux-curseur,
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 20px !important; line-height: 28px !important; }
   }
   /* ===== Système Manu : grille suisse, blanc, encre, un seul accent cobalt ===== */
   :root { --blanc: #FFFFFF; --encre: #1C1917; --gris-texte: #666666; --filet: #E7E5E4; --cobalt: #1B45B4; }
@@ -9301,7 +9301,7 @@
     html body .stage .profil .bio-biblio .shelf__row { width: var(--w8); grid-template-columns: repeat(4, var(--w2)) !important; gap: 24px !important; }
     /* Pharmaprix : 24 px dans un même sujet, 72 px entre deux sujets. */
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { column-gap: 24px !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__label { margin-bottom: 12px !important; padding: 24px 24px 0 !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__label { margin-bottom: 12px !important; padding: 24px 24px 0 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; text-transform: none !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__fort, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > :is(.uc__figure, .dose, .sexe) { padding: 24px !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__chaine { display: flex !important; flex-wrap: wrap; gap: 8px; height: auto !important; overflow: visible !important; padding: 24px 24px 0 !important; }
@@ -9347,24 +9347,24 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { width: var(--w4) !important; grid-template-columns: var(--w4) !important; }
   }
   /* Échelle typographique : grands titres, lecture en 18, interface en 16, bulles en 14. */
-  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li, html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc__intro .uc__intro-tags li, html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 64px !important; line-height: 60px !important; letter-spacing: -1px !important; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc__intro .uc__intro-titre { font-size: 48px !important; line-height: 48px !important; letter-spacing: -0.5px !important; } }
   @media (min-width: 1024px) {
     html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.arbo, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span),
     html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar :is(.barlien, .barre-logo, .menubar__titre),
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; }
     html body .stage .accueil-droite :is(.en-ce-moment__heure, .en-ce-moment__heure *), html body .stage .profil .profil__entete-titre { font-size: 56px !important; line-height: 60px !important; letter-spacing: -0.5px !important; }
-    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage .profil .profil__entete-role { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage .profil .profil__entete-role { font-size: 20px !important; line-height: 28px !important; }
     html body .stage .barlien[data-bulle]::after,
     html body .stage .radio-bouton::after,
     html body .stage .dock__tip,
     html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
     html body .bulle-site,
     html body .stage #doc-loblaw .panneaux-curseur,
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 20px !important; line-height: 28px !important; }
   }
   /* Mobile : la première carte ne colle plus à la barre de la fenêtre. */
   @media (max-width: 767px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc { padding-top: 16px !important; } }
@@ -9374,27 +9374,27 @@
   }
   /* Échelle typographique, un cran plus bas : titres 56 / 48 / 32, lecture 16, interface 14, bulles 12. */
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-titre { font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-tags li { padding: 4px 12px !important; font-size: 18px !important; line-height: 26px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 18px !important; line-height: 26px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__intro-texte, .uc__contexte-texte p, .uc__petit) { font-size: 18px !important; line-height: 26px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-tags li { padding: 4px 12px !important; font-size: 20px !important; line-height: 28px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__intro-texte, .uc__contexte-texte p, .uc__petit) { font-size: 20px !important; line-height: 28px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__tete > .uc__titre) { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 28px !important; line-height: 32px !important; letter-spacing: 0 !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li strong { font-size: 28px !important; line-height: 32px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li:nth-child(3) strong { font-size: 96px !important; line-height: 96px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li span { font-size: 18px !important; line-height: 26px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__chiffres > li span { font-size: 20px !important; line-height: 28px !important; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-titre { font-size: 40px !important; line-height: 40px !important; letter-spacing: -0.4px !important; } }
   @media (min-width: 1024px) {
     html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.arbo, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span),
     html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar :is(.barlien, .barre-logo, .menubar__titre),
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 20px !important; line-height: 28px !important; }
     html body .stage .accueil-droite :is(.en-ce-moment__heure, .en-ce-moment__heure *), html body .stage .profil .profil__entete-titre { font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; }
-    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage .profil .profil__entete-role { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage .accueil-droite .en-ce-moment__activite { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage .profil .profil__entete-role { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 20px !important; line-height: 28px !important; }
     html body .stage .profil .bio-section__titre { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px; }
-    html body .stage .profil .bio-rayon__titre { font-size: 18px !important; line-height: 26px !important; }
-    html body .stage .profil .biblio__intro { font-size: 18px !important; line-height: 26px !important; }
+    html body .stage .profil .bio-rayon__titre { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage .profil .biblio__intro { font-size: 20px !important; line-height: 28px !important; }
     html body .stage .barlien[data-bulle]::after,
     html body .stage .radio-bouton::after,
     html body .stage .dock__tip,
@@ -9478,7 +9478,7 @@
     html body .stage.bio-ouverte .profil .bio-hello { animation: none; }
   }
   html body .stage .profil .profil__bio > p.bio-initiale { margin: 24px 0 0 !important; }
-  html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 18px !important; line-height: 26px !important; font-weight: 400 !important; letter-spacing: 0 !important; color: var(--encre); }
+  html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 20px !important; line-height: 28px !important; font-weight: 400 !important; letter-spacing: 0 !important; color: var(--encre); }
   html body .stage .profil .profil__bio > .bio-hello { margin: 0 0 24px !important; }
   @media (max-width: 1023px) { html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-size: 24px !important; line-height: 32px !important; } }
   @media (max-width: 1023px) { html body .stage .profil .profil__bio > p.bio-initiale { margin-bottom: 48px !important; } }
@@ -9491,7 +9491,7 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { flex: 1 1 0 !important; display: grid !important; grid-template-columns: calc(var(--col) * 2 + 24px) minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; align-items: start; column-gap: 24px; row-gap: 4px; width: auto !important; height: auto !important; min-height: 0; margin: 0 !important; padding: 16px 0 !important; border: 0 !important; border-top: 1px solid var(--filet) !important; border-radius: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:first-child { border-top: 0 !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > strong { grid-column: 1; grid-row: 1; margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; color: var(--encre) !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > span { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > span { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { grid-column: 2; grid-row: 1 / -1; align-self: center; }
   .signes { display: grid; justify-content: space-between; align-content: center; }
   .signes i { display: block; background: var(--encre); opacity: 0; }
@@ -9576,22 +9576,22 @@
   }
   /* Pharmaprix : l'audit, les problèmes classés par degré d'urgence et leurs solutions. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: var(--r-carte) !important; overflow: hidden !important; color: var(--encre); }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-label { margin: 0 0 8px !important; font-size: 18px !important; line-height: 26px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-label { margin: 0 0 8px !important; font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-texte { margin: 0 !important; font-size: 18px !important; line-height: 26px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-texte { margin: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; list-style: none; margin: 24px 0 0 !important; padding: 0 !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { display: grid; grid-template-columns: calc(var(--col) + 24px) minmax(0, 1fr); column-gap: 24px; margin: 0 !important; padding: 16px 0 !important; border-top: 1px solid var(--filet); opacity: 0; transform: translateY(8px); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li:last-child { padding-bottom: 0 !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li { opacity: 1; transform: none; transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(2) { transition-delay: 260ms; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(3) { transition-delay: 520ms; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { display: flex; flex-direction: column; gap: 8px; font-size: 18px !important; line-height: 26px !important; font-weight: 500; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { display: flex; flex-direction: column; gap: 8px; font-size: 20px !important; line-height: 28px !important; font-weight: 500; color: var(--encre) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points { display: flex; gap: 4px; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { display: block; width: 8px; height: 8px; box-sizing: border-box; border: 1px solid var(--encre); border-radius: 50%; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { font-size: 18px !important; line-height: 26px !important; font-weight: 500 !important; color: var(--encre) !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail span { font-size: 18px !important; line-height: 26px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { font-size: 20px !important; line-height: 28px !important; font-weight: 500 !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail span { font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; }
   @media (max-width: 1023px) {
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
@@ -9612,11 +9612,11 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { border-color: #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: var(--r-carte) !important; overflow: hidden !important; color: var(--encre); }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-label { margin: 0 0 8px !important; font-size: 18px !important; line-height: 26px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-label { margin: 0 0 8px !important; font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-texte { margin: 0 !important; font-size: 18px !important; line-height: 26px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-texte { margin: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; min-height: 0; list-style: none; margin: 16px 0 !important; padding: 0 !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { position: relative; margin: 0 !important; padding: 2px 0 2px 24px !important; font-size: 18px !important; line-height: 26px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-6px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { position: relative; margin: 0 !important; padding: 2px 0 2px 24px !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-6px); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li:not(:last-child)::after { content: ""; position: absolute; left: 3.5px; top: 16px; width: 1px; height: calc(100% - 8px); background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li { opacity: 1; transform: none; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1); }
@@ -9631,7 +9631,7 @@
   }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { opacity: 1; transform: none; transition: none !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 72px minmax(0, 1fr); column-gap: 16px; } }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { order: 3 !important; display: block !important; flex: none; margin: 12px 0 0 !important; padding: 0 !important; font-size: 18px !important; line-height: 26px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { order: 3 !important; display: block !important; flex: none; margin: 12px 0 0 !important; padding: 0 !important; font-size: 20px !important; line-height: 28px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
   /* Pharmaprix : première carte en cobalt, sans contour, texte blanc. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro { background: var(--cobalt) !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; color: #FFFFFF !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro :is(h2, p, li, dt, dd) { color: #FFFFFF !important; }
@@ -9661,15 +9661,23 @@
   }
   /* Carte d'audit : le degré d'urgence et le problème sur la même ligne, la solution dessous. */
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 112px minmax(0, 1fr) !important; column-gap: 16px; padding: 12px 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 128px minmax(0, 1fr) !important; column-gap: 16px; padding: 12px 0 !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li:last-child { padding-bottom: 0 !important; }
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; height: 26px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; height: 28px; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { white-space: nowrap; }
   }
   /* Pharmaprix : un mot géant entre deux cartes, posé sur leur ligne de base. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { display: flex !important; align-items: flex-end; box-sizing: border-box; margin: 0 !important; padding: 0 !important; border: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; white-space: nowrap; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: clamp(120px, 14vw, 200px) !important; line-height: 0.8 !important; letter-spacing: -0.03em !important; color: var(--encre) !important; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { transform: translateY(0.06em); } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 16px 0 32px !important; font-size: clamp(96px, 32vw, 160px) !important; } }
+  /* Texte en 20 px : ajustements pour les écrans étroits d'ordinateur. */
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere > :is(.uc__label, .uc__fort, .uc__petit) { max-width: max(calc(var(--col) * 3 + 48px), 360px) !important; } }
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    html body .stage .menubar .menubar__titre .menubar__suite { display: none; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; justify-content: stretch; gap: 8px 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche > div:not(:first-child) dd { white-space: normal; }
+  }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc { --col: max(94px, calc((100vw - 48px - 11 * 24px) / 12)); } }
 </style>
 </head>
 <body>
@@ -11052,7 +11060,7 @@
       </div>
 
       <!-- Le titre, au centre de la barre : du texte, pas un lien. -->
-      <p class="menubar__titre">Designer digital — UI, UX, Marketing et Produit SaaS</p>
+      <p class="menubar__titre">Designer digital<span class="menubar__suite"> — UI, UX, Marketing et Produit SaaS</span></p>
 
       <div class="menubar__trailing" data-node-id="118:195">
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
@@ -17340,12 +17348,12 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const bloc = zone && zone.querySelector('.en-ce-moment');
   if (!slot || !bloc) return;
   const titre = document.querySelector('.menubar__titre');
-  // Sur 2 colonnes, les coupures sont choisies : « Designer digital — » /
+  // Sur 2 colonnes, les coupures sont choisies : « Designer digital » /
   // « UI, UX, Marketing » / « et Produit SaaS » (espaces insécables ailleurs).
   if (titre) {
     const [qui, quoi] = titre.textContent.trim().split(' — ');
     const p = slot.querySelector('.mob-titre');
-    if (quoi) p.append(qui + ' —', document.createElement('br'), quoi.replace('UI, UX,', 'UI,\u00A0UX,').replace(/et .+$/, (m) => m.replace(/ /g, '\u00A0')));
+    if (quoi) p.append(qui, document.createElement('br'), quoi.replace('UI, UX,', 'UI,\u00A0UX,').replace(/et .+$/, (m) => m.replace(/ /g, '\u00A0')));
     else p.textContent = qui;
   }
   const mq = matchMedia('(max-width: 1023px)');
@@ -17673,7 +17681,8 @@ document.addEventListener('click', (e) => {
     cancelAnimationFrame(raf); raf = 0;
     const avance = chemin.length ? progres / Math.max(1, total()) : 0;
     doc.style.setProperty('--fenetre', W + 'px');
-    const col = (innerWidth - 48 - 11 * 24) / 12, L = (n) => col * n + 24 * (n - 1);
+    // Sur les ordinateurs étroits, les cartes gardent leur largeur : le parcours défile de toute façon.
+    const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1);
     const G = 72, pas = H + 96;
     // Rangée 1, on avance vers la droite.
     let x = 0;
@@ -17681,11 +17690,11 @@ document.addEventListener('click', (e) => {
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     poser(c.mot, x, haut, lMot, H); x += lMot + G;
     // L'écran garde toute la largeur de sa carte : la carte s'ajuste si la hauteur manque.
-    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 90) * 869 / 580) + 48);
+    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 96) * 869 / 580) + 48);
     poser(c.tete, x, haut, lTete, H); x += lTete + G;
     const xAudit = x;
     // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
-    const lAudit = Math.max(424, L(3));   // reste étroite sur grand écran
+    const lAudit = Math.max(472, L(3));   // reste étroite sur grand écran
     poser(c.audit, x, haut, lAudit, H);
     const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
