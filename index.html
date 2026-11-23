@@ -9404,6 +9404,36 @@
     html body .stage #doc-loblaw .panneaux-curseur,
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 12px !important; line-height: 16px !important; }
   }
+  /* Bio : plus de titre « Photos » (gardé pour les lecteurs d'écran) et une composition
+     décalée : le calme et la tempête, les chats en escalier, le panoramique poussé à droite. */
+  html body .stage .profil #bio-photos-titre { position: absolute !important; width: 1px; height: 1px; margin: -1px !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .bio-chats .bio-photo { margin: 0; min-width: 0; }
+  .bio-chats .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+  @media (min-width: 1024px) {
+    html body .stage .profil #bio-photos { padding-top: 96px; }
+    html body .stage .profil .bio-photos { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 96px 24px; }
+    html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 5 !important; grid-row: 1; }
+    html body .stage .profil .bio-photos > .bio-tempete { grid-column: 5 / 8 !important; grid-row: 1; margin-top: 96px; }
+    html body .stage .profil .bio-photos > .bio-chats { grid-column: 1 / -1 !important; grid-row: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    .bio-chats .bio-photo:nth-child(2) { margin-top: 72px; }
+    .bio-chats .bio-photo:nth-child(3) { margin-top: 24px; }
+    .bio-chats .bio-photo:nth-child(4) { margin-top: 96px; }
+    .bio-chats .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 20px; color: var(--gris-texte); }
+    html body .stage .profil .bio-photos > .bio-photos__note { order: 0; grid-column: 1 / 3 !important; grid-row: 3; align-self: end; font-size: 14px; line-height: 20px; }
+    html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 3 / 8 !important; grid-row: 3; }
+    html body .stage .profil .bio-biblio .shelf__row { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 32px 24px !important; }
+    html body .stage .profil .bio-biblio .shelf__meta { font-size: 12px; line-height: 16px; }
+    html body .stage .profil .bio-biblio .shelf__meta * { font-size: 12px !important; line-height: 16px !important; }
+  }
+  @media (max-width: 1023px) {
+    .bio-chats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; margin-bottom: 32px; }
+    .bio-chats .bio-photo:nth-child(even) { margin-top: 32px; }
+    .stage.profil-mobile .bio-chats .bio-photo { margin-bottom: 0; }
+    .stage.profil-mobile .bio-chats .bio-photo:nth-child(even) { margin-top: 32px; }
+    html body .stage .bio-biblio .shelf__row { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 24px 16px !important; }
+  }
+  /* Bio sur mobile : fond opaque, l'accueil ne transparaît plus dessous. */
+  @media (max-width: 1023px) { html body .stage.profil-mobile .profil { background: var(--blanc) !important; } }
 </style>
 </head>
 <body>
@@ -13006,6 +13036,10 @@ const dire = (function () {
   (function remplirPhotosBio() {
     const grille = document.querySelector('.bio-photos');
     if (!grille) return;
+    // Les chats vont ensemble : une petite série en escalier.
+    const chats = document.createElement('div');
+    chats.className = 'bio-chats';
+    grille.appendChild(chats);
     PHOTOS.forEach((ph) => {
       const fig = document.createElement('figure');
       fig.className = 'bio-photo';
@@ -13017,7 +13051,7 @@ const dire = (function () {
       const cap = document.createElement('figcaption');
       cap.textContent = ph.nom;
       fig.append(img, cap);
-      grille.appendChild(fig);
+      chats.appendChild(fig);
     });
     // Le panoramique devant le mur et les palmiers ferme la série.
     const pano = grille.querySelector('.bio-photo--pano');
