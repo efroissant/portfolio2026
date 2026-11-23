@@ -9752,6 +9752,21 @@
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc > .uc__tete { display: flex !important; flex-direction: column; } html body .stage #doc-loblaw.doc .uc.uc .uc__tete > .uc__titre { padding: 16px 0 0 !important; } }
   /* Pharmaprix : défilement horizontal libre, sans calage sur les cartes. */
   @media (min-width: 1024px) { html body .stage #doc-loblaw .doc__scroll.doc__scroll.doc__scroll { scroll-snap-type: none !important; scroll-behavior: auto !important; overscroll-behavior-x: contain; } }
+  /* Carte question : pastilles plus petites, bulle habituelle du site au
+     survol, compteur minimal, écran incliné sur deux axes, tout calé à gauche. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .uc__tete > .uc__titre { padding: 24px 0 0 !important; text-align: left; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs { transform-origin: 50% 50%; transform: rotateY(-14deg) rotateX(10deg) scale(0.95); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs.est-vu { transform: none; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point { width: 20px; height: 20px; box-shadow: 0 0 0 1.5px #FFFFFF; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__num { font-size: 11px !important; font-weight: 500 !important; line-height: 20px !important; letter-spacing: 0 !important; color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { bottom: calc(100% + 6px); padding: 3px 8px !important; border: 1px solid #000000; border-radius: 4px; background: #FFFFFF; color: #000000 !important; font-family: "Helvetica Neue", Helvetica, sans-serif !important; font-size: 12px !important; font-weight: 500 !important; line-height: 14px !important; letter-spacing: 0 !important; transform: translateX(-50%) translateY(4px); transition: opacity 140ms ease, transform 140ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point:is(:hover, :focus-visible) .ecran-erreurs__info { transform: translateX(-50%) translateY(0); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point--droite .ecran-erreurs__info { transform: translateY(4px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point--droite:is(:hover, :focus-visible) .ecran-erreurs__info { transform: translateY(0); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__compte { margin: 0 0 12px !important; padding: 0 !important; border: 0 !important; border-radius: 0; background: none !important; font-size: 18px !important; line-height: 24px !important; color: #666666 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__chiffre { color: #1C1917; font-weight: 500; font-variant-numeric: tabular-nums; }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc .uc__tete > .uc__titre { padding: 16px 0 0 !important; } }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs { transform: none; } }
 </style>
 </head>
 <body>
@@ -10923,7 +10938,7 @@
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
           <h2 class="uc__titre" id="doc-loblaw-titre">Où se cachent les erreurs dans un logiciel de pharmacie&nbsp;?</h2>
           <figure class="uc__tete-visuel">
-          <p class="ecran-erreurs__compte" aria-hidden="true"><span class="ecran-erreurs__chiffre">0</span> <span class="ecran-erreurs__mot">erreur</span></p>
+          <p class="ecran-erreurs__compte" aria-hidden="true"><span class="ecran-erreurs__chiffre">00</span> <span class="ecran-erreurs__mot">erreur</span></p>
           <div class="ecran-erreurs">
             <img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" draggable="false">
             <ol class="ecran-erreurs__points" aria-label="Erreurs repérées pendant l’audit"><li class="ecran-erreurs__point ecran-erreurs__point--a11y" style="--x: 13%; --y: 23.1%; --i: 0" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">1</span><span class="ecran-erreurs__info">Aucune validation de saisie</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ai" style="--x: 28.2%; --y: 36.2%; --i: 1" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">2</span><span class="ecran-erreurs__info">« Caucasian » présélectionné</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux" style="--x: 32.4%; --y: 42.9%; --i: 2" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">3</span><span class="ecran-erreurs__info">Options mal alignées</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux" style="--x: 20.2%; --y: 57.9%; --i: 3" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">4</span><span class="ecran-erreurs__info">Pouces et kilos mélangés</span></li><li class="ecran-erreurs__point ecran-erreurs__point--a11y" style="--x: 58.5%; --y: 18.7%; --i: 4" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">5</span><span class="ecran-erreurs__info">Une fenêtre qui bloque tout</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ai" style="--x: 61.7%; --y: 58.5%; --i: 5" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">6</span><span class="ecran-erreurs__info">Champ grisé ambigu</span></li><li class="ecran-erreurs__point ecran-erreurs__point--ux ecran-erreurs__point--droite" style="--x: 94.7%; --y: 72.9%; --i: 6" tabindex="0"><span class="ecran-erreurs__num" aria-hidden="true">7</span><span class="ecran-erreurs__info">Actions hors de la fenêtre</span></li></ol>
@@ -18645,7 +18660,7 @@ document.addEventListener('click', (e) => {
   const figure = zone.closest('.uc__tete-visuel') || zone;
   const chiffre = figure.querySelector('.ecran-erreurs__chiffre');
   const mot = figure.querySelector('.ecran-erreurs__mot');
-  const ecrire = (k) => { chiffre.textContent = k; mot.textContent = k > 1 ? 'erreurs' : 'erreur'; };
+  const ecrire = (k) => { chiffre.textContent = String(k).padStart(2, '0'); mot.textContent = k > 1 ? 'erreurs' : 'erreur'; };
   const lancer = () => {
     zone.classList.add('est-vu'); figure.classList.add('est-vu');
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { ecrire(total); return; }
