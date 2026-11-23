@@ -9806,6 +9806,12 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { column-gap: 72px !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { column-gap: 72px !important; row-gap: 20px !important; }
   }
+  /* Carte 3 : 16 px sous le titre, une gouttière (24 px) avant la photo,
+     qui prend toute la hauteur restante. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { justify-content: flex-start; gap: 24px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel { flex: 1 1 0; aspect-ratio: auto; }
+  }
 </style>
 </head>
 <body>
