@@ -9271,12 +9271,12 @@
     html body .stage {
       --g-col: calc((100vw - 48px - 11 * 24px) / 12);
       --axe-x: calc(24px + (var(--g-col) + 24px) * 3);
-      --axe-y: calc(var(--bar-h) + 16px);
+      --axe-y: calc(44px + clamp(72px, 20vh - 76px, 144px));   /* grand vide sous la barre du haut */
       --w2: calc(var(--g-col) * 2 + 24px); --w3: calc(var(--g-col) * 3 + 48px); --w4: calc(var(--g-col) * 4 + 72px);
       --w5: calc(var(--g-col) * 5 + 96px); --w8: calc(var(--g-col) * 8 + 168px); --w9: calc(var(--g-col) * 9 + 192px);
     }
     /* Accueil */
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite { left: var(--axe-x) !important; width: var(--w9) !important; top: var(--axe-y) !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite { left: var(--col-6) !important; width: calc(var(--g-col) * 7 + 144px) !important; top: var(--axe-y) !important; }   /* sous « Designer digital » */
     html body .stage .accueil-droite .en-ce-moment__activite { margin: 16px 0 72px !important; max-width: var(--w5) !important; }
     html body .stage .accueil-droite .en-ce-moment__liste { grid-template-columns: var(--w3) var(--w3) !important; gap: 24px !important; max-width: none !important; }
     html body .stage .accueil-droite .en-ce-moment__liste dt { margin-bottom: 4px !important; }
@@ -17140,9 +17140,9 @@ document.addEventListener('click', (e) => {
     const stage = document.getElementById('stage');
     if (!stage) return;
     const h = stage.clientHeight || innerHeight;
-    // Les cartes partent du même axe que l'avatar et s'arrêtent avant la note du bas.
-    const avatar = document.querySelector('.avatar-accueil');
-    const axe = avatar && avatar.offsetWidth ? Math.round(avatar.getBoundingClientRect().top) : 54;
+    // Les cartes partent du même axe que le contenu (--axe-y) : un grand vide sous la
+    // barre du haut, de 72 à 144 px selon la hauteur de l'écran.
+    const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
     const carte = Math.round(Math.max(576, Math.min(680, h - axe - 57)));
     doc.style.setProperty('--panneau-haut', axe + 'px');
     doc.style.setProperty('--carte-h', carte + 'px');
