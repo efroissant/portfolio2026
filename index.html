@@ -9405,23 +9405,17 @@
   /* Bio : plus de titre « Photos » (gardé pour les lecteurs d'écran) et une composition
      décalée : le calme et la tempête, les chats en escalier, le panoramique poussé à droite. */
   html body .stage .profil #bio-photos-titre { position: absolute !important; width: 1px; height: 1px; margin: -1px !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .bio-chats .bio-photo { margin: 0; min-width: 0; }
-  .bio-chats .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
   @media (min-width: 1024px) {
     html body .stage .profil #bio-photos { padding-top: 96px; }
     html body .stage .profil .bio-photos { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 96px 24px; }
     html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 5 !important; grid-row: 1; }
-    html body .stage .profil .bio-photos > .bio-tempete { grid-column: 5 / 8 !important; grid-row: 1; margin-top: 96px; }
-    html body .stage .profil .bio-photos > .bio-chats { grid-column: 1 / -1 !important; grid-row: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: start; }
-    .bio-chats .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 20px; color: var(--gris-texte); }
-    html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 3 / 8 !important; grid-row: 3; }
+    html body .stage .profil .bio-photos > .bio-tempete { grid-column: 5 / 8 !important; grid-row: 1; margin-top: 0; }
+    html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 3 / 8 !important; grid-row: 2; }
     html body .stage .profil .bio-biblio .shelf__row { width: 100%; grid-template-columns: repeat(6, minmax(0, 1fr)) !important; gap: 32px 24px !important; }
     html body .stage .profil .bio-biblio .shelf__meta { font-size: 12px; line-height: 16px; }
     html body .stage .profil .bio-biblio .shelf__meta * { font-size: 12px !important; line-height: 16px !important; }
   }
   @media (max-width: 1023px) {
-    .bio-chats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; margin-bottom: 32px; }
-    .stage.profil-mobile .bio-chats .bio-photo { margin-bottom: 0; }
     html body .stage .bio-biblio .shelf__row { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 24px 16px !important; }
   }
   /* Bio sur mobile : fond opaque, l'accueil ne transparaît plus dessous. */
@@ -9453,6 +9447,13 @@
   .demarrage .dm--pile b + b { border-top: 1px solid currentColor; }
   @media (prefers-reduced-motion: reduce) {
     .demarrage .dm.est-la { animation: none; }
+  }
+  /* Bio : le calme et la tempête alignés, à la même hauteur ; animation sur fond blanc. */
+  html body .stage .profil .tempete { background: #FFFFFF !important; }
+  @media (min-width: 1024px) {
+    html body .stage .profil .bio-photos > .bio-photo--plage .eclair { display: block; height: var(--w3); }
+    html body .stage .profil .bio-photos > .bio-photo--plage img { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; object-fit: cover; }
+    html body .stage .profil .bio-photos > .bio-tempete .tempete { width: 100%; height: var(--w3) !important; aspect-ratio: auto !important; }
   }
 </style>
 </head>
@@ -13110,31 +13111,6 @@ const dire = (function () {
          + 'une bouée, flottant dans une crique devant un village méditerranéen' }
   ];
 
-  /* Bio › Photos : les photos de la galerie, sous la bio. */
-  (function remplirPhotosBio() {
-    const grille = document.querySelector('.bio-photos');
-    if (!grille) return;
-    // Les chats vont ensemble : une petite série en escalier.
-    const chats = document.createElement('div');
-    chats.className = 'bio-chats';
-    grille.appendChild(chats);
-    PHOTOS.forEach((ph) => {
-      const fig = document.createElement('figure');
-      fig.className = 'bio-photo';
-      const img = document.createElement('img');
-      img.src = ph.grand + '-' + ph.tailles[0] + '.jpg';
-      img.srcset = ph.grand + '-' + ph.tailles[1] + '.jpg 2x';
-      img.alt = ph.alt; img.loading = 'lazy'; img.draggable = false;
-      img.dataset.grand = ph.grand + '-' + ph.tailles[1] + '.jpg';
-      const cap = document.createElement('figcaption');
-      cap.textContent = ph.nom;
-      fig.append(img, cap);
-      chats.appendChild(fig);
-    });
-    // Le panoramique devant le mur et les palmiers ferme la série.
-    const pano = grille.querySelector('.bio-photo--pano');
-    if (pano) grille.appendChild(pano);
-  })();
 
   /* Le mème du bureau. Livré en JPEG seul : pas de WebP, et pas de
      2x — la source ne fait que 540 px, l'agrandir serait l'inventer. */
