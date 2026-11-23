@@ -9505,7 +9505,7 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { grid-column: 1; grid-row: 3; margin-top: 16px; }
   }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__intro { width: calc(var(--col) * 5 + 96px) !important; } }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { width: calc(var(--col) * 5 + 96px) !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes { width: calc(var(--col) * 6 + 120px) !important; } }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { align-self: stretch !important; width: 100% !important; box-sizing: border-box; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
   @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
@@ -9568,6 +9568,30 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene img { filter: none; transition: none !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene canvas { opacity: 1; animation: none !important; }
   }
+  /* Pharmaprix : l'audit, les problèmes classés par degré d'urgence et leurs solutions. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; overflow: hidden !important; color: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-label { margin: 0 0 8px !important; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-texte { margin: 0 !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; list-style: none; margin: 24px 0 0 !important; padding: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { display: grid; grid-template-columns: calc(var(--col) + 24px) minmax(0, 1fr); column-gap: 24px; margin: 0 !important; padding: 16px 0 !important; border-top: 1px solid var(--filet); opacity: 0; transform: translateY(8px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li:last-child { padding-bottom: 0 !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li { opacity: 1; transform: none; transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(2) { transition-delay: 260ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(3) { transition-delay: 520ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { display: flex; flex-direction: column; gap: 8px; font-size: 14px !important; line-height: 20px !important; font-weight: 500; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points { display: flex; gap: 4px; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { display: block; width: 8px; height: 8px; box-sizing: border-box; border: 1px solid var(--encre); border-radius: 50%; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { font-size: 14px !important; line-height: 20px !important; font-weight: 500 !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail span { font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { opacity: 1; transform: none; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -10666,6 +10690,17 @@
           <p class="uc__corps">Avant de le refaire, j’ai cherché où il les laissait se tromper.</p>
           <figure class="uc__figure uc__couverture"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274"></figure>
         </header>
+
+        <section class="uc__audit">
+          <p class="uc__audit-label">L’audit</p>
+          <h2 class="uc__audit-titre">Hiérarchiser avant de corriger.</h2>
+          <p class="uc__audit-texte">J’ai classé chaque problème relevé par degré d’urgence, pour traiter d’abord ce qui pouvait provoquer une erreur.</p>
+          <ol class="uc__urgences" aria-label="Problèmes et solutions, par degré d’urgence">
+            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i class="est-plein"></i></span>Critique</span><div class="uc__urgence-detail"><strong>Aucune hiérarchie, pas de retour d’état ni de validation</strong><span>→ Structurer la fiche patient et valider chaque saisie.</span></div></li>
+            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i></i></span>Modérée</span><div class="uc__urgence-detail"><strong>Barre d’outils surchargée, onglets peu lisibles</strong><span>→ Prioriser les actions et marquer l’onglet actif.</span></div></li>
+            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i></i><i></i></span>Mineure</span><div class="uc__urgence-detail"><strong>Légende illisible, cases à cocher sans état clair</strong><span>→ Renforcer les contrastes et les états.</span></div></li>
+          </ol>
+        </section>
 
         <ul class="uc__chiffres uc__chiffres--signes" aria-label="En bref">
           <li><strong>13&nbsp;ans</strong><span>d’habitudes avec l’ancien logiciel</span><div class="signes signes--traits" data-n="13" aria-hidden="true"></div></li>
@@ -17380,6 +17415,7 @@ document.addEventListener('click', (e) => {
   extraireNeons();
   // Les chiffres, comptés en signes : 13 traits, 150 points, 30 écrans.
   const compte = document.querySelector('#doc-loblaw .uc__chiffres--signes');
+  const audit = document.querySelector('#doc-loblaw .uc__audit');
   document.querySelectorAll('#doc-loblaw .signes').forEach((b) => {
     b.append(...Array.from({ length: +b.dataset.n }, (_, k) => {
       const i = document.createElement('i');
@@ -17393,10 +17429,10 @@ document.addEventListener('click', (e) => {
     else {
       visibles.delete(e.target);
       // La chaîne se rejoue à chaque passage : les étiquettes réapparaissent une à une.
-      if (e.target === chaine || e.target === scene || e.target === compte) e.target.classList.remove('est-vu');
+      if (e.target === chaine || e.target === scene || e.target === compte || e.target === audit) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe, scene, compte].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, scene, compte, audit].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
@@ -17450,6 +17486,7 @@ document.addEventListener('click', (e) => {
     intro: page.querySelector(':scope > .uc__intro'),
     contexte: page.querySelector(':scope > .uc__contexte'),
     tete: page.querySelector(':scope > .uc__tete'),
+    audit: page.querySelector(':scope > .uc__audit'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
     terrain: page.querySelector(':scope > .uc__photo--terrain'),
     chaine: page.querySelector(':scope > .uc__chaine'),
@@ -17523,13 +17560,14 @@ document.addEventListener('click', (e) => {
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
-    const xTete = x;
-    poser(c.tete, x, haut, L(5), H);
-    const cam1 = xTete;   // la caméra se cale sur le bord gauche de la carte avant de descendre
+    poser(c.tete, x, haut, L(5), H); x += L(5) + G;
+    const xAudit = x;
+    poser(c.audit, x, haut, L(6), H);
+    const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
-    poser(c.chiffres, x, y2, L(5), H); x += L(5) + G;
+    poser(c.chiffres, x, y2, L(6), H); x += L(6) + G;
     poser(c.terrain, x, y2, L(9), H); x += L(9) + G;   // panoramique, à la hauteur des autres cartes
     poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
     const xChaine = x;
