@@ -17614,7 +17614,7 @@ document.addEventListener('click', (e) => {
     while (visibles.has(dose)) {
       val.textContent = ''; etat(); await attendre(700);
       await taper('1,5'); await attendre(300);
-      etat('orange', 'Vous vouliez dire 15 mg ? On alerte, sans bloquer.'); await attendre(2200);
+      etat('orange', 'Vous vouliez dire 15 mg ?'); await attendre(2200);
       val.textContent = ''; etat(); await attendre(500);
       await taper('50'); await attendre(300);
       etat('rouge', '50 mg : dose incohérente. Retapez-la pour confirmer.'); await attendre(2200);
