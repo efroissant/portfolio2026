@@ -11811,6 +11811,11 @@ const dire = (function () {
     if (m) openEtude(m[1], null);
     else closeEtude(true);
   });
+  // Arrivée par un lien partagé : l'étude s'ouvre directement (le verrou reste vérifié).
+  addEventListener('load', () => {
+    const m = location.hash.match(/^#case\/(\w+)$/);
+    if (m && !etudeOuverte) openEtude(m[1], null);
+  });
 
   /* Le dossier Portfolio liste les études au lieu d'en ouvrir une : à
      partir de deux, il faut un palier, sinon le dossier ment sur son
@@ -16581,10 +16586,13 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
     if (!a) return;
     const ul = a.closest('.arbo__fichiers'), b = ul.parentElement.querySelector('.arbo__dossier-btn');
     if (b.getAttribute('aria-expanded') !== 'true') { b.setAttribute('aria-expanded', 'true'); ul.hidden = false; majTout(); }
+    racine.querySelectorAll('.arbo__fichier.est-actif').forEach((x) => x.classList.remove('est-actif'));
+    a.classList.add('est-actif');
   };
   majTout();
   montrerActif();
   addEventListener('popstate', montrerActif);
+  addEventListener('load', montrerActif);
 
   // Une feuille ouvre l'étude de cas par son adresse.
   arbo.addEventListener('click', (e) => {
