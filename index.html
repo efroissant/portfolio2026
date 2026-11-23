@@ -14918,14 +14918,14 @@ const dire = (function () {
       ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
     });
   }
-  // Lecture automatique : « Never Gonna Say Goodbye » part à l'arrivée (ou au
-  // premier geste si le navigateur bloque le son). false pour la couper.
-  const LECTURE_AUTO = true;
+  // Lecture automatique coupée : la musique ne part que si le visiteur la lance.
+  // « Never Gonna Say Goodbye » reste le morceau prêt dans le lecteur.
+  const LECTURE_AUTO = false;
   (function () {
     if (!lecteurPret) construireLecteur();
-    if (!LECTURE_AUTO) { autoFait = true; return; }
     const accueil = PISTES.findIndex((p) => /never gonna say goodbye/i.test(p.titre));
     if (accueil >= 0 && piste !== accueil) charger(accueil);
+    if (!LECTURE_AUTO) { autoFait = true; return; }
     const p = audio.play();
     if (p && p.then) p.then(() => { autoFait = true; }).catch(() => {
       ['pointerdown', 'keydown', 'touchstart'].forEach((t) => addEventListener(t, lancerAuto, true));
