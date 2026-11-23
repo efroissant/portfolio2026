@@ -9468,6 +9468,24 @@
     html body .stage .profil .bio-photos > .bio-photo--plage .eclair { aspect-ratio: 1; }
     html body .stage .profil .bio-photos > .bio-photo--plage img { width: 100% !important; height: 100% !important; aspect-ratio: 1 !important; object-fit: cover; }
   }
+  /* Bio : « Hello, » à la place de l'en-tête, puis une signature qui se trace. */
+  .bio-hello { margin: 0 0 24px; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; color: var(--encre); }
+  .bio-signature { display: block; width: 176px; height: auto; margin: 24px 0 0; overflow: visible; fill: none; stroke: var(--encre); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .bio-signature path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .bio-signature.est-signee .bio-signature__nom { animation: signature-trace 1500ms cubic-bezier(0.45, 0.05, 0.35, 1) 350ms forwards; }
+  .bio-signature.est-signee .bio-signature__trait { animation: signature-trace 260ms ease-out 1900ms forwards; }
+  @keyframes signature-trace { to { stroke-dashoffset: 0; } }
+  @media (min-width: 1024px) {
+    html body .stage .profil .bio-hello { font-size: 48px; line-height: 52px; letter-spacing: -0.4px; }
+    html body .stage .profil .bio-signature { width: 216px; }
+    html body .stage:not(.bio-ouverte) .profil :is(.bio-hello, .bio-signature) { visibility: hidden; }
+    html body .stage.bio-ouverte .profil .bio-hello { animation: bio-apparait 420ms cubic-bezier(0.22, 1, 0.36, 1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bio-signature path { stroke-dasharray: none; stroke-dashoffset: 0; }
+    .bio-signature.est-signee path { animation: none !important; }
+    html body .stage.bio-ouverte .profil .bio-hello { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -9785,13 +9803,14 @@
   <!-- Sous MANU, en haut à gauche : ma photo et ma bio, en petit
        (grand écran). Remplace l'obi de la pochette. -->
   <aside class="profil" aria-label="À propos">
-    <div class="profil__entete">
-      <p class="profil__entete-nom">Profil</p>
-      <p class="profil__entete-titre">Emmanuel Froissant</p>
-      <p class="profil__entete-role">Designer digital — UI, UX, marketing et produit SaaS</p>
-    </div>
     <div class="profil__bio">
+      <h1 class="bio-hello">Hello,</h1>
       <p>Je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Les rencontres que je fais nourrissent aussi mon travail. Faire tenir tout ça dans un même parcours, c’est un drôle de défi que j’essaie encore de relever.<br><br>Je conçois surtout des interfaces et des produits SaaS. Selon le projet, je fais aussi un peu d’analyse, de rédaction et parfois d’illustration.<br><br>En ce moment, j’explore l’IA et le vibe coding. Je n’aspire à devenir ni master ni ninja de quoi que ce soit. J’aime apprendre et voir ce que je peux faire avec ce que je viens de découvrir.</p>
+      <!-- Signature « Manu » tracée à l'ouverture de la bio. -->
+      <svg class="bio-signature" viewBox="0 0 320 170" role="img" aria-label="Signature : Manu">
+        <path class="bio-signature__nom" pathLength="1" d="M6 78C14 112 30 150 56 152C84 154 112 70 130 6C132 44 138 84 152 122C150 96 158 66 172 44C172 62 174 78 180 92C186 86 192 76 200 75C208 75 206 88 200 91C194 93 192 85 198 79C202 76 208 78 210 82C210 88 212 92 218 90C224 86 228 78 232 74C232 80 230 86 232 90C238 82 244 74 250 75C254 77 252 86 256 89C262 90 268 80 272 75C272 82 272 88 278 88C286 86 290 78 292 74C292 80 292 86 298 86C308 84 316 70 312 60C308 52 296 62 288 78"/>
+        <path class="bio-signature__trait" pathLength="1" d="M196 122C212 118 226 112 240 104"/>
+      </svg>
       <img class="profil__image" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy">
       <!-- La suite de la bio, dans le même défilement : les fichiers de
            « Bio » sont des ancres vers ces sections. -->
@@ -17493,6 +17512,29 @@ document.addEventListener('click', (e) => {
   document.addEventListener('pointerdown', cacher, true);
   addEventListener('scroll', cacher, true);
   document.documentElement.addEventListener('pointerleave', cacher);
+})();
+
+// Bio : la signature se trace à chaque ouverture.
+(function signatureBio() {
+  const sig = document.querySelector('.bio-signature'), stage = document.getElementById('stage');
+  if (!sig || !stage) return;
+  let ouverte = false;
+  const maj = () => {
+    const o = stage.classList.contains('bio-ouverte') || stage.classList.contains('profil-mobile');
+    if (o === ouverte) return;
+    ouverte = o;
+    sig.classList.remove('est-signee');
+    if (o) requestAnimationFrame(() => requestAnimationFrame(signer));
+  };
+  // Elle ne se trace que lorsqu'on la voit (sur mobile, elle est plus bas dans la page).
+  function signer() {
+    if (!ouverte || sig.classList.contains('est-signee')) return;
+    const r = sig.getBoundingClientRect();
+    if (r.width && r.top < innerHeight * 0.9 && r.bottom > 0) sig.classList.add('est-signee');
+  }
+  new IntersectionObserver(signer, { threshold: [0, 0.5, 1] }).observe(sig);
+  new MutationObserver(maj).observe(stage, { attributes: true, attributeFilter: ['class'] });
+  maj();
 })();
 </script>
 </body>
