@@ -9809,6 +9809,8 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { min-height: 238px; margin: 16px 0 !important; padding: 0 !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__trois { left: 0; right: 0; }
   }
+  /* Pharmaprix : une seule carte de bilan, sur toute la largeur hors parcours. */
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc .uc__bilan { grid-template-columns: minmax(0, 1fr) !important; padding-top: 0 !important; } html body .stage #doc-loblaw.doc .uc .uc__bilan > .uc__bloc { padding: 16px !important; box-sizing: border-box; } }
 </style>
 </head>
 <body>
@@ -10996,15 +10998,7 @@
           <p class="uc__fort">Plus lisible. Plus ergonomique. Plus inclusif.</p>
           <p class="uc__petit">C’est ce qu’ont dit les pharmaciens aux tests, face à Healthwatch. Le projet a été arrêté faute de budget.</p>
         </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Ce que je chercherais autrement</h2>
-          <p class="uc__fort">Les pharmaciens, dès le premier jour.</p>
-          <p class="uc__petit">Pas au bout de deux ans. Et pas de code sans maquettes finalisées.</p>
-        </section>
         </div>
-
-        <p class="uc__fin">Écrans sur demande (confidentialité).</p>
       </article>
     </div>
    </div>
@@ -17770,8 +17764,6 @@ document.addEventListener('click', (e) => {
     dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
     sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
     bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
-    bilan2: page.querySelector(':scope > .uc__bilan > :nth-child(2)'),
-    fin: page.querySelector(':scope > .uc__fin'),
   });
   const COTES = ['left', 'top', 'width', 'height'];
   const poser = (el, x, y, w, h) => { if (el) [x, y, w, h].forEach((v, i) => el.style.setProperty(COTES[i], Math.round(v) + 'px', 'important')); };
@@ -17876,9 +17868,7 @@ document.addEventListener('click', (e) => {
     poser(c.dose, x, haut, L(5), H); x += L(5) + G;
     poser(c.formulaire, x, haut, L(8), H); x += L(8) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
-    poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
-    poser(c.bilan2, x, haut, L(4), H); x += L(4) + G;
-    poser(c.fin, x, haut, L(3), H); x += L(3);
+    poser(c.bilan1, x, haut, L(4), H); x += L(4);
     const cam3 = Math.max(cam2, x - W, xFinal);
     chemin = tracer([
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
