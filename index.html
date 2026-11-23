@@ -9482,6 +9482,9 @@
   @media (max-width: 1023px) { html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-size: 24px !important; line-height: 32px !important; } }
   @media (max-width: 1023px) { html body .stage .profil .profil__bio > p.bio-initiale { margin-bottom: 48px !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__chiffres > li:nth-child(2) { align-self: start !important; height: 50% !important; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important; overflow: visible !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain img { border: 0 !important; border-radius: 12px !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc > .uc__photo--terrain figcaption { position: static !important; padding: 8px 0 0 !important; border: 0 !important; background: transparent !important; color: var(--gris-texte, #666666) !important; }
 </style>
 </head>
 <body>
@@ -10588,33 +10591,6 @@
           <li><strong>150</strong><span>user stories traitées</span></li>
           <li><strong>30</strong><span>écrans redesignés ou créés, à ma charge</span></li>
         </ul>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">Dans l’écran</h2>
-          <p class="uc__fort">Un logiciel de 13&nbsp;ans, où chaque écran cache un piège.</p>
-          <figure class="uc__figure"><img src="lob-audit-healthwatch.jpg" alt="Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit." width="1018" height="698" loading="lazy"><figcaption>Écran de Healthwatch annoté : chaque numéro signale un problème relevé pendant l’audit.</figcaption></figure>
-          <ul class="uc__constats uc__constats--cartes">
-            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--ux" aria-hidden="true">2</span><span class="uc__categorie">UX / utilisabilité</span></span><strong>Unités incohérentes</strong><span>Pouces et kilos mélangés, sans bascule&nbsp;: calcul mental et fatigue.</span></li>
-            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--ai" aria-hidden="true">3</span><span class="uc__categorie">Architecture de l’information</span></span><strong>«&nbsp;Race&nbsp;» présélectionnée</strong><span>«&nbsp;Caucasian&nbsp;» par défaut, sans raison clinique.</span></li>
-            <li><span class="uc__constat-tete"><span class="uc__pastille uc__pastille--a11y" aria-hidden="true">5</span><span class="uc__categorie">Accessibilité</span></span><strong>Une fenêtre qui bloque</strong><span>Impossible de vérifier ou corriger les données pendant le calcul.</span></li>
-          </ul>
-          <details class="uc__detail">
-            <summary>Voir l’analyse heuristique</summary>
-          <div class="uc__duo">
-            <figure class="uc__figure"><img src="lob-healthwatch-risque.jpg" alt="Healthwatch : la fenêtre de calcul du risque cardiaque par-dessus le formulaire patient." width="869" height="580" loading="lazy"></figure>
-            <figure class="uc__figure"><img src="lob-healthwatch-courbes.jpg" alt="Healthwatch : les courbes de croissance à côté du formulaire patient." width="869" height="580" loading="lazy"></figure>
-          </div>
-            <ul class="uc__constats uc__constats--cartes" aria-label="Analyse heuristique, par gravité">
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Layout 30/70 déséquilibré</strong><span>Sous une forte lumière, deux colonnes denses alourdissent la lecture dès l’ouverture.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Aucune hiérarchie typographique</strong><span>Tout a le même poids&nbsp;: impossible de scanner une fiche patient.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--rouge" aria-hidden="true"></span><span class="uc__categorie">Critique</span></span><strong>Pas de retour d’état ni de validation</strong><span>Sans états clairs, les erreurs de saisie augmentent, avec un impact clinique.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--orange" aria-hidden="true"></span><span class="uc__categorie">Modérée</span></span><strong>Barre d’outils surchargée</strong><span>Toutes les actions au même niveau, primaires comme secondaires.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--orange" aria-hidden="true"></span><span class="uc__categorie">Modérée</span></span><strong>Onglets peu lisibles</strong><span>Faible contraste&nbsp;: on repère mal l’onglet actif, surtout en pleine lumière.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--gris" aria-hidden="true"></span><span class="uc__categorie">Mineure</span></span><strong>Légende du graphique illisible</strong><span>Contraste couleur/fond insuffisant en pleine lumière.</span></li>
-              <li><span class="uc__constat-tete"><span class="uc__puce uc__puce--gris" aria-hidden="true"></span><span class="uc__categorie">Mineure</span></span><strong>Cases à cocher sans état clair</strong><span>Les éléments cochés se repèrent mal.</span></li>
-            </ul>
-          </details>
-        </section>
 
         <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"><figcaption>Reconstitution visuelle du traitement d’une ordonnance, inspirée des photos de terrain du projet Healthwatch.</figcaption></figure>
 
