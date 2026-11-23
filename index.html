@@ -356,7 +356,7 @@
     border: 1px solid #1C1917;
     box-shadow: 3px 4px 0 #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     text-shadow: none;
   }
   .lecteur__barre {
@@ -398,7 +398,7 @@
   .lecteur__pochette img[hidden] { display: none; }
   .lecteur__titre { margin: 0; font-size: 24px; font-weight: 700; line-height: 28px; letter-spacing: -0.02em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lecteur__artiste { margin: 2px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; }
+  .lecteur__artiste { margin: 2px 0 0; font-size: 16px; line-height: 24px; font-weight: 500; }
   /* La barre de progression reprend le filet sous le chiffre du jour. */
   .lecteur__progres {
     position: relative; height: 8px; margin: 16px 0 6px;
@@ -1552,7 +1552,7 @@
      sans lui, rien ne dit que cette ligne mène ailleurs. */
   .ctxmenu__chev {
     flex-shrink: 0;
-    font-size: 14px; line-height: 1;
+    font-size: 16px; line-height: 1;
     opacity: 0.55;
     transform: translateY(-1px);
   }
@@ -1701,7 +1701,7 @@
   .notes__item:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .notes__nom {
     display: block;
-    font-size: 14px; line-height: 24px; font-weight: 590;
+    font-size: 16px; line-height: 24px; font-weight: 590;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   /* L'aperçu : la première ligne du corps, exactement comme l'application.
@@ -1732,17 +1732,17 @@
   }
   .notes__page h3 {
     margin: 32px 0 8px;
-    font-size: 14px; line-height: 24px; font-weight: 590;
+    font-size: 16px; line-height: 24px; font-weight: 590;
   }
   .notes__page h3:first-of-type { margin-top: 0; }
-  .notes__page p { margin: 0 0 8px; font-size: 14px; line-height: 24px; }
+  .notes__page p { margin: 0 0 8px; font-size: 16px; line-height: 24px; }
   .notes__page ul { margin: 0; padding: 0; list-style: none; }
   /* Le point en pseudo-élément plutôt qu'une puce native : il se cale sur la
      grille de 8 et ne dépend pas du rendu des listes du navigateur. */
   .notes__page li {
     position: relative;
     padding-left: 16px; margin-bottom: 8px;
-    font-size: 14px; line-height: 24px;
+    font-size: 16px; line-height: 24px;
   }
   .notes__page li::before {
     content: "•";
@@ -1808,7 +1808,7 @@
 
   .verrou__titre { margin: 16px 0 0; font-size: 16px; line-height: 24px; font-weight: 590; }
   .verrou__sous  { margin: 0; font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
-  .verrou__texte { margin: 24px 0 0; font-size: 14px; line-height: 24px; text-align: left; }
+  .verrou__texte { margin: 24px 0 0; font-size: 16px; line-height: 24px; text-align: left; }
 
   /* Souligné, et un bouton plutôt qu'un mailto : le composeur du bureau
      s'ouvre à côté sans arracher le visiteur à la page — et sans réveiller
@@ -1816,7 +1816,7 @@
   .verrou__mail {
     margin: 16px 0 0; align-self: flex-start;
     padding: 0; border: 0; background: none;
-    font: inherit; font-size: 14px; line-height: 24px;
+    font: inherit; font-size: 16px; line-height: 24px;
     color: var(--ink); text-decoration: underline;
     text-underline-offset: 3px; cursor: default;
   }
@@ -1828,7 +1828,7 @@
     padding: 12px 16px;
     border: 1px solid rgba(var(--ink-rgb), 0.28); border-radius: 4px;
     background: rgba(255, 255, 255, 0.07);
-    font: inherit; font-size: 14px; line-height: 24px; color: var(--ink);
+    font: inherit; font-size: 16px; line-height: 24px; color: var(--ink);
   }
   .verrou__champ::placeholder { color: rgba(var(--ink-rgb), 0.42); }
   .verrou__champ:focus { outline: none; border-color: var(--ink); }
@@ -1935,7 +1935,7 @@
   .etude:hover { background: rgba(255, 255, 255, 0.10); }
   .etude:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   .etude__num { font-size: 11px; line-height: 16px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb), 0.62); }
-  .etude__titre { font-size: 14px; line-height: 24px; font-weight: 590; }
+  .etude__titre { font-size: 16px; line-height: 24px; font-weight: 590; }
   .etude__client { font-size: 13px; line-height: 16px; color: rgba(var(--ink-rgb), 0.62); }
 
   .doc__win {
@@ -2012,7 +2012,7 @@
     margin: 0;
     padding: 48px 0 80px;
     overflow-wrap: anywhere;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
   }
   /* Le bloc utile va du libellé à la fin du texte : 160 px de colonne de
@@ -2069,7 +2069,7 @@
     font-size: 11px; line-height: 16px; letter-spacing: 0.14em;
     text-transform: uppercase; color: rgba(var(--ink-rgb), 0.62);
   }
-  .doc__resume dd { margin: 4px 0 0; font-size: 14px; line-height: 24px; font-weight: 510; }
+  .doc__resume dd { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 510; }
 
   /* --- décisions ------------------------------------------------------ */
   .doc__decision { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.20); }
@@ -2106,7 +2106,7 @@
     color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__titre { margin: 0; font-size: 24px; font-weight: 590; line-height: 32px; letter-spacing: -0.01em; }
-  .doc__client { margin: 4px 0 0; font-size: 14px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62); }
+  .doc__client { margin: 4px 0 0; font-size: 16px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62); }
 
   /* min-width: 0 sur les cellules : par défaut une cellule de grille refuse
      de devenir plus étroite que son contenu, ce qui suffit à faire déborder
@@ -2130,7 +2130,7 @@
 
   .doc__bloc { margin-top: 40px; }
   .doc__bloc h2 { margin: 0 0 8px; font-size: 16px; font-weight: 590; line-height: 24px; }
-  .doc__bloc h3 { margin: 32px 0 8px; font-size: 14px; font-weight: 590; line-height: 24px; }
+  .doc__bloc h3 { margin: 32px 0 8px; font-size: 16px; font-weight: 590; line-height: 24px; }
 
   /* Le numéro de chapitre n'est plus un grand chiffre gris mais une étiquette
      comme celles des rayons. Un chiffre de 48px introduisait un niveau
@@ -2152,7 +2152,7 @@
     margin: 16px 0;
     padding: 0 0 0 16px;
     border-left: 2px solid rgba(var(--ink-rgb), 0.35);
-    font-size: 14px; font-weight: 510; line-height: 24px;
+    font-size: 16px; font-weight: 510; line-height: 24px;
   }
 
   /* Les images débordent de la colonne de lecture : un texte se lit étroit,
@@ -2181,7 +2181,7 @@
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 4px;
-    font-size: 14px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62);
+    font-size: 16px; line-height: 24px; color: rgba(var(--ink-rgb), 0.62);
   }
   .doc__fig img { display: block; width: 100%; height: auto; border-radius: 4px; }
   .doc__fig figcaption {
@@ -2346,7 +2346,7 @@
     flex: 1; min-height: 150px;
     padding: 16px 20px;
     border: 0; background: none; resize: none;
-    font: inherit; font-size: 14px; line-height: 1.45; color: var(--ink);
+    font: inherit; font-size: 16px; line-height: 1.45; color: var(--ink);
   }
   .mail__body:focus { outline: none; }
 
@@ -3232,7 +3232,7 @@
     margin: 0;
     padding-top: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.20);
-    font-size: 14px; font-weight: 400; line-height: 1.3;
+    font-size: 16px; font-weight: 400; line-height: 1.3;
     /* Ce filet suit le texte, il ne traverse pas la fenêtre : seul celui
        de la barre de titre va d'un bord à l'autre. On remplace donc la
        gouttière héritée par une marge, pour que la bordure s'arrête où
@@ -3323,7 +3323,7 @@
     padding: 8px 0 0;
   }
   .about__callout svg { flex-shrink: 0; display: block; }
-  .about__callout p { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.3; }
+  .about__callout p { margin: 0; font-size: 16px; font-weight: 400; line-height: 1.3; }
   .about__callout p + p { margin-top: 8px; font-weight: 510; color: rgba(var(--ink-rgb), 0.8); }
 
   /* ---- À propos : fond blanc, texte noir, seul un trait noir de 1px ----
@@ -4466,7 +4466,7 @@
     gap: 24px;
     margin: 0; padding: 0; list-style: none;
   }
-  .doc--v3 .doc__releves li { margin: 0; font-size: 14px; line-height: 1.5; color: var(--v3-gris); }
+  .doc--v3 .doc__releves li { margin: 0; font-size: 16px; line-height: 1.5; color: var(--v3-gris); }
   .doc--v3 .doc__releves strong {
     display: block; margin: 0 0 8px;
     font-size: 15px; line-height: 1.3; font-weight: 700;
@@ -4497,7 +4497,7 @@
   }
   .doc--v3 .doc__gravite ul {
     margin: 0; padding-left: 18px; list-style: disc;
-    font-size: 14px; line-height: 1.5;
+    font-size: 16px; line-height: 1.5;
   }
   /* #4a0b07 et non le blanc de la maquette : blanc sur #ff5f56 mesure
      2,96:1, sous le seuil de 4,5. Le brun rouge remonte à 5,23:1 en
@@ -4573,7 +4573,7 @@
   }
   .doc--v3 .doc__dtete .doc__contrainte {
     margin: 0; padding: 0; border: 0;
-    font-size: 14px; line-height: 1.4; font-style: normal;
+    font-size: 16px; line-height: 1.4; font-style: normal;
     color: var(--v3-gris);
   }
   .doc--v3 .doc__decision > p { margin: 0 0 24px; font-size: 15px; line-height: 1.6; }
@@ -4595,7 +4595,7 @@
   }
   .doc--v3 .doc__alerte strong {
     display: block; margin: 0 0 8px;
-    font-size: 14px; line-height: 1.2; font-weight: 700;
+    font-size: 16px; line-height: 1.2; font-weight: 700;
   }
   .doc--v3 .doc__alerte--avert   { --a-fond: #262112; --a-bord: #5c4a1c; --a-texte: #f0b34a; }
   .doc--v3 .doc__alerte--bloquant{ --a-fond: #2a1616; --a-bord: #6e2a2a; --a-texte: #f08a8a; }
@@ -4950,7 +4950,7 @@
     }
     .mhead__id { pointer-events: none; }
     .mhead__nom  { margin: 0; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -0.01em; }
-    .mhead__role { margin: 0; font-size: 14px; line-height: 24px; font-weight: 400; }
+    .mhead__role { margin: 0; font-size: 16px; line-height: 24px; font-weight: 400; }
     .mhead__plus {
       flex-shrink: 0;
       /* 44 px : la cible tactile minimale recommandée. Le glyphe fait 24, le
@@ -5259,7 +5259,7 @@
     }
     .gal figcaption {
       margin-top: 10px;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.4;
       color: rgba(var(--ink-rgb), 0.72);
     }
@@ -5976,13 +5976,13 @@
   .stage .menubar .menuitem--app,
   .stage .menubar .menubar__clock,
   .stage .menubar .menubar__clock * {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
   }
   /* Le nom ressort par la graisse : 14 px Bold, comme le reste de la barre en taille. */
-  .stage .menubar .menuitem--app { font-size: 14px; font-weight: 700; }
+  .stage .menubar .menuitem--app { font-size: 16px; font-weight: 700; }
   /* Intitulés au-dessus du dock : même 14 Regular que la barre. */
-  .stage .dock__label { font-size: 14px; font-weight: 400; line-height: 18px; }
+  .stage .dock__label { font-size: 16px; font-weight: 400; line-height: 24px; }
   /* LinkedIn, Pinterest et le son forment un groupe : 4 px entre eux au
      lieu des 16 qui séparent les blocs de la barre. */
   .stage .menubar .barlien + .barlien,
@@ -6240,7 +6240,7 @@
   .recto-play.lecteur-mini {
     display: flex; align-items: center; gap: 2px;
     width: auto; height: auto; cursor: default;
-    font: 400 14px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 400 16px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #1C1917; white-space: nowrap;
   }
   .lecteur-mini__btn {
@@ -6626,7 +6626,7 @@
       background: var(--fond) center top / cover no-repeat;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
     }
-    .mob-carte__client { font: 400 14px/1.2 "Geist", Arial, sans-serif; color: #6A6A6A; }
+    .mob-carte__client { font: 400 16px/24px "Geist", Arial, sans-serif; color: #6A6A6A; }
     .mob-carte__titre { margin-top: 2px; font: 400 20px/1.2 "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-carte:active { transform: scale(0.985); }
     .mob-carte:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
@@ -6972,7 +6972,7 @@
     background: #F1EBDD;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume dd, .doc__meta dd) {
-    font: 400 14px/1.5 "DM Sans", sans-serif; color: #1C1917;
+    font: 400 16px/24px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1C1917; border-radius: 2px; }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion { font: 500 12px/1.5 "DM Sans", sans-serif; color: #4A4A4A; border-radius: 2px; }
@@ -7094,14 +7094,14 @@
   }
   .stage #mail .mail__chip {
     padding: 0; background: none; border-radius: 0;
-    font: 400 14px/1.4 "DM Sans", sans-serif; color: #1C1917;
+    font: 400 16px/24px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__chip img { display: none; }
-  .stage #mail .mail__field { font: 400 14px/1.4 "DM Sans", sans-serif; color: #1C1917; }
+  .stage #mail .mail__field { font: 400 16px/24px "DM Sans", sans-serif; color: #1C1917; }
   .stage #mail .mail__field::placeholder { color: #8A8A8A; }
   .stage #mail .mail__body {
     padding: 16px clamp(20px, 5vw, 32px);
-    font: 400 14px/1.65 "DM Sans", sans-serif; color: #1C1917;
+    font: 400 16px/24px "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__foot {
     padding: 4px clamp(10px, 4vw, 22px);
@@ -7482,7 +7482,7 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .radio {
       display: block; position: absolute; z-index: 20;
       right: var(--g-marge, 24px); bottom: 54px; width: 300px;
-      font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
+      font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; letter-spacing: -0.01em;
       /* Replié par défaut : la note en bas à droite l'ouvre. */
       padding: 12px 14px; background: #FFFFFF; border: 1px solid rgba(28,25,23,0.2); border-radius: 6px;
       opacity: 0; visibility: hidden; transform: translateY(6px);
@@ -7510,7 +7510,7 @@
   .radio-bouton::after {
     content: "Couper le son"; position: absolute; right: 0; bottom: calc(100% + 6px);
     padding: 4px 8px; border: 1px solid #1C1917; border-radius: 6px; background: #FFFFFF; color: #1C1917;
-    font: 400 14px/18px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap;
+    font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap;
     opacity: 0; transform: translateY(3px); pointer-events: none;
     transition: opacity 120ms ease, transform 120ms ease;
   }
@@ -7959,15 +7959,15 @@
   .stage .doc .uc .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
   .stage .doc .uc .uc__sur { font-size: 16px; line-height: 22px; }
   .stage .doc .uc .uc__fin, .stage .doc .uc .uc__meta dd { font-size: 16px; line-height: 22px; }
-  .stage .doc .uc .uc__fin { font-size: 14px; }
+  .stage .doc .uc .uc__fin { font-size: 16px; }
   .uc .uc__tete { display: block !important; margin-bottom: 40px; }
   .uc__sur { color: #666666; margin: 0 0 8px !important; font-size: 16px; }
   .uc__titre { margin: 0 0 24px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
   .uc__meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 14px 0 0; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__meta dt { color: #666666; font-size: 14px; line-height: 18px; margin-bottom: 4px; }
+  .uc__meta dt { color: #666666; font-size: 16px; line-height: 24px; margin-bottom: 4px; }
   .uc__meta dd { margin: 0; font-size: 16px; line-height: 22px; }
   .uc__bloc { padding: 20px 0 22px; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__label { margin: 0 0 12px; color: #666666; font-size: 14px; line-height: 18px; font-weight: 400; letter-spacing: 0; }
+  .uc__label { margin: 0 0 12px; color: #666666; font-size: 16px; line-height: 24px; font-weight: 400; letter-spacing: 0; }
   .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
   .uc__decision { margin: 0 0 24px; }
   .uc__decision:last-child { margin-bottom: 0; }
@@ -7980,7 +7980,7 @@
   .uc__puce--orange { background: #F2992E; }
   .uc__puce--rouge { background: #E5484D; }
   .uc__note { color: #57534E; }
-  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #666666; font-size: 14px; }
+  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #666666; font-size: 16px; }
   /* Use Case court : deux tailles seulement, Geist 16 px pour le texte et
      24 px pour les titres ; pas de barre de défilement dans le panneau. */
   .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
@@ -8027,7 +8027,7 @@
   .uc .uc__constats strong { font-weight: 500; }
   .stage .doc .uc .uc__pastille {
     display: grid; place-items: center; width: 28px; height: 28px; margin-top: 1px; border-radius: 50%;
-    color: #FFFFFF; font-size: 14px !important; line-height: 1 !important; letter-spacing: 0 !important; font-weight: 500;
+    color: #FFFFFF; font-size: 16px !important; line-height: 1 !important; letter-spacing: 0 !important; font-weight: 500;
   }
   .uc .uc__pastille--a11y { background: #F28C28; }
   .uc .uc__pastille--ux { background: #E0242E; }
@@ -8080,7 +8080,7 @@
   .cartep__barre { display: flex; gap: 5px; padding: 10px 14px; border-bottom: 1.5px solid #1C1917; }
   .cartep__barre i { width: 8px; height: 8px; border-radius: 50%; background: #1C1917; }
   .cartep__tags { list-style: none; margin: 0; padding: 16px 16px 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-  .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
+  .stage .doc .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 16px; line-height: 24px; }
   .stage .doc .cartep .cartep__titre {
     margin: 20px 0 0; padding: 0 16px; text-align: right;
     font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917;
@@ -8199,7 +8199,7 @@
     position: static; width: 100%; min-height: 0; margin-top: 10px;
     opacity: 1 !important; transform: none !important;
   }
-  .bio-biblio .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
+  .bio-biblio .shelf__metaTitre { font-size: 16px; line-height: 24px; color: #1C1917; }
   .bio-biblio .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #666666; }
   /* Toile de cartes masquée pour le moment (le code reste en place). */
   .stage .toile { display: none !important; }
@@ -8217,7 +8217,7 @@
     .bio-photos__inter { grid-column: 1 / -1; margin: 24px 0 0; color: #1C1917; }
     .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
     .bio-photo--portrait img { object-position: 50% 22%; }
-    .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #666666; }
+    .bio-photo figcaption { margin-top: 8px; font-size: 16px; line-height: 24px; color: #666666; }
     .bio-rayon + .bio-rayon { margin-top: 8px; }
     .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
   }
@@ -8302,7 +8302,7 @@
     /* Aperçu : la carte du projet, ou une image, avec le nom du fichier. */
     .apercu__nom { margin: 0 0 16px; color: #666666; }
     .apercu .cartep { width: 360px; box-shadow: 0 18px 44px rgba(28,25,23,0.16); }
-    .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
+    .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 16px; line-height: 24px; }
     .apercu .cartep .cartep__titre { margin: 20px 0 0; padding: 0 16px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
     .apercu .cartep__texte { padding: 40px 16px 18px; }
     .apercu .cartep__texte p { margin: 0; font-size: 15px; line-height: 21px; }
@@ -8411,7 +8411,7 @@
      Fiche en 4 colonnes (intitulés en petites capitales grises), un énoncé en
      grand, puis le texte courant en gris. */
   .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
-  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; }
+  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; }
   .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 16px !important; line-height: 24px !important; color: #1C1917; }
   .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
   .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #666666; }
@@ -8476,7 +8476,7 @@
     border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: 6px; box-sizing: border-box;
   }
   .apercu__fichier p { margin: 0; }
-  .apercu .apercu__fichier-nom { font-size: 14px; line-height: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
+  .apercu .apercu__fichier-nom { font-size: 16px; line-height: 24px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
   .apercu .apercu__fichier-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; }
   .apercu .apercu__fichier-role { margin-top: 6px; color: #666666; }
   .apercu .apercu__fichier-texte { margin-top: 24px; font-size: 16px; line-height: 24px; }
@@ -8501,7 +8501,7 @@
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil__entete { display: block; flex: none; margin-bottom: 28px; padding-right: 64px; }
     .profil__entete p { margin: 0; }
-    .stage .profil .profil__entete-nom { font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
+    .stage .profil .profil__entete-nom { font-size: 16px !important; line-height: 24px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
     .stage .profil .profil__entete-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important; color: #1C1917; }
     .stage .profil .profil__entete-role { margin-top: 8px; color: #666666; }
   }
@@ -8530,7 +8530,7 @@
   @media (min-width: 1024px) {
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { display: block !important; }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > .uc__label {
-      margin: 0 0 16px !important; font-size: 14px !important; line-height: 18px !important;
+      margin: 0 0 16px !important; font-size: 16px !important; line-height: 24px !important;
       letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666 !important;
     }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
@@ -8543,7 +8543,7 @@
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
-  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #666666; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 16px !important; line-height: 24px !important; color: #666666; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail { margin-top: 32px; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: 999px; font-size: 16px; color: #1C1917; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::-webkit-details-marker { display: none; }
@@ -8574,7 +8574,7 @@
   @media (prefers-reduced-motion: reduce) { #doc-loblaw .uc__chaine.uc__anime.est-vu li:nth-child(4) .uc__etape { animation: none; } }
   /* Le champ de dosage animé. */
   .dose { padding: 40px; border-radius: 12px; background: #F5F5F4; }
-  .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 14px !important; line-height: 18px !important; color: #57534E; }
+  .stage .doc .dose .dose__label { margin: 0 0 10px; font-size: 16px !important; line-height: 24px !important; color: #57534E; }
   .dose__champ { display: flex; align-items: center; height: 64px; padding: 0 20px; max-width: 320px; background: #FFFFFF; border: 2px solid #D6D3D1; border-radius: 10px; transition: border-color 200ms ease, box-shadow 200ms ease; }
   .stage .doc .dose .dose__valeur { font-size: 28px !important; line-height: 1 !important; font-variant-numeric: tabular-nums; color: #1C1917; }
   .dose__curseur { width: 2px; height: 30px; margin-left: 2px; background: #1C1917; animation: dose-curseur 900ms steps(1) infinite; }
@@ -8597,7 +8597,7 @@
   .sexe.trois .sexe__trois > div:nth-child(2) { transition-delay: 180ms; }
   .sexe.trois .sexe__trois > div:nth-child(3) { transition-delay: 360ms; }
   .stage .doc .sexe .sexe__nom { font-size: 16px !important; color: #1C1917; font-weight: 500; }
-  .stage .doc .sexe .sexe__pour { font-size: 14px !important; color: #666666; }
+  .stage .doc .sexe .sexe__pour { font-size: 16px !important; color: #666666; }
   .stage .doc .sexe .sexe__val { font-size: 16px !important; color: #1C1917; justify-self: end; }
   .sexe__unique .sexe__val { justify-self: start; }
   @media (prefers-reduced-motion: reduce) {
@@ -8612,7 +8612,7 @@
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan .uc__bloc { padding-top: 0 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan p.uc__fort { font-size: 26px !important; line-height: 32px !important; letter-spacing: -0.4px !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__fin {
-    margin-top: 96px !important; padding-top: 20px; font-size: 14px !important; line-height: 18px !important; color: #666666 !important;
+    margin-top: 96px !important; padding-top: 20px; font-size: 16px !important; line-height: 24px !important; color: #666666 !important;
   }
   /* La fiche des études (rôle, équipe, durée, outils) sur un fond très pâle. */
   .stage .doc .uc .uc__fiche { background: #F7F6F4; border-radius: 10px; padding: 24px 28px; }
@@ -8624,7 +8624,7 @@
   .stage #doc-loblaw .uc .uc__categorie { font-size: 12px !important; line-height: 16px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #666666; }
   .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 24px !important; font-weight: 500; color: #1C1917; }
   .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 15px !important; line-height: 22px !important; color: #78716C; }
-  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 14px !important; line-height: 20px !important; color: #666666 !important; }
+  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 16px !important; line-height: 24px !important; color: #666666 !important; }
   #doc-loblaw .uc .uc__constats--cartes .uc__puce { flex: none; width: 10px; height: 10px; margin: 0 4px 0 0; border-radius: 50%; }
   #doc-loblaw .uc .uc__detail .uc__constats--cartes { margin-top: 24px; }
   /* ===== Règle d'espacement des études =====
@@ -8740,7 +8740,7 @@
     .stage #doc-loblaw .panneaux-nav button { width: 36px; height: 36px; border: 1px solid rgba(28,25,23,0.25); border-radius: 50%; background: #FFFFFF; color: #1C1917; cursor: pointer; font: inherit; font-size: 16px; line-height: 1; }
     .stage #doc-loblaw .panneaux-nav button:hover { background: #1C1917; color: #FFFFFF; }
     .stage #doc-loblaw .panneaux-nav button:disabled { opacity: 0.3; cursor: default; background: #FFFFFF; color: #1C1917; }
-    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 14px; color: #666666; font-variant-numeric: tabular-nums; }
+    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 16px; color: #666666; font-variant-numeric: tabular-nums; }
   }
   .panneaux-nav { display: none; }
   @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-nav { display: flex; } }
@@ -8767,7 +8767,7 @@
     html body .stage .doc .uc .uc__fiche dt, html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { font-size: 13px !important; }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { font-size: 52px !important; line-height: 54px !important; }
     html body .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 16px !important; line-height: 22px !important; }
-    html body .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 16px !important; line-height: 24px !important; }
     html body .stage .doc .dose .dose__valeur { font-size: 24px !important; }
     html body .stage .doc .uc .uc__cle .uc__cle-emo { font-size: 20px !important; line-height: 26px !important; }
     /* Visuels : plafonnés en hauteur, sans se déformer. */
@@ -8869,7 +8869,7 @@
       transition: opacity 240ms ease; }
     html body .stage #doc-loblaw .panneaux-voile.est-cache { opacity: 0; }
     /* Le curseur devient une pastille « Glisser » sur la rangée. */
-    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: 999px; background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 14px; line-height: 20px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
+    html body .stage #doc-loblaw .panneaux-curseur { display: block; position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; padding: 4px 12px; border-radius: 999px; background: #FFFFFF; color: #1C1917; border: 1px solid #1C1917; font-size: 16px; line-height: 24px; white-space: nowrap; opacity: 0; transition: opacity 140ms ease; }
     html body .stage #doc-loblaw .panneaux-curseur.est-visible { opacity: 1; }
   }
   /* ===== Pharmaprix : cartes de tailles variées =====
@@ -9114,7 +9114,7 @@
   /* Légende commune des photos de terrain reconstituées. */
   html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { display: flex !important; flex-direction: column; }
   html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { position: static !important; flex: 1 1 0; min-height: 0; width: 100%; height: auto; object-fit: cover; }
-  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) figcaption { flex: none; margin: 0; padding: 12px 16px; border-top: 1px solid #1C1917; background: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; color: #666666 !important; }
+  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) figcaption { flex: none; margin: 0; padding: 12px 16px; border-top: 1px solid #1C1917; background: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; color: #666666 !important; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { aspect-ratio: auto !important; } html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { flex: none; aspect-ratio: 4 / 3; } }
   /* Carte 3 : la photo sans contour, coins arrondis seulement. */
   html body .stage #doc-loblaw.doc .uc__contexte-visuel { border: 0 !important; outline: 0 !important; }
@@ -9132,7 +9132,7 @@
   html body .stage #doc-loblaw.doc .ecran-erreurs.est-vu .ecran-erreurs__point::after { animation: ecran-onde 0.9s ease-out calc(1150ms + var(--i) * 400ms) 1; }
   @keyframes ecran-onde { from { opacity: 0.5; transform: scale(1); } to { opacity: 0; transform: scale(2.6); } }
   html body .stage #doc-loblaw.doc .ecran-erreurs__num { position: relative; z-index: 1; display: block; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 13px; font-weight: 500; line-height: 26px; text-align: center; color: #FFFFFF; }
-  html body .stage #doc-loblaw.doc .ecran-erreurs__info { position: absolute; z-index: 2; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); padding: 4px 10px; border-radius: 6px; background: #1C1917; color: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 20px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+  html body .stage #doc-loblaw.doc .ecran-erreurs__info { position: absolute; z-index: 2; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); padding: 4px 10px; border-radius: 6px; background: #1C1917; color: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 24px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point--droite .ecran-erreurs__info { left: auto; right: -6px; transform: none; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point:is(:hover, :focus-visible) { z-index: 3; }
   html body .stage #doc-loblaw.doc .ecran-erreurs__point:is(:hover, :focus-visible) .ecran-erreurs__info { opacity: 1; }
@@ -9226,7 +9226,7 @@
     padding: 4px 8px !important; border: 1px solid #1C1917 !important; border-radius: 6px !important;
     background: #FFFFFF !important; color: #1C1917 !important; box-shadow: none !important; text-shadow: none !important;
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-weight: 400 !important;
-    font-size: 14px !important; line-height: 18px !important; letter-spacing: -0.01em !important;
+    font-size: 16px !important; line-height: 24px !important; letter-spacing: -0.01em !important;
   }
 
 
@@ -9295,7 +9295,7 @@
     html body .stage .profil .bio-biblio .shelf__row { width: var(--w8); grid-template-columns: repeat(4, var(--w2)) !important; gap: 24px !important; }
     /* Pharmaprix : 24 px dans un même sujet, 72 px entre deux sujets. */
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { column-gap: 24px !important; }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__label { margin-bottom: 12px !important; padding: 24px 24px 0 !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__label { margin-bottom: 12px !important; padding: 24px 24px 0 !important; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; text-transform: none !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__fort, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0 !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > :is(.uc__figure, .dose, .sexe) { padding: 24px !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__chaine { display: flex !important; flex-wrap: wrap; gap: 8px; height: auto !important; overflow: visible !important; padding: 24px 24px 0 !important; }
@@ -9358,7 +9358,7 @@
     html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
     html body .bulle-site,
     html body .stage #doc-loblaw .panneaux-curseur,
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 14px !important; line-height: 18px !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 16px !important; line-height: 24px !important; }
   }
   /* Mobile : la première carte ne colle plus à la barre de la fenêtre. */
   @media (max-width: 767px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc { padding-top: 16px !important; } }
@@ -9368,8 +9368,8 @@
   }
   /* Échelle typographique, un cran plus bas : titres 56 / 48 / 32, lecture 16, interface 14, bulles 12. */
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-titre { font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-tags li { padding: 4px 12px !important; font-size: 14px !important; line-height: 20px !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 14px !important; line-height: 20px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-tags li { padding: 4px 12px !important; font-size: 16px !important; line-height: 24px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__intro-fiche :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__intro-texte, .uc__contexte-texte p, .uc__petit) { font-size: 16px !important; line-height: 24px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__tete > .uc__titre) { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 28px !important; line-height: 32px !important; letter-spacing: 0 !important; }
@@ -9380,11 +9380,11 @@
   @media (min-width: 1024px) {
     html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.arbo, .arbo__tout, .arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span),
     html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar :is(.barlien, .barre-logo, .menubar__titre),
-    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) :is(.note-bas, .radio-encours) { font-size: 16px !important; line-height: 24px !important; }
     html body .stage .accueil-droite :is(.en-ce-moment__heure, .en-ce-moment__heure *), html body .stage .profil .profil__entete-titre { font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; }
     html body .stage .accueil-droite .en-ce-moment__activite { font-size: 16px !important; line-height: 24px !important; }
-    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 14px !important; line-height: 20px !important; }
-    html body .stage .profil .profil__entete-role { font-size: 14px !important; line-height: 20px !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
+    html body .stage .profil .profil__entete-role { font-size: 16px !important; line-height: 24px !important; }
     html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__bio { font-size: 16px !important; line-height: 24px !important; }
     html body .stage .profil .bio-section__titre { font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px; }
     html body .stage .profil .bio-rayon__titre { font-size: 16px !important; line-height: 24px !important; }
@@ -9485,7 +9485,7 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { flex: 1 1 0 !important; display: grid !important; grid-template-columns: calc(var(--col) * 2 + 24px) minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; align-items: start; column-gap: 24px; row-gap: 4px; width: auto !important; height: auto !important; min-height: 0; margin: 0 !important; padding: 16px 0 !important; border: 0 !important; border-top: 1px solid var(--filet) !important; border-radius: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:first-child { border-top: 0 !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > strong { grid-column: 1; grid-row: 1; margin: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 48px !important; line-height: 52px !important; letter-spacing: -0.4px !important; color: var(--encre) !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > span { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > span { grid-column: 1; grid-row: 2; margin: 0 !important; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { grid-column: 2; grid-row: 1 / -1; align-self: center; }
   .signes { display: grid; justify-content: space-between; align-content: center; }
   .signes i { display: block; background: var(--encre); opacity: 0; }
@@ -9570,7 +9570,7 @@
   }
   /* Pharmaprix : l'audit, les problèmes classés par degré d'urgence et leurs solutions. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; overflow: hidden !important; color: var(--encre); }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-label { margin: 0 0 8px !important; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-label { margin: 0 0 8px !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-texte { margin: 0 !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; list-style: none; margin: 24px 0 0 !important; padding: 0 !important; }
@@ -9579,13 +9579,13 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li { opacity: 1; transform: none; transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(2) { transition-delay: 260ms; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit.est-vu .uc__urgences > li:nth-child(3) { transition-delay: 520ms; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { display: flex; flex-direction: column; gap: 8px; font-size: 14px !important; line-height: 20px !important; font-weight: 500; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { display: flex; flex-direction: column; gap: 8px; font-size: 16px !important; line-height: 24px !important; font-weight: 500; color: var(--encre) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points { display: flex; gap: 4px; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { display: block; width: 8px; height: 8px; box-sizing: border-box; border: 1px solid var(--encre); border-radius: 50%; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { font-size: 14px !important; line-height: 20px !important; font-weight: 500 !important; color: var(--encre) !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail span { font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { font-size: 16px !important; line-height: 24px !important; font-weight: 500 !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail span { font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
   @media (max-width: 1023px) {
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit { grid-column: pleine-debut / pleine-fin !important; width: auto !important; margin: 0 0 40px !important; padding: 16px !important; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
@@ -9606,11 +9606,11 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { border-color: #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle { display: flex !important; flex-direction: column; box-sizing: border-box; padding: 24px !important; background: #FFFFFF !important; outline: 1px solid var(--encre) !important; outline-offset: -1px; border-radius: 12px !important; overflow: hidden !important; color: var(--encre); }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-label { margin: 0 0 8px !important; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-label { margin: 0 0 8px !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-titre { margin: 0 0 16px !important; padding: 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: -0.2px !important; color: var(--encre) !important; text-transform: none !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-texte { margin: 0 !important; font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; min-height: 0; list-style: none; margin: 16px 0 !important; padding: 0 !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { position: relative; margin: 0 !important; padding: 2px 0 2px 24px !important; font-size: 14px !important; line-height: 20px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-6px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { position: relative; margin: 0 !important; padding: 2px 0 2px 24px !important; font-size: 16px !important; line-height: 24px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-6px); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li:not(:last-child)::after { content: ""; position: absolute; left: 3.5px; top: 16px; width: 1px; height: calc(100% - 8px); background: var(--encre); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li { opacity: 1; transform: none; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1); }
@@ -9626,6 +9626,20 @@
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { opacity: 1; transform: none; transition: none !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 72px minmax(0, 1fr); column-gap: 16px; } }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { order: 3 !important; display: block !important; flex: none; margin: 12px 0 0 !important; padding: 0 !important; font-size: 16px !important; line-height: 24px !important; letter-spacing: 0 !important; color: var(--gris-texte) !important; }
+  /* Pharmaprix : première carte en cobalt, sans contour, texte blanc. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro { background: var(--cobalt) !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro :is(h2, p, li, dt, dd) { color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-tags li { border-color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche { border-top-color: rgba(255, 255, 255, 0.5) !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__intro, html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__intro { outline: 0 !important; border: 0 !important; }
+  /* Le menu en 16 px : il tient aussi sur les écrans peu hauts ou étroits. */
+  @media (min-width: 1024px) and (max-height: 780px) { html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo :is(.arbo__dossier-btn, .arbo__fichier, .arbo__dossier-btn span, .arbo__fichier span) { line-height: 20px !important; } }
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo { width: calc((100vw - 312px) / 4 + 56px) !important; max-width: calc((100vw - 312px) / 4 + 56px) !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo .arbo__fichier { width: auto !important; max-width: 100% !important; box-sizing: border-box; align-items: flex-start; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo .arbo__fichier span { flex: 1 1 auto; min-width: 0; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .arbo.arbo .arbo__fichier svg { margin-top: 2px; }
+  }
 </style>
 </head>
 <body>
@@ -10731,8 +10745,8 @@
           <h2 class="uc__audit-titre">Hiérarchiser avant de corriger.</h2>
           <p class="uc__audit-texte">J’ai classé chaque problème relevé par degré d’urgence, pour traiter d’abord ce qui pouvait provoquer une erreur.</p>
           <ol class="uc__urgences" aria-label="Problèmes et solutions, par degré d’urgence">
-            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i class="est-plein"></i></span>Critique</span><div class="uc__urgence-detail"><strong>Aucune hiérarchie, pas de retour d’état ni de validation</strong><span>→ Structurer la fiche patient et valider chaque saisie.</span></div></li>
-            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i></i></span>Modérée</span><div class="uc__urgence-detail"><strong>Barre d’outils surchargée, onglets peu lisibles</strong><span>→ Prioriser les actions et marquer l’onglet actif.</span></div></li>
+            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i class="est-plein"></i></span>Critique</span><div class="uc__urgence-detail"><strong>Aucune hiérarchie, pas de retour d’état ni de validation</strong><span>→ Structurer et valider chaque saisie.</span></div></li>
+            <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i class="est-plein"></i><i></i></span>Modérée</span><div class="uc__urgence-detail"><strong>Barre d’outils surchargée, onglets peu lisibles</strong><span>→ Prioriser et marquer l’onglet actif.</span></div></li>
             <li><span class="uc__urgence"><span class="uc__urgence-points" aria-hidden="true"><i class="est-plein"></i><i></i><i></i></span>Mineure</span><div class="uc__urgence-detail"><strong>Légende illisible, cases à cocher sans état clair</strong><span>→ Renforcer les contrastes et les états.</span></div></li>
           </ol>
         </section>
