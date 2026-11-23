@@ -9767,6 +9767,13 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__chiffre { color: #1C1917; font-weight: 500; font-variant-numeric: tabular-nums; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc .uc__tete > .uc__titre { padding: 16px 0 0 !important; } }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs { transform: none; } }
+  /* Pharmaprix : 20 px entre les cartes, partout dans la rangée. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc { gap: 20px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { column-gap: 20px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { gap: 20px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { gap: 20px !important; }
+  }
 </style>
 </head>
 <body>
