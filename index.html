@@ -9265,6 +9265,72 @@
   html body .stage #doc-loblaw.doc .ecran-erreurs__point--a11y { background: var(--cobalt) !important; }
   /* Pas d'ombre : la capture se pose à plat. */
   html body .stage #doc-loblaw.doc .ecran-erreurs > img { box-shadow: none !important; }
+  /* ===== Structure suisse : un axe vertical (colonne 4), un axe horizontal
+     (haut de l'avatar), et des espaces qui expriment les relations. ===== */
+  @media (min-width: 1024px) {
+    html body .stage {
+      --g-col: calc((100vw - 48px - 11 * 24px) / 12);
+      --axe-x: calc(24px + (var(--g-col) + 24px) * 3);
+      --axe-y: calc(var(--bar-h) + 16px);
+      --w2: calc(var(--g-col) * 2 + 24px); --w3: calc(var(--g-col) * 3 + 48px); --w4: calc(var(--g-col) * 4 + 72px);
+      --w5: calc(var(--g-col) * 5 + 96px); --w8: calc(var(--g-col) * 8 + 168px); --w9: calc(var(--g-col) * 9 + 192px);
+    }
+    /* Accueil */
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .accueil-droite { left: var(--axe-x) !important; width: var(--w9) !important; top: var(--axe-y) !important; }
+    html body .stage .accueil-droite .en-ce-moment__activite { margin: 16px 0 72px !important; max-width: var(--w5) !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste { grid-template-columns: var(--w3) var(--w3) !important; gap: 24px !important; max-width: none !important; }
+    html body .stage .accueil-droite .en-ce-moment__liste dt { margin-bottom: 4px !important; }
+    html body .stage .apercu .apercu__fichier-nom { margin-bottom: 8px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    /* Bio */
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: var(--axe-x) !important; width: var(--w9) !important; top: var(--axe-y) !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil__entete { margin-bottom: 24px !important; padding-right: 0 !important; }
+    html body .stage .profil .profil__entete-nom { margin-bottom: 8px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage .profil .profil__bio > p { max-width: var(--w5); }
+    html body .stage .profil .bio-section { padding-top: 144px; }
+    html body .stage .profil .bio-section__titre { margin: 0 0 24px; font-family: "Instrument Serif", Georgia, serif !important; font-size: 40px !important; line-height: 44px !important; letter-spacing: -0.3px; }
+    html body .stage .profil .bio-photos { grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 24px; }
+    html body .stage .profil .bio-photos > .bio-photo { grid-column: span 5; min-width: 0; }
+    html body .stage .profil .bio-photos > :nth-child(2), html body .stage .profil .bio-photos > :nth-child(4), html body .stage .profil .bio-photos > :nth-child(7) { grid-column: span 4; }
+    html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 1 / -1; }
+    html body .stage .profil .bio-photos > .bio-photo:not(.bio-photo--pano):not(.bio-tempete) img { height: var(--w4); aspect-ratio: auto; }
+    html body .stage .profil .bio-photo figcaption { margin-top: 8px; line-height: 20px; }
+    html body .stage .profil .bio-photos__note { order: 99; grid-column: 1 / -1; margin: 0; line-height: 20px; }
+    html body .stage .profil .biblio__intro { margin: 0 0 72px; max-width: var(--w5); }
+    html body .stage .profil .bio-rayon + .bio-rayon { margin-top: 72px; }
+    html body .stage .profil .bio-rayon__titre { margin: 0 0 16px; font-weight: 500; line-height: 24px; }
+    html body .stage .profil .bio-biblio .shelf__row { width: var(--w8); grid-template-columns: repeat(4, var(--w2)) !important; gap: 24px !important; }
+    /* Pharmaprix : 24 px dans un même sujet, 72 px entre deux sujets. */
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { column-gap: 24px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__label, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__label { margin-bottom: 12px !important; padding: 24px 24px 0 !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > .uc__fort, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section > .uc__fort { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0 !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section > :is(.uc__figure, .dose, .sexe) { padding: 24px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__chaine { display: flex !important; flex-wrap: wrap; gap: 8px; height: auto !important; overflow: visible !important; padding: 24px 24px 0 !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure { padding-top: 16px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure img { object-fit: cover !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(1) > .uc__constats li { padding: 16px !important; }
+    html body .stage #doc-loblaw .uc .uc__categorie { letter-spacing: 0 !important; text-transform: none !important; }
+  }
+  /* Mobile : Pharmaprix sur toute la largeur, avec la marge de 16 px de la grille. */
+  @media (max-width: 767px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc { grid-template-columns: [pleine-debut libelle-debut texte-debut] minmax(0, 1fr) [texte-fin pleine-fin] !important; padding-left: 16px !important; padding-right: 16px !important; box-sizing: border-box; }
+  }
+  /* Chaîne de la lumière et constats dans la palette : contour d'encre, cobalt pour l'erreur. */
+  html body .stage #doc-loblaw .uc .uc__fleche { color: var(--gris-texte); }
+  html body .stage #doc-loblaw .uc__chaine li .uc__etape { background: var(--blanc) !important; border: 1px solid var(--encre) !important; color: var(--encre) !important; }
+  html body .stage #doc-loblaw .uc__chaine li:nth-child(4) .uc__etape { background: var(--cobalt) !important; border-color: var(--cobalt) !important; color: var(--blanc) !important; }
+  html body .stage #doc-loblaw .uc .uc__pastille { background: var(--cobalt) !important; }
+  @media (max-width: 767px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc > section { margin-top: 0 !important; padding-top: 72px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc .uc__constats--cartes { grid-template-columns: minmax(0, 1fr) !important; gap: 8px !important; }
+  }
+  /* Lumière : la chaîne se pose en haut de la carte image, sans pousser le texte voisin. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__chaine { grid-column: 2 !important; grid-row: 1 / -1 !important; align-self: start; z-index: 2; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure { grid-column: 2 !important; grid-row: 1 / -1 !important; padding-top: 112px !important; }
+  }
+  @media (min-width: 1800px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure { padding-top: 80px !important; }
+  }
 </style>
 </head>
 <body>
@@ -10349,6 +10415,7 @@
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
           <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
           <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
+            <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
           <figure class="uc__figure"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy"><figcaption>Un éclairage blanc intense au-dessus des postes de travail, avec des reflets sur les écrans tout au long du quart. Reconstitution visuelle.</figcaption></figure>
           <p class="uc__petit">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
@@ -17073,8 +17140,11 @@ document.addEventListener('click', (e) => {
     const stage = document.getElementById('stage');
     if (!stage) return;
     const h = stage.clientHeight || innerHeight;
-    const carte = Math.round(Math.max(576, Math.min(680, h * 0.67)));
-    doc.style.setProperty('--panneau-haut', Math.round((h - carte) / 2) + 'px');
+    // Les cartes partent du même axe que l'avatar et s'arrêtent avant la note du bas.
+    const avatar = document.querySelector('.avatar-accueil');
+    const axe = avatar && avatar.offsetWidth ? Math.round(avatar.getBoundingClientRect().top) : 54;
+    const carte = Math.round(Math.max(576, Math.min(680, h - axe - 57)));
+    doc.style.setProperty('--panneau-haut', axe + 'px');
     doc.style.setProperty('--carte-h', carte + 'px');
     doc.style.setProperty('--panneau-h', carte + 'px');
     // Le cadre invisible va une colonne plus loin que la fin du lien « LinkedIn »,
