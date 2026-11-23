@@ -9812,6 +9812,35 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { justify-content: flex-start; gap: 24px !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel { flex: 1 1 0; aspect-ratio: auto; }
   }
+  /* Une seule bulle de survol sur tout le site : celle du lecteur de musique.
+     Fond blanc, trait noir de 1 px, coins de 6 px, Geist 14/18 (16/20 sur desktop). */
+  html body .bulle-site { position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none; white-space: nowrap; opacity: 0; transition: opacity 120ms ease; }
+  html body .bulle-site.est-visible { opacity: 1; }
+  @media (hover: none) { html body .bulle-site { display: none; } }
+  html body .stage .barlien[data-bulle]::after,
+  html body .stage .radio-bouton::after,
+  html body .stage .dock__tip,
+  html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
+  html body .bulle-site,
+  html body .stage #doc-loblaw .panneaux-curseur,
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info {
+    padding: 4px 8px !important; border: 1px solid #1C1917 !important; border-radius: 6px !important;
+    background: #FFFFFF !important; color: #1C1917 !important; box-shadow: none !important; text-shadow: none !important;
+    font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-weight: 400 !important;
+    font-size: 14px !important; line-height: 18px !important; letter-spacing: -0.01em !important;
+  }
+  /* Les libellés de la bulle qui suit la souris passent en minuscules, comme les autres. */
+  html body .curseur-bulle { text-transform: lowercase; }
+  html body .curseur-bulle::first-letter { text-transform: uppercase; }
+  @media (min-width: 1024px) {
+    html body .stage .barlien[data-bulle]::after,
+    html body .stage .radio-bouton::after,
+    html body .stage .dock__tip,
+    html body .curseur-bulle, html body .curseur-bulle.curseur-bulle--ouvrir,
+    html body .bulle-site,
+    html body .stage #doc-loblaw .panneaux-curseur,
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 16px !important; line-height: 20px !important; }
+  }
 </style>
 </head>
 <body>
@@ -18722,6 +18751,35 @@ document.addEventListener('click', (e) => {
     if (entrees.some((e) => e.isIntersecting)) { io.disconnect(); lancer(); }
   }, { threshold: 0.6 });
   io.observe(zone);
+})();
+
+// Les infobulles natives du navigateur (attribut title) prennent la bulle du site.
+(function bullesDuSite() {
+  const bulle = document.createElement('div');
+  bulle.className = 'bulle-site'; bulle.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bulle);
+  let cible = null;
+  const cacher = () => { cible = null; bulle.classList.remove('est-visible'); };
+  document.addEventListener('pointerover', (e) => {
+    if (e.pointerType !== 'mouse' || !e.target.closest) return;
+    const el = e.target.closest('[title], [data-bulle-titre]');
+    if (!el) { cacher(); return; }
+    if (el.hasAttribute('title')) {
+      el.dataset.bulleTitre = el.title;
+      if (!el.hasAttribute('aria-label')) el.setAttribute('aria-label', el.title);
+      el.removeAttribute('title');
+    }
+    if (el === cible || !el.dataset.bulleTitre) return;
+    cible = el; bulle.textContent = el.dataset.bulleTitre;
+    const r = el.getBoundingClientRect(), l = bulle.offsetWidth, h = bulle.offsetHeight;
+    const x = Math.max(8, Math.min(innerWidth - l - 8, r.left + r.width / 2 - l / 2));
+    const y = r.bottom + 6 + h > innerHeight - 8 ? r.top - 6 - h : r.bottom + 6;
+    bulle.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+    bulle.classList.add('est-visible');
+  });
+  document.addEventListener('pointerdown', cacher, true);
+  addEventListener('scroll', cacher, true);
+  document.documentElement.addEventListener('pointerleave', cacher);
 })();
 </script>
 </body>
