@@ -9557,9 +9557,9 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo img { border-radius: 12px !important; }
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc .parcours-rail { display: block; position: relative; height: 100%; }
-    html body .stage #doc-loblaw.doc .doc__scroll.doc__scroll.doc__scroll { overflow-x: auto !important; overflow-y: hidden !important; }
+    html body .stage #doc-loblaw.doc .doc__scroll.doc__scroll.doc__scroll { overflow: clip !important; position: relative; touch-action: none; }
     html body .stage #doc-loblaw.doc .doc__win.doc__win { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%); }
-    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc { display: block !important; position: sticky !important; left: 0 !important; top: 0 !important; width: var(--fenetre, 100%) !important; max-width: none !important; height: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; will-change: transform; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc { display: block !important; position: absolute !important; left: 0 !important; top: 0 !important; width: var(--fenetre, 100%) !important; max-width: none !important; height: 100% !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; will-change: transform; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > :not(.cartep__barre, .uc__bilan), html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { position: absolute !important; margin: 0 !important; box-sizing: border-box; flex: none !important; align-self: auto !important; grid-row: auto !important; grid-column: auto !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__bilan { display: contents !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__contexte, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc > .uc__tete { padding: 24px !important; background: #FFFFFF !important; overflow: hidden !important; }
@@ -17394,8 +17394,10 @@ document.addEventListener('click', (e) => {
   const grand = () => matchMedia('(min-width: 1024px)').matches;
   // Le parcours : les cartes sont posées sur un grand plan et une caméra les suit
   // toujours dans le même ordre : droite, bas, droite, haut, droite. Le défilement
-  // horizontal natif sert de progression le long du chemin, sans jamais revenir en arrière.
-  let pos = 0, but = 0, raf = 0, avant = 0, signature = '';
+  // n'est plus natif : une seule valeur, la progression, déplace le plan. Rien d'autre ne
+  // peut le décaler, et chaque tronçon reste strictement horizontal ou vertical.
+  let pos = 0, but = 0, raf = 0, avant = 0, signature = '', progres = 0, suivi = null;
+  const total = () => (chemin.length ? chemin[chemin.length - 1].l : 0);
   const rail = document.createElement('div');
   rail.className = 'parcours-rail';
   page.before(rail);
@@ -17444,16 +17446,17 @@ document.addEventListener('click', (e) => {
   }
   function camera() {
     if (!grand()) return;
-    const q = surChemin(raf ? pos : sc.scrollLeft);
+    const q = surChemin(progres);
     page.style.setProperty('transform', 'translate3d(' + (-q.x).toFixed(2) + 'px,' + (-q.y).toFixed(2) + 'px,0)', 'important');
+    if (suivi) suivi();
   }
   function composer(H, haut) {
     const c = cartes();
     if (!grand()) {
       Object.values(c).forEach((el) => el && COTES.forEach((k) => el.style.removeProperty(k)));
       page.style.removeProperty('transform');
-      rail.style.removeProperty('width');
       chemin = [];
+      progres = 0;
       signature = '';
       return;
     }
@@ -17464,7 +17467,7 @@ document.addEventListener('click', (e) => {
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
-    const avance = chemin.length ? sc.scrollLeft / Math.max(1, chemin[chemin.length - 1].l) : 0;
+    const avance = chemin.length ? progres / Math.max(1, total()) : 0;
     doc.style.setProperty('--fenetre', W + 'px');
     const col = (innerWidth - 48 - 11 * 24) / 12, L = (n) => col * n + 24 * (n - 1);
     const G = 72, pas = H + 96;
@@ -17496,13 +17499,10 @@ document.addEventListener('click', (e) => {
     chemin = tracer([
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
       { x: cam2, y: 0 }, { x: cam3, y: 0 },
-    ], 160);
-    const longueur = chemin[chemin.length - 1].l;
-    rail.style.width = Math.ceil(longueur + W) + 'px';
-    sc.scrollLeft = avance * longueur;
+    ], 0);
+    progres = avance * total();
     camera();
   }
-  sc.addEventListener('scroll', camera, { passive: true });
   // La carte : environ deux tiers de la hauteur de l'écran, centrée.
   function caler() {
     if (!grand()) { composer(0, 0); return; }
@@ -17556,25 +17556,24 @@ document.addEventListener('click', (e) => {
   // Défilement horizontal libre et lissé : aucune position imposée, la rangée
   // rejoint en continu une position visée, avec un amorti indépendant de l'écran.
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const borne = (v) => Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, v));
+  const borne = (v) => Math.max(0, Math.min(total(), v));
   const arret = () => { cancelAnimationFrame(raf); raf = 0; };
-  const base = () => (raf ? but : sc.scrollLeft);
+  const base = () => (raf ? but : progres);
   function boucle(t) {
     const dt = Math.min(40, t - avant || 16); avant = t;
     const tau = tir && bouge ? 32 : 170;   // suit la main de près, puis file longuement
     pos += (but - pos) * (1 - Math.exp(-dt / tau));
-    if (Math.abs(but - pos) < 0.25) { pos = but; sc.scrollLeft = pos; raf = 0; camera(); return; }
-    sc.scrollLeft = pos;
+    if (Math.abs(but - pos) < 0.25) { pos = but; progres = pos; raf = 0; camera(); return; }
+    progres = pos;
     camera();
     raf = requestAnimationFrame(boucle);
   }
   function vers(v) {
     but = borne(v);
-    if (calme()) { arret(); sc.scrollLeft = but; return; }
-    if (!raf) { pos = sc.scrollLeft; avant = performance.now(); raf = requestAnimationFrame(boucle); }
+    if (calme()) { arret(); progres = but; camera(); return; }
+    if (!raf) { pos = progres; avant = performance.now(); raf = requestAnimationFrame(boucle); }
   }
   nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) vers(base() + Number(b.dataset.panneau) * sc.clientWidth * 0.6); });
-  sc.addEventListener('scroll', maj, { passive: true });
   let axeGeste = '', dernierGeste = 0;
   // La molette verticale fait défiler la rangée ; le trackpad horizontal reste natif.
   sc.addEventListener('wheel', (e) => {
@@ -17601,12 +17600,11 @@ document.addEventListener('click', (e) => {
   // La bulle « Glisser » disparaît dès que l'utilisateur a fait défiler les cartes une fois.
   let aGlisse = false;
   const glisse = () => { if (aGlisse) return; aGlisse = true; curseur && curseur.classList.remove('est-visible'); };
-  sc.addEventListener('scroll', () => { if (!tir && sc.scrollLeft > 20) glisse(); }, { passive: true });
   const interactif = (t) => t.closest('a, button, summary, select, input, textarea, label');
   sc.addEventListener('pointerdown', (e) => {
-    if (!grand() || e.pointerType !== 'mouse' || e.button !== 0 || interactif(e.target)) return;
+    if (!grand() || e.button !== 0 || interactif(e.target)) return;   // souris, doigt ou stylet
     arret();
-    tir = { x: e.clientX, y: e.clientY, p: sc.scrollLeft, total: 0, traces: [[performance.now(), sc.scrollLeft]] }; bouge = false;
+    tir = { x: e.clientX, y: e.clientY, p: progres, total: 0, traces: [[performance.now(), progres]] }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
     if (curseur && !aGlisse) {
@@ -17618,7 +17616,7 @@ document.addEventListener('click', (e) => {
     // Tirer vers la gauche ou vers le haut avance, partout sur le parcours.
     const mx = e.clientX - tir.x, my = e.clientY - tir.y;
     tir.x = e.clientX; tir.y = e.clientY; tir.total += Math.abs(mx) + Math.abs(my);
-    tir.p = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, tir.p - (Math.abs(mx) >= Math.abs(my) ? mx : my)));
+    tir.p = borne(tir.p - (Math.abs(mx) >= Math.abs(my) ? mx : my));
     if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); }
     if (bouge) { vers(tir.p); e.preventDefault(); }
     tir.traces.push([performance.now(), tir.p]); if (tir.traces.length > 6) tir.traces.shift();
@@ -17636,9 +17634,9 @@ document.addEventListener('click', (e) => {
   sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
   sc.addEventListener('dragstart', (e) => e.preventDefault());
   // Le voile flou du bord droit s'efface quand on arrive au bout.
-  const bout = () => voile && voile.classList.toggle('est-cache', sc.scrollLeft >= sc.scrollWidth - sc.clientWidth - 4);
-  sc.addEventListener('scroll', bout, { passive: true });
-  new MutationObserver(() => { if (!doc.hidden) { arret(); caler(); sc.scrollLeft = 0; setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  const bout = () => voile && voile.classList.toggle('est-cache', progres >= total() - 4);
+  suivi = () => { maj(); bout(); if (!tir && progres > 20) glisse(); };
+  new MutationObserver(() => { if (!doc.hidden) { arret(); caler(); progres = 0; camera(); setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
   maj();
 })();
 
