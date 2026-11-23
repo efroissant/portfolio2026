@@ -9774,6 +9774,18 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { gap: 20px !important; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { gap: 20px !important; }
   }
+  /* Rythme de la rangée : la photo N&B, moins haute, reste en haut ; la photo
+     couleur, panoramique, part en bas et laisse du vide à côté du texte. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo:not(.uc__photo--terrain) { align-self: start; height: 72% !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { width: calc(var(--col) * 7 + 144px) !important; justify-content: space-between; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { flex: none; width: calc(var(--col) * 4 + 72px); }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel { flex: 0 1 auto; width: 100%; aspect-ratio: 8 / 3; min-height: 0; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel img { object-position: 50% 38%; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-visuel img { aspect-ratio: 16 / 9; object-position: 50% 38%; }
+  }
 </style>
 </head>
 <body>
