@@ -9548,6 +9548,9 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) { align-self: stretch !important; width: 100% !important; box-sizing: border-box; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
   @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 50%; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 2 + 24px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 47% 50%; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 3 / 4 !important; height: auto !important; } }
 </style>
 </head>
 <body>
@@ -10655,7 +10658,7 @@
           <li><strong>30</strong><span>écrans redesignés ou créés, à ma charge</span><div class="signes signes--ecrans" data-n="30" aria-hidden="true"></div></li>
         </ul>
 
-        <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"><figcaption>Reconstitution visuelle du traitement d’une ordonnance, inspirée des photos de terrain du projet Healthwatch.</figcaption></figure>
+        <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
