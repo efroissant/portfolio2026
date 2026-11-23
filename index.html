@@ -352,9 +352,9 @@
     border-radius: 4px;
     overflow: hidden;
     background: #FFFFFF;
-    color: #000000;
-    border: 1px solid #000000;
-    box-shadow: 3px 4px 0 #000000;
+    color: #1C1917;
+    border: 1px solid #1C1917;
+    box-shadow: 3px 4px 0 #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 14px;
     text-shadow: none;
@@ -363,7 +363,7 @@
     display: flex; align-items: center; gap: 8px;
     height: 32px; padding: 0 12px;
     background: #68BEC9;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #1C1917;
     font-size: 13px; font-weight: 700; letter-spacing: 0;
     cursor: grab;            /* la barre de titre sert de poignée */
     touch-action: none;
@@ -377,10 +377,10 @@
   .lecteur__fermer {
     width: 12px; height: 12px; padding: 0; border-radius: 50%;
     /* Cerclé, pas rempli : même rond que celui des fenêtres. */
-    box-sizing: border-box; border: 1.5px solid #000000;
+    box-sizing: border-box; border: 1.5px solid #1C1917;
     background: transparent; cursor: pointer; flex-shrink: 0;
   }
-  .lecteur__fermer:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .lecteur__fermer:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
   .lecteur__barre span { flex: 1; text-align: center; }
   .lecteur__haut { padding: 16px 16px 4px; }
   .lecteur__entete { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
@@ -390,8 +390,8 @@
      pas d'image, une tuile bleu-vert avec une croche. */
   .lecteur__pochette {
     position: relative; flex: 0 0 72px; width: 72px; height: 72px;
-    border: 1px solid #000; border-radius: 4px; overflow: hidden;
-    box-shadow: 3px 4px 0 #000;
+    border: 1px solid #1C1917; border-radius: 4px; overflow: hidden;
+    box-shadow: 3px 4px 0 #1C1917;
     background: #68BEC9 center / 36px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 29 V6 H22 C23 11 31 13 30 23 C29 18 26 16 22 15 V29 Z' fill='%23fff' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cellipse cx='15.5' cy='29' rx='6.5' ry='4.8' transform='rotate(-20 15.5 29)' fill='%23fff' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
   }
   .lecteur__pochette img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -402,20 +402,20 @@
   /* La barre de progression reprend le filet sous le chiffre du jour. */
   .lecteur__progres {
     position: relative; height: 8px; margin: 16px 0 6px;
-    border: 1px solid #000000; border-radius: 0; background: #FFFFFF;
+    border: 1px solid #1C1917; border-radius: 0; background: #FFFFFF;
     cursor: pointer; overflow: hidden;
   }
-  .lecteur__rempli { position: absolute; inset: 0 auto 0 0; width: 0; background: #000000; }
+  .lecteur__rempli { position: absolute; inset: 0 auto 0 0; width: 0; background: #1C1917; }
   .lecteur__temps { display: flex; justify-content: space-between; font-size: 12px; font-weight: 500;
     font-variant-numeric: tabular-nums; }
   .lecteur__commandes { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 8px 0 24px; }
   .lecteur__btn {
     display: grid; place-items: center;
     width: 40px; height: 40px; padding: 0;
-    border: 0; background: none; color: #000; cursor: pointer; border-radius: 50%;
+    border: 0; background: none; color: #1C1917; cursor: pointer; border-radius: 50%;
   }
   .lecteur__btn svg { width: 20px; height: 20px; fill: currentColor; }
-  .lecteur__btn:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .lecteur__btn:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
   /* Lecture : le geste des boutons d'action. Au survol il se soulève, se
      remplit de gauche à droite et se triple en escalier, dans les teintes
      de son bleu-vert ; au clic, la pile se referme et il s'enfonce. */
@@ -425,16 +425,16 @@
     --copie1: #EEED70;
     --copie2: #F6ACCD;
     width: 48px; height: 48px;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     background-color: var(--teinte);
     background-image: linear-gradient(color-mix(in srgb, var(--teinte) 45%, #FFFFFF), color-mix(in srgb, var(--teinte) 45%, #FFFFFF));
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 0% 100%;
     box-shadow:
-      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
-      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
-      3px 4px 0 0 #000000;
+      0 0 0 0 var(--copie1), 0 0 0 0 #1C1917,
+      0 0 0 0 var(--copie2), 0 0 0 0 #1C1917,
+      3px 4px 0 0 #1C1917;
     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
                 background-size 350ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -447,22 +447,22 @@
     transform: translate(-2px, -2px);
     background-size: 100% 100%;
     box-shadow:
-      4px 4px 0 0 var(--copie1), 4px 4px 0 1px #000000,
-      8px 8px 0 0 var(--copie2), 8px 8px 0 1px #000000,
-      11px 12px 0 1px #000000;
+      4px 4px 0 0 var(--copie1), 4px 4px 0 1px #1C1917,
+      8px 8px 0 0 var(--copie2), 8px 8px 0 1px #1C1917,
+      11px 12px 0 1px #1C1917;
   }
   .lecteur__btn--lire:active {
     transform: translate(3px, 4px);
     box-shadow:
-      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
-      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
-      0 0 0 0 #000000;
+      0 0 0 0 var(--copie1), 0 0 0 0 #1C1917,
+      0 0 0 0 var(--copie2), 0 0 0 0 #1C1917,
+      0 0 0 0 #1C1917;
     transition-duration: 120ms, 120ms, 350ms;
   }
   @media (prefers-reduced-motion: reduce) {
     .lecteur__btn--lire { transition: background-size 350ms ease; }
   }
-  .lecteur__liste { list-style: none; margin: 0; padding: 8px; border-top: 2px solid #000000;
+  .lecteur__liste { list-style: none; margin: 0; padding: 8px; border-top: 2px solid #1C1917;
     max-height: 200px; overflow-y: auto; }
   .lecteur__piste {
     display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 6px;
@@ -471,7 +471,7 @@
     font: inherit; text-align: left; cursor: pointer;
   }
   .lecteur__piste:hover { background: rgba(0,0,0,0.05); }
-  .lecteur__piste[aria-current="true"] { border-color: #000000; background: #FFFFFF; font-weight: 700; }
+  .lecteur__piste[aria-current="true"] { border-color: #1C1917; background: #FFFFFF; font-weight: 700; }
   .lecteur__num, .lecteur__duree { font-size: 12px; font-variant-numeric: tabular-nums; }
   .lecteur__nom { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @media (max-width: 767px) { .spot.lecteur { width: auto; } }
@@ -492,7 +492,7 @@
   .lecteur .lecteur__fermer { width: 10px; height: 10px; }
   .lecteur .lecteur__haut { padding: 8px 4px 8px 10px; min-width: 0; }
   .lecteur .lecteur__entete { gap: 8px; margin-bottom: 0; }
-  .lecteur .lecteur__pochette { flex-basis: 36px; width: 36px; height: 36px; box-shadow: 2px 2px 0 #000; }
+  .lecteur .lecteur__pochette { flex-basis: 36px; width: 36px; height: 36px; box-shadow: 2px 2px 0 #1C1917; }
   .lecteur .lecteur__titre { font-size: 13px; line-height: 16px; }
   .lecteur .lecteur__artiste { margin: 0; font-size: 11px; line-height: 14px; }
   .lecteur .lecteur__progres { height: 5px; margin: 7px 0 2px; }
@@ -500,10 +500,10 @@
   .lecteur .lecteur__commandes { gap: 0; padding: 0 10px 0 0; align-self: center; }
   .lecteur .lecteur__btn { width: 26px; height: 26px; }
   .lecteur .lecteur__btn svg { width: 14px; height: 14px; }
-  .lecteur .lecteur__btn--lire { width: 32px; height: 32px; margin: 0 4px; box-shadow: 2px 2px 0 #000; }
+  .lecteur .lecteur__btn--lire { width: 32px; height: 32px; margin: 0 4px; box-shadow: 2px 2px 0 #1C1917; }
   .lecteur .lecteur__btn--lire:hover,
-  .lecteur .lecteur__btn--lire:focus-visible { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #000; }
-  .lecteur .lecteur__btn--lire:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000; }
+  .lecteur .lecteur__btn--lire:focus-visible { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #1C1917; }
+  .lecteur .lecteur__btn--lire:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #1C1917; }
   .lecteur .lecteur__liste { display: none; }
   @media (max-width: 767px) { .spot.lecteur.lecteur { width: auto; } }
 
@@ -743,7 +743,7 @@
      le remplit de la gauche vers la droite (dégradé uni dont on fait
      grandir la largeur). Placé après, pour l'emporter sur tous les fonds. */
   .stage .unlock {
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     /* Couleurs « City Pop Voyage » : jaune du script, bleu roi du fond. */
     background-color: #F0CC14;
     background-image: linear-gradient(#FBE88A, #FBE88A);
@@ -752,25 +752,25 @@
     background-size: 0% 100%;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    color: #000000;
+    color: #1C1917;
     text-shadow: none;
     letter-spacing: 0;        /* même interlettrage que le nom */
     font-size: calc(var(--size-role) * 1.5);   /* même taille que « Designer UI/UX » */
     /* Ombre pleine décalée, sans flou : le bouton semble posé sur un
        bloc noir, comme un autocollant épais. */
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 120ms ease, box-shadow 120ms ease;
   }
   /* Au clic, le bouton s'enfonce dans son ombre. */
   .stage .unlock:active {
     transform: translate(3px, 4px);
-    box-shadow: 0 0 0 #000000;
+    box-shadow: 0 0 0 #1C1917;
   }
   .stage .unlock:hover,
   .stage .unlock:focus-visible {
     background-size: 100% 100%;
-    border-color: #000000;
+    border-color: #1C1917;
   }
 
   /* Le bouton se triple au survol : une copie jaune puis une rose
@@ -782,9 +782,9 @@
      Ordre : la première ombre est dessinée au-dessus des suivantes. */
   .stage .lock .unlock {
     box-shadow:
-      0 0 0 0 #0C3C98, 0 0 0 0 #000000,
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
-      3px 4px 0 0 #000000;
+      0 0 0 0 #0C3C98, 0 0 0 0 #1C1917,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #1C1917,
+      3px 4px 0 0 #1C1917;
     transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -794,15 +794,15 @@
   .stage .lock .unlock:hover,
   .stage .lock .unlock:focus-visible {
     transform: none;
-    box-shadow: 3px 4px 0 0 #000000;
+    box-shadow: 3px 4px 0 0 #1C1917;
   }
   /* Au clic, la pile se referme et le bouton s'enfonce. */
   .stage .lock .unlock:active {
     transform: translate(3px, 4px);
     box-shadow:
-      0 0 0 0 #0C3C98, 0 0 0 0 #000000,
-      0 0 0 0 #FFFFFF, 0 0 0 0 #000000,
-      0 0 0 0 #000000;
+      0 0 0 0 #0C3C98, 0 0 0 0 #1C1917,
+      0 0 0 0 #FFFFFF, 0 0 0 0 #1C1917,
+      0 0 0 0 #1C1917;
     transition-duration: 350ms, 120ms, 120ms;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -953,7 +953,7 @@
     position: absolute; left: 50%; top: calc(100% + 6px);
     transform: translateX(-50%) translateY(-4px);
     padding: 3px 8px; border-radius: 4px;
-    background: #FFFFFF; border: 1px solid #000000; color: #000000;
+    background: #FFFFFF; border: 1px solid #1C1917; color: #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 12px; font-weight: 500; line-height: 14px;
     text-shadow: none; white-space: nowrap;
@@ -965,10 +965,10 @@
   /* Même langue que les icônes des cartes : fond blanc, trait noir, glyphe
      noir et ombre pleine décalée. */
   .barlien__icone { display: block; width: 24px; height: 24px; overflow: visible; }
-  .son__barres { display: block; width: 24px; height: 24px; overflow: visible; filter: drop-shadow(2px 2.5px 0 #000); }
+  .son__barres { display: block; width: 24px; height: 24px; overflow: visible; filter: drop-shadow(2px 2.5px 0 #1C1917); }
   .son__barres rect {
     fill: #FFFFFF;
-    stroke: #000000; stroke-width: 0.67;   /* ≈ 1 px à 24 px de haut */
+    stroke: #1C1917; stroke-width: 0.67;   /* ≈ 1 px à 24 px de haut */
     /* Sans fill-box, l'origine est celle du viewBox entier et les barres
        partent en biais au lieu de battre sur place. */
     transform-box: fill-box;
@@ -1599,7 +1599,7 @@
   .ctxwall__pastille {
     display: block; flex-shrink: 0;
     width: 28px; height: 20px;
-    border: 1px solid #000000; border-radius: 4px;
+    border: 1px solid #1C1917; border-radius: 4px;
   }
   .ctxwall__tick { width: 12px; flex-shrink: 0; text-align: center; opacity: 0; }
   .ctxwall[aria-checked="true"] .ctxwall__tick { opacity: 1; }
@@ -1802,7 +1802,7 @@
   .verrou__sceau {
     display: flex; align-items: center; justify-content: center;
     width: 48px; height: 48px; border-radius: 4px;
-    background: var(--ink); color: #1f1f1f;
+    background: var(--ink); color: #1C1917;
   }
   .verrou__sceau svg { width: 24px; height: 24px; }
 
@@ -1857,7 +1857,7 @@
      façons différentes. */
   .verrou__ok {
     padding: 8px 20px; border: 0; border-radius: 4px;
-    background: var(--ink); color: #1f1f1f;
+    background: var(--ink); color: #1C1917;
     font: inherit; font-size: 13px; font-weight: 590; cursor: default;
   }
   .verrou__ok:hover { background: #ffffff; }
@@ -1950,7 +1950,7 @@
        fond translucide laisserait le fond d'écran transparaître sous le texte
        et fausserait les couleurs des maquettes. Le flou reste inutile puisque
        plus rien ne passe. */
-    background: #1f1f1f;
+    background: #1C1917;
     box-shadow: var(--panel-shadow);
     color: var(--ink);
     -webkit-font-smoothing: auto;
@@ -2362,7 +2362,7 @@
   .mail__cancel:hover { color: var(--ink); }
   .mail__send {
     padding: 8px 20px; border: 0; border-radius: 4px;
-    background: var(--ink); color: #1f1f1f;
+    background: var(--ink); color: #1C1917;
     font: inherit; font-size: 13px; font-weight: 590; cursor: default;
   }
   .mail__send:hover { background: #ffffff; }
@@ -2448,7 +2448,7 @@
      Seules les études de cas, sur fond sombre, gardent la pastille rouge :
      un point noir y serait invisible. */
   /* Cerclé de noir, sans remplissage. */
-  .modal__light--close { box-sizing: border-box; border: 1.5px solid #000000; background: transparent; }
+  .modal__light--close { box-sizing: border-box; border: 1.5px solid #1C1917; background: transparent; }
   .doc .modal__light--close { border: 0; background: #ff5f57; }
   /* Gris pâle : seule la fermeture est disponible sur ces fenêtres, et la
      couleur le dit. La rouge garde sa teinte, les deux autres s'effacent. */
@@ -2589,15 +2589,15 @@
 
        Le flou disparaît : à 80 % d'opacité, il ne reste presque rien à
        flouter, et backdrop-filter coûte une couche de composition. */
-    background: #000000;   /* noir plein */
+    background: #1C1917;   /* noir plein */
   }
   /* Dock dans la langue des cartes : rectangle blanc à coins arrondis,
      trait noir de 1 px, ombre pleine décalée. */
   .stage .dock__pill {
     background: #A895F7;   /* mauve */
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 4px 5px 0 #000000;
+    box-shadow: 4px 5px 0 #1C1917;
   }
   /* Sur ordinateur, le dock décolle du bas : 29 px au lieu de 12. */
   @media (min-width: 768px) {
@@ -2607,7 +2607,7 @@
   .stage .dock__item svg,
   .stage .dock__link img,
   .stage .dock__link > svg { box-shadow: none; }
-  .stage .dock__sep::before { background: #000000; }
+  .stage .dock__sep::before { background: #1C1917; }
   /* L'icône Notes est une image détourée, à coins transparents : le fond
      beige commun aux icônes dépassait autour d'elle comme un carré. */
   .stage #dock-notes img { background: none; }
@@ -2744,8 +2744,8 @@
     padding: 3px 8px;
     border-radius: 4px;
     background: #FFFFFF;
-    border: 1px solid #000000;
-    color: #000000;
+    border: 1px solid #1C1917;
+    color: #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 12px;
     font-weight: 500;
@@ -2876,11 +2876,11 @@
     background: #FFFFFF;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    color: #000000;
+    color: #1C1917;
     text-shadow: none;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
   }
   .navmenu .navmenu__item:hover,
   .navmenu .navmenu__item:focus-visible,
@@ -2889,10 +2889,10 @@
   .ctxmenu .ctxmenu__item:hover,
   .ctxmenu .ctxmenu__item:focus-visible,
   .ctxmenu__sub .ctxwall:hover,
-  .ctxmenu__sub .ctxwall:focus-visible { background: #FFD2C4; color: #000000; }
+  .ctxmenu__sub .ctxwall:focus-visible { background: #FFD2C4; color: #1C1917; }
   .navmenu .navmenu__item:focus-visible,
   .ctxmenu .ctxmenu__item:focus-visible,
-  .ctxmenu__sub .ctxwall:focus-visible { outline: 1px solid #000000; outline-offset: -1px; }
+  .ctxmenu__sub .ctxwall:focus-visible { outline: 1px solid #1C1917; outline-offset: -1px; }
   .ctxmenu .ctxmenu__item[disabled]:hover { background: none; }
   /* L'entrée dont le sous-menu est ouvert reste surlignée. */
   .ctxmenu__item--sub[aria-expanded="true"] { background: #FFD2C4; }
@@ -2901,7 +2901,7 @@
      paraissait plus fin que les traits des fenêtres. */
   .navmenu .navmenu__sep,
   .navmenu .ctxmenu__sep,
-  .ctxmenu .ctxmenu__sep { height: 0; background: none; border-top: 1px solid #000000; margin: 5px 0; }
+  .ctxmenu .ctxmenu__sep { height: 0; background: none; border-top: 1px solid #1C1917; margin: 5px 0; }
   #navmenu .navmenu__item--note { opacity: 0.7; }
 
 
@@ -2912,7 +2912,7 @@
      l'écran sur un portable. */
   /* Fond blanc : le texte blanc y serait invisible, il repasse en noir. */
   .stage[data-wall="blanc"] {
-    --text: #111111;
+    --text: #1C1917;
     --btn-bg: rgba(0, 0, 0, 0.04);
     --btn-border: rgba(0, 0, 0, 0.5);
     --sky-shadow: none;
@@ -2973,7 +2973,7 @@
     /* Le fond s'assombrit vers le noir pendant que la pochette s'ouvre, au même
        rythme que le flou (1,1 s), et s'éclaircit à la fermeture. */
     .stage:is([data-state="lock"], [data-state="desktop"]) { transition: background-color 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
-    .stage.gatefold:is([data-state="lock"], [data-state="desktop"]) { background: #141414 !important; --text: #F4EFE4; }
+    .stage.gatefold:is([data-state="lock"], [data-state="desktop"]) { background: #1C1917 !important; --text: #F4EFE4; }
     /* Sur le fond sombre, la barre et LKD passent en clair. */
     .stage.gatefold :is(.menubar, .menubar a, .menubar button, .lien-bas) { color: #F4EFE4 !important; }
     .stage :is(.menubar, .menubar a, .menubar button, .lien-bas) { transition: color 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
@@ -3169,12 +3169,12 @@
   }
   .bulle__bord { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   /* Trait noir de 1 px réel malgré la mise à l'échelle, comme les cartes. */
-  .bulle__bord path { fill: none; stroke: #000000; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .bulle__bord path { fill: none; stroke: #1C1917; stroke-width: 1; vector-effect: non-scaling-stroke; }
   /* Ombre pleine décalée qui suit les lobes — posée sur le parent, non
      réduit, pour garder les mêmes 4 × 5 px que les cartes. */
 
   .bulle__yeux { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-  .bulle__yeux path { fill: none; stroke: #000000; stroke-width: 5; stroke-linecap: butt; }
+  .bulle__yeux path { fill: none; stroke: #1C1917; stroke-width: 5; stroke-linecap: butt; }
   .bulle__regard { transition: transform 180ms ease-out; }
   .bulle__oeil { transform-box: fill-box; transform-origin: center; }
   .bulle.is-cligne .bulle__oeil { animation: bulle-cligne 160ms ease-in-out; }
@@ -3198,8 +3198,8 @@
 
   /* Écran verrouillé sur fond blanc : tout le texte en noir pur. */
   .stage[data-wall="blanc"] .lock {
-    --text: #000000;
-    color: #000000;
+    --text: #1C1917;
+    color: #1C1917;
   }
 
   /* ---------- traînée de grimaces (fenêtre À propos) ----------
@@ -3219,9 +3219,9 @@
     margin: -40px 0 0 -40px;
     overflow: hidden;
     background: #FFFFFF;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     will-change: transform, opacity;
   }
   /* Les visuels sont livrés avec des coins arrondis transparents : un
@@ -3344,7 +3344,7 @@
   .about__skill--produit   { background: #FF795C; }
   .about__skill--web       { background: #7DA8F6; }
   .about__skill--marketing { background: #8EDDA6; }
-  .about__skill { color: #000; border: 1px solid #000;
+  .about__skill { color: #1C1917; border: 1px solid #1C1917;
     /* Même typo que le nom des cartes du bureau. */
     font-size: 16px; font-weight: 700; letter-spacing: -0.4px; line-height: 24px; }
 
@@ -3416,43 +3416,43 @@
      secondaires suivent tous. Plus de flou ni d'ombre portée. */
   #about {
     --ink-rgb: 0, 0, 0;
-    --ink: #000000;
+    --ink: #1C1917;
     background: #ffffff;
-    color: #000000;
+    color: #1C1917;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     /* Ombre pleine décalée, comme les cartes du bureau. */
-    box-shadow: 6px 7px 0 #000000;
-    border: 1px solid #000000;
+    box-shadow: 6px 7px 0 #1C1917;
+    border: 1px solid #1C1917;
     -webkit-font-smoothing: auto;
   }
   #about .modal__titlebar,
   #about .about__lead,
-  #about .about__calloutWrap { border-color: #000000; }
+  #about .about__calloutWrap { border-color: #1C1917; }
   /* Filets d'un bord à l'autre, comme dans le lecteur : la marge latérale
      devient un retrait intérieur, le texte ne bouge pas. */
   #about .about__lead,
   #about .about__calloutWrap { margin-left: 0; margin-right: 0; padding-left: 16px; padding-right: 16px; }
   #about .modal__title,
   #about .about__fullname,
-  #about .about__text { color: #000000; }
+  #about .about__text { color: #1C1917; }
 
   /* ---- Visionneuse (le mème du bureau) : le blanc de l'À propos ----
      Plus de verre sombre : fond blanc, texte noir, trait noir de 1 px et
      ombre pleine décalée. L'image garde un trait fin pour se détacher. */
   #modal {
     --ink-rgb: 0, 0, 0;
-    --ink: #000000;
+    --ink: #1C1917;
     background: #FFFFFF;
-    color: #000000;
+    color: #1C1917;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: 6px 7px 0 #000000;
-    border: 1px solid #000000;
+    box-shadow: 6px 7px 0 #1C1917;
+    border: 1px solid #1C1917;
     -webkit-font-smoothing: auto;
   }
-  #modal .modal__title { color: #000000; }
-  #modal .modal__content { border: 1px solid #000000; }
+  #modal .modal__title { color: #1C1917; }
+  #modal .modal__content { border: 1px solid #1C1917; }
 
   /* ---- Fenêtres du bureau : couleur du bouton qui les ouvre ----
      Même traitement que l'À propos (fond plein, texte noir, trait noir
@@ -3470,18 +3470,18 @@
     --ink-rgb: 0, 0, 0;
     /* --ink est résolue une fois pour toutes sur :root : changer
        --ink-rgb ici ne suffit pas, il faut la reposer. */
-    --ink: #000000;
+    --ink: #1C1917;
     background: var(--fen);
-    color: #000000;
+    color: #1C1917;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: 6px 7px 0 #000000;
-    border: 1px solid #000000;
+    box-shadow: 6px 7px 0 #1C1917;
+    border: 1px solid #1C1917;
     -webkit-font-smoothing: auto;
   }
   /* Les filets blancs translucides deviennent noirs translucides. */
   :is(#finder, #verrou, #mail, #cv, #notes) :not(input, textarea, button) {
-    border-color: #000000;
+    border-color: #1C1917;
   }
 
   /* ---- Projets & Bibliothèque : le matériau du lecteur ----
@@ -3493,19 +3493,19 @@
   #finder {
     background: #FFFFFF;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
   }
   #finder .finder__bar {
     height: 32px;
     padding: 0 12px;
     background: var(--fen);
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #1C1917;
   }
-  #finder .finder__title { font-size: 13px; font-weight: 700; color: #000000; }
+  #finder .finder__title { font-size: 13px; font-weight: 700; color: #1C1917; }
   #finder .finder__status {
     padding: 8px 16px;
     background: #FFFFFF;
-    border-top: 1px solid #000000;
+    border-top: 1px solid #1C1917;
     font-size: 13px; line-height: 16px;
     color: rgba(0, 0, 0, 0.55);
   }
@@ -3522,15 +3522,15 @@
     align-items: start;
     row-gap: 6px;
     padding: 20px 20px 20px;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
     background-color: #FFFFFF;
     background-image: linear-gradient(#FFE1D9, #FFE1D9);
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 0% 100%;
-    box-shadow: 3px 4px 0 #000000;
-    color: #000000;
+    box-shadow: 3px 4px 0 #1C1917;
+    color: #1C1917;
     cursor: pointer;
     transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -3541,10 +3541,10 @@
     background-color: #FFFFFF;
     background-size: 100% 100%;
     transform: translate(-2px, -2px);
-    box-shadow: 5px 6px 0 #000000;
+    box-shadow: 5px 6px 0 #1C1917;
   }
-  #finder .etude:active { transform: translate(3px, 4px); box-shadow: 0 0 0 #000000; }
-  #finder .etude:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
+  #finder .etude:active { transform: translate(3px, 4px); box-shadow: 0 0 0 #1C1917; }
+  #finder .etude:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
   #finder .etude__num {
     grid-area: num; justify-self: start;
     padding: 3px 10px;
@@ -3552,7 +3552,7 @@
     background: var(--fen, #FF795C);
     font-size: 13px; line-height: 18px; font-weight: 700;
     letter-spacing: 0; text-transform: none;
-    color: #000000;
+    color: #1C1917;
   }
   #finder .etude__titre {
     grid-area: titre;
@@ -3583,14 +3583,14 @@
      remplit le bouton de gauche à droite. Avant, le survol passait le fond
      en blanc sous un texte blanc : le bouton disparaissait. */
   #mail .mail__send, #verrou .verrou__ok {
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     background-color: #FF6645;
     background-image: linear-gradient(#FFD2C4, #FFD2C4);
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 0% 100%;
-    color: #000000;
-    box-shadow: 3px 4px 0 #000000;
+    color: #1C1917;
+    box-shadow: 3px 4px 0 #1C1917;
     cursor: pointer;
     transition: background-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 120ms ease, box-shadow 120ms ease;
@@ -3607,7 +3607,7 @@
   #verrou .verrou__ok:focus-visible { background-color: #ecec5e; }
   #mail .mail__send:active, #verrou .verrou__ok:active {
     transform: translate(3px, 4px);
-    box-shadow: 0 0 0 #000000;
+    box-shadow: 0 0 0 #1C1917;
   }
 
 
@@ -3813,11 +3813,11 @@
     width: 170px;
     height: 140px;
     padding: 16px 16px;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
     background: var(--pill, #ff6645);
-    box-shadow: 4px 5px 0 #000000;
-    color: #000000;
+    box-shadow: 4px 5px 0 #1C1917;
+    color: #1C1917;
     text-align: left;
     /* left/top : c'est ce qui rend le rangement fluide — chaque carte
        glisse jusqu'à sa place au lieu d'y sauter. */
@@ -3846,7 +3846,7 @@
     line-height: 1.1;
     white-space: normal;
     text-align: left;
-    color: #000000;
+    color: #1C1917;
     text-shadow: none;
   }
   /* Survol : la carte se triple, comme le bouton « Déverrouiller ». Deux
@@ -3867,9 +3867,9 @@
     background-position: left center;
     background-size: 0% 100%;
     box-shadow:
-      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
-      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
-      4px 5px 0 0 #000000;
+      0 0 0 0 var(--copie1), 0 0 0 0 #1C1917,
+      0 0 0 0 var(--copie2), 0 0 0 0 #1C1917,
+      4px 5px 0 0 #1C1917;
     transition: left 650ms cubic-bezier(0.22, 1, 0.36, 1),
                 top 650ms cubic-bezier(0.22, 1, 0.36, 1),
                 transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -3881,17 +3881,17 @@
     transform: translate(-4px, -4px);
     background-size: 100% 100%;
     box-shadow:
-      8px 8px 0 0 var(--copie1), 8px 8px 0 1px #000000,
-      16px 16px 0 0 var(--copie2), 16px 16px 0 1px #000000,
-      19px 20px 0 1px #000000;
+      8px 8px 0 0 var(--copie1), 8px 8px 0 1px #1C1917,
+      16px 16px 0 0 var(--copie2), 16px 16px 0 1px #1C1917,
+      19px 20px 0 1px #1C1917;
   }
   /* Au clic, la pile se referme et la carte s'enfonce. */
   .stage .minis .mini:active {
     transform: translate(4px, 5px);
     box-shadow:
-      0 0 0 0 var(--copie1), 0 0 0 0 #000000,
-      0 0 0 0 var(--copie2), 0 0 0 0 #000000,
-      0 0 0 0 #000000;
+      0 0 0 0 var(--copie1), 0 0 0 0 #1C1917,
+      0 0 0 0 var(--copie2), 0 0 0 0 #1C1917,
+      0 0 0 0 #1C1917;
     transition-duration: 650ms, 650ms, 120ms, 120ms, 350ms;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -3899,7 +3899,7 @@
     .stage .minis .mini:not(.mini--mobile) { transition: left 650ms ease, top 650ms ease, background-size 350ms ease; }
   }
   .stage .minis .mini[data-dragging="true"] { transition: none; }
-  .stage .minis .mini:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
+  .stage .minis .mini:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
 
   /* Galerie masquée pour l'instant (balisage et fenêtre conservés). */
   .stage .minis .mini[data-folder="photos"] { display: none !important; }
@@ -3934,9 +3934,9 @@
     display: block; width: 96px;
     padding: 4px;
     background: #FFFFFF;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     transform: rotate(var(--penche, -3deg));
     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -3947,7 +3947,7 @@
   .mini--fichier:hover .mini__fichier,
   .mini--fichier:focus-visible .mini__fichier {
     transform: rotate(var(--penche, -3deg)) translate(-2px, -3px);
-    box-shadow: 6px 8px 0 #000000;
+    box-shadow: 6px 8px 0 #1C1917;
   }
   .stage .minis .mini.mini--fichier:not(.mini--mobile) .mini__label {
     /* Nom du fichier en texte noir seul, sans étiquette autour. */
@@ -3956,7 +3956,7 @@
     background: none;
     border: 0;
     border-radius: 0;
-    color: #000000;
+    color: #1C1917;
     font-size: 12px; line-height: 16px; font-weight: 500;
     letter-spacing: 0;
     text-align: center;
@@ -4001,8 +4001,8 @@
   /* Traits des yeux à 1 px réel, quelle que soit la taille d'affichage. */
   .yeux [stroke="#000"] { stroke-width: 1; vector-effect: non-scaling-stroke; }
   /* Ombre pleine décalée qui suit la forme des yeux, comme les boutons. */
-  .stage .lock .yeux { filter: drop-shadow(3px 4px 0 #000000); }
-  .menubar__logo > .yeux--barre { filter: drop-shadow(1px 2px 0 #000000); }
+  .stage .lock .yeux { filter: drop-shadow(3px 4px 0 #1C1917); }
+  .menubar__logo > .yeux--barre { filter: drop-shadow(1px 2px 0 #1C1917); }
   /* Version barre de menus : les mêmes yeux en 46 × 24. */
   .stage:not([data-wall="blanc"]) .menubar__logo { width: auto; filter: none; }
   .menubar__logo > .yeux--barre { display: block; width: 30px; height: 24px; overflow: visible; }
@@ -4017,19 +4017,19 @@
     display: block; width: 32px; height: 32px;
     object-fit: cover; object-position: center;
     box-sizing: border-box;
-    border: 1px solid #000000; border-radius: 4px;
+    border: 1px solid #1C1917; border-radius: 4px;
     /* overflow: visible, posé sur tous les enfants du logo, empêchait
        l'arrondi de découper la photo : coins carrés et trait décalé. */
     overflow: hidden;
-    box-shadow: 2px 2px 0 #000000;
+    box-shadow: 2px 2px 0 #1C1917;
     background: #E9A291;
   }
   /* Comme les icônes de la barre : trait noir (~1,4 px à cette taille, soit
      9 unités du dessin) et ombre pleine décalée. */
-  .menubar__logo > .perso--barre { filter: drop-shadow(2px 2.5px 0 #000); }
+  .menubar__logo > .perso--barre { filter: drop-shadow(2px 2.5px 0 #1C1917); }
   .perso--barre .perso__forme {
     fill: #FFFFFF;            /* blanc, comme le fond des autres icônes */
-    stroke: #000000; stroke-width: 6; stroke-linejoin: round;   /* ≈ 1 px */
+    stroke: #1C1917; stroke-width: 6; stroke-linejoin: round;   /* ≈ 1 px */
   }
   .yeux__pupille { will-change: transform; }   /* animé image par image en JS */
   .yeux__oeil { transform-box: fill-box; transform-origin: center; }
@@ -4053,10 +4053,10 @@
     /* Helvetica, comme la date et le métier. */
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px; font-weight: 400; line-height: 22px;
-    color: #000;
+    color: #1C1917;
   }
   /* Texte noir en Medium. */
-  .stage .lock .unlock { font-weight: 500; color: #000000; }
+  .stage .lock .unlock { font-weight: 500; color: #1C1917; }
 
   /* Cartes du bureau : 168 × 136, marges de 16, libellé 16 / 24.
      À 24 px, « Bibliothèque » ne tenait pas et se coupait en plein mot. */
@@ -4204,13 +4204,13 @@
      centré. Les filets blancs translucides du thème sombre passent au noir.
      Tout passe par l'ID : les autres études ne bougent pas. */
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__win {
-    --ink: #000000;
+    --ink: #1C1917;
     --ink-rgb: 0, 0, 0;
     background: #FFFFFF;
-    color: #000000;
-    border: 1px solid #000000;
+    color: #1C1917;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -4218,10 +4218,10 @@
     height: 32px;
     padding: 0 12px;
     background: #FF795C;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #1C1917;
   }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bartitle { font-size: 13px; font-weight: 700; color: #000000; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .modal__light--close { border: 1.5px solid #000000; background: transparent; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bartitle { font-size: 13px; font-weight: 700; color: #1C1917; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .modal__light--close { border: 1.5px solid #1C1917; background: transparent; }
   /* --- Use Case 01 : système typographique ---------------------------
      Une échelle courte et franche, en Helvetica Neue, sans capitales
      espacées : 13 · 15 · 17 · 22 · 28 · 40. Chaque niveau a un seul
@@ -4241,7 +4241,7 @@
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page {
     padding: 72px 0 120px;
     font-size: 17px; line-height: 28px;
-    color: #1A1A1A;
+    color: #1C1917;
     letter-spacing: 0;
   }
   /* Une colonne de lecture de 620, centrée ; les captures gardent 772. */
@@ -4268,7 +4268,7 @@
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__client {
     margin: 12px 0 0;
     font-size: 17px; line-height: 24px; font-weight: 500;
-    color: #000000;
+    color: #1C1917;
   }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__temps {
     margin: 4px 0 0;
@@ -4279,7 +4279,7 @@
     margin: 32px 0 0;
     font-size: 22px; line-height: 32px; font-weight: 500;
     letter-spacing: -0.01em;
-    color: #000000;
+    color: #1C1917;
   }
   /* Les cinq faits dans un seul panneau crème, sans filets. */
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__resume,
@@ -4313,7 +4313,7 @@
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__meta dd {
     margin: 0;
     font-size: 15px; line-height: 22px; font-weight: 500;
-    color: #000000;
+    color: #1C1917;
   }
 
   /* Chapitres : l'espace sépare, l'étiquette situe, le titre affirme. */
@@ -4331,7 +4331,7 @@
     margin: 0 0 20px;
     font-size: 28px; line-height: 36px; font-weight: 700;
     letter-spacing: -0.02em;
-    color: #000000;
+    color: #1C1917;
   }
 
   /* Décisions : pastille corail numérotée, titre, contrainte en encadré. */
@@ -4345,14 +4345,14 @@
     border-radius: 4px;
     background: #FF795C;
     font-size: 15px; line-height: 1; font-weight: 700;
-    color: #000000;
+    color: #1C1917;
     font-variant-numeric: tabular-nums;
   }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision h3 {
     margin: 0 0 20px;
     font-size: 22px; line-height: 30px; font-weight: 700;
     letter-spacing: -0.015em;
-    color: #000000;
+    color: #1C1917;
   }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte {
     margin: 0 0 24px;
@@ -4361,7 +4361,7 @@
     border-radius: 4px;
     background: #F7F4EF;
     font-size: 17px; line-height: 26px; font-weight: 500;
-    color: #000000;
+    color: #1C1917;
   }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion {
     margin: 4px 0 0;
@@ -4377,7 +4377,7 @@
   /* Captures : le trait de la fenêtre, une légende courte et discrète. */
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig { margin: 48px 0 0; }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig + .doc__fig { margin-top: 32px; }
-  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig img { border: 1px solid #000000; border-radius: 4px; }
+  :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig img { border: 1px solid #1C1917; border-radius: 4px; }
   :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig figcaption {
     margin-top: 12px;
     font-size: 13px; line-height: 20px;
@@ -4589,7 +4589,7 @@
      restant dans la famille du feu de circulation macOS. */
   .doc--v3 .doc__gravite--critique { --g-fond: #2a1616; --g-bord: #4a2323; --g-badge: #ff5f56; --g-texte: #2a0604; }
   .doc--v3 .doc__gravite--moderee  { --g-fond: #262112; --g-bord: #453a1c; --g-badge: #ffbd2e; --g-texte: #3d2700; }
-  .doc--v3 .doc__gravite--mineure  { --g-fond: #1e1e1e; --g-bord: #333331; --g-badge: #9a979a; --g-texte: #1f1f1f; }
+  .doc--v3 .doc__gravite--mineure  { --g-fond: #1e1e1e; --g-bord: #333331; --g-badge: #9a979a; --g-texte: #1C1917; }
 
   /* --- les figures ---------------------------------------------------- */
   /* Une capture d'interface sur fond blanc n'a pas de bord à elle : sans ce
@@ -4740,8 +4740,8 @@
      (relevés, gravités, alertes, définitions, citation) et la fiche seule
      du 03, repassés du sombre au blanc. */
   #doc-loblaw.doc--v3 {
-    --v3-titre: #000000;
-    --v3-encre: #1A1A1A;
+    --v3-titre: #1C1917;
+    --v3-encre: #1C1917;
     --v3-sous:  rgba(0, 0, 0, 0.7);
     --v3-gris:  rgba(0, 0, 0, 0.55);
     --v3-bord:  rgba(0, 0, 0, 0.12);
@@ -4754,7 +4754,7 @@
   #doc-loblaw .doc__page > header { margin-top: 40px; }
   #doc-loblaw .doc__page > .doc__paire { margin-top: 48px; }
 
-  #doc-loblaw .doc__hero { border: 1px solid #000000; border-radius: 4px; }
+  #doc-loblaw .doc__hero { border: 1px solid #1C1917; border-radius: 4px; }
   #doc-loblaw .doc__entete { margin: 0; }
   #doc-loblaw .doc__tags { margin-top: 24px; }
   #doc-loblaw .doc__tags li {
@@ -4775,26 +4775,26 @@
     letter-spacing: 0; text-transform: none;
     color: rgba(0, 0, 0, 0.55);
   }
-  #doc-loblaw .doc__trio dd { font-size: 15px; line-height: 22px; font-weight: 500; color: #000000; }
+  #doc-loblaw .doc__trio dd { font-size: 15px; line-height: 22px; font-weight: 500; color: #1C1917; }
   #doc-loblaw .doc__bloc h3 {
-    font-size: 17px; line-height: 24px; font-weight: 700; color: #000000;
+    font-size: 17px; line-height: 24px; font-weight: 700; color: #1C1917;
   }
 
   #doc-loblaw .doc__bloc--releves {
     padding: 24px; border-radius: 4px; background: #F7F4EF;
   }
   #doc-loblaw .doc__releves li { font-size: 15px; line-height: 22px; }
-  #doc-loblaw .doc__releves strong { font-size: 15px; color: #000000; }
+  #doc-loblaw .doc__releves strong { font-size: 15px; color: #1C1917; }
 
   /* Gravités et alertes : carte blanche au trait noir, la couleur ne vit
      que dans la pastille. Texte noir partout (corail 7,6:1, jaune 17:1). */
   #doc-loblaw .doc__gravite {
-    border: 1px solid #000000; background: #FFFFFF;
+    border: 1px solid #1C1917; background: #FFFFFF;
   }
   #doc-loblaw .doc__gravite > span:first-child {
     padding: 4px 10px; border-radius: 4px;
     font-size: 12px; font-weight: 700; letter-spacing: 0;
-    color: #000000;
+    color: #1C1917;
   }
   #doc-loblaw .doc__gravite ul { font-size: 15px; line-height: 22px; }
   #doc-loblaw .doc__gravite--critique { --g-badge: #FF795C; }
@@ -4805,22 +4805,22 @@
   #doc-loblaw .doc__dtete { display: block; margin: 0; }
   #doc-loblaw .doc__decision > p { font-size: 17px; line-height: 28px; }
   #doc-loblaw .doc__alerte {
-    border: 1px solid #000000; border-radius: 4px;
-    color: #000000; font-size: 15px; line-height: 22px;
+    border: 1px solid #1C1917; border-radius: 4px;
+    color: #1C1917; font-size: 15px; line-height: 22px;
   }
   #doc-loblaw .doc__alerte strong { font-size: 15px; }
   #doc-loblaw .doc__alerte--avert    { --a-fond: #FBFBD9; }
   #doc-loblaw .doc__alerte--bloquant { --a-fond: #FFE4DD; }
 
   #doc-loblaw .doc__defs > div { padding: 16px; border-radius: 4px; background: #F7F4EF; }
-  #doc-loblaw .doc__defs dt { font-size: 15px; line-height: 22px; color: #000000; }
+  #doc-loblaw .doc__defs dt { font-size: 15px; line-height: 22px; color: #1C1917; }
   #doc-loblaw .doc__defs dd { font-size: 13px; line-height: 20px; color: rgba(0, 0, 0, 0.7); }
 
   #doc-loblaw .doc__citation {
     border-left: 4px solid #FF795C; border-radius: 0 4px 4px 0;
     background: #F7F4EF;
   }
-  #doc-loblaw .doc__citation p { font-size: 20px; line-height: 30px; color: #000000; }
+  #doc-loblaw .doc__citation p { font-size: 20px; line-height: 30px; color: #1C1917; }
   #doc-loblaw .doc__recul { font-size: 15px; line-height: 22px; }
 
   /* Use Case 03 : la fiche est seule, sans le résumé qui la précède dans
@@ -4839,7 +4839,7 @@
     margin: 24px 0; padding: 16px 20px;
     border: 0; border-left: 4px solid #FF795C; border-radius: 0 4px 4px 0;
     background: #F7F4EF;
-    font-size: 17px; line-height: 26px; font-weight: 500; color: #000000;
+    font-size: 17px; line-height: 26px; font-weight: 500; color: #1C1917;
   }
   @media (max-width: 767px) {
     #doc-roche .doc__meta { padding: 20px; }
@@ -5628,7 +5628,7 @@
     padding: 6px 14px;
     background-color: #22C65B;
     background-image: linear-gradient(#4FDB7F, #4FDB7F);
-    border: 2px solid #000000;
+    border: 2px solid #1C1917;
     font-family: "Nunito", "Arial Rounded MT Bold", "Helvetica Neue", sans-serif;
     font-weight: 900;
     font-size: 20px; line-height: 1;
@@ -5701,7 +5701,7 @@
     font-weight: 700;
     font-size: 20px;
     -webkit-text-stroke-width: 1.5px;
-    text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;
+    text-shadow: 1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917;
   }
   @media (max-width: 767px) {
     .stage .lock .identity .identity__name.identity__name { font-size: 17px; }
@@ -5768,13 +5768,13 @@
     letter-spacing: -0.01em;
     margin-right: 0;
     color: #F2DC94;   /* jaune beurre, plus doux que le jaune vif */
-    -webkit-text-stroke: 2px #000000;
+    -webkit-text-stroke: 2px #1C1917;
     paint-order: stroke fill;
     text-shadow:
-      1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000, 4px 4px 0 #000;
+      1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917, 4px 4px 0 #1C1917;
   }
   @media (max-width: 767px) {
-    .stage .lock .identity .identity__name.identity__name { font-size: 18px; -webkit-text-stroke-width: 1.5px; text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000; }
+    .stage .lock .identity .identity__name.identity__name { font-size: 18px; -webkit-text-stroke-width: 1.5px; text-shadow: 1px 1px 0 #1C1917, 2px 2px 0 #1C1917, 3px 3px 0 #1C1917; }
   }
   /* La date dans la même typo que le nom : capitales grasses italiques
      très espacées (Helvetica Neue normale, sans l'inclinaison ajoutée). */
@@ -5826,7 +5826,7 @@
     .stage[data-state="desktop"] {
       background-color: var(--pochette-fond);
       /* Sur le papier crème, la barre de menus passe en encre noire. */
-      --text: #111111;
+      --text: #1C1917;
       --sky-shadow: none;
       --sky-shadow-svg: none;
     }
@@ -5858,7 +5858,7 @@
       --dock-gap: 10px;
     }
     /* Sur le papier crème, les intitulés passent en encre noire. */
-    .stage[data-state="desktop"] .dock__label { color: #111111; text-shadow: none; }
+    .stage[data-state="desktop"] .dock__label { color: #1C1917; text-shadow: none; }
 
     .stage[data-state="desktop"] .pochette-nom,
     .stage[data-state="lock"] .pochette-nom {
@@ -5918,14 +5918,14 @@
     display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     box-sizing: border-box;
-    border: 1px solid #000000; border-radius: 4px;
+    border: 1px solid #1C1917; border-radius: 4px;
     overflow: hidden;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     background: #E9A291;
   }
-  #view-lock #avatar-lock > .perso { filter: drop-shadow(3px 4px 0 #000000); }
+  #view-lock #avatar-lock > .perso { filter: drop-shadow(3px 4px 0 #1C1917); }
   /* 2 unités du dessin ≈ 1 px à cette taille (100 px pour 200 unités). */
-  #perso .perso__forme { stroke: #000000; stroke-width: 2; stroke-linejoin: round; }
+  #perso .perso__forme { stroke: #1C1917; stroke-width: 2; stroke-linejoin: round; }
   .perso { display: block; width: 100%; height: 100%; overflow: visible; }
   .perso__corps { transform-box: view-box; transform-origin: 50% 90%; }
   .perso__rieurs, .perso__tristes, .perso__bouche, .perso__larme, .perso__yeux {
@@ -6114,7 +6114,7 @@
     width: 420px;
     max-height: min(840px, calc(100vh - var(--bar-h) - 48px));
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     overflow: hidden;
     padding-bottom: 20px;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
@@ -6123,7 +6123,7 @@
     height: 32px; min-height: 32px;
     padding: 0 12px;
     background: #EEED70;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #1C1917;
   }
   #about .modal__title { font-size: 13px; font-weight: 700; letter-spacing: 0; }
   #about .about__body { gap: 20px; }
@@ -6139,9 +6139,9 @@
   #about .about__photo {
     position: relative;
     margin: 0;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
   }
   #about .about__carte {
     display: flex; flex-direction: column; justify-content: flex-end;
@@ -6153,7 +6153,7 @@
     margin: 0;
     font-size: 22px; line-height: 26px;
     font-weight: 400; letter-spacing: -0.02em;
-    color: #000000;
+    color: #1C1917;
   }
   #about .about__titre b { font-weight: 700; }
   /* L'autocollant : les yeux de l'avatar sur une tuile corail, incliné,
@@ -6163,9 +6163,9 @@
     display: grid; place-items: center;
     width: 64px; height: 64px;
     background: #FF6645;
-    border: 1px solid #000000;
+    border: 1px solid #1C1917;
     border-radius: 4px;
-    box-shadow: 3px 4px 0 #000000;
+    box-shadow: 3px 4px 0 #1C1917;
     rotate: 12deg;
   }
   /* Portrait 4:5, buste prolongé : la carte de titre prend la même hauteur. */
@@ -6180,8 +6180,8 @@
   #about .about__lead p:last-child { margin-bottom: 0; }
   /* Le texte sous le filet, au même corps que l'intro. */
   #about .about__callout p { font-size: 16px; line-height: 24px; }
-  #about .about__etincelle { filter: drop-shadow(2px 2px 0 #000000); }
-  #about .about__skill { box-shadow: 3px 4px 0 #000000; }
+  #about .about__etincelle { filter: drop-shadow(2px 2px 0 #1C1917); }
+  #about .about__skill { box-shadow: 3px 4px 0 #1C1917; }
 
   @media (max-width: 767px) {
     #about { width: 100%; }
@@ -6242,18 +6242,18 @@
     z-index: 5;
     display: inline-flex; align-items: center; gap: 8px;
     padding: 4px 10px 4px 4px;
-    border: 1.5px solid #000; border-radius: 4px;
+    border: 1.5px solid #1C1917; border-radius: 4px;
     background: rgba(255, 255, 255, 0.82);
-    box-shadow: 2px 2px 0 #000;
-    color: #000; cursor: pointer;
+    box-shadow: 2px 2px 0 #1C1917;
+    color: #1C1917; cursor: pointer;
     font: 700 10px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.08em; text-transform: uppercase;
     opacity: 0.85;
     transition: opacity 160ms ease, transform 160ms ease, box-shadow 160ms ease;
   }
-  .k7:hover, .k7:focus-visible { opacity: 1; transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #000; }
-  .k7:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000; }
-  .k7:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+  .k7:hover, .k7:focus-visible { opacity: 1; transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #1C1917; }
+  .k7:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #1C1917; }
+  .k7:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
   .k7__icone { width: 32px; height: 21px; display: block; }
   .k7__face { color: #E0457F; }
   .k7__bobine { transform-box: fill-box; transform-origin: center; }
@@ -6317,7 +6317,7 @@
     z-index: 5;
     display: grid; place-items: center;
     width: 28px; height: 28px; padding: 0;
-    border: 0; background: none; color: #000; cursor: pointer;
+    border: 0; background: none; color: #1C1917; cursor: pointer;
     transition: opacity 160ms ease;
   }
   /* Mini-lecteur : trois pictogrammes au trait noir de 1 px, comme les
@@ -6326,7 +6326,7 @@
     display: flex; align-items: center; gap: 2px;
     width: auto; height: auto; cursor: default;
     font: 400 14px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #111111; white-space: nowrap;
+    color: #1C1917; white-space: nowrap;
   }
   .lecteur-mini__btn {
     display: grid; place-items: center;
@@ -6336,7 +6336,7 @@
   }
   .lecteur-mini__btn svg { width: 20px; height: 20px; overflow: visible; }
   .lecteur-mini__btn:hover { opacity: 0.55; }
-  .lecteur-mini__btn:focus-visible { outline: 1px solid #000; outline-offset: 1px; }
+  .lecteur-mini__btn:focus-visible { outline: 1px solid #1C1917; outline-offset: 1px; }
   .lecteur-mini .mini-ico-pause { display: none; }
   .lecteur-mini.is-lecture .mini-ico-pause { display: block; }
   .lecteur-mini.is-lecture .mini-ico-lire { display: none; }
@@ -6367,7 +6367,7 @@
   .flip-lien {
     position: absolute; z-index: 20;
     display: none; align-items: center; gap: 6px;
-    padding: 2px 0; border: 0; background: none; color: #111111; cursor: pointer;
+    padding: 2px 0; border: 0; background: none; color: #1C1917; cursor: pointer;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.08em;   /* comme la barre : 12 px, même tracking */
     left: calc((100vw + var(--carre-v)) / 2 + 10px);
@@ -6377,7 +6377,7 @@
   .flip-lien:hover svg, .flip-lien:focus-visible svg { transform: rotate(180deg); }
   .flip-lien--recto:hover svg, .flip-lien--recto:focus-visible svg { transform: rotate(-180deg); }
   .flip-lien:hover span { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .flip-lien:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+  .flip-lien:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
   .stage[data-state="lock"] .flip-lien--verso,
   .stage[data-state="desktop"] .flip-lien--recto { display: inline-flex; }
   @media (min-width: 768px) {
@@ -6456,7 +6456,7 @@
       bottom: calc(24px + var(--zone-v) - var(--carre-v) - 4px);
     }
   }
-  .stage[data-state="lock"] { --text: #111111; --sky-shadow: none; --sky-shadow-svg: none; }
+  .stage[data-state="lock"] { --text: #1C1917; --sky-shadow: none; --sky-shadow-svg: none; }
   .stage .menubar .menubar__logo { display: none !important; }
   /* Le nom en Medium, et à côté le rôle en Regular. */
   .stage .menubar .menuitem--app { cursor: pointer; pointer-events: auto; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
@@ -6589,7 +6589,7 @@
     --sortie: 0px;
     display: inline-flex; align-items: center; box-sizing: border-box;
     min-height: 44px;
-    background: #FBF8F1; color: #141414;
+    background: #FBF8F1; color: #1C1917;
     border: 1px solid rgba(20, 20, 20, 0.5);
     box-shadow: 0 1px 1px rgba(40, 28, 10, 0.14), 0 4px 10px rgba(40, 28, 10, 0.10);
     font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -6598,10 +6598,10 @@
     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), background-color 160ms ease, border-color 160ms ease;
   }
   .intercalaire:hover { --sortie: 6px; background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .intercalaire:focus-visible { --sortie: 8px; outline: 2px solid #141414; outline-offset: 3px; background: #FFFFFF; }
+  .intercalaire:focus-visible { --sortie: 8px; outline: 2px solid #1C1917; outline-offset: 3px; background: #FFFFFF; }
   /* Rubrique ouverte : la languette sort davantage, passe en gras, prend
      un point devant et un trait plein (pas seulement une couleur). */
-  .intercalaire[aria-current="true"] { --sortie: 12px; background: #FFFFFF; border-color: #141414; font-weight: 700; }
+  .intercalaire[aria-current="true"] { --sortie: 12px; background: #FFFFFF; border-color: #1C1917; font-weight: 700; }
   .intercalaire[aria-current="true"]::before {
     content: ""; width: 6px; height: 6px; border-radius: 50%;
     background: currentColor; margin-right: 8px; flex: none;
@@ -6645,20 +6645,20 @@
     .stage:is([data-state="lock"], [data-state="desktop"]) .sayhi-mobile {
       display: inline-flex; align-items: center; position: absolute; z-index: 20;
       right: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
-      color: #111111; text-decoration: none;
+      color: #1C1917; text-decoration: none;
       font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     }
     /* Logo MANU en haut à gauche (SAY HI passe à droite) : il rafraîchit la page. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .logo-mobile {
       display: inline-flex; align-items: center; position: absolute; z-index: 20;
       left: calc((100vw - var(--carre-v)) / 2); top: 16px; min-height: 24px; padding: 2px 0;
-      border: 0; background: none; cursor: pointer; color: #111111;
+      border: 0; background: none; cursor: pointer; color: #1C1917;
       font: italic 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     }
     .logo-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-    .logo-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+    .logo-mobile:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
     .sayhi-mobile:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-    .sayhi-mobile:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+    .sayhi-mobile:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
   }
 
 
@@ -6750,7 +6750,7 @@
     .stage.gatefold-pli .livret-droite { background: #2FA7B8 url("fond-piscine-grand.jpg") center 30% / cover no-repeat; }
     .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
     .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
-    .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #000; }
+    .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #1C1917; }
     /* Ouverte : pas de disque. */
     .stage.gatefold .vinyle { visibility: hidden; }
     .stage.gatefold-ouvert .livret-droite, .stage.gatefold-ouvert .stage__bg { cursor: pointer; }
@@ -6836,20 +6836,20 @@
       --u: calc(100cqw / 1895);
       position: absolute; left: calc(260 * var(--u)); top: calc(450 * var(--u)); width: calc(860 * var(--u));
       font-size: max(12px, calc(32 * var(--u)));
-      color: #141414; cursor: default;
+      color: #1C1917; cursor: default;
     }
     .livret-droite .face-a__titre {
       margin: 0 0 calc(22 * var(--u));
-      color: #141414;
+      color: #1C1917;
       font: 500 max(11px, calc(28 * var(--u)))/1 "DM Sans", sans-serif; font-style: normal;
       letter-spacing: 0.16em;
     }
     .livret-droite .face-a__titre--b { margin-top: calc(110 * var(--u)); }
     .livret-droite .piste { padding: calc(18 * var(--u)) 0; grid-template-columns: 2.4ch 1fr; column-gap: calc(18 * var(--u)); }
-    .livret-droite :is(.piste__num, .piste__fleche) { color: #141414; }
-    .livret-droite .piste__nom { color: #141414; font-size: max(15px, calc(50 * var(--u))); }
+    .livret-droite :is(.piste__num, .piste__fleche) { color: #1C1917; }
+    .livret-droite .piste__nom { color: #1C1917; font-size: max(15px, calc(50 * var(--u))); }
     .livret-droite .piste__meta { color: #6A6A6A; font-size: 0.82em; }
-    .livret-droite .piste:focus-visible { outline-color: #141414; }
+    .livret-droite .piste:focus-visible { outline-color: #1C1917; }
     .livret-droite .piste__mini {
       position: absolute; left: calc(1000 * var(--u)); top: calc(70 * var(--u));
       width: calc(420 * var(--u)); font-size: max(13px, calc(44 * var(--u)));
@@ -6880,7 +6880,7 @@
       position: relative; aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden;
       /* Recadré sur la droite du panoramique : le personnage reste dans l'image. */
       background: #E8DCC6 url("livret-mur-photo.jpg") 72% 50% / cover no-repeat;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #000;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #1C1917;
     }
     .face-a-mobile .face-a { margin-top: 28px; font-size: 14px; }
     .face-a-mobile .face-a__pistes li:last-child .piste { border-bottom: 1px solid rgba(27, 69, 180, 0.22); }
@@ -6947,9 +6947,9 @@
     .mob-accueil .en-ce-moment__ville { display: block; }
     .mob-accueil .en-ce-moment__heure [data-heure] { font-family: inherit !important; font-variant-numeric: tabular-nums; }
     .mob-accueil .en-ce-moment__heure [data-ville] { font-family: inherit !important; }
-    .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #8F8F8C; font-size: 16px; line-height: 24px; }
+    .mob-accueil .en-ce-moment__activite { margin: 8px 0 32px; color: #666666; font-size: 16px; line-height: 24px; }
     .mob-accueil .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--gout); margin: 0; font-size: 16px; line-height: 24px; }
-    .mob-accueil .en-ce-moment__liste dt { color: #8F8F8C; }
+    .mob-accueil .en-ce-moment__liste dt { color: #666666; }
     .mob-accueil .en-ce-moment__liste dd { margin: 0; }
     .mob-accueil .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
     .face-a-mobile .mob-projets__titre {
@@ -6969,7 +6969,7 @@
     .mob-carte__client { font: 400 14px/1.2 "Geist", Arial, sans-serif; color: #6A6A6A; }
     .mob-carte__titre { margin-top: 2px; font: 400 20px/1.2 "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-carte:active { transform: scale(0.985); }
-    .mob-carte:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+    .mob-carte:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
     .face-a-mobile .mob-note {
       display: block; margin: 64px 0 0; text-align: center;
       font: 400 16px/1.35 "Geist", Arial, sans-serif; color: #1C1917;
@@ -6995,7 +6995,7 @@
     .mob-dossier__titre { font: 400 24px/32px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-dossier__nb { font: 400 16px/24px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-dossier__signe { margin-left: auto; font: 400 16px/24px "Geist", Arial, sans-serif; color: #1C1917; }
-    .mob-dossier:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+    .mob-dossier:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
 
     .mob-dossier__panneau { list-style: none; margin: 0; padding: 8px 0 32px; }
     .mob-dossier__panneau[hidden] { display: none; }
@@ -7004,12 +7004,12 @@
       padding: 12px 0; color: #1C1917; text-decoration: none;
     }
     /* Pas d'image : un numéro, un nom, de l'air. */
-    .mob-ligne__num { font: 400 16px/24px "Geist", Arial, sans-serif; font-variant-numeric: tabular-nums; color: #8F8F8C; }
+    .mob-ligne__num { font: 400 16px/24px "Geist", Arial, sans-serif; font-variant-numeric: tabular-nums; color: #666666; }
     .mob-ligne__titre { font: 400 20px/24px "Geist", Arial, sans-serif; letter-spacing: -0.01em; }
     .mob-ligne__bientot { display: block; font: 400 13px/16px "Geist", Arial, sans-serif; color: #7A746B; }
     .mob-ligne--bientot { color: #A8A29A; }
     a.mob-ligne:active { background: rgba(0,0,0,0.03); }
-    a.mob-ligne:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+    a.mob-ligne:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
   }
 
   /* ===== TÉLÉPHONE ET TABLETTE : PROFIL EN PLEIN ÉCRAN =====
@@ -7049,11 +7049,11 @@
     .stage[data-state="lock"] .note-mobile {
       display: grid; place-items: center; position: absolute; z-index: 21;
       top: 14px; left: 50%; width: 32px; height: 28px; margin-left: -16px; padding: 0;
-      border: 0; border-radius: 6px; background: none; color: #111111; cursor: pointer;
+      border: 0; border-radius: 6px; background: none; color: #1C1917; cursor: pointer;
     }
     .note-mobile svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linejoin: round; stroke-linecap: round; }
     .note-mobile[aria-expanded="true"] { background: rgba(0,0,0,0.06); }
-    .note-mobile:focus-visible { outline: 1px solid #000; outline-offset: 2px; }
+    .note-mobile:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
     .note-mobile.joue svg { animation: note-bat 1.1s ease-in-out infinite; }
     @keyframes note-bat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
     /* La barre (Manu, note, Say hi) reste en haut de l'écran pendant qu'on
@@ -7195,26 +7195,26 @@
     box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain;
     pointer-events: auto;
     padding: clamp(24px, 3.4vw, 52px) clamp(22px, 4vw, 64px);
-    background: #FBF8F1; color: #1A1A1A; border-radius: 2px;
+    background: #FBF8F1; color: #1C1917; border-radius: 2px;
     box-shadow: 0 1px 2px rgba(20, 20, 30, 0.25), 0 14px 34px rgba(10, 30, 60, 0.32);
   }
   .livret[hidden] { display: none; }
   .livret__tete {
     display: flex; flex-direction: column; gap: 10px;
     padding: 0 170px 18px 0; margin-bottom: 24px;
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid #1C1917;
   }
   .livret__sur {
     margin: 0; font: 500 12px/1.2 "DM Sans", sans-serif;
     letter-spacing: 0.14em; text-transform: uppercase; color: #4A4A4A;
   }
   .livret__titre {
-    margin: 0; font: 300 clamp(32px, 3.2vw, 48px)/1.05 "Cormorant Garamond", serif; color: #141414;
+    margin: 0; font: 300 clamp(32px, 3.2vw, 48px)/1.05 "Cormorant Garamond", serif; color: #1C1917;
   }
   .livret__titre:focus { outline: none; }
-  .livret__titre:focus-visible { outline: 2px solid #141414; outline-offset: 4px; }
+  .livret__titre:focus-visible { outline: 2px solid #1C1917; outline-offset: 4px; }
   .livret__texte { max-width: 62ch; }
-  .livret__texte p { margin: 0 0 1em; font: 400 14px/1.65 "DM Sans", sans-serif; color: #1F1F1F; }
+  .livret__texte p { margin: 0 0 1em; font: 400 14px/1.65 "DM Sans", sans-serif; color: #1C1917; }
   .livret__texte .livret__note {
     margin-top: 1.6em; padding-top: 1em; border-top: 1px solid rgba(20, 20, 20, 0.25);
     font-size: 13px; color: #3A3A3A;
@@ -7224,13 +7224,13 @@
     position: absolute; top: clamp(24px, 3.4vw, 52px); right: clamp(22px, 4vw, 64px);
     display: inline-flex; align-items: center; gap: 8px;
     min-height: 40px; padding: 0 14px;
-    background: transparent; color: #141414; border: 1px solid #141414; border-radius: 2px; cursor: pointer;
+    background: transparent; color: #1C1917; border: 1px solid #1C1917; border-radius: 2px; cursor: pointer;
     font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
   }
   .livret__fermer svg { width: 14px; height: 14px; }
-  .livret__fermer:hover { background: #141414; color: #FBF8F1; }
-  .livret__fermer:focus-visible { outline: 2px solid #141414; outline-offset: 3px; }
+  .livret__fermer:hover { background: #1C1917; color: #FBF8F1; }
+  .livret__fermer:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
 
   .livret__pistes { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
   .livret__pistes li {
@@ -7238,15 +7238,15 @@
     padding: 16px 0; border-bottom: 1px solid rgba(20, 20, 20, 0.25);
   }
   .livret__num { font: 500 13px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; }
-  .livret__projet { margin: 0; font: 300 clamp(22px, 2.1vw, 30px)/1.15 "Cormorant Garamond", serif; color: #141414; }
+  .livret__projet { margin: 0; font: 300 clamp(22px, 2.1vw, 30px)/1.15 "Cormorant Garamond", serif; color: #1C1917; }
   .livret__client { margin: 6px 0 0; font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4A4A; }
   .livret__lire {
     display: inline-flex; align-items: center; min-height: 44px;
-    color: #141414; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+    color: #1C1917; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
   }
   .livret__lire { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
   .livret__lire:hover { text-decoration-thickness: 2px; }
-  .livret__lire:focus-visible { outline: 2px solid #141414; outline-offset: 2px; }
+  .livret__lire:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
 
 
   /* Téléphone : la pochette ne s'étire plus avec la page, et le livret
@@ -7278,7 +7278,7 @@
   .bio-modal {
     width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 48px);
     padding: 0; border: 0; border-radius: 4px; overflow: auto; overscroll-behavior: contain;
-    background: #FBF8F1; color: #1A1A1A;
+    background: #FBF8F1; color: #1C1917;
     box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
   }
   .bio-modal::backdrop { background: rgba(20, 28, 50, 0.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
@@ -7290,8 +7290,8 @@
     image-rendering: pixelated; mix-blend-mode: overlay; opacity: 0.5;
   }
   .bio-modal__corps { padding: 26px clamp(20px, 5vw, 40px) 32px; }
-  .bio-modal .livret__sur { padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
-  .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1A1A1A; }
+  .bio-modal .livret__sur { padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid #1C1917; }
+  .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1C1917; }
   /* RECTO / VERSO : retirés à l'écran (un clic ou un tap sur la pochette
      la retourne). Ils restent pour le clavier et n'apparaissent qu'au
      focus, comme un lien d'évitement. */
@@ -7305,7 +7305,7 @@
   .bio-modal__fermer {
     position: absolute; top: 8px; right: 10px;
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px;
-    background: none; border: 0; color: #141414; cursor: pointer;
+    background: none; border: 0; color: #1C1917; cursor: pointer;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
   }
   .bio-modal__fermer:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
@@ -7326,8 +7326,8 @@
   .curseur-bulle {
     position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
     padding: 5px 9px 4px;
-    background: #FBF8F1; color: #111111;
-    border: 1px solid #111111; border-radius: 0;
+    background: #FBF8F1; color: #1C1917;
+    border: 1px solid #1C1917; border-radius: 0;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
     white-space: pre;   /* un \n dans le texte = retour à la ligne */ opacity: 0; transition: opacity 140ms ease;
   }
@@ -7350,16 +7350,16 @@
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__win {
     width: min(1520px, 100%);   /* deux fois l'ancienne largeur (760) */
-    background: #FBF8F1; color: #1F1F1F;
+    background: #FBF8F1; color: #1C1917;
     border: 0; border-radius: 4px;
     box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
     font-family: "DM Sans", sans-serif;
-    --ink: #141414; --ink-rgb: 20, 20, 20;
+    --ink: #1C1917; --ink-rgb: 20, 20, 20;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bar {
     height: auto; min-height: 52px; padding: 4px 10px 4px clamp(20px, 5vw, 40px);
     justify-content: space-between;
-    background: none; border-bottom: 1px solid #1A1A1A;
+    background: none; border-bottom: 1px solid #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bartitle {
     position: static; transform: none;
@@ -7369,7 +7369,7 @@
   /* (le préfixe « Livret / » de l'en-tête a été retiré) */
   .doc__fermer {
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px;
-    border: 0; background: none; color: #111111; cursor: pointer;
+    border: 0; background: none; color: #1C1917; cursor: pointer;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
   }
   .doc__fermer:focus { outline: none; }
@@ -7390,44 +7390,44 @@
   /* Texte */
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page {
     padding: 56px 0 96px;
-    font: 400 15px/1.7 "DM Sans", sans-serif; color: #1F1F1F;
+    font: 400 15px/1.7 "DM Sans", sans-serif; color: #1C1917;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page a { color: #141414; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__page a { color: #1C1917; }
   /* Repères : petites capitales espacées, comme « LIVRET / FACE A ». */
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__eyebrow, .doc__num, .doc__temps, .doc__resume dt, .doc__meta dt) {
     font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.12em;
     text-transform: uppercase; color: #4A4A4A;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__titre {
-    font: 300 44px/1.05 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
+    font: 300 44px/1.05 "Cormorant Garamond", serif; letter-spacing: 0; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__client {
     font: 500 13px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em;
     text-transform: uppercase; color: #4A4A4A;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__hook {
-    font: 300 26px/1.3 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
+    font: 300 26px/1.3 "Cormorant Garamond", serif; letter-spacing: 0; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h2 {
-    font: 300 34px/1.1 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
+    font: 300 34px/1.1 "Cormorant Garamond", serif; letter-spacing: 0; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision h3,
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__bloc h3 {
-    font: 300 26px/1.2 "Cormorant Garamond", serif; letter-spacing: 0; color: #141414;
+    font: 300 26px/1.2 "Cormorant Garamond", serif; letter-spacing: 0; color: #1C1917;
   }
   /* Panneaux : un crème un cran plus soutenu, sans corail. */
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume, .doc__meta, .doc__contrainte, .doc__notion) {
     background: #F1EBDD;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) :is(.doc__resume dd, .doc__meta dd) {
-    font: 400 14px/1.5 "DM Sans", sans-serif; color: #1F1F1F;
+    font: 400 14px/1.5 "DM Sans", sans-serif; color: #1C1917;
   }
-  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1F1F1F; border-radius: 2px; }
+  .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__contrainte { font: 400 15px/1.6 "DM Sans", sans-serif; color: #1C1917; border-radius: 2px; }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__notion { font: 500 12px/1.5 "DM Sans", sans-serif; color: #4A4A4A; border-radius: 2px; }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__decision .doc__num {
-    background: none; border: 1px solid #1A1A1A; border-radius: 0;
+    background: none; border: 1px solid #1C1917; border-radius: 0;
     height: 26px; min-width: 36px;
-    font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; color: #141414;
+    font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; color: #1C1917;
   }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig img { border: 1px solid rgba(20, 20, 20, 0.25); border-radius: 2px; }
   .stage :is(#doc-gvq, #doc-roche, #doc-loblaw, #doc-demarrage) .doc__fig figcaption {
@@ -7458,12 +7458,12 @@
     min-height: 28px; padding: 0 2px;
     right: calc((100vw - var(--carre-v)) / 2);
     top: calc(var(--haut-v) + var(--carre-v) + 8px);
-    color: #111111;
+    color: #1C1917;
     text-decoration: none; text-underline-offset: 3px; text-decoration-thickness: 1px;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
   }
   .stage .lien-bas:hover { text-decoration: underline; }
-  .lien-bas:focus-visible { outline: 1px solid #000; outline-offset: 3px; }
+  .lien-bas:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) .lien-bas {
       left: auto; right: 24px; top: auto;   /* en bas à droite */
@@ -7499,14 +7499,14 @@
   }
   .stage #mail {
     width: min(460px, 100%);
-    background: #FBF8F1; color: #1A1A1A;
+    background: #FBF8F1; color: #1C1917;
     border: 0; border-radius: 4px;
     box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
   }
   .stage #mail .mail__bar {
     height: auto; min-height: 52px; padding: 4px 10px 4px clamp(20px, 5vw, 32px);
     justify-content: space-between;
-    border-bottom: 1px solid #1A1A1A; cursor: default;
+    border-bottom: 1px solid #1C1917; cursor: default;
   }
   .stage #mail .mail__bartitle {
     position: static; transform: none;
@@ -7520,13 +7520,13 @@
     margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
     transform: none; transition: none; cursor: pointer;
     font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
-    color: #111111;
+    color: #1C1917;
   }
   .stage #mail .mail__cancel { color: #4A4A4A; }
   .stage #mail .mail__fermer:hover, .stage #mail .mail__fermer:focus-visible,
   .stage #mail .mail__cancel:hover, .stage #mail .mail__cancel:focus-visible,
   .stage #mail .mail__send:hover, .stage #mail .mail__send:focus-visible {
-    background: none; outline: none; color: #111111;
+    background: none; outline: none; color: #1C1917;
     text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
   }
   .stage #mail .mail__send:focus-visible, .stage #mail .mail__cancel:focus-visible,
@@ -7542,18 +7542,18 @@
   }
   .stage #mail .mail__chip {
     padding: 0; background: none; border-radius: 0;
-    font: 400 14px/1.4 "DM Sans", sans-serif; color: #1A1A1A;
+    font: 400 14px/1.4 "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__chip img { display: none; }
-  .stage #mail .mail__field { font: 400 14px/1.4 "DM Sans", sans-serif; color: #1A1A1A; }
+  .stage #mail .mail__field { font: 400 14px/1.4 "DM Sans", sans-serif; color: #1C1917; }
   .stage #mail .mail__field::placeholder { color: #8A8A8A; }
   .stage #mail .mail__body {
     padding: 16px clamp(20px, 5vw, 32px);
-    font: 400 14px/1.65 "DM Sans", sans-serif; color: #1F1F1F;
+    font: 400 14px/1.65 "DM Sans", sans-serif; color: #1C1917;
   }
   .stage #mail .mail__foot {
     padding: 4px clamp(10px, 4vw, 22px);
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid #1C1917;
   }
   @media (max-width: 767px) {
     .stage #mail .mail__body, .stage #mail .mail__field, .stage #mail .mail__chip { font-size: 16px; }
@@ -7630,7 +7630,7 @@
     font: 400 13px/1.15 "Geist", Arial, sans-serif;
     text-shadow: 0 1px 2px rgba(0,0,0,0.30);
   }
-  .dossier__carte:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+  .dossier__carte:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
   .dossier__carte--1 { left: 6px;   --r: -3deg; background-color: #D33F3F; }
   .dossier__carte--2 { left: 60px;  --r: 0deg;  background-color: #1E4D8C; }
   .dossier__carte--3 { left: 114px; --r: 3deg;  background-color: #0F6E6E; }
@@ -8123,7 +8123,7 @@
   .projet__detail[hidden] { display: none; }
   .projet__vignette { width: 100%; aspect-ratio: 16 / 10; background: #ddd center / cover no-repeat; }
   .projet__tags { list-style: none; margin: 6px 0 0; padding: 0; }
-  .projet__image { width: 100%; aspect-ratio: 4 / 3; background: #111 center / cover no-repeat; }
+  .projet__image { width: 100%; aspect-ratio: 4 / 3; background: #1C1917 center / cover no-repeat; }
   .projet__annee { display: block; margin-top: 6px; }
   .projet__texte { display: flex; flex-direction: column; justify-content: flex-end; }
   .projet__texte p { margin: 0 0 20px; color: #1C1917; }
@@ -8161,7 +8161,7 @@
      remettre, supprimer ce bloc. */
   .stage .dossier { display: none !important; }
   /* Bio : la fin de la phrase en gris. */
-  .bio-gris { color: #8F8F8C; }
+  .bio-gris { color: #666666; }
   /* Début de la colonne 6 de la grille (12 colonnes, marges et gouttières de 24 px). */
   :root { --col-6: calc(24px + (100vw - 48px - 11 * 24px) / 12 * 5 + 5 * 24px); }
   /* ===== TEMPORAIRE : l'accordéon des projets mis de côté ===== */
@@ -8206,7 +8206,7 @@
   /* Les feuilles : en retrait, un peu plus petites. */
   .arbo__fichiers { padding-left: 1.45em !important; font-size: 0.78em; }
   .arbo__fichiers[hidden] { display: none; }
-  .arbo__fictif { color: #8F8F8C; }
+  .arbo__fictif { color: #666666; }
   /* Photos (Frame 35, Frame 36) : au repos, rien. Au survol, seulement le
      filet bleu. Une fois cliquée (sélectionnée) : les carrés pour
      agrandir, les ronds pour arrondir et le nom du cadre. */
@@ -8373,9 +8373,9 @@
     /* Le fichier ouvert, marqué dans la liste. */
     .arbo .arbo__fichier.est-actif { background: #DCEBFC; }   /* bleu pâle, comme une sélection du Finder */
     /* Le panneau des fichiers sans contenu. */
-    .doc--vide .doc-vide__dossier { margin: 0 0 6px; color: #8F8F8C; }
+    .doc--vide .doc-vide__dossier { margin: 0 0 6px; color: #666666; }
     .doc--vide .doc-vide__titre { margin: 0 0 18px; font-size: 20px; line-height: 26px; letter-spacing: -0.3px; font-weight: 400; }
-    .doc--vide .doc-vide__texte { margin: 0; color: #8F8F8C; }
+    .doc--vide .doc-vide__texte { margin: 0; color: #666666; }
   }
   /* À l'arrivée, tout est fermé : le texte de la bio n'apparaît qu'au clic
      sur le fichier Profil (grand écran). Sa place est gardée. */
@@ -8413,18 +8413,18 @@
   .stage .doc .uc .uc__fin, .stage .doc .uc .uc__meta dd { font-size: 16px; line-height: 22px; }
   .stage .doc .uc .uc__fin { font-size: 14px; }
   .uc .uc__tete { display: block !important; margin-bottom: 40px; }
-  .uc__sur { color: #8F8F8C; margin: 0 0 8px !important; font-size: 16px; }
+  .uc__sur { color: #666666; margin: 0 0 8px !important; font-size: 16px; }
   .uc__titre { margin: 0 0 24px; font-size: 40px; line-height: 46px; letter-spacing: -1px; font-weight: 400; }
   .uc__meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 14px 0 0; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__meta dt { color: #8F8F8C; font-size: 14px; line-height: 18px; margin-bottom: 4px; }
+  .uc__meta dt { color: #666666; font-size: 14px; line-height: 18px; margin-bottom: 4px; }
   .uc__meta dd { margin: 0; font-size: 16px; line-height: 22px; }
   .uc__bloc { padding: 20px 0 22px; border-top: 1px solid rgba(28,25,23,0.2); }
-  .uc__label { margin: 0 0 12px; color: #8F8F8C; font-size: 14px; line-height: 18px; font-weight: 400; letter-spacing: 0; }
+  .uc__label { margin: 0 0 12px; color: #666666; font-size: 14px; line-height: 18px; font-weight: 400; letter-spacing: 0; }
   .uc__texte { font-size: 24px; line-height: 32px; letter-spacing: -0.4px; }
   .uc__decision { margin: 0 0 24px; }
   .uc__decision:last-child { margin-bottom: 0; }
   .uc__sous { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px; font-size: 20px; line-height: 26px; font-weight: 400; letter-spacing: -0.4px; }
-  .uc__num { color: #8F8F8C; font-variant-numeric: tabular-nums; }
+  .uc__num { color: #666666; font-variant-numeric: tabular-nums; }
   .uc__liste { list-style: none; margin: 0 0 10px; padding: 0; }
   .uc__liste li { display: block; padding: 6px 0; }
   .uc__liste strong { font-weight: 500; }
@@ -8432,7 +8432,7 @@
   .uc__puce--orange { background: #F2992E; }
   .uc__puce--rouge { background: #E5484D; }
   .uc__note { color: #57534E; }
-  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #8F8F8C; font-size: 14px; }
+  .uc__fin { margin-top: 8px !important; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.2); color: #666666; font-size: 14px; }
   /* Use Case court : deux tailles seulement, Geist 16 px pour le texte et
      24 px pour les titres ; pas de barre de défilement dans le panneau. */
   .stage .doc .uc, .stage .doc .uc :is(p, li, dd, dt, .uc__sur, .uc__label, .uc__texte, .uc__fin, .uc__note) {
@@ -8458,7 +8458,7 @@
   .stage .doc .uc .uc__meta { gap: 16px 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .uc .uc__figure { margin: 18px 0 0; }
   .uc .uc__figure img { display: block; width: 100%; height: auto; border-radius: 4px; }
-  .stage .doc .uc .uc__figure figcaption { margin-top: 8px; color: #8F8F8C; }
+  .stage .doc .uc .uc__figure figcaption { margin-top: 8px; color: #666666; }
   .stage .doc .uc em { font-style: normal; }
   .uc .uc__lien { color: #1C1917; text-decoration: none; border-radius: 6px; padding: 2px 6px; margin: 0 -6px; transition: background-color 140ms ease; }
   .uc .uc__lien:hover, .uc .uc__lien:focus-visible { background: rgba(0,0,0,0.05); outline: none; }
@@ -8469,7 +8469,7 @@
   }
   .stage .doc .uc .uc__tete + .uc__bloc { border-top: 0; padding-top: 0; }
   /* Audit : légende des catégories et constats numérotés (couleurs de la capture). */
-  .uc .uc__legende { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 6px; padding: 0; color: #8F8F8C; }
+  .uc .uc__legende { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 6px; padding: 0; color: #666666; }
   .uc .uc__legende li { display: inline-flex; align-items: center; }
   .uc .uc__puce--a11y { background: #F28C28; }
   .uc .uc__puce--ux { background: #E0242E; }
@@ -8493,7 +8493,7 @@
   .uc .uc__duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
   .uc .uc__duo .uc__figure { margin: 0; }
   .uc .uc__gravite { margin-top: 18px; }
-  .uc .uc__niveau { display: flex; align-items: center; margin: 0 0 4px; font-weight: 400; color: #8F8F8C; }
+  .uc .uc__niveau { display: flex; align-items: center; margin: 0 0 4px; font-weight: 400; color: #666666; }
   .uc .uc__puce--gris { background: #A8A29E; }
   .uc .uc__constats-simples { list-style: none; margin: 0; padding: 0; }
   .uc .uc__constats-simples li { padding: 6px 0; }
@@ -8636,7 +8636,7 @@
   }
   /* Bibliothèque dans le panneau : quatre couvertures par rangée dans la
      colonne de droite, titre et auteur au survol, en Geist. */
-  .bio-biblio .biblio__intro { margin: 0 0 24px; color: #8F8F8C; }
+  .bio-biblio .biblio__intro { margin: 0 0 24px; color: #666666; }
   .bio-biblio .shelf__row {
     display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 20px;
     margin: 0; padding-bottom: 40px; align-items: end;
@@ -8652,7 +8652,7 @@
     opacity: 1 !important; transform: none !important;
   }
   .bio-biblio .shelf__metaTitre { font-size: 14px; line-height: 18px; color: #1C1917; }
-  .bio-biblio .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #8F8F8C; }
+  .bio-biblio .shelf__metaAuteur { font-size: 13px; line-height: 17px; color: #666666; }
   /* Toile de cartes masquée pour le moment (le code reste en place). */
   .stage .toile { display: none !important; }
   /* Bio : la suite (Photos, Bibliothèque) dans le même défilement. */
@@ -8667,10 +8667,10 @@
     .bio-photo--pano { grid-column: 1 / -1; }
     .bio-photos .bio-photo--pano img { aspect-ratio: 1774 / 887; }
     .bio-photos__inter { grid-column: 1 / -1; margin: 24px 0 0; color: #1C1917; }
-    .bio-photos__note { grid-column: 1 / -1; margin: 8px 0 0; font-size: 14px; line-height: 18px; color: #8F8F8C; }
+    .bio-photos__note { grid-column: 1 / -1; margin: 8px 0 0; font-size: 14px; line-height: 18px; color: #666666; }
     .bio-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
     .bio-photo--portrait img { object-position: 50% 22%; }
-    .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #8F8F8C; }
+    .bio-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 18px; color: #666666; }
     .bio-rayon + .bio-rayon { margin-top: 8px; }
     .bio-rayon__titre { margin: 0 0 12px; font: inherit; color: #1C1917; }
   }
@@ -8747,13 +8747,13 @@
       transition: text-decoration-color 160ms ease;
     }
     .accueil-droite .en-ce-moment__heure [data-ville]:hover { text-decoration-style: solid; text-decoration-color: #1C1917; }
-    .en-ce-moment__activite { margin: 8px 0 40px; color: #8F8F8C; max-width: 560px; }
+    .en-ce-moment__activite { margin: 8px 0 40px; color: #666666; max-width: 560px; }
     .en-ce-moment__liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; margin: 0; max-width: 560px; }
-    .en-ce-moment__liste dt { color: #8F8F8C; margin-bottom: 2px; }
+    .en-ce-moment__liste dt { color: #666666; margin-bottom: 2px; }
     .en-ce-moment__liste dd { margin: 0; }
     .en-ce-moment__liste a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
     /* Aperçu : la carte du projet, ou une image, avec le nom du fichier. */
-    .apercu__nom { margin: 0 0 16px; color: #8F8F8C; }
+    .apercu__nom { margin: 0 0 16px; color: #666666; }
     .apercu .cartep { width: 360px; box-shadow: 0 18px 44px rgba(28,25,23,0.16); }
     .apercu .cartep__tags li { border: 1.5px solid #1C1917; border-radius: 999px; padding: 4px 12px; font-size: 14px; line-height: 18px; }
     .apercu .cartep .cartep__titre { margin: 20px 0 0; padding: 0 16px; text-align: right; font-size: min(48px, 13.4cqi); line-height: 1.03; font-weight: 500 !important; letter-spacing: -0.03em; color: #1C1917; }
@@ -8765,7 +8765,7 @@
     .apercu__img { display: block; max-width: 100%; max-height: calc(100% - 60px); width: auto; height: auto; border-radius: 6px; }
     .apercu__grille { display: grid; grid-template-columns: repeat(4, 110px); gap: 16px; }
     .apercu__grille img { width: 110px; height: 165px; object-fit: cover; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.16); }
-    .apercu__vide { width: 360px; height: 220px; border-radius: 18px; background: #EFEFEF; display: flex; align-items: center; justify-content: center; color: #8F8F8C; }
+    .apercu__vide { width: 360px; height: 220px; border-radius: 18px; background: #EFEFEF; display: flex; align-items: center; justify-content: center; color: #666666; }
     /* La petite vignette qui suivait la souris n'a plus lieu d'être. */
     .projets-vignette { display: none !important; }
   }
@@ -8809,7 +8809,7 @@
   @keyframes tempete-secoue { 0% { transform: translate(0.6cqi, -0.4cqi); } 50% { transform: translate(-0.6cqi, 0.5cqi); } 100% { transform: none; } }
   .tempete__barre { display: flex; align-items: center; gap: 1.2cqi; padding: 2.2cqi 3cqi; border-bottom: 1px solid #E7E5E4; }
   .tempete__barre i { width: 1.8cqi; height: 1.8cqi; border-radius: 50%; background: #D6D3D1; }
-  .tempete .tempete__fichier { margin-left: 2cqi; font-size: 3.4cqi; line-height: 1; color: #8F8F8C; white-space: nowrap; }
+  .tempete .tempete__fichier { margin-left: 2cqi; font-size: 3.4cqi; line-height: 1; color: #666666; white-space: nowrap; }
   .tempete__maquette { padding: 4cqi 5cqi; display: flex; flex-direction: column; gap: 2.4cqi; }
   .tm__nav { display: flex; align-items: center; gap: 2cqi; }
   .tm__nav b { width: var(--logo, 7cqi); height: 3cqi; border-radius: 1cqi; background: #1C1917; transition: width 300ms ease; }
@@ -8829,7 +8829,7 @@
     box-shadow: 0 1.5cqi 5cqi rgba(28,25,23,0.18); color: #1C1917;
     animation: tempete-pop 220ms cubic-bezier(.2,.9,.3,1.2) both;
   }
-  .tempete .tempete__pop b { display: block; font-size: 3cqi; line-height: 1.2; font-weight: 500; color: #8F8F8C; }
+  .tempete .tempete__pop b { display: block; font-size: 3cqi; line-height: 1.2; font-weight: 500; color: #666666; }
   .tempete .tempete__pop span { display: block; margin-top: 0.6cqi; font-size: 3.8cqi; line-height: 1.25; }
   .tempete__pop.urgent b { color: #DC2626; }
   @keyframes tempete-pop { from { opacity: 0; transform: translateY(3cqi) scale(.85) rotate(var(--r, 0deg)); } to { opacity: 1; transform: rotate(var(--r, 0deg)); } }
@@ -8857,17 +8857,17 @@
   @keyframes eclair-trait { 0% { opacity: 0; } 5% { opacity: 1; } 12% { opacity: .15; } 19% { opacity: .9; } 34%, 100% { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .eclair.eclaire :is(.eclair__flash, .eclair__trait) { animation: none; } }
   /* Étude Pharmaprix : surtitre (le client) et chapeau sous le titre-question. */
-  .stage .doc .uc .uc__surtitre { margin: 0 0 12px; color: #8F8F8C; }
+  .stage .doc .uc .uc__surtitre { margin: 0 0 12px; color: #666666; }
   .stage .doc .uc .uc__chapeau { margin: 20px 0 32px; max-width: 34em; color: #1C1917; }
   .stage .doc .uc .uc__tete .uc__titre { margin-bottom: 0; }
   /* Étude Pharmaprix : hiérarchie « fiche → énoncé → corps », comme la référence.
      Fiche en 4 colonnes (intitulés en petites capitales grises), un énoncé en
      grand, puis le texte courant en gris. */
   .stage .doc .uc .uc__fiche { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 40px 0 48px; }
-  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; }
+  .stage .doc .uc .uc__fiche dt { margin: 0 0 6px; font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; }
   .stage .doc .uc .uc__fiche dd { margin: 0; font-size: 16px !important; line-height: 24px !important; color: #1C1917; }
   .stage .doc .uc .uc__enonce, .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__enonce { margin: 0 0 20px; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917; }
-  .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #8F8F8C; }
+  .stage .doc .uc .uc__corps { margin: 0 0 40px; font-size: 20px !important; line-height: 32px !important; color: #666666; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc p:not(.uc__note):not(.uc__suite) { color: #78716C; }
   /* Démarrage en émojis : une ligne par étape, en grand. */
   /* Les 11 lignes tiennent toujours dans la hauteur de l'écran (ordinateur
@@ -8929,12 +8929,12 @@
     border-left: 1.5px solid #1C1917; border-bottom: 1.5px solid #1C1917; border-bottom-left-radius: 6px; box-sizing: border-box;
   }
   .apercu__fichier p { margin: 0; }
-  .apercu .apercu__fichier-nom { font-size: 14px; line-height: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: #8F8F8C; margin-bottom: 20px; }
+  .apercu .apercu__fichier-nom { font-size: 14px; line-height: 18px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
   .apercu .apercu__fichier-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 40px; line-height: 44px; letter-spacing: -0.3px; }
-  .apercu .apercu__fichier-role { margin-top: 6px; color: #8F8F8C; }
+  .apercu .apercu__fichier-role { margin-top: 6px; color: #666666; }
   .apercu .apercu__fichier-texte { margin-top: 24px; font-size: 16px; line-height: 24px; }
   .apercu .apercu__fichier-infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; padding-top: 16px; border-top: 1px solid rgba(28,25,23,0.18); }
-  .apercu .apercu__fichier-infos dt { font-size: 12px; line-height: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: #8F8F8C; }
+  .apercu .apercu__fichier-infos dt { font-size: 12px; line-height: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: #666666; }
   .apercu .apercu__fichier-infos dd { margin: 2px 0 0; font-size: 15px; line-height: 20px; }
   /* Profil ouvert : la bio complète dans la même forme de fichier qu'au survol
      (page blanche, trait noir, coin plié), de la colonne 6 à la 12. */
@@ -8954,9 +8954,9 @@
     }
     .stage:is([data-state="lock"], [data-state="desktop"]) .profil__entete { display: block; flex: none; margin-bottom: 28px; padding-right: 64px; }
     .profil__entete p { margin: 0; }
-    .stage .profil .profil__entete-nom { font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C; margin-bottom: 20px; }
+    .stage .profil .profil__entete-nom { font-size: 14px !important; line-height: 18px !important; letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666; margin-bottom: 20px; }
     .stage .profil .profil__entete-titre { font-family: "Instrument Serif", Georgia, serif !important; font-size: 60px !important; line-height: 64px !important; letter-spacing: -0.5px !important; color: #1C1917; }
-    .stage .profil .profil__entete-role { margin-top: 8px; color: #8F8F8C; }
+    .stage .profil .profil__entete-role { margin-top: 8px; color: #666666; }
   }
   /* Tous les fichiers ouverts ont la forme de fichier : coin plié, pas de barre. */
   .stage .doc .doc__page.uc--carte > .cartep__barre { display: none !important; }
@@ -8984,7 +8984,7 @@
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { display: block !important; }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > .uc__label {
       margin: 0 0 16px !important; font-size: 14px !important; line-height: 18px !important;
-      letter-spacing: 0.06em !important; text-transform: uppercase; color: #8F8F8C !important;
+      letter-spacing: 0.06em !important; text-transform: uppercase; color: #666666 !important;
     }
     .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc > :nth-child(2) { margin-top: 0; }
   }
@@ -8992,11 +8992,11 @@
      un visuel (souvent animé), le détail en petit, et beaucoup d'air. ===== */
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__bloc { border-top: 0 !important; padding-top: 112px !important; margin-top: 0 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__fort { margin: 0 0 32px; max-width: 18em; font-size: 32px !important; line-height: 38px !important; letter-spacing: -0.6px !important; color: #1C1917 !important; }
-  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 16px !important; line-height: 24px !important; color: #8F8F8C !important; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit { margin: 24px 0 0; max-width: 36em; font-size: 16px !important; line-height: 24px !important; color: #666666 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc p.uc__petit strong { color: #1C1917; font-weight: 500; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres strong { display: block; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400; font-size: 64px !important; line-height: 64px !important; letter-spacing: -1px; color: #1C1917; }
-  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C; }
+  .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__chiffres span { display: block; margin-top: 8px; font-size: 14px !important; line-height: 18px !important; color: #666666; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail { margin-top: 32px; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary { cursor: pointer; list-style: none; display: inline-flex; gap: 8px; padding: 8px 14px; border: 1px solid rgba(28,25,23,0.25); border-radius: 999px; font-size: 16px; color: #1C1917; }
   :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__detail summary::-webkit-details-marker { display: none; }
@@ -9050,7 +9050,7 @@
   .sexe.trois .sexe__trois > div:nth-child(2) { transition-delay: 180ms; }
   .sexe.trois .sexe__trois > div:nth-child(3) { transition-delay: 360ms; }
   .stage .doc .sexe .sexe__nom { font-size: 16px !important; color: #1C1917; font-weight: 500; }
-  .stage .doc .sexe .sexe__pour { font-size: 14px !important; color: #8F8F8C; }
+  .stage .doc .sexe .sexe__pour { font-size: 14px !important; color: #666666; }
   .stage .doc .sexe .sexe__val { font-size: 16px !important; color: #1C1917; justify-self: end; }
   .sexe__unique .sexe__val { justify-self: start; }
   @media (prefers-reduced-motion: reduce) {
@@ -9065,7 +9065,7 @@
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan .uc__bloc { padding-top: 0 !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche) .uc .uc__bilan p.uc__fort { font-size: 26px !important; line-height: 32px !important; letter-spacing: -0.4px !important; }
   .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage) .uc .uc__fin {
-    margin-top: 96px !important; padding-top: 20px; font-size: 14px !important; line-height: 18px !important; color: #8F8F8C !important;
+    margin-top: 96px !important; padding-top: 20px; font-size: 14px !important; line-height: 18px !important; color: #666666 !important;
   }
   /* La fiche des études (rôle, équipe, durée, outils) sur un fond très pâle. */
   .stage .doc .uc .uc__fiche { background: #F7F6F4; border-radius: 10px; padding: 24px 28px; }
@@ -9074,10 +9074,10 @@
   #doc-loblaw .uc .uc__constats--cartes li { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 20px; background: #F7F6F4; border-radius: 10px; }
   #doc-loblaw .uc .uc__constat-tete { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
   #doc-loblaw .uc .uc__constats--cartes .uc__pastille { flex: none; margin: 0; }
-  .stage #doc-loblaw .uc .uc__categorie { font-size: 12px !important; line-height: 16px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #8F8F8C; }
+  .stage #doc-loblaw .uc .uc__categorie { font-size: 12px !important; line-height: 16px !important; letter-spacing: 0.04em; text-transform: uppercase; color: #666666; }
   .stage #doc-loblaw .uc .uc__constats--cartes strong { font-size: 18px !important; line-height: 24px !important; font-weight: 500; color: #1C1917; }
   .stage #doc-loblaw .uc .uc__constats--cartes li > span:last-child { font-size: 15px !important; line-height: 22px !important; color: #78716C; }
-  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 14px !important; line-height: 20px !important; color: #8F8F8C !important; }
+  .stage #doc-loblaw .uc .uc__bloc figcaption { font-size: 14px !important; line-height: 20px !important; color: #666666 !important; }
   #doc-loblaw .uc .uc__constats--cartes .uc__puce { flex: none; width: 10px; height: 10px; margin: 0 4px 0 0; border-radius: 50%; }
   #doc-loblaw .uc .uc__detail .uc__constats--cartes { margin-top: 24px; }
   /* ===== Règle d'espacement des études =====
@@ -9193,7 +9193,7 @@
     .stage #doc-loblaw .panneaux-nav button { width: 36px; height: 36px; border: 1px solid rgba(28,25,23,0.25); border-radius: 50%; background: #FFFFFF; color: #1C1917; cursor: pointer; font: inherit; font-size: 16px; line-height: 1; }
     .stage #doc-loblaw .panneaux-nav button:hover { background: #1C1917; color: #FFFFFF; }
     .stage #doc-loblaw .panneaux-nav button:disabled { opacity: 0.3; cursor: default; background: #FFFFFF; color: #1C1917; }
-    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 14px; color: #8F8F8C; font-variant-numeric: tabular-nums; }
+    .stage #doc-loblaw .panneaux-nav .panneaux-compte { min-width: 48px; text-align: center; font-size: 14px; color: #666666; font-variant-numeric: tabular-nums; }
   }
   .panneaux-nav { display: none; }
   @media (min-width: 1024px) { .stage #doc-loblaw .panneaux-nav { display: flex; } }
@@ -9620,7 +9620,7 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs.est-vu { transform: none; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point { width: 20px; height: 20px; box-shadow: 0 0 0 1.5px #FFFFFF; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__num { font-size: 11px !important; font-weight: 500 !important; line-height: 20px !important; letter-spacing: 0 !important; color: #FFFFFF !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { bottom: calc(100% + 6px); padding: 3px 8px !important; border: 1px solid #000000; border-radius: 4px; background: #FFFFFF; color: #000000 !important; font-family: "Helvetica Neue", Helvetica, sans-serif !important; font-size: 12px !important; font-weight: 500 !important; line-height: 14px !important; letter-spacing: 0 !important; transform: translateX(-50%) translateY(4px); transition: opacity 140ms ease, transform 140ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { bottom: calc(100% + 6px); padding: 3px 8px !important; border: 1px solid #1C1917; border-radius: 4px; background: #FFFFFF; color: #1C1917 !important; font-family: "Helvetica Neue", Helvetica, sans-serif !important; font-size: 12px !important; font-weight: 500 !important; line-height: 14px !important; letter-spacing: 0 !important; transform: translateX(-50%) translateY(4px); transition: opacity 140ms ease, transform 140ms ease; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point:is(:hover, :focus-visible) .ecran-erreurs__info { transform: translateX(-50%) translateY(0); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point--droite .ecran-erreurs__info { transform: translateY(4px); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__point--droite:is(:hover, :focus-visible) .ecran-erreurs__info { transform: translateY(0); }
@@ -9697,6 +9697,27 @@
     html body .stage #doc-loblaw .panneaux-curseur,
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc .ecran-erreurs__info { font-size: 16px !important; line-height: 20px !important; }
   }
+  /* ===== Système Manu : grille suisse, blanc, encre, un seul accent cobalt ===== */
+  :root { --blanc: #FFFFFF; --encre: #1C1917; --gris-texte: #666666; --filet: #E7E5E4; --cobalt: #1B45B4; }
+  /* Le texte qui héritait du noir par défaut du navigateur prend l'encre. */
+  html body { color: var(--encre); }
+  html body :is(.profil-retour, .sayhi-mobile, .barre-logo, .mhead__plus, .mob-dossier__titre, .mob-dossier__nb, .mob-dossier__signe) { color: var(--encre); }
+  /* Le cobalt signale : focus clavier, survol des liens, erreurs. */
+  html body :focus-visible { outline: 1px solid var(--cobalt) !important; outline-offset: 2px !important; }
+  @media (hover: hover) {
+    html body .stage .menubar .barlien:hover,
+    html body .stage .arbo__dossier-btn:hover,
+    html body .stage .arbo__fichier:hover,
+    html body .stage .en-ce-moment a:hover,
+    html body .stage .doc .uc a:hover { color: var(--cobalt) !important; }
+    html body .stage .arbo__dossier-btn:hover, html body .stage .arbo__fichier:hover { background: transparent !important; }
+    html body .stage .radio-bouton:hover svg { stroke: var(--cobalt) !important; }
+  }
+  html body .stage #doc-loblaw.doc .ecran-erreurs__point--ux,
+  html body .stage #doc-loblaw.doc .ecran-erreurs__point--ai,
+  html body .stage #doc-loblaw.doc .ecran-erreurs__point--a11y { background: var(--cobalt) !important; }
+  /* Pas d'ombre : la capture se pose à plat. */
+  html body .stage #doc-loblaw.doc .ecran-erreurs > img { box-shadow: none !important; }
 </style>
 </head>
 <body>
@@ -10085,7 +10106,7 @@
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
   <img class="avatar-accueil" src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
-  <nav class="arbo" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
+  <nav class="arbo arbo--trait" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
   <!-- Accueil : toile infinie de cartes de projets, à faire glisser. -->
   <div class="toile" role="region" aria-label="Projets : faire glisser pour explorer, cliquer pour ouvrir"><p class="toile__aide">Glisse, survole et clique pour explorer.</p></div>
   <!-- Lecteur de musique minimaliste, en traits (grand écran), en bas à droite. -->
