@@ -8824,7 +8824,7 @@
      deviner la suite. On l'attrape à la souris. */
   .panneaux-voile, .panneaux-curseur, .uc__intro, .uc__photo { display: none; }
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw { --col: calc((100vw - 48px - 11 * 24px) / 12); --c5: calc(24px + (var(--col) + 24px) * 3); }   /* départ : colonne 4 */
+    html body .stage #doc-loblaw { --col: calc((100vw - 48px - 11 * 24px) / 12); --c5: calc(24px + (var(--col) + 24px) * 5); }   /* départ : colonne 6, sous « Designer digital » */
     html body .stage #doc-loblaw.doc { left: var(--c5) !important; right: var(--droite, 100px) !important; width: auto !important; top: var(--panneau-haut, 120px) !important; height: var(--carte-h, 500px) !important; bottom: auto !important; overflow: visible !important; }
     html body .stage #doc-loblaw .doc__win.doc__win { height: 100% !important; overflow: hidden !important; position: relative !important; background: transparent !important; border: 0 !important; border-radius: 0 !important; display: flex !important; flex-direction: column; }
     html body .stage #doc-loblaw :is(.panneaux-tete, .panneaux-nav.panneaux-nav) { display: none !important; }
@@ -9330,6 +9330,21 @@
   }
   @media (min-width: 1800px) {
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section:nth-of-type(2) > .uc__figure { padding-top: 80px !important; }
+  }
+  /* Axe commun : accueil, bio et cartes partent de la colonne 6, sous « Designer digital ». */
+  @media (min-width: 1024px) {
+    html body .stage { --w6: calc(var(--g-col) * 6 + 120px); --w7: calc(var(--g-col) * 7 + 144px); }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .profil { left: var(--col-6) !important; width: var(--w7) !important; }
+    html body .stage .profil .bio-photos { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    html body .stage .profil .bio-photos > .bio-photo { grid-column: span 4; }
+    html body .stage .profil .bio-photos > :nth-child(2), html body .stage .profil .bio-photos > :nth-child(4), html body .stage .profil .bio-photos > :nth-child(7) { grid-column: span 3; }
+    html body .stage .profil .bio-photos > .bio-photo--pano { grid-column: 1 / -1; }
+    html body .stage .profil .bio-photos > .bio-photo:not(.bio-photo--pano):not(.bio-tempete) img { height: var(--w3); }
+    html body .stage .profil .bio-biblio .shelf__row { width: var(--w6); grid-template-columns: repeat(3, var(--w2)) !important; }
+  }
+  /* Cartes moins hautes : le bilan passe sur 4 colonnes pour que son titre tienne. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { width: var(--w4) !important; grid-template-columns: var(--w4) !important; }
   }
 </style>
 </head>
@@ -17143,7 +17158,7 @@ document.addEventListener('click', (e) => {
     // Les cartes partent du même axe que le contenu (--axe-y) : un grand vide sous la
     // barre du haut, de 72 à 144 px selon la hauteur de l'écran.
     const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
-    const carte = Math.round(Math.max(576, Math.min(680, h - axe - 57)));
+    const carte = Math.round(Math.max(520, Math.min(600, h * 0.62)));   // moins hautes : du vide autour de la navigation
     doc.style.setProperty('--panneau-haut', axe + 'px');
     doc.style.setProperty('--carte-h', carte + 'px');
     doc.style.setProperty('--panneau-h', carte + 'px');
