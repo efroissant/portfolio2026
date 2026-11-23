@@ -17392,9 +17392,10 @@ document.addEventListener('click', (e) => {
   const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
   const nav = doc.querySelector('.panneaux-nav'), compte = doc.querySelector('.panneaux-compte');
   const grand = () => matchMedia('(min-width: 1024px)').matches;
-  // Le parcours : les cartes sont posées sur un grand plan et une caméra les suit en
-  // serpentin (vers la droite, on descend, encore vers la droite, on descend, puis retour
-  // vers la gauche). Le défilement horizontal natif sert de progression le long du chemin.
+  // Le parcours : les cartes sont posées sur un grand plan et une caméra les suit
+  // toujours dans le même ordre : droite, bas, droite, haut, droite. Le défilement
+  // horizontal natif sert de progression le long du chemin, sans jamais revenir en arrière.
+  let pos = 0, but = 0, raf = 0, avant = 0, signature = '';
   const rail = document.createElement('div');
   rail.className = 'parcours-rail';
   page.before(rail);
@@ -17443,7 +17444,7 @@ document.addEventListener('click', (e) => {
   }
   function camera() {
     if (!grand()) return;
-    const q = surChemin(sc.scrollLeft);
+    const q = surChemin(raf ? pos : sc.scrollLeft);
     page.style.setProperty('transform', 'translate3d(' + (-q.x).toFixed(2) + 'px,' + (-q.y).toFixed(2) + 'px,0)', 'important');
   }
   function composer(H, haut) {
@@ -17453,10 +17454,16 @@ document.addEventListener('click', (e) => {
       page.style.removeProperty('transform');
       rail.style.removeProperty('width');
       chemin = [];
+      signature = '';
       return;
     }
     const W = sc.clientWidth;
     if (!W) return;
+    // Rien ne bouge si les dimensions n'ont pas changé : pas de saut pendant le défilement.
+    const sig = [W, H, haut, innerWidth].join('|');
+    if (sig === signature && chemin.length) return;
+    signature = sig;
+    cancelAnimationFrame(raf); raf = 0;
     const avance = chemin.length ? sc.scrollLeft / Math.max(1, chemin[chemin.length - 1].l) : 0;
     doc.style.setProperty('--fenetre', W + 'px');
     const col = (innerWidth - 48 - 11 * 24) / 12, L = (n) => col * n + 24 * (n - 1);
@@ -17464,7 +17471,7 @@ document.addEventListener('click', (e) => {
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
-    poser(c.photo, x, haut, L(4), Math.round(H * 0.68)); x += L(4) + G;
+    poser(c.photo, x, haut, L(4), H); x += L(4) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     const xTete = x;
     poser(c.tete, x, haut, L(5), H);
@@ -17472,26 +17479,23 @@ document.addEventListener('click', (e) => {
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
-    poser(c.chiffres, x, y2 + Math.round(H * 0.16), L(5), Math.round(H * 0.84)); x += L(5) + G;
-    poser(c.terrain, x, y2 - 48, L(2), H + 48); x += L(2) + G;
+    poser(c.chiffres, x, y2, L(5), H); x += L(5) + G;
+    poser(c.terrain, x, y2, L(2), H); x += L(2) + G;
     const xLumiere = x;
     poser(c.lumiere, x, y2, L(7), H);
     const cam2 = Math.max(cam1, xLumiere + L(7) - W);
-    // Rangée 3, sous la fin de la deuxième : on descend et on revient vers la gauche.
-    const y3 = y2 + pas, droite = xLumiere + L(7);
-    x = droite - L(7);
-    poser(c.dose, x, y3, L(7), H);
-    x -= G + L(4);
-    poser(c.sexe, x, y3, L(4), Math.round(H * 0.84));
-    x -= G + L(4);
-    const moitie = Math.round((H - 24) / 2);
-    poser(c.bilan1, x, y3, L(4), moitie);
-    poser(c.bilan2, x, y3 + moitie + 24, L(4), moitie);
-    x -= G + L(3);
-    poser(c.fin, x, y3 + moitie + 24, L(3), moitie);
+    // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
+    x = Math.max(cam2, xTete + L(5) + G);
+    const xFinal = x;
+    poser(c.dose, x, haut, L(7), H); x += L(7) + G;
+    poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
+    poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
+    poser(c.bilan2, x, haut, L(4), H); x += L(4) + G;
+    poser(c.fin, x, haut, L(3), H); x += L(3);
+    const cam3 = Math.max(cam2, x - W, xFinal);
     chemin = tracer([
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
-      { x: cam2, y: pas * 2 }, { x: Math.max(0, x), y: pas * 2 },
+      { x: cam2, y: 0 }, { x: cam3, y: 0 },
     ], 160);
     const longueur = chemin[chemin.length - 1].l;
     rail.style.width = Math.ceil(longueur + W) + 'px';
@@ -17551,7 +17555,6 @@ document.addEventListener('click', (e) => {
   let tir = null, bouge = false;
   // Défilement horizontal libre et lissé : aucune position imposée, la rangée
   // rejoint en continu une position visée, avec un amorti indépendant de l'écran.
-  let pos = 0, but = 0, raf = 0, avant = 0;
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const borne = (v) => Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, v));
   const arret = () => { cancelAnimationFrame(raf); raf = 0; };
@@ -17560,8 +17563,9 @@ document.addEventListener('click', (e) => {
     const dt = Math.min(40, t - avant || 16); avant = t;
     const tau = tir && bouge ? 32 : 170;   // suit la main de près, puis file longuement
     pos += (but - pos) * (1 - Math.exp(-dt / tau));
-    if (Math.abs(but - pos) < 0.25) { pos = but; sc.scrollLeft = pos; raf = 0; return; }
+    if (Math.abs(but - pos) < 0.25) { pos = but; sc.scrollLeft = pos; raf = 0; camera(); return; }
     sc.scrollLeft = pos;
+    camera();
     raf = requestAnimationFrame(boucle);
   }
   function vers(v) {
@@ -17571,14 +17575,18 @@ document.addEventListener('click', (e) => {
   }
   nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) vers(base() + Number(b.dataset.panneau) * sc.clientWidth * 0.6); });
   sc.addEventListener('scroll', maj, { passive: true });
+  let axeGeste = '', dernierGeste = 0;
   // La molette verticale fait défiler la rangée ; le trackpad horizontal reste natif.
   sc.addEventListener('wheel', (e) => {
     if (!grand() || e.ctrlKey || e.target.closest('.uc__detail[open]')) return;
     e.preventDefault();
     const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? sc.clientWidth : 1;
-    // Un geste horizontal suit le sens de la rangée : il s'inverse sur la rangée retour.
-    const lateral = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-    const delta = lateral ? e.deltaX * (surChemin(base()).dx < -0.5 ? -1 : 1) : e.deltaY;
+    // Un même geste garde son axe du début à la fin : un léger écart du doigt ne fait
+    // jamais reculer. Vers le bas ou vers la gauche, on avance, partout sur le parcours.
+    const t = performance.now();
+    if (!axeGeste || t - dernierGeste > 180) axeGeste = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
+    dernierGeste = t;
+    const delta = axeGeste === 'x' ? e.deltaX : e.deltaY;
     vers(base() + delta * unite * 1.2);
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
@@ -17607,10 +17615,10 @@ document.addEventListener('click', (e) => {
       curseur.style.transform = 'translate(' + (e.clientX - doc.getBoundingClientRect().left + 14) + 'px,' + (e.clientY - doc.getBoundingClientRect().top + 14) + 'px)';
     }
     if (!tir) return;
-    // On tire les cartes dans le sens où elles circulent à cet endroit du parcours.
-    const mx = e.clientX - tir.x, my = e.clientY - tir.y, sens = surChemin(tir.p);
+    // Tirer vers la gauche ou vers le haut avance, partout sur le parcours.
+    const mx = e.clientX - tir.x, my = e.clientY - tir.y;
     tir.x = e.clientX; tir.y = e.clientY; tir.total += Math.abs(mx) + Math.abs(my);
-    tir.p = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, tir.p - (mx * sens.dx + my * sens.dy)));
+    tir.p = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, tir.p - (Math.abs(mx) >= Math.abs(my) ? mx : my)));
     if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); }
     if (bouge) { vers(tir.p); e.preventDefault(); }
     tir.traces.push([performance.now(), tir.p]); if (tir.traces.length > 6) tir.traces.shift();
