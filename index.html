@@ -9516,7 +9516,7 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__chiffres.uc__chiffres--signes > li:nth-child(n) > .signes { justify-self: stretch; width: 100%; }
   @media (prefers-reduced-motion: reduce) { .signes i { opacity: 1; } .uc__chiffres--signes.est-vu .signes i { transition: none; } }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { object-position: 50% 62%; }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 4 + 72px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 36% 50%; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain { width: calc(var(--col) * 4 + 72px) !important; height: 100% !important; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { flex: 1 1 0; height: 100% !important; object-position: 50% 60%; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { aspect-ratio: 16 / 9 !important; height: auto !important; } }
   /* Pharmaprix en parcours : toutes les cartes ont un contour, la caméra suit un serpentin. */
   .parcours-rail { display: contents; }
@@ -17752,7 +17752,7 @@ document.addEventListener('click', (e) => {
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
-    poser(c.terrain, x, y2, lAudit, H); x += lAudit + G;   // exactement sous l'audit, à la même largeur
+    poser(c.terrain, x, y2, lAudit * 2, H); x += lAudit * 2 + G;   // part sous l'audit, deux fois plus large
     poser(c.motTerrain, x, y2, lMotTerrain, H); x += lMotTerrain + G;
     poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
     poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
