@@ -9683,6 +9683,22 @@
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche { grid-template-columns: repeat(4, auto) !important; justify-content: space-between; gap: 0 12px !important; }
   html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche > div:not(:first-child) dd { white-space: nowrap; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc__intro .uc__intro-fiche { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px !important; } }
+  /* Pharmaprix, après la photo : du texte libre (sans carte) en haut, et
+     en dessous une carte à contour qui recevra une photo. */
+  .uc__contexte { display: flex; flex-direction: column; gap: 16px; }
+  html body .stage #doc-loblaw.doc .uc__contexte-texte { display: flex; flex-direction: column; gap: 12px; }
+  html body .stage #doc-loblaw.doc .uc__contexte-texte :is(h2, p) { margin: 0 !important; padding: 0 !important; max-width: none !important; color: #1C1917 !important; letter-spacing: 0 !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc .uc__contexte-titre { margin-bottom: 4px !important; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 40px !important; line-height: 44px !important; letter-spacing: -0.3px !important; }
+  html body .stage #doc-loblaw.doc .uc__contexte-texte p { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 18px !important; line-height: 26px !important; }
+  html body .stage #doc-loblaw.doc .uc__contexte-visuel { flex: 1 1 0; min-height: 0; margin: 0 !important; border: 1px solid #1C1917; border-radius: 12px; overflow: hidden; background: #FFFFFF; }
+  html body .stage #doc-loblaw.doc .uc__contexte-visuel img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte { width: calc(var(--col) * 4 + 72px) !important; height: 100% !important; padding: 0 !important; background: transparent !important; outline: 0 !important; border-radius: 0; overflow: visible !important; display: flex !important; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc.uc > .uc__contexte { grid-column: pleine-debut / pleine-fin !important; margin: 24px 0 16px !important; }
+    html body .stage #doc-loblaw.doc .uc__contexte-visuel { flex: none; aspect-ratio: 4 / 3; }
+  }
 </style>
 </head>
 <body>
@@ -10842,6 +10858,14 @@
           </div>
         </div>
         <figure class="uc__photo"><img src="lob-pharmacienne.webp" alt="Une pharmacienne à son poste, entre deux écrans." width="2000" height="1274" draggable="false"></figure>
+        <div class="uc__contexte">
+          <div class="uc__contexte-texte">
+            <h2 class="uc__contexte-titre">Repenser un SaaS en place depuis 2009</h2>
+            <p>Dans un contexte de résistance au changement, j’ai audité Healthwatch et analysé les observations de terrain avec l’équipe produit.</p>
+            <p>À partir des user stories, j’ai conçu les interfaces de gestion des ordonnances, des stocks, des équipes et des dossiers patients.</p>
+          </div>
+          <figure class="uc__contexte-visuel" aria-hidden="true"></figure>
+        </div>
         <header class="uc__tete">
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
           <h2 class="uc__titre" id="doc-loblaw-titre">Où se cachent les erreurs dans un logiciel de pharmacie&nbsp;?</h2>
