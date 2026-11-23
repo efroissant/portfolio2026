@@ -10926,7 +10926,7 @@
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreur de saisie</span><span class="uc__fleche" aria-hidden="true">→</span></li>
           </ol>
 
-        <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir">Prévenir<br>des erreurs</h2>
+        <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir">Sécuriser<br>la saisie</h2>
 
         <section class="uc__bloc uc__dosage">
           <h2 class="uc__label">Dans un chiffre mal tapé</h2>
@@ -17842,7 +17842,9 @@ document.addEventListener('click', (e) => {
     // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
     x = cam2;   // la carte suivante arrive exactement au-dessus, à la même largeur
     const xFinal = x;
-    poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;   // la flèche des tags monte jusqu'à ce titre
+    // Le titre commence exactement sur l'axe de la flèche qui monte des tags (tag de 232 px).
+    x += Math.round(L(7) / 2 + 12 + 116 - 4);   // - 4 : compense l'approche de la lettre
+    poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;
     poser(c.dose, x, haut, L(7), H); x += L(7) + G;
     poser(c.formulaire, x, haut, L(9), H); x += L(9) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
