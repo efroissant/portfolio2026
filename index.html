@@ -9681,6 +9681,14 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { display: block !important; align-self: auto; padding-top: 0 !important; line-height: 0.88 !important; text-transform: none !important; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { display: flex !important; align-items: flex-end; } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain::before { content: none; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__grand-mot--terrain { font-size: min(22vw, 120px) !important; } }
+  /* Carte de l'audit des écrans : titre sur une ligne, tout le contenu centré. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete { align-items: center !important; justify-content: center !important; text-align: center; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__titre { white-space: nowrap; text-align: center !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-visuel { width: 100% !important; align-items: center; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete .ecran-erreurs { width: var(--ecran-l, 100%) !important; align-self: center !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { width: 100%; text-align: center; }
+  }
 </style>
 </head>
 <body>
@@ -17684,7 +17692,8 @@ document.addEventListener('click', (e) => {
       return Math.ceil(mesure.getBoundingClientRect().width) + 8;
     };
     const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain);
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain].join('|');
+    const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lTitre].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -17698,8 +17707,10 @@ document.addEventListener('click', (e) => {
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
     poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
     poser(c.mot, x, haut, lMot, H); x += lMot + G;
-    // L'écran garde toute la largeur de sa carte : la carte s'ajuste si la hauteur manque.
-    const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 96) * 869 / 580) + 48);
+    // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
+    // garde ses proportions dans la hauteur qui reste.
+    const lTete = lTitre + 48;
+    doc.style.setProperty('--ecran-l', Math.round(Math.min(lTete - 48, (H - 48 - 36 - 16 - 12 - 56) * 869 / 580)) + 'px');
     poser(c.tete, x, haut, lTete, H); x += lTete + G;
     const xAudit = x;
     // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
