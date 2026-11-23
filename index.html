@@ -9422,6 +9422,7 @@
     html body .stage #doc-loblaw .doc__scroll.doc__scroll { flex: 1; min-height: 0; padding: 0 !important; margin: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; scroll-snap-type: x mandatory; cursor: default; user-select: none; -webkit-user-select: none; }
     html body .stage #doc-loblaw .doc__scroll.doc__scroll :is(a, button, summary, select, input) { cursor: pointer; }
     html body .stage #doc-loblaw .doc__scroll.est-tire, html body .stage #doc-loblaw .doc__scroll.est-tire * { scroll-snap-type: none !important; scroll-behavior: auto !important; cursor: grabbing !important; }
+    html body .stage #doc-loblaw .doc__scroll.est-anime { scroll-snap-type: none !important; scroll-behavior: auto !important; }
     html body .stage #doc-loblaw .doc__page.uc.uc { display: flex !important; gap: 24px !important; padding: 0 160px 0 0 !important; width: max-content !important; height: 100%; }
     html body .stage #doc-loblaw .doc__page.uc.uc > :not(.cartep__barre) { flex: 0 0 calc(var(--col) * 7 + 6 * 24px) !important; width: auto !important; height: 100% !important; box-sizing: border-box; margin: 0 !important; padding: 28px !important; border-radius: 18px; background: #F7F6F4; overflow: hidden !important; scroll-snap-align: start; }
     html body .stage #doc-loblaw .doc__page.uc.uc > .uc__intro { flex-basis: max(300px, calc(var(--col) * 3 + 2 * 24px)) !important; padding: 0 !important; background: var(--vert) !important; display: flex !important; flex-direction: column; }
@@ -18539,10 +18540,30 @@ document.addEventListener('click', (e) => {
   // Pendant un défilement animé, on part du panneau visé (deux clics rapides = deux panneaux).
   let cible = null, finCible = 0;
   const courant = () => (cible !== null && performance.now() < finCible ? cible : indice());
-  function aller(k) {
+  // Défilement animé maison : plus doux que le « smooth » du navigateur, et
+  // sans à-coup du scroll-snap (coupé le temps de l'animation).
+  let anim = 0;
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animer(fin, duree) {
+    cancelAnimationFrame(anim);
+    fin = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, fin));
+    const debut = sc.scrollLeft, ecart = fin - debut;
+    if (calme() || Math.abs(ecart) < 1) { sc.scrollLeft = fin; return; }
+    sc.classList.add('est-anime');
+    const t0 = performance.now();
+    const pas = (t) => {
+      const u = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - u, 4);   // freinage en douceur
+      sc.scrollLeft = debut + ecart * e;
+      if (u < 1) anim = requestAnimationFrame(pas); else sc.classList.remove('est-anime');
+    };
+    anim = requestAnimationFrame(pas);
+  }
+  function aller(k, duree) {
     const p = panneaux(); k = Math.max(0, Math.min(p.length - 1, k));
-    cible = k; finCible = performance.now() + 700;
-    sc.scrollTo({ left: sc.scrollLeft + p[k].getBoundingClientRect().left - sc.getBoundingClientRect().left, behavior: 'smooth' });
+    const fin = sc.scrollLeft + p[k].getBoundingClientRect().left - sc.getBoundingClientRect().left;
+    const d = duree || Math.max(420, Math.min(800, 300 + Math.abs(fin - sc.scrollLeft) * 0.5));
+    cible = k; finCible = performance.now() + d;
+    animer(fin, d);
   }
   nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(courant() + Number(b.dataset.panneau)); });
   sc.addEventListener('scroll', maj, { passive: true });
@@ -18579,7 +18600,8 @@ document.addEventListener('click', (e) => {
   const interactif = (t) => t.closest('a, button, summary, select, input, textarea, label');
   sc.addEventListener('pointerdown', (e) => {
     if (!grand() || e.pointerType !== 'mouse' || e.button !== 0 || interactif(e.target)) return;
-    tir = { x: e.clientX, s: sc.scrollLeft, k: indice() }; bouge = false;
+    cancelAnimationFrame(anim); sc.classList.remove('est-anime');
+    tir = { x: e.clientX, s: sc.scrollLeft, k: indice(), traces: [[performance.now(), e.clientX]] }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
     if (curseur && !aGlisse) {
@@ -18591,17 +18613,22 @@ document.addEventListener('click', (e) => {
     const dx = e.clientX - tir.x;
     if (!bouge && Math.abs(dx) > 4) { bouge = true; sc.classList.add('est-tire'); }
     if (bouge) { sc.scrollLeft = tir.s - dx; e.preventDefault(); }
+    tir.traces.push([performance.now(), e.clientX]); if (tir.traces.length > 6) tir.traces.shift();
   });
   addEventListener('pointerup', (e) => {
     if (!tir) return;
     const t = tir, dx = e.clientX - t.x; tir = null;
     if (!bouge) return;
     glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
+    // Vitesse sur les ~100 dernières ms (px/ms), puis point d'arrivée projeté.
+    const maintenant = performance.now(), tr = t.traces.filter((q) => maintenant - q[0] < 100);
+    const a = tr[0] || [maintenant, e.clientX], vitesse = tr.length > 1 ? (e.clientX - a[1]) / Math.max(16, maintenant - a[0]) : 0;
+    const projete = sc.scrollLeft - vitesse * 280;
     const p = panneaux(), g = sc.getBoundingClientRect().left;
     let k = 0, d = Infinity;
-    p.forEach((el, i) => { const v = Math.abs(el.getBoundingClientRect().left - g); if (v < d) { d = v; k = i; } });
+    p.forEach((el, i) => { const v = Math.abs(sc.scrollLeft + el.getBoundingClientRect().left - g - projete); if (v < d) { d = v; k = i; } });
     if (k === t.k && Math.abs(dx) > 50) k = t.k + (dx < 0 ? 1 : -1);
-    aller(k);
+    aller(k, Math.max(380, Math.min(750, 420 + Math.abs(vitesse) * 60)));
   });
   sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
   sc.addEventListener('dragstart', (e) => e.preventDefault());
