@@ -9702,6 +9702,11 @@
   /* Photo terrain (étiquetage) entre l'audit et la lumière : 4 colonnes. */
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo.uc__photo--terrain { width: calc(var(--col) * 4 + 72px) !important; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc > .uc__photo--terrain { margin: 0 0 40px !important; } html body .stage #doc-loblaw.doc .uc.uc > .uc__photo--terrain img { width: 100%; height: 100%; object-fit: cover; } }
+  /* Légende commune des photos de terrain reconstituées. */
+  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { display: flex !important; flex-direction: column; }
+  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { position: static !important; flex: 1 1 0; min-height: 0; width: 100%; height: auto; object-fit: cover; }
+  html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) figcaption { flex: none; margin: 0; padding: 12px 16px; border-top: 1px solid #1C1917; background: #FFFFFF; font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 14px !important; line-height: 20px !important; letter-spacing: 0 !important; color: #666666 !important; }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) { aspect-ratio: auto !important; } html body .stage #doc-loblaw.doc :is(.uc__contexte-visuel, .uc__photo--terrain) img { flex: none; aspect-ratio: 4 / 3; } }
 </style>
 </head>
 <body>
@@ -10867,7 +10872,7 @@
             <p>Dans un contexte de résistance au changement, j’ai audité Healthwatch et analysé les observations de terrain avec l’équipe produit.</p>
             <p>À partir des user stories, j’ai conçu les interfaces de gestion des ordonnances, des stocks, des équipes et des dossiers patients.</p>
           </div>
-          <figure class="uc__contexte-visuel"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+          <figure class="uc__contexte-visuel"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"><figcaption>Reconstitution visuelle du traitement d’une ordonnance, inspirée des photos de terrain du projet Healthwatch.</figcaption></figure>
         </div>
         <header class="uc__tete">
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
@@ -10917,7 +10922,7 @@
           </details>
         </section>
 
-        <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+        <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"><figcaption>Reconstitution visuelle du traitement d’une ordonnance, inspirée des photos de terrain du projet Healthwatch.</figcaption></figure>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
