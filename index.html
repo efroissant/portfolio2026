@@ -9750,6 +9750,8 @@
   html body .stage #doc-loblaw.doc .uc.uc .uc__tete > .uc__tete-visuel { order: 1; }
   html body .stage #doc-loblaw.doc .uc.uc .uc__tete > .uc__titre { order: 2; padding: 24px 0 0 !important; }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc > .uc__tete { display: flex !important; flex-direction: column; } html body .stage #doc-loblaw.doc .uc.uc .uc__tete > .uc__titre { padding: 16px 0 0 !important; } }
+  /* Pharmaprix : défilement horizontal libre, sans calage sur les cartes. */
+  @media (min-width: 1024px) { html body .stage #doc-loblaw .doc__scroll.doc__scroll.doc__scroll { scroll-snap-type: none !important; scroll-behavior: auto !important; overscroll-behavior-x: contain; } }
 </style>
 </head>
 <body>
@@ -18553,62 +18555,46 @@ document.addEventListener('click', (e) => {
     nav.querySelector('[data-panneau="-1"]').disabled = k === 0;
     nav.querySelector('[data-panneau="1"]').disabled = k >= n - 1;
   }
-  // Pendant un défilement animé, on part du panneau visé (deux clics rapides = deux panneaux).
-  let cible = null, finCible = 0;
-  const courant = () => (cible !== null && performance.now() < finCible ? cible : indice());
-  // Défilement animé maison : plus doux que le « smooth » du navigateur, et
-  // sans à-coup du scroll-snap (coupé le temps de l'animation).
-  let anim = 0;
+  let tir = null, bouge = false;
+  // Défilement horizontal libre et lissé : aucune position imposée, la rangée
+  // rejoint en continu une position visée, avec un amorti indépendant de l'écran.
+  let pos = 0, but = 0, raf = 0, avant = 0;
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function animer(fin, duree) {
-    cancelAnimationFrame(anim);
-    fin = Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, fin));
-    const debut = sc.scrollLeft, ecart = fin - debut;
-    if (calme() || Math.abs(ecart) < 1) { sc.scrollLeft = fin; return; }
-    sc.classList.add('est-anime');
-    const t0 = performance.now();
-    const pas = (t) => {
-      const u = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - u, 4);   // freinage en douceur
-      sc.scrollLeft = debut + ecart * e;
-      if (u < 1) anim = requestAnimationFrame(pas); else sc.classList.remove('est-anime');
-    };
-    anim = requestAnimationFrame(pas);
+  const borne = (v) => Math.max(0, Math.min(sc.scrollWidth - sc.clientWidth, v));
+  const arret = () => { cancelAnimationFrame(raf); raf = 0; };
+  const base = () => (raf ? but : sc.scrollLeft);
+  function boucle(t) {
+    const dt = Math.min(40, t - avant || 16); avant = t;
+    const tau = tir && bouge ? 32 : 170;   // suit la main de près, puis file longuement
+    pos += (but - pos) * (1 - Math.exp(-dt / tau));
+    if (Math.abs(but - pos) < 0.25) { pos = but; sc.scrollLeft = pos; raf = 0; return; }
+    sc.scrollLeft = pos;
+    raf = requestAnimationFrame(boucle);
   }
-  function aller(k, duree) {
-    const p = panneaux(); k = Math.max(0, Math.min(p.length - 1, k));
-    const fin = sc.scrollLeft + p[k].getBoundingClientRect().left - sc.getBoundingClientRect().left;
-    const d = duree || Math.max(420, Math.min(800, 300 + Math.abs(fin - sc.scrollLeft) * 0.5));
-    cible = k; finCible = performance.now() + d;
-    animer(fin, d);
+  function vers(v) {
+    but = borne(v);
+    if (calme()) { arret(); sc.scrollLeft = but; return; }
+    if (!raf) { pos = sc.scrollLeft; avant = performance.now(); raf = requestAnimationFrame(boucle); }
   }
-  nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) aller(courant() + Number(b.dataset.panneau)); });
+  nav && nav.addEventListener('click', (e) => { const b = e.target.closest('[data-panneau]'); if (b) vers(base() + Number(b.dataset.panneau) * sc.clientWidth * 0.6); });
   sc.addEventListener('scroll', maj, { passive: true });
-  // La molette verticale fait avancer les panneaux (un panneau par geste) ;
-  // à l'intérieur d'un panneau trop haut, elle le fait d'abord défiler.
-  let verrou = 0;
+  // La molette verticale fait défiler la rangée ; le trackpad horizontal reste natif.
   sc.addEventListener('wheel', (e) => {
-    if (!grand()) return;
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // trackpad horizontal : natif
-    const p = panneaux()[indice()];
-    if (p && p.scrollHeight > p.clientHeight + 2) {
-      const finBas = p.scrollTop + p.clientHeight >= p.scrollHeight - 2, finHaut = p.scrollTop <= 0;
-      if ((e.deltaY > 0 && !finBas) || (e.deltaY < 0 && !finHaut)) return;   // le panneau défile d'abord
-    }
+    if (!grand() || e.ctrlKey || e.target.closest('.uc__detail[open]')) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { arret(); return; }
     e.preventDefault();
-    const t = performance.now();
-    if (t < verrou || Math.abs(e.deltaY) < 4) return;
-    verrou = t + 550;
-    aller(courant() + (e.deltaY > 0 ? 1 : -1));
+    const unite = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? sc.clientWidth : 1;
+    vers(base() + e.deltaY * unite * 1.2);
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
     if (doc.hidden || !grand()) return;
-    if (e.key === 'ArrowRight') { e.preventDefault(); aller(courant() + 1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); aller(courant() - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); vers(base() + sc.clientWidth * 0.45); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); vers(base() - sc.clientWidth * 0.45); }
   });
   // À chaque ouverture : premier panneau, hauteur recalée.
   // Glisser à la souris : on attrape la rangée de cartes et on la tire vers la gauche.
   const voile = doc.querySelector('.panneaux-voile'), curseur = doc.querySelector('.panneaux-curseur');
-  let tir = null, bouge = false, clicBloque = false;
+  let clicBloque = false;
   // La bulle « Glisser » disparaît dès que l'utilisateur a fait défiler les cartes une fois.
   let aGlisse = false;
   const glisse = () => { if (aGlisse) return; aGlisse = true; curseur && curseur.classList.remove('est-visible'); };
@@ -18616,8 +18602,8 @@ document.addEventListener('click', (e) => {
   const interactif = (t) => t.closest('a, button, summary, select, input, textarea, label');
   sc.addEventListener('pointerdown', (e) => {
     if (!grand() || e.pointerType !== 'mouse' || e.button !== 0 || interactif(e.target)) return;
-    cancelAnimationFrame(anim); sc.classList.remove('est-anime');
-    tir = { x: e.clientX, s: sc.scrollLeft, k: indice(), traces: [[performance.now(), e.clientX]] }; bouge = false;
+    arret();
+    tir = { x: e.clientX, s: sc.scrollLeft, traces: [[performance.now(), e.clientX]] }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
     if (curseur && !aGlisse) {
@@ -18628,7 +18614,7 @@ document.addEventListener('click', (e) => {
     if (!tir) return;
     const dx = e.clientX - tir.x;
     if (!bouge && Math.abs(dx) > 4) { bouge = true; sc.classList.add('est-tire'); }
-    if (bouge) { sc.scrollLeft = tir.s - dx; e.preventDefault(); }
+    if (bouge) { vers(tir.s - dx); e.preventDefault(); }
     tir.traces.push([performance.now(), e.clientX]); if (tir.traces.length > 6) tir.traces.shift();
   });
   addEventListener('pointerup', (e) => {
@@ -18636,22 +18622,17 @@ document.addEventListener('click', (e) => {
     const t = tir, dx = e.clientX - t.x; tir = null;
     if (!bouge) return;
     glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
-    // Vitesse sur les ~100 dernières ms (px/ms), puis point d'arrivée projeté.
+    // Élan : la rangée continue sur sa lancée et ralentit, sans se caler sur une carte.
     const maintenant = performance.now(), tr = t.traces.filter((q) => maintenant - q[0] < 100);
-    const a = tr[0] || [maintenant, e.clientX], vitesse = tr.length > 1 ? (e.clientX - a[1]) / Math.max(16, maintenant - a[0]) : 0;
-    const projete = sc.scrollLeft - vitesse * 280;
-    const p = panneaux(), g = sc.getBoundingClientRect().left;
-    let k = 0, d = Infinity;
-    p.forEach((el, i) => { const v = Math.abs(sc.scrollLeft + el.getBoundingClientRect().left - g - projete); if (v < d) { d = v; k = i; } });
-    if (k === t.k && Math.abs(dx) > 50) k = t.k + (dx < 0 ? 1 : -1);
-    aller(k, Math.max(380, Math.min(750, 420 + Math.abs(vitesse) * 60)));
+    const a = tr[0], vitesse = tr.length > 1 ? (tr[tr.length - 1][1] - a[1]) / Math.max(16, tr[tr.length - 1][0] - a[0]) : 0;
+    vers((t.s - dx) - vitesse * 420);
   });
   sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
   sc.addEventListener('dragstart', (e) => e.preventDefault());
   // Le voile flou du bord droit s'efface quand on arrive au bout.
   const bout = () => voile && voile.classList.toggle('est-cache', sc.scrollLeft >= sc.scrollWidth - sc.clientWidth - 4);
   sc.addEventListener('scroll', bout, { passive: true });
-  new MutationObserver(() => { if (!doc.hidden) { caler(); sc.scrollLeft = 0; setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  new MutationObserver(() => { if (!doc.hidden) { arret(); caler(); sc.scrollLeft = 0; setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
   maj();
 })();
 
