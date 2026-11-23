@@ -9800,6 +9800,12 @@
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; width: 100%; }
     html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__contexte .uc__contexte-titre { grid-column: 1 / -1; margin-bottom: 0 !important; }
   }
+  /* Pharmaprix : 72 px entre les cartes à l'horizontale ; 20 px entre les cartes empilées. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc { column-gap: 72px !important; row-gap: 20px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > section, html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__bilan > section { column-gap: 72px !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__chiffres { column-gap: 72px !important; row-gap: 20px !important; }
+  }
 </style>
 </head>
 <body>
