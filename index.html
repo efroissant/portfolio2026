@@ -9755,7 +9755,21 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) .uc__fleche::after { top: -3.5px; }
   }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__photo--comptoir img { object-position: 50% 50% !important; }
-  html body .stage #doc-loblaw.doc .sexe .sexe__val { white-space: nowrap; flex: none; }
+  /* Champs sexe, genre, pronoms en 20 px : nom et valeur sur une ligne, usage dessous. */
+  html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe :is(.sexe__unique, .sexe__trois > div) { grid-template-columns: minmax(0, 1fr) auto !important; column-gap: 12px; row-gap: 0; box-sizing: border-box; height: auto; min-height: 56px; padding: 8px 16px; background: #FFFFFF; border: 1px solid var(--encre); border-radius: var(--r-controle); }
+  html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__nom { grid-column: 1; grid-row: 1; line-height: 28px; }
+  html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__val { grid-column: 2; grid-row: 1; justify-self: end; white-space: nowrap; line-height: 28px; color: var(--encre); }
+  html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__pour { grid-column: 1 / -1; grid-row: 2; line-height: 28px; color: #57534E !important; }
+  html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__trois { left: 24px; right: 24px; top: 50%; gap: 8px; transform: translateY(-50%); }
+  @media (max-width: 1023px) {
+    html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe { display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; min-height: 270px; padding: 16px !important; }
+    html body .stage #doc-loblaw.doc .uc__bloc .sexe.sexe .sexe__trois { left: 16px; right: 16px; }
+  }
+  /* Carte Sexe : le fond du champ ne recouvre plus le titre. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe { background: transparent !important; }
+    html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > :is(.uc__label, .uc__fort, .uc__petit) { position: relative; z-index: 1; }
+  }
 </style>
 </head>
 <body>
