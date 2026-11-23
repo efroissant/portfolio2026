@@ -2938,7 +2938,7 @@
      La pochette est un conteneur : 1 unité = 1 px de la maquette de 1895,
      tout se met à l'échelle du carré, sur le recto comme sur le bureau. */
   .stage__bg { container-type: size; --u: calc(100cqw / 1895); }
-  .sleeve { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+
   /* Profil sous MANU (grand écran) : photo, puis la bio en petit. */
   .profil { display: none; }
   @media (min-width: 1024px) {
@@ -2967,15 +2967,12 @@
       display: block; width: 48%; height: auto; margin: 28px 0 8px 4px;
       transform: rotate(-1.5deg);
     }
-    /* Pochette ouverte : la photo et la bio restent là, derrière la
-       double page qui vient les couvrir. */
-    .stage.gatefold .profil { z-index: 0; pointer-events: none; filter: blur(8px); }
+
     /* Le fond s'assombrit vers le noir pendant que la pochette s'ouvre, au même
        rythme que le flou (1,1 s), et s'éclaircit à la fermeture. */
     .stage:is([data-state="lock"], [data-state="desktop"]) { transition: background-color 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
-    .stage.gatefold:is([data-state="lock"], [data-state="desktop"]) { background: #1C1917 !important; --text: #F4EFE4; }
-    /* Sur le fond sombre, la barre et LKD passent en clair. */
-    .stage.gatefold :is(.menubar, .menubar a, .menubar button, .lien-bas) { color: #F4EFE4 !important; }
+
+
     .stage :is(.menubar, .menubar a, .menubar button, .lien-bas) { transition: color 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
   }
   @media (prefers-reduced-motion: reduce) { .profil { transition: none !important; } }
@@ -2998,120 +2995,38 @@
   /* Fond du site : blanc. */
   .stage:is([data-state="lock"], [data-state="desktop"]) { background: #FFFFFF !important; }
   html:has(.stage), body:has(.stage) { background: #FFFFFF; }
-  .sleeve__titre {
-    position: absolute; margin: 0;
-    left: 0; width: 100%; top: calc(886 * var(--u));   /* un peu d'air au-dessus de MANU */
-    text-align: center; white-space: nowrap;
-    font: 300 calc(42 * var(--u)) / 1.2 "Cormorant Garamond", serif;
-    letter-spacing: calc(7 * var(--u)); color: #F1EFE8;
-  }
-  /* Sous MANU : ce qu'on va découvrir. */
-  .sleeve__sous-titre {
-    position: absolute; margin: 0;
-    left: 0; width: 100%; top: calc(1195 * var(--u));   /* juste sous MANU */
-    text-align: center; white-space: nowrap; text-transform: uppercase;
-    font: 500 calc(33 * var(--u)) / 1.2 "DM Sans", sans-serif;
-    letter-spacing: calc(3 * var(--u)); color: #F1EFE8;
-  }
-  .sleeve__manu {
-    position: absolute; margin: 0;
-    left: 50%; top: calc((841 + 246.75) * var(--u));
-    width: calc(1261 * var(--u));
-    transform: translate(-50%, -50%) rotate(-6.55deg);
-    text-align: center; white-space: nowrap;
-    font: 400 calc(250 * var(--u)) / 1.2 "Indelible", sans-serif;
-    letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
-    padding: 0; border: 0; background: none; pointer-events: none;
-    z-index: 2;
-    transition: color 200ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), text-shadow 200ms ease;
-  }
-  /* ===== VERSO DE LA POCHETTE (Figma 110:18) =====
-     Le bureau montre le dos du disque : aplat bleu, titre, photo, deux
-     faces de pistes, crédits. Le recto (photo, obi, MANU) s'efface. */
-  .verso, .verso__manu { opacity: 0; visibility: hidden; }
-  .stage[data-state="desktop"] .verso,
-  .stage[data-state="desktop"] .verso__manu { opacity: 1; visibility: visible; }
 
-  .stage[data-state="desktop"] .sleeve,
-  .stage[data-state="desktop"] .sleeve__manu { opacity: 0; }
-  .verso { position: absolute; inset: 0; background: #386B97; pointer-events: none; user-select: none; color: #FFFFFF; }
-  .verso__t {
-    position: absolute; margin: 0; white-space: nowrap;
-    left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
-    font-size: calc(var(--s) * var(--u)); line-height: var(--lh);
-    letter-spacing: calc(var(--t) * var(--u));
-    color: var(--c, #FFFFFF);
-    text-shadow: none; -webkit-text-stroke: 0; text-transform: none;
-  }
-  .verso__t--r { left: auto; right: calc((1895 - var(--x)) * var(--u)); text-align: right; }
-  .verso__t--c { transform: translateX(-50%); text-align: center; }
+
+
+
+
+
+
+
+
+
   .vs-dm { font-family: "DM Sans", sans-serif; font-weight: 500; }
   .vs-cg { font-family: "Cormorant Garamond", serif; font-weight: 300; }
   .vs-jp { font-family: "Noto Serif JP", serif; font-weight: 400; }
-  .verso__photo {
-    position: absolute; overflow: hidden;
-    left: calc(100 * var(--u)); top: calc(380 * var(--u));
-    width: calc(1695 * var(--u)); height: calc(690 * var(--u));
-  }
-  .verso__photo img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 42%; }
-  /* La photo du verso ne s'agrandit plus, ni au survol ni au clic. */
-  .verso__plage {
-    position: absolute; overflow: hidden;
-    left: calc(1315 * var(--u)); top: calc(1229 * var(--u));
-    width: calc(480 * var(--u)); height: calc(339 * var(--u));
-  }
-  .verso__plage img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; display: block; }
-  .verso__filet {
-    position: absolute; background: #FFFFFF;
-    left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
-    width: calc(var(--w) * var(--u)); height: max(1px, var(--u));
-  }
-  .verso__manu {
-    position: absolute; margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
-    /* Centre du tracé dans la maquette : la boîte Figma est plus haute
-       que le mot, qui s'y loge en haut. */
-    left: calc(235 * var(--u)); top: calc(142 * var(--u));
-    transform: translate(-50%, -50%) rotate(-6.55deg);
-    white-space: nowrap; z-index: 2;
-    font: 400 calc(120 * var(--u)) / 1.2 "Indelible", sans-serif;
-    letter-spacing: calc(7 * var(--u)); color: rgba(255, 255, 255, 0.86);
-  }
-  .verso__manu:hover, .verso__manu:focus-visible { color: #FFFFFF; transform: translate(-50%, -50%) rotate(-6.55deg) scale(1.05); }
-  .verso__manu:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 6px; }
+
+
+
+
+
+
+
+
   /* La vue bureau laisse passer le pointeur jusqu'au MANU du verso ; ses
      fenêtres et menus, eux, restent cliquables. */
   .stage[data-state="desktop"] #view-desktop { pointer-events: none; }
   .stage[data-state="desktop"] #view-desktop > :not(.minis) { pointer-events: auto; }
-  /* Sur le bureau, il redevient une simple image. */
-  .stage:not([data-state="lock"]) .sleeve__manu { pointer-events: none; }
+
   /* L'écran verrouillé n'a plus rien de cliquable en propre : il laisse
      passer le pointeur jusqu'à MANU, posé sur la pochette en dessous. */
   .stage #view-lock { pointer-events: none; }
 
-  /* Film plastique : la pochette est sous cellophane, comme un vinyle neuf.
-     La texture est sombre ; en « screen », le fond disparaît et seuls les
-     plis et reflets éclaircissent la photo. Les autocollants sont dessus. */
-  .stage__film {
-    position: absolute; inset: 0;
-    background: url("film-plastique-2.jpg") center / cover no-repeat;
-    mix-blend-mode: screen;
-    /* Plus discret : les reflets ne doivent ni concurrencer MANU (lui
-       aussi blanc et effilé) ni doubler les palmes en « fantômes ». */
-    filter: contrast(2) brightness(0.55);
-    opacity: 0.4;
-    /* Presque effacé autour de MANU, plein sur les bords. */
-    -webkit-mask-image: radial-gradient(ellipse 46% 26% at 50% 57%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.12) 45%, #000 100%);
-            mask-image: radial-gradient(ellipse 46% 26% at 50% 57%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.12) 45%, #000 100%);
-    pointer-events: none;
-    z-index: 1;
-  }
-  /* Le verso garde son film plein, sans masque. */
-  .stage[data-state="desktop"] .stage__film { -webkit-mask-image: none; mask-image: none; }
-  /* Au verso, une autre texture d'emballage : plis sur les bords, rayures. */
-  .stage[data-state="desktop"] .stage__film {
-    background-image: url("film-plastique-verso.jpg");
-    filter: contrast(1.6) brightness(1.1); opacity: 0.85;
-  }
+
+
 
   /* Fond blanc : la fenêtre À propos s'ouvre sans voile, le fond reste blanc. */
   /* À propos : un voile de la couleur du fond (script : fondAPropos) laisse
@@ -6361,41 +6276,16 @@
     }
   }
 
-  /* ===== RETOURNER LE DISQUE =====
-     En haut à droite de la pochette, le pendant du mini-lecteur en bas :
-     VERSO sur le recto, RECTO sur le verso, et une flèche qui tourne. */
-  .flip-lien {
-    position: absolute; z-index: 20;
-    display: none; align-items: center; gap: 6px;
-    padding: 2px 0; border: 0; background: none; color: #1C1917; cursor: pointer;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    letter-spacing: 0.08em;   /* comme la barre : 12 px, même tracking */
-    left: calc((100vw + var(--carre-v)) / 2 + 10px);
-    top: var(--haut-v);
-  }
-  .flip-lien svg { width: 15px; height: 15px; overflow: visible; transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .flip-lien:hover svg, .flip-lien:focus-visible svg { transform: rotate(180deg); }
-  .flip-lien--recto:hover svg, .flip-lien--recto:focus-visible svg { transform: rotate(-180deg); }
-  .flip-lien:hover span { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .flip-lien:focus-visible { outline: 1px solid #1C1917; outline-offset: 3px; }
-  .stage[data-state="lock"] .flip-lien--verso,
-  .stage[data-state="desktop"] .flip-lien--recto { display: inline-flex; }
-  @media (min-width: 768px) {
-    .flip-lien { top: var(--haut-v); }
-  }
-  @media (min-width: 1024px) {
-    .flip-lien {
-      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) + 10px);
-      top: calc(var(--bar-h) + 6px);
-    }
-  }
+
+
+
+
+
+
+  
+  
   /* Téléphone : pas de place à côté, le lien passe au-dessus, à droite. */
-  @media (max-width: 767px) {
-    .flip-lien {
-      left: auto; right: calc((100vw - var(--carre-v)) / 2);
-      top: calc(var(--haut-v) - 30px);
-    }
-  }
+  
   /* Pendant le retournement, la pochette pivote en 3D. */
   .stage__bg { backface-visibility: hidden; }
 
@@ -6520,7 +6410,7 @@
       --cadre-v: var(--haut-v) calc((100vw - var(--carre-v)) / 2)
                  calc(100dvh - var(--haut-v) - var(--carre-v));
     }
-    .flip-lien { left: calc((100vw - var(--carre-v)) / 2); top: calc(var(--haut-v) + var(--carre-v) + 10px); }
+
     .stage:is([data-state="lock"], [data-state="desktop"]) .recto-play {
       left: auto; right: calc((100vw - var(--carre-v)) / 2);
       bottom: auto; top: calc(var(--haut-v) + var(--carre-v) + 8px);
@@ -6541,104 +6431,27 @@
       0 10px 22px rgba(40, 28, 10, 0.16),
       0 28px 56px rgba(40, 28, 10, 0.14);
   }
-  .pochette-usure {
-    position: absolute; inset: 0; z-index: 3;
-    pointer-events: none; border-radius: inherit;
-    background:
-      /* coins frottés : le carton blanchit là où on le tient */
-      radial-gradient(circle at 0 0, rgba(255, 250, 240, 0.22), transparent 3.2%),
-      radial-gradient(circle at 100% 0, rgba(255, 250, 240, 0.18), transparent 2.8%),
-      radial-gradient(circle at 0 100%, rgba(255, 250, 240, 0.18), transparent 2.8%),
-      radial-gradient(circle at 100% 100%, rgba(255, 250, 240, 0.24), transparent 3.4%);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.22),          /* tranche du carton */
-      inset 0 0 0 2px rgba(0, 0, 0, 0.10),
-      inset 0 0 calc(var(--u) * 26) rgba(30, 20, 5, 0.22); /* bords assombris */
-    mix-blend-mode: normal;
-  }
-  /* Pochette en 3D (recto) : on la fait pivoter en la glissant. Le script
-     pose la rotation, la tranche (ombres empilées) et --gx/--gy/--g pour
-     le reflet, qui glisse sur le carton selon l'angle. */
-  .pochette-reflet { display: none; }
-  .stage[data-state="lock"]:not(.gatefold) .pochette-reflet {
-    display: block; position: absolute; inset: 0; z-index: 4;
-    pointer-events: none; border-radius: inherit;
-    opacity: var(--g, 0);
-    background:
-      radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 55%),
-      radial-gradient(circle at calc(100% - var(--gx, 50%)) calc(100% - var(--gy, 50%)), rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 60%);
-    mix-blend-mode: soft-light;
-  }
+
+
+
   .stage[data-state="lock"]:not(.gatefold) .stage__bg { cursor: grab; touch-action: pan-y; }
   .stage.pochette-en-main .stage__bg { cursor: grabbing; }
-  /* ================= INTERCALAIRES ET LIVRET =================
-     Trois languettes crème glissées derrière la pochette (À propos,
-     Projets, Contact), sur les deux faces. Au verso, le livret : l'encart
-     crème qu'on tire de la pochette, avec la bio, les projets ou le
-     contact. Grand écran : languettes au bord droit, livret dans la
-     pochette. En dessous de 1024 px : languettes au-dessus, et au
-     téléphone le livret se déplie sous la pochette, dans le flux. */
-  .intercalaires { display: none; }
+
   .sayhi-mobile { display: none; }
   .logo-mobile { display: none; }
-  .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
-    display: flex; position: absolute; margin: 0; padding: 0;
-    /* Avant la pochette dans le DOM : elles passent dessous. */
-  }
-  .intercalaire {
-    --sortie: 0px;
-    display: inline-flex; align-items: center; box-sizing: border-box;
-    min-height: 44px;
-    background: #FBF8F1; color: #1C1917;
-    border: 1px solid rgba(20, 20, 20, 0.5);
-    box-shadow: 0 1px 1px rgba(40, 28, 10, 0.14), 0 4px 10px rgba(40, 28, 10, 0.10);
-    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-    letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
-    text-decoration: none;
-    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), background-color 160ms ease, border-color 160ms ease;
-  }
-  .intercalaire:hover { --sortie: 6px; background: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .intercalaire:focus-visible { --sortie: 8px; outline: 2px solid #1C1917; outline-offset: 3px; background: #FFFFFF; }
-  /* Rubrique ouverte : la languette sort davantage, passe en gras, prend
-     un point devant et un trait plein (pas seulement une couleur). */
-  .intercalaire[aria-current="true"] { --sortie: 12px; background: #FFFFFF; border-color: #1C1917; font-weight: 700; }
-  .intercalaire[aria-current="true"]::before {
-    content: ""; width: 6px; height: 6px; border-radius: 50%;
-    background: currentColor; margin-right: 8px; flex: none;
-  }
+
+
+
+
+
+
 
   /* Grand écran : au bord droit, en colonne, sous le lien VERSO/RECTO. */
-  @media (min-width: 1024px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
-      flex-direction: column; align-items: stretch; gap: 10px;
-      left: calc(100vw - var(--manche) - var(--marge-x) + var(--decal) - 18px);
-      top: calc(var(--bar-h) + 6px + max(56px, var(--carre) * 0.16));
-    }
-    .intercalaire {
-      padding: 0 16px 0 32px;   /* 18 px glissés sous la pochette */
-      border-radius: 0 6px 6px 0;
-      transform: translateX(var(--sortie));
-    }
-  }
+  
   /* Tablette et téléphone : en rangée au-dessus de la pochette. */
-  @media (max-width: 1023px) {
-    .stage:is([data-state="lock"], [data-state="desktop"]) .intercalaires {
-      flex-direction: row; align-items: flex-end; gap: 6px;
-      left: calc((100vw - var(--carre-v)) / 2 + 8px);
-      width: calc(var(--carre-v) - 16px);
-      top: calc(var(--haut-v) - 44px);
-    }
-    .intercalaire {
-      flex: 0 1 150px; justify-content: center; min-width: 0;   /* une languette, pas une barre */
-      min-height: 54px; padding: 0 6px 10px;   /* 10 px glissés sous la pochette */
-      border-radius: 6px 6px 0 0;
-      transform: translateY(calc(-1 * var(--sortie)));
-    }
-  }
+  
   @media (max-width: 767px) {
-    /* Place pour la rangée de languettes : la pochette descend. */
-    /* (plus de languettes au-dessus : la pochette garde son haut d'origine) */
-    .flip-lien { top: 16px; }
+
     /* L'ancien en-tête du bureau mobile (blanc sur crème) chevauchait la
        rangée de languettes : elles le remplacent. */
     .stage:is([data-state="lock"], [data-state="desktop"]) .mhead { display: none !important; }
@@ -6662,211 +6475,62 @@
   }
 
 
-  /* ---- Verso : la photo s'ouvre en grand ---- */
-  .photo-modal {
-    width: min(1400px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
-    padding: 44px 0 0; border: 0; background: transparent; overflow: visible; cursor: zoom-out;
-  }
-  .photo-modal::backdrop { background: rgba(14, 20, 38, 0.82); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-  .photo-modal:focus { outline: none; }
-  .photo-modal img {
-    display: block; width: 100%; height: auto; max-height: calc(100dvh - 92px); object-fit: contain;
-    border-radius: 2px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  }
-  .photo-modal__fermer {
-    position: absolute; top: 0; right: 0;
-    display: inline-flex; align-items: center; min-height: 40px; padding: 0 4px;
-    border: 0; background: none; color: #FBF8F1; cursor: pointer;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
-  }
-  .photo-modal__fermer:focus { outline: none; }
-  .photo-modal__fermer:hover, .photo-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ---- Le disque qui dépasse de la pochette ---- */
-  .vinyle { display: none; }
-  @media (min-width: 1024px) {
-    .stage[data-state="lock"] .vinyle {
-      display: block; position: absolute; inset: var(--cadre-v);
-      pointer-events: none;
-    }
-    .vinyle img {
-      /* Disque à ~95 % de la hauteur de la pochette (l'image a une marge
-         transparente). Rangé par défaut, caché sous la pochette. */
-      position: absolute; top: -4%; left: -4%; width: 108%; height: 108%;
-      transform: translateX(0) rotate(-200deg);
-      transition: transform 760ms cubic-bezier(0.33, 0.9, 0.3, 1);
-      filter: drop-shadow(0 6px 14px rgba(20, 15, 5, 0.28));
-    }
-    /* Rangé : il rentre dans la pochette en tournant un peu. */
-    /* Il roule : en rentrant il tourne d'un demi-tour sur lui-même, et en
-       ressortant il fait le chemin inverse. */
-    /* Au survol de la pochette, il sort un peu en roulant. */
-    .stage:has(.stage__bg:hover) .vinyle img { transform: translateX(16%) rotate(-95deg); }
-    .stage.vinyle-range .vinyle img { transform: translateX(0) rotate(-200deg); }
-    /* Pendant le retournement, on ne le voit pas derrière la tranche. */
-    .stage.en-rotation .vinyle { visibility: hidden; }
-  }
-  @media (prefers-reduced-motion: reduce) { .vinyle img { transition: none; } }
+
+
+
+
+
+  
+  
 
   /* Coins de la pochette un peu arrondis, comme un carton qui a vécu.
      Ouverte, seuls les quatre coins extérieurs le restent : la tranche
      au milieu garde des coins droits (règles du gatefold, plus bas). */
   .stage:is([data-state="lock"], [data-state="desktop"]) :is(.stage__bg, .stage__video, .stage__tint, .stage__scrim, .grain) { border-radius: 10px; }
 
-  /* ---- Pochette ouvrante (gatefold), grand écran ----
-     La couverture pivote sur sa tranche gauche et se rabat à gauche ;
-     l'intérieur (une photo en double page) apparaît. Le script place et
-     anime ; ici, les deux volets intérieurs. */
-  .livret-droite, .livret-gauche { display: none; }
-  @media (min-width: 1024px) {
-    .stage.gatefold .livret-droite {
-      display: block; position: absolute; inset: var(--cadre-v);
-      border-radius: 10px; overflow: hidden;
-      background: #FFFFFF;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.10), 0 12px 28px rgba(0, 0, 0, 0.16);
-      transform-origin: left center;
-    }
-    /* Le dos de la couverture : la moitié gauche de la photo, posée à
-       l'envers pour se lire à l'endroit une fois la couverture rabattue. */
-    .stage.gatefold-dos .livret-gauche {
-      display: block; position: absolute; inset: 0; z-index: 30;
-      /* En fond : la piscine. */
-      background: #2FA7B8 url("fond-piscine-grand.jpg") center 30% / cover no-repeat;
-      transform: scaleX(-1);
-    }
-    /* Le pli au milieu : une ombre douce de chaque côté de la tranche. */
-    .livret-droite::after, .livret-gauche::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to right, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%);
-    }
-    .livret-gauche::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
-    .stage.gatefold .stage__bg { backface-visibility: visible !important; }
-    /* Au pli, les coins sont droits : deux arrondis côte à côte laissaient
-       une petite encoche claire en haut et en bas de la tranche. */
-    .stage.gatefold .livret-droite { border-top-left-radius: 0; border-bottom-left-radius: 0; }
-    .stage.gatefold-dos .stage__bg { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
-    /* Pliage vers le verso : ce volet reprend la moitié gauche, le temps
-       que le volet droit (devenu le verso) vienne se poser dessus. */
-    .stage.gatefold-pli .livret-droite { background: #2FA7B8 url("fond-piscine-grand.jpg") center 30% / cover no-repeat; }
-    .stage.gatefold-pli .livret-droite .face-a { visibility: hidden; }
-    .stage.gatefold-pli .livret-droite::after { background: linear-gradient(to left, rgba(10, 20, 30, 0.12), rgba(10, 20, 30, 0.04) 2%, transparent 6%); }
-    .stage.gatefold-dos .stage__bg { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 0 #1C1917; }
-    /* Ouverte : pas de disque. */
-    .stage.gatefold .vinyle { visibility: hidden; }
-    .stage.gatefold-ouvert .livret-droite, .stage.gatefold-ouvert .stage__bg { cursor: pointer; }
-  }
+  
 
-  /* ---- FACE A : les projets, à l'intérieur de la pochette ----
-     Une liste de pistes posée sur le mur du volet gauche, sur une
-     Au survol ou au focus : le numéro devient ▶, la ligne se souligne,
-     et la miniature du projet (une petite pochette carrée) apparaît. */
-  .face-a {
-    --cobalt: #1B45B4; --creme: #F5EDDC; --encre: #12224F;
-    color: var(--encre);
-  }
-  .face-a__titre {
-    margin: 0; color: var(--cobalt);
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-style: italic; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.02em; line-height: 1;
-  }
-  .face-a__titre:focus { outline: none; }
-  .face-a__pistes { list-style: none; margin: 0; padding: 0; }
-  .piste {
-    display: grid; grid-template-columns: 2.6ch 1fr; align-items: baseline;
-    color: inherit; text-decoration: none; cursor: pointer;
-  }
-  /* Le numéro et le ▶ partagent la même case : rien ne bouge. */
-  .piste__num {
-    position: relative; color: var(--cobalt);
-    font: 500 1em/1 "DM Sans", sans-serif; font-variant-numeric: tabular-nums; letter-spacing: 0.04em;
-  }
-  .piste__num > span { transition: opacity 160ms ease; }
-  .piste__num::after {
-    content: "▶"; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    font-size: 1em; opacity: 0; transition: opacity 160ms ease;
-  }
-  .piste__corps { display: flex; flex-direction: column; min-width: 0; }
-  .piste__nom {
-    color: var(--encre);
-    font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-style: italic; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.05;
-  }
-  .piste__fleche { color: var(--cobalt); font-style: normal; font-family: "DM Sans", sans-serif; font-weight: 500; }
-  /* Le soulignement se dessine de gauche à droite. */
-  .piste__titre {
-    background: linear-gradient(currentColor, currentColor) left bottom / 0% 2px no-repeat;
-    padding-bottom: 2px; transition: background-size 260ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .piste__meta { margin-top: 0.3em; color: #33415F; font: 400 0.86em/1.3 "DM Sans", sans-serif; letter-spacing: 0.02em; }
-  .piste:hover .piste__num > span, .piste:focus-visible .piste__num > span { opacity: 0; }
-  .piste:hover .piste__num::after, .piste:focus-visible .piste__num::after { opacity: 1; }
-  .piste:hover .piste__titre, .piste:focus-visible .piste__titre { background-size: 100% 2px; }
-  .piste:focus { outline: none; }
-  .piste:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; border-radius: 2px; }
-  /* Miniatures : de petites pochettes. En attendant les vraies images,
-     un motif rétro par projet. */
-  .piste__mini {
-    display: block; aspect-ratio: 1; overflow: hidden; position: relative;
-    background: var(--cobalt);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 2px 3px 0 rgba(18, 34, 79, 0.85);
-  }
-  .piste__mini img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .piste__mini--1 { background: radial-gradient(circle at 62% 58%, #F5EDDC 0 22%, #1B45B4 22.5% 26%, #F5EDDC 26.5% 29%, transparent 29.5%), #1B45B4; }
-  .piste__mini--2 { background: repeating-linear-gradient(0deg, #F5EDDC 0 9%, #E5643C 9% 14%, #F5EDDC 14% 20%, #1B45B4 20% 26%); }
-  .piste__mini--3 { background: linear-gradient(160deg, transparent 52%, #1B45B4 52.5%), radial-gradient(circle at 34% 36%, #F2B33D 0 20%, transparent 20.5%), #F5EDDC; }
-  .piste__mini:has(img) { background: #ddd; }
-  .piste__mini-num {
-    position: absolute; left: 0; bottom: 8%; padding: 0.12em 0.35em 0.08em 0.3em;
-    background: #F5EDDC; color: #12224F;
-    font: italic 600 0.8em/1 "Barlow Condensed", sans-serif; letter-spacing: 0.04em;
-  }
-  .piste__mini:has(img) .piste__mini-num { display: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .piste__num > span, .piste__num::after, .piste__titre, .piste__mini { transition: none !important; }
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   /* Grand écran : la double page est blanche. À gauche, la photo de la
      piscine entière ; à droite, FACE A et FACE B, en noir, minimal. La
      miniature d'une piste apparaît à droite de la liste. Coordonnées en
      unités de pochette (1895 de large). */
   .face-a-mobile { display: none; }
-  @media (min-width: 1024px) {
-    .stage.gatefold .livret-droite { container-type: size; }
-    .livret-droite .face-a {
-      --u: calc(100cqw / 1895);
-      position: absolute; left: calc(260 * var(--u)); top: calc(450 * var(--u)); width: calc(860 * var(--u));
-      font-size: max(12px, calc(32 * var(--u)));
-      color: #1C1917; cursor: default;
-    }
-    .livret-droite .face-a__titre {
-      margin: 0 0 calc(22 * var(--u));
-      color: #1C1917;
-      font: 500 max(11px, calc(28 * var(--u)))/1 "DM Sans", sans-serif; font-style: normal;
-      letter-spacing: 0.16em;
-    }
-    .livret-droite .face-a__titre--b { margin-top: calc(110 * var(--u)); }
-    .livret-droite .piste { padding: calc(18 * var(--u)) 0; grid-template-columns: 2.4ch 1fr; column-gap: calc(18 * var(--u)); }
-    .livret-droite :is(.piste__num, .piste__fleche) { color: #1C1917; }
-    .livret-droite .piste__nom { color: #1C1917; font-size: max(15px, calc(50 * var(--u))); }
-    .livret-droite .piste__meta { color: #6A6A6A; font-size: 0.82em; }
-    .livret-droite .piste:focus-visible { outline-color: #1C1917; }
-    .livret-droite .piste__mini {
-      position: absolute; left: calc(1000 * var(--u)); top: calc(70 * var(--u));
-      width: calc(420 * var(--u)); font-size: max(13px, calc(44 * var(--u)));
-      opacity: 0; transform: translateY(calc(14 * var(--u)));
-      transition: opacity 220ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
-    }
-    .livret-droite .piste:is(:hover, :focus-visible) .piste__mini { opacity: 1; transform: none; }
-  }
-  /* Face B : pas encore de lien, plus discrète. */
-  .piste--bientot { cursor: default; }
-  .piste--bientot .piste__nom { opacity: 0.45; }
-  .piste--bientot .piste__num { opacity: 0.45; }
-  .piste--bientot:hover .piste__num > span { opacity: 1; }
-  .piste--bientot:hover .piste__num::after { opacity: 0; }
-  .piste--bientot:hover .piste__titre { background-size: 0% 2px; }
-  @media (max-width: 1023px) { .face-a-mobile .face-a__titre--b { margin-top: 36px; } }
+  
+
+
+
+
+
+
+  
 
   /* Téléphone et tablette : l'intérieur s'ouvre sous le recto, en liste.
      Tout est visible sans survol : chaque piste montre sa miniature. */
@@ -6882,18 +6546,14 @@
       background: #E8DCC6 url("livret-mur-photo.jpg") 72% 50% / cover no-repeat;
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 3px 4px 0 #1C1917;
     }
-    .face-a-mobile .face-a { margin-top: 28px; font-size: 14px; }
-    .face-a-mobile .face-a__pistes li:last-child .piste { border-bottom: 1px solid rgba(27, 69, 180, 0.22); }
-    .face-a-mobile .face-a__titre { font-size: clamp(26px, 8vw, 40px); margin-bottom: 14px; }
-    .face-a-mobile .piste {
-      border-top: 1px solid rgba(27, 69, 180, 0.22);
-      grid-template-columns: 64px 2.4ch 1fr; column-gap: 12px; align-items: center;
-      padding: 14px 0; min-height: 64px;
-    }
-    .face-a-mobile .piste__mini { grid-column: 1; grid-row: 1; width: 64px; font-size: 15px; }
-    .face-a-mobile .piste__num { grid-column: 2; grid-row: 1; }
-    .face-a-mobile .piste__corps { grid-column: 3; grid-row: 1; }
-    .face-a-mobile .piste__nom { font-size: 22px; }
+
+
+
+
+
+
+
+
   }
 
   /* ===== TÉLÉPHONE ET TABLETTE : BIO + TROIS PROJETS =====
@@ -7140,113 +6800,50 @@
     html.clavier .stage #mail .mail__body { min-height: 64px; }
   }
 
-  /* ---- Tracklist du verso : les études de cas, cliquables ---- */
-  .verso__piste {
-    position: absolute; left: calc(var(--x, 100) * var(--u)); top: calc(var(--y) * var(--u));
-    width: calc(840 * var(--u));
-    display: grid; grid-template-columns: calc(70 * var(--u)) 1fr; align-items: baseline;
-    margin: 0; padding: calc(6 * var(--u)) 0; border: 0; background: none;
-    color: #FFFFFF; text-align: left; cursor: pointer; pointer-events: auto;
-  }
-  .verso__piste-num { font: 500 calc(30 * var(--u))/1.35 "DM Sans", sans-serif; letter-spacing: calc(1 * var(--u)); }
-  .verso__piste-titre {
-    display: inline-flex; align-items: center; gap: calc(10 * var(--u));
-    font: 500 calc(58 * var(--u))/1.15 "Cormorant Garamond", serif;   /* 500 : le 300 était trop fin sur le bleu */
-  }
-  /* Sous-titres : le style de « A LITTLE INSIGHT, A BETTER INTERFACE. » */
-  .verso__piste-sous {
-    grid-column: 2; margin-top: calc(8 * var(--u));
-    font: 500 calc(26 * var(--u))/1.1 "DM Sans", sans-serif;
-    letter-spacing: calc(3 * var(--u)); text-transform: uppercase;
-  }
-  /* Face B : projets à venir, pas encore cliquables. */
-  .verso__piste--bientot { width: calc(795 * var(--u)); cursor: inherit; pointer-events: none; }
-  .verso__piste-fleche { width: 0.55em; height: 0.55em; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .verso__piste:hover .verso__piste-titre, .verso__piste:focus-visible .verso__piste-titre {
-    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em;
-  }
-  .verso__piste:hover .verso__piste-fleche, .verso__piste:focus-visible .verso__piste-fleche { transform: translate(0.08em, -0.08em); }
-  .verso__piste:focus-visible { outline: 2px solid #FBF8F1; outline-offset: 4px; }
-  @media (prefers-reduced-motion: reduce) { .verso__piste-fleche { transition: none; } }
 
-  /* « EXPLORER MES PROJETS ↗ » : le titre du verso, cliquable. */
-  .verso__cta {
-    padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto;
-    display: inline-flex; align-items: flex-start; gap: 0.12em;
-    font-family: "Cormorant Garamond", serif; font-weight: 300; text-align: left;
-  }
-  .verso__fleche { width: 0.55em; height: 0.55em; margin-top: 0.12em; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .verso__cta:hover .verso__fleche, .verso__cta:focus-visible .verso__fleche { transform: translate(0.06em, -0.06em); }
-  .verso__cta:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
-  .verso__cta:focus-visible { outline: 2px solid #FBF8F1; outline-offset: 6px; }
-  @media (prefers-reduced-motion: reduce) { .verso__fleche { transition: none; } }
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
 
   /* Toute la pochette se clique (elle se retourne) : la main au survol. */
   .stage:is([data-state="lock"], [data-state="desktop"]) .stage__bg { cursor: pointer; }
 
-  /* ---- Le livret ---- */
-  .livrets { display: none; }
-  .stage[data-state="desktop"] .livrets {
-    display: block; position: absolute; inset: var(--cadre-v);
-    z-index: 6; pointer-events: none;
-  }
-  .livret {
-    position: absolute; inset: calc(var(--carre-v) * 0.045);
-    box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain;
-    pointer-events: auto;
-    padding: clamp(24px, 3.4vw, 52px) clamp(22px, 4vw, 64px);
-    background: #FBF8F1; color: #1C1917; border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(20, 20, 30, 0.25), 0 14px 34px rgba(10, 30, 60, 0.32);
-  }
-  .livret[hidden] { display: none; }
-  .livret__tete {
-    display: flex; flex-direction: column; gap: 10px;
-    padding: 0 170px 18px 0; margin-bottom: 24px;
-    border-bottom: 1px solid #1C1917;
-  }
-  .livret__sur {
-    margin: 0; font: 500 12px/1.2 "DM Sans", sans-serif;
-    letter-spacing: 0.14em; text-transform: uppercase; color: #4A4A4A;
-  }
-  .livret__titre {
-    margin: 0; font: 300 clamp(32px, 3.2vw, 48px)/1.05 "Cormorant Garamond", serif; color: #1C1917;
-  }
-  .livret__titre:focus { outline: none; }
-  .livret__titre:focus-visible { outline: 2px solid #1C1917; outline-offset: 4px; }
-  .livret__texte { max-width: 62ch; }
-  .livret__texte p { margin: 0 0 1em; font: 400 14px/1.65 "DM Sans", sans-serif; color: #1C1917; }
-  .livret__texte .livret__note {
-    margin-top: 1.6em; padding-top: 1em; border-top: 1px solid rgba(20, 20, 20, 0.25);
-    font-size: 13px; color: #3A3A3A;
-  }
-  .livret__palmier { width: 1.05em; height: 1.05em; vertical-align: -0.15em; margin-left: 0.25em; color: #386B97; }
-  .livret__fermer {
-    position: absolute; top: clamp(24px, 3.4vw, 52px); right: clamp(22px, 4vw, 64px);
-    display: inline-flex; align-items: center; gap: 8px;
-    min-height: 40px; padding: 0 14px;
-    background: transparent; color: #1C1917; border: 1px solid #1C1917; border-radius: 2px; cursor: pointer;
-    font: 400 12px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-    letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
-  }
-  .livret__fermer svg { width: 14px; height: 14px; }
-  .livret__fermer:hover { background: #1C1917; color: #FBF8F1; }
-  .livret__fermer:focus-visible { outline: 2px solid #1C1917; outline-offset: 3px; }
 
-  .livret__pistes { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
-  .livret__pistes li {
-    display: grid; grid-template-columns: 3.2ch 1fr auto; gap: 4px 16px; align-items: baseline;
-    padding: 16px 0; border-bottom: 1px solid rgba(20, 20, 20, 0.25);
-  }
-  .livret__num { font: 500 13px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; }
-  .livret__projet { margin: 0; font: 300 clamp(22px, 2.1vw, 30px)/1.15 "Cormorant Garamond", serif; color: #1C1917; }
-  .livret__client { margin: 6px 0 0; font: 500 12px/1.4 "DM Sans", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4A4A; }
-  .livret__lire {
-    display: inline-flex; align-items: center; min-height: 44px;
-    color: #1C1917; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
-  }
-  .livret__lire { font: 500 12px/1 "DM Sans", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
-  .livret__lire:hover { text-decoration-thickness: 2px; }
-  .livret__lire:focus-visible { outline: 2px solid #1C1917; outline-offset: 2px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   /* Téléphone : la pochette ne s'étire plus avec la page, et le livret
@@ -7256,88 +6853,43 @@
       bottom: auto; height: var(--carre-v);
     }
     body:has(.stage[data-state="desktop"]) { overflow-y: auto; overflow-x: hidden; }
-    .stage[data-state="desktop"] .livrets {
-      position: relative; inset: auto; width: var(--carre-v);
-      margin: calc(var(--haut-v) + var(--carre-v) + 56px) auto 32px;
-    }
-    .livret { position: relative; inset: auto; overflow: visible; padding: 26px 20px 22px; }
-    .livret__tete { padding-right: 0; }
-    .livret__fermer { position: static; margin-top: 18px; }
-    .livret__texte p { font-size: 16px; }
-    .livret__texte .livret__note { font-size: 15px; }
-    .livret__pistes li { grid-template-columns: 3.2ch 1fr; }
-    .livret__lire { grid-column: 2; }
+
+
+
+
+
+
+
+
   }
-  @media (max-width: 1023px) and (min-width: 768px) {
-    .livret__tete { padding-right: 0; padding-top: 52px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .intercalaire { transition: none; }
-  }
-  /* ---- Bio en fenêtre (clic sur le portrait de l'obi) ---- */
-  .bio-modal {
-    width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 48px);
-    padding: 0; border: 0; border-radius: 4px; overflow: auto; overscroll-behavior: contain;
-    background: #FBF8F1; color: #1C1917;
-    box-shadow: 0 2px 4px rgba(20, 20, 30, 0.2), 0 24px 60px rgba(10, 20, 50, 0.4);
-  }
-  .bio-modal::backdrop { background: rgba(20, 28, 50, 0.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-  .bio-modal__photo { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
-  .bio-modal__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
-  .bio-modal__photo::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: url("grain-fort.png") repeat; background-size: 64px 64px;
-    image-rendering: pixelated; mix-blend-mode: overlay; opacity: 0.5;
-  }
-  .bio-modal__corps { padding: 26px clamp(20px, 5vw, 40px) 32px; }
-  .bio-modal .livret__sur { padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid #1C1917; }
-  .bio-modal .livret__titre { padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid #1C1917; }
-  /* RECTO / VERSO : retirés à l'écran (un clic ou un tap sur la pochette
-     la retourne). Ils restent pour le clavier et n'apparaissent qu'au
-     focus, comme un lien d'évitement. */
-  .stage .flip-lien:not(:focus-visible) {
-    clip-path: inset(50%); width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; white-space: nowrap;
-  }
-  .stage .flip-lien:focus-visible { background: #F4EFE4; padding: 4px 8px; }
-  .bio-modal { cursor: pointer; }   /* un clic n'importe où la referme */
-  /* FERMER : comme les items de la barre (12 px, tracking 0,08 em). */
-  .bio-modal__fermer {
-    position: absolute; top: 8px; right: 10px;
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px;
-    background: none; border: 0; color: #1C1917; cursor: pointer;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
-  }
-  .bio-modal__fermer:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  /* Pas de contour : au clavier, FERMER se souligne. */
-  .bio-modal__fermer:focus, .bio-modal__fermer:focus-visible { outline: none; }
-  .bio-modal__fermer:focus-visible { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
-  .bio-modal:focus { outline: none; }
-  /* Projets : même fenêtre que la bio, mais on ne la referme pas d'un clic
-     dedans (elle contient des liens) ; photo moins haute. */
-  .projets-modal { cursor: default; }
-  .projets-modal .bio-modal__photo { aspect-ratio: 2 / 1; }
-  .projets-modal .bio-modal__photo img { object-position: 50% 50%; }
-  .projets-modal .livret__pistes li { grid-template-columns: 3.2ch 1fr; padding: 14px 0; }
-  .projets-modal .livret__pistes li:first-child { padding-top: 0; }
-  .projets-modal .livret__projet { font-size: 24px; }
-  .projets-modal .livret__lire { grid-column: 2; min-height: 36px; }
-  /* ---- Bulle qui suit la souris : « VOIR LE VERSO » ---- */
-  .curseur-bulle {
-    position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none;
-    padding: 5px 9px 4px;
-    background: #FBF8F1; color: #1C1917;
-    border: 1px solid #1C1917; border-radius: 0;
-    font: 400 12px/16px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.08em;
-    white-space: pre;   /* un \n dans le texte = retour à la ligne */ opacity: 0; transition: opacity 140ms ease;
-  }
-  .curseur-bulle.is-visible { opacity: 1; }
-  /* Au recto, sur la photo : OUVRIR en blanc 14 px, cadre blanc 1 px, sans fond. */
-  .curseur-bulle.curseur-bulle--ouvrir {
-    background: transparent; color: #FFFFFF; border-color: #FFFFFF;
-    font-size: 14px; line-height: 18px; padding: 6px 12px 5px;
-  }
-  @media (hover: none) { .curseur-bulle { display: none; } }
+  
+  
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   /* ================= ÉTUDES DE CAS, DANS LE STYLE DE LA BIO =================
      Même fenêtre que la bio et les projets : papier crème, ombre douce,
      voile bleu nuit ; en-tête « LIVRET / USE CASE 0X » et FERMER en
@@ -7599,7 +7151,7 @@
     transition: opacity 300ms ease, filter 1100ms cubic-bezier(0.65, 0, 0.35, 1);
   }
   .dossier.est-tenu { cursor: grabbing; }
-  .stage.gatefold .dossier { z-index: 0; pointer-events: none; filter: blur(8px); }
+
   .dossier a { -webkit-user-drag: none; }
   /* Le fond jaune, avec son onglet à droite. */
   /* Le dos du dossier : une seule forme, l'onglet à gauche qui descend en
@@ -7681,7 +7233,7 @@
   @media (min-width: 1024px) {
     .stage:is([data-state="lock"], [data-state="desktop"]) > .profil__image { display: block !important; }
   }
-  .stage.gatefold > .profil__image { filter: blur(8px); pointer-events: none; }
+
   .photo-sel {
     position: absolute; z-index: 2; display: block; pointer-events: none;
     outline: 1px solid #0D99FF; transform: rotate(-1.5deg);
@@ -7719,10 +7271,6 @@
     font-size: 18px !important; text-transform: none !important; letter-spacing: -0.01em !important;
   }
 
-
-  /* Modales : fond blanc (bio, projets, études de cas, SAY HI). */
-  .stage :is(.bio-modal, .projets-modal, .doc__win, .mail),
-  :is(.bio-modal, .projets-modal) { background-color: #FFFFFF !important; }
 
   /* Le dossier « Autre » : six vignettes. */
   .dossier__carte--4 { left: 6px;   --r: -2deg; background-color: #B9B3A7; }
@@ -7814,7 +7362,7 @@
   }
   .cadre-libre:hover { outline: 1px solid #0D99FF; outline-offset: 0; }
   .photo-sel--libre { z-index: 10; }
-  .stage.gatefold :is(.cadre-libre, .photo-sel--libre) { filter: blur(8px); pointer-events: none; }
+
 
   /* Rotation, comme dans Figma : juste au-delà de chaque coin (après la
      poignée d'agrandissement), le curseur devient une flèche arrondie et
@@ -9685,9 +9233,8 @@
     font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-weight: 400 !important;
     font-size: 14px !important; line-height: 18px !important; letter-spacing: -0.01em !important;
   }
-  /* Les libellés de la bulle qui suit la souris passent en minuscules, comme les autres. */
-  html body .curseur-bulle { text-transform: lowercase; }
-  html body .curseur-bulle::first-letter { text-transform: uppercase; }
+
+
   @media (min-width: 1024px) {
     html body .stage .barlien[data-bulle]::after,
     html body .stage .radio-bouton::after,
@@ -9961,7 +9508,6 @@
 
 
   <!-- Bulle qui suit la souris : OUVRIR, VOIR LE VERSO, REFERMER. -->
-  <div class="curseur-bulle" id="curseur-bulle" aria-hidden="true">VOIR LE VERSO</div>
 
   <!-- Le disque, à moitié sorti de la pochette (recto, grand écran).
        Placé avant la pochette : il passe dessous. Seule la partie noire
@@ -10131,134 +9677,8 @@
   </div>
   <!-- En bas à gauche : une note, pas un lien. -->
   <p class="note-bas">J’utilise l’IA dans mon travail — mon bon sens fait le reste.</p>
-  <div class="vinyle" aria-hidden="true"><img src="vinyle.png" alt="" width="720" height="720"></div>
-  <!-- Pochette ouvrante : le volet droit de l'intérieur, caché sous la
-       pochette fermée. Le volet gauche est le dos de la couverture. -->
-  <div class="livret-droite">
-    <!-- FACE A : les projets, comme les pistes d'un disque.
-         Pour changer un projet : le nom, la catégorie et le lien (href +
-         data-etude, l'identifiant de l'étude). Pour une vraie miniature,
-         remplacer le contenu de .piste__mini par <img src="…" alt="">. -->
-    <nav class="face-a" id="face-a" aria-label="Les projets">
-      <h2 class="face-a__titre" id="face-a-titre" tabindex="-1">Face A <span aria-hidden="true">—</span> Les projets</h2>
-      <ol class="face-a__pistes">
-        <li><a class="piste" href="#case/gvq" data-etude="gvq">
-          <span class="piste__num" aria-hidden="true"><span>01</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">UI/UX · Refonte web</span>
-          </span>
-          <span class="piste__mini piste__mini--1" aria-hidden="true"><span class="piste__mini-num">01</span></span>
-        </a></li>
-        <li><a class="piste" href="#case/loblaw" data-etude="loblaw">
-          <span class="piste__num" aria-hidden="true"><span>02</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">Product design · Application</span>
-          </span>
-          <span class="piste__mini piste__mini--2" aria-hidden="true"><span class="piste__mini-num">02</span></span>
-        </a></li>
-        <li><a class="piste" href="#case/roche" data-etude="roche">
-          <span class="piste__num" aria-hidden="true"><span>03</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Nom du projet</span></span>
-            <span class="piste__meta">Illustration · Identité visuelle</span>
-          </span>
-          <span class="piste__mini piste__mini--3" aria-hidden="true"><span class="piste__mini-num">03</span></span>
-        </a></li>
-      </ol>
-      <!-- FACE B : mêmes liens que la Face A (data-etude = id de l’étude, à créer). -->
-      <h2 class="face-a__titre face-a__titre--b">Face B <span aria-hidden="true">—</span> Bientôt</h2>
-      <ol class="face-a__pistes face-a__pistes--b">
-        <li><a class="piste" href="#case/beaconsfield" data-etude="beaconsfield">
-          <span class="piste__num" aria-hidden="true"><span>04</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Beaconsfield Clinic</span></span>
-            <span class="piste__meta">Refonte du site d’une clinique médicale</span>
-          </span>
-        </a></li>
-        <li><a class="piste" href="#case/illustrations" data-etude="illustrations">
-          <span class="piste__num" aria-hidden="true"><span>05</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">Illustrations</span></span>
-            <span class="piste__meta">Mes dessins</span>
-          </span>
-        </a></li>
-        <li><a class="piste" href="#case/a-venir" data-etude="a-venir">
-          <span class="piste__num" aria-hidden="true"><span>06</span></span>
-          <span class="piste__corps">
-            <span class="piste__nom"><span class="piste__fleche" aria-hidden="true">↗</span> <span class="piste__titre">À venir</span></span>
-            <span class="piste__meta">Prochain projet</span>
-          </span>
-        </a></li>
-      </ol>
-    </nav>
-  </div>
-
-  <div class="stage__bg"><div class="sleeve" aria-hidden="true">
-    <!-- Pochette « Summer Flow » (maquette Figma 113:305) : la photo
-         pleine pochette, le titre et MANU au pinceau par-dessus. Toutes les
-         mesures sont en unités de la pochette (1895 = côté du carré). -->
-    <p class="sleeve__titre">SUMMER FLOW</p>
-    <p class="sleeve__sous-titre">Selected works&nbsp;·&nbsp;UI/UX</p>
-  </div>
-  <!-- VERSO de la pochette (Figma 110:18) : le dos du disque, montré sur
-       le bureau. Mêmes unités que le recto (1895 = côté du carré). -->
-  <div class="verso">
-    <p class="verso__t vs-dm" style="--x:100;--y:100;--s:28;--t:2;--lh:1.1">DESIGN PORTFOLIO&nbsp; /&nbsp; VOL. 01</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:101;--s:26;--t:1;--lh:1.1">STEREO</p>
-    <p class="verso__t vs-cg" style="--x:95;--y:150;--s:140;--t:0;--lh:1;--c:#F1EFE8">SUMMER FLOW</p>
-    <p class="verso__t vs-jp verso__t--r" style="--x:1795;--y:236;--s:28;--t:3;--lh:1.1">真夏の流れ</p>
-    <p class="verso__t vs-dm" style="--x:100;--y:306;--s:26;--t:3;--lh:1.1">SELECTED WORKS&nbsp; ·&nbsp; UI/UX</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:306;--s:26;--t:1;--lh:1.1">THE REVERSE SIDE&nbsp; /&nbsp; 裏面</p>
-    <span class="verso__photo"><img src="fond-vintagehawaii-grand.jpg" alt=""></span>
-    <span class="verso__filet" style="--x:100;--y:1735;--w:1695"></span>
-    <p class="verso__t vs-dm" style="--x:100;--y:1761;--s:25;--t:1;--lh:1.35">MADE WITH FIGMA, CLAUDE CODE &amp; GITHUB</p>
-    <p class="verso__t vs-dm verso__t--r" style="--x:1795;--y:1761;--s:25;--t:1;--lh:1.35">© 2027 MANU. ALL RIGHTS RESERVED.</p>
-  </div>
-  <!-- MANU, au centre de la pochette : simple lettrage. -->
-  <p class="sleeve__manu" aria-hidden="true">MANU</p><div class="stage__film" aria-hidden="true"></div><div class="pochette-usure" aria-hidden="true"></div><div class="pochette-reflet" aria-hidden="true"></div><div class="livret-gauche" aria-hidden="true"></div></div>
-
-  <!-- Le livret : l'encart crème qu'on tire de la pochette, au verso.
-       Une seule bio, ouverte par le portrait comme par la languette.
-       Grand écran : dans la pochette. Téléphone : sous elle, dans le flux. -->
-  <!-- Ondes du recto, hors de la pochette pour qu'elles débordent comme
-       celles du portrait de l'obi. Calées sur la zone photo (hors obi). -->
-
-  <!-- Bio en fenêtre : ouverte par le portrait de l'obi, au recto. Un
-       <dialog> natif (focus piégé, Échap, fond inerte). Le texte est
-       recopié depuis la bio du livret à l'ouverture : une seule source. -->
-  <dialog class="bio-modal" id="bio-modal" aria-labelledby="bio-modal-titre" tabindex="-1">
-    <figure class="bio-modal__photo">
-      <img src="obi-portrait.jpg" alt="Emmanuel Froissant, souriant, la main en visière, en bichromie bleue" width="600" height="656">
-    </figure>
-    <div class="bio-modal__corps">
-      <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
-      <h2 class="visually-hidden" id="bio-modal-titre">À propos de moi</h2>
-      <div class="livret__texte" data-bio-copie></div>
-    </div>
-    <button type="button" class="bio-modal__fermer" data-fermer-modal aria-label="Fermer la bio">FERMER</button>
-  </dialog>
-
-  <!-- Projets en fenêtre, sur le modèle de la bio : photo en tête,
-       « LIVRET / FACE B », puis les études (lues dans ETUDES). -->
-  <dialog class="bio-modal projets-modal" id="projets-modal" aria-labelledby="projets-modal-titre" tabindex="-1">
-    <figure class="bio-modal__photo">
-      <img src="verso-plage.jpg" alt="" width="960" height="480">
-    </figure>
-    <div class="bio-modal__corps">
-      <p class="livret__sur">Livret&nbsp; /&nbsp; Face B</p>
-      <h2 class="visually-hidden" id="projets-modal-titre">Projets</h2>
-      <ol class="livret__pistes" id="livret-etudes"></ol>
-    </div>
-    <button type="button" class="bio-modal__fermer" data-fermer-projets aria-label="Fermer les projets">FERMER</button>
-  </dialog>
-
-  <!-- La photo du verso en grand. Un clic n'importe où la referme. -->
-  <dialog class="photo-modal" id="photo-modal" aria-label="Photo en grand" tabindex="-1">
-    <button type="button" class="photo-modal__fermer" data-fermer-photo aria-label="Fermer la photo">FERMER</button>
-    <img src="verso-lookout.jpg" alt="Emmanuel Froissant, penché, la main en visière, devant un mur crème sous les palmiers" width="1672" height="941">
-  </dialog>
+  <!-- Repère invisible de la grille : la largeur du profil se cale sur son bord gauche. -->
+  <div class="stage__bg" aria-hidden="true"></div>
 
   <!-- Téléphone et tablette : l'intérieur de la pochette sous le recto.
        La liste FACE A y est déplacée par le script (une seule source,
@@ -10283,21 +9703,6 @@
     <div class="face-a-mobile__liste" hidden></div>
   </section>
 
-  <div class="livrets" id="livrets">
-    <section class="livret" id="a-propos" aria-labelledby="livret-apropos-titre" hidden>
-      <header class="livret__tete">
-        <p class="livret__sur">Livret&nbsp; /&nbsp; Face A</p>
-        <h2 class="livret__titre visually-hidden" id="livret-apropos-titre" tabindex="-1">À propos de moi</h2>
-      </header>
-      <div class="livret__texte">
-        <p>Hello,<br>je suis Manu, designer importé de France sans étiquette de retour. J’étudie en psychologie et j’apprends aussi en faisant&nbsp;: illustration, piano et vibe coding. Avant de concevoir des interfaces, j’ai passé dix ans dans la relation client. Ça laisse un réflexe&nbsp;: écouter avant de proposer.</p>
-        <p>Je prête attention aux détails qui fatiguent, excluent ou bloquent. En design, j’ai tendance à retirer plus qu’à ajouter. Mon envie, c’est que ça fonctionne pour tout le monde, pas juste pour la norme. D’ailleurs, quand on dit que c’est normal, je réponds&nbsp;: «&nbsp;Mais normal pour qui&nbsp;?&nbsp;»</p>
-        <p class="livret__note">Ce site est un exemple concret de mon travail avec l’IA. Réalisé avec Figma, Claude et GitHub, il reflète ma direction <span style="white-space: nowrap">créative<svg class="livret__palmier" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 10 C11.5 14 10.9 18 9.4 22.5 H11.7 C13 18 13.3 14 12.8 10 Z M12 9 C8.8 6.2 4.4 6.6 1.8 11 C5.2 8.8 8.4 9.6 12 10.6 Z M12 8.8 C10.2 4.8 6.2 3.2 2.8 4.2 C6.6 5.2 9.2 7.2 11.4 10 Z M12 8.8 C13.8 4.8 17.8 3.2 21.2 4.2 C17.4 5.2 14.8 7.2 12.6 10 Z M12 9 C15.2 6.2 19.6 6.6 22.2 11 C18.8 8.8 15.6 9.6 12 10.6 Z M11.6 9 C11 5.6 12.4 2.6 15 1.2 C13.8 3.8 13.2 6.4 12.8 9.4 Z"/></svg>,</span> mes choix de design et mon attention aux détails.</p>
-      </div>
-      <button type="button" class="livret__fermer" data-fermer-livret>Fermer la bio <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5 L15 15 M15 5 L5 15" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></button>
-    </section>
-
-  </div>
   <!-- Le ciel animé. Il se pose PAR-DESSUS la photo, jamais à sa place :
        l'image reste dessous comme affiche et comme repli. Si la vidéo ne
        peut pas jouer — économie d'énergie sur iOS, animations réduites,
@@ -11249,16 +10654,6 @@
     <svg class="note-mobile__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></svg>
     <svg class="note-mobile__onde" viewBox="0 0 24 24" aria-hidden="true"><path d="M-8 12 q2 -5 4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0 t4 0"/></svg>
   </button>
-  <!-- Retourner le disque : VERSO sur le recto, RECTO sur le verso. -->
-  <button type="button" class="flip-lien flip-lien--verso" id="flip-verso" aria-label="Retourner le disque : voir le verso">
-    <span>VERSO</span>
-    <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10 A6 6 0 1 1 13.2 4.9"/><path d="M13.6 1.9 L13.2 4.9 L16.2 5.3"/></g></svg>
-  </button>
-  <button type="button" class="flip-lien flip-lien--recto" id="flip-recto" aria-label="Retourner le disque : voir le recto">
-    <span>RECTO</span>
-    <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 A6 6 0 1 0 6.8 4.9"/><path d="M6.4 1.9 L6.8 4.9 L3.8 5.3"/></g></svg>
-  </button>
-
   <!-- LinkedIn, en bas à gauche (le pendant du lecteur en bas à droite). -->
   <a class="lien-bas" href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LinkedIn</a>
 
@@ -15058,566 +14453,12 @@ const dire = (function () {
       // par la note (ou l'onde) ou par un clic en dehors.
     }
   })();
-  /* Retourner le disque : la pochette pivote d'un quart de tour, on
-     change de face au moment où elle est vue par la tranche, puis elle
-     finit son demi-tour. Sans mouvement réduit, c'est un simple échange. */
-  const fondPochette = document.querySelector('.stage__bg');
-  let enRotation = false;
-  function retourner(echanger, sens) {
-    if (enRotation) return;
-    const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (calme || !fondPochette.animate) { echanger(); document.getElementById('stage').classList.remove('vinyle-range'); return; }
-    enRotation = true;
-    const scene = document.getElementById('stage');
-    scene.classList.add('en-rotation');
-    const p = 'perspective(2200px) ';
-    // Minuteries et non onfinish : la face change à coup sûr, même si
-    // l'onglet ralentit ses animations.
-    const a = fondPochette.animate(
-      [{ transform: p + 'rotateY(0deg)' }, { transform: p + 'rotateY(' + (90 * sens) + 'deg)' }],
-      { duration: 380, easing: 'cubic-bezier(0.55, 0, 0.75, 0.25)', fill: 'forwards' });
-    setTimeout(() => {
-      echanger();
-      a.cancel();
-      const b = fondPochette.animate(
-        [{ transform: p + 'rotateY(' + (-90 * sens) + 'deg)' }, { transform: p + 'rotateY(0deg)' }],
-        { duration: 440, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      setTimeout(() => {
-        // Sécurité : si le navigateur a gelé l'animation, on la termine,
-        // sinon la pochette resterait vue par la tranche (invisible).
-        try { if (b.playState !== 'finished') b.finish(); } catch (e) {}
-        enRotation = false;
-        scene.classList.remove('en-rotation');
-        // De retour au recto, le disque ressort de la pochette.
-        if (scene.dataset.state === 'lock') requestAnimationFrame(() => scene.classList.remove('vinyle-range'));
-      }, 460);
-    }, 380);
-  }
-  const flipVerso = document.getElementById('flip-verso');
-  const flipRecto = document.getElementById('flip-recto');
-  if (flipVerso) flipVerso.addEventListener('click', () => {
-    if (document.getElementById('stage').dataset.state === 'lock') retourner(() => document.getElementById('unlock').click(), 1);
-  });
-  if (flipRecto) flipRecto.addEventListener('click', () => {
-    if (document.getElementById('stage').dataset.state === 'desktop') retourner(() => document.getElementById('logo').click(), -1);
-  });
-
-  /* ---------- Intercalaires et livret du verso ----------
-     Une seule bio : le portrait et la languette « À propos » ouvrent la
-     même section. Depuis le recto, la pochette se retourne d'abord. */
-  (function livret() {
-    const stageEl = document.getElementById('stage');
-    const portrait = document.getElementById('portrait-bio');
-    const etatBio = portrait && portrait.querySelector('[data-etat-bio]');
-    const onglets = [...document.querySelectorAll('.intercalaire')];
-    const liste = document.getElementById('livret-etudes');
-    const calme = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let ouvert = null;
-    let source = null;
-
-    // Les projets viennent d'ETUDES, la liste du dossier du bureau.
-    if (liste) ETUDES.forEach((e) => {
-      const li = document.createElement('li');
-      const num = document.createElement('span');
-      num.className = 'livret__num'; num.textContent = e.num;
-      const bloc = document.createElement('div');
-      const t = document.createElement('p'); t.className = 'livret__projet'; t.textContent = e.titre;
-      const c = document.createElement('p'); c.className = 'livret__client'; c.textContent = e.client;
-      bloc.append(t, c);
-      const a = document.createElement('a');
-      a.className = 'livret__lire'; a.href = '#case/' + e.id; a.dataset.etude = e.id;
-      a.textContent = 'Lire l’étude';
-      const vh = document.createElement('span'); vh.className = 'visually-hidden'; vh.textContent = ' : ' + e.titre;
-      a.append(vh);
-      li.append(num, bloc, a);
-      liste.append(li);
-    });
-    if (liste) liste.addEventListener('click', (ev) => {
-      const a = ev.target.closest('[data-etude]');
-      if (!a) return;
-      ev.preventDefault();
-      // La fenêtre se range : l'étude s'ouvre par-dessus la page.
-      const d = a.closest('dialog');
-      if (d && d.open) d.close();
-      openEtude(a.dataset.etude, a);
-    });
-    // SAY HI, dans la barre : le composeur de message (le lien mailto reste
-    // le repli si le script ne tourne pas).
-    document.querySelectorAll('[data-ecrire]').forEach((b) => b.addEventListener('click', (ev) => {
-      ev.preventDefault();
-      document.dispatchEvent(new CustomEvent('portfolio:contact', { detail: { opener: b } }));
-    }));
-
-    function maj() {
-      onglets.forEach((o) => {
-        if (o.dataset.rubrique === ouvert) o.setAttribute('aria-current', 'true');
-        else o.removeAttribute('aria-current');
-      });
-      if (portrait) {
-        const bio = ouvert === 'a-propos';
-        portrait.setAttribute('aria-expanded', String(bio));
-        if (etatBio) etatBio.textContent = bio ? ' : masquer la bio' : ' : afficher la bio';
-      }
-    }
-    function fermer(rendre) {
-      if (!ouvert) return;
-      document.getElementById(ouvert).hidden = true;
-      ouvert = null;
-      maj();
-      const s = source; source = null;
-      if (rendre && s && s.getClientRects().length) s.focus();
-    }
-    function afficher(id, depuis) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (ouvert && ouvert !== id) document.getElementById(ouvert).hidden = true;
-      const deja = ouvert === id;
-      ouvert = id;
-      source = depuis || source;
-      el.hidden = false;
-      maj();
-      if (!deja) {
-        el.scrollTop = 0;
-        if (!calme() && el.animate) {
-          el.animate([{ clipPath: 'inset(0 0 100% 0)', opacity: 0.6 }, { clipPath: 'inset(0 0 0 0)', opacity: 1 }],
-            { duration: 480, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-        }
-      }
-      el.querySelector('.livret__titre').focus({ preventScroll: true });
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        el.scrollIntoView({ block: 'start', behavior: calme() ? 'auto' : 'smooth' });
-      }
-    }
-    function ouvrir(id, depuis) {
-      if (stageEl.dataset.state === 'desktop') { afficher(id, depuis); return; }
-      // Recto : la pochette se retourne, puis le livret se déplie. Le délai
-      // passe après celui où l'écran du bureau reprend le focus.
-      retourner(() => document.getElementById('unlock').click(), 1);
-      setTimeout(() => afficher(id, depuis), calme() ? 0 : 900);
-    }
-
-    onglets.forEach((o) => o.addEventListener('click', (ev) => {
-      ev.preventDefault();
-      if (o.dataset.rubrique === 'projets') { ouvrirProjets(); return; }
-      ouvrir(o.dataset.rubrique, o);
-    }));
-    document.querySelectorAll('[data-ouvrir-projets]').forEach((b) => b.addEventListener('click', () => ouvrirProjets()));
-    // Les pistes de la face A ouvrent directement leur étude.
-    document.querySelectorAll('.verso__piste').forEach((b) => b.addEventListener('click', () => openEtude(b.dataset.etude, b)));
-    // Projets : une fenêtre comme la bio, sur le recto comme sur le verso.
-    const fenProjets = document.getElementById('projets-modal');
-    function ouvrirProjets() {
-      if (!fenProjets || !fenProjets.showModal) return;
-      fenProjets.showModal();
-      fenProjets.focus({ preventScroll: true });
-      fenProjets.scrollTop = 0;
-      if (!calme() && fenProjets.animate) {
-        fenProjets.animate([{ opacity: 0, transform: 'translateY(14px) scale(0.98)' }, { opacity: 1, transform: 'none' }],
-          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      }
-    }
-    if (fenProjets) {
-      fenProjets.querySelector('[data-fermer-projets]').addEventListener('click', () => fenProjets.close());
-      // Clic sur le fond assombri : on ferme (les liens, eux, restent des liens).
-      fenProjets.addEventListener('click', (ev) => { if (ev.target === fenProjets) fenProjets.close(); });
-    }
-    if (portrait) portrait.addEventListener('click', () => {
-      if (ouvert === 'a-propos') fermer(true); else afficher('a-propos', portrait);
-    });
-    document.querySelectorAll('[data-fermer-livret]').forEach((b) => b.addEventListener('click', () => fermer(true)));
-    window.addEventListener('keydown', (ev) => {
-      if (ev.key !== 'Escape' || !ouvert) return;
-      // Une fenêtre (étude, message, verrou) est ouverte : Échap est pour elle.
-      if (document.querySelector('.modal-backdrop:not([hidden]), .doc:not([hidden]), .finder:not([hidden]), dialog[open]')) return;
-      const f = document.activeElement;
-      if (document.getElementById(ouvert).contains(f) || f === portrait || onglets.includes(f)) fermer(true);
-    }, true);   // window, en capture : passe avant les fenêtres, qui se ferment ensuite
-    // Le menu du nom (« À propos ») ouvre la même bio.
-    document.addEventListener('portfolio:about', () => ouvrir('a-propos', document.querySelector('.menuitem--app')));
-    // Un clic sur la pochette la retourne (hors portrait et liens).
-    const pochette = document.querySelector('.stage__bg');
-    /* ---- Pochette ouvrante (grand écran) ----
-       La couverture pivote sur sa tranche gauche et se rabat à gauche,
-       comme un livret ; l'ensemble glisse et se réduit pour que la double
-       page tienne, centrée. À mi-course (vue par la tranche), la face
-       avant laisse place au dos de la couverture. */
-    const voletD = document.querySelector('.livret-droite');
-    /* FACE A : une seule liste. Grand écran, dans le volet droit de la
-       pochette ouverte ; téléphone et tablette, sous le recto. */
-    const faceA = document.getElementById('face-a');
-    const grandEcran = window.matchMedia('(min-width: 1024px)');
-    function placerFaceA() {
-      if (!faceA) return;
-      const mob = document.getElementById('face-a-mobile');
-      if (grandEcran.matches) {
-        if (voletD && faceA.parentElement !== voletD) voletD.append(faceA);
-      } else if (mob) {
-        mob.querySelector('.face-a-mobile__liste').append(faceA);
-      }
-    }
-    placerFaceA();
-    grandEcran.addEventListener('change', placerFaceA);
-    if (faceA) faceA.addEventListener('click', (ev) => {
-      const a = ev.target.closest('[data-etude]');
-      if (!a) return;
-      ev.preventDefault();
-      ev.stopPropagation();   // la pochette ne se referme pas
-      openEtude(a.dataset.etude, a);
-    });
-    let livretEtat = 'ferme';   // 'ferme' | 'anim' | 'ouvert'
-    let livretGeo = { s: 1, dx: 0 };
-    let livretAnims = [];
-    const couvT = (a, t) => 'perspective(2600px) translate(' + (livretGeo.dx * t) + 'px, 0px) scale(' + (1 - (1 - livretGeo.s) * t) + ') rotateY(' + a + 'deg)';
-    const droitT = (t) => 'translate(' + (livretGeo.dx * t) + 'px, 0px) scale(' + (1 - (1 - livretGeo.s) * t) + ')';
-    function mesurerLivret() {
-      // Mesures sans transformation (offset*), la pochette pouvant bouger.
-      const gauche = stageEl.getBoundingClientRect().left + pochette.offsetLeft;
-      livretGeo = { s: Math.min(1, (innerWidth - 80) / (2 * pochette.offsetWidth)), dx: innerWidth / 2 - gauche, L: gauche };
-    }
-    function poserLivret(ouvert) {
-      pochette.style.transform = ouvert ? couvT(-180, 1) : '';
-      voletD.style.transform = ouvert ? droitT(1) : '';
-    }
-    function animerLivret(ouvrir, fini) {
-      livretAnims.forEach((x) => x.cancel()); livretAnims = [];
-      if (calme() || !pochette.animate) {
-        stageEl.classList.toggle('gatefold-dos', ouvrir);
-        poserLivret(ouvrir); fini(); return;
-      }
-      const de = ouvrir ? 0 : 1, a = ouvrir ? 1 : 0;
-      const opt = { duration: 1100, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' };
-      livretAnims = [
-        pochette.animate([{ transform: couvT(-180 * de, de) }, { transform: couvT(-90, 0.5) }, { transform: couvT(-180 * a, a) }], opt),
-        voletD.animate([{ transform: droitT(de) }, { transform: droitT(0.5) }, { transform: droitT(a) }], opt),
-      ];
-      // Minuteries : l'état change à coup sûr, même si l'onglet gèle les animations.
-      setTimeout(() => stageEl.classList.toggle('gatefold-dos', ouvrir), 550);
-      setTimeout(() => {
-        poserLivret(ouvrir);
-        livretAnims.forEach((x) => x.cancel()); livretAnims = [];
-        fini();
-      }, 1120);
-    }
-    function ouvrirLivret() {
-      if (livretEtat !== 'ferme' || !voletD || stageEl.dataset.state !== 'lock') return;
-      livretEtat = 'anim';
-      mesurerLivret();
-      pochette.style.transformOrigin = 'left center';
-      stageEl.classList.add('gatefold');
-      animerLivret(true, () => {
-        livretEtat = 'ouvert'; stageEl.classList.add('gatefold-ouvert');
-        // Le clavier arrive sur FACE A : Tab parcourt ensuite les pistes.
-        const t = document.getElementById('face-a-titre');
-        if (t && grandEcran.matches) t.focus({ preventScroll: true });
-      });
-    }
-    function fermerLivret(puis) {
-      if (livretEtat !== 'ouvert') return;
-      livretEtat = 'anim';
-      stageEl.classList.remove('gatefold-ouvert');
-      animerLivret(false, () => {
-        livretEtat = 'ferme';
-        stageEl.classList.remove('gatefold', 'gatefold-dos');
-        pochette.style.transform = ''; pochette.style.transformOrigin = '';
-        if (puis) puis();
-        else requestAnimationFrame(() => stageEl.classList.remove('vinyle-range'));   // le disque ressort
-      });
-    }
-    /* Fermer par l'autre côté : le volet droit se rabat sur le gauche,
-       et c'est le dos de la pochette (le verso) qui se retrouve dessus.
-       1. le volet droit pivote sur la tranche jusqu'à être vu de profil ;
-       2. la pochette passe au verso et finit le pivot, posée à gauche ;
-       3. elle reprend sa place et sa taille habituelles. */
-    function versVersoDepuisLivret() {
-      if (livretEtat !== 'ouvert') return;
-      livretEtat = 'anim';
-      stageEl.classList.remove('gatefold-ouvert');
-      // Pendant tout le pliage, la tranche glisse vers la droite et la
-      // pochette reprend sa taille : elle arrive pile à sa place, sans
-      // second mouvement. t va de 1 (ouverte) à 0 (fermée, au verso).
-      const g = livretGeo, cote = pochette.offsetWidth, L = g.L, R = L + cote;
-      const tranche = (t) => R + (L + g.dx - R) * t;
-      const ech = (t) => 1 - (1 - g.s) * t;
-      const P = 'perspective(2600px) ';
-      // Volets accrochés par leur bord gauche (la tranche) :
-      const surTranche = (t, a) => P + 'translate(' + (tranche(t) - L) + 'px, 0px) scale(' + ech(t) + ') rotateY(' + a + 'deg)';
-      // Le verso, accroché par son bord droit (la tranche) :
-      const verso = (t, a) => P + 'translate(' + (tranche(t) - R) + 'px, 0px) scale(' + ech(t) + ') rotateY(' + a + 'deg)';
-      // Le volet gauche de l'intérieur, à gauche de la tranche :
-      const gauche = (t) => P + 'translate(' + (tranche(t) - cote * ech(t) - L) + 'px, 0px) scale(' + ech(t) + ')';
-      const passerAuVerso = () => {
-        stageEl.classList.add('gatefold-pli');
-        stageEl.classList.remove('gatefold-dos');
-        pochette.style.transformOrigin = 'right center';
-        document.getElementById('unlock').click();
-      };
-      const finir = () => {
-        livretEtat = 'ferme';
-        stageEl.classList.remove('gatefold', 'gatefold-dos', 'gatefold-pli');
-        pochette.style.transform = ''; pochette.style.transformOrigin = '';
-        voletD.style.transform = '';
-      };
-      if (calme() || !pochette.animate) { passerAuVerso(); finir(); return; }
-      const D1 = 520, D2 = 620;
-      // 1. Le volet droit se soulève ; le volet gauche (dos de la couverture) suit la glissade.
-      const o1 = { duration: D1, easing: 'cubic-bezier(0.55, 0, 1, 0.45)', fill: 'forwards' };
-      const a1 = [
-        voletD.animate([{ transform: surTranche(1, 0) }, { transform: surTranche(0.5, -90) }], o1),
-        pochette.animate([{ transform: surTranche(1, -180) }, { transform: surTranche(0.5, -180) }], o1),
-      ];
-      setTimeout(() => {
-        // 2. Vu de profil : il devient le verso et se pose, pendant que
-        //    l'intérieur gauche, dessous, continue de glisser.
-        passerAuVerso();
-        a1.forEach((x) => x.cancel());
-        const o2 = { duration: D2, easing: 'cubic-bezier(0, 0.55, 0.45, 1)', fill: 'forwards' };
-        pochette.style.transform = '';
-        voletD.style.transform = gauche(0);
-        const a2 = [
-          pochette.animate([{ transform: verso(0.5, 90) }, { transform: verso(0, 0) }], o2),
-          voletD.animate([{ transform: gauche(0.5) }, { transform: gauche(0) }], o2),
-        ];
-        setTimeout(() => { a2.forEach((x) => { try { x.cancel(); } catch (e) {} }); finir(); }, D2 + 20);
-      }, D1);
-    }
-    // Ouverte : un clic sur le volet droit (ou un clic droit) la referme
-    // par l'autre côté, sur le verso ; un clic sur le volet gauche, à
-    // côté, ou Échap la referme sur le recto.
-    if (voletD) voletD.addEventListener('click', (ev) => { if (livretEtat === 'ouvert' && !ev.target.closest('.face-a')) versVersoDepuisLivret(); });
-    document.addEventListener('contextmenu', (ev) => {
-      if (livretEtat !== 'ouvert' || !ev.target.closest('.stage__bg, .livret-droite')) return;
-      ev.preventDefault();
-      versVersoDepuisLivret();
-    });
-    document.addEventListener('click', (ev) => {
-      if (livretEtat !== 'ouvert') return;
-      if (ev.target.closest('.stage__bg, .livret-droite, a, button, dialog, .recto-play, .lien-bas')) return;
-      fermerLivret();
-    });
-    document.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Escape' && livretEtat === 'ouvert' && !document.querySelector('dialog[open]')) fermerLivret();
-    });
-    addEventListener('resize', () => {
-      if (livretEtat !== 'ouvert') return;
-      poserLivret(false); mesurerLivret(); poserLivret(true);
-    });
-    if (pochette) pochette.addEventListener('click', (ev) => {
-      if (ev.target.closest('a, button, .face-a')) return;
-      if (livretEtat === 'ouvert') { fermerLivret(); return; }
-      if (livretEtat === 'anim') return;
-      // Le portrait de l'obi, au recto : la bio en fenêtre, photo en grand.
-      if (ev.target.closest('.sleeve__obi') && stageEl.dataset.state === 'lock') {
-        ouvrirBioModale();
-        return;
-      }
-      const vers = document.getElementById(stageEl.dataset.state === 'desktop' ? 'flip-recto' : 'flip-verso');
-      if (!vers) return;
-      // Recto, grand écran : le disque rentre d'abord, puis la pochette s'ouvre.
-      const disque = document.querySelector('.vinyle');
-      if (stageEl.dataset.state === 'lock' && disque && getComputedStyle(disque).display !== 'none') {
-        stageEl.classList.add('vinyle-range');
-        livretEtat = 'anim';   // pas de double clic pendant que le disque rentre
-        setTimeout(() => { livretEtat = 'ferme'; ouvrirLivret(); }, calme() ? 0 : 640);
-      } else {
-        stageEl.classList.add('vinyle-range');
-        vers.click();
-      }
-    });
-    // Pochette en 3D, au recto : on la glisse pour la faire pivoter, elle
-    // revient face à soi en douceur quand on la lâche. Un glisser n'ouvre
-    // pas la pochette ; un simple clic, si.
-    (function () {
-      if (!pochette || !pochette.setPointerCapture) return;
-      const disque = document.querySelector('.vinyle');
-      const MAX = 34, EP = 9, SEUIL = 5;
-      let rx = 0, ry = 0, vx = 0, vy = 0, raf = 0, actif = false;
-      let tir = null, aGlisse = false;
-      const libre = () => stageEl.dataset.state === 'lock' && livretEtat === 'ferme'
-        && !stageEl.classList.contains('gatefold') && !stageEl.classList.contains('en-rotation');
-      const rad = (d) => d * Math.PI / 180;
-      function poser() {
-        if (!rx && !ry) {
-          if (actif) {
-            pochette.style.transform = ''; pochette.style.boxShadow = '';
-            if (disque) disque.style.transform = '';
-            pochette.style.setProperty('--g', '0');
-            actif = false;
-          }
-          return;
-        }
-        actif = true;
-        const t = 'perspective(1800px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
-        pochette.style.transform = t;
-        if (disque) disque.style.transform = t;
-        // La tranche : le carton qui apparaît du côté qui s'éloigne.
-        const ex = Math.sin(rad(ry)) * EP, ey = -Math.sin(rad(rx)) * EP, n = 6, couches = [];
-        for (let i = 1; i <= n; i++) couches.push((ex * i / n).toFixed(1) + 'px ' + (ey * i / n).toFixed(1) + 'px 0 ' + (i === n ? '#BDB29C' : '#E6DECD'));
-        pochette.style.boxShadow = '0 0 0 1px rgba(0, 0, 0, 0.10), ' + couches.join(', ')
-          + ', ' + ex.toFixed(1) + 'px ' + (12 + ey).toFixed(1) + 'px 28px rgba(0, 0, 0, 0.18)';
-        pochette.style.setProperty('--gx', (50 - ry * 1.5).toFixed(1) + '%');
-        pochette.style.setProperty('--gy', (50 + rx * 1.5).toFixed(1) + '%');
-        pochette.style.setProperty('--g', Math.min(1, Math.hypot(rx, ry) / 18).toFixed(3));
-      }
-      function ressort() {
-        cancelAnimationFrame(raf);
-        let t0 = performance.now();
-        const pas = (t) => {
-          const dt = Math.min(0.032, (t - t0) / 1000); t0 = t;
-          if (!libre()) { rx = ry = vx = vy = 0; poser(); return; }
-          // Ressort amorti : elle revient, dépasse à peine, se pose.
-          vx += (-140 * rx - 16 * vx) * dt; vy += (-140 * ry - 16 * vy) * dt;
-          rx += vx * dt; ry += vy * dt;
-          if (Math.abs(rx) < 0.05 && Math.abs(ry) < 0.05 && Math.abs(vx) < 0.5 && Math.abs(vy) < 0.5) { rx = ry = 0; poser(); return; }
-          poser(); raf = requestAnimationFrame(pas);
-        };
-        raf = requestAnimationFrame(pas);
-      }
-      pochette.addEventListener('pointerdown', (ev) => {
-        if (ev.button !== 0 || !libre() || ev.target.closest('a, button')) return;
-        cancelAnimationFrame(raf);
-        tir = { x: ev.clientX, y: ev.clientY, rx, ry, id: ev.pointerId, lx: ev.clientX, ly: ev.clientY, lt: performance.now() };
-        aGlisse = false;
-      });
-      pochette.addEventListener('pointermove', (ev) => {
-        if (!tir || ev.pointerId !== tir.id) return;
-        const dx = ev.clientX - tir.x, dy = ev.clientY - tir.y;
-        if (!aGlisse) {
-          if (Math.hypot(dx, dy) < SEUIL) return;
-          aGlisse = true;
-          try { pochette.setPointerCapture(ev.pointerId); } catch (e) {}
-          stageEl.classList.add('pochette-en-main');
-        }
-        const lim = (v) => MAX * Math.tanh(v / MAX);   // résiste vers les bords
-        ry = lim(tir.ry + dx * 0.22);
-        rx = lim(tir.rx - dy * 0.22);
-        poser();
-      });
-      const lacher = (ev) => {
-        if (!tir || (ev && ev.pointerId !== tir.id)) return;
-        tir = null;
-        stageEl.classList.remove('pochette-en-main');
-        if (aGlisse) { vx = vy = 0; ressort(); }
-      };
-      pochette.addEventListener('pointerup', lacher);
-      pochette.addEventListener('pointercancel', lacher);
-      // Après un glisser, le clic qui suit n'ouvre pas la pochette.
-      pochette.addEventListener('click', (ev) => {
-        if (aGlisse) { aGlisse = false; ev.stopImmediatePropagation(); ev.preventDefault(); return; }
-        if (actif) { cancelAnimationFrame(raf); rx = ry = vx = vy = 0; poser(); }
-      }, true);
-    })();
-    const photoV = document.querySelector('.verso__photo');
-    function surPhotoVerso(ev) {
-      const r = photoV && photoV.getBoundingClientRect();
-      return !!r && ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
-    }
-    const fenPhoto = document.getElementById('photo-modal');
-    function ouvrirPhoto() {
-      if (!fenPhoto || !fenPhoto.showModal) return;
-      stageEl.classList.remove('survol-photo-verso');
-      fenPhoto.showModal();
-      fenPhoto.focus({ preventScroll: true });
-      if (!calme() && fenPhoto.animate) {
-        fenPhoto.animate([{ opacity: 0, transform: 'scale(0.97)' }, { opacity: 1, transform: 'none' }],
-          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      }
-    }
-    if (fenPhoto) fenPhoto.addEventListener('click', () => fenPhoto.close());   // un clic n'importe où
-    const modale = document.getElementById('bio-modal');
-    function ouvrirBioModale() {
-      if (!modale || !modale.showModal) { ouvrir('a-propos', null); return; }
-      const cible = modale.querySelector('[data-bio-copie]');
-      if (!cible.childElementCount) {
-        cible.innerHTML = document.querySelector('#a-propos .livret__texte').innerHTML;
-      }
-      modale.showModal();
-      // Le focus va à la fenêtre elle-même, pas au bouton FERMER.
-      modale.focus({ preventScroll: true });
-      modale.scrollTop = 0;
-      if (!calme() && modale.animate) {
-        modale.animate([{ opacity: 0, transform: 'translateY(14px) scale(0.98)' }, { opacity: 1, transform: 'none' }],
-          { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
-      }
-    }
-    if (modale) {
-      modale.querySelector('[data-fermer-modal]').addEventListener('click', () => modale.close());
-      // Un clic ou un tap n'importe où (fenêtre ou fond) la referme, sauf
-      // si on vient de sélectionner du texte.
-      modale.addEventListener('click', () => {
-        const sel = window.getSelection && window.getSelection();
-        if (sel && String(sel).trim() && modale.contains(sel.anchorNode)) return;
-        modale.close();
-      });
-    }
-    // « VOIR LE VERSO » suit la souris sur la pochette, au recto (pas sur le
-    // portrait de l'obi, qui a sa bulle BIO).
-    const bulle = document.getElementById('curseur-bulle');
-    if (pochette && bulle) {
-      // La bulle apparaît dès le survol.
-      let attente = null;
-      const masquerBulle = () => { clearTimeout(attente); attente = null; bulle.classList.remove('is-visible'); };
-      const cacher = () => { masquerBulle(); stageEl.classList.remove('survol-recto', 'survol-obi', 'survol-photo-verso'); };
-      const montrer = (ev, texte) => {
-        bulle.classList.remove('curseur-bulle--ouvrir');
-        if (bulle.textContent !== texte) bulle.textContent = texte;
-        // Une longue bulle près du bord droit passe à gauche du curseur.
-        let x = ev.clientX + 16;
-        if (x + bulle.offsetWidth > innerWidth - 8) x = ev.clientX - 16 - bulle.offsetWidth;
-        bulle.style.transform = 'translate(' + Math.max(8, x) + 'px, ' + (ev.clientY + 20) + 'px)';
-        bulle.classList.add('is-visible');
-      };
-      pochette.addEventListener('pointermove', (ev) => {
-        if (ev.pointerType !== 'mouse' || document.querySelector('dialog[open]')) { cacher(); return; }
-        // Verso : pas de bulle.
-        if (stageEl.dataset.state === 'desktop') { cacher(); return; }
-        if (stageEl.dataset.state !== 'lock') { cacher(); return; }
-        // Pochette ouverte (ou en mouvement) : VOIR LE VERSO sur la double page.
-        if (stageEl.classList.contains('gatefold')) {
-          stageEl.classList.remove('survol-recto', 'survol-obi');
-          if (livretEtat === 'ouvert' && !ev.target.closest('.face-a')) montrer(ev, 'REFERMER'); else masquerBulle();
-          return;
-        }
-        // Même bulle qui suit la souris : BIO sur l'obi, VOIR LE VERSO ailleurs.
-        const surObi = !!ev.target.closest('.sleeve__obi');
-        const disqueVu = getComputedStyle(document.querySelector('.vinyle')).display !== 'none';
-        const texte = surObi ? 'BIO' : (disqueVu ? 'OUVRIR' : 'VOIR LE VERSO');
-        if (bulle.textContent !== texte) bulle.textContent = texte;
-        // Sur la photo du recto : OUVRIR en blanc, dans un cadre blanc.
-        bulle.classList.toggle('curseur-bulle--ouvrir', texte === 'OUVRIR');
-        stageEl.classList.toggle('survol-obi', surObi);
-        stageEl.classList.toggle('survol-recto', !surObi);
-        bulle.style.transform = 'translate(' + (ev.clientX + 16) + 'px, ' + (ev.clientY + 20) + 'px)';
-        bulle.classList.add('is-visible');
-      });
-      pochette.addEventListener('pointerleave', cacher);
-      if (voletD) {
-        voletD.addEventListener('pointermove', (ev) => {
-          if (ev.pointerType === 'mouse' && livretEtat === 'ouvert' && !ev.target.closest('.face-a__pistes')) montrer(ev, 'VOIR LE VERSO'); else masquerBulle();
-        });
-        voletD.addEventListener('pointerleave', cacher);
-        voletD.addEventListener('click', cacher);
-      }
-      pochette.addEventListener('click', cacher);
-    }
-    // Le logo MANU (barre et mobile) : rafraîchit la page, sans l'ancre.
-    document.querySelectorAll('[data-rafraichir]').forEach((b) => b.addEventListener('click', (e) => {
-      e.preventDefault(); e.stopPropagation();
-      // Le rechargement remet toujours le disque à l'endroit (recto).
-      // (le verso est mémorisé pour l'onglet : on l'oublie ici).
-      try { sessionStorage.removeItem('portfolio:deverrouille'); } catch (err) {}
-      location.assign(location.pathname + location.search);
-    }));
-    // Le livret ne tourne pas avec la pochette : il se range avant.
-    const versRecto = document.getElementById('flip-recto');
-    if (versRecto) versRecto.addEventListener('click', () => fermer(false));
-    // Retour au recto, par n'importe quel chemin : le livret se range.
-    new MutationObserver(() => { if (stageEl.dataset.state !== 'desktop') fermer(false); })
-      .observe(stageEl, { attributes: true, attributeFilter: ['data-state'] });
-    // Adresse directe : …/#projets, #a-propos ou #contact.
-    const h = location.hash.slice(1);
-    if (h === 'projets') setTimeout(ouvrirProjets, 60);
-    if (h === 'a-propos') setTimeout(ouvrirBioModale, 60);
-  })();
+  // Le logo MANU (barre et mobile) : rafraîchit la page, sans l'ancre.
+  document.querySelectorAll('[data-rafraichir]').forEach((b) => b.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    try { sessionStorage.removeItem('portfolio:deverrouille'); } catch (err) {}
+    location.assign(location.pathname + location.search);
+  }));
   /* Bio sous la photo : elle prend toute la largeur avant la pochette,
      et la molette (ou le pavé tactile) la fait défiler, où que soit la souris. */
   (function bioDefile() {
