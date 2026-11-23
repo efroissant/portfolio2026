@@ -9476,8 +9476,12 @@
   @media (prefers-reduced-motion: reduce) {
     html body .stage.bio-ouverte .profil .bio-hello { animation: none; }
   }
-  html body .stage .profil .profil__bio > p.bio-initiale { margin: 24px 0 0 !important; font-family: "Instrument Serif", Georgia, serif !important; font-size: 32px !important; line-height: 36px !important; letter-spacing: 0; color: var(--encre); }
+  html body .stage .profil .profil__bio > p.bio-initiale { margin: 24px 0 0 !important; }
+  html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-size: 16px !important; line-height: 24px !important; font-weight: 400 !important; letter-spacing: 0 !important; color: var(--encre); }
+  html body .stage .profil .profil__bio > .bio-hello { margin: 0 0 24px !important; }
+  @media (max-width: 1023px) { html body .stage .profil .profil__bio > :is(.bio-hello, p.bio-initiale) { font-size: 24px !important; line-height: 32px !important; } }
   @media (max-width: 1023px) { html body .stage .profil .profil__bio > p.bio-initiale { margin-bottom: 48px !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc > .uc__chiffres > li:nth-child(2) { align-self: start !important; height: 50% !important; } }
 </style>
 </head>
 <body>
