@@ -9699,6 +9699,9 @@
     html body .stage #doc-loblaw.doc .uc.uc > .uc__contexte { grid-column: pleine-debut / pleine-fin !important; margin: 24px 0 16px !important; }
     html body .stage #doc-loblaw.doc .uc__contexte-visuel { flex: none; aspect-ratio: 4 / 3; }
   }
+  /* Photo terrain (étiquetage) entre l'audit et la lumière : 4 colonnes. */
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc > .uc__photo.uc__photo--terrain { width: calc(var(--col) * 4 + 72px) !important; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc > .uc__photo--terrain { margin: 0 0 40px !important; } html body .stage #doc-loblaw.doc .uc.uc > .uc__photo--terrain img { width: 100%; height: 100%; object-fit: cover; } }
 </style>
 </head>
 <body>
@@ -10864,7 +10867,7 @@
             <p>Dans un contexte de résistance au changement, j’ai audité Healthwatch et analysé les observations de terrain avec l’équipe produit.</p>
             <p>À partir des user stories, j’ai conçu les interfaces de gestion des ordonnances, des stocks, des équipes et des dossiers patients.</p>
           </div>
-          <figure class="uc__contexte-visuel" aria-hidden="true"></figure>
+          <figure class="uc__contexte-visuel"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"></figure>
         </div>
         <header class="uc__tete">
           <p class="uc__surtitre">Shoppers Drug Mart · Pharmaprix</p>
@@ -10914,13 +10917,15 @@
           </details>
         </section>
 
+        <figure class="uc__photo uc__photo--terrain"><img src="lob-terrain-etiquette.webp" alt="Au comptoir, une technicienne colle une étiquette sur un flacon, à côté de l’imprimante d’étiquettes." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+
         <section class="uc__bloc">
           <h2 class="uc__label">Dans la lumière du comptoir</h2>
           <p class="uc__fort">La cause d’erreur la plus forte ne se voyait dans aucun écran&nbsp;: la lumière.</p>
           <ol class="uc__chaine uc__anime" aria-label="Effets de l’éclairage intense">
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreurs</span></li>
           </ol>
-          <figure class="uc__figure"><img src="lob-observation-terrain.webp" alt="En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense." width="1423" height="715" loading="lazy"><figcaption>En pharmacie : postes de saisie, balances, imprimantes d’étiquettes et comptoirs, sous un éclairage intense.</figcaption></figure>
+          <figure class="uc__figure"><img src="lob-terrain-eclairage.webp" alt="Une pharmacie sous des rangées de néons blancs : une pharmacienne saisit une ordonnance à son poste." width="1536" height="1024" loading="lazy"><figcaption>Un éclairage blanc intense au-dessus des postes de travail, avec des reflets sur les écrans tout au long du quart. Reconstitution visuelle.</figcaption></figure>
           <p class="uc__petit">D’où un mode sombre par défaut, pour reposer les yeux. Les pharmaciens l’ont adoré&nbsp;; il a été mis de côté.</p>
         </section>
 
