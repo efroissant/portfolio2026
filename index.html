@@ -9754,6 +9754,8 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:not(:first-child) .uc__fleche::after { left: -3.5px; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine > li:nth-child(1) .uc__fleche::after { top: -3.5px; }
   }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__photo--comptoir img { object-position: 50% 50% !important; }
+  html body .stage #doc-loblaw.doc .sexe .sexe__val { white-space: nowrap; flex: none; }
 </style>
 </head>
 <body>
@@ -10913,6 +10915,8 @@
           </div>
           <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer. <strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
         </section>
+
+        <figure class="uc__photo uc__photo--terrain uc__photo--comptoir"><img src="lob-terrain-comptoir.jpg" alt="Au comptoir, une pharmacienne, ordonnance en main, lève les yeux vers une personne vue de dos." width="1536" height="1024" loading="lazy" draggable="false"></figure>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
@@ -17701,7 +17705,8 @@ document.addEventListener('click', (e) => {
     audit: page.querySelector(':scope > .uc__audit'),
     passerelle: page.querySelector(':scope > .uc__passerelle'),
     chiffres: page.querySelector(':scope > .uc__chiffres'),
-    terrain: page.querySelector(':scope > .uc__photo--terrain'),
+    terrain: page.querySelector(':scope > .uc__photo--terrain:not(.uc__photo--comptoir)'),
+    comptoir: page.querySelector(':scope > .uc__photo--comptoir'),
     chaine: page.querySelector(':scope > .uc__chaine'),
     lumiere: page.querySelector(':scope > .uc__lumiere'),
     dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
@@ -17809,6 +17814,7 @@ document.addEventListener('click', (e) => {
     const xFinal = x;
     poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;   // la flèche des tags monte jusqu'à ce titre
     poser(c.dose, x, haut, L(7), H); x += L(7) + G;
+    poser(c.comptoir, x, haut, L(7), H); x += L(7) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan2, x, haut, L(4), H); x += L(4) + G;
