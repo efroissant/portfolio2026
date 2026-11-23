@@ -9456,7 +9456,7 @@
     html body .stage .profil .bio-photos > .bio-tempete .tempete { width: 100%; height: var(--w3) !important; aspect-ratio: auto !important; }
   }
   /* Démarrage : morceaux retirés (leur vide reste), note en grotesque, chiffres romains plus grands. */
-  html body .demarrage .dm--carre.dm--romain b { font-size: .46em; }
+  html body .demarrage .dm--carre b { font-size: .46em; }
   /* Bio : la plage et la tempête au même format carré, sur 3 colonnes chacune. */
   @media (min-width: 1024px) {
     html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 4 !important; }
@@ -9685,7 +9685,6 @@
     else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
     else if (m[0] === '○' || m[0] === '□' || m[0] === '◇') {
       el.classList.add('dm--forme', m[0] === '○' ? 'dm--rond' : m[0] === '□' ? 'dm--carre' : 'dm--losange');
-      if (/^[IVXLCDM]+$/.test(m.slice(1))) el.classList.add('dm--romain');
       const t = document.createElement('b'); t.textContent = m.slice(1); el.append(t);
     } else if (m[0] === '^') {
       el.classList.add('dm--pile');
