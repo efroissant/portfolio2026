@@ -371,8 +371,7 @@
   }
   .lecteur.is-deplace .lecteur__barre { cursor: grabbing; }
   /* « Ranger » et « Disposer au hasard » : même glissement que les cartes. */
-  .spot.is-range,
-  .stage .desktop .feuille.is-range {
+  .spot.is-range {
     transition: left 650ms cubic-bezier(0.22, 1, 0.36, 1), top 650ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .lecteur__fermer {
@@ -4041,71 +4040,6 @@
   .stage .identity .identity__role { font-size: 16px; line-height: 24px; margin-top: 0; }
   /* Date et métier une graisse au-dessus du normal : Medium (500).
      Helvetica Neue possède bien une graisse Medium. */
-  /* --- Date : feuille d'éphéméride néo-brutaliste ------------------
-     Aplats, trait noir 1px et ombre pleine décalée de 3 × 4, exactement
-     comme le bouton. Le corail du bandeau est le seul accent de l'écran ;
-     les feuilles du bloc, dessous, restent blanches. Tout est exprimé en
-     fonction de --f (l'échelle) pour réduire la feuille sans la déformer
-     et pour que la copie arrachée ait la même taille. Le trait reste à
-     1px quelle que soit l'échelle. */
-  .stage .feuille {
-    --f: 1;
-    --bande: 32px;                   /* la barre du lecteur de musique */
-    position: relative;
-    display: flex; flex-direction: column;
-    width: calc(192px * var(--f));
-    margin: 0;
-    padding: calc(var(--bande) + 12px * var(--f)) calc(16px * var(--f)) calc(14px * var(--f));
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: calc(4px * var(--f));
-    color: #000000;
-    text-align: left;
-    text-shadow: none;
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    letter-spacing: 0;
-    box-shadow:
-      0 4px 0 -1px #FFFFFF, 0 4px 0 0 #000000,
-      0 8px 0 -1px #FFFFFF, 0 8px 0 0 #000000,
-      3px 12px 0 0 #000000;
-    /* Barre de titre, la même que celle du lecteur : un aplat corail
-       coupé par un trait noir, un point noir à gauche, « Calendrier » au
-       centre. */
-    background-image: linear-gradient(#FF6645 0 calc(var(--bande) - 1px),
-      #000000 calc(var(--bande) - 1px) var(--bande),
-      transparent var(--bande));
-  }
-  .stage .feuille::before {
-    content: "";
-    position: absolute; left: 12px; top: calc((var(--bande) - 1px) / 2 - 6px);
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    box-sizing: border-box;
-    border: 1.5px solid #000000;   /* cerclé, sans remplissage */
-    background: transparent;
-  }
-  .stage .feuille::after {
-    content: "Calendrier";
-    position: absolute; left: 0; right: 0; top: 0;
-    height: calc(var(--bande) - 1px);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; letter-spacing: 0;
-  }
-  .stage .feuille__jour {
-    font-size: calc(104px * var(--f)); font-weight: 500;   /* medium : le 700 pesait trop */
-    line-height: calc(88px * var(--f)); letter-spacing: calc(-6px * var(--f));
-    margin-left: calc(-4px * var(--f));
-    font-variant-numeric: tabular-nums;
-  }
-  .stage .feuille__pied {
-    display: flex; flex-direction: column;
-    margin-top: calc(8px * var(--f));
-    padding-top: calc(6px * var(--f));
-    border-top: calc(2px * var(--f)) solid #000000;
-  }
-  .stage .feuille__semaine { font-size: calc(24px * var(--f)); line-height: calc(26px * var(--f)); font-weight: 700; letter-spacing: -0.02em; }
-  .stage .feuille__mois { font-size: calc(16px * var(--f)); line-height: calc(24px * var(--f)); font-weight: 700; white-space: nowrap; }
-  .stage .feuille__an { font-weight: 400; }
 
   .stage .lock .clock__date,
   .stage .lock .identity__role {
@@ -5668,77 +5602,6 @@
   }
   .stage[data-wall="blanc"] .lock .clock__time { color: var(--text); }
 
-  /* L'éphéméride vit sur le bureau, à droite sous le lecteur de musique
-     (le script l'y cale précisément ; ces valeurs servent de repli).
-     70 % de sa taille, incliné de 4° : assez pour paraître posé à
-     la main, pas assez pour paraître de travers. Il se déplace à la
-     souris ; la position choisie est gardée jusqu'au rechargement. */
-  .stage .desktop .feuille {
-    --f: 0.7;
-    --bande: 28px;
-    position: absolute;
-    z-index: 26;                     /* sous le lecteur (27) et les fenêtres */
-    top: calc(var(--bar-h) + 400px); right: var(--bar-pad-r); left: auto;
-    rotate: -4deg;
-    cursor: grab;
-    touch-action: none;
-    user-select: none; -webkit-user-select: none;
-    transition: rotate 160ms ease;
-  }
-  .stage .desktop .feuille.is-tenu { cursor: grabbing; rotate: -1deg; }
-  /* La bulle qui apparaît quand on clique trop : même langue que le reste,
-     fond blanc, trait noir 1px, ombre pleine décalée. */
-  .stage .feuille-bulle {
-    position: absolute; z-index: 27;   /* au-dessus des cartes */
-    max-width: 220px;
-    margin: 0;
-    padding: 12px 16px;
-    background: #FFFFFF;
-    color: #000000;
-    border: 1px solid #000000;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 3px 4px 0 #000000;
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 16px; line-height: 22px; font-weight: 500;
-    text-shadow: none;
-    pointer-events: none;
-    animation: bulle-entree 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .stage .feuille-bulle[hidden] { display: none; }
-  .stage .feuille-bulle--gauche { border-radius: 4px 4px 4px 4px; transform-origin: right center; }
-  .stage .feuille-bulle__mot {
-    display: inline-block;
-    animation: bulle-mot 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  @keyframes bulle-mot {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { .stage .feuille-bulle__mot { animation: none; } }
-  @keyframes bulle-entree {
-    from { opacity: 0; transform: translateY(6px) scale(0.96); }
-    to   { opacity: 1; transform: none; }
-  }
-  @media (max-width: 767px) { .stage .feuille-bulle { max-width: 180px; font-size: 15px; line-height: 20px; } }
-  @media (prefers-reduced-motion: reduce) { .stage .feuille-bulle { animation: none; } }
-  .stage .desktop .feuille:focus-visible { outline: 2px solid #000000; outline-offset: 4px; }
-  /* Téléphone : plus petit, posé dans l'espace libre entre l'en-tête
-     (72 px) et la grille des cartes. Pas de glisser au doigt, qui
-     volerait le défilement. */
-  @media (max-width: 767px) {
-    .stage .desktop .feuille {
-      --f: 0.5;
-      --bande: 24px;
-      top: 88px; left: 24px; right: auto;
-      cursor: auto; touch-action: auto;
-    }
-    /* Barre réduite : point et titre plus petits pour tenir sur 96 px. */
-    .stage .desktop .feuille::before { left: 8px; width: 8px; height: 8px; top: calc((var(--bande) - 1px) / 2 - 4px); }
-    .stage .desktop .feuille::after { font-size: 10px; padding-left: 8px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .stage .desktop .feuille { transition: none; }
-  }
 
   .stage .lock .cluster { grid-row: 4; gap: 32px; }
   .stage .lock .cluster__identity-group { gap: 24px; }
@@ -6436,8 +6299,7 @@
   /* La pochette ne glisse plus d'un écran à l'autre : elle change sur place. */
   .stage .stage__bg { transition: none !important; }
   .stage .dock,
-  .stage .minis .mini,
-  .stage .feuille { display: none !important; }
+  .stage .minis .mini { display: none !important; }
   /* Le lecteur du bureau aussi : seul le bouton lecture/pause reste. */
   .stage .spot.lecteur.lecteur { display: none !important; }
 
@@ -11541,16 +11403,6 @@
       </button>
     </header>
 
-    <!-- Éphéméride du bureau : le script remplit chaque morceau ; il se
-       déplace à la souris comme le lecteur. -->
-    <p class="feuille" id="lock-date" data-node-id="2:608" aria-label="Mercredi 9 septembre">
-      <span class="feuille__jour" aria-hidden="true">9</span>
-      <span class="feuille__pied" aria-hidden="true">
-        <span class="feuille__semaine">Mercredi</span>
-        <span class="feuille__mois">Septembre <span class="feuille__an">2026</span></span>
-      </span>
-    </p>
-
     <!-- Pochette : le prénom en grand, à la verticale, dans la marge droite.
          Décoratif : le nom complet est déjà dans la barre de menus. -->
 
@@ -11792,32 +11644,16 @@ const dire = (function () {
   const cap = (s) => s.replace(/(^|\s)(\p{L})/gu, (m, sp, c) => sp + c.toLocaleUpperCase('fr-FR'));
 
   const el = {
-    lockDate: document.getElementById('lock-date'),
     lockTime: document.getElementById('lock-time'),
     barDate:  document.getElementById('bar-date'),
     barTime:  document.getElementById('bar-time')
   };
-
-  /* Jours ajoutés en cliquant sur l'éphéméride du bureau (voir plus bas).
-     0 = aujourd'hui. */
-  let decalageJour = 0;
 
   function render() {
     const now = new Date();
     const time = fmtTime.format(now);
     const iso = now.toTimeString().slice(0, 5);
 
-    // Feuille d'éphéméride : jour, jour de la semaine, mois et année,
-    // décalés des jours ajoutés au clic. L'étiquette lue garde la phrase
-    // complète.
-    const jour = new Date(now);
-    jour.setDate(jour.getDate() + decalageJour);
-    el.lockDate.setAttribute('aria-label', fmtLockDate.format(jour));
-    const morceau = (c) => el.lockDate.querySelector('.feuille__' + c);
-    morceau('jour').textContent = jour.getDate();
-    morceau('semaine').textContent = cap(jour.toLocaleDateString('fr-FR', { weekday: 'long' }));
-    morceau('mois').firstChild.textContent = cap(jour.toLocaleDateString('fr-FR', { month: 'long' })) + ' ';
-    morceau('an').textContent = jour.getFullYear();
     // Écran verrouillé : la date du jour en toutes lettres, avec l'année.
     const jourTexte = document.getElementById('lock-jour');
     if (jourTexte) {
@@ -11952,15 +11788,6 @@ const dire = (function () {
       const sl = parseFloat(lect.style.left), st = parseFloat(lect.style.top);
       const lx = isNaN(sl) ? sr.left : sl, ly = isNaN(st) ? sr.top : st;
       placed.push({ l: lx - r.left - 32, t: ly - r.top - 16, w: sr.width + 64, h: sr.height + 32, dur: true });
-    }
-    // L'éphéméride aussi, avec une marge pour son ombre et son inclinaison.
-    const eph = document.getElementById('lock-date');
-    if (eph && eph.offsetParent) {
-      const er = eph.getBoundingClientRect();
-      const z = eph.offsetParent.getBoundingClientRect();
-      const el = parseFloat(eph.style.left), et = parseFloat(eph.style.top);
-      const ex = isNaN(el) ? er.left : z.left + el, ey = isNaN(et) ? er.top : z.top + et;
-      placed.push({ l: ex - r.left - 24, t: ey - r.top - 24, w: er.width + 48, h: er.height + 48, dur: true });
     }
 
     // Le dock aussi, intitulés compris : aucune carte ne se pose dessus.
@@ -16152,223 +15979,6 @@ const dire = (function () {
     setTimeout(cligne, 1800);
   })();
 
-  /* Éphéméride du bureau : déplaçable à la souris (ou au stylet), et au
-     clavier avec les flèches une fois sélectionné (Maj pour aller plus
-     vite). Il reste dans les limites du bureau. Sur téléphone il est dans
-     le flux de la grille et ne bouge pas. */
-  (function ephemeride() {
-    const f = document.getElementById('lock-date');
-    const zone = document.getElementById('view-desktop');
-    if (!f || !zone) return;
-    f.tabIndex = 0;
-    const petit = matchMedia('(max-width: 767px)');
-    const flottant = () => !petit.matches;
-    function poser(x, y) {
-      const z = zone.getBoundingClientRect();
-      const bar = document.querySelector('.menubar');
-      const haut = bar ? bar.offsetHeight : 0;
-      x = Math.max(0, Math.min(z.width - f.offsetWidth, x));
-      y = Math.max(haut, Math.min(z.height - f.offsetHeight - 8, y));
-      f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.right = 'auto';
-    }
-    /* Place par défaut : sous le lecteur de musique, aligné sur son bord
-       droit, 40 px plus bas. Tant que le visiteur ne l'a pas déplacé, il
-       y revient à chaque arrivée sur le bureau et à chaque redimension. */
-    let deplace = false;
-    function caler() {
-      if (deplace || !flottant()) return;
-      const sp = document.getElementById('spot');
-      if (sp && !sp.hidden && sp.offsetWidth) {
-        // Position de mise en page (offset*), pas getBoundingClientRect :
-        // le lecteur entre en glissant, sa boîte bouge encore à cet instant.
-        // Sa place cible si elle est écrite (il glisse peut-être encore).
-        const z = zone.getBoundingClientRect();
-        const sl = parseFloat(sp.style.left), st = parseFloat(sp.style.top);
-        const droite = (isNaN(sl) ? sp.offsetLeft : sl) + sp.offsetWidth - z.left;
-        const bas = (isNaN(st) ? sp.offsetTop : st) + sp.offsetHeight - z.top;
-        // Rentré de quelques px : incliné, il déborderait sinon du bord.
-        f.style.left = Math.min(droite - f.offsetWidth - 12, z.width - f.offsetWidth - 32) + 'px';
-        f.style.top = (bas + 40) + 'px';
-        f.style.right = 'auto';
-      } else {
-        f.style.left = f.style.top = f.style.right = '';
-      }
-    }
-    // Écouté après celui qui ouvre le lecteur : il est déjà visible ici,
-    // et les cartes, dispersées à l'image suivante, évitent l'éphéméride.
-    document.addEventListener('portfolio:desktop', caler);
-    let dx = 0, dy = 0, tenu = false, x0 = 0, y0 = 0, glisse = false;
-    f.addEventListener('pointerdown', (e) => {
-      x0 = e.clientX; y0 = e.clientY; glisse = false;
-      if (!flottant() || e.button !== 0) return;
-      dx = e.clientX - f.offsetLeft; dy = e.clientY - f.offsetTop;
-      tenu = true;
-      f.classList.add('is-tenu');
-      f.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-    f.addEventListener('pointermove', (e) => {
-      if (!tenu) return;
-      // Au-delà de 4 px c'est un déplacement, pas un clic.
-      if (Math.hypot(e.clientX - x0, e.clientY - y0) > 4) glisse = deplace = true;
-      poser(e.clientX - dx, e.clientY - dy);
-    });
-    const lacher = () => { tenu = false; f.classList.remove('is-tenu'); };
-    f.addEventListener('pointerup', lacher);
-    f.addEventListener('pointercancel', lacher);
-    f.addEventListener('keydown', (e) => {
-      if (!flottant()) return;
-      const pas = e.shiftKey ? 48 : 8;
-      const d = { ArrowLeft: [-pas, 0], ArrowRight: [pas, 0], ArrowUp: [0, -pas], ArrowDown: [0, pas] }[e.key];
-      if (!d) return;
-      e.preventDefault();
-      deplace = true;
-      poser(f.offsetLeft + d[0], f.offsetTop + d[1]);
-    });
-    /* Chaque clic arrache une feuille : la date avance d'un jour. Au
-       quatrième clic d'affilée, une bulle demande si l'on a quelque chose
-       contre aujourd'hui ; au huitième, elle abandonne (« À demain,
-       alors. ») ; au douzième, elle s'en va (« Bye! »). Puis la
-       feuille revient à aujourd'hui quand la bulle s'en va (sans bulle,
-       elle y revient seule après 2,5 s). Entrée et
-       Espace font la même chose au clavier. */
-    const SEUIL = 4;
-    let clics = 0, finSerie = null, finBulle = null;
-    const bulle = document.createElement('p');
-    bulle.className = 'feuille-bulle';
-    bulle.setAttribute('role', 'status');
-    bulle.hidden = true;
-    zone.appendChild(bulle);
-    /* La bulle se met du côté où il y a de la place : à gauche quand
-       l'éphéméride est contre le bord droit (sa place par défaut), à droite
-       sinon. La pointe (le coin peu arrondi) regarde l'éphéméride. */
-    function placerBulle() {
-      const r = f.getBoundingClientRect(), z = zone.getBoundingClientRect();
-      const ecart = petit.matches ? 12 : 16;
-      const aGauche = r.left - z.left > bulle.offsetWidth + ecart + 16;
-      bulle.classList.toggle('feuille-bulle--gauche', aGauche);
-      if (aGauche) {
-        bulle.style.left = 'auto';
-        bulle.style.right = (z.right - r.left + ecart) + 'px';
-      } else {
-        bulle.style.right = 'auto';
-        bulle.style.left = (r.right - z.left + ecart) + 'px';
-      }
-      bulle.style.top = (r.top - z.top + (petit.matches ? 8 : 16)) + 'px';
-    }
-    /* Le texte arrive mot à mot : chaque mot monte et apparaît avec un
-       léger décalage sur le précédent. Le texte entier reste dans
-       l'étiquette pour les lecteurs d'écran. */
-    function ecrire(texte, nouvelle) {
-      if (!nouvelle && bulle.dataset.texte === texte) return;   // déjà affiché
-      bulle.dataset.texte = texte;
-      bulle.setAttribute('aria-label', texte);
-      bulle.textContent = '';
-      texte.split(' ').forEach((mot, i, tous) => {
-        const m = document.createElement('span');
-        m.className = 'feuille-bulle__mot';
-        m.setAttribute('aria-hidden', 'true');
-        m.textContent = mot;
-        m.style.animationDelay = (120 + i * 70) + 'ms';
-        bulle.appendChild(m);
-        if (i < tous.length - 1) bulle.appendChild(document.createTextNode(' '));
-      });
-    }
-    function tourner() {
-      decalageJour++;
-      render();
-      if (!reduced) {
-        const j = f.querySelector('.feuille__jour');
-        j.animate([{ transform: 'translateY(-6px)', opacity: 0.2 }, { transform: 'none', opacity: 1 }],
-                  { duration: 160, easing: 'ease-out' });
-      }
-      clics++;
-      clearTimeout(finSerie);
-      // Moins de quatre clics : la feuille revient d'elle-même au présent.
-      finSerie = setTimeout(() => {
-        clics = 0;
-        if (bulle.hidden && decalageJour) { decalageJour = 0; render(); }
-      }, 2500);
-      if (clics >= SEUIL) {
-        // Premier avertissement, puis on abandonne si le visiteur insiste.
-        // Troisième palier au douzième clic : il ne discute plus.
-        const texte = clics >= SEUIL * 3
-          ? 'Bye!'
-          : clics >= SEUIL * 2
-            ? 'OK. À demain, alors.'
-            : 'Vous avez quelque chose contre aujourd’hui\u202F?';
-        const nouvelle = bulle.hidden;
-        bulle.hidden = false;
-        ecrire(texte, nouvelle);
-        if (nouvelle) {                 // relance l'entrée de la bulle
-          bulle.style.animation = 'none';
-          void bulle.offsetWidth;
-          bulle.style.animation = '';
-        }
-        placerBulle();
-        clearTimeout(finBulle);
-        finBulle = setTimeout(() => {
-          bulle.hidden = true;
-          clics = 0;
-          decalageJour = 0;          // retour au présent
-          render();
-        }, 3200);
-      }
-    }
-    f.addEventListener('click', () => { if (!glisse) tourner(); });
-    f.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tourner(); }
-    });
-
-    /* Dispersé ou rangé avec les cartes. Dispersé : au hasard, dans la
-       moitié GAUCHE si le lecteur est à droite (et inversement), pour que
-       les deux objets ne s'empilent pas. Rangé : sous le lecteur. */
-    document.addEventListener('portfolio:objets', (e) => {
-      if (!flottant() || !f.offsetParent) return;
-      // Disposition d'arrivée : au milieu, entre les cartes et le lecteur.
-      if (e.detail.action === 'defaut') {
-        deplace = true;
-        const z = zone.getBoundingClientRect();
-        const bar = document.querySelector('.menubar');
-        const haut = bar ? bar.offsetHeight : 0;
-        const p = window.cadrePochette && window.cadrePochette();
-        if (p) { poser(p.left - z.left + 40, p.top - z.top + 32); return; }
-        poser(z.width * 0.295, haut + (z.height - haut) * 0.362);
-        return;
-      }
-      if (e.detail.glisser && !reduced) {
-        f.classList.add('is-range');
-        clearTimeout(f._range);
-        f._range = setTimeout(() => f.classList.remove('is-range'), 700);
-      }
-      // Rangé : en bas à droite, à l'écart du dock qui est centré.
-      if (e.detail.action === 'ranger') {
-        deplace = true;
-        const z = zone.getBoundingClientRect();
-        const p = window.cadrePochette && window.cadrePochette();
-        if (p) { poser(p.right - z.left - f.offsetWidth - 32, p.bottom - z.top - f.offsetHeight - 32); return; }
-        poser(z.width - f.offsetWidth - 40, z.height - f.offsetHeight - 40);
-        return;
-      }
-      deplace = true;
-      const z = zone.getBoundingClientRect();
-      const bar = document.querySelector('.menubar');
-      const haut = (bar ? bar.offsetHeight : 0) + 24;
-      const w = f.offsetWidth, h = f.offsetHeight;
-      const sp = document.getElementById('spot');
-      const lecteurADroite = !sp || sp.hidden || parseFloat(sp.style.left || innerWidth) > innerWidth / 2;
-      const demi = z.width / 2 - w - 64;
-      const x = (lecteurADroite ? 32 : z.width / 2 + 32) + Math.random() * Math.max(0, demi);
-      const y = haut + Math.random() * Math.max(0, z.height - h - 170 - haut);
-      poser(x, y);
-    });
-
-    // Fenêtre redimensionnée : on le ramène dans le cadre s'il a été déplacé.
-    addEventListener('resize', () => {
-      if (!flottant()) { f.style.left = f.style.top = f.style.right = ''; return; }
-      if (deplace) poser(f.offsetLeft, f.offsetTop); else caler();
-    });
-  })();
 
 
 
