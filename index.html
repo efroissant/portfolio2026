@@ -9659,6 +9659,13 @@
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail { gap: 0; }
   }
+  /* Carte d'audit : le degré d'urgence et le problème sur la même ligne, la solution dessous. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li { grid-template-columns: 112px minmax(0, 1fr) !important; column-gap: 16px; padding: 12px 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences > li:last-child { padding-bottom: 0 !important; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence { flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; height: 26px; }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-detail strong { white-space: nowrap; }
+  }
 </style>
 </head>
 <body>
@@ -17666,12 +17673,14 @@ document.addEventListener('click', (e) => {
     const lTete = Math.min(L(5), Math.round((H - 48 - 72 - 16 - 90) * 869 / 580) + 48);
     poser(c.tete, x, haut, lTete, H); x += lTete + G;
     const xAudit = x;
-    poser(c.audit, x, haut, L(3), H);
+    // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
+    const lAudit = Math.max(424, L(3));   // reste étroite sur grand écran
+    poser(c.audit, x, haut, lAudit, H);
     const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
     x = cam1;
-    poser(c.terrain, x, y2, L(4), H); x += L(4) + G;   // exactement sous l'audit, à la même largeur
+    poser(c.terrain, x, y2, lAudit, H); x += lAudit + G;   // exactement sous l'audit, à la même largeur
     poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
     poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
     const xChaine = x;
