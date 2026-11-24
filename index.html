@@ -10241,6 +10241,90 @@
     /* Grands mots : le mot remplit sa carte, centré. */
     html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { justify-content: center !important; align-items: center !important; white-space: nowrap; transform: none !important; }
   }
+  /* ===== Roche, deuxième passe : cartes plus larges, nouvelles cartes, schémas allégés ===== */
+  /* Post-it : les mots-clés tombent en vrac, puis se rangent sous leur thème. */
+  html body .stage #doc-roche.doc .uc.uc .postits { position: relative; }
+  html body .stage #doc-roche.doc .uc.uc .postits .postit:not(.postit--concept) { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(calc(var(--r, 0deg) * 3)) scale(0.9); transition: opacity 240ms ease, transform 760ms cubic-bezier(.34, 1.3, .64, 1); }
+  html body .stage #doc-roche.doc .uc.uc .postits .postit.est-la:not(.postit--concept) { opacity: 1; transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(calc(var(--r, 0deg) * 3)); }
+  html body .stage #doc-roche.doc .uc.uc .postits.range .postit.est-la:not(.postit--concept) { transform: rotate(var(--r, 0deg)); transition-delay: calc(var(--i, 0) * 40ms); }
+  html body .stage #doc-roche.doc .uc.uc .postits .postit--concept { opacity: 0; transform: translateY(-8px); transition: opacity 300ms ease, transform 400ms ease; }
+  html body .stage #doc-roche.doc .uc.uc .postits.tetes .postit--concept { opacity: 1; transform: none; }
+  /* Dons : des photos qui se remplissent. */
+  html body .stage #doc-roche.doc .uc.uc .don__grille { grid-template-columns: repeat(8, 32px); gap: 8px; margin-top: 16px; }
+  html body .stage #doc-roche.doc .uc.uc .don__grille i { display: block; width: 32px; height: 32px; border: 0; border-radius: 0; background: none !important; }
+  html body .stage #doc-roche.doc .uc.uc .don__grille svg { display: block; width: 32px; height: 32px; fill: none; stroke: rgba(28, 25, 23, 0.4); stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; transition: stroke 200ms ease; }
+  html body .stage #doc-roche.doc .uc.uc .don__grille svg rect { transition: fill 200ms ease; }
+  html body .stage #doc-roche.doc .uc.uc .don__grille i.est-la svg { stroke: #FFFFFF; }
+  html body .stage #doc-roche.doc .uc.uc .don__grille i.est-la svg rect { fill: var(--cobalt); stroke: var(--cobalt); }
+  html body .stage #doc-roche.doc .uc.uc .don__grille i.est-la svg circle { fill: #FFFFFF; }
+  html body .stage #doc-roche.doc .uc.uc .don { align-items: flex-start; gap: 4px; }
+  /* Parcours : plus d'aplats noirs. */
+  html body .stage #doc-roche.doc .uc.uc .flux__boite { background: #FFFFFF; border-color: var(--encre); }
+  html body .stage #doc-roche.doc .uc.uc .flux__boite strong { color: var(--encre) !important; }
+  html body .stage #doc-roche.doc .uc.uc .flux__boite span { color: var(--gris-texte) !important; }
+  html body .stage #doc-roche.doc .uc.uc .flux .flux__etape.est-actif .flux__boite { background: var(--cobalt); border-color: var(--cobalt); }
+  html body .stage #doc-roche.doc .uc.uc .flux .flux__etape.est-actif .flux__boite :is(strong, span) { color: #FFFFFF !important; }
+  /* Le selfie dans un téléphone. */
+  #doc-roche .appareil { position: relative; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; width: 220px; aspect-ratio: 1 / 2; margin: 0 auto; padding: 40px 12px 16px; border: 1px solid var(--encre); border-radius: 32px; background: #FFFFFF; }
+  #doc-roche .appareil::before { content: ""; position: absolute; top: 14px; left: 50%; width: 56px; height: 10px; margin-left: -28px; border: 1px solid var(--encre); border-radius: var(--r-rond); }
+  html body .stage #doc-roche.doc .uc.uc .appareil .selfie { width: 100% !important; height: auto !important; }
+  html body .stage #doc-roche.doc .uc.uc .appareil .selfie__photo { width: 100% !important; max-height: none !important; }
+  /* Le site sur ordinateur, dans une fenêtre de navigateur. */
+  #doc-roche .navigateur { display: flex; flex-direction: column; margin: 0 !important; border: 1px solid var(--encre); border-radius: var(--r-controle); overflow: hidden; background: #FFFFFF; }
+  #doc-roche .navigateur__barre { flex: none; display: flex; gap: 6px; align-items: center; height: 28px; padding: 0 12px; border-bottom: 1px solid var(--encre); }
+  #doc-roche .navigateur__barre i { width: 8px; height: 8px; border: 1px solid var(--encre); border-radius: 50%; }
+  #doc-roche .navigateur img { display: block; width: 100%; height: auto; }
+  /* La couverture de Strategy. */
+  #doc-roche .uc__magazine { margin: 0 !important; }
+  #doc-roche .uc__magazine img { display: block; width: 100%; max-width: 280px; height: auto; border-radius: var(--r-detail); box-shadow: 0 8px 24px rgba(28, 25, 23, 0.16); }
+  html body .stage #doc-roche.doc .uc.uc .uc__resultat > .uc__petit + p { margin-top: -12px !important; }
+
+  @media (min-width: 1024px) {
+    /* Fini les pistes : chaque carte tient dans sa largeur. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__tete, .uc__selfie, .uc__pub, .uc__autrement) { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__tete, .uc__selfie, .uc__pub, .uc__autrement) > * { grid-column: auto !important; grid-row: auto !important; }
+    /* Cartes de propos : grand titre sous l'étiquette, texte en bas. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__titre { margin-top: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__enonce { margin-top: auto !important; align-self: auto !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__contexte-roche, .uc__selfie-texte) > .uc__fort { margin-top: 0 !important; font-size: 56px !important; line-height: 52px !important; letter-spacing: -0.8px !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__contexte-roche, .uc__selfie-texte, .uc__pub) > .uc__petit { margin-top: auto !important; }
+    /* Post-it : trois thèmes côte à côte, dans la carte. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__concepts .postits { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; width: auto; flex: 1 1 auto; align-self: stretch; align-content: center; align-items: start; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__concepts .postits__groupe { width: auto; }
+    /* Le téléphone au centre de sa carte. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__selfie .appareil { flex: 1 1 0; min-height: 0; width: auto; max-width: none; align-self: center; margin: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__selfie .selfie { justify-content: center; width: 100% !important; height: auto !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__selfie .selfie__photo { width: 100% !important; max-height: none !important; }
+    /* Dons : le compteur et les photos au milieu. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__don .don { flex: 1 1 auto; justify-content: center; }
+    /* Formulaire : le propos à gauche, le formulaire à droite. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__autrement { display: grid !important; grid-template-columns: minmax(0, 1fr) 280px !important; grid-template-rows: auto auto 1fr !important; column-gap: 32px !important; row-gap: 16px !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__autrement > .uc__label { grid-column: 1 !important; grid-row: 1 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__autrement > .uc__fort { grid-column: 1 !important; grid-row: 2 !important; margin-top: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__autrement > .uc__petit { grid-column: 1 !important; grid-row: 3 !important; align-self: end !important; margin-top: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__autrement > .form-reduit { grid-column: 2 !important; grid-row: 1 / -1 !important; align-self: center !important; width: 280px; }
+    /* La pub : les deux téléphones au centre. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__pub .pub { flex: 1 1 0; min-height: 0; height: auto; align-self: stretch; align-items: center; justify-content: center; gap: 40px; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__pub > .uc__petit { order: 1; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__pub .pub__tel { width: 136px; height: 256px; padding: 32px 10px 14px; gap: 8px; }
+    html body .stage #doc-roche.doc .uc.uc .pub__annonce b { font-size: 22px !important; line-height: 26px !important; }
+    /* Le site : la fenêtre occupe la carte. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ecran-site .navigateur { flex: 1 1 0; min-height: 0; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ecran-site .navigateur img { flex: 1 1 0; min-height: 0; height: 100%; object-fit: cover; object-position: top center; }
+    /* Le résultat : le texte à gauche, la couverture à droite. */
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat { display: grid !important; grid-template-columns: minmax(0, 1fr) 272px !important; grid-template-rows: auto auto 1fr auto auto !important; column-gap: 32px !important; row-gap: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > * { grid-column: 1 !important; margin: 0 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > .uc__label { grid-row: 1 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > .uc__fort { grid-row: 2 !important; margin-top: 16px !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > .uc__petit { grid-row: 4 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > p:last-of-type { grid-row: 5 !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat > .uc__magazine { grid-column: 2 !important; grid-row: 1 / -1 !important; align-self: center !important; }
+    html body .stage #doc-roche.doc.est-pile .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat .uc__magazine img { width: 272px; max-width: none; }
+  }
+  @media (max-width: 1023px) {
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__selfie > .appareil { width: 220px !important; margin: 0 auto !important; padding: 40px 12px 16px !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__resultat .uc__magazine img { max-width: 240px; }
+  }
 </style>
 </head>
 <body>
@@ -11269,7 +11353,6 @@
           <h1 class="uc__titre" id="doc-roche-titre">Comment placer une pub sans trahir une cause&nbsp;?</h1>
           <p class="uc__enonce">Pour le Mois du diabète, chaque selfie retourné publié déclenchait un don de 5&nbsp;$ à la recherche.</p>
           <p class="uc__corps">Mais le client imposait aussi une publicité produit. Il fallait qu’elle se voie, sans casser l’élan de ceux qui participaient.</p>
-          <figure class="uc__figure uc__couverture"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"></figure>
         </header>
 
         <section class="uc__bloc uc__contexte-roche" data-l="5">
@@ -11278,39 +11361,45 @@
           <p class="uc__petit">Au printemps 2018, Roche lance un produit Accu-Chek avec la signature «&nbsp;Discover the upside&nbsp;». En novembre, pour le Mois du diabète, l’Upside Challenge invite les Canadiens à publier un selfie à l’envers. Chaque photo partagée déclenche un don de 5&nbsp;$ à la recherche.</p>
         </section>
 
-        <h2 class="uc__grand-mot" data-anime="envers"><span>À<br><span class="envers">l’envers</span></span></h2>
+        <!-- Masqué pour l’instant : <h2 class="uc__grand-mot" data-anime="envers"><span>À<br><span class="envers">l’envers</span></span></h2> -->
 
         <section class="uc__bloc uc__concepts" data-l="8">
           <h2 class="uc__label">Avant toute maquette</h2>
-          <p class="uc__fort">Cartographier les concepts avec le directeur de création.</p>
-          <div class="postits" data-anime="postits" role="img" aria-label="Carte des concepts : Landing (animation qui démarre seule, bouton pour passer), Concours (1 photo = 5 $, 5 $ à la recherche, partager, entrer ses données), Animation (retourner la photo, réseaux sociaux, autocollants, bandeau See the upside).">
+          <p class="uc__fort">Cartographier les concepts.</p>
+          <div class="postits" data-anime="postits" role="img" aria-label="Carte des concepts : des mots-clés apparaissent en vrac puis se rangent sous trois thèmes. Landing : animation auto, bouton passer. Concours : 1 photo = 5 $, don à la recherche, partage, données marketing. Animation : photo retournée, réseaux sociaux, autocollants, See the upside.">
             <div class="postits__groupe">
               <p class="postit postit--concept">Landing</p>
-              <p class="postit" style="--r: -3deg">Une animation qui démarre seule</p>
-              <p class="postit" style="--r: 2deg">Un bouton pour passer</p>
+              <p class="postit" style="--r: -3deg">Animation auto</p>
+              <p class="postit" style="--r: 2deg">Bouton passer</p>
             </div>
             <div class="postits__groupe">
               <p class="postit postit--concept">Concours</p>
               <p class="postit" style="--r: 2deg">1 photo = 5&nbsp;$</p>
-              <p class="postit" style="--r: -2deg">5&nbsp;$ remis à la recherche</p>
-              <p class="postit" style="--r: -1deg">Partager</p>
-              <p class="postit" style="--r: 3deg">Entrer ses données (marketing)</p>
+              <p class="postit" style="--r: -2deg">Don à la recherche</p>
+              <p class="postit" style="--r: -1deg">Partage</p>
+              <p class="postit" style="--r: 3deg">Données marketing</p>
             </div>
             <div class="postits__groupe">
               <p class="postit postit--concept">Animation</p>
-              <p class="postit" style="--r: -2deg">Retourner la photo</p>
+              <p class="postit" style="--r: -2deg">Photo retournée</p>
               <p class="postit" style="--r: 3deg">Réseaux sociaux</p>
-              <p class="postit" style="--r: 1deg">Des autocollants pour s’amuser</p>
-              <p class="postit" style="--r: -3deg">Bandeau «&nbsp;See the upside&nbsp;»</p>
+              <p class="postit" style="--r: 1deg">Autocollants</p>
+              <p class="postit" style="--r: -3deg">See the upside</p>
             </div>
           </div>
           <p class="uc__petit">Mécanique de participation, moments d’interaction, place de la marque&nbsp;: ce mapping a posé les bases du parcours.</p>
         </section>
 
-        <section class="uc__bloc uc__selfie" data-l="7">
+        <section class="uc__bloc uc__selfie-texte">
           <h2 class="uc__label">Le benchmark comportemental</h2>
           <p class="uc__fort">Plus on s’investit dans une image, plus on la partage.</p>
-          <div class="selfie" data-anime="selfie" role="img" aria-label="Animation : un selfie se retourne à l’envers, puis se couvre d’un mot-clic, d’une étoile, d’un cœur, d’un mot et du bandeau See the upside avant d’être partagé.">
+          <p class="uc__petit">Texte, émojis, autocollants&nbsp;: c’est le pattern de l’Ego Investment. On ne partage plus une photo, on partage une version de soi.</p>
+        </section>
+
+        <section class="uc__bloc uc__selfie">
+          <h2 class="uc__label">Retourner, décorer, partager</h2>
+          <div class="appareil">
+            <div class="selfie" data-anime="selfie" role="img" aria-label="Animation : un selfie se retourne à l’envers, puis se couvre d’un mot-clic, d’une étoile, d’un cœur, d’un mot et du bandeau See the upside avant d’être partagé.">
             <div class="selfie__photo">
               <div class="selfie__image"><svg viewBox="0 0 120 160" aria-hidden="true"><circle cx="60" cy="62" r="26"/><path d="M50 58h.01M70 58h.01M50 72c6 5 14 5 20 0"/><path d="M18 160c2-30 20-46 42-46s40 16 42 46"/></svg></div>
               <span class="selfie__deco selfie__deco--tag">#UpsideChallenge</span>
@@ -11321,7 +11410,7 @@
             </div>
             <span class="selfie__partager">Partager</span>
           </div>
-          <p class="uc__petit">Texte, émojis, autocollants&nbsp;: c’est le pattern de l’Ego Investment. On ne partage plus une photo, on partage une version de soi.</p>
+          </div>
         </section>
 
         <section class="uc__bloc uc__don" data-l="5">
@@ -11392,12 +11481,25 @@
           </ol>
         </section>
 
-        <h2 class="uc__grand-mot mot-tape" data-anime="tape"><span>Vue, pas<br>subie</span></h2>
+        <section class="uc__bloc uc__autrement" data-l="6">
+          <h2 class="uc__label">La problématique du formulaire</h2>
+          <p class="uc__fort">Des données pour le marketing, sans faire fuir.</p>
+          <div class="form-reduit" data-anime="formulaire" role="img" aria-label="Animation : un formulaire de quatre champs perd les deux champs superflus.">
+            <span class="form-reduit__champ form-reduit__champ--trop"><i>Nom</i><b></b></span>
+            <span class="form-reduit__champ"><i>Courriel</i><b></b></span>
+            <span class="form-reduit__champ form-reduit__champ--trop"><i>Pourquoi cette cause vous touche</i><b></b></span>
+            <span class="form-reduit__champ form-reduit__champ--case"><b></b><i>J’accepte que mon selfie compte pour un don</i></span>
+            <span class="form-reduit__bouton">Participer</span>
+          </div>
+          <p class="uc__petit">Le client voulait des données marketing, mais chaque champ en plus fait abandonner. J’ai réduit le formulaire à l’essentiel&nbsp;: un courriel et un consentement.</p>
+        </section>
+
+        
 
         <section class="uc__bloc uc__pub" data-l="9">
           <h2 class="uc__label">La problématique de la pub</h2>
           <p class="uc__fort">Placer la pub dans les creux du parcours.</p>
-          <p class="uc__petit">Le mandat imposait une publicité produit. Or une pub crée une friction, trahit la cause et casse l’élan. Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement, quand on attend déjà. Selon Sweller, une interruption dans un temps d’attente naturel n’ajoute aucune friction.</p>
+          <p class="uc__petit">Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement, quand on attend déjà.</p>
           <div class="pub" data-anime="pub" role="img" aria-label="Animation de deux téléphones : à l’entrée, la pub Accu-Chek avec un bouton pour passer qui se débloque ; pendant le chargement, la pub occupe l’attente jusqu’à ce que la photo soit prête.">
             <figure class="pub__ecran">
               <div class="pub__tel">
@@ -11416,32 +11518,21 @@
           </div>
         </section>
 
-        <ul class="uc__chiffres" aria-label="En bref">
-          <li><strong>5&nbsp;$</strong><span>donnés à la recherche par selfie publié</span></li>
-          <li><strong>2</strong><span>moments choisis pour la publicité</span></li>
-          <li><strong>1&nbsp;mois</strong><span>de l’idée à la mise en ligne</span></li>
-        </ul>
+        <section class="uc__bloc uc__ecran-site">
+          <h2 class="uc__label">Le site, sur ordinateur</h2>
+          <figure class="navigateur"><span class="navigateur__barre" aria-hidden="true"><i></i><i></i><i></i></span><img src="roche-landing-1750.webp" alt="Page d’accueil de l’Upside Challenge : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"></figure>
+        </section>
 
         <div class="uc__bilan">
-        <section class="uc__bloc">
+        <section class="uc__bloc uc__resultat">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__fort">Une campagne reprise par Strategy Magazine et Newswire Canada.</p>
           <p class="uc__petit">Les deux citent Cossette comme agence créative.</p>
           <p><a class="uc__lien" href="https://www.newswire.ca/news-releases/roche-diabetes-care-invites-canadians-to-join-the-upsidechallenge-in-support-of-national-diabetes-awareness-month-699286681.html" target="_blank" rel="noopener">Lire le communiqué de presse ↗</a></p>
+          <figure class="uc__magazine"><img src="roche-strategy-1064.webp" alt="Couverture de Strategy, novembre-décembre 2018, numéro Agency of the Year." width="1064" height="1388" loading="lazy"></figure>
         </section>
 
-        <section class="uc__bloc uc__autrement" data-l="6">
-          <h2 class="uc__label">Ce que je ferais autrement</h2>
-          <p class="uc__fort">Moins de champs, moins d’abandons.</p>
-          <div class="form-reduit" data-anime="formulaire" role="img" aria-label="Animation : un formulaire de quatre champs perd les deux champs superflus.">
-            <span class="form-reduit__champ form-reduit__champ--trop"><i>Nom</i><b></b></span>
-            <span class="form-reduit__champ"><i>Courriel</i><b></b></span>
-            <span class="form-reduit__champ form-reduit__champ--trop"><i>Pourquoi cette cause vous touche</i><b></b></span>
-            <span class="form-reduit__champ form-reduit__champ--case"><b></b><i>J’accepte que mon selfie compte pour un don</i></span>
-            <span class="form-reduit__bouton">Participer</span>
-          </div>
-          <p class="uc__petit">Le formulaire marketing était imposé&nbsp;; je l’ai intégré tel quel. Aujourd’hui, je pousserais pour le réduire&nbsp;: chaque champ superflu est un risque d’abandon, surtout dans une expérience aussi courte.</p>
-        </section>
+        
         </div>
       </article>
     </div>
@@ -18266,7 +18357,8 @@ document.addEventListener('click', (e) => {
     marcher(h);
   });
   // Grille des dons.
-  tout('.don__grille').forEach((g) => { for (let k = 0; k < 24; k++) g.append(document.createElement('i')); });
+  const PHOTO = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M3 17.5l5-5 4 4 3-3 6 6"/></svg>';
+  tout('.don__grille').forEach((g) => { for (let k = 0; k < 24; k++) { const i = document.createElement('i'); i.innerHTML = PHOTO; g.append(i); } });
   // Le démarrage : signes, liaisons, clé et rejeu, avec les mêmes pièces que l'écran.
   if (kit) {
     const NOMS = [['bebe', 'Naissance'], ['epi', 'Campagne'], ['palette', 'Art'], ['cerveau', 'Cerveau'], ['eclair', 'Énergie'], ['livre', 'Lecture'], ['piano', 'Piano'], ['tour', 'Paris'], ['globe', 'Voyages'], ['lys', 'Québec'], ['maison', 'Maison']];
@@ -18291,6 +18383,26 @@ document.addEventListener('click', (e) => {
   }
 
   const boucles = {
+    // Les mots-clés apparaissent en vrac, puis se rangent sous leur thème.
+    async postits(el, vu) {
+      const notes = [...el.querySelectorAll('.postit:not(.postit--concept)')];
+      if (calme) { el.classList.add('tetes', 'range'); notes.forEach((n) => n.classList.add('est-la')); return; }
+      while (vu()) {
+        el.classList.remove('tetes', 'range');
+        notes.forEach((n) => n.classList.remove('est-la'));
+        const W = el.clientWidth, H = el.clientHeight;
+        notes.forEach((n) => {
+          const x = Math.random() * Math.max(0, W - n.offsetWidth), y = Math.random() * Math.max(0, H - n.offsetHeight);
+          n.style.setProperty('--dx', Math.round(x - n.offsetLeft) + 'px');
+          n.style.setProperty('--dy', Math.round(y - n.offsetTop) + 'px');
+        });
+        await attendre(500);
+        for (const n of [...notes].sort(() => Math.random() - 0.5)) { if (!vu()) break; n.classList.add('est-la'); await attendre(160); }
+        await attendre(700);
+        el.classList.add('tetes'); await attendre(600);
+        el.classList.add('range'); await attendre(4200);
+      }
+    },
     async envers(el, vu) {
       if (calme) { el.classList.add('retourne'); return; }
       while (vu()) { await attendre(1200); el.classList.toggle('retourne'); await attendre(1600); }
@@ -18408,8 +18520,8 @@ document.addEventListener('click', (e) => {
   const cartes = [...page.children].flatMap((e) => (e.classList.contains('uc__bilan') ? [...e.children] : e.classList.contains('cartep__barre') ? [] : [e]));
   const n = cartes.length;
   // Cartes en piste : tout le contenu défile. Cartes à schéma : seul le schéma défile.
-  const PISTE = ['uc__tete', 'uc__selfie', 'uc__pub', 'uc__autrement'];
-  const SCHEMA = { uc__concepts: '.postits', uc__archi: '.archi', uc__flux: '.flux' };
+  const PISTE = [];
+  const SCHEMA = { uc__archi: '.archi', uc__flux: '.flux' };
   const PROF = [
     { y: 0, s: 1, r: 0, b: 0, t: 1, o: 1 },
     { y: -40, s: 0.93, r: -1.6, b: 0, t: 0.97, o: 1 },
@@ -18531,7 +18643,7 @@ document.addEventListener('click', (e) => {
     if (!W) return;
     doc.style.setProperty('--fenetre', W + 'px');
     page.style.removeProperty('transform');
-    const w = Math.min(W, Math.round(L(5)));
+    const w = Math.min(W, Math.round(L(6)));
     doc.style.setProperty('--pile-l', (w - 48) + 'px');
     pas = Math.round((w - 48) * 0.8);
     const pied = document.querySelector('.note-bas'), basLibre = pied && pied.offsetWidth ? pied.getBoundingClientRect().top : h - 36;
