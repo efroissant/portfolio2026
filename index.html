@@ -10343,10 +10343,10 @@
   /* Pharmaprix, sexe, genre et pronoms : des listes qu'on remplit, le curseur fait les choix. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { position: relative; z-index: 2; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs { position: relative; display: flex; flex-direction: column; gap: 0; width: 100%; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto 12px; align-items: center; column-gap: 8px; box-sizing: border-box; height: 56px; padding: 0 16px; border-radius: var(--r-controle); background: #FFFFFF; transition: height 420ms cubic-bezier(.22, 1, .36, 1), opacity 320ms ease, margin 420ms cubic-bezier(.22, 1, .36, 1), transform 420ms cubic-bezier(.22, 1, .36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto 12px; align-items: center; column-gap: 8px; box-sizing: border-box; height: 48px; padding: 0 16px; border-radius: var(--r-controle); background: #FFFFFF; transition: height 420ms cubic-bezier(.22, 1, .36, 1), opacity 320ms ease, margin 420ms cubic-bezier(.22, 1, .36, 1), transform 420ms cubic-bezier(.22, 1, .36, 1); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ + .cs__champ { margin-top: 8px; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ--ajout { height: 0; margin-top: 0 !important; opacity: 0; transform: translateY(-8px); overflow: hidden; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__champ--ajout { height: 56px; margin-top: 8px !important; opacity: 1; transform: none; overflow: visible; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__champ--ajout { height: 48px; margin-top: 8px !important; opacity: 1; transform: none; overflow: visible; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__champ--ajout + .cs__champ--ajout { transition-delay: 160ms; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__nom { font-size: 20px !important; line-height: 28px !important; font-weight: 500; color: var(--encre) !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__val { font-size: 20px !important; line-height: 28px !important; color: #78716C !important; white-space: nowrap; }
@@ -10364,13 +10364,16 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.visible { opacity: 1; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.clic { scale: 0.82; }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe :is(.cs__champ, .cs__liste) { transition: none !important; } }
-  /* Pharmaprix : une fois les trois champs remplis, un reflet aux couleurs du drapeau traverse le cobalt. */
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { isolation: isolate; }
-  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { position: relative !important; overflow: hidden !important; } }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .arcenciel { position: absolute !important; inset: -20% -60% !important; z-index: 0; margin: 0 !important; padding: 0 !important; pointer-events: none; opacity: 0; background: linear-gradient(115deg, transparent 30%, #E40303 36%, #FF8C00 41%, #FFED00 46%, #008026 51%, #24408E 56%, #732982 61%, transparent 67%); filter: blur(18px); mix-blend-mode: screen; transform: translateX(-45%); }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe).arcenciel > .arcenciel { animation: reflet-arcenciel 3.4s cubic-bezier(.45, 0, .25, 1) forwards; }
-  @keyframes reflet-arcenciel { 0% { opacity: 0; transform: translateX(-45%); } 18% { opacity: 0.7; } 80% { opacity: 0.7; } 100% { opacity: 0; transform: translateX(45%); } }
-  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .arcenciel { display: none !important; } }
+  /* Pharmaprix : la jauge d'inclusivité avance à chaque champ rempli. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge { display: grid; grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; margin-top: 16px; opacity: 0; transform: translateY(-6px); transition: opacity 320ms ease 320ms, transform 420ms ease 320ms; --jauge: 0%; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__jauge { opacity: 1; transform: none; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge-nom, html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge-val { font-size: 16px !important; line-height: 24px !important; color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge-val { font-variant-numeric: tabular-nums; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge-piste { grid-column: 1 / -1; position: relative; height: 8px; border-radius: var(--r-rond); background: rgba(255, 255, 255, 0.24); overflow: hidden; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge-piste i { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, #E40303, #FF8C00 20%, #FFED00 40%, #008026 60%, #24408E 80%, #732982); clip-path: inset(0 calc(100% - var(--jauge)) 0 0 round 999px); transition: clip-path 600ms cubic-bezier(.22, 1, .36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge.pleine .cs__jauge-piste { box-shadow: 0 0 12px rgba(255, 255, 255, 0.5); }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe :is(.cs__jauge, .cs__jauge-piste i) { transition: none !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { padding-bottom: 40px !important; } }
 </style>
 </head>
 <body>
@@ -11733,6 +11736,7 @@
                 <ul class="cs__liste"><li>elle</li><li>il</li><li>iel</li><li>Mon prénom seulement</li><li>Autre (préciser)</li><li>Ne souhaite pas répondre</li></ul>
               </div>
             </div>
+            <div class="cs__jauge" role="presentation"><span class="cs__jauge-nom">Inclusivité</span><span class="cs__jauge-val">0&nbsp;%</span><span class="cs__jauge-piste"><i></i></span></div>
             <svg class="cs__souris" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2l15 11.5-6.6.9 3.9 7.6-3 1.5-3.9-7.7L2 20.6z"/></svg>
           </div>
           <p class="uc__petit">Trois concepts distincts. Les fusionner aurait créé de la confusion clinique. Les ignorer aurait exclu des patients. Un design inclusif a un impact systémique.</p>
@@ -18909,14 +18913,14 @@ document.addEventListener('click', (e) => {
   async function boucleSexe() {
     const champs = [...sexe.querySelectorAll('.cs__champ')], souris = sexe.querySelector('.cs__souris');
     const CHOIX = { sexe: 'Féminin', genre: 'Personne non binaire', pronoms: 'iel' };
-    const carte = sexe.closest('.uc__bloc');
-    if (!carte.querySelector(':scope > .arcenciel')) { const a = document.createElement('div'); a.className = 'arcenciel'; a.setAttribute('aria-hidden', 'true'); carte.prepend(a); }
     const option = (c) => [...c.querySelectorAll('.cs__liste li')].find((li) => li.textContent === CHOIX[c.dataset.champ]);
+    const jauge = sexe.querySelector('.cs__jauge'), jaugeVal = jauge.querySelector('.cs__jauge-val');
+    const remplir = (k) => { const v = Math.round(k * 100 / champs.length); jauge.style.setProperty('--jauge', v + '%'); jaugeVal.textContent = v + '\u00a0%'; jauge.classList.toggle('pleine', k === champs.length); };
     const remettre = () => {
-      sexe.classList.remove('trois');
+      sexe.classList.remove('trois'); remplir(0);
       champs.forEach((c) => { c.classList.remove('ouvert', 'rempli', 'haut'); c.querySelector('.cs__val').textContent = 'Choisir'; c.querySelectorAll('li').forEach((li) => li.classList.remove('survol')); });
     };
-    const finir = () => { sexe.classList.add('trois'); champs.forEach((c) => { c.classList.add('rempli'); c.querySelector('.cs__val').textContent = CHOIX[c.dataset.champ]; }); };
+    const finir = () => { sexe.classList.add('trois'); remplir(champs.length); champs.forEach((c) => { c.classList.add('rempli'); c.querySelector('.cs__val').textContent = CHOIX[c.dataset.champ]; }); };
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { finir(); return; }
     // Le curseur se déplace vers le centre d'un élément, en coordonnées de la carte.
     const vers = (el, dx = 0.5) => {
@@ -18940,12 +18944,10 @@ document.addEventListener('click', (e) => {
         vers(li, 0.3); await attendre(700);
         li.classList.add('survol'); await attendre(250); await clic();
         c.querySelector('.cs__val').textContent = li.textContent; c.classList.add('rempli');
+        remplir(champs.indexOf(c) + 1);
         c.classList.remove('ouvert'); li.classList.remove('survol'); await attendre(450);
       }
-      // Les trois champs remplis : un reflet arc-en-ciel traverse le cobalt.
-      souris.classList.remove('visible');
-      if (visibles.has(sexe)) { carte.classList.remove('arcenciel'); carte.offsetWidth; carte.classList.add('arcenciel'); }
-      await attendre(3600); carte.classList.remove('arcenciel');
+      souris.classList.remove('visible'); await attendre(3200);
     }
   }
 })();
