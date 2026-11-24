@@ -9435,6 +9435,12 @@
   .demarrage .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
   .demarrage .dm:has(.dl).est-la { animation: none; }
   .demarrage .dl { opacity: 0; }
+  /* À 16 px, les lettres dans les formes restent lisibles (~8 px). */
+  html body .demarrage .demarrage__ligne .dm--forme { width: 1.1em; height: 1.1em; }
+  html body .demarrage .demarrage__ligne .dm--forme b, html body .demarrage .demarrage__ligne .dm--carre b { font-size: .5em; }
+  html body .demarrage .demarrage__ligne .dm--pile b { font-size: .45em; }
+  html body .demarrage .demarrage__ligne .dm--pile b:only-child { font-size: .5em; }
+  html body .demarrage, html body .demarrage .demarrage__ligne, html body .demarrage .demarrage__ligne .dm, html body .demarrage .demarrage__ligne .dm * { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .demarrage .dm--signe .dm__svg + .dm__svg { margin-left: -.3em; }   /* deux visages collés */
   html body .demarrage .demarrage__ligne .dm--gras { font-weight: 700 !important; }
   .demarrage .dl.est-la { opacity: 1; }
@@ -10214,13 +10220,11 @@
     const st = getComputedStyle(ecran);
     const W = ecran.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight);
     const H = ecran.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom);
-    // Format affiche : chaque ligne prend sa propre taille pour remplir toute
-    // la largeur, quitte à déborder en hauteur (l'écran défile alors vers le bas).
+    // Texte à 16 px ; il ne réduit que si une ligne ne tient pas en largeur.
     ecran.classList.remove('demarrage--etroit');
     lignes.forEach((l) => {
-      l.style.setProperty('--dm', '100px');
-      const t = Math.floor(100 * W / Math.max(1, l.scrollWidth));
-      l.style.setProperty('--dm', Math.max(16, Math.min(t, H * 0.8)) + 'px');
+      l.style.setProperty('--dm', '16px');
+      if (l.scrollWidth > W) l.style.setProperty('--dm', Math.max(10, Math.floor(16 * W / l.scrollWidth)) + 'px');
     });
   }
   function suivante() {
