@@ -18025,7 +18025,8 @@ document.addEventListener('click', (e) => {
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
-    poser(c.contexte, x, haut, L(7), H); x += L(7) + G;
+    const lContexte = Math.round(L(7) * 0.75 / 8) * 8;   // trois quarts de l'ancienne largeur
+    poser(c.contexte, x, haut, lContexte, H); x += lContexte + G;
     poser(c.mot, x, haut, lMot, H); x += lMot + G;
     // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
     // garde ses proportions dans la hauteur qui reste.
