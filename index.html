@@ -9997,7 +9997,7 @@
     '^×15/voyages|@globe|France|~>|@lys|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
     '=|@bebe|@bebe|@maison|E=mc²',
-    '*Chargement terminé'
+    '*Site ready…'
   ];
   // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
   const SIGNES = {
@@ -10212,22 +10212,24 @@
     const st = getComputedStyle(ecran);
     const W = ecran.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight);
     const H = ecran.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom);
-    const etroit = W < 700;
-    ecran.classList.toggle('demarrage--etroit', etroit);
-    let bas = 12, haut = etroit ? 19 : 29;   // au plus 18 px sur mobile, 28 px sur grand écran
-    for (let n = 0; n < 9; n++) {
-      const t = (bas + haut) / 2;
-      ecran.style.setProperty('--dm', t + 'px');
-      const large = Math.max(...lignes.map((l) => l.scrollWidth));
-      const total = lignes.reduce((h, l) => h + l.offsetHeight, 0);
-      if (large <= W + 1 && total <= H) bas = t; else haut = t;
-    }
-    ecran.style.setProperty('--dm', Math.floor(bas) + 'px');
+    // Format affiche : chaque ligne prend sa propre taille pour remplir toute
+    // la largeur, quitte à déborder en hauteur (l'écran défile alors vers le bas).
+    ecran.classList.remove('demarrage--etroit');
+    lignes.forEach((l) => {
+      l.style.setProperty('--dm', '100px');
+      const t = Math.floor(100 * W / Math.max(1, l.scrollWidth));
+      l.style.setProperty('--dm', Math.max(16, Math.min(t, H * 0.8)) + 'px');
+    });
   }
   function suivante() {
-    if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 240); return; }
-    const morceaux = [...lignes[i++].querySelectorAll(':scope > .dm')];
+    if (i >= lignes.length) { setTimeout(finir, calme ? 500 : 700); return; }
+    const ligne = lignes[i++];
+    const morceaux = [...ligne.querySelectorAll(':scope > .dm')];
     if (!morceaux.length) { suivante(); return; }
+    // L'écran descend pour montrer la ligne qui s'écrit.
+    const bas = parseFloat(getComputedStyle(ecran).paddingBottom) || 0;
+    const viser = Math.max(0, ligne.offsetTop + ligne.offsetHeight + bas - ecran.clientHeight);
+    if (viser > ecran.scrollTop) ecran.scrollTo({ top: viser, behavior: calme ? 'auto' : 'smooth' });
     // Les mots s'écrivent lettre par lettre ; les signes apparaissent d'un bloc.
     const pas = [];
     morceaux.forEach((m) => {
