@@ -9983,6 +9983,8 @@
   #doc-loblaw .oeil__pupille { position: absolute; left: 0.2025em; top: 0.525em; width: 0.12em; height: 0.12em; margin: -0.06em 0 0 -0.06em; border-radius: 50%; background: currentColor; transform: translate(var(--ox, 0px), var(--oy, 0px)); transition: transform 120ms ease-out; pointer-events: none; }
   /* Menu : icônes de dossier et de fichier à la hauteur du texte (le dessin n'occupe que ~70 % du carré). */
   html body .stage .arbo.arbo :is(.arbo__dossier-btn, .arbo__fichier) svg { width: 1.25em !important; height: 1.25em !important; margin-top: -2px !important; margin-bottom: -3px !important; }
+  /* Parcours des études : plus de fondu blanc à droite pendant le défilement. */
+  html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-voile { display: none !important; }
 </style>
 </head>
 <body>
@@ -18132,9 +18134,6 @@ document.addEventListener('click', (e) => {
     const stage = document.getElementById('stage');
     if (!stage) return;
     const h = stage.clientHeight || innerHeight;
-    // Les cartes partent du même axe que le contenu (--axe-y) : un grand vide sous la
-    // barre du haut, de 72 à 144 px selon la hauteur de l'écran.
-    const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
     const carte = Math.round(Math.max(520, Math.min(600, h * 0.62)));   // moins hautes : du vide autour de la navigation
     // La fenêtre va de la barre du haut au pied de page : les cartes y circulent librement.
     doc.style.setProperty('--panneau-haut', '44px');
@@ -18145,7 +18144,9 @@ document.addEventListener('click', (e) => {
     const lien = [...document.querySelectorAll('.menubar .barlien')].find((e) => /linkedin/i.test(e.textContent) && e.offsetWidth);
     const colonne = (innerWidth - 48 - 11 * 24) / 12;
     if (lien) doc.style.setProperty('--droite', Math.max(24, Math.round(innerWidth - lien.getBoundingClientRect().right - colonne - 24)) + 'px');
-    composer(carte, axe - 44);
+    // Centrées entre la barre du haut (44 px) et la phrase du bas.
+      const pied = document.querySelector('.note-bas'), basLibre = pied && pied.offsetWidth ? pied.getBoundingClientRect().top : h - 36;
+      composer(carte, Math.max(24, Math.round((basLibre - 44 - carte) / 2)));
   }
   caler();
   addEventListener('resize', caler);
@@ -18343,14 +18344,15 @@ document.addEventListener('click', (e) => {
       const stage = document.getElementById('stage');
       if (!stage) return;
       const h = stage.clientHeight || innerHeight;
-      const axe = Math.round(44 + Math.max(72, Math.min(144, h * 0.2 - 76)));
       const carte = Math.round(Math.max(520, Math.min(600, h * 0.62)));
       doc.style.setProperty('--panneau-haut', '44px');
       doc.style.setProperty('--carte-h', Math.max(carte + 40, h - 44 - 48) + 'px');
       const lien = [...document.querySelectorAll('.menubar .barlien')].find((e) => /linkedin/i.test(e.textContent) && e.offsetWidth);
       const colonne = (innerWidth - 48 - 11 * 24) / 12;
       if (lien) doc.style.setProperty('--droite', Math.max(24, Math.round(innerWidth - lien.getBoundingClientRect().right - colonne - 24)) + 'px');
-      composer(carte, axe - 44);
+      // Centrées entre la barre du haut (44 px) et la phrase du bas.
+      const pied = document.querySelector('.note-bas'), basLibre = pied && pied.offsetWidth ? pied.getBoundingClientRect().top : h - 36;
+      composer(carte, Math.max(24, Math.round((basLibre - 44 - carte) / 2)));
     }
     const glisse = () => { if (aGlisse) return; aGlisse = true; curseur.classList.remove('est-visible'); };
     function boucle(t) {
