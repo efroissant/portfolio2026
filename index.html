@@ -9794,7 +9794,7 @@
   /* Carte du formulaire : titre sur deux lignes, texte juste dessous, carte plus étroite. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-texte { justify-content: flex-start; gap: 16px; }
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-template-columns: calc(var(--col) * 4 + 48px) minmax(0, 1fr); }
+    html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-template-columns: calc(var(--col) * 3 + 48px) minmax(0, 1fr); }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-titre { white-space: nowrap; }
     html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo img { object-position: 52% 40%; }
   }
@@ -9942,6 +9942,9 @@
     html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__cle-emo { width: auto !important; min-width: 0 !important; white-space: normal !important; }
     html body .stage :is(#doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__fin { display: flex !important; align-items: flex-end !important; font-size: 20px !important; line-height: 28px !important; }
   }
+  /* Carte sexe, genre, pronoms : champs blancs sans contour. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) .sexe.sexe :is(.sexe__unique, .sexe__trois > div) { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__trois { top: calc(50% - 24px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__unique { transform: translateY(-24px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe.trois .sexe__unique { transform: translateY(-24px) scale(0.96); } }
 </style>
 </head>
 <body>
@@ -11117,7 +11120,7 @@
               <div><span class="sexe__nom">Pronoms</span><span class="sexe__pour">pour l’accueil au comptoir</span><span class="sexe__val">iel ▾</span></div>
             </div>
           </div>
-          <p class="uc__petit">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.</p>
+          <p class="uc__petit">Je l’ai défendu jusqu’à la direction de l’expérience numérique de Loblaw.<br>Manquer ce détail, c’est ne pas respecter une partie de ses clients.</p>
         </section>
 
         <div class="uc__bilan">
@@ -17995,7 +17998,7 @@ document.addEventListener('click', (e) => {
     x += Math.round(L(7) / 2 + 12 + 116 - 4);   // - 4 : compense l'approche de la lettre
     poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;
     poser(c.dose, x, haut, L(5), H); x += L(5) + G;
-    poser(c.formulaire, x, haut, L(8), H); x += L(8) + G;
+    poser(c.formulaire, x, haut, L(7), H); x += L(7) + G;
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.bilan1, x, haut, L(4), H); x += L(4);
     const cam3 = Math.max(cam2, x - W, xFinal);
