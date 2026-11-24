@@ -9435,6 +9435,7 @@
   .demarrage .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
   .demarrage .dm:has(.dl).est-la { animation: none; }
   .demarrage .dl { opacity: 0; }
+  .demarrage .dm--signe .dm__svg + .dm__svg { margin-left: -.3em; }   /* deux visages collés */
   html body .demarrage .demarrage__ligne .dm--gras { font-weight: 700 !important; }
   .demarrage .dl.est-la { opacity: 1; }
   @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
@@ -9996,7 +9997,7 @@
     '○59|~>|Rue de Milan|□IX|Paris|@tour',
     '^×15/voyages|@globe|France|~>|@lys|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
-    '=|@bebe|@bebe|@maison|E=mc²',
+    '@@bebe|@maison|E=mc²',   // @@ : le signe deux fois, collé
     '*Site ready…'
   ];
   // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
@@ -10174,7 +10175,8 @@
   function morceau(m) {
     const el = document.createElement('span');
     el.className = 'dm';
-    if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
+    if (m.startsWith('@@')) { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(2)], 'dm__svg').repeat(2); }
+    else if (m[0] === '@') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 24 24', SIGNES[m.slice(1)], 'dm__svg'); }
     else if (m === '->') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 48 24', 'M1 12h46 M39 5l8 7-8 7', 'dm__svg dm__svg--long'); }
     else if (m === '~>') { el.classList.add('dm--signe'); el.innerHTML = svg('0 0 64 24', 'M1 16C10 16 14 5 24 5s14 13 24 13h15 M56 11l7 7-7 5', 'dm__svg dm__svg--vague'); }
     else if (m[0] === '○' || m[0] === '□' || m[0] === '◇') {
