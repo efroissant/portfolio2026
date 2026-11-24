@@ -9945,6 +9945,17 @@
   /* Carte sexe, genre, pronoms : champs blancs sans contour. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) .sexe.sexe :is(.sexe__unique, .sexe__trois > div) { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__trois { top: calc(50% - 24px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe .sexe__unique { transform: translateY(-24px); } html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .sexe.sexe.trois .sexe__unique { transform: translateY(-24px) scale(0.96); } }
+  /* « la saisie » se tape lettre par lettre, avec une faute corrigée. Le texte complet
+     reste en place, transparent, pour garder la largeur de la carte. */
+  #doc-loblaw .tape { position: relative; display: inline-block; white-space: nowrap; }
+  html body .stage #doc-loblaw.doc .uc__grand-mot--prevenir span { font: inherit !important; letter-spacing: inherit !important; line-height: inherit !important; color: inherit !important; }
+  html body .stage #doc-loblaw.doc .uc__grand-mot--prevenir span.tape__fond { color: transparent !important; }
+  #doc-loblaw .tape__fond { display: block; }
+  #doc-loblaw .tape__ecrit { position: absolute; left: 0; top: 0; display: block; white-space: pre; }
+  #doc-loblaw .tape__curseur { display: inline-block; width: 0.05em; height: 0.72em; margin-left: 0.04em; vertical-align: -0.04em; background: currentColor; opacity: 0; }
+  #doc-loblaw .tape.frappe .tape__curseur { opacity: 1; animation: tape-curseur 1s steps(1) infinite; }
+  #doc-loblaw .tape.frappe.tape--actif .tape__curseur { animation: none; }
+  @keyframes tape-curseur { 50% { opacity: 0; } }
 </style>
 </head>
 <body>
@@ -11088,7 +11099,7 @@
             <li><span class="uc__etape">Forte lumière</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Fatigue oculaire</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Vision moins nette</span><span class="uc__fleche" aria-hidden="true">→</span></li><li><span class="uc__etape">Erreur de saisie</span><span class="uc__fleche" aria-hidden="true">→</span></li>
           </ol>
 
-        <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir">Sécuriser<br>la saisie</h2>
+        <h2 class="uc__grand-mot uc__grand-mot--terrain uc__grand-mot--prevenir"><span>Sécuriser<br><span class="tape"><span class="tape__fond">la saisie</span><span class="tape__ecrit" aria-hidden="true"><span class="tape__texte">la saisie</span><span class="tape__curseur"></span></span></span></span></h2>
 
         <section class="uc__bloc uc__dosage">
           <h2 class="uc__fort">Ralentir seulement là où une erreur peut blesser.</h2>
@@ -17751,6 +17762,7 @@ document.addEventListener('click', (e) => {
   // Le champ de dosage.
   const dose = document.querySelector('#doc-loblaw .dose');
   const sexe = document.querySelector('#doc-loblaw .sexe');
+  const tape = document.querySelector('#doc-loblaw .tape');
   // La scène de la lumière : les vrais néons de la photo sont extraits sur quatre calques,
   // pour qu'ils se rallument par vagues pendant que la pièce sort de l'ombre.
   const scene = document.querySelector('#doc-loblaw .uc__lumiere');
@@ -17821,12 +17833,13 @@ document.addEventListener('click', (e) => {
       if (e.target === chaine || e.target === scene || e.target === compte || e.target === audit || e.target === passerelle) e.target.classList.remove('est-vu');
     }
   }), { threshold: 0.4 });
-  [chaine, dose, sexe, scene, compte, audit, passerelle].forEach((el) => el && obs.observe(el));
+  [chaine, dose, sexe, scene, compte, audit, passerelle, tape].forEach((el) => el && obs.observe(el));
   const enCours = new Set();
   function demarrer(el) {
     if (enCours.has(el)) return;
     if (el === dose) { enCours.add(el); boucleDose().finally(() => enCours.delete(el)); }
     if (el === sexe) { enCours.add(el); boucleSexe().finally(() => enCours.delete(el)); }
+    if (el === tape) { enCours.add(el); boucleTape().finally(() => enCours.delete(el)); }
   }
   async function boucleDose() {
     const val = dose.querySelector('.dose__valeur'), statut = dose.querySelector('.dose__statut'), msg = dose.querySelector('.dose__texte');
@@ -17852,6 +17865,25 @@ document.addEventListener('click', (e) => {
       etat('vert', '500 mg.'); await attendre(2400);
     }
     val.textContent = ''; etat();
+  }
+  // « la saisie » : tapée comme au clavier, une lettre oubliée, effacée, puis corrigée.
+  async function boucleTape() {
+    if (calme) return;
+    const t = tape.querySelector('.tape__texte');
+    const ecrire = (v) => { t.textContent = v; tape.classList.add('tape--actif'); };
+    const pause = async (ms) => { tape.classList.remove('tape--actif'); await attendre(ms); };
+    const vu = () => visibles.has(tape);
+    tape.classList.add('frappe');
+    while (vu()) {
+      t.textContent = ''; await pause(600);
+      for (const v of ['l', 'la', 'la ', 'la s', 'la sa', 'la sas', 'la sasi', 'la sasie']) { if (!vu()) break; ecrire(v); await attendre(110 + Math.random() * 90); }
+      await pause(700);
+      for (const v of ['la sasi', 'la sas', 'la sa']) { if (!vu()) break; ecrire(v); await attendre(90); }
+      await pause(300);
+      for (const v of ['la sai', 'la sais', 'la saisi', 'la saisie']) { if (!vu()) break; ecrire(v); await attendre(120 + Math.random() * 80); }
+      await pause(4200);
+    }
+    t.textContent = 'la saisie'; tape.classList.remove('frappe', 'tape--actif');
   }
   async function boucleSexe() {
     while (visibles.has(sexe)) {
