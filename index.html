@@ -10176,6 +10176,9 @@
     html body .stage #doc-roche.doc .uc__intro .uc__intro-titre { font-size: 48px !important; line-height: 48px !important; letter-spacing: -0.5px !important; }
     html body .stage #doc-roche.doc .uc__intro .uc__intro-fiche :is(dt, dd) { font-size: 16px !important; line-height: 24px !important; }
   }
+  @media (min-width: 1024px) {
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro { position: absolute !important; margin: 0 !important; }
+  }
   @media (max-width: 767px) {
     html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro { width: 100% !important; min-height: 520px; margin: 0 !important; }
   }
@@ -18336,6 +18339,54 @@ document.addEventListener('click', (e) => {
   tout('[data-anime]').forEach((el) => obs.observe(el));
   addEventListener('resize', () => tout('.dem-rejeu').forEach(ajusterRejeu));
 })();
+/* Roche : à l'ouverture, les cartes arrivent en paquet, se mélangent, puis se distribuent.
+   Une fois par ouverture, sur grand écran ; rien si l'on a demandé moins d'animations. */
+(function melangeRoche() {
+  const doc = document.getElementById('doc-roche');
+  if (!doc || !doc.animate) return;
+  let joue = false;
+  function melanger() {
+    if (!matchMedia('(min-width: 1024px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const page = doc.querySelector('.doc__page');
+    const rangee = [...page.children].filter((e) => !e.classList.contains('cartep__barre')).slice(0, 5);
+    const intro = rangee[0];
+    if (!intro || !intro.offsetWidth) return;
+    const paquet = rangee.filter((e) => !e.classList.contains('uc__grand-mot'));
+    const mots = rangee.filter((e) => e.classList.contains('uc__grand-mot'));
+    const x0 = intro.offsetLeft, y0 = intro.offsetTop;
+    const angles = [-2, 3, -4, 2];
+    const n = paquet.length;
+    paquet.forEach((c, k) => {
+      const dx = x0 - c.offsetLeft + k * 6, dy = y0 - c.offsetTop - k * 6, r = angles[k % 4], cote = k % 2 ? 1 : -1;
+      c.style.zIndex = String(10 + n - k);
+      const a = c.animate([
+        { translate: dx + 'px ' + dy + 'px', rotate: r + 'deg', offset: 0 },
+        { translate: (dx + cote * 160) + 'px ' + (dy - 16) + 'px', rotate: (r * 2) + 'deg', offset: 0.18 },
+        { translate: dx + 'px ' + dy + 'px', rotate: (-r) + 'deg', offset: 0.36 },
+        { translate: (dx - cote * 120) + 'px ' + (dy + 8) + 'px', rotate: r + 'deg', offset: 0.52 },
+        { translate: (x0 - c.offsetLeft) + 'px ' + (y0 - c.offsetTop) + 'px', rotate: '0deg', offset: 0.66 },
+        { translate: '0px 0px', rotate: '0deg', offset: 1 }
+      ], { duration: 1500 + k * 90, easing: 'cubic-bezier(.3,.7,.2,1)', fill: 'backwards' });
+      // Dans le paquet, toutes les cartes ont la taille de la première.
+      const coupe = Math.max(0, c.offsetWidth - intro.offsetWidth) + 'px', bas = Math.max(0, c.offsetHeight - intro.offsetHeight) + 'px';
+      const ferme = 'inset(0px ' + coupe + ' ' + bas + ' 0px round 12px)', ouvert = 'inset(0px 0px 0px 0px round 12px)';
+      c.animate([{ clipPath: ferme }, { clipPath: ferme, offset: 0.62 }, { clipPath: ouvert }], { duration: 1500 + k * 90, easing: 'cubic-bezier(.3,.7,.2,1)', fill: 'backwards' });
+      a.finished.then(() => { c.style.zIndex = ''; }).catch(() => {});
+    });
+    // Pendant le mélange, l'ordre du paquet change ; à la fin, Roche Diabetes Care reste dessus.
+    setTimeout(() => paquet.forEach((c, k) => { c.style.zIndex = String(10 + k); }), 280);
+    setTimeout(() => paquet.forEach((c, k) => { c.style.zIndex = String(10 + n - k); }), 760);
+    mots.forEach((m) => m.animate([{ opacity: 0 }, { opacity: 0, offset: 0.7 }, { opacity: 1 }], { duration: 1700, fill: 'backwards' }));
+  }
+  new MutationObserver(() => {
+    if (doc.hidden) { joue = false; return; }
+    if (joue) return;
+    joue = true;
+    setTimeout(melanger, 180);
+  }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  if (!doc.hidden) { joue = true; setTimeout(melanger, 400); }
+})();
+
 /* Pharmaprix : les animations démarrent quand on les voit (et s'arrêtent sinon). */
 (function animationsPharmaprix() {
   const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
