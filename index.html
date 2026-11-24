@@ -10379,6 +10379,12 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste li { padding: 4px 10px !important; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { justify-content: flex-start !important; padding-top: 88px !important; padding-bottom: 24px !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .uc__fort:first-child { margin-top: 24px !important; } }
+  /* Bio, bibliothèque : une rangée par catégorie, qui défile à l'horizontale. */
+  html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row { display: flex !important; flex-wrap: nowrap !important; gap: 24px !important; width: 100% !important; margin: 0 !important; padding: 0 0 16px !important; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: rgba(28, 25, 23, 0.3) transparent; -webkit-overflow-scrolling: touch; }
+  html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row > * { flex: 0 0 calc((100% - 5 * 24px) / 5.5) !important; width: auto !important; min-width: 0; scroll-snap-align: start; }
+  html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row::-webkit-scrollbar { height: 6px; }
+  html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row::-webkit-scrollbar-thumb { background: rgba(28, 25, 23, 0.3); border-radius: 3px; }
+  @media (max-width: 1023px) { html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row { gap: 16px !important; } html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row > * { flex-basis: calc((100% - 2 * 16px) / 2.4) !important; } }
 </style>
 </head>
 <body>
