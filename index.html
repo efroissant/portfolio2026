@@ -16396,8 +16396,8 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
           // et plus forts derrière la souris (h proche de 0) que sous elle.
           float dist = length(q - a - ab * h);
           float irr = 0.55 + 0.9 * bruit(q * 18.0 + temps * 0.7);
-          float large = exp(-dist * dist / (0.075 * 0.075)) * irr;
-          float fin = exp(-dist * dist / (0.022 * 0.022)) * (0.6 + 0.8 * bruit(q * 40.0 - temps));
+          float large = exp(-dist * dist / (0.13 * 0.13)) * irr;   // sillage élargi
+          float fin = exp(-dist * dist / (0.038 * 0.038)) * (0.6 + 0.8 * bruit(q * 40.0 - temps));
           n -= force * (0.5 * large + 0.7 * fin) * mix(1.0, 0.6, h);
         }
         o = vec4(n, s.r, 0.0, 1.0);
