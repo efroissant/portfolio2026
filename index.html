@@ -10364,6 +10364,13 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.visible { opacity: 1; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.clic { scale: 0.82; }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe :is(.cs__champ, .cs__liste) { transition: none !important; } }
+  /* Pharmaprix : une fois les trois champs remplis, un reflet aux couleurs du drapeau traverse le cobalt. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { isolation: isolate; }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) { position: relative !important; overflow: hidden !important; } }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .arcenciel { position: absolute !important; inset: -20% -60% !important; z-index: 0; margin: 0 !important; padding: 0 !important; pointer-events: none; opacity: 0; background: linear-gradient(115deg, transparent 30%, #E40303 36%, #FF8C00 41%, #FFED00 46%, #008026 51%, #24408E 56%, #732982 61%, transparent 67%); filter: blur(18px); mix-blend-mode: screen; transform: translateX(-45%); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe).arcenciel > .arcenciel { animation: reflet-arcenciel 3.4s cubic-bezier(.45, 0, .25, 1) forwards; }
+  @keyframes reflet-arcenciel { 0% { opacity: 0; transform: translateX(-45%); } 18% { opacity: 0.7; } 80% { opacity: 0.7; } 100% { opacity: 0; transform: translateX(45%); } }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .arcenciel { display: none !important; } }
 </style>
 </head>
 <body>
@@ -18902,6 +18909,8 @@ document.addEventListener('click', (e) => {
   async function boucleSexe() {
     const champs = [...sexe.querySelectorAll('.cs__champ')], souris = sexe.querySelector('.cs__souris');
     const CHOIX = { sexe: 'Féminin', genre: 'Personne non binaire', pronoms: 'iel' };
+    const carte = sexe.closest('.uc__bloc');
+    if (!carte.querySelector(':scope > .arcenciel')) { const a = document.createElement('div'); a.className = 'arcenciel'; a.setAttribute('aria-hidden', 'true'); carte.prepend(a); }
     const option = (c) => [...c.querySelectorAll('.cs__liste li')].find((li) => li.textContent === CHOIX[c.dataset.champ]);
     const remettre = () => {
       sexe.classList.remove('trois');
@@ -18933,7 +18942,10 @@ document.addEventListener('click', (e) => {
         c.querySelector('.cs__val').textContent = li.textContent; c.classList.add('rempli');
         c.classList.remove('ouvert'); li.classList.remove('survol'); await attendre(450);
       }
-      souris.classList.remove('visible'); await attendre(3200);
+      // Les trois champs remplis : un reflet arc-en-ciel traverse le cobalt.
+      souris.classList.remove('visible');
+      if (visibles.has(sexe)) { carte.classList.remove('arcenciel'); carte.offsetWidth; carte.classList.add('arcenciel'); }
+      await attendre(3600); carte.classList.remove('arcenciel');
     }
   }
 })();
