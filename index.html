@@ -10425,9 +10425,6 @@
       <img class="mob-portrait" src="portrait-capuche-600.jpg" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
       <p class="mob-titre"></p>
     </div>
-    <!-- La plage : l'eau passe d'elle-même quand la photo arrive à l'écran,
-         puis suit le doigt. -->
-    <img class="face-a-mobile__photo" src="profil-plage.jpg" alt="Emmanuel, détendu sur un banc face à la mer, sous un ciel d’orage" width="1100" height="733" loading="lazy" draggable="false">
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
          le script à partir des .dossier : une seule source. Un toucher
          déplie le contenu du dossier sous sa rangée. -->
@@ -17627,13 +17624,14 @@ document.querySelectorAll('.dossier--cartes').forEach((d) => {
   const placer = () => { if (mq.matches) slot.append(bloc); else zone.prepend(bloc); };
   placer(); mq.addEventListener('change', placer);
 
-  // La plage : l'eau, un passage automatique à chaque arrivée à l'écran
-  // (au plus toutes les 8 s ; jamais si les animations sont réduites).
-  const plage = document.querySelector('img.face-a-mobile__photo');
+  // Mon portrait : l'eau, un passage automatique à chaque arrivée à l'écran
+  // (au plus toutes les 8 s ; jamais si les animations sont réduites),
+  // puis elle suit le doigt.
+  const plage = document.querySelector('img.mob-portrait');
   if (!plage) return;
   const calme = matchMedia('(prefers-reduced-motion: reduce)');
   let branche = false, dernier = -Infinity;
-  const brancher = () => { if (!branche && window.eauWebGL) branche = window.eauWebGL(plage, { force: 1.4, refraction: 0.2 }); };
+  const brancher = () => { if (!branche && window.eauWebGL) branche = window.eauWebGL(plage, { force: 1.8, refraction: 0.24 }); };
   if (plage.complete && plage.naturalWidth) brancher(); else plage.addEventListener('load', brancher, { once: true });
   new IntersectionObserver((entrees) => entrees.forEach((en) => {
     if (!en.isIntersecting || calme.matches || !mq.matches) return;
