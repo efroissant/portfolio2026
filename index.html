@@ -10454,6 +10454,9 @@
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .uc__petit { margin-top: 8px !important; }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { position: absolute !important; } }
   @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { position: relative !important; min-height: 0 !important; margin: 0 0 24px !important; } }
+  /* Accueil : un livre, une musique, un film, puis le lien vers la bio. */
+  .en-ce-moment__gouts { margin-top: 32px !important; padding-top: 32px; border-top: 1px solid var(--filet, rgba(28, 25, 23, 0.12)); }
+  .en-ce-moment__gouts cite { font-style: normal; }
 </style>
 </head>
 <body>
@@ -10912,6 +10915,12 @@
         <div><dt>Dernier projet</dt><dd><a href="#case/beaconsfield" data-fichier="#case/beaconsfield">Clinique Médicale Beaconsfield</a>, 2026</dd></div>
         <div><dt>Basé à</dt><dd>Montréal, Québec</dd></div>
         <div><dt>Disponibilité</dt><dd>Ouvert aux nouvelles opportunités</dd></div>
+      </dl>
+      <dl class="en-ce-moment__liste en-ce-moment__gouts" aria-label="Mes goûts">
+        <div><dt>Sur ma table de chevet</dt><dd><cite>Mismatch</cite>, Kat Holmes</dd></div>
+        <div><dt>En boucle en ce moment</dt><dd><cite>Nightcall</cite>, Kavinsky</dd></div>
+        <div><dt>Le film que je revois</dt><dd><cite>Labyrinth</cite>, Jim Henson</dd></div>
+        <div class="en-ce-moment__voir"><dt>Le reste</dt><dd><a href="#profil" data-fichier="#profil">Voir bio</a></dd></div>
       </dl>
     </div>
     <div class="apercu" aria-hidden="true"></div>
