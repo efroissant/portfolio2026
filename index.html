@@ -9435,6 +9435,7 @@
   .demarrage .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
   .demarrage .dm:has(.dl).est-la { animation: none; }
   .demarrage .dl { opacity: 0; }
+  html body .demarrage .demarrage__ligne .dm--gras { font-weight: 700 !important; }
   .demarrage .dl.est-la { opacity: 1; }
   @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
   .demarrage .dm__svg { display: block; width: .92em; height: .92em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
@@ -9991,15 +9992,12 @@
   const LIGNES = [
     '@bebe|1981|○FR|Lille|^59152|@epi',
     '->|Art|@palette|École|≠|@cerveau|@eclair',
-    '@livre|Livres|+|Lalala|+|@piano',
+    '@livre|Livres|+|@piano',
     '○59|~>|Rue de Milan|□IX|Paris|@tour',
-    '^×15/voyages|@globe',
-    'Lui|@personne|+|@personne|Moi',
-    'France|~>|@lys|□QC',
+    '^×15/voyages|@globe|France|~>|@lys|□QC',
     'Diplôme|@toque|->|Écran|@ecran|+|@palette|Design',
-    '=|Famille|@maison|E=mc² mon amour',
-    '@feuille|=|@trophee',
-    '@maison|+|@cerveau|+|Sport|@haltere|+|Mots|@plume|+|Code|@ecran'
+    '=|@bebe|@bebe|@maison|E=mc²',
+    '*Chargement terminé'
   ];
   // Signes dessinés sur 24 × 24, au trait de 1 px, sans remplissage.
   const SIGNES = {
@@ -10186,6 +10184,7 @@
       el.classList.add('dm--pile');
       m.slice(1).split('/').forEach((x) => { const t = document.createElement('b'); t.textContent = x; el.append(t); });
     } else if (m === '+' || m === '=' || m === '≠') { el.classList.add('dm--op'); el.textContent = m; }
+    else if (m[0] === '*') { el.classList.add('dm--gras'); el.textContent = m.slice(1); }
     else el.textContent = m;
     lettrer(el);
     return el;
@@ -10233,9 +10232,9 @@
     const pas = [];
     morceaux.forEach((m) => {
       const lettres = [...m.querySelectorAll('.dl')];
-      pas.push([m, lettres.length ? 0 : 40]);
-      lettres.forEach((l) => pas.push([l, 14]));
-      pas.push([null, 20]);   // l'espace entre deux morceaux
+      pas.push([m, lettres.length ? 0 : 20]);
+      lettres.forEach((l) => pas.push([l, 7]));
+      pas.push([null, 10]);   // l'espace entre deux morceaux
     });
     if (calme) { pas.forEach(([el]) => el && el.classList.add('est-la')); setTimeout(suivante, 0); return; }
     let k = 0;
@@ -10243,7 +10242,7 @@
       const [el, ms] = pas[k++];
       if (el) el.classList.add('est-la');
       if (k < pas.length) setTimeout(ajouter, ms);
-      else setTimeout(suivante, 40);
+      else setTimeout(suivante, 20);
     })();
   }
   // Écran de démarrage : false pour le retirer (on arrive alors directement sur le site).
