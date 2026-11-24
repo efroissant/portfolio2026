@@ -10385,6 +10385,11 @@
   html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row::-webkit-scrollbar { height: 6px; }
   html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row::-webkit-scrollbar-thumb { background: rgba(28, 25, 23, 0.3); border-radius: 3px; }
   @media (max-width: 1023px) { html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row { gap: 16px !important; } html body .stage .profil .bio-biblio .bio-rayon .shelf__row.shelf__row > * { flex-basis: calc((100% - 2 * 16px) / 2.4) !important; } }
+  /* Bio : la photo au calme prend le gabarit de la fenêtre de la tempête (même retrait, même arrondi). */
+  @media (min-width: 1024px) {
+    html body .stage .profil .bio-photos > .bio-photo--plage .eclair { container-type: inline-size; }
+    html body .stage .profil .bio-photos > .bio-photo--plage .eclair img { width: 84% !important; height: 82% !important; margin: 9% 8% !important; border-radius: 3cqi !important; }
+  }
 </style>
 </head>
 <body>
