@@ -8426,7 +8426,7 @@
   /* Démarrage en émojis : une ligne par étape, en grand. */
   /* Les 11 lignes tiennent toujours dans la hauteur de l'écran (ordinateur
      comme téléphone) : la taille se règle sur la hauteur disponible. */
-  .demarrage .demarrage__ligne {
+  :is(.demarrage, .dem-kit) .demarrage__ligne {
     font-size: clamp(16px, calc((100dvh - 48px) / var(--n, 13) / 1.2), 24px); line-height: 1.2; letter-spacing: 0.08em;
   }
   /* Signes plus petits et discrets : 60 % de la taille des émojis, un peu transparents. */
@@ -9427,40 +9427,40 @@
   html body .stage .profil .biblio__intro { margin-bottom: 24px !important; }
   html body .stage .profil .profil__bio { -webkit-mask-image: none !important; mask-image: none !important; }
   /* Écran de démarrage : mots clés en serif et signes au trait de 1 px, ligne après ligne. */
-  .demarrage .demarrage__ligne { display: flex; flex-wrap: nowrap; align-items: center; gap: .16em; width: max-content; max-width: none; font-family: "Instrument Serif", Georgia, serif !important; font-size: var(--dm, 48px) !important; font-weight: 400; line-height: 1.06 !important; letter-spacing: -.01em !important; white-space: nowrap; color: var(--encre, #1C1917); }
+  :is(.demarrage, .dem-kit) .demarrage__ligne { display: flex; flex-wrap: nowrap; align-items: center; gap: .16em; width: max-content; max-width: none; font-family: "Instrument Serif", Georgia, serif !important; font-size: var(--dm, 48px) !important; font-weight: 400; line-height: 1.06 !important; letter-spacing: -.01em !important; white-space: nowrap; color: var(--encre, #1C1917); }
   .demarrage.demarrage--etroit .demarrage__ligne { flex-wrap: wrap; width: 100%; }
-  html body .demarrage .demarrage__ligne .dm { font-family: "Instrument Serif", Georgia, serif !important; }
-  html body .demarrage .demarrage__ligne :is(.dm--forme b, .dm--pile, .dm--pile b) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
-  .demarrage .dm { display: inline-flex; align-items: center; justify-content: center; flex: none; opacity: 0; }
-  .demarrage .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
-  .demarrage .dm:has(.dl).est-la { animation: none; }
-  .demarrage .dl { opacity: 0; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm { font-family: "Instrument Serif", Georgia, serif !important; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne :is(.dm--forme b, .dm--pile, .dm--pile b) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
+  :is(.demarrage, .dem-kit) .dm { display: inline-flex; align-items: center; justify-content: center; flex: none; opacity: 0; }
+  :is(.demarrage, .dem-kit) .dm.est-la { opacity: 1; animation: dm-entree 120ms cubic-bezier(0.22, 1, 0.36, 1); }
+  :is(.demarrage, .dem-kit) .dm:has(.dl).est-la { animation: none; }
+  :is(.demarrage, .dem-kit) .dl { opacity: 0; }
   /* À 16 px, les lettres dans les formes restent lisibles (~8 px). */
-  html body .demarrage .demarrage__ligne .dm--forme { width: 1.1em; height: 1.1em; }
-  html body .demarrage .demarrage__ligne .dm--forme b, html body .demarrage .demarrage__ligne .dm--carre b { font-size: .5em; }
-  html body .demarrage .demarrage__ligne .dm--pile b { font-size: .45em; }
-  html body .demarrage .demarrage__ligne .dm--pile b:only-child { font-size: .5em; }
-  html body .demarrage, html body .demarrage .demarrage__ligne, html body .demarrage .demarrage__ligne .dm, html body .demarrage .demarrage__ligne .dm * { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
-  .demarrage .dm--signe .dm__svg + .dm__svg { margin-left: -.3em; }   /* deux visages collés */
-  html body .demarrage .demarrage__ligne .dm--gras { font-weight: 500 !important; }
-  html body .demarrage .demarrage__ligne { line-height: 1.2 !important; }   /* 24 px à 20 px */
-  .demarrage .dl.est-la { opacity: 1; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--forme { width: 1.1em; height: 1.1em; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--forme b, html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--carre b { font-size: .5em; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--pile b { font-size: .45em; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--pile b:only-child { font-size: .5em; }
+  html body .demarrage, html body :is(.demarrage, .dem-kit) .demarrage__ligne, html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm, html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm * { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
+  :is(.demarrage, .dem-kit) .dm--signe .dm__svg + .dm__svg { margin-left: -.3em; }   /* deux visages collés */
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne .dm--gras { font-weight: 500 !important; }
+  html body :is(.demarrage, .dem-kit) .demarrage__ligne { line-height: 1.2 !important; }   /* 24 px à 20 px */
+  :is(.demarrage, .dem-kit) .dl.est-la { opacity: 1; }
   @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
-  .demarrage .dm__svg { display: block; width: .92em; height: .92em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
-  .demarrage .dm__svg path { vector-effect: non-scaling-stroke; }
-  .demarrage .dm__svg--long { width: 1.1em; height: .55em; }
-  .demarrage .dm__svg--vague { width: 1.5em; height: .56em; }
-  .demarrage .dm--op { font-size: .72em; padding: 0 .08em; }
-  .demarrage .dm--forme { width: .78em; height: .78em; border: 1px solid currentColor; }
-  .demarrage .dm--rond { border-radius: 50%; }
-  .demarrage .dm--losange { transform: rotate(45deg) scale(.8); }
-  .demarrage .dm--forme b { font: 500 .24em/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; }
-  .demarrage .dm--pile { flex-direction: column; align-items: stretch; padding: .05em .1em; border: 1px solid currentColor; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; }
-  .demarrage .dm--pile b { font-size: .26em; font-weight: 500; line-height: 1.25; letter-spacing: 0; text-align: center; }
-  .demarrage .dm--pile b:only-child { font-size: .34em; padding: .24em .12em; }
-  .demarrage .dm--pile b + b { border-top: 1px solid currentColor; }
+  :is(.demarrage, .dem-kit) .dm__svg { display: block; width: .92em; height: .92em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
+  :is(.demarrage, .dem-kit) .dm__svg path { vector-effect: non-scaling-stroke; }
+  :is(.demarrage, .dem-kit) .dm__svg--long { width: 1.1em; height: .55em; }
+  :is(.demarrage, .dem-kit) .dm__svg--vague { width: 1.5em; height: .56em; }
+  :is(.demarrage, .dem-kit) .dm--op { font-size: .72em; padding: 0 .08em; }
+  :is(.demarrage, .dem-kit) .dm--forme { width: .78em; height: .78em; border: 1px solid currentColor; }
+  :is(.demarrage, .dem-kit) .dm--rond { border-radius: 50%; }
+  :is(.demarrage, .dem-kit) .dm--losange { transform: rotate(45deg) scale(.8); }
+  :is(.demarrage, .dem-kit) .dm--forme b { font: 500 .24em/1 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; }
+  :is(.demarrage, .dem-kit) .dm--pile { flex-direction: column; align-items: stretch; padding: .05em .1em; border: 1px solid currentColor; font-family: "Geist", "Helvetica Neue", Arial, sans-serif; }
+  :is(.demarrage, .dem-kit) .dm--pile b { font-size: .26em; font-weight: 500; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  :is(.demarrage, .dem-kit) .dm--pile b:only-child { font-size: .34em; padding: .24em .12em; }
+  :is(.demarrage, .dem-kit) .dm--pile b + b { border-top: 1px solid currentColor; }
   @media (prefers-reduced-motion: reduce) {
-    .demarrage .dm.est-la { animation: none; }
+    :is(.demarrage, .dem-kit) .dm.est-la { animation: none; }
   }
   /* Bio : le calme et la tempête alignés, à la même hauteur ; animation sur fond blanc. */
   html body .stage .profil .tempete { background: #FFFFFF !important; }
@@ -9470,7 +9470,7 @@
     html body .stage .profil .bio-photos > .bio-tempete .tempete { width: 100%; height: var(--w3) !important; aspect-ratio: auto !important; }
   }
   /* Démarrage : morceaux retirés (leur vide reste), note en grotesque, chiffres romains plus grands. */
-  html body .demarrage .dm--carre b { font-size: .46em; }
+  html body :is(.demarrage, .dem-kit) .dm--carre b { font-size: .46em; }
   /* Bio : la plage et la tempête au même format carré, sur 3 colonnes chacune. */
   @media (min-width: 1024px) {
     html body .stage .profil .bio-photos > .bio-photo--plage { grid-column: 1 / 4 !important; }
@@ -9985,6 +9985,180 @@
   html body .stage .arbo.arbo :is(.arbo__dossier-btn, .arbo__fichier) svg { width: 1.25em !important; height: 1.25em !important; margin-top: -2px !important; margin-bottom: -3px !important; }
   /* Parcours des études : plus de fondu blanc à droite pendant le défilement. */
   html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc .panneaux-voile { display: none !important; }
+  /* ================= ROCHE ET LE DÉMARRAGE, FAÇON PHARMAPRIX =================
+     Grands mots cobalt, schémas redessinés au trait et animés quand on les voit. */
+  html body .stage :is(#doc-roche, #doc-demarrage).doc .uc :is(.postits, .selfie, .don, .archi, .flux, .pub, .form-reduit, .dem-rejeu, .dem-signes, .dem-liaisons, .dem-cle) * { letter-spacing: 0 !important; }
+  /* Grands mots. */
+  html body .stage :is(#doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { display: flex !important; align-items: flex-end; box-sizing: border-box; margin: 0 !important; padding: 0 !important; border: 0 !important; outline: 0 !important; background: transparent !important; overflow: visible !important; white-space: nowrap; font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: clamp(120px, 14vw, 200px) !important; line-height: 0.88 !important; letter-spacing: -0.03em !important; color: var(--cobalt) !important; text-transform: none !important; }
+  html body .stage :is(#doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot * { font: inherit !important; letter-spacing: inherit !important; line-height: inherit !important; color: inherit !important; }
+  @media (min-width: 1024px) { html body .stage :is(#doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { position: absolute !important; transform: translateY(0.06em); } }
+  @media (max-width: 1023px) { html body .stage :is(#doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { width: auto !important; margin: 16px 0 32px !important; font-size: min(22vw, 120px) !important; white-space: normal; } }
+  #doc-roche .envers { display: inline-block; transition: transform 900ms cubic-bezier(.65, 0, .35, 1); }
+  #doc-roche .uc__grand-mot.retourne .envers { transform: rotate(180deg); }
+  .mot-tape .dl { opacity: 0; }
+  .mot-tape .dl.est-la, .mot-tape:not(.frappe) .dl { opacity: 1; }
+
+  /* Cartes à schéma : le schéma prend la place libre de la carte. */
+  html body .stage :is(#doc-roche, #doc-demarrage).doc .uc :is(.postits, .selfie, .don, .archi, .pub, .form-reduit, .dem-rejeu, .dem-signes, .dem-liaisons) { flex: 1 1 auto; min-height: 0; }
+  html body .stage :is(#doc-roche, #doc-demarrage).doc .uc :is(.postits, .selfie, .don, .archi, .flux, .pub, .form-reduit, .dem-rejeu, .dem-signes, .dem-liaisons, .dem-cle) p { margin: 0 !important; }
+
+  /* Post-it : trois concepts et leurs notes, posés un à un. */
+  #doc-roche .postits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; align-items: center; }
+  #doc-roche .postits__groupe { display: flex; flex-wrap: wrap; align-content: center; gap: 8px; }
+  html body .stage #doc-roche.doc .uc .postit { box-sizing: border-box; width: calc(50% - 4px); min-height: 64px; padding: 8px 10px !important; background: #FFFFFF; border: 1px solid rgba(28, 25, 23, 0.4); border-radius: var(--r-detail); font-size: 16px !important; line-height: 20px !important; color: var(--encre) !important; opacity: 0; transform: translateY(-16px) rotate(calc(var(--r, 0deg) * 4)) scale(1.04); transition: opacity 280ms ease, transform 520ms cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--i, 0) * 120ms); }
+  html body .stage #doc-roche.doc .uc .postit--concept { width: 100%; min-height: 56px; display: flex; align-items: center; padding: 12px 16px !important; background: var(--cobalt); border-color: var(--cobalt); color: #FFFFFF !important; font-family: "Instrument Serif", Georgia, serif !important; font-size: 28px !important; line-height: 32px !important; }
+  html body .stage #doc-roche.doc .uc .postits.est-vu .postit { opacity: 1; transform: rotate(var(--r, 0deg)); }
+
+  /* Le selfie : retourné, puis personnalisé, puis partagé. */
+  #doc-roche .selfie { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+  #doc-roche .selfie__photo { position: relative; box-sizing: border-box; width: min(100%, 240px); aspect-ratio: 3 / 4; max-height: calc(100% - 52px); border: 1px solid var(--encre); border-radius: var(--r-carte); overflow: hidden; background: #F5F5F4; }
+  #doc-roche .selfie__image { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; transition: transform 800ms cubic-bezier(.65, 0, .35, 1); }
+  #doc-roche .selfie.retourne .selfie__image { transform: rotate(180deg); }
+  #doc-roche .selfie__image svg { width: 78%; height: auto; fill: none; stroke: var(--encre); stroke-width: 1.2; stroke-linecap: round; }
+  html body .stage #doc-roche.doc .uc .selfie__deco { position: absolute; opacity: 0; transform: scale(0.4) rotate(-12deg); transition: opacity 200ms ease, transform 380ms cubic-bezier(.3, 1.6, .5, 1); }
+  html body .stage #doc-roche.doc .uc .selfie__deco.est-la { opacity: 1; transform: rotate(var(--r, 0deg)); }
+  html body .stage #doc-roche.doc .uc .selfie__deco--tag { top: 12px; left: 12px; --r: -4deg; padding: 2px 10px; border-radius: var(--r-rond); background: var(--cobalt); color: #FFFFFF !important; font-size: 14px !important; line-height: 20px !important; }
+  #doc-roche .selfie__deco--etoile { top: 44px; right: 16px; width: 32px; height: 32px; --r: 10deg; fill: #FFFFFF; stroke: var(--encre); stroke-width: 1; stroke-linejoin: round; }
+  #doc-roche .selfie__deco--coeur { top: 46%; left: 14px; width: 28px; height: 28px; --r: -10deg; fill: var(--cobalt); stroke: none; }
+  html body .stage #doc-roche.doc .uc .selfie__deco--mot { bottom: 44px; left: 12px; --r: -5deg; font-family: "Instrument Serif", Georgia, serif !important; font-size: 22px !important; line-height: 24px !important; color: var(--encre) !important; }
+  html body .stage #doc-roche.doc .uc .selfie__deco--bandeau { left: 0; right: 0; bottom: 0; padding: 6px 0; background: var(--cobalt); color: #FFFFFF !important; text-align: center; font-size: 16px !important; line-height: 20px !important; transform: translateY(100%); }
+  html body .stage #doc-roche.doc .uc .selfie__deco--bandeau.est-la { transform: none; }
+  html body .stage #doc-roche.doc .uc .selfie__partager { padding: 4px 16px; border: 1px solid var(--encre); border-radius: var(--r-rond); font-size: 16px !important; line-height: 24px !important; color: var(--encre) !important; transition: background-color 200ms ease, color 200ms ease, transform 200ms ease; }
+  html body .stage #doc-roche.doc .uc .selfie.partage .selfie__partager { background: var(--encre); color: #FFFFFF !important; transform: scale(1.06); }
+
+  /* Le compteur de dons. */
+  #doc-roche .don { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+  html body .stage #doc-roche.doc .uc .don__total { font-family: "Instrument Serif", Georgia, serif !important; font-size: 96px !important; line-height: 88px !important; color: var(--cobalt) !important; font-variant-numeric: tabular-nums; }
+  html body .stage #doc-roche.doc .uc .don__total * { font: inherit !important; color: inherit !important; }
+  html body .stage #doc-roche.doc .uc .don__legende { font-size: 16px !important; line-height: 24px !important; color: var(--gris-texte) !important; }
+  #doc-roche .don__grille { display: grid; grid-template-columns: repeat(8, 24px); gap: 8px; margin-top: 8px; }
+  #doc-roche .don__grille i { width: 24px; height: 24px; box-sizing: border-box; border: 1px solid rgba(28, 25, 23, 0.4); border-radius: var(--r-detail); transition: background-color 160ms ease, border-color 160ms ease; }
+  #doc-roche .don__grille i.est-la { background: var(--cobalt); border-color: var(--cobalt); }
+
+  /* Le plan du site, tracé nœud par nœud. */
+  #doc-roche .archi { display: flex; align-items: center; justify-content: center; }
+  #doc-roche .archi svg { display: block; width: 100%; height: 100%; max-height: 100%; overflow: visible; }
+  html body .stage #doc-roche.doc .uc .archi text { font: 400 14px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; fill: var(--encre); text-anchor: middle; }
+  #doc-roche .archi .n :is(rect, path) { fill: #FFFFFF; stroke: var(--encre); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  #doc-roche .archi .n--source rect { fill: #F5F5F4; stroke: rgba(28, 25, 23, 0.4); }
+  #doc-roche .archi .n--choix path { stroke-dasharray: 4 3; }
+  html body .stage #doc-roche.doc .uc .archi .n--choix text { font-size: 12px !important; }
+  #doc-roche .archi .n--cle rect { fill: var(--cobalt); stroke: var(--cobalt); }
+  html body .stage #doc-roche.doc .uc .archi .n--cle text { fill: #FFFFFF; }
+  #doc-roche .archi .n { opacity: 0; transform: translateY(6px); transition: opacity 320ms ease, transform 420ms ease; transition-delay: calc(var(--o) * 260ms); }
+  #doc-roche .archi .l { fill: none; stroke: var(--encre); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset 420ms ease, opacity 120ms ease; transition-delay: calc(var(--o) * 260ms); }
+  #doc-roche .archi .l--tirets { stroke-dasharray: 5 4; stroke-dashoffset: 0; }
+  #doc-roche .archi .l--boucle { stroke: var(--cobalt); }
+  #doc-roche .archi.est-vu .n { opacity: 1; transform: none; }
+  #doc-roche .archi.est-vu .l { opacity: 1; stroke-dashoffset: 0; }
+
+  /* Le parcours : huit étapes, quatre décisions, un curseur qui avance. */
+  #doc-roche .flux { flex: 1 1 auto; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 16px; align-items: center; margin: 0 !important; padding: 0 !important; list-style: none; }
+  #doc-roche .flux__etape { display: grid; grid-template-rows: 28px auto 48px; gap: 8px; margin: 0 !important; padding: 0 !important; list-style: none !important; }
+  html body .stage #doc-roche.doc .uc .flux__pastille { grid-row: 1; justify-self: start; align-self: end; padding: 0 8px; border-radius: var(--r-rond); background: var(--encre); color: #FFFFFF !important; font-size: 14px !important; line-height: 20px !important; }
+  #doc-roche .flux__boite { grid-row: 2; position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; min-height: 120px; padding: 12px; border-radius: var(--r-controle); background: var(--encre); border: 1px solid var(--encre); transition: background-color 240ms ease, border-color 240ms ease; }
+  #doc-roche .flux__etape--decision .flux__boite { background: #FFFFFF; border-style: dashed; }
+  html body .stage #doc-roche.doc .uc .flux__boite strong { font-weight: 500 !important; font-size: 16px !important; line-height: 20px !important; color: #FFFFFF !important; }
+  html body .stage #doc-roche.doc .uc .flux__boite span { font-size: 14px !important; line-height: 20px !important; color: rgba(255, 255, 255, 0.8) !important; }
+  html body .stage #doc-roche.doc .uc .flux__etape--decision .flux__boite strong { color: var(--encre) !important; }
+  html body .stage #doc-roche.doc .uc .flux__etape--decision .flux__boite span { color: var(--gris-texte) !important; }
+  #doc-roche .flux__etape:not(:last-child) .flux__boite::after { content: ""; position: absolute; left: 100%; top: 50%; width: 16px; height: 1px; background: var(--encre); }
+  #doc-roche .flux .flux__etape.est-actif .flux__boite { background: var(--cobalt); border-color: var(--cobalt); border-style: solid; }
+  html body .stage #doc-roche.doc .uc .flux__etape.est-actif .flux__boite :is(strong, span) { color: #FFFFFF !important; }
+  html body .stage #doc-roche.doc .uc .flux__note { grid-row: 3; font-style: normal; font-size: 16px !important; line-height: 20px !important; color: var(--gris-texte) !important; transition: color 240ms ease; }
+  html body .stage #doc-roche.doc .uc .flux__etape.est-actif .flux__note { color: var(--cobalt) !important; }
+
+  /* La pub : deux téléphones, deux moments. */
+  #doc-roche .pub { display: flex; align-items: center; justify-content: center; gap: 32px; }
+  #doc-roche .pub__ecran { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0 !important; }
+  #doc-roche .pub__tel { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; width: 184px; height: 340px; padding: 36px 14px 18px; border: 1px solid var(--encre); border-radius: 28px; background: #FFFFFF; }
+  #doc-roche .pub__tel::before { content: ""; position: absolute; top: 12px; left: 50%; width: 56px; height: 10px; margin-left: -28px; border: 1px solid var(--encre); border-radius: var(--r-rond); }
+  #doc-roche .pub__annonce { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 16px 8px; border: 1px solid rgba(28, 25, 23, 0.4); border-radius: var(--r-controle); text-align: center; }
+  #doc-roche .pub__ecran:not(.pub__ecran--charge) .pub__annonce { flex: 1; }
+  html body .stage #doc-roche.doc .uc .pub__annonce b { font-family: "Instrument Serif", Georgia, serif !important; font-weight: 400 !important; font-size: 24px !important; line-height: 28px !important; color: var(--encre) !important; }
+  html body .stage #doc-roche.doc .uc .pub__annonce :is(span, i) { font-style: normal; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-roche.doc .uc .pub__passer { align-self: center; padding: 2px 14px; border: 1px solid rgba(28, 25, 23, 0.4); border-radius: var(--r-rond); font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; font-variant-numeric: tabular-nums; transition: background-color 200ms ease, color 200ms ease; }
+  html body .stage #doc-roche.doc .uc .pub.pret .pub__passer { background: var(--encre); border-color: var(--encre); color: #FFFFFF !important; }
+  #doc-roche .pub__attente { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  #doc-roche .pub__attente svg { width: 40px; height: 40px; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  #doc-roche .pub__roue circle { stroke: rgba(28, 25, 23, 0.15); }
+  #doc-roche .pub__roue path { stroke: var(--encre); }
+  #doc-roche .pub__roue { animation: pub-roue 900ms linear infinite; }
+  #doc-roche .pub__ok { display: none; stroke: var(--cobalt); }
+  #doc-roche .pub.pret .pub__roue { display: none; }
+  #doc-roche .pub.pret .pub__ok { display: block; }
+  html body .stage #doc-roche.doc .uc .pub__etat { font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  html body .stage #doc-roche.doc .uc .pub figcaption { font-size: 16px !important; line-height: 24px !important; color: var(--encre) !important; }
+  @keyframes pub-roue { to { transform: rotate(360deg); } }
+
+  /* Le formulaire qui perd ses champs en trop. */
+  #doc-roche .form-reduit { display: flex; flex-direction: column; justify-content: center; gap: 12px; max-width: 320px; }
+  #doc-roche .form-reduit__champ { display: flex; flex-direction: column; gap: 4px; max-height: 64px; overflow: hidden; transition: max-height 420ms ease, opacity 300ms ease, margin 420ms ease; }
+  html body .stage #doc-roche.doc .uc .form-reduit__champ i { font-style: normal; font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; }
+  #doc-roche .form-reduit__champ b { display: block; height: 32px; box-sizing: border-box; border: 1px solid rgba(28, 25, 23, 0.4); border-radius: var(--r-controle); }
+  #doc-roche .form-reduit__champ--case { flex-direction: row; align-items: center; gap: 8px; }
+  #doc-roche .form-reduit__champ--case b { flex: none; width: 20px; height: 20px; border-radius: var(--r-detail); }
+  #doc-roche .form-reduit.reduit .form-reduit__champ--trop { max-height: 0; opacity: 0; margin-top: -12px; }
+  html body .stage #doc-roche.doc .uc .form-reduit__bouton { align-self: flex-start; padding: 6px 20px; border-radius: var(--r-rond); background: var(--encre); color: #FFFFFF !important; font-size: 16px !important; line-height: 24px !important; }
+
+  /* Le démarrage rejoué dans une carte. */
+  #doc-demarrage .dem-rejeu { --dm: 20px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+  /* Les signes dessinés, un à un. */
+  #doc-demarrage .dem-signes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px 8px; align-content: center; }
+  #doc-demarrage .dem-signes figure { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 !important; }
+  #doc-demarrage .dem-signes svg { width: 40px; height: 40px; overflow: visible; fill: none; stroke: var(--encre); stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
+  #doc-demarrage .dem-signes path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 900ms ease; transition-delay: calc(var(--i, 0) * 140ms); }
+  #doc-demarrage .dem-signes.est-vu path { stroke-dashoffset: 0; }
+  html body .stage #doc-demarrage.doc .uc .dem-signes figcaption { font-size: 14px !important; line-height: 20px !important; color: var(--gris-texte) !important; text-align: center; }
+  /* Les liaisons. */
+  #doc-demarrage .dem-liaisons { display: flex; flex-direction: column; justify-content: center; gap: 12px; margin: 0 !important; padding: 0 !important; list-style: none; }
+  html body .stage #doc-demarrage.doc .uc .dem-liaisons li { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 12px; margin: 0 !important; padding: 0 !important; list-style: none !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; opacity: 0; transform: translateX(-8px); transition: opacity 300ms ease, transform 400ms ease; transition-delay: calc(var(--i, 0) * 160ms); }
+  html body .stage #doc-demarrage.doc .uc .dem-liaisons.est-vu li { opacity: 1; transform: none; }
+  #doc-demarrage .dem-liaisons__signe { --dm: 28px; display: flex; justify-content: center; }
+  /* La clé : chaque ligne telle qu'à l'écran, puis ce qu'elle raconte. */
+  #doc-demarrage .dem-cle { flex: 1 1 auto; display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, auto); grid-auto-columns: minmax(0, 1fr); gap: 24px; align-content: center; margin: 0 !important; padding: 0 !important; list-style: none; }
+  html body .stage #doc-demarrage.doc .uc .dem-cle > li { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 !important; list-style: none !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-cle > li > span:last-child, html body .stage #doc-demarrage.doc .uc .dem-cle > li > span:last-child * { font-size: 20px !important; line-height: 28px !important; }
+  #doc-demarrage .dem-cle__ligne { --dm: 20px; display: block; }
+  html body .stage #doc-demarrage.doc .uc .dem-cle sup { font-size: 13px !important; line-height: 0 !important; }
+
+  /* Grand écran : texte à gauche, schéma à droite pour le selfie et la pub. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__selfie, .uc__pub) { display: grid !important; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) !important; grid-template-rows: auto auto 1fr !important; gap: 16px 24px !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__selfie, .uc__pub) > .uc__label { grid-column: 1; grid-row: 1; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__selfie, .uc__pub) > .uc__fort { grid-column: 1; grid-row: 2; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__selfie, .uc__pub) > .uc__petit { grid-column: 1; grid-row: 3; align-self: end; margin-top: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__selfie, .uc__pub) > :is(.selfie, .pub) { grid-column: 2; grid-row: 1 / -1; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__pub { grid-template-columns: minmax(0, 3fr) minmax(0, 5fr) !important; }
+  }
+  /* Téléphone : les schémas s'empilent. */
+  @media (max-width: 767px) {
+    #doc-roche .postits { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    #doc-roche .selfie__photo { width: min(100%, 220px); max-height: none; }
+    #doc-roche .archi { display: block; overflow-x: auto; margin: 0 -24px !important; padding: 0 24px !important; }
+    #doc-roche .archi svg { width: 880px; height: auto; max-height: none; }
+    #doc-roche .flux { display: flex; flex-direction: column; align-items: stretch; gap: 16px; }
+    #doc-roche .flux__etape { grid-template-rows: auto auto auto; gap: 4px; }
+    #doc-roche .flux__etape:not(:last-child) .flux__boite::after { left: 24px; top: 100%; width: 1px; height: 16px; }
+    #doc-roche .flux__boite { min-height: 0; }
+    #doc-roche .flux__etape--decision .flux__note { margin-bottom: 8px; }
+    #doc-roche .pub { gap: 12px; }
+    #doc-roche .pub__tel { width: 140px; height: 280px; padding: 32px 10px 14px; }
+    #doc-demarrage .dem-signes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    #doc-demarrage .dem-cle { display: flex; flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #doc-roche :is(.postit, .selfie__image, .selfie__deco, .archi .n, .archi .l, .flux__boite, .form-reduit__champ, .envers), #doc-demarrage :is(.dem-signes path, .dem-liaisons li) { transition: none !important; }
+    #doc-roche .pub__roue { animation: none; }
+  }
+  /* Dans l'étude, les pièces du démarrage gardent leurs tailles relatives. */
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne { font-size: var(--dm, 20px) !important; line-height: 1.2 !important; letter-spacing: -.01em !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne * { font-size: inherit !important; line-height: inherit !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne .dm--op { font-size: .72em !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne :is(.dm--forme b, .dm--carre b) { font-size: .5em !important; line-height: 1 !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne .dm--pile b { font-size: .45em !important; line-height: 1.25 !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne .dm--pile b:only-child { font-size: .5em !important; }
+  html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne .dm--pile b .dl, html body .stage #doc-demarrage.doc .uc .dem-kit .demarrage__ligne .dm--forme b .dl { font-size: inherit !important; }
 </style>
 </head>
 <body>
@@ -10180,6 +10354,8 @@
     setTimeout(() => ecran.remove(), calme ? 0 : 220);
   }
   const svg = (vb, d, cls) => '<svg class="' + cls + '" viewBox="' + vb + '" aria-hidden="true"><path d="' + d + '"/></svg>';
+  // Les mêmes pièces servent à l'étude de cas « Le démarrage ».
+  window.demarrageKit = { lignes: LIGNES, signes: SIGNES, morceau: (m) => morceau(m) };
   function morceau(m) {
     const el = document.createElement('span');
     el.className = 'dm';
@@ -10833,64 +11009,68 @@
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <header class="uc__tete">
           <p class="uc__surtitre">Ce portfolio · L’écran de démarrage</p>
-          <h1 class="uc__titre" id="doc-demarrage-titre">Comment raconter 45&nbsp;ans en une seconde&nbsp;?</h1>
+          <h1 class="uc__titre" id="doc-demarrage-titre">Comment raconter 45&nbsp;ans en deux secondes&nbsp;?</h1>
           <dl class="uc__fiche">
             <div><dt>Mon rôle</dt><dd>Concept<br>Design<br>Code</dd></div>
-            <div><dt>Matière</dt><dd>13 lignes<br>Émojis<br>5 signes</dd></div>
-            <div><dt>Durée à l’écran</dt><dd>Environ 1 seconde</dd></div>
+            <div><dt>Matière</dt><dd>7 lignes<br>11 signes dessinés</dd></div>
+            <div><dt>Durée à l’écran</dt><dd>Environ 2 secondes</dd></div>
             <div><dt>Outils</dt><dd>HTML, CSS<br>JavaScript<br>L’IA</dd></div>
           </dl>
           <p class="uc__enonce">Un portfolio s’ouvre souvent sur un écran de chargement. Le mien raconte déjà qui je suis.</p>
-          <p class="uc__corps">Treize lignes d’émojis, de 1981 à aujourd’hui, qui défilent en une seconde. On n’a pas le temps de tout lire&nbsp;: c’est voulu. Voici la clé.</p>
+          <p class="uc__corps">Sept lignes de mots et de signes dessinés, de 1981 à aujourd’hui, qui s’écrivent lettre par lettre. On n’a pas le temps de tout lire&nbsp;: c’est voulu. Voici la clé.</p>
         </header>
+
+        <section class="uc__bloc uc__rejeu" data-l="8">
+          <h2 class="uc__label">En direct</h2>
+          <p class="uc__fort">Le démarrage, tel qu’il s’écrit.</p>
+          <div class="dem-rejeu dem-kit" data-anime="rejeu" role="img" aria-label="Rejeu de l’écran de démarrage : sept lignes de mots et de signes dessinés s’écrivent lettre par lettre, jusqu’à « Site ready… »."></div>
+          <p class="uc__petit">Rien n’est une image&nbsp;: chaque lettre est du texte, chaque signe un tracé d’un pixel.</p>
+        </section>
+
+        <h2 class="uc__grand-mot mot-tape" data-anime="tape"><span>Site<br>ready…</span></h2>
 
         <ul class="uc__chiffres" aria-label="En bref">
           <li><strong>45&nbsp;ans</strong><span>de vie racontés</span></li>
-          <li><strong>13</strong><span>lignes d’émojis</span></li>
-          <li><strong>1&nbsp;s</strong><span>à l’écran, pas plus</span></li>
+          <li><strong>7</strong><span>lignes de mots et de signes</span></li>
+          <li><strong>2&nbsp;s</strong><span>à l’écran, pas plus</span></li>
         </ul>
 
-        <section class="uc__bloc">
-          <h2 class="uc__label">Pourquoi des émojis</h2>
+        <section class="uc__bloc uc__dessins" data-l="6">
+          <h2 class="uc__label">Pourquoi des signes dessinés</h2>
           <p class="uc__fort">Des images que tout le monde lit, dans toutes les langues.</p>
-          <p class="uc__petit">Elles laissent deviner, on reconnaît, on se pose des questions. Et elles ne font pas un CV&nbsp;: des phrases, personne ne les lirait en une seconde.</p>
+          <div class="dem-signes" data-anime="signes"></div>
+          <p class="uc__petit">Dessinés au trait d’un pixel, ils parlent avec la même voix que le reste du site, sur tous les écrans.</p>
         </section>
 
-        <section class="uc__bloc">
-          <h2 class="uc__label">Pourquoi des signes</h2>
-          <p class="uc__fort">Cinq signes pour transformer des images en phrases.</p>
-          <ul class="uc__liste uc__signes">
-            <li><span class="uc__cle-signe">→</span> un passage, d’un lieu ou d’une étape à l’autre&nbsp;;</li>
-            <li><span class="uc__cle-signe">+</span> ce qui me compose&nbsp;;</li>
-            <li><span class="uc__cle-signe">=</span> ce que ça donne&nbsp;;</li>
-            <li><span class="uc__cle-signe">≠</span> ce qui coince, sans avoir à le nommer&nbsp;;</li>
-            <li><span class="uc__cle-signe">×</span> combien, sans un mot.</li>
+        <section class="uc__bloc uc__liaisons" data-l="4">
+          <h2 class="uc__label">Pourquoi des liaisons</h2>
+          <p class="uc__fort">Cinq liaisons pour transformer des images en phrases.</p>
+          <ul class="dem-liaisons dem-kit" data-anime="liaisons">
+            <li><span class="dem-liaisons__signe" data-morceau="->"></span><span>un passage, d’une étape à l’autre</span></li>
+            <li><span class="dem-liaisons__signe" data-morceau="~>"></span><span>un long voyage</span></li>
+            <li><span class="dem-liaisons__signe" data-morceau="+"></span><span>ce qui me compose</span></li>
+            <li><span class="dem-liaisons__signe" data-morceau="≠"></span><span>ce qui coince, sans le nommer</span></li>
+            <li><span class="dem-liaisons__signe" data-morceau="^×15"></span><span>combien, sans un mot</span></li>
           </ul>
         </section>
 
-        <section class="uc__bloc">
+        <section class="uc__bloc uc__cle-bloc" data-l="15">
           <h2 class="uc__label">La clé, ligne par ligne</h2>
           <p class="uc__fort">Ce que chaque ligne raconte.</p>
-          <ol class="uc__cle">
-            <li><span class="uc__cle-emo" aria-hidden="true">👶 <span class="uc__cle-signe">→</span> 🇫🇷 🌾</span><span><strong>1981.</strong> Une naissance en France, à la campagne.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">✏️ <span class="uc__cle-signe">→</span> 🎨</span><span>Un enfant qui dessine sans arrêt.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🏫 <span class="uc__cle-signe">≠</span> 🧠 ⚡</span><span>L’école, un combat&nbsp;: un TDAH que personne n’avait encore nommé.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">📺 <span class="uc__cle-signe">+</span> 🎮 <span class="uc__cle-signe">+</span> 📚 <span class="uc__cle-signe">+</span> 🎤 <span class="uc__cle-signe">+</span> 🎹</span><span>La télé, les jeux vidéo, la lecture, le chant, le piano.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🌾 <span class="uc__cle-signe">→</span> 🗼</span><span>De la campagne à Paris.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">✈️ <span class="uc__cle-signe">×</span> <span class="uc__cle-signe">15</span> 🌍</span><span>Le tourisme&nbsp;: quinze pays, sur quatre continents.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">👨 <span class="uc__cle-signe">+</span> 👨 <span class="uc__cle-signe">=</span> ❤️ 🏳️‍🌈</span><span>Une rencontre décisive.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🌧️ <span class="uc__cle-signe">→</span> 🔥 <span class="uc__cle-signe">→</span> 🐦‍🔥</span><span>Des épreuves, parfois lourdes. Et une renaissance.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🇫🇷 <span class="uc__cle-signe">→</span> ⚜️</span><span>Tout recommencer, au Québec.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🎓 <span class="uc__cle-signe">→</span> 💻 🎨</span><span>Une reconversion en design.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">👨‍❤️‍👨 <span class="uc__cle-signe">+</span> 👦 👦 <span class="uc__cle-signe">=</span> 👨‍👨‍👦‍👦</span><span>Une famille, deux enfants.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">🇫🇷 <span class="uc__cle-signe">+</span> 🍁 <span class="uc__cle-signe">=</span> 🏆</span><span>La citoyenneté canadienne, une belle victoire.</span></li>
-            <li><span class="uc__cle-emo" aria-hidden="true">👨‍👨‍👦‍👦 <span class="uc__cle-signe">+</span> 🧠 <span class="uc__cle-signe">+</span> 🏋️ <span class="uc__cle-signe">+</span> ✍️ <span class="uc__cle-signe">+</span> 💻</span><span><strong>Aujourd’hui.</strong> La famille, la psychologie, le sport, l’illustration et le design.</span></li>
+          <ol class="dem-cle dem-kit">
+            <li><span class="dem-cle__ligne" data-ligne="0"></span><span><strong>1981.</strong> Une naissance en France, près de Lille, et une enfance à la campagne.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="1"></span><span>Un enfant qui dessine sans arrêt. L’école, un combat&nbsp;: un TDAH que personne n’avait encore nommé.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="2"></span><span>La lecture et le piano.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="3"></span><span>Du Nord à Paris, rue de Milan, dans le IX<sup>e</sup>.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="4"></span><span>Quinze voyages autour du monde. Puis tout recommencer, au Québec.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="5"></span><span>Une famille&nbsp;: deux enfants, une maison. E=mc²&nbsp;: à vous de deviner.</span></li>
+            <li><span class="dem-cle__ligne" data-ligne="6"></span><span><strong>Aujourd’hui.</strong> Le site est prêt, et moi aussi.</span></li>
           </ol>
         </section>
 
         <section class="uc__bloc">
           <h2 class="uc__label">Ce que ça dit de mon travail</h2>
-          <p class="uc__fort">Une seconde, pas un mot&nbsp;: il faut choisir l’essentiel.</p>
+          <p class="uc__fort">Deux secondes, pas une phrase&nbsp;: il faut choisir l’essentiel.</p>
           <p class="uc__petit">Choisir, soigner le rythme et l’ordre de lecture&nbsp;: c’est ce que je fais avec une interface.</p>
         </section>
 
@@ -11003,36 +11183,175 @@
           <figure class="uc__figure uc__couverture"><img src="roche-landing-1750.webp" alt="Page d’accueil : le selfie retourné explique la campagne d’un coup d’œil." width="1750" height="980" loading="lazy"></figure>
         </header>
 
+        <section class="uc__bloc uc__contexte-roche" data-l="5">
+          <h2 class="uc__label">Le contexte</h2>
+          <p class="uc__fort">Retourner son selfie, comme un diagnostic retourne une vie.</p>
+          <p class="uc__petit">Au printemps 2018, Roche lance un produit Accu-Chek avec la signature «&nbsp;Discover the upside&nbsp;». En novembre, pour le Mois du diabète, l’Upside Challenge invite les Canadiens à publier un selfie à l’envers. Chaque photo partagée déclenche un don de 5&nbsp;$ à la recherche.</p>
+        </section>
+
+        <h2 class="uc__grand-mot" data-anime="envers"><span>À<br><span class="envers">l’envers</span></span></h2>
+
+        <section class="uc__bloc uc__concepts" data-l="8">
+          <h2 class="uc__label">Avant toute maquette</h2>
+          <p class="uc__fort">Cartographier les concepts avec le directeur de création.</p>
+          <div class="postits" data-anime="postits" role="img" aria-label="Carte des concepts : Landing (animation qui démarre seule, bouton pour passer), Concours (1 photo = 5 $, 5 $ à la recherche, partager, entrer ses données), Animation (retourner la photo, réseaux sociaux, autocollants, bandeau See the upside).">
+            <div class="postits__groupe">
+              <p class="postit postit--concept">Landing</p>
+              <p class="postit" style="--r: -3deg">Une animation qui démarre seule</p>
+              <p class="postit" style="--r: 2deg">Un bouton pour passer</p>
+            </div>
+            <div class="postits__groupe">
+              <p class="postit postit--concept">Concours</p>
+              <p class="postit" style="--r: 2deg">1 photo = 5&nbsp;$</p>
+              <p class="postit" style="--r: -2deg">5&nbsp;$ remis à la recherche</p>
+              <p class="postit" style="--r: -1deg">Partager</p>
+              <p class="postit" style="--r: 3deg">Entrer ses données (marketing)</p>
+            </div>
+            <div class="postits__groupe">
+              <p class="postit postit--concept">Animation</p>
+              <p class="postit" style="--r: -2deg">Retourner la photo</p>
+              <p class="postit" style="--r: 3deg">Réseaux sociaux</p>
+              <p class="postit" style="--r: 1deg">Des autocollants pour s’amuser</p>
+              <p class="postit" style="--r: -3deg">Bandeau «&nbsp;See the upside&nbsp;»</p>
+            </div>
+          </div>
+          <p class="uc__petit">Mécanique de participation, moments d’interaction, place de la marque&nbsp;: ce mapping a posé les bases du parcours.</p>
+        </section>
+
+        <section class="uc__bloc uc__selfie" data-l="7">
+          <h2 class="uc__label">Le benchmark comportemental</h2>
+          <p class="uc__fort">Plus on s’investit dans une image, plus on la partage.</p>
+          <div class="selfie" data-anime="selfie" role="img" aria-label="Animation : un selfie se retourne à l’envers, puis se couvre d’un mot-clic, d’une étoile, d’un cœur, d’un mot et du bandeau See the upside avant d’être partagé.">
+            <div class="selfie__photo">
+              <div class="selfie__image"><svg viewBox="0 0 120 160" aria-hidden="true"><circle cx="60" cy="62" r="26"/><path d="M50 58h.01M70 58h.01M50 72c6 5 14 5 20 0"/><path d="M18 160c2-30 20-46 42-46s40 16 42 46"/></svg></div>
+              <span class="selfie__deco selfie__deco--tag">#UpsideChallenge</span>
+              <svg class="selfie__deco selfie__deco--etoile" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z"/></svg>
+              <svg class="selfie__deco selfie__deco--coeur" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C5 15 3 12 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 12 19 15 12 21z"/></svg>
+              <span class="selfie__deco selfie__deco--mot">Moi, à l’envers</span>
+              <span class="selfie__deco selfie__deco--bandeau">See the upside</span>
+            </div>
+            <span class="selfie__partager">Partager</span>
+          </div>
+          <p class="uc__petit">Texte, émojis, autocollants&nbsp;: c’est le pattern de l’Ego Investment. On ne partage plus une photo, on partage une version de soi.</p>
+        </section>
+
+        <section class="uc__bloc uc__don" data-l="5">
+          <h2 class="uc__label">Les inspirations</h2>
+          <p class="uc__fort">Un partage, un don.</p>
+          <div class="don" data-anime="don" role="img" aria-label="Animation : chaque photo partagée ajoute 5 $ au total des dons.">
+            <p class="don__total"><span class="don__chiffre">0</span>&nbsp;$</p>
+            <p class="don__legende">donnés à la recherche, 5&nbsp;$ par photo</p>
+            <div class="don__grille"></div>
+          </div>
+          <p class="uc__petit">Toyota, Johnson &amp; Johnson l’avaient prouvé&nbsp;: associer un geste personnel à un impact concret décuple la participation.</p>
+        </section>
+
+        <section class="uc__bloc uc__archi" data-l="12">
+          <h2 class="uc__label">Le plan du site</h2>
+          <p class="uc__fort">D’où l’on arrive, où l’on repart.</p>
+          <div class="archi" data-anime="archi">
+            <svg viewBox="0 -16 1200 396" role="img" aria-label="Plan du site : on arrive par un partage d’ami, une bannière web, les réseaux Accu-Chek ou des influenceurs, sur une vidéo d’introduction qu’on peut passer. Puis selfie ou import, formulaire, résultat. Le résultat envoie un courriel avec un lien de partage ; on peut revenir au selfie ou continuer vers le partage sur les réseaux, qui ramène de nouveaux amis. Après le partage : retour à l’accueil, puis page produit Accu-Chek.">
+              <defs><marker id="archi-fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1l8 4-8 4" fill="none" stroke="#1C1917" stroke-width="1.5"/></marker></defs>
+              <g class="n n--source" style="--o: 0"><rect x="0" y="20" width="150" height="44" rx="22"/><text x="75" y="47">Partages d’amis</text></g>
+              <g class="n n--source" style="--o: 0"><rect x="0" y="100" width="150" height="44" rx="22"/><text x="75" y="127">Bannière web</text></g>
+              <g class="n n--source" style="--o: 0"><rect x="0" y="180" width="150" height="44" rx="22"/><text x="75" y="207">Réseaux Accu-Chek</text></g>
+              <g class="n n--source" style="--o: 0"><rect x="0" y="260" width="150" height="44" rx="22"/><text x="75" y="287">Influenceurs</text></g>
+              <path class="l" style="--o: 1" pathLength="1" marker-end="url(#archi-fleche)" d="M150 42C178 42 172 154 199 154"/>
+              <path class="l" style="--o: 1" pathLength="1" marker-end="url(#archi-fleche)" d="M150 122C178 122 172 158 199 158"/>
+              <path class="l" style="--o: 1" pathLength="1" marker-end="url(#archi-fleche)" d="M150 202C178 202 172 162 199 162"/>
+              <path class="l" style="--o: 1" pathLength="1" marker-end="url(#archi-fleche)" d="M150 282C178 282 172 166 199 166"/>
+              <g class="n" style="--o: 2"><rect x="200" y="130" width="130" height="60" rx="8"/><text x="265" y="165">Vidéo d’intro</text></g>
+              <path class="l" style="--o: 3" pathLength="1" marker-end="url(#archi-fleche)" d="M330 160H354"/>
+              <g class="n n--choix" style="--o: 3"><path d="M395 120L435 160L395 200L355 160Z"/><text x="395" y="165">Passer ?</text></g>
+              <path class="l" style="--o: 4" pathLength="1" marker-end="url(#archi-fleche)" d="M435 160H459"/>
+              <g class="n" style="--o: 4"><rect x="460" y="130" width="130" height="60" rx="8"/><text x="525" y="157">Selfie</text><text x="525" y="175">ou import</text></g>
+              <path class="l" style="--o: 5" pathLength="1" marker-end="url(#archi-fleche)" d="M590 160H619"/>
+              <g class="n" style="--o: 5"><rect x="620" y="130" width="110" height="60" rx="8"/><text x="675" y="165">Formulaire</text></g>
+              <path class="l" style="--o: 6" pathLength="1" marker-end="url(#archi-fleche)" d="M730 160H759"/>
+              <g class="n" style="--o: 6"><rect x="760" y="130" width="110" height="60" rx="8"/><text x="815" y="165">Résultat</text></g>
+              <path class="l" style="--o: 7" pathLength="1" marker-end="url(#archi-fleche)" d="M815 130V81"/>
+              <g class="n" style="--o: 7"><rect x="745" y="20" width="140" height="60" rx="8"/><text x="815" y="47">Courriel avec</text><text x="815" y="65">lien de partage</text></g>
+              <path class="l" style="--o: 7" pathLength="1" marker-end="url(#archi-fleche)" d="M870 160H889"/>
+              <path class="l" style="--o: 7" pathLength="1" marker-end="url(#archi-fleche)" d="M815 190V249"/>
+              <g class="n n--choix" style="--o: 8"><path d="M930 120L970 160L930 200L890 160Z"/><text x="930" y="165">Continuer ?</text></g>
+              <g class="n n--choix" style="--o: 8"><path d="M815 250L855 290L815 330L775 290Z"/><text x="815" y="295">Revenir ?</text></g>
+              <path class="l l--tirets" style="--o: 9" marker-end="url(#archi-fleche)" d="M775 290H525V192"/>
+              <path class="l" style="--o: 9" pathLength="1" marker-end="url(#archi-fleche)" d="M970 160H989"/>
+              <g class="n n--cle" style="--o: 9"><rect x="990" y="130" width="150" height="60" rx="8"/><text x="1065" y="157">Partage sur</text><text x="1065" y="175">les réseaux</text></g>
+              <path class="l" style="--o: 10" pathLength="1" marker-end="url(#archi-fleche)" d="M1065 190V224"/>
+              <g class="n" style="--o: 10"><rect x="990" y="225" width="150" height="46" rx="8"/><text x="1065" y="253">Retour à l’accueil</text></g>
+              <path class="l" style="--o: 11" pathLength="1" marker-end="url(#archi-fleche)" d="M1065 271V304"/>
+              <g class="n" style="--o: 11"><rect x="990" y="305" width="150" height="60" rx="8"/><text x="1065" y="332">Page produit</text><text x="1065" y="350">Accu-Chek</text></g>
+              <path class="l l--tirets l--boucle" style="--o: 12" marker-end="url(#archi-fleche)" d="M1140 160H1180V-6H75V19"/>
+            </svg>
+          </div>
+          <p class="uc__petit">Chaque partage ramène de nouveaux amis sur la page&nbsp;: la boucle, en pointillé, est le moteur de la campagne.</p>
+        </section>
+
+        <section class="uc__bloc uc__flux" data-l="12">
+          <h2 class="uc__label">Le parcours</h2>
+          <p class="uc__fort">Un parcours court, qui porte deux idées&nbsp;: la personnalisation et la place de la pub.</p>
+          <ol class="flux" data-anime="flux">
+            <li class="flux__etape"><span class="flux__boite"><strong>Arrivée</strong><span>Animation automatique</span></span></li>
+            <li class="flux__etape flux__etape--decision"><span class="flux__pastille">Décision</span><span class="flux__boite"><strong>Pub Accu-Chek</strong><span>Bouton pour passer</span></span><em class="flux__note">Respecter l’intention</em></li>
+            <li class="flux__etape"><span class="flux__boite"><strong>Consentement</strong><span>Données marketing</span></span></li>
+            <li class="flux__etape"><span class="flux__boite"><strong>Prise de photo</strong><span>Selfie retourné</span></span></li>
+            <li class="flux__etape flux__etape--decision"><span class="flux__pastille">Décision</span><span class="flux__boite"><strong>Personnalisation</strong><span>Autocollants, émojis, texte, bandeau</span></span><em class="flux__note">S’approprier, c’est partager</em></li>
+            <li class="flux__etape flux__etape--decision"><span class="flux__pastille">Décision</span><span class="flux__boite"><strong>Chargement</strong><span>La photo se retourne, la pub occupe l’attente</span></span><em class="flux__note">L’attente devient une occasion</em></li>
+            <li class="flux__etape"><span class="flux__boite"><strong>Photo prête</strong><span>Retournée</span></span></li>
+            <li class="flux__etape flux__etape--decision"><span class="flux__pastille">Décision</span><span class="flux__boite"><strong>Partage</strong><span>Réseaux sociaux, 1 partage = 1 don</span></span><em class="flux__note">Un geste, un impact réel</em></li>
+          </ol>
+        </section>
+
+        <h2 class="uc__grand-mot mot-tape" data-anime="tape"><span>Vue, pas<br>subie</span></h2>
+
+        <section class="uc__bloc uc__pub" data-l="9">
+          <h2 class="uc__label">La problématique de la pub</h2>
+          <p class="uc__fort">Placer la pub dans les creux du parcours.</p>
+          <p class="uc__petit">Le mandat imposait une publicité produit. Or une pub crée une friction, trahit la cause et casse l’élan. Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement, quand on attend déjà. Selon Sweller, une interruption dans un temps d’attente naturel n’ajoute aucune friction.</p>
+          <div class="pub" data-anime="pub" role="img" aria-label="Animation de deux téléphones : à l’entrée, la pub Accu-Chek avec un bouton pour passer qui se débloque ; pendant le chargement, la pub occupe l’attente jusqu’à ce que la photo soit prête.">
+            <figure class="pub__ecran">
+              <div class="pub__tel">
+                <div class="pub__annonce"><b>Accu-Chek</b><span>Discover the upside</span></div>
+                <span class="pub__passer">Passer dans 3</span>
+              </div>
+              <figcaption>1 · À l’entrée</figcaption>
+            </figure>
+            <figure class="pub__ecran pub__ecran--charge">
+              <div class="pub__tel">
+                <div class="pub__attente"><svg class="pub__roue" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"/><path d="M20 4a16 16 0 0 1 16 16"/></svg><svg class="pub__ok" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"/><path d="M13 20.5l5 5 9-10"/></svg><span class="pub__etat">Photo en cours…</span></div>
+                <div class="pub__annonce"><i>Pendant ce temps</i><b>Accu-Chek</b><span>Discover the upside</span></div>
+              </div>
+              <figcaption>2 · Pendant le chargement</figcaption>
+            </figure>
+          </div>
+        </section>
+
         <ul class="uc__chiffres" aria-label="En bref">
           <li><strong>5&nbsp;$</strong><span>donnés à la recherche par selfie publié</span></li>
           <li><strong>2</strong><span>moments choisis pour la publicité</span></li>
           <li><strong>1&nbsp;mois</strong><span>de l’idée à la mise en ligne</span></li>
         </ul>
 
-        <section class="uc__bloc">
-          <h2 class="uc__label">En donnant envie de partager</h2>
-          <p class="uc__fort">Plus on s’investit dans une image, plus on la partage.</p>
-          <p class="uc__petit">Texte, émojis, autocollants&nbsp;: chacun s’approprie son selfie retourné.</p>
-        </section>
-
-        <section class="uc__bloc">
-          <h2 class="uc__label">En choisissant le bon moment</h2>
-          <p class="uc__fort">Une pub vue, pas subie.</p>
-          <figure class="uc__figure"><img src="roche-pub-1145.webp" alt="Les deux points d’insertion de la publicité." width="1145" height="860" loading="lazy"><figcaption>Les deux points d’insertion de la publicité.</figcaption></figure>
-          <p class="uc__petit">Deux moments seulement&nbsp;: à l’entrée, avec un bouton pour passer, et pendant le chargement de la photo, quand on attend déjà.</p>
-        </section>
-
         <div class="uc__bilan">
         <section class="uc__bloc">
           <h2 class="uc__label">Ce qu’on a obtenu</h2>
           <p class="uc__fort">Une campagne reprise par Strategy Magazine et Newswire Canada.</p>
+          <p class="uc__petit">Les deux citent Cossette comme agence créative.</p>
           <p><a class="uc__lien" href="https://www.newswire.ca/news-releases/roche-diabetes-care-invites-canadians-to-join-the-upsidechallenge-in-support-of-national-diabetes-awareness-month-699286681.html" target="_blank" rel="noopener">Lire le communiqué de presse ↗</a></p>
         </section>
 
-        <section class="uc__bloc">
+        <section class="uc__bloc uc__autrement" data-l="6">
           <h2 class="uc__label">Ce que je ferais autrement</h2>
           <p class="uc__fort">Moins de champs, moins d’abandons.</p>
-          <p class="uc__petit">Réduire le formulaire marketing imposé&nbsp;: chaque champ est un risque d’abandon.</p>
+          <div class="form-reduit" data-anime="formulaire" role="img" aria-label="Animation : un formulaire de quatre champs perd les deux champs superflus.">
+            <span class="form-reduit__champ form-reduit__champ--trop"><i>Nom</i><b></b></span>
+            <span class="form-reduit__champ"><i>Courriel</i><b></b></span>
+            <span class="form-reduit__champ form-reduit__champ--trop"><i>Pourquoi cette cause vous touche</i><b></b></span>
+            <span class="form-reduit__champ form-reduit__champ--case"><b></b><i>J’accepte que mon selfie compte pour un don</i></span>
+            <span class="form-reduit__bouton">Participer</span>
+          </div>
+          <p class="uc__petit">Le formulaire marketing était imposé&nbsp;; je l’ai intégré tel quel. Aujourd’hui, je pousserais pour le réduire&nbsp;: chaque champ superflu est un risque d’abandon, surtout dans une expérience aussi courte.</p>
         </section>
         </div>
       </article>
@@ -17835,6 +18154,157 @@ document.addEventListener('click', (e) => {
     regarder(Math.cos(a) * 1000, Math.sin(a) * 1000);
   }, 1600);
 })();
+/* Roche et Le démarrage : les schémas s'animent quand on les voit (et s'arrêtent sinon). */
+(function animationsEtudes() {
+  const racines = [document.getElementById('doc-roche'), document.getElementById('doc-demarrage')].filter(Boolean);
+  if (!racines.length) return;
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const attendre = (ms) => new Promise((r) => setTimeout(r, ms));
+  const kit = window.demarrageKit;
+  const tout = (sel) => racines.flatMap((r) => [...r.querySelectorAll(sel)]);
+  // Décalages d'apparition.
+  tout('.postits').forEach((p) => p.querySelectorAll('.postit').forEach((e, i) => e.style.setProperty('--i', i)));
+  tout('.dem-liaisons').forEach((p) => p.querySelectorAll('li').forEach((e, i) => e.style.setProperty('--i', i)));
+  // Lettres des grands mots tapés.
+  tout('.mot-tape').forEach((h) => {
+    const marcher = (n) => [...n.childNodes].forEach((c) => {
+      if (c.nodeType === 3) {
+        const f = document.createDocumentFragment();
+        [...c.textContent].forEach((ch) => { const s = document.createElement('span'); s.className = 'dl'; s.textContent = ch; f.append(s); });
+        c.replaceWith(f);
+      } else if (c.nodeType === 1 && c.tagName !== 'BR') marcher(c);
+    });
+    marcher(h);
+  });
+  // Grille des dons.
+  tout('.don__grille').forEach((g) => { for (let k = 0; k < 24; k++) g.append(document.createElement('i')); });
+  // Le démarrage : signes, liaisons, clé et rejeu, avec les mêmes pièces que l'écran.
+  if (kit) {
+    const NOMS = [['bebe', 'Naissance'], ['epi', 'Campagne'], ['palette', 'Art'], ['cerveau', 'Cerveau'], ['eclair', 'Énergie'], ['livre', 'Lecture'], ['piano', 'Piano'], ['tour', 'Paris'], ['globe', 'Voyages'], ['lys', 'Québec'], ['maison', 'Maison']];
+    tout('.dem-signes').forEach((g) => NOMS.forEach(([n, nom], i) => {
+      if (!kit.signes[n]) return;
+      const f = document.createElement('figure');
+      f.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="' + kit.signes[n] + '"/></svg><figcaption>' + nom + '</figcaption>';
+      f.querySelector('path').style.setProperty('--i', i);
+      g.append(f);
+    }));
+    const montrer = (el) => { el.classList.add('est-la'); el.querySelectorAll('.dl').forEach((l) => l.classList.add('est-la')); };
+    tout('[data-morceau]').forEach((s) => { const m = kit.morceau(s.dataset.morceau); montrer(m); s.append(m); });
+    const ligne = (t) => { const l = document.createElement('span'); l.className = 'demarrage__ligne'; t.split('|').forEach((m) => l.append(kit.morceau(m))); return l; };
+    tout('[data-ligne]').forEach((s) => { const l = ligne(kit.lignes[+s.dataset.ligne] || ''); l.querySelectorAll('.dm').forEach(montrer); s.append(l); });
+    tout('.dem-rejeu').forEach((r) => kit.lignes.forEach((t) => r.append(ligne(t))));
+  }
+  // Le rejeu tient dans sa carte : la taille baisse si une ligne déborde.
+  function ajusterRejeu(r) {
+    r.style.setProperty('--dm', '32px');
+    const W = r.clientWidth, large = Math.max(1, ...[...r.children].map((l) => l.scrollWidth));
+    if (W && large > W) r.style.setProperty('--dm', Math.max(10, Math.floor(32 * W / large)) + 'px');
+  }
+
+  const boucles = {
+    async envers(el, vu) {
+      if (calme) { el.classList.add('retourne'); return; }
+      while (vu()) { await attendre(1200); el.classList.toggle('retourne'); await attendre(1600); }
+    },
+    async tape(el, vu) {
+      const lettres = [...el.querySelectorAll('.dl')];
+      if (calme) return;
+      el.classList.add('frappe');
+      while (vu()) {
+        lettres.forEach((l) => l.classList.remove('est-la'));
+        await attendre(500);
+        for (const l of lettres) { if (!vu()) break; l.classList.add('est-la'); await attendre(90 + Math.random() * 60); }
+        await attendre(2800);
+      }
+      el.classList.remove('frappe');
+    },
+    async selfie(el, vu) {
+      const decos = [...el.querySelectorAll('.selfie__deco')];
+      const fin = () => { el.classList.add('retourne', 'partage'); decos.forEach((d) => d.classList.add('est-la')); };
+      if (calme) { fin(); return; }
+      while (vu()) {
+        el.classList.remove('retourne', 'partage'); decos.forEach((d) => d.classList.remove('est-la'));
+        await attendre(900);
+        el.classList.add('retourne'); await attendre(1000);
+        for (const d of decos) { if (!vu()) break; d.classList.add('est-la'); await attendre(450); }
+        await attendre(300); el.classList.add('partage'); await attendre(2600);
+      }
+    },
+    async don(el, vu) {
+      const cases = [...el.querySelectorAll('.don__grille i')], chiffre = el.querySelector('.don__chiffre');
+      if (calme) { cases.forEach((c) => c.classList.add('est-la')); chiffre.textContent = cases.length * 5; return; }
+      while (vu()) {
+        cases.forEach((c) => c.classList.remove('est-la')); chiffre.textContent = '0';
+        await attendre(700);
+        for (let k = 0; k < cases.length; k++) { if (!vu()) break; cases[k].classList.add('est-la'); chiffre.textContent = (k + 1) * 5; await attendre(180); }
+        await attendre(2400);
+      }
+    },
+    async flux(el, vu) {
+      const etapes = [...el.querySelectorAll('.flux__etape')];
+      if (calme) return;
+      while (vu()) {
+        for (const e of etapes) {
+          if (!vu()) break;
+          etapes.forEach((x) => x.classList.toggle('est-actif', x === e));
+          await attendre(e.classList.contains('flux__etape--decision') ? 1500 : 800);
+        }
+        etapes.forEach((x) => x.classList.remove('est-actif'));
+        await attendre(900);
+      }
+      etapes.forEach((x) => x.classList.remove('est-actif'));
+    },
+    async pub(el, vu) {
+      const passer = el.querySelector('.pub__passer'), etat = el.querySelector('.pub__etat');
+      const fin = () => { el.classList.add('pret'); passer.textContent = 'Passer →'; etat.textContent = 'Photo prête'; };
+      if (calme) { fin(); return; }
+      while (vu()) {
+        el.classList.remove('pret'); etat.textContent = 'Photo en cours…';
+        for (let s = 3; s > 0; s--) { passer.textContent = 'Passer dans ' + s; await attendre(1000); if (!vu()) break; }
+        fin(); await attendre(2600);
+      }
+    },
+    async formulaire(el, vu) {
+      if (calme) { el.classList.add('reduit'); return; }
+      while (vu()) { el.classList.remove('reduit'); await attendre(1800); el.classList.add('reduit'); await attendre(3200); }
+    },
+    async rejeu(el, vu) {
+      ajusterRejeu(el);
+      const pieces = [...el.querySelectorAll('.demarrage__ligne')].map((l) => [...l.querySelectorAll(':scope > .dm')]);
+      const montrerTout = () => pieces.flat().forEach((m) => { m.classList.add('est-la'); m.querySelectorAll('.dl').forEach((l) => l.classList.add('est-la')); });
+      if (calme) { montrerTout(); return; }
+      while (vu()) {
+        el.querySelectorAll('.est-la').forEach((x) => x.classList.remove('est-la'));
+        await attendre(500);
+        for (const ligneM of pieces) {
+          for (const m of ligneM) {
+            if (!vu()) break;
+            const lettres = [...m.querySelectorAll('.dl')];
+            m.classList.add('est-la');
+            if (!lettres.length) { await attendre(90); continue; }
+            for (const l of lettres) { l.classList.add('est-la'); await attendre(28); }
+            await attendre(40);
+          }
+          await attendre(80);
+        }
+        await attendre(2600);
+      }
+      montrerTout();
+    }
+  };
+
+  const visibles = new Set(), enCours = new Set();
+  const obs = new IntersectionObserver((es) => es.forEach((e) => {
+    const el = e.target;
+    if (e.isIntersecting) {
+      visibles.add(el); el.classList.add('est-vu');
+      const f = boucles[el.dataset.anime];
+      if (f && !enCours.has(el)) { enCours.add(el); Promise.resolve(f(el, () => visibles.has(el))).catch(() => {}).finally(() => enCours.delete(el)); }
+    } else { visibles.delete(el); el.classList.remove('est-vu'); }
+  }), { threshold: 0.35 });
+  tout('[data-anime]').forEach((el) => obs.observe(el));
+  addEventListener('resize', () => tout('.dem-rejeu').forEach(ajusterRejeu));
+})();
 /* Pharmaprix : les animations démarrent quand on les voit (et s'arrêtent sinon). */
 (function animationsPharmaprix() {
   const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -18267,7 +18737,7 @@ document.addEventListener('click', (e) => {
 // GVQ, Roche et Le démarrage : le même parcours de cartes que Pharmaprix.
 // Droite, bas, droite, haut, droite. La caméra ne suit qu'une seule valeur, la progression.
 (function parcoursEtudes() {
-  const RANGEES = { gvq: [3, 2], roche: [2, 2], demarrage: [3, 2] };
+  const RANGEES = { gvq: [3, 2], roche: [4, 4], demarrage: [4, 3] };
   const grand = () => matchMedia('(min-width: 1024px)').matches;
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const COTES = ['left', 'top', 'width', 'height'];
@@ -18292,6 +18762,8 @@ document.addEventListener('click', (e) => {
     const base = () => (raf ? but : progres);
     const frein = (p) => 0.3 + 0.7 * Math.min(1, coins.reduce((m, c) => Math.min(m, Math.abs(p - c)), Infinity) / 180);
     const largeur = (el, L) => {
+      if (el.dataset.l) return L(+el.dataset.l);
+      if (el.classList.contains('uc__grand-mot')) { const r = document.createRange(); r.selectNodeContents(el); return Math.ceil(r.getBoundingClientRect().width) + 8; }
       if (el.classList.contains('uc__tete')) return el.querySelector(':scope > .uc__figure') ? L(12) : L(9);
       if (el.classList.contains('uc__fin')) return L(3);
       if (el.querySelector('.uc__cle')) return L(15);
