@@ -9956,17 +9956,8 @@
   #doc-loblaw .tape.frappe .tape__curseur { opacity: 1; animation: tape-curseur 1s steps(1) infinite; }
   #doc-loblaw .tape.frappe.tape--actif .tape__curseur { animation: none; }
   @keyframes tape-curseur { 50% { opacity: 0; } }
-  /* Carte dosage en cobalt : textes blancs, champ blanc cerné d'un anneau blanc,
-     icônes d'état sur une pastille blanche pour garder le contraste. */
+  /* Carte dosage : la ligne « Rouge … Différencier les » fixe la largeur. */
   @media (min-width: 1024px) { #doc-loblaw .dose-ligne { white-space: nowrap; } }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage { background: var(--cobalt) !important; outline: 0 !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > :is(.uc__label, .uc__fort, .uc__petit),
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__petit strong,
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose :is(.dose__label, .dose__message, .dose__statut, .dose__texte) { color: #FFFFFF !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose .dose__aide { color: rgba(255, 255, 255, 0.82) !important; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose .dose__champ { border: 1px solid #FFFFFF; outline: 2px solid #FFFFFF; outline-offset: 2px; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose:is(.orange, .rouge, .vert) .dose__champ { border: 2px solid var(--dose-etat); outline: 1px solid #FFFFFF; outline-offset: 0; }
-  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose.dose .dose__icone { box-sizing: border-box; padding: 2px; border-radius: 50%; background: #FFFFFF; }
   /* Carte formulaire : les trois usages en liste. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-liste { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 0 0 20px !important; list-style: disc; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-liste li { margin: 0 !important; padding: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; list-style: disc !important; }
