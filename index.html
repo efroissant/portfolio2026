@@ -6589,7 +6589,8 @@
       display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
       column-gap: var(--gout); row-gap: 32px; margin: 0 0 64px; color: #1C1917;
     }
-    .mob-accueil > .en-ce-moment { grid-column: 1 / -1; }
+    /* « En ce moment » (heure, activité, infos) : retiré du mobile. */
+    .mob-accueil > .en-ce-moment { display: none; }
     .face-a-mobile img.face-a-mobile__photo {
       display: block; width: 100%; height: auto; aspect-ratio: 3 / 2;
       object-fit: cover; object-position: 30% 50%;
