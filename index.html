@@ -10340,6 +10340,30 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(4) { transition-delay: 1700ms; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__passerelle.est-vu .uc__flow > li:nth-child(5) { transition-delay: 2200ms; }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow > li { opacity: 1; transform: none; transition: none !important; } }
+  /* Pharmaprix, sexe, genre et pronoms : des listes qu'on remplit, le curseur fait les choix. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { position: relative; z-index: 2; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs { position: relative; display: flex; flex-direction: column; gap: 0; width: 100%; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto 12px; align-items: center; column-gap: 8px; box-sizing: border-box; height: 56px; padding: 0 16px; border-radius: var(--r-controle); background: #FFFFFF; transition: height 420ms cubic-bezier(.22, 1, .36, 1), opacity 320ms ease, margin 420ms cubic-bezier(.22, 1, .36, 1), transform 420ms cubic-bezier(.22, 1, .36, 1); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ + .cs__champ { margin-top: 8px; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ--ajout { height: 0; margin-top: 0 !important; opacity: 0; transform: translateY(-8px); overflow: hidden; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__champ--ajout { height: 56px; margin-top: 8px !important; opacity: 1; transform: none; overflow: visible; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.trois .cs__champ--ajout + .cs__champ--ajout { transition-delay: 160ms; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__nom { font-size: 20px !important; line-height: 28px !important; font-weight: 500; color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__val { font-size: 20px !important; line-height: 28px !important; color: #78716C !important; white-space: nowrap; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ.rempli .cs__val { color: var(--encre) !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__fleche { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid var(--encre); transition: transform 200ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ.ouvert { z-index: 3; outline: 2px solid #FFFFFF; outline-offset: 2px; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ.ouvert .cs__fleche { transform: rotate(180deg); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste { position: absolute; z-index: 4; left: 0; right: 0; top: calc(100% + 6px); margin: 0 !important; padding: 6px !important; list-style: none; background: #FFFFFF; border-radius: var(--r-controle); box-shadow: 0 12px 32px rgba(15, 23, 60, 0.35); opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 180ms ease, transform 220ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ.haut .cs__liste { top: auto; bottom: calc(100% + 6px); transform: translateY(6px); }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__champ.ouvert .cs__liste { opacity: 1; transform: none; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste li { margin: 0 !important; padding: 6px 10px !important; border-radius: var(--r-detail); font-size: 16px !important; line-height: 24px !important; color: var(--encre) !important; list-style: none !important; transition: background-color 120ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste li:last-child { margin-top: 4px !important; border-top: 1px solid rgba(28, 25, 23, 0.12); border-radius: 0 0 var(--r-detail) var(--r-detail); color: #57534E !important; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste li.survol { background: #E8EDF9; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris { position: absolute; z-index: 6; left: 0; top: 0; width: 20px; height: 24px; margin: -2px 0 0 -2px; fill: var(--encre); stroke: #FFFFFF; stroke-width: 1.5; stroke-linejoin: round; opacity: 0; pointer-events: none; transition: transform 700ms cubic-bezier(.45, 0, .2, 1), opacity 200ms ease, scale 140ms ease; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.visible { opacity: 1; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__souris.clic { scale: 0.82; }
+  @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe :is(.cs__champ, .cs__liste) { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -11690,13 +11714,19 @@
         <section class="uc__bloc">
           <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
           <p class="uc__fort">Séparer le sexe, le genre et les pronoms.</p>
-          <div class="sexe uc__anime" aria-label="Animation : le champ unique « Sexe » se divise en trois champs, sexe, genre et pronoms.">
-            <div class="sexe__unique"><span class="sexe__nom">Sexe</span><span class="sexe__val">Féminin ▾</span></div>
-            <div class="sexe__trois">
-              <div><span class="sexe__nom">Sexe</span><span class="sexe__pour">pour les dosages</span><span class="sexe__val">Féminin ▾</span></div>
-              <div><span class="sexe__nom">Genre</span><span class="sexe__pour">pour l’identité</span><span class="sexe__val">Non binaire ▾</span></div>
-              <div><span class="sexe__nom">Pronoms</span><span class="sexe__pour">pour l’accueil au comptoir</span><span class="sexe__val">iel ▾</span></div>
+          <div class="sexe uc__anime" role="img" aria-label="Animation : un seul champ « Sexe », puis les champs « Genre » et « Pronoms » s’ajoutent dessous. Le curseur ouvre chaque liste et choisit une réponse : Féminin, Personne non binaire, iel. Chaque liste propose aussi « Ne souhaite pas répondre ».">
+            <div class="cs">
+              <div class="cs__champ" data-champ="sexe"><span class="cs__nom">Sexe</span><span class="cs__val">Choisir</span><span class="cs__fleche" aria-hidden="true"></span>
+                <ul class="cs__liste"><li>Féminin</li><li>Masculin</li><li>Intersexe</li><li>Ne souhaite pas répondre</li></ul>
+              </div>
+              <div class="cs__champ cs__champ--ajout" data-champ="genre"><span class="cs__nom">Genre</span><span class="cs__val">Choisir</span><span class="cs__fleche" aria-hidden="true"></span>
+                <ul class="cs__liste"><li>Femme</li><li>Homme</li><li>Personne non binaire</li><li>Autre (préciser)</li><li>Ne souhaite pas répondre</li></ul>
+              </div>
+              <div class="cs__champ cs__champ--ajout" data-champ="pronoms"><span class="cs__nom">Pronoms</span><span class="cs__val">Choisir</span><span class="cs__fleche" aria-hidden="true"></span>
+                <ul class="cs__liste"><li>elle</li><li>il</li><li>iel</li><li>Mon prénom seulement</li><li>Autre (préciser)</li><li>Ne souhaite pas répondre</li></ul>
+              </div>
             </div>
+            <svg class="cs__souris" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2l15 11.5-6.6.9 3.9 7.6-3 1.5-3.9-7.7L2 20.6z"/></svg>
           </div>
           <p class="uc__petit">Trois concepts distincts. Les fusionner aurait créé de la confusion clinique. Les ignorer aurait exclu des patients. Un design inclusif a un impact systémique.</p>
         </section>
@@ -18867,10 +18897,43 @@ document.addEventListener('click', (e) => {
     }
     t.textContent = 'la saisie'; tape.classList.remove('frappe', 'tape--actif');
   }
+  // Un seul champ « Sexe », puis « Genre » et « Pronoms » s'ajoutent dessous ;
+  // le curseur ouvre chaque liste, choisit une réponse et passe au suivant.
   async function boucleSexe() {
+    const champs = [...sexe.querySelectorAll('.cs__champ')], souris = sexe.querySelector('.cs__souris');
+    const CHOIX = { sexe: 'Féminin', genre: 'Personne non binaire', pronoms: 'iel' };
+    const option = (c) => [...c.querySelectorAll('.cs__liste li')].find((li) => li.textContent === CHOIX[c.dataset.champ]);
+    const remettre = () => {
+      sexe.classList.remove('trois');
+      champs.forEach((c) => { c.classList.remove('ouvert', 'rempli', 'haut'); c.querySelector('.cs__val').textContent = 'Choisir'; c.querySelectorAll('li').forEach((li) => li.classList.remove('survol')); });
+    };
+    const finir = () => { sexe.classList.add('trois'); champs.forEach((c) => { c.classList.add('rempli'); c.querySelector('.cs__val').textContent = CHOIX[c.dataset.champ]; }); };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { finir(); return; }
+    // Le curseur se déplace vers le centre d'un élément, en coordonnées de la carte.
+    const vers = (el, dx = 0.5) => {
+      const r = el.getBoundingClientRect(), o = sexe.getBoundingClientRect();
+      souris.style.transform = 'translate(' + Math.round(r.left - o.left + r.width * dx) + 'px,' + Math.round(r.top - o.top + r.height / 2) + 'px)';
+    };
+    const clic = async () => { souris.classList.add('clic'); await attendre(160); souris.classList.remove('clic'); };
     while (visibles.has(sexe)) {
-      sexe.classList.remove('trois'); await attendre(1800);
-      sexe.classList.add('trois'); await attendre(3600);
+      remettre(); souris.classList.remove('visible');
+      await attendre(1200); if (!visibles.has(sexe)) break;
+      sexe.classList.add('trois'); await attendre(1100);
+      souris.style.transition = 'none'; vers(sexe.querySelector('.cs'), 0.9); souris.offsetWidth; souris.style.transition = '';
+      souris.classList.add('visible'); await attendre(300);
+      for (const c of champs) {
+        if (!visibles.has(sexe)) break;
+        vers(c, 0.82); await attendre(750); await clic();
+        const bas = sexe.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
+        c.classList.toggle('haut', bas < c.querySelector('.cs__liste').scrollHeight + 16);
+        c.classList.add('ouvert'); await attendre(450);
+        const li = option(c);
+        vers(li, 0.3); await attendre(700);
+        li.classList.add('survol'); await attendre(250); await clic();
+        c.querySelector('.cs__val').textContent = li.textContent; c.classList.add('rempli');
+        c.classList.remove('ouvert'); li.classList.remove('survol'); await attendre(450);
+      }
+      souris.classList.remove('visible'); await attendre(3200);
     }
   }
 })();
