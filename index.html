@@ -19314,11 +19314,13 @@ document.addEventListener('click', (e) => {
   const zone = document.querySelector('#doc-loblaw .ecran-erreurs');
   if (!zone) return;
   const figure = zone.closest('.uc__tete-visuel') || zone;
-  const lancer = () => { zone.classList.add('est-vu'); figure.classList.add('est-vu'); };
-  if (!('IntersectionObserver' in window)) { lancer(); return; }
-  const io = new IntersectionObserver((entrees) => {
-    if (entrees.some((e) => e.isIntersecting)) { io.disconnect(); lancer(); }
-  }, { threshold: 0.6 });
+  const lancer = (oui) => { zone.classList.toggle('est-vu', oui); figure.classList.toggle('est-vu', oui); };
+  if (!('IntersectionObserver' in window)) { lancer(true); return; }
+  // Rejoue à chaque retour : les pastilles repartent de zéro quand la capture sort de l'écran.
+  const io = new IntersectionObserver((entrees) => entrees.forEach((e) => {
+    if (e.intersectionRatio >= 0.6) lancer(true);
+    else if (!e.isIntersecting) lancer(false);
+  }), { threshold: [0, 0.6] });
   io.observe(zone);
 })();
 
