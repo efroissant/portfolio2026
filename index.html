@@ -10391,12 +10391,12 @@
     html body .stage .profil .bio-photos > .bio-photo--plage .eclair img { width: 84% !important; height: 82% !important; margin: 9% 8% !important; border-radius: 3cqi !important; }
   }
   /* ===== Pharmaprix : concevoir dans la résistance, et la frise du projet ===== */
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc) { display: flex !important; flex-direction: column !important; gap: 16px !important; box-sizing: border-box !important; padding: 24px !important; background: var(--blanc) !important; outline: 1px solid rgba(28, 25, 23, 0.4) !important; outline-offset: -1px !important; border: 0 !important; border-radius: var(--r-carte) !important; overflow: hidden !important; }
-  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc) > * { align-self: stretch !important; text-align: left !important; grid-column: auto !important; grid-row: auto !important; width: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) { display: flex !important; flex-direction: column !important; gap: 16px !important; box-sizing: border-box !important; padding: 24px !important; background: var(--blanc) !important; outline: 1px solid rgba(28, 25, 23, 0.4) !important; outline-offset: -1px !important; border: 0 !important; border-radius: var(--r-carte) !important; overflow: hidden !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) > * { align-self: stretch !important; text-align: left !important; grid-column: auto !important; grid-row: auto !important; width: auto !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__resistance > .uc__petit { margin-top: auto !important; }
   html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc > .uc__petit { margin-top: auto !important; color: var(--gris-texte) !important; }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc) { position: absolute !important; } }
-  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc) { position: relative !important; min-height: 0 !important; margin: 0 0 24px !important; } html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc .frise { min-width: 720px; } html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc { overflow-x: auto !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) { position: absolute !important; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) { position: relative !important; min-height: 0 !important; margin: 0 0 24px !important; } html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc .frise { min-width: 720px; } html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc { overflow-x: auto !important; } }
   /* La frise. */
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .frise { --axe: 176px; --vert: #2F7D5B; --rouge: #C8442F; --ocre: #B8742A; --gris: #8A8580; position: relative; flex: none; height: 272px; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .frise__phase { position: absolute; top: 0; height: calc(var(--axe) + 24px); left: var(--de); width: calc(var(--a) - var(--de)); box-sizing: border-box; padding: 12px 14px; border-radius: var(--r-controle); display: flex; flex-direction: column; gap: 0; transform-origin: left center; }
@@ -10443,6 +10443,17 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .est-vu .frise__txt { opacity: 1; translate: 0 0; transition: opacity 360ms ease calc(0.5s + var(--t) * 2.4s), translate 420ms ease calc(0.5s + var(--t) * 2.4s); }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc .est-vu .frise__legende { opacity: 1; transition: opacity 500ms ease 3s; }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc .frise :is(.frise__axe, .frise__phase, .frise__point, .frise__tige, .frise__txt), html body .stage #doc-loblaw.doc .uc.uc.uc.uc .frise__legende { transform: none !important; translate: none !important; opacity: 1 !important; transition: none !important; } }
+  /* Pharmaprix : la carte de conclusion, en cobalt comme celle d'ouverture. */
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { background: var(--cobalt) !important; outline: 0 !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion :is(.uc__label, .uc__fort, .uc__petit, li, li span) { color: #FFFFFF !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .uc__label { opacity: 0.8; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .conclusion__points { display: flex; flex-direction: column; gap: 0; margin: auto 0 0 !important; padding: 0 !important; list-style: none; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .conclusion__points li { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: baseline; margin: 0 !important; padding: 12px 0 !important; border-top: 1px solid rgba(255, 255, 255, 0.4); list-style: none !important; font-size: 20px !important; line-height: 28px !important; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .conclusion__points li span { font-family: "Instrument Serif", Georgia, serif !important; font-size: 20px !important; line-height: 28px !important; opacity: 0.8; }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .conclusion__points li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+  html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion > .uc__petit { margin-top: 8px !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { position: absolute !important; } }
+  @media (max-width: 1023px) { html body .stage #doc-loblaw.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { position: relative !important; min-height: 0 !important; margin: 0 0 24px !important; } }
 </style>
 </head>
 <body>
@@ -11842,6 +11853,17 @@
           <p class="uc__petit">C’est ce qu’ont dit les pharmaciens aux tests, face à Healthwatch. Le projet a été arrêté faute de budget.</p>
         </section>
         </div>
+
+        <section class="uc__bloc uc__conclusion">
+          <h2 class="uc__label">Conclusion</h2>
+          <p class="uc__fort">Un projet arrêté, une méthode qui reste.</p>
+          <ol class="conclusion__points">
+            <li><span>01</span>Partir du terrain, même quand l’accès aux utilisateurs est fermé.</li>
+            <li><span>02</span>Documenter pour convaincre, surtout face à la résistance.</li>
+            <li><span>03</span>Concevoir pour tous les patients, pas seulement pour la majorité.</li>
+          </ol>
+          <p class="uc__petit">Healthwatch n’a pas été mis en production. Mais devant les pharmaciens, chaque choix a tenu.</p>
+        </section>
       </article>
     </div>
    </div>
@@ -19090,6 +19112,7 @@ document.addEventListener('click', (e) => {
     dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
     sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
     resistance: page.querySelector(':scope > .uc__resistance'),
+    conclusion: page.querySelector(':scope > .uc__conclusion'),
     frise: page.querySelector(':scope > .uc__frise-bloc'),
     bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
   });
@@ -19202,7 +19225,8 @@ document.addEventListener('click', (e) => {
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
     poser(c.frise, x, haut, L(8), H); x += L(8) + G;
-    poser(c.bilan1, x, haut, L(4), H); x += L(4);
+    poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
+    poser(c.conclusion, x, haut, L(5), H); x += L(5);
     const cam3 = Math.max(cam2, x - W, xFinal);
     chemin = tracer([
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
