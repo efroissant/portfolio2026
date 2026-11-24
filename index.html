@@ -10374,6 +10374,11 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge.pleine .cs__jauge-piste { box-shadow: 0 0 12px rgba(255, 255, 255, 0.5); }
   @media (prefers-reduced-motion: reduce) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe :is(.cs__jauge, .cs__jauge-piste i) { transition: none !important; } }
   @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { padding-bottom: 40px !important; } }
+  /* Pharmaprix : la jauge au-dessus des champs, jamais masquée ; les listes s'ouvrent vers le bas. */
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__jauge { margin: 0 0 16px !important; opacity: 1; transform: none; }
+  html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe .cs__liste li { padding: 4px 10px !important; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .sexe.sexe { justify-content: flex-start !important; padding-top: 88px !important; padding-bottom: 24px !important; } }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) > .uc__fort:first-child { margin-top: 24px !important; } }
 </style>
 </head>
 <body>
@@ -11722,9 +11727,9 @@
         </div>
 
         <section class="uc__bloc">
-          <h2 class="uc__label">Dans un seul champ «&nbsp;Sexe&nbsp;»</h2>
-          <p class="uc__fort">Séparer le sexe, le genre et les pronoms.</p>
+          <p class="uc__fort">De «&nbsp;Sexe&nbsp;» à sexe, genre et pronoms.</p>
           <div class="sexe uc__anime" role="img" aria-label="Animation : un seul champ « Sexe », puis les champs « Genre » et « Pronoms » s’ajoutent dessous. Le curseur ouvre chaque liste et choisit une réponse : Féminin, Personne non binaire, iel. Chaque liste propose aussi « Ne souhaite pas répondre ».">
+            <div class="cs__jauge" role="presentation"><span class="cs__jauge-nom">Inclusivité</span><span class="cs__jauge-val">0&nbsp;%</span><span class="cs__jauge-piste"><i></i></span></div>
             <div class="cs">
               <div class="cs__champ" data-champ="sexe"><span class="cs__nom">Sexe</span><span class="cs__val">Choisir</span><span class="cs__fleche" aria-hidden="true"></span>
                 <ul class="cs__liste"><li>Féminin</li><li>Masculin</li><li>Intersexe</li><li>Ne souhaite pas répondre</li></ul>
@@ -11736,7 +11741,6 @@
                 <ul class="cs__liste"><li>elle</li><li>il</li><li>iel</li><li>Mon prénom seulement</li><li>Autre (préciser)</li><li>Ne souhaite pas répondre</li></ul>
               </div>
             </div>
-            <div class="cs__jauge" role="presentation"><span class="cs__jauge-nom">Inclusivité</span><span class="cs__jauge-val">0&nbsp;%</span><span class="cs__jauge-piste"><i></i></span></div>
             <svg class="cs__souris" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2l15 11.5-6.6.9 3.9 7.6-3 1.5-3.9-7.7L2 20.6z"/></svg>
           </div>
           <p class="uc__petit">Trois concepts distincts. Les fusionner aurait créé de la confusion clinique. Les ignorer aurait exclu des patients. Un design inclusif a un impact systémique.</p>
@@ -18937,8 +18941,6 @@ document.addEventListener('click', (e) => {
       for (const c of champs) {
         if (!visibles.has(sexe)) break;
         vers(c, 0.82); await attendre(750); await clic();
-        const bas = sexe.getBoundingClientRect().bottom - c.getBoundingClientRect().bottom;
-        c.classList.toggle('haut', bas < c.querySelector('.cs__liste').scrollHeight + 16);
         c.classList.add('ouvert'); await attendre(450);
         const li = option(c);
         vers(li, 0.3); await attendre(700);
