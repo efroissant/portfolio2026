@@ -9443,7 +9443,7 @@
   html body .demarrage, html body .demarrage .demarrage__ligne, html body .demarrage .demarrage__ligne .dm, html body .demarrage .demarrage__ligne .dm * { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; }
   .demarrage .dm--signe .dm__svg + .dm__svg { margin-left: -.3em; }   /* deux visages collés */
   html body .demarrage .demarrage__ligne .dm--gras { font-weight: 500 !important; }
-  html body .demarrage .demarrage__ligne { line-height: 1.75 !important; }   /* 28 px à 16 px */
+  html body .demarrage .demarrage__ligne { line-height: 1.2 !important; }   /* 24 px à 20 px */
   .demarrage .dl.est-la { opacity: 1; }
   @keyframes dm-entree { from { opacity: 0; transform: translateY(.12em); } to { opacity: 1; transform: none; } }
   .demarrage .dm__svg { display: block; width: .92em; height: .92em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1px; stroke-linecap: round; stroke-linejoin: round; }
@@ -10220,11 +10220,11 @@
     const st = getComputedStyle(ecran);
     const W = ecran.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight);
     const H = ecran.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom);
-    // Texte à 16 px ; il ne réduit que si une ligne ne tient pas en largeur.
+    // Texte à 20 px ; il ne réduit que si une ligne ne tient pas en largeur.
     ecran.classList.remove('demarrage--etroit');
     lignes.forEach((l) => {
-      l.style.setProperty('--dm', '16px');
-      if (l.scrollWidth > W) l.style.setProperty('--dm', Math.max(10, Math.floor(16 * W / l.scrollWidth)) + 'px');
+      l.style.setProperty('--dm', '20px');
+      if (l.scrollWidth > W) l.style.setProperty('--dm', Math.max(10, Math.floor(20 * W / l.scrollWidth)) + 'px');
     });
   }
   function suivante() {
