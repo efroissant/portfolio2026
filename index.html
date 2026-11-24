@@ -9971,6 +9971,9 @@
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-liste { display: flex; flex-direction: column; gap: 8px; margin: 0 !important; padding: 0 0 0 20px !important; list-style: disc; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-liste li { margin: 0 !important; padding: 0 !important; font-size: 20px !important; line-height: 28px !important; color: var(--encre) !important; list-style: disc !important; }
   html body .stage #doc-loblaw.doc .uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-liste li strong { font-weight: 500 !important; }
+  /* Contour des cartes adouci à 40 % ; les champs gardent leur contour plein. */
+  html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :not(.uc__audit),
+  html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche, #doc-demarrage).doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { outline-color: rgba(28, 25, 23, 0.4) !important; }
 </style>
 </head>
 <body>
@@ -18018,7 +18021,7 @@ document.addEventListener('click', (e) => {
     doc.style.setProperty('--fenetre', W + 'px');
     // Sur les ordinateurs étroits, les cartes gardent leur largeur : le parcours défile de toute façon.
     const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1);
-    const G = 72, pas = H + 96;
+    const G = 128, pas = H + 128;
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
@@ -18256,7 +18259,7 @@ document.addEventListener('click', (e) => {
       cancelAnimationFrame(raf); raf = 0;
       const avance = points.length ? progres / Math.max(1, total()) : 0;
       doc.style.setProperty('--fenetre', W + 'px');
-      const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1), G = 72, pas = H + 96;
+      const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1), G = 128, pas = H + 128;
       let x = 0, cam1 = 0, cam2 = 0, finRangee1 = 0;
       cartes.slice(0, n1).forEach((el) => { const w = largeur(el, L); poser(el, x, haut, w, H); cam1 = x; finRangee1 = x + w; x += w + G; });
       x = cam1;
