@@ -10879,9 +10879,84 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.dose, .sexe) * { text-align: left !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { justify-content: flex-start !important; }
   html body .stage.a-un-doc img.avatar-accueil { visibility: hidden !important; }
+
+  /* ===================================================================
+     Étude, présentation v2 (référence : études de cas sur colonne étroite) :
+     grand titre et specs, puis une colonne de texte de 540 px, les visuels
+     dans des panneaux blancs plus larges, un sommaire discret à gauche.
+     =================================================================== */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { padding: 136px 0 200px !important; text-align: left !important; font: 400 17px/26px "Geist", "Helvetica Neue", Arial, sans-serif !important; color: #2A2A28 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(p, h2, h3, li, dt, dd, span, strong) { text-align: left !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { display: none !important; }
+  /* Ouverture. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ouverture { display: block !important; padding: 0 24px 160px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ouverture::before { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-meta { display: flex !important; justify-content: space-between !important; margin: 0 0 24px !important; font: 500 14px/20px "Geist", Arial, sans-serif !important; letter-spacing: .01em !important; text-transform: uppercase !important; color: #2A2A28 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-meta span { font: inherit !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-titre { margin: 0 0 56px !important; font: 500 var(--titre-taille, 160px)/.86 "Geist", Arial, sans-serif !important; letter-spacing: -.06em !important; color: #121211 !important; white-space: nowrap !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-bas { display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)) !important; column-gap: 24px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-texte { grid-column: 1 / 6 !important; margin: 0 !important; font: 400 20px/28px "Geist", Arial, sans-serif !important; color: rgba(18, 18, 17, .9) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-specs { grid-column: 7 / 13 !important; margin: 0 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-specs > div { display: grid !important; grid-template-columns: 96px 1fr !important; gap: 24px !important; padding: 14px 0 !important; border-top: 1px solid rgba(18, 18, 17, .12) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-specs dt { font: 400 14px/20px "Geist", Arial, sans-serif !important; color: rgba(18, 18, 17, .6) !important; letter-spacing: 0 !important; text-transform: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-specs dd { margin: 0 !important; font: 400 16px/22px "Geist", Arial, sans-serif !important; color: #121211 !important; }
+
+  /* Sections : une colonne de 540 px, centrée, alignée à gauche, sans filet. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan, .uc__photo--terrain):not(.uc__ouverture)[class][class] {
+    display: block !important; max-width: 540px !important; margin: 0 auto !important; padding: 0 0 120px !important;
+  }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section.uc__bloc[class][class] { display: block !important; padding: 0 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class]::before { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section > [class][class][class] { margin: 0 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__label, .uc__audit-label, .uc__surtitre)[class] { display: block !important; margin: 0 0 12px !important; font: 500 13px/18px "Geist", Arial, sans-serif !important; letter-spacing: .02em !important; text-transform: uppercase !important; color: rgba(18, 18, 17, .5) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre)[class],
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce[class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort[class] {
+    display: block !important; margin: 0 0 16px !important; font: 500 36px/39px "Geist", Arial, sans-serif !important; letter-spacing: -.035em !important; color: #121211 !important;
+  }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce[class] { margin-top: 48px !important; font-size: 24px !important; line-height: 30px !important; letter-spacing: -.02em !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__petit, .uc__corps, .uc__audit-texte, .uc__passerelle-texte, .uc__contexte-texte p, .uc__formulaire-texte p, .uc__formulaire-liste, .uc__formulaire-liste *)[class],
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-texte, .uc__formulaire-texte) > p { margin: 0 0 16px !important; font: 400 17px/26px "Geist", Arial, sans-serif !important; letter-spacing: -.01em !important; color: #2A2A28 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-texte, .uc__formulaire-texte)[class] { display: block !important; }
+
+  /* Visuels : panneaux blancs arrondis, plus larges que la colonne. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.uc__contexte-visuel, .uc__tete-visuel, .lumiere__scene, .uc__formulaire-photo, .dose, .sexe, .frise)[class][class][class][class],
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class] > :is(.uc__contexte-visuel, .uc__tete-visuel, .lumiere__scene, .uc__formulaire-photo, .dose, .sexe, .frise)[class][class][class][class],
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain[class][class] {
+    display: block !important; position: relative !important; width: min(880px, calc(100vw - 48px)) !important; max-width: none !important;
+    left: auto !important; right: auto !important; top: auto !important; transform: none !important; justify-self: auto !important;
+    margin: 48px 0 0 calc((100% - min(880px, 100vw - 48px)) / 2) !important; padding: 48px !important; box-sizing: border-box !important;
+    background: #FFFFFF !important; border: 0 !important; border-radius: 16px !important; box-shadow: none !important; aspect-ratio: auto !important; overflow: visible !important;
+  }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain[class][class] { margin: 0 auto 120px !important; padding: 48px !important; max-width: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-visuel, .lumiere__scene, .uc__formulaire-photo, .uc__photo--terrain) img { position: static !important; filter: none !important; border-radius: 8px !important; aspect-ratio: 3 / 2 !important; height: auto !important; grid-column: auto !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__tete-visuel img { border-radius: 8px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.dose, .sexe)[class][class][class][class] { display: flex !important; flex-direction: column !important; align-items: center !important; padding: 64px 48px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > .frise[class][class][class][class] { padding: 64px 48px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc[class][class] { max-width: 540px !important; }
+
+  /* Listes : en lignes, dans la colonne. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .uc__flow, .conclusion__points)[class] { display: block !important; margin: 32px 0 0 !important; padding: 0 !important; list-style: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .conclusion__points) > li { display: flex !important; gap: 24px !important; padding: 16px 0 !important; border-top: 1px solid rgba(18, 18, 17, .12) !important; font: 400 15px/22px "Geist", Arial, sans-serif !important; color: #2A2A28 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .conclusion__points) > li * { font-size: 15px !important; line-height: 22px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__flow > li { font: 400 15px/22px "Geist", Arial, sans-serif !important; padding: 6px 0 !important; }
+  /* Correctifs v2. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere[class][class][class] { display: flex !important; flex-direction: column !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere > .lumiere__scene[class][class][class][class][class] { order: 9 !important; aspect-ratio: auto !important; height: auto !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere > .lumiere__scene img[class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere > .lumiere__scene > img { position: static !important; inset: auto !important; width: 100% !important; height: auto !important; aspect-ratio: 3 / 2 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .uc__flow, .conclusion__points, .uc__formulaire-liste)[class][class] { justify-self: auto !important; margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain[class][class][class] { width: min(880px, calc(100vw - 48px)) !important; max-width: none !important; margin: 0 auto 120px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain[class][class][class] { padding: 48px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain img[class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain > img { margin: 0 !important; grid-column: auto !important; }
   /* Mobile : une colonne. */
   @media (max-width: 767px) {
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { --m: 16px; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { padding-top: 96px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ouverture { padding: 0 16px 96px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__ouverture-bas { grid-template-columns: minmax(0, 1fr) !important; row-gap: 32px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__ouverture-texte, .uc__ouverture-specs) { grid-column: 1 / -1 !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan, .uc__photo--terrain):not(.uc__ouverture)[class][class] { padding: 0 16px 80px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre)[class] { font-size: 28px !important; line-height: 32px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.uc__contexte-visuel, .uc__tete-visuel, .lumiere__scene, .uc__formulaire-photo, .dose, .sexe, .frise)[class][class][class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class] > :is(.uc__contexte-visuel, .uc__tete-visuel, .lumiere__scene, .uc__formulaire-photo, .dose, .sexe, .frise)[class][class][class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain[class][class][class] { width: calc(100vw - 32px) !important; padding: 16px !important; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan),
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section { grid-template-columns: minmax(0, 1fr) !important; padding-bottom: 80px !important; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section > [class][class][class] { grid-column: 1 / -1 !important; grid-row: auto !important; margin-top: 0 !important; }
@@ -10890,6 +10965,23 @@
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain { display: block !important; padding-bottom: 96px !important; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { font-size: 40px !important; line-height: 40px !important; padding: 32px 0 96px !important; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort { font-size: 22px !important; line-height: 26px !important; }
+  }
+
+  /* Sommaire de l'étude éditoriale. */
+  .uc__toc { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc {
+      display: flex; flex-direction: column; gap: 6px; position: absolute; left: 24px; top: 50%; transform: translateY(-50%); z-index: 4;
+    }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc-lien {
+      display: flex; align-items: center; gap: 12px; padding: 4px 0; border: 0; background: none; cursor: pointer;
+      font: 400 13px/16px "Geist", Arial, sans-serif; color: rgba(18, 18, 17, .5); text-align: left;
+    }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc-lien i { display: block; width: 12px; height: 1.5px; background: rgba(18, 18, 17, .25); transition: width .3s, background .3s; }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc-lien span { opacity: 0; transform: translateX(-4px); transition: opacity .25s, transform .25s; white-space: nowrap; }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc:hover .uc__toc-lien span { opacity: 1; transform: none; }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc-lien.est-actif i { width: 24px; background: #121211; }
+    html body .stage #doc-loblaw.doc.doc--edito .uc__toc-lien.est-actif { color: #121211; }
   }
 </style>
 </head>
@@ -12135,6 +12227,20 @@
     <div class="doc__scroll">
       <article class="doc__page uc uc--carte" style="--carte: #F05454">
         <figure class="uc__edito-hero" aria-hidden="true" hidden><img src="lob-pharmacienne.webp" alt="" width="2000" height="1274"></figure>
+        <header class="uc__ouverture">
+          <p class="uc__ouverture-meta"><span>01 / 03 · Étude de cas</span><span>Pharmacie</span></p>
+          <h1 class="uc__ouverture-titre">Shoppers Drug Mart</h1>
+          <div class="uc__ouverture-bas">
+            <p class="uc__ouverture-texte">Healthwatch, le logiciel des pharmaciens depuis 13&nbsp;ans&nbsp;: une refonte complète devenue, faute de budget, une amélioration progressive des interfaces clés.</p>
+            <dl class="uc__ouverture-specs">
+              <div><dt>Année</dt><dd>2021–2023</dd></div>
+              <div><dt>Rôle</dt><dd>Designer UX/UI, audit, recherche terrain</dd></div>
+              <div><dt>Équipe</dt><dd>3 designers, 1 lead, 8 PO/PA, devs</dd></div>
+              <div><dt>Outils</dt><dd>Figma, Jira, Miro</dd></div>
+              <div><dt>Secteur</dt><dd>Pharmacie, logiciel métier</dd></div>
+            </dl>
+          </div>
+        </header>
         <div class="cartep__barre" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="uc__intro">
           <ul class="uc__intro-tags" aria-label="Expertises"><li>Design UX/UI</li><li>SaaS</li><li>Direction artistique</li><li>Audit UX</li></ul>
@@ -20187,6 +20293,53 @@ document.addEventListener('click', (e) => {
       liste.querySelectorAll('.nav-index__projet').forEach((b, j) => b.classList.toggle('est-actif', j === actif));
     }
   });
+})();
+</script>
+<script>
+/* Étude en mode éditorial : le grand titre remplit la largeur, et un
+   sommaire discret (un trait par section) se tient à gauche. */
+(function etudeEdito() {
+  const doc = document.getElementById('doc-loblaw');
+  if (!doc || !doc.classList.contains('doc--edito')) return;
+  const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
+  const titre = doc.querySelector('.uc__ouverture-titre');
+  function caler() {
+    if (doc.hidden || !titre) return;
+    const ouv = titre.parentElement, dispo = ouv.clientWidth - parseFloat(getComputedStyle(ouv).paddingLeft) - parseFloat(getComputedStyle(ouv).paddingRight);
+    titre.style.setProperty('--titre-taille', '100px');
+    const r = document.createRange(); r.selectNodeContents(titre);
+    const l = r.getBoundingClientRect().width || 1;
+    titre.style.setProperty('--titre-taille', Math.min(260, Math.floor(100 * dispo / l)) + 'px');
+  }
+  // Le sommaire.
+  const toc = document.createElement('nav');
+  toc.className = 'uc__toc'; toc.setAttribute('aria-label', 'Sommaire de l’étude');
+  doc.querySelector('.doc__win').append(toc);
+  const SECTIONS = [...page.children].filter((el) => !el.hidden && el.matches('header, section, .uc__contexte, .uc__formulaire, .uc__bilan') && !el.matches('.uc__intro'));
+  const nom = (el) => {
+    const t = el.querySelector('.uc__ouverture-titre, .uc__label, .uc__audit-label, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre, .uc__titre, .uc__fort');
+    return t ? t.textContent.replace(/\s+/g, ' ').trim().slice(0, 40) : '';
+  };
+  const liens = SECTIONS.map((el) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'uc__toc-lien';
+    b.innerHTML = '<i></i><span></span>';
+    b.querySelector('span').textContent = nom(el);
+    b.addEventListener('click', () => sc.scrollTo({ top: el.offsetTop - 96, behavior: 'smooth' }));
+    toc.append(b);
+    return b;
+  });
+  function suivre() {
+    const y = sc.scrollTop + sc.clientHeight * .35;
+    let k = 0;
+    SECTIONS.forEach((el, i) => { if (el.offsetTop <= y) k = i; });
+    liens.forEach((b, i) => b.classList.toggle('est-actif', i === k));
+  }
+  sc.addEventListener('scroll', suivre, { passive: true });
+  addEventListener('resize', caler);
+  new MutationObserver(() => { if (!doc.hidden) { caler(); suivre(); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  if (document.fonts) document.fonts.ready.then(caler);
+  caler(); suivre();
 })();
 </script>
 </body>
