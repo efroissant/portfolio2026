@@ -322,7 +322,7 @@
     d.querySelector('.dossier__etiquette span').textContent = p.secteur + ' · ' + p.annee;
     d.addEventListener('click', (e) => {
       // Un dossier qui n’est pas au centre y vient d’abord.
-      if (Math.round(cible) !== i || !p.id) { e.preventDefault(); aller(i); }
+      if (indexCible() !== i || !p.id) { e.preventDefault(); allerVers(i); }
       else if (EMBED) { e.preventDefault(); ouvrir(p); }
     });
     // Au survol, le dossier pivote vers la souris (jusqu’à 20° de chaque côté).
@@ -359,6 +359,16 @@
     return .5 * (2 * p1 + (p2 - p0) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (3 * p1 - p0 - 3 * p2 + p3) * u * u * u);
   }
   let cible = 0, courant = 0, actif = -1;
+  // Carrousel sans fin : après le dossier 6 revient le 1. cible et courant
+  // comptent sans borne ; mod() donne le dossier réel.
+  const mod = (n) => ((n % N) + N) % N;
+  const indexCible = () => mod(Math.round(cible));
+  // Aller au dossier i par le chemin le plus court.
+  function allerVers(i) {
+    const r = Math.round(cible); let d = mod(i - r);
+    if (d > N / 2) d -= N;
+    aller(r + d);
+  }
   // Pas de défilement natif : un geste (molette, trackpad, glisser, flèches)
   // fait avancer ou reculer d'un dossier. Intégré sur téléphone, la page
   // autour continue de défiler à la verticale.
@@ -369,17 +379,20 @@
     const W = innerWidth, H = innerHeight, c = W < 768 ? COURBE.mobile : COURBE.bureau;
     const D = window.decalage ? decalage() : 0, Z = W - D;   // la zone d’origine, sans le débord
     dossiers.forEach((d, i) => {
-      const k = i - courant, a = Math.abs(k);
+      // Écart au dossier courant, ramené dans [-3,5 ; 2,5[ : le saut d'un bout
+      // à l'autre de la boucle se fait hors de l'écran (là où il est invisible).
+      let k = i - courant; k -= N * Math.floor((k + 3.5) / N);
+      const a = Math.abs(k);
       const x = D + suivre(c.x, k) * Z - W / 2, y = (suivre(c.y, k) - .5) * H, sc = suivre(c.s, k);
       // Seul le transform change à chaque image (pas de filtre : il forçait
       // à redessiner les ombres à chaque image, d'où les saccades).
       d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ') rotateZ(' + (-k * 2).toFixed(2) + 'deg)';
-      const op = (k > 2.2 || k < -4.2) ? '0' : '1';
+      const op = (k > 2.2 || k < -3.2) ? '0' : '1';
       if (d.style.opacity !== op) d.style.opacity = op;
       // Devant : l’actif, puis le suivant ; les précédents passent dessous.
       const z = String(100 - (k < -.5 ? Math.round(-k) * 20 : Math.round(Math.max(0, k)) * 10));
       if (d.style.zIndex !== z) d.style.zIndex = z;
-      const t = Math.round(cible) === i ? 0 : -1;
+      const t = indexCible() === i ? 0 : -1;
       if (d.tabIndex !== t) d.tabIndex = t;
     });
   }
@@ -441,19 +454,19 @@
     }, premier ? 0 : 200);
   }
   function aller(i) {
-    if (glisse()) { cible = Math.max(0, Math.min(N - 1, i)); majDefile(); relancer(); return; }
+    if (glisse()) { cible = i; majDefile(); relancer(); return; }
     scrollTo({ top: Math.max(0, Math.min(N - 1, i)) * innerHeight, behavior: calme ? 'auto' : 'smooth' });
   }
 
   // Plein écran : dès qu'on fait défiler, la fiche remplace photo et nom.
   let defile = null;
   function majDefile() {
-    const d = cible > .01;
+    const d = Math.abs(cible) > .01;   // dès qu'on a quitté la position de départ
     if (d === defile) return;
     const avant = defile;
     defile = d;
     document.documentElement.classList.toggle('defile', d);
-    if (PLEIN && avant !== null && actif >= 0) { ++tour; if (d) { remplir(Math.round(cible)); entreeFiche(); } else sortieFiche(); }
+    if (PLEIN && avant !== null && actif >= 0) { ++tour; if (d) { remplir(indexCible()); entreeFiche(); } else sortieFiche(); }
     if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: d }, '*');
   }
   addEventListener('scroll', majDefile, { passive: true });
@@ -463,7 +476,7 @@
     courant += (cible - courant) * (calme ? 1 : .09);
     if (Math.abs(cible - courant) < .0005) courant = cible;
     poser();
-    fiche(Math.round(courant));
+    fiche(mod(Math.round(courant)));
     boucle = courant !== cible ? requestAnimationFrame(tic) : 0;
   }
   function relancer() { if (!boucle) boucle = requestAnimationFrame(tic); }
@@ -500,7 +513,7 @@
   }, { passive: false });
   // Un glisser n’est pas un clic.
   scene.addEventListener('click', (e) => { if (aGlisse) { e.preventDefault(); e.stopPropagation(); aGlisse = false; } }, true);
-  lire(); courant = cible; poser(); fiche(Math.round(cible));
+  lire(); courant = cible; poser(); fiche(indexCible());
   // Intégré : la liste pour le menu Index de l'accueil, et ses ordres.
   if (EMBED && parent !== window) {
     const envoyerListe = () => parent.postMessage({ type: 'projets-liste', actif, liste: PROJETS.map((p) => ({ nom: p.nom, annee: p.annee, id: p.id || null })) }, '*');
@@ -509,7 +522,7 @@
       if (e.source !== parent) return;
       const d = e.data || {};
       if (d.type === 'projets-demande') { envoyerListe(); defile = null; majDefile(); }
-      if (d.type === 'projets-aller' && Number.isInteger(d.i)) aller(d.i);
+      if (d.type === 'projets-aller' && Number.isInteger(d.i)) allerVers(d.i);
     });
   }
   relancer();
