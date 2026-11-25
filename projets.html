@@ -12,7 +12,7 @@
     font-weight: 400; font-style: normal; font-display: swap;
   }
   :root {
-    --fond: #EFEEEC;
+    --fond: #ECEBE8;
     --encre: #1C1917;
     --gris-texte: #666666;
     --filet: rgba(28, 25, 23, .16);
@@ -104,50 +104,64 @@
     transform: rotateX(24deg) rotateY(-22deg) rotateZ(-8deg);
   }
   .dossier__dos, .dossier__face, .dossier__feuille { position: absolute; border-radius: 4px 12px 12px 12px; }
-  /* Le dos, avec son onglet. */
+  /* Dossiers blancs, en relief doux (néomorphisme) : lumière en haut à
+     gauche, ombre en bas à droite ; la couleur du projet en petite touche. */
   .dossier__dos {
-    inset: 0; background: var(--c-fonce);
-    box-shadow: 0 40px 80px -24px rgba(28, 25, 23, .45);
+    inset: 0;
+    background: linear-gradient(145deg, #F7F6F4, #E4E2DE);
+    box-shadow:
+      -16px -16px 40px rgba(255, 255, 255, .9),
+      24px 32px 64px -8px rgba(28, 25, 23, .22),
+      inset 1px 1px 0 rgba(255, 255, 255, .9);
   }
   .dossier__dos::before {
     content: ""; position: absolute; left: 0; top: -24px; width: 38%; height: 32px;
-    background: var(--c-fonce); border-radius: 8px 12px 0 0;
+    background: linear-gradient(145deg, #F9F8F6, #EAE8E4); border-radius: 8px 12px 0 0;
     clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%);
   }
   /* La feuille qui dépasse, avec le visuel du projet. */
   .dossier__feuille {
     left: 4%; right: 4%; top: 4%; bottom: 4%;
-    background: #FAFAF7 center / cover no-repeat;
-    border-radius: 4px; transform: translateZ(2px);
+    background: #FFFFFF center / cover no-repeat;
+    border-radius: 8px; transform: translateZ(2px);
     transition: transform .9s cubic-bezier(.22, 1, .36, 1);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .06);
+    box-shadow: 0 2px 8px rgba(28, 25, 23, .08);
   }
   .dossier__feuille--vide {
     display: grid; place-items: center;
-    font: 400 24px/24px var(--serif); text-transform: uppercase; color: var(--gris-texte);
+    font: 400 24px/24px var(--serif); text-transform: uppercase; color: #C9C6C1;
   }
   /* La face avant, articulée en bas : elle s’entrouvre au centre. */
   .dossier__face {
     left: 0; right: 0; bottom: 0; top: 12%;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 40%),
-      var(--c);
+    background: linear-gradient(150deg, #FCFBFA 0%, #F1F0ED 55%, #E6E4E0 100%);
     transform-origin: 50% 100%; transform: translateZ(4px);
     transition: transform .9s cubic-bezier(.22, 1, .36, 1);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
-    border-radius: 8px 8px 12px 12px;
+    box-shadow:
+      inset 2px 2px 2px rgba(255, 255, 255, 1),
+      inset -2px -3px 8px rgba(28, 25, 23, .07),
+      0 -8px 24px rgba(28, 25, 23, .06);
+    border-radius: 12px 12px 16px 16px;
   }
+  /* L’étiquette, creusée dans le carton. */
   .dossier__etiquette {
     position: absolute; left: 8%; bottom: 10%;
-    padding: 8px 12px 10px; min-width: 40%;
-    background: #FAFAF7; border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
+    padding: 12px 16px 12px 36px; min-width: 44%;
+    background: #EFEEEB; border-radius: 12px;
+    box-shadow: inset 3px 3px 6px rgba(28, 25, 23, .1), inset -3px -3px 6px rgba(255, 255, 255, .95);
   }
-  .dossier__etiquette b { display: block; font: 400 calc(var(--l) * .054)/1 var(--serif); text-transform: uppercase; }
+  .dossier__etiquette::before {
+    content: ""; position: absolute; left: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px;
+    border-radius: 50%; background: var(--c);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .8), 0 0 12px var(--c);
+  }
+  .dossier__etiquette b { display: block; font: 400 calc(var(--l) * .054)/1 var(--serif); text-transform: uppercase; color: var(--encre); }
   .dossier__etiquette span { display: block; margin-top: 4px; font: 500 calc(var(--l) * .018)/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
+  /* Le numéro, embossé. */
   .dossier__numero {
     position: absolute; right: 8%; top: 10%;
-    font: 400 calc(var(--l) * .1)/1 var(--serif); color: rgba(255, 255, 255, .7);
+    font: 400 calc(var(--l) * .12)/1 var(--serif); color: #ECEAE6;
+    text-shadow: -1px -1px 1px rgba(255, 255, 255, 1), 1px 2px 2px rgba(28, 25, 23, .14);
   }
   .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-38deg); }
   .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-34%); }
