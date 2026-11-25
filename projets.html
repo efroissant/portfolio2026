@@ -520,20 +520,29 @@
   // trackpad sans s'arrêter à chaque cran ; à la fin du geste, ils se calent
   // sur le dossier suivant dans le sens du mouvement.
   const PX_PAR_DOSSIER = 360;
-  let sensGeste = 0, finGeste = 0;
+  let sensGeste = 0, finGeste = 0, nbEv = 0, total = 0, departGeste = 0;
   addEventListener('wheel', (e) => {
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
     let d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
     if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
     if (!d) return;
-    sensGeste = Math.sign(d);
+    if (!finGeste) { nbEv = 0; total = 0; departGeste = Math.round(cible); }
+    nbEv++; total += d;
+    sensGeste = Math.sign(total);
     cible += Math.max(-1.5, Math.min(1.5, d / PX_PAR_DOSSIER));
     majDefile(); relancer();
     clearTimeout(finGeste);
     finGeste = setTimeout(() => {
-      const bas = Math.floor(cible), frac = cible - bas;
-      cible = sensGeste > 0 ? (frac > .08 ? bas + 1 : bas) : (frac < .92 ? bas : bas + 1);
+      finGeste = 0;
+      // Cran de molette (un ou deux événements francs) : un dossier exactement.
+      if (nbEv <= 2 && Math.abs(total) >= 40) cible = departGeste + sensGeste;
+      else {
+        // Geste continu : on ne passe au dossier suivant qu'au-delà de 30 %
+        // du chemin ; un petit geste revient sur le dossier en cours.
+        const bas = Math.floor(cible), frac = cible - bas;
+        cible = sensGeste > 0 ? (frac > .3 ? bas + 1 : bas) : (frac < .7 ? bas : bas + 1);
+      }
       majDefile(); relancer();
     }, 140);
   }, { passive: false });
