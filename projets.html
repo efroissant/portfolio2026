@@ -333,6 +333,7 @@
   function fiche(i) {
     if (i === actif) return;
     actif = i;
+    if (EMBED && parent !== window) parent.postMessage({ type: 'projets-actif', i }, '*');
     dossiers.forEach((d, j) => d.classList.toggle('est-actif', j === i));
     const p = PROJETS[i];
     const blocs = [document.querySelector('.fiche'), document.querySelector('.pied__bloc')];
@@ -382,6 +383,17 @@
   // Un glisser n’est pas un clic.
   scene.addEventListener('click', (e) => { if (aGlisse) { e.preventDefault(); e.stopPropagation(); aGlisse = false; } }, true);
   lire(); courant = cible; poser(); fiche(Math.round(cible));
+  // Intégré : la liste pour le menu Index de l'accueil, et ses ordres.
+  if (EMBED && parent !== window) {
+    const envoyerListe = () => parent.postMessage({ type: 'projets-liste', actif, liste: PROJETS.map((p) => ({ nom: p.nom, annee: p.annee, id: p.id || null })) }, '*');
+    envoyerListe();
+    addEventListener('message', (e) => {
+      if (e.source !== parent) return;
+      const d = e.data || {};
+      if (d.type === 'projets-demande') envoyerListe();
+      if (d.type === 'projets-aller' && Number.isInteger(d.i)) aller(d.i);
+    });
+  }
   requestAnimationFrame(tic);
 })();
 </script>

@@ -10481,6 +10481,89 @@
       width: 100%; height: 560px; border: 0; background: transparent;
     }
   }
+  /* ===== Barre (grand écran) : titre, LinkedIn et Say Hi! retirés ; au
+     centre, la navigation façon A24 avec le menu déroulant « Index ». ===== */
+  .nav-index, .nav-index__voile { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage .menubar :is(.menubar__titre, .barlien) { display: none !important; }
+    html body .stage .menubar .nav-index {
+      --ease-i: cubic-bezier(0.32, 0.72, 0, 1);
+      display: block; position: absolute; top: 0; left: 50%; width: 400px; margin-left: -200px;
+      z-index: 2; font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917;
+    }
+    .nav-index__fond {
+      position: absolute; top: 0; left: 0; right: 0; height: 0;
+      background: #FFFFFF; box-shadow: 0 24px 48px -24px rgba(28, 25, 23, 0.18);
+      transition: height 620ms var(--ease-i);
+    }
+    .nav-index__liste {
+      position: relative; display: flex; justify-content: center; align-items: center; gap: 32px;
+      margin: 0; padding: 7px 0 0; list-style: none; height: 44px;
+    }
+    .nav-index__lien {
+      position: relative; display: inline-flex; align-items: center; gap: 6px;
+      padding: 0; border: 0; background: none; font: inherit; color: #8A8784; text-decoration: none; cursor: pointer;
+      transition: color 140ms var(--ease-i);
+    }
+    .nav-index__lien:hover, .nav-index__lien[aria-current], .nav-index__lien[aria-expanded="true"] { color: #1C1917; }
+    .nav-index__logo { color: #1C1917; font-weight: 500; letter-spacing: -0.02em; }
+    /* La page en cours : un point dessous. */
+    .nav-index__lien[aria-current]::after {
+      content: ""; position: absolute; left: 50%; bottom: -6px; width: 4px; height: 4px; margin-left: -2px;
+      border-radius: 50%; background: currentColor;
+    }
+    /* « Index » cède la place au nombre de projets, le chevron se retourne. */
+    .nav-index__etiquette { display: inline-grid; overflow: hidden; height: 28px; }
+    .nav-index__etiquette > span { grid-area: 1 / 1; transition: transform 460ms var(--ease-i), opacity 300ms var(--ease-i); }
+    .nav-index__nb { transform: translateY(100%); opacity: 0; font-variant-numeric: tabular-nums; }
+    .nav-index__bouton[aria-expanded="true"] .nav-index__mot { transform: translateY(-100%); opacity: 0; }
+    .nav-index__bouton[aria-expanded="true"] .nav-index__nb { transform: none; opacity: 1; }
+    .nav-index__chevron { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.4; transition: transform 460ms var(--ease-i); }
+    .nav-index__bouton[aria-expanded="true"] .nav-index__chevron { transform: rotate(180deg); }
+    /* Le menu : il apparaît pendant que le fond s'allonge. */
+    .nav-index__menu {
+      position: absolute; top: 60px; left: 32px; right: 24px;
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity 280ms var(--ease-i), transform 620ms var(--ease-i), visibility 0s linear 280ms;
+    }
+    .nav-index.est-ouvert .nav-index__menu {
+      opacity: 1; visibility: visible; transform: none;
+      transition: opacity 360ms var(--ease-i) 120ms, transform 620ms var(--ease-i), visibility 0s;
+    }
+    .nav-index__projets {
+      margin: 0; padding: 0 16px 24px 0; list-style: none; max-height: 304px; overflow-y: auto;
+      overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #1C1917 #EEEDEA;
+      -webkit-mask-image: linear-gradient(#000 calc(100% - 40px), transparent);
+      mask-image: linear-gradient(#000 calc(100% - 40px), transparent);
+    }
+    .nav-index__projet {
+      position: relative; display: flex; justify-content: space-between; gap: 16px; width: 100%;
+      padding: 2px 8px; border: 0; background: none; font: inherit; text-align: left; color: #1C1917; cursor: pointer;
+      transition: color 140ms var(--ease-i);
+    }
+    .nav-index__projet[aria-disabled="true"] { color: #A8A5A1; }
+    /* Le fond noir monte depuis le bas ; l'année glisse dans son masque. */
+    .nav-index__projet::before {
+      content: ""; position: absolute; inset: 0; background: #1C1917;
+      transform: scaleY(0); transform-origin: 50% 100%; transition: transform 420ms var(--ease-i);
+    }
+    .nav-index__projet > span { position: relative; }
+    .nav-index__annee { display: block; overflow: hidden; height: 28px; }
+    .nav-index__annee > span { display: block; transform: translateY(100%); transition: transform 420ms var(--ease-i); font-variant-numeric: tabular-nums; }
+    .nav-index__projet:is(:hover, :focus-visible, .est-actif) { color: #FFFFFF; outline: none; }
+    .nav-index__projet:is(:hover, :focus-visible, .est-actif)::before { transform: scaleY(1); }
+    .nav-index__projet:is(:hover, :focus-visible, .est-actif) .nav-index__annee > span { transform: none; }
+    /* La page s'assombrit derrière. */
+    html body .stage .menubar .nav-index__voile {
+      display: block; position: fixed; inset: 0; z-index: 1;
+      background: rgba(28, 25, 23, 0.28); opacity: 0; pointer-events: none;
+      transition: opacity 460ms var(--ease-i);
+    }
+    html body .stage .menubar .nav-index__voile.est-ouvert { opacity: 1; pointer-events: auto; }
+  }
+  @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+    .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
+  }
 </style>
 </head>
 <body>
@@ -10948,7 +11031,7 @@
       </dl>
     </div>
     <!-- Le carrousel de dossiers (projets.html), à la place de « En ce moment ». -->
-    <iframe class="carrousel-projets" src="projets.html?embed&amp;decal=2" title="Projets, un dossier à la fois" loading="lazy"></iframe>
+    <iframe class="carrousel-projets" src="projets.html?embed&amp;decal=2" title="Projets, un dossier à la fois"></iframe>
     <div class="apercu" aria-hidden="true"></div>
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
@@ -12099,6 +12182,25 @@
 
       <!-- Le titre, au centre de la barre : du texte, pas un lien. -->
       <p class="menubar__titre">Designer digital<span class="menubar__suite"> — UI, UX, Marketing et Produit SaaS</span></p>
+      <!-- Navigation centrale (grand écran), façon A24 : Index ouvre la liste
+           des projets dans un panneau blanc qui s'allonge. La liste vient du
+           carrousel (projets.html) : une seule source. -->
+      <nav class="nav-index" aria-label="Navigation">
+        <div class="nav-index__fond" aria-hidden="true"></div>
+        <ul class="nav-index__liste">
+          <li><a class="nav-index__lien nav-index__logo" href="./" data-nav="accueil" aria-label="Accueil">E.F</a></li>
+          <li><a class="nav-index__lien" href="./" data-nav="accueil">Projets</a></li>
+          <li><a class="nav-index__lien" href="#profil" data-nav="bio">Bio</a></li>
+          <li><button type="button" class="nav-index__lien nav-index__bouton" aria-expanded="false" aria-controls="nav-index-menu">
+            <span class="nav-index__etiquette"><span class="nav-index__mot">Index</span><span class="nav-index__nb" aria-hidden="true">00</span></span>
+            <svg class="nav-index__chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+          </button></li>
+        </ul>
+        <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
+          <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
+        </div>
+      </nav>
+      <div class="nav-index__voile" aria-hidden="true"></div>
 
       <div class="menubar__trailing" data-node-id="118:195">
         <!-- LinkedIn : même gabarit, carré arrondi avec « in » en creux.
@@ -19646,6 +19748,95 @@ document.addEventListener('click', (e) => {
   document.documentElement.addEventListener('pointerleave', cacher);
 })();
 
+</script>
+<script>
+/* Barre : navigation façon A24. Index ouvre la liste des projets, envoyée
+   par le carrousel (projets.html) ; un projet y fait venir son dossier. */
+(function navIndex() {
+  const nav = document.querySelector('.nav-index');
+  if (!nav) return;
+  const voile = document.querySelector('.nav-index__voile');
+  const bouton = nav.querySelector('.nav-index__bouton');
+  const fond = nav.querySelector('.nav-index__fond');
+  const menu = nav.querySelector('.nav-index__menu');
+  const liste = nav.querySelector('.nav-index__projets');
+  const nb = nav.querySelector('.nav-index__nb');
+  const cadre = () => document.querySelector('.carrousel-projets');
+  let projets = [], actif = 0;
+
+  function construire() {
+    liste.replaceChildren(...projets.map((p, i) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'nav-index__projet' + (i === actif ? ' est-actif' : '');
+      if (!p.id) b.setAttribute('aria-disabled', 'true');
+      b.innerHTML = '<span class="nav-index__nom"></span><span class="nav-index__annee"><span></span></span>';
+      b.querySelector('.nav-index__nom').textContent = p.nom;
+      b.querySelector('.nav-index__annee > span').textContent = p.annee;
+      b.addEventListener('click', () => { fermer(); allerA(i); });
+      li.append(b);
+      return li;
+    }));
+    nb.textContent = String(projets.length).padStart(2, '0');
+  }
+  const ouvert = () => nav.classList.contains('est-ouvert');
+  function ouvrir() {
+    nav.classList.add('est-ouvert'); voile.classList.add('est-ouvert');
+    bouton.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
+    fond.style.height = (menu.offsetTop + menu.scrollHeight + 8) + 'px';
+    const a = liste.querySelector('.est-actif');
+    if (a) liste.scrollTop = Math.max(0, a.offsetTop - 28);
+  }
+  function fermer() {
+    nav.classList.remove('est-ouvert'); voile.classList.remove('est-ouvert');
+    bouton.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true');
+    fond.style.height = '0px';
+  }
+  bouton.addEventListener('click', () => (ouvert() ? fermer() : ouvrir()));
+  voile.addEventListener('click', fermer);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && ouvert()) { fermer(); bouton.focus(); } });
+
+  // Revenir à l'accueil (fermer l'étude ou la bio ouverte).
+  function accueil() {
+    if (location.hash) { history.pushState(null, '', location.pathname + location.search); dispatchEvent(new PopStateEvent('popstate')); }
+    const stage = document.getElementById('stage');
+    if (stage) stage.classList.remove('bio-ouverte');
+    document.querySelectorAll('.arbo__fichier.est-actif').forEach((x) => x.classList.remove('est-actif'));
+    majCourant();
+  }
+  function allerA(i) {
+    accueil();
+    setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-aller', i }, '*'); }, 60);
+  }
+  nav.querySelectorAll('[data-nav="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); fermer(); accueil(); }));
+  nav.querySelector('[data-nav="bio"]').addEventListener('click', (e) => {
+    const f = document.querySelector('.arbo__fichier[href="#profil"]');
+    if (f) { e.preventDefault(); fermer(); f.click(); setTimeout(majCourant, 0); }
+  });
+  // « Projets » est la page en cours tant qu'aucune étude ni la bio n'est ouverte.
+  function majCourant() {
+    const h = location.hash, stage = document.getElementById('stage');
+    const bio = !!(stage && stage.classList.contains('bio-ouverte')) && !/^#case\//.test(h);
+    nav.querySelector('.nav-index__lien[data-nav="accueil"]:not(.nav-index__logo)').toggleAttribute('aria-current', !bio && !/^#case\//.test(h));
+    nav.querySelector('[data-nav="bio"]').toggleAttribute('aria-current', bio);
+  }
+  addEventListener('popstate', majCourant); addEventListener('hashchange', majCourant); majCourant();
+
+  // Le carrousel a pu se charger avant ce script : on lui redemande la liste.
+  const demander = () => { const f = cadre(); if (f && f.contentWindow) f.contentWindow.postMessage({ type: 'projets-demande' }, '*'); };
+  demander(); addEventListener('load', demander);
+  if (cadre()) cadre().addEventListener('load', demander);
+  addEventListener('message', (e) => {
+    const f = cadre();
+    if (!f || e.source !== f.contentWindow) return;   // seul le carrousel du grand écran
+    const d = e.data || {};
+    if (d.type === 'projets-liste' && Array.isArray(d.liste)) { projets = d.liste; actif = d.actif || 0; construire(); }
+    if (d.type === 'projets-actif') {
+      actif = d.i;
+      liste.querySelectorAll('.nav-index__projet').forEach((b, j) => b.classList.toggle('est-actif', j === actif));
+    }
+  });
+})();
 </script>
 </body>
 </html>
