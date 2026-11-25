@@ -10826,6 +10826,33 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__resistance .uc__petit { grid-column: 4 / 8 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc .frise { grid-column: 2 / 12 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan :is(.uc__fort, .uc__petit), html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion :is(.uc__fort, .uc__petit, .conclusion__points) { grid-column: 4 / 9 !important; }
+
+  /* ---- Passe épurée : une seule colonne centrée, lue comme un article. ---- */
+  @media (min-width: 768px) {
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan),
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section.uc__bloc,
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain { display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)) !important; padding: 16px 0 160px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section > [class][class][class],
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { grid-column: 4 / 10 !important; grid-row: auto !important; align-self: start !important; margin-top: 0 !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.uc__label, .uc__audit-label, .uc__surtitre)[class][class] { grid-column: 1 / 4 !important; grid-row: 1 !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.uc__contexte-visuel, .uc__tete-visuel, .lumiere__scene, .uc__formulaire-photo, .dose, .sexe, .uc__flow)[class][class] { margin-top: 32px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc > .frise[class][class] { grid-column: 2 / 12 !important; margin-top: 32px !important; }
+  }
+  /* Grands mots : de simples intertitres. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { font: 500 12px/16px "Geist", Arial, sans-serif !important; letter-spacing: .2em !important; padding: 0 0 48px !important; color: #666 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot * { font: inherit !important; letter-spacing: inherit !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot :is(.oeil__pupille, .tape__curseur, .tape__ecrit) { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot .tape__fond { visibility: visible !important; opacity: 1 !important; color: inherit !important; }
+  /* Moins d'éléments. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise__legende, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__tete-note, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-visuel, .uc__formulaire-photo, .lumiere__scene, .uc__photo--terrain) img { filter: grayscale(1) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .lumiere__voile { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre),
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort { font-size: 22px !important; line-height: 28px !important; }
+  /* La frise, en noir et blanc. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise__phase { background: none !important; border: 0 !important; border-top: 1px solid rgba(28, 25, 23, .4) !important; border-radius: 0 !important; color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise__phase * { color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise :is(.frise__point, .frise__tige) { background: #1C1917 !important; border-color: #1C1917 !important; }
   /* Mobile : une colonne. */
   @media (max-width: 767px) {
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { --m: 16px; }
