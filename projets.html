@@ -412,13 +412,13 @@
   // la sortie part de l'état courant, l'entrée remplace l'animation précédente.
   function sortieFiche() {
     const anims = [];
-    lignes().forEach((l, k) => anims.push(l.animate([{ transform: 'translateY(-120%)' }], { duration: duree(380), delay: duree(k * 20), easing: SORTIE, fill: 'forwards' })));
-    filets().forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(380), delay: duree(k * 30), easing: SORTIE, fill: 'forwards' })); });
+    lignes().forEach((l, k) => anims.push(l.animate([{ transform: 'translateY(-120%)' }], { duration: duree(220), delay: duree(k * 12), easing: SORTIE, fill: 'forwards' })));
+    filets().forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(220), delay: duree(k * 16), easing: SORTIE, fill: 'forwards' })); });
     return Promise.all(anims.map((a) => a.finished.catch(() => {})));
   }
   function entreeFiche() {
-    lignes().forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(900), delay: duree(k * 45), easing: ENTREE, fill: 'both' }));
-    filets().forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(900), delay: duree(80 + k * 70), easing: ENTREE, fill: 'both' }); });
+    lignes().forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * 35), easing: ENTREE, fill: 'both' }));
+    filets().forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(620), delay: duree(40 + k * 50), easing: ENTREE, fill: 'both' }); });
   }
   function cacherFiche() {
     lignes().forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
@@ -478,8 +478,8 @@
   // La boucle ne tourne que pendant le mouvement, puis s'arrête.
   let boucle = 0;
   function tic() {
-    courant += (cible - courant) * (calme ? 1 : .09);
-    if (Math.abs(cible - courant) < .0005) courant = cible;
+    courant += (cible - courant) * (calme ? 1 : .13);
+    if (Math.abs(cible - courant) < .002) courant = cible;
     poser();
     fiche(mod(Math.round(courant)));
     boucle = courant !== cible ? requestAnimationFrame(tic) : 0;
@@ -503,17 +503,27 @@
     else if (!telIntegre() && e.pointerType === 'touch' && Math.abs(dy) > 40) { aGlisse = true; aller(Math.round(cible) + (dy < 0 ? 1 : -1)); }
   });
   // Molette et trackpad : un cran par geste (l'inertie du trackpad est ignorée).
-  let cumul = 0, dernierPas = 0, dernierEv = 0;
+  // Un pas dès le début d'un geste ; si le geste continue (molette qu'on
+  // tourne, trackpad qu'on pousse), d'autres pas suivent au fil du mouvement.
+  // L'élan du trackpad, plus faible, ne déclenche pas de pas en trop.
+  let cumul = 0, dernierPas = 0, dernierEv = 0, pasDuGeste = 0, dAvant = 0;
   addEventListener('wheel', (e) => {
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
     const t = performance.now();
-    if (t - dernierEv > 220) cumul = 0;             // nouveau geste
+    if (t - dernierEv > 160) { cumul = 0; pasDuGeste = 0; dAvant = 0; }   // nouveau geste
     dernierEv = t;
-    cumul += Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-    if (Math.abs(cumul) > 24 && t - dernierPas > 650) {
+    const d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (cumul && Math.sign(d) !== Math.sign(cumul)) cumul = 0;
+    // Après le premier pas, un mouvement qui ralentit est l'élan du trackpad : ignoré.
+    const elan = pasDuGeste > 0 && Math.abs(d) < dAvant * .97;
+    dAvant = Math.abs(d);
+    if (elan) return;
+    cumul += d;
+    const seuil = pasDuGeste === 0 ? 20 : 200;     // premier pas immédiat, suivants au fil du geste
+    if (Math.abs(cumul) > seuil && t - dernierPas > (pasDuGeste === 0 ? 0 : 300)) {
       aller(Math.round(cible) + (cumul > 0 ? 1 : -1));
-      dernierPas = t; cumul = 0;
+      dernierPas = t; cumul = 0; pasDuGeste++;
     }
   }, { passive: false });
   // Un glisser n’est pas un clic.
