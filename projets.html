@@ -379,7 +379,11 @@
   const glisse = () => true;
   const telIntegre = () => EMBED && innerWidth < 1024;
   function lire() { if (glisse()) return; const v = scrollY / Math.max(1, innerHeight); cible = Math.min(N - 1, Math.max(0, v || 0)); }
+  // Amplitude propre à chaque dossier (de 0,7 à 1,3), pour qu'ils ne
+  // bougent pas tous pareil.
+  const BALANCE = PROJETS.map((_, i) => .7 + ((i * 37) % 7) / 10);
   function poser() {
+    const vitesse = Math.max(-1.2, Math.min(1.2, cible - courant));   // ce qu'il reste à parcourir
     const W = innerWidth, H = innerHeight, c = W < 768 ? COURBE.mobile : COURBE.bureau;
     const D = window.decalage ? decalage() : 0, Z = W - D;   // la zone d’origine, sans le débord
     dossiers.forEach((d, i) => {
@@ -390,7 +394,11 @@
       const x = D + suivre(c.x, k) * Z - W / 2, y = (suivre(c.y, k) - .5) * H, sc = suivre(c.s, k);
       // Seul le transform change à chaque image (pas de filtre : il forçait
       // à redessiner les ombres à chaque image, d'où les saccades).
-      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ') rotateZ(' + (-k * 2).toFixed(2) + 'deg)';
+      // Pendant le mouvement, chaque dossier bascule un peu de lui-même,
+      // selon la vitesse et avec sa propre amplitude ; il se repose à l'arrêt.
+      const f = BALANCE[i];
+      const ry = -vitesse * 22 * f, rx = vitesse * 7 * f, rz = -k * 2 - vitesse * 4 * f;
+      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ') rotateZ(' + rz.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg)';
       const op = (k > 2.2 || k < -3.2) ? '0' : '1';
       if (d.style.opacity !== op) d.style.opacity = op;
       // Devant : l’actif, puis le suivant ; les précédents passent dessous.
