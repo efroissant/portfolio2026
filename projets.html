@@ -7,7 +7,7 @@
 <meta name="description" content="Les projets d’Emmanuel Froissant, un dossier à la fois.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&amp;family=Instrument+Serif&amp;display=swap" rel="stylesheet">
 <script>
   // Intégré dans l’accueil (projets.html?embed) : sans menu ni mentions.
   const PARAMS = new URLSearchParams(location.search);
@@ -83,6 +83,8 @@
   .fiche dl div:last-child { border-bottom: 1px solid var(--filet); }
   .fiche dt { font: 500 8px/12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
   .fiche dd { margin: 0; font: 500 11px/12px var(--sans); text-align: right; }
+  /* Le titre du projet : Instrument Serif, sur une seule ligne. */
+  .fiche__titre { font: 400 40px/40px "Instrument Serif", Georgia, serif; letter-spacing: -.01em; white-space: nowrap; }
   .fiche.est-change { opacity: 0; }
 
   .pied {
