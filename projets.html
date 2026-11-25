@@ -8,6 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<script>
+  // Intégré dans l’accueil (projets.html?embed) : sans menu ni mentions.
+  if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('embed');
+</script>
 <style>
   :root {
     --fond: #ECEBE8;
@@ -154,6 +158,16 @@
   .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-20deg); }
   .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-26%); }
 
+  /* Intégré dans l’accueil. */
+  .embed, .embed body { background: transparent; }
+  .embed .tete, .embed .cote { display: none; }
+  .embed .fiche { top: 0; left: 0; }
+  .embed .pied { bottom: 0; }
+  .embed .compteur { right: 24px; bottom: 0; }
+  .embed { --l: min(44vw, 70vh); }
+  /* Le bord gauche s’efface : les dossiers qui partent s’y fondent. */
+  .embed .scene { -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%); mask-image: linear-gradient(90deg, transparent, #000 14%); }
+
   @media (max-width: 767px) {
     :root { --l: 60vw; }
     .fiche { width: auto; right: 16px; left: 16px; top: 48px; }
@@ -228,6 +242,16 @@
   const N = PROJETS.length;
   const fonce = (hex, k) => '#' + [1, 3, 5].map((i) => Math.round(parseInt(hex.substr(i, 2), 16) * k).toString(16).padStart(2, '0')).join('');
   const lien = (p) => p.id ? 'index.html#case/' + p.id : null;
+  const EMBED = document.documentElement.classList.contains('embed');
+  // Intégré : l’étude s’ouvre dans le site, sans recharger la page.
+  function ouvrir(p) {
+    try { parent.history.pushState(null, '', '#case/' + p.id); parent.dispatchEvent(new PopStateEvent('popstate')); }
+    catch (e) { top.location.href = lien(p); }
+  }
+  document.getElementById('pied-cta').addEventListener('click', (e) => {
+    const p = PROJETS[actif];
+    if (EMBED && p && p.id) { e.preventDefault(); ouvrir(p); }
+  });
 
   const dossiers = PROJETS.map((p, i) => {
     piste.append(document.createElement('i'));
@@ -248,6 +272,7 @@
     d.addEventListener('click', (e) => {
       // Un dossier qui n’est pas au centre y vient d’abord.
       if (Math.round(cible) !== i || !p.id) { e.preventDefault(); aller(i); }
+      else if (EMBED) { e.preventDefault(); ouvrir(p); }
     });
     scene.append(d);
     return d;

@@ -10460,6 +10460,17 @@
   /* Accueil : un livre, une musique, un film, puis le lien vers la bio. */
   .en-ce-moment__gouts { margin-top: 32px !important; padding-top: 32px; border-top: 1px solid var(--filet, rgba(28, 25, 23, 0.12)); }
   .en-ce-moment__gouts cite { font-style: normal; }
+  /* Accueil : « En ce moment » masqué pour le moment, remplacé par le
+     carrousel de dossiers (projets.html?embed). */
+  html body .stage .accueil-droite .en-ce-moment { display: none !important; }
+  .carrousel-projets { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage .accueil-droite .carrousel-projets {
+      display: block; position: absolute; top: 0; left: 0; width: calc(100% + 24px); height: 100%;
+      border: 0; background: transparent; transition: opacity 200ms ease;
+    }
+    html body .stage .accueil-droite.a-un-apercu .carrousel-projets { opacity: 0; pointer-events: none; }
+  }
 </style>
 </head>
 <body>
@@ -10926,6 +10937,8 @@
         <div class="en-ce-moment__voir"><dt>Le reste</dt><dd><a href="#profil" data-fichier="#profil">Voir bio</a></dd></div>
       </dl>
     </div>
+    <!-- Le carrousel de dossiers (projets.html), à la place de « En ce moment ». -->
+    <iframe class="carrousel-projets" src="projets.html?embed" title="Projets, un dossier à la fois" loading="lazy"></iframe>
     <div class="apercu" aria-hidden="true"></div>
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
