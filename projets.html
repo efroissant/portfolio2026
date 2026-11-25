@@ -28,7 +28,7 @@
   .piste > i { display: block; height: 100vh; height: 100svh; scroll-snap-align: start; }
   .scene {
     position: fixed; inset: 0; overflow: hidden;
-    perspective: 1600px; perspective-origin: 50% 40%;
+    perspective: 1800px; perspective-origin: 50% 30%;
   }
 
   /* ---------- Habillage, façon affiche ---------- */
@@ -264,22 +264,33 @@
   });
   document.getElementById('compteur-t').textContent = String(N).padStart(2, '0');
 
-  // Le parcours : le suivant arrive en haut à droite, loin ; le précédent
-  // repart en bas à gauche. Distance = profondeur, flou et ombre.
+  // Le parcours : un carrousel courbe et incliné, vu de biais. Les dossiers
+  // tournent sur un grand anneau dont l’avant est à droite : le suivant
+  // arrive en haut à droite, l’actif est un peu décentré, les précédents
+  // partent vers la gauche en s’enfonçant (plus petits, plus bas, puis
+  // remontant vers le point de fuite).
   let cible = 0, courant = 0, actif = -1;
   function lire() { const v = scrollY / Math.max(1, innerHeight); cible = Math.min(N - 1, Math.max(0, v || 0)); }
+  const RAD = Math.PI / 180;
   function poser() {
     const W = innerWidth, H = innerHeight, mobile = W < 768;
-    const pasX = mobile ? W * .62 : W * .44, pasY = mobile ? H * .26 : H * .34;
+    const R = W * (mobile ? 1.6 : 1.05);          // rayon horizontal de l’anneau
+    const RZ = mobile ? 1000 : 1400;                // profondeur de l’anneau
+    const PAS = 26, PHI0 = -20, AVANT = 10;        // degrés : écart, actif, point le plus proche
+    const x0 = R * Math.sin(PHI0 * RAD), z0 = RZ * Math.cos((PHI0 - AVANT) * RAD);
+    const decX = mobile ? -W * .04 : W * .06, decY = mobile ? H * .06 : -H * .06;
+    const pente = mobile ? .75 : .34;             // l’anneau monte vers la droite
     dossiers.forEach((d, i) => {
-      const k = i - courant, a = Math.abs(k);
-      const x = k * pasX, y = -k * pasY + (mobile ? H * .02 : -H * .03);
-      const z = -a * 520 + (a < 1 ? (1 - a) * 40 : 0);
-      const r = k * -6, ry = k * -10;
-      d.style.transform = 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px) rotateZ(' + r + 'deg) rotateY(' + ry + 'deg)';
-      d.style.filter = a < .05 ? 'none' : 'blur(' + Math.min(6, a * 3).toFixed(2) + 'px) brightness(' + (1 - Math.min(.25, a * .12)).toFixed(3) + ')';
-      d.style.opacity = a > 2.6 ? 0 : 1;
-      d.style.zIndex = String(100 - Math.round(a * 10));
+      const k = i - courant, a = Math.abs(k), phi = PHI0 + k * PAS;
+      let dx = R * Math.sin(phi * RAD) - x0;
+      if (dx > 0 && !mobile) dx *= .78;                    // le suivant entre un peu plus dans l’écran
+      const x = dx + decX, y = -dx * pente + decY;
+      const z = RZ * Math.cos((phi - AVANT) * RAD) - z0;
+      const ry = -(phi - PHI0) * .45, r = -k * 3;
+      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px) rotateZ(' + r.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+      d.style.filter = k > -.05 ? 'none' : 'brightness(' + (1 - Math.min(.12, a * .04)).toFixed(3) + ')';
+      d.style.opacity = (k > 1.7 || k < -3.6) ? 0 : 1;
+      d.style.zIndex = String(Math.round(500 + z));
       d.tabIndex = Math.round(cible) === i ? 0 : -1;
     });
   }
