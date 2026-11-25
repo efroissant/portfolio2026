@@ -10641,6 +10641,18 @@
   @media (min-width: 1024px) {
     html body .stage.carrousel-intro :is(img.avatar-accueil, .note-bas) { visibility: hidden !important; }
   }
+  /* Grands écrans (iMac) : nav en 18 Medium, menu Index en 16 Medium. */
+  @media (min-width: 1800px) {
+    html body .stage .menubar .nav-index { width: 460px !important; margin-left: -230px !important; }
+    html body .stage .menubar .nav-index :is(.nav-index__lien, .nav-index__etiquette span) { font-size: 18px !important; line-height: 24px !important; font-weight: 500 !important; }
+    html body .stage .menubar .nav-index .nav-index__etiquette { height: 24px !important; }
+    html body .stage .menubar .nav-index .nav-index__liste { gap: 32px !important; padding-top: 10px !important; height: 48px !important; }
+    html body .stage .menubar .nav-index .nav-index__chevron { width: 16px !important; height: 16px !important; }
+    html body .stage .menubar .nav-index .nav-index__menu { top: 60px !important; }
+    html body .stage .menubar .nav-index :is(.nav-index__projet, .nav-index__projet span) { font-size: 16px !important; line-height: 24px !important; font-weight: 500 !important; }
+    html body .stage .menubar .nav-index .nav-index__annee { height: 24px !important; }
+    html body .stage .menubar .nav-index .nav-index__projets { max-height: 280px !important; }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
