@@ -135,7 +135,7 @@
     position: absolute; left: 50%; top: 50%;
     width: var(--l); height: calc(var(--l) * .84);
     margin: calc(var(--l) * -.42) 0 0 calc(var(--l) * -.5);
-    transform-style: preserve-3d; will-change: transform, filter;
+    transform-style: preserve-3d; will-change: transform;
     cursor: pointer; outline: none;
   }
   .dossier__pose {               /* l’inclinaison propre au dossier */
@@ -371,12 +371,16 @@
     dossiers.forEach((d, i) => {
       const k = i - courant, a = Math.abs(k);
       const x = D + suivre(c.x, k) * Z - W / 2, y = (suivre(c.y, k) - .5) * H, sc = suivre(c.s, k);
-      d.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(4) + ') rotateZ(' + (-k * 2).toFixed(2) + 'deg)';
-      d.style.filter = k > -.05 ? 'none' : 'brightness(' + (1 - Math.min(.1, a * .035)).toFixed(3) + ')';
-      d.style.opacity = (k > 2.2 || k < -4.2) ? 0 : 1;
+      // Seul le transform change à chaque image (pas de filtre : il forçait
+      // à redessiner les ombres à chaque image, d'où les saccades).
+      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ') rotateZ(' + (-k * 2).toFixed(2) + 'deg)';
+      const op = (k > 2.2 || k < -4.2) ? '0' : '1';
+      if (d.style.opacity !== op) d.style.opacity = op;
       // Devant : l’actif, puis le suivant ; les précédents passent dessous.
-      d.style.zIndex = String(Math.round(100 - (k < 0 ? a * 20 : a * 10)));
-      d.tabIndex = Math.round(cible) === i ? 0 : -1;
+      const z = String(100 - (k < -.5 ? Math.round(-k) * 20 : Math.round(Math.max(0, k)) * 10));
+      if (d.style.zIndex !== z) d.style.zIndex = z;
+      const t = Math.round(cible) === i ? 0 : -1;
+      if (d.tabIndex !== t) d.tabIndex = t;
     });
   }
   // La fiche s'anime comme sur A24 : les lignes sortent vers le haut et les
@@ -437,7 +441,7 @@
     }, premier ? 0 : 200);
   }
   function aller(i) {
-    if (glisse()) { cible = Math.max(0, Math.min(N - 1, i)); majDefile(); return; }
+    if (glisse()) { cible = Math.max(0, Math.min(N - 1, i)); majDefile(); relancer(); return; }
     scrollTo({ top: Math.max(0, Math.min(N - 1, i)) * innerHeight, behavior: calme ? 'auto' : 'smooth' });
   }
 
@@ -453,15 +457,18 @@
     if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: d }, '*');
   }
   addEventListener('scroll', majDefile, { passive: true });
+  // La boucle ne tourne que pendant le mouvement, puis s'arrête.
+  let boucle = 0;
   function tic() {
     courant += (cible - courant) * (calme ? 1 : .09);
     if (Math.abs(cible - courant) < .0005) courant = cible;
     poser();
     fiche(Math.round(courant));
-    requestAnimationFrame(tic);
+    boucle = courant !== cible ? requestAnimationFrame(tic) : 0;
   }
+  function relancer() { if (!boucle) boucle = requestAnimationFrame(tic); }
   addEventListener('scroll', lire, { passive: true });
-  addEventListener('resize', () => { lire(); poser(); });
+  addEventListener('resize', () => { lire(); poser(); relancer(); });
   addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); aller(Math.round(cible) + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); aller(Math.round(cible) - 1); }
@@ -505,7 +512,10 @@
       if (d.type === 'projets-aller' && Number.isInteger(d.i)) aller(d.i);
     });
   }
-  requestAnimationFrame(tic);
+  relancer();
+  // Les visuels des feuilles sont décodés d'avance : pas d'à-coup quand un
+  // dossier s'ouvre pour la première fois.
+  PROJETS.forEach((p) => { if (!p.img) return; const im = new Image(); im.src = p.img; if (im.decode) im.decode().catch(() => {}); });
 })();
 </script>
 </body>
