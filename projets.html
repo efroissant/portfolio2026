@@ -84,7 +84,7 @@
   .fiche dt { font: 500 8px/12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
   .fiche dd { margin: 0; font: 500 14px/20px var(--serif); text-align: right; }
   /* Le titre du projet : Instrument Serif, sur une seule ligne. */
-  .fiche__titre { font: 400 40px/40px "Instrument Serif", Georgia, serif; letter-spacing: -.01em; white-space: nowrap; }
+  .fiche__titre { font: 400 18px/24px "Instrument Serif", Georgia, serif; letter-spacing: 0; white-space: nowrap; }
   /* Fiche façon A24 : chaque ligne dans un masque, les filets qui se tracent. */
   .fiche .masque { display: block; overflow: hidden; }
   .fiche .ligne { display: block; will-change: transform; }
@@ -212,7 +212,7 @@
   @media (max-width: 767px) {
     :root { --l: 60vw; }
     .fiche { width: auto; right: 16px; left: 16px; top: 48px; }
-    .fiche__titre { font-size: 24px; line-height: 28px; }
+    .fiche__titre { font-size: 18px; line-height: 24px; }
     .fiche dl { display: none; }
     .tete { top: 12px; }
     .cote { display: none; }
