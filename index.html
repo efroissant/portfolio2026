@@ -10602,6 +10602,17 @@
     /* Le fond d'A24 : un gris très clair, sur l'accueil. */
     html body .stage.stage:is([data-state="lock"], [data-state="desktop"]):not(.bio-ouverte):not(.a-un-doc) { background: #F0F0F0 !important; }
   }
+  /* Index : en Medium noir en tout temps ; le fond descend plus lentement et
+     le chevron se retourne au même rythme. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index .nav-index__bouton { color: #1C1917; }
+    html body .stage .menubar .nav-index .nav-index__bouton :is(.nav-index__mot, .nav-index__nb) { font-weight: 500 !important; }
+    html body .stage .menubar .nav-index .nav-index__fond { transition: height 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
+    html body .stage .menubar .nav-index .nav-index__chevron { transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1); }
+    html body .stage .menubar .nav-index.est-ouvert .nav-index__menu {
+      transition: opacity 500ms var(--ease-i) 360ms, transform 900ms var(--ease-i) 200ms, visibility 0s;
+    }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
