@@ -10575,6 +10575,15 @@
     html body .stage .menubar .nav-index .nav-index__annee { height: 16px; }
     html body .stage:is([data-state="lock"], [data-state="desktop"]) p.note-bas.note-bas { font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; }
   }
+  /* Accueil : la liste des dossiers à gauche est retirée (la nav du haut
+     suffit) ; ma photo passe à une colonne de large. E.F retiré de la nav. */
+  @media (min-width: 1024px) {
+    html body .stage .arbo { display: none !important; }
+    html body .stage .menubar .nav-index li:has(> .nav-index__logo) { display: none; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil {
+      width: max(94px, (100vw - 48px - 11 * 24px) / 12); height: auto; aspect-ratio: 1;
+    }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
