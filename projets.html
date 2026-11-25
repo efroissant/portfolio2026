@@ -305,14 +305,14 @@
       if (Math.round(cible) !== i || !p.id) { e.preventDefault(); aller(i); }
       else if (EMBED) { e.preventDefault(); ouvrir(p); }
     });
-    // Au survol, le dossier pivote vers la souris (jusqu’à 10° de chaque côté).
+    // Au survol, le dossier pivote vers la souris (jusqu’à 20° de chaque côté).
     const pose = d.querySelector('.dossier__pose');
     d.addEventListener('pointermove', (e) => {
       if (e.pointerType === 'touch' || calme) return;
       const r = d.getBoundingClientRect();
       const u = (e.clientX - r.left) / r.width - .5, v = (e.clientY - r.top) / r.height - .5;
-      pose.style.setProperty('--ry', (u * 20).toFixed(2) + 'deg');
-      pose.style.setProperty('--rx', (-v * 20).toFixed(2) + 'deg');
+      pose.style.setProperty('--ry', (u * 40).toFixed(2) + 'deg');
+      pose.style.setProperty('--rx', (-v * 36).toFixed(2) + 'deg');
     });
     d.addEventListener('pointerleave', () => { pose.style.removeProperty('--rx'); pose.style.removeProperty('--ry'); });
     scene.append(d);
@@ -325,9 +325,9 @@
   // s’aplatit vers la gauche, où les dossiers rapetissent et se resserrent.
   //            k :   -3     -2     -1      0      1      2
   const COURBE = {
-    bureau: { x: [-.17,  .01,  .222,  .517,  .88,  1.26],
-              y: [ .70,  .676, .636,  .507,  .258, -.03],
-              s: [ .56,  .67,  .80,   1,     1.07, 1.12] },
+    bureau: { x: [-.17,  .01,  .222,  .517,  .90,  1.34],
+              y: [ .70,  .676, .636,  .507,  .25,  -.06],
+              s: [ .56,  .67,  .80,   1,     1.4,  1.85] },   // à droite, plus proches : plus grands
     mobile: { x: [-.95, -.55, -.10,   .50,  1.12,  1.7],
               y: [ .70,  .67,  .63,   .50,   .27,  .02],
               s: [ .56,  .67,  .80,   1,     1.07, 1.12] }
