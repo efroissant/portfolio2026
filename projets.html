@@ -14,6 +14,8 @@
   if (PARAMS.has('embed')) document.documentElement.classList.add('embed');
   // ?plein : carrousel en plein écran sur l'accueil ; la fiche n'apparaît qu'au défilement.
   if (PARAMS.has('plein')) document.documentElement.classList.add('plein');
+  // Plus de carrousel : les dossiers sont posés en rangée, fixes.
+  document.documentElement.classList.add('statique');
   // ?decal=2 : la zone déborde de 2 colonnes à gauche (grille de l’accueil) ;
   // la fiche et le dossier actif restent calés sur la zone d’origine.
   window.decalage = () => {
@@ -283,6 +285,13 @@
     .intro__bas { bottom: 20vh; padding: 0 16px; }
     .intro__croix { display: none; }
   }
+
+  /* Mode fixe : petits dossiers en rangée ; pas de bloc du bas. */
+  html.statique.statique { --l: min(11vw, 176px); }
+  .statique .pied, .statique .compteur { display: none !important; }
+  .statique:not(.plein) .fiche { display: none; }
+  .statique .dossier { transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+  @media (max-width: 767px) { html.statique.statique { --l: 36vw; } }
 </style>
 </head>
 <body>
@@ -406,6 +415,7 @@
     d.querySelector('.dossier__etiquette span').textContent = p.secteur + ' · ' + p.annee;
     d.addEventListener('click', (e) => {
       // Un dossier qui n’est pas au centre y vient d’abord.
+      if (STATIQUE) { e.preventDefault(); if (!p.id) return; if (!telIntegre()) lancerIntro(i); else ouvrir(p); return; }
       if (indexCible() !== i || !p.id) { e.preventDefault(); allerVers(i); }
       else if (!telIntegre()) { e.preventDefault(); lancerIntro(i); }
       else if (EMBED) { e.preventDefault(); ouvrir(p); }
@@ -463,7 +473,22 @@
   // Amplitude propre à chaque dossier (de 0,7 à 1,3), pour qu'ils ne
   // bougent pas tous pareil.
   const BALANCE = PROJETS.map((_, i) => .7 + ((i * 37) % 7) / 10);
+  const STATIQUE = document.documentElement.classList.contains('statique');
+  // Mode fixe : une rangée de petits dossiers (deux colonnes sur téléphone).
+  function poserFixe() {
+    const W = innerWidth, H = innerHeight, mob = W < 768;
+    const w = dossiers[0].offsetWidth, h = dossiers[0].offsetHeight;
+    const cols = mob ? 2 : N, rows = Math.ceil(N / cols), gx = mob ? 16 : 32, gy = mob ? 40 : 0;
+    const largeur = cols * w + (cols - 1) * gx;
+    dossiers.forEach((d, i) => {
+      const c = i % cols, r = Math.floor(i / cols);
+      const x = -largeur / 2 + w / 2 + c * (w + gx), y = (r - (rows - 1) / 2) * (h + gy) + (mob ? 0 : H * .04);
+      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+      d.style.opacity = '1'; d.style.zIndex = String(10 + i); d.tabIndex = 0;
+    });
+  }
   function poser() {
+    if (STATIQUE) { poserFixe(); return; }
     const vitesse = Math.max(-1.2, Math.min(1.2, cible - courant));   // ce qu'il reste à parcourir
     const W = innerWidth, H = innerHeight, c = W < 768 ? COURBE.mobile : COURBE.bureau;
     const D = window.decalage ? decalage() : 0, Z = W - D;   // la zone d’origine, sans le débord
@@ -510,14 +535,15 @@
     lignesDe(r).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * pas), easing: ENTREE, fill: 'both' }));
     filetsDe(r).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(620), delay: duree(40 + k * 50), easing: ENTREE, fill: 'both' }); });
   }
-  const sortieFiche = () => sortieDe(FICHE), entreeFiche = () => entreeDe(FICHE);
+  const sortieFiche = () => { ficheOuverte = false; return sortieDe(FICHE); }, entreeFiche = () => { ficheOuverte = true; entreeDe(FICHE); };
   const lignes = () => lignesDe(FICHE), filets = () => filetsDe(FICHE);
   function cacherFiche() {
     lignes().forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
     filets().forEach((f) => f.animate([{ transform: 'scaleX(0)' }], { duration: 1, fill: 'forwards' }));
   }
   const PLEIN = document.documentElement.classList.contains('plein');
-  const ficheVisible = () => !PLEIN || defile;
+  let survolOn = false, ficheOuverte = false, tSurvol = 0;
+  const ficheVisible = () => STATIQUE ? (survolOn || (!PLEIN && !EMBED)) : (!PLEIN || defile);
   let tour = 0, tourPied = 0, montre = -1;   // montre : le projet affiché dans la fiche
   function remplir(j) {
     const p = PROJETS[j]; montre = j;
@@ -574,13 +600,14 @@
     courant += (cible - courant) * (calme ? 1 : .13);
     if (Math.abs(cible - courant) < .002) courant = cible;
     poser();
-    fiche(mod(Math.round(courant)));
+    if (!STATIQUE) fiche(mod(Math.round(courant)));
     boucle = courant !== cible ? requestAnimationFrame(tic) : 0;
   }
   function relancer() { if (!boucle) boucle = requestAnimationFrame(tic); }
   addEventListener('scroll', lire, { passive: true });
   addEventListener('resize', () => { lire(); poser(); relancer(); });
   addEventListener('keydown', (e) => {
+    if (STATIQUE) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); aller(Math.round(cible) + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); aller(Math.round(cible) - 1); }
   });
@@ -590,7 +617,7 @@
   let x0 = null, y0 = 0, aGlisse = false;
   scene.addEventListener('pointerdown', (e) => { x0 = e.clientX; y0 = e.clientY; aGlisse = false; });
   addEventListener('pointerup', (e) => {
-    if (x0 === null || !glisse() || enIntro) { x0 = null; return; }
+    if (x0 === null || !glisse() || enIntro || STATIQUE) { x0 = null; return; }
     const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { aGlisse = true; aller(Math.round(cible) + (dx < 0 ? 1 : -1)); }
     else if (!telIntegre() && e.pointerType === 'touch' && Math.abs(dy) > 40) { aGlisse = true; aller(Math.round(cible) + (dy < 0 ? 1 : -1)); }
@@ -605,6 +632,7 @@
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
     if (enIntro) { molletteIntro(e.deltaY); return; }
+    if (STATIQUE) return;
     let d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
     if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
     if (!d) return;
@@ -756,7 +784,33 @@
     PHOTO.firstElementChild.style.transform = 'translate3d(0,' + ((1 - montee) * 14).toFixed(2) + '%,0) scale(1.08)';
     bouclePhoto = enIntro ? requestAnimationFrame(animerPhoto) : 0;
   }
+  // Mode fixe : au survol d'un dossier, il s'entrouvre et la fiche du projet
+  // entre en haut à gauche (à la place de ma photo) ; elle sort quand on quitte.
+  function survol(i) {
+    if (!STATIQUE || enIntro) return;
+    clearTimeout(tSurvol);
+    if (!survolOn) { survolOn = true; if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: true }, '*'); }
+    if (!ficheOuverte) {
+      actif = i; montre = -1; ++tour;
+      dossiers.forEach((d, j) => d.classList.toggle('est-actif', j === i));
+      if (EMBED && parent !== window) parent.postMessage({ type: 'projets-actif', i }, '*');
+      remplir(i); entreeFiche();
+    } else if (actif !== i) fiche(i);
+  }
+  function finSurvol() {
+    if (!STATIQUE) return;
+    clearTimeout(tSurvol);
+    tSurvol = setTimeout(() => {
+      if (enIntro) return;
+      survolOn = false; ++tour;
+      if (ficheOuverte) sortieFiche();
+      dossiers.forEach((d) => d.classList.remove('est-actif'));
+      if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: false }, '*');
+    }, 220);
+  }
+  dossiers.forEach((d, i) => { d.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') survol(i); }); d.addEventListener('pointerleave', finSurvol); });
   lire(); courant = cible; poser(); fiche(indexCible());
+  if (STATIQUE) dossiers.forEach((d) => d.classList.remove('est-actif'));   // tous fermés au départ
   // Intégré : la liste pour le menu Index de l'accueil, et ses ordres.
   if (EMBED && parent !== window) {
     const envoyerListe = () => parent.postMessage({ type: 'projets-liste', actif, liste: PROJETS.map((p) => ({ nom: p.nom, annee: p.annee, id: p.id || null })) }, '*');
@@ -765,7 +819,7 @@
       if (e.source !== parent) return;
       const d = e.data || {};
       if (d.type === 'projets-demande') { envoyerListe(); defile = null; majDefile(); }
-      if (d.type === 'projets-aller' && Number.isInteger(d.i)) allerVers(d.i);
+      if (d.type === 'projets-aller' && Number.isInteger(d.i)) { if (STATIQUE) { const q = PROJETS[d.i]; if (q && q.id) lancerIntro(d.i); } else allerVers(d.i); }
       // Retour au tout début : on recale le compteur sur le tour le plus
       // proche (invisible, la boucle est identique), puis on revient au 1.
       if (d.type === 'projets-retour') fermerIntro();
