@@ -141,20 +141,10 @@
       0 -8px 24px rgba(28, 25, 23, .06);
     border-radius: 12px 12px 16px 16px;
   }
-  /* L’étiquette, creusée dans le carton. */
-  .dossier__etiquette {
-    position: absolute; left: 8%; bottom: 10%;
-    padding: 12px 16px 12px 36px; min-width: 44%;
-    background: #EFEEEB; border-radius: 12px;
-    box-shadow: inset 3px 3px 6px rgba(28, 25, 23, .1), inset -3px -3px 6px rgba(255, 255, 255, .95);
-  }
-  .dossier__etiquette::before {
-    content: ""; position: absolute; left: 16px; top: 50%; width: 10px; height: 10px; margin-top: -5px;
-    border-radius: 50%; background: var(--c);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .8), 0 0 12px var(--c);
-  }
-  .dossier__etiquette b { display: block; font: 500 calc(var(--l) * .042)/1 var(--serif); text-transform: uppercase; letter-spacing: -.02em; color: var(--encre); }
-  .dossier__etiquette span { display: block; margin-top: 4px; font: 500 calc(var(--l) * .018)/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
+  /* Le nom du projet, posé sur le carton. */
+  .dossier__etiquette { position: absolute; left: 8%; bottom: 10%; right: 8%; }
+  .dossier__etiquette b { display: block; font: 500 calc(var(--l) * .05)/1.05 var(--serif); text-transform: uppercase; letter-spacing: -.02em; color: var(--encre); }
+  .dossier__etiquette span { display: none; }
   /* Le numéro, embossé. */
   .dossier__numero {
     position: absolute; right: 8%; top: 10%;
