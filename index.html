@@ -10613,6 +10613,15 @@
       transition: opacity 500ms var(--ease-i) 360ms, transform 900ms var(--ease-i) 200ms, visibility 0s;
     }
   }
+  /* « Manu » : plus dans le coin, toujours en tête de la nav du centre ;
+     en haut à gauche, ma photo seule, jusqu'au premier défilement. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .menuitem--app { display: none !important; }
+    html body .stage .menubar .nav-index .nav-index__manu.nav-index__manu {
+      max-width: 64px; margin-right: 0; opacity: 1; pointer-events: auto; transition: none;
+    }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil.avatar-accueil { top: 16px; }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
