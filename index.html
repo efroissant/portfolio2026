@@ -19894,6 +19894,10 @@ document.addEventListener('click', (e) => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-aller', i }, '*'); }, 60);
   }
   nav.querySelectorAll('[data-nav="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); fermer(); accueil(); }));
+  // « Manu » : l'accueil comme à l'arrivée, premier dossier et photo.
+  nav.querySelector('.nav-index__logo').addEventListener('click', () => {
+    setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-debut' }, '*'); }, 60);
+  });
   nav.querySelector('[data-nav="bio"]').addEventListener('click', (e) => {
     const f = document.querySelector('.arbo__fichier[href="#profil"]');
     if (f) { e.preventDefault(); fermer(); f.click(); setTimeout(majCourant, 0); }

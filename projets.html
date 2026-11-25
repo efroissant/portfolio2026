@@ -558,6 +558,9 @@
       const d = e.data || {};
       if (d.type === 'projets-demande') { envoyerListe(); defile = null; majDefile(); }
       if (d.type === 'projets-aller' && Number.isInteger(d.i)) allerVers(d.i);
+      // Retour au tout début : on recale le compteur sur le tour le plus
+      // proche (invisible, la boucle est identique), puis on revient au 1.
+      if (d.type === 'projets-debut') { const m = N * Math.floor((cible + N / 2 - .001) / N); cible -= m; courant -= m; aller(0); }
     });
   }
   relancer();
