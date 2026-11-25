@@ -10752,6 +10752,8 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene { aspect-ratio: 3 / 2 !important; overflow: hidden !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene img { position: absolute !important; inset: 0 !important; height: 100% !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche { grid-template-columns: minmax(0, 1fr) !important; grid-auto-flow: row !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche > div { grid-column: 1 / -1 !important; grid-row: auto !important; width: auto !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche { background: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .uc__label { grid-column: 9 / 13 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere :is(.uc__fort, .uc__petit) { grid-column: 9 / 13 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { display: flex !important; justify-content: center !important; flex-wrap: wrap !important; gap: 8px !important; padding: 0 0 128px !important; list-style: none !important; }
@@ -10781,15 +10783,60 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .uc__petit { grid-column: 4 / 9 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { color: #1C1917 !important; }
 
+
+  /* ---- Passe minimaliste : petites tailles, beaucoup d'air, images retenues. ---- */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { font-size: 14px !important; line-height: 20px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan) { padding: 16px 0 192px !important; row-gap: 16px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan)::before { background: rgba(28, 25, 23, .25) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre) { font-size: 24px !important; line-height: 28px !important; letter-spacing: 0 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__petit, .uc__corps, .uc__tete-note, .uc__audit-texte, .uc__passerelle-texte, .uc__contexte-texte p, .uc__formulaire-texte p, .uc__formulaire-liste, .uc__formulaire-liste *) { font-size: 14px !important; line-height: 20px !important; color: #3D3A37 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce { font-size: 24px !important; line-height: 28px !important; margin-top: 32px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { font-size: 64px !important; line-height: 64px !important; padding: 64px 0 160px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort { font-size: 24px !important; line-height: 28px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { font-size: 14px !important; line-height: 20px !important; padding: 10px 0 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche dd { font-size: 12px !important; line-height: 16px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences * { font-size: 13px !important; line-height: 18px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow * { font-size: 13px !important; }
+  /* Images retenues sur la grille. */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte .uc__contexte-texte { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte .uc__contexte-visuel { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__titre { grid-column: 1 / 6 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__tete-visuel { grid-column: 1 / 7 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__tete-note { grid-column: 9 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__fiche { grid-column: 9 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce { grid-column: 1 / 6 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__corps { grid-column: 9 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-titre, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__audit-texte { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgences { grid-column: 7 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain { margin: 0 !important; padding: 0 0 192px !important; display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)) !important; column-gap: var(--g) !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain img { grid-column: 4 / 10 !important; aspect-ratio: 3 / 2 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-titre, html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__passerelle-texte { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle .uc__flow { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene { grid-column: 1 / 6 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere :is(.uc__label, .uc__fort, .uc__petit) { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine { padding-bottom: 192px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__chaine * { font-size: 12px !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage :is(.uc__fort, .uc__petit) { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-texte { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__formulaire .uc__formulaire-photo { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > section:has(> .sexe) :is(.uc__fort, .uc__petit) { grid-column: 1 / 5 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > section:has(> .sexe) .sexe { grid-column: 8 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__resistance .uc__fort { grid-column: 4 / 9 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__resistance .uc__petit { grid-column: 4 / 8 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc .frise { grid-column: 2 / 12 !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan :is(.uc__fort, .uc__petit), html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion :is(.uc__fort, .uc__petit, .conclusion__points) { grid-column: 4 / 9 !important; }
   /* Mobile : une colonne. */
   @media (max-width: 767px) {
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { --m: 16px; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan),
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section { grid-template-columns: minmax(0, 1fr) !important; padding-bottom: 80px !important; }
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > [class][class][class], html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > section > [class][class][class] { grid-column: 1 / -1 !important; grid-row: auto !important; margin-top: 0 !important; }
-    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre) { font-size: 32px !important; line-height: 36px !important; }
-    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { font-size: 64px !important; padding: 48px 0 !important; }
-    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort { font-size: 40px !important; line-height: 44px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__fort, .uc__titre, .uc__audit-titre, .uc__contexte-titre, .uc__passerelle-titre, .uc__formulaire-titre) { font-size: 22px !important; line-height: 26px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(section, header, .uc__contexte, .uc__formulaire, .uc__bilan) { padding-bottom: 96px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__photo--terrain { display: block !important; padding-bottom: 96px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot { font-size: 40px !important; line-height: 40px !important; padding: 32px 0 96px !important; }
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan .uc__fort { font-size: 22px !important; line-height: 26px !important; }
   }
 </style>
 </head>
