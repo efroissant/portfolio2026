@@ -10637,6 +10637,10 @@
     }
     html body .stage .menubar .nav-index .nav-index__etiquette > span { opacity: 1 !important; transition: transform 460ms var(--ease-i); }
   }
+  /* Intro d'un projet ouverte dans le carrousel : ma photo se cache. */
+  @media (min-width: 1024px) {
+    html body .stage.carrousel-intro :is(img.avatar-accueil, .note-bas) { visibility: hidden !important; }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
@@ -19882,7 +19886,11 @@ document.addEventListener('click', (e) => {
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && ouvert()) { fermer(); bouton.focus(); } });
 
   // Revenir à l'accueil (fermer l'étude ou la bio ouverte).
+  // Revenu à l'accueil : le carrousel quitte l'intro d'un projet.
+  const retourCarrousel = () => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-retour' }, '*'); };
+  addEventListener('popstate', () => { if (!/^#(case\/|profil)/.test(location.hash)) setTimeout(retourCarrousel, 30); });
   function accueil() {
+    retourCarrousel();
     if (location.hash) { history.pushState(null, '', location.pathname + location.search); dispatchEvent(new PopStateEvent('popstate')); }
     const stage = document.getElementById('stage');
     if (stage) stage.classList.remove('bio-ouverte');
@@ -19920,6 +19928,7 @@ document.addEventListener('click', (e) => {
     if (!f || e.source !== f.contentWindow) return;   // seul le carrousel du grand écran
     const d = e.data || {};
     if (d.type === 'projets-liste' && Array.isArray(d.liste)) { projets = d.liste; actif = d.actif || 0; construire(); }
+    if (d.type === 'projets-intro') { const st = document.getElementById('stage'); if (st) st.classList.toggle('carrousel-intro', !!d.on); }
     if (d.type === 'projets-defile') { const st = document.getElementById('stage'); if (st) st.classList.toggle('carrousel-defile', !!d.on); }
     if (d.type === 'projets-actif') {
       actif = d.i;

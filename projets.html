@@ -238,6 +238,43 @@
   @media (prefers-reduced-motion: reduce) {
     .dossier__face, .dossier__feuille { transition: none; }
   }
+
+  /* ===== Intro d'un projet ===== */
+  .intro {
+    position: fixed; inset: 0; z-index: 30; display: none;
+    padding: 64px 24px 0; background: var(--fond); color: var(--encre);
+  }
+  .intro.est-la { display: block; }
+  .intro .masque { display: block; overflow: hidden; }
+  .intro .ligne { display: block; will-change: transform; }
+  .intro .fiche__filet { background: rgba(28, 25, 23, .5); }
+  .intro__tete { position: relative; text-align: center; }
+  .intro__titre { margin: 0 0 16px; font: 400 clamp(48px, 8vw, 128px)/.92 "Instrument Serif", Georgia, serif; text-transform: uppercase; letter-spacing: -.01em; }
+  .intro__titre .masque { padding-bottom: .08em; }
+  .intro__trait { position: relative !important; display: block; top: auto !important; }
+  .intro__credits { margin: 8px 0 12px; font: 500 14px/20px var(--serif); }
+  .intro__credits small { margin-right: 8px; font: 500 8px/12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--gris-texte); }
+  .intro__infos { margin: 0; }
+  .intro__infos div { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 6px 0; }
+  .intro__infos dt { font: 500 8px/12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--gris-texte); }
+  .intro__infos dd { margin: 0; font: 500 14px/20px var(--serif); text-align: right; max-width: 60%; }
+  .intro__croix { position: absolute; top: 56%; font: 300 24px/1 var(--serif); }
+  .intro__croix--g { left: 16px; } .intro__croix--d { right: 16px; }
+  .intro__bas { position: absolute; left: 0; right: 0; bottom: 24vh; text-align: center; padding: 0 24px; }
+  .intro__contexte { max-width: 640px; margin: 0 auto 16px; font: 400 24px/28px "Instrument Serif", Georgia, serif; }
+  .intro__suite { margin: 0; font: 500 8px/12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--gris-texte); }
+  /* La photo, dessous : seule la forme découpée en bas la laisse voir. */
+  .intro__photo { position: fixed; inset: 0; z-index: 31; display: none; pointer-events: none; clip-path: path("M 0 0 Z"); }
+  .intro__photo.est-la { display: block; }
+  .intro__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 767px) {
+    .intro { padding: 56px 16px 0; }
+    .intro__titre { font-size: 44px; }
+    .intro__infos dd { font-size: 13px; line-height: 18px; }
+    .intro__contexte { font-size: 20px; line-height: 24px; }
+    .intro__bas { bottom: 20vh; padding: 0 16px; }
+    .intro__croix { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -274,17 +311,50 @@
   </div>
   <p class="compteur" aria-hidden="true"><span id="compteur-n">01</span><small> / <span id="compteur-t">06</span></small></p>
 
+  <!-- Intro d'un projet (clic sur le dossier actif), façon A24 : les lignes se
+       tracent depuis la gauche, les infos montent ; en bas, la photo du projet
+       perce le fond par une forme qui ondule et suit la souris. Défiler vers
+       le bas ouvre l'étude. -->
+  <section class="intro" id="intro" aria-hidden="true">
+    <div class="intro__tete">
+      <h2 class="intro__titre"><span class="masque"><span class="ligne" data-i="titre"></span></span></h2>
+      <i class="fiche__filet intro__trait"></i>
+      <p class="intro__credits"><span class="masque"><span class="ligne"><small>Rôle</small><span data-i="role"></span></span></span></p>
+    </div>
+    <dl class="intro__infos">
+      <div><i class="fiche__filet"></i><dt><span class="masque"><span class="ligne">Année</span></span></dt><dd><span class="masque"><span class="ligne" data-i="annee"></span></span></dd></div>
+      <div><i class="fiche__filet"></i><dt><span class="masque"><span class="ligne">Équipe</span></span></dt><dd><span class="masque"><span class="ligne" data-i="equipe"></span></span></dd></div>
+      <div><i class="fiche__filet"></i><dt><span class="masque"><span class="ligne">Logiciels</span></span></dt><dd><span class="masque"><span class="ligne" data-i="logiciels"></span></span></dd></div>
+      <div><i class="fiche__filet"></i><i class="fiche__filet fiche__filet--bas"></i><dt><span class="masque"><span class="ligne">Mandat</span></span></dt><dd><span class="masque"><span class="ligne" data-i="mandat"></span></span></dd></div>
+    </dl>
+    <span class="intro__croix intro__croix--g" aria-hidden="true">+</span><span class="intro__croix intro__croix--d" aria-hidden="true">+</span>
+    <div class="intro__bas">
+      <p class="intro__contexte"><span class="masque"><span class="ligne" data-i="contexte"></span></span></p>
+      <p class="intro__suite"><span class="masque"><span class="ligne">Défiler pour lire l’étude ↓</span></span></p>
+    </div>
+  </section>
+  <div class="intro__photo" id="intro-photo" aria-hidden="true"><img alt="" draggable="false"></div>
+
 <script>
 (function carrousel() {
   const PROJETS = [
     { nom: 'Pharmaprix', id: 'loblaw', c: '#F05454', img: 'lob-pharmacienne.webp',
       role: 'UX/UI, recherche', annee: '2021–23', secteur: 'Pharmacie',
+      intro: { role: 'Designer UX/UI · Audit · Recherche terrain', equipe: '3 designers, 1 lead, 8 PO/PA, devs', logiciels: 'Figma, Jira, Miro',
+        mandat: 'Refonte de Healthwatch, le logiciel des pharmaciens depuis 13 ans', photo: 'lob-pharmacienne.webp',
+        contexte: 'Healthwatch servait les pharmaciens depuis 13 ans : incohérent, peu sûr, mais familier. Avant de le refaire, j’ai cherché où il les laissait se tromper.' },
       tags: 'Design UX/UI · Recherche · Logiciel métier', phrase: 'Treize ans d’habitudes à redessiner.' },
     { nom: 'Groupe Voyage Québec', id: 'gvq', c: '#F5C044', img: 'gvq-agenda-920.webp',
       role: 'UX/UI', annee: '2024', secteur: 'Voyage',
+      intro: { role: 'Designer UX/UI · Seul en design', equipe: '2 PO, devs délocalisés', logiciels: 'Figma, Jira, Miro',
+        mandat: 'Un MVP de réservation pour congrès, à concevoir en 8 mois', photo: 'gvq-detail-1613.webp',
+        contexte: 'Un MVP qui devait convaincre avant d’exister. Sans produit existant ni recherche terrain, trois choix ont rendu l’expérience évidente.' },
       tags: 'Design UX/UI · MVP · Parcours participant', phrase: 'Un MVP qui devait vendre avant d’exister.' },
     { nom: 'Roche Diabetes Care', id: 'roche', c: '#5AA2F0', img: 'roche-strategy-1064.webp',
       role: 'D.A, UX/UI', annee: '2018', secteur: 'Santé',
+      intro: { role: 'Direction artistique · UX/UI', equipe: '1 lead UX, 1 directeur de création', logiciels: 'Sketch',
+        mandat: 'L’Upside Challenge, une campagne participative pour le Mois du diabète', photo: 'roche-landing-1750.webp',
+        contexte: 'Chaque selfie retourné publié déclenchait un don de 5 $ à la recherche. Mais le client imposait aussi une publicité produit : il fallait qu’elle se voie, sans casser l’élan.' },
       tags: 'Direction artistique · UX/UI · Campagne', phrase: 'Un selfie retourné, cinq dollars pour la recherche.' },
     { nom: 'Aéroplan', c: '#A98BF5', role: 'Web design', annee: 'Bientôt', secteur: 'Fidélité',
       tags: 'Web design', phrase: 'Étude à venir.' },
@@ -306,7 +376,8 @@
   }
   document.getElementById('pied-cta').addEventListener('click', (e) => {
     const p = PROJETS[actif];
-    if (EMBED && p && p.id) { e.preventDefault(); ouvrir(p); }
+    if (p && p.id && !telIntegre()) { e.preventDefault(); lancerIntro(actif); }
+    else if (EMBED && p && p.id) { e.preventDefault(); ouvrir(p); }
   });
 
   const dossiers = PROJETS.map((p, i) => {
@@ -328,6 +399,7 @@
     d.addEventListener('click', (e) => {
       // Un dossier qui n’est pas au centre y vient d’abord.
       if (indexCible() !== i || !p.id) { e.preventDefault(); allerVers(i); }
+      else if (!telIntegre()) { e.preventDefault(); lancerIntro(i); }
       else if (EMBED) { e.preventDefault(); ouvrir(p); }
     });
     // Au survol, le dossier pivote vers la souris (jusqu’à 20° de chaque côté).
@@ -510,7 +582,7 @@
   let x0 = null, y0 = 0, aGlisse = false;
   scene.addEventListener('pointerdown', (e) => { x0 = e.clientX; y0 = e.clientY; aGlisse = false; });
   addEventListener('pointerup', (e) => {
-    if (x0 === null || !glisse()) { x0 = null; return; }
+    if (x0 === null || !glisse() || enIntro) { x0 = null; return; }
     const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { aGlisse = true; aller(Math.round(cible) + (dx < 0 ? 1 : -1)); }
     else if (!telIntegre() && e.pointerType === 'touch' && Math.abs(dy) > 40) { aGlisse = true; aller(Math.round(cible) + (dy < 0 ? 1 : -1)); }
@@ -524,6 +596,7 @@
   addEventListener('wheel', (e) => {
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
+    if (enIntro) { molletteIntro(e.deltaY); return; }
     let d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
     if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
     if (!d) return;
@@ -548,6 +621,113 @@
   }, { passive: false });
   // Un glisser n’est pas un clic.
   scene.addEventListener('click', (e) => { if (aGlisse) { e.preventDefault(); e.stopPropagation(); aGlisse = false; } }, true);
+
+  // ===== Intro d'un projet =====
+  // Clic sur le dossier actif : les autres s'effacent, il recule très vite
+  // jusqu'à disparaître, la fiche et le bloc du bas sortent. Puis les lignes
+  // se tracent depuis la gauche et les infos montent ; la photo perce en bas.
+  const INTRO = document.getElementById('intro'), PHOTO = document.getElementById('intro-photo');
+  let enIntro = false, introProjet = -1, peek = 0, peekCible = 0, tIntro = 0, bouclePhoto = 0, lecture = false;
+  let souris = null;
+  function remplirIntro(p) {
+    const v = { titre: p.nom, role: p.intro.role, annee: p.annee, equipe: p.intro.equipe, logiciels: p.intro.logiciels, mandat: p.intro.mandat, contexte: p.intro.contexte };
+    INTRO.querySelectorAll('[data-i]').forEach((el) => { el.textContent = v[el.dataset.i] || ''; });
+    PHOTO.querySelector('img').src = p.intro.photo;
+  }
+  function lancerIntro(i) {
+    const p = PROJETS[i];
+    if (enIntro || !p || !p.intro) { if (p && p.id && !p.intro) ouvrir(p); return; }
+    enIntro = true; introProjet = i; lecture = false;
+    if (EMBED && parent !== window) parent.postMessage({ type: 'projets-intro', on: true }, '*');
+    remplirIntro(p);
+    // Les autres dossiers s'effacent ; celui-ci recule très vite au loin.
+    dossiers.forEach((d, j) => {
+      if (j === i) d.animate([{ transform: d.style.transform, opacity: 1 }, { transform: d.style.transform + ' translateZ(-4200px)', opacity: 0 }], { duration: duree(650), easing: 'cubic-bezier(.6, 0, .9, .3)', fill: 'forwards' });
+      else d.animate([{ opacity: 0 }], { duration: duree(260), easing: 'ease-out', fill: 'forwards' });
+    });
+    sortieDe(FICHE); sortieDe(PIED);
+    // Les lignes et les infos, puis la photo.
+    setTimeout(() => {
+      if (!enIntro) return;
+      lignesDe(INTRO).forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
+      filetsDe(INTRO).forEach((f) => f.animate([{ transform: 'scaleX(0)' }], { duration: 1, fill: 'forwards' }));
+      INTRO.classList.add('est-la'); INTRO.setAttribute('aria-hidden', 'false');
+      filetsDe(INTRO).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(1000), delay: duree(k * 90), easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'both' }); });
+      lignesDe(INTRO).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(800), delay: duree(260 + k * 55), easing: ENTREE, fill: 'both' }));
+      PHOTO.classList.add('est-la'); peek = 0; peekCible = innerWidth < 768 ? .12 : .17;
+      if (!bouclePhoto) bouclePhoto = requestAnimationFrame(animerPhoto);
+    }, calme ? 0 : 560);
+  }
+  function fermerIntro() {
+    if (!enIntro) return;
+    enIntro = false; lecture = false;
+    if (EMBED && parent !== window) parent.postMessage({ type: 'projets-intro', on: false }, '*');
+    INTRO.classList.remove('est-la'); INTRO.setAttribute('aria-hidden', 'true');
+    PHOTO.classList.remove('est-la'); peek = peekCible = 0;
+    cancelAnimationFrame(bouclePhoto); bouclePhoto = 0;
+    dossiers.forEach((d) => d.getAnimations().forEach((a) => a.cancel()));
+    poser();
+    if (ficheVisible()) entreeFiche();
+    entreeDe(PIED, 90);
+  }
+  // Défiler vers le bas : la forme s'ouvre sur toute la photo, puis l'étude.
+  function lireEtude() {
+    if (lecture) return;
+    lecture = true; peekCible = 1.6;
+    const p = PROJETS[introProjet];
+    setTimeout(() => {
+      if (!enIntro) return;
+      if (EMBED && parent !== window) ouvrir(p); else location.href = lien(p);
+    }, calme ? 0 : 750);
+  }
+  let cumulIntro = 0, finIntro = 0;
+  function molletteIntro(d) {
+    cumulIntro += d; clearTimeout(finIntro); finIntro = setTimeout(() => { cumulIntro = 0; }, 200);
+    if (cumulIntro > 40) lireEtude();
+    else if (cumulIntro < -160 && !lecture) fermerIntro();   // remonter fort : retour aux dossiers
+  }
+  addEventListener('keydown', (e) => {
+    if (!enIntro) return;
+    if (/^Arrow| |Enter|Escape/.test(e.key)) e.stopPropagation();   // les flèches ne bougent plus les dossiers
+    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); lireEtude(); }
+    if (e.key === 'Escape' || e.key === 'ArrowUp') fermerIntro();
+  }, true);
+  let yIntro = null;
+  INTRO.addEventListener('pointerdown', (e) => { yIntro = e.clientY; });
+  INTRO.addEventListener('pointerup', (e) => { if (yIntro !== null && yIntro - e.clientY > 40) lireEtude(); yIntro = null; });
+  addEventListener('pointermove', (e) => { souris = { x: e.clientX, y: e.clientY }; }, { passive: true });
+  addEventListener('pointerleave', () => { souris = null; });
+  // La forme : un bord haut qui ondule (bruit lent), plus haut au centre,
+  // qui se soulève vers la souris quand elle approche.
+  let mx = .5, my = 0;
+  function animerPhoto(now) {
+    tIntro = now / 1000;
+    peek += (peekCible - peek) * (lecture ? .07 : .06);
+    const W = innerWidth, H = innerHeight;
+    const cx = W * (.5 + Math.sin(tIntro * .35) * .06);
+    const portee = W * (W < 768 ? .55 : .36);
+    // La souris attire la forme (adouci).
+    const sx = souris ? souris.x / W : .5, sy = souris ? souris.y / H : 0;
+    mx += (sx - mx) * .06; my += (sy - my) * .06;
+    const attire = Math.max(0, Math.min(1, (my - .45) / .45));
+    let d = 'M -40 ' + (H + 40) + ' ';
+    const pas = 24, pts = [];
+    for (let x = -40; x <= W + 40; x += pas) {
+      const g = Math.exp(-Math.pow((x - cx) / portee, 2) * 1.3);
+      const bruit = .82 + .12 * Math.sin(x * .011 + tIntro * 1.2) + .08 * Math.sin(x * .029 - tIntro * .8) + .05 * Math.sin(x * .061 + tIntro * 2.1);
+      const versSouris = Math.exp(-Math.pow((x - mx * W) / (W * .11), 2)) * attire * H * .09;
+      const h = peek >= 1.2 ? H * peek : peek * H * g * bruit + versSouris * Math.min(1, peek * 6);
+      pts.push([x, H - h]);
+    }
+    d += 'L ' + pts[0][0] + ' ' + pts[0][1].toFixed(1) + ' ';
+    for (let k = 1; k < pts.length - 1; k++) {
+      const xm = (pts[k][0] + pts[k + 1][0]) / 2, ym = (pts[k][1] + pts[k + 1][1]) / 2;
+      d += 'Q ' + pts[k][0] + ' ' + pts[k][1].toFixed(1) + ' ' + xm.toFixed(1) + ' ' + ym.toFixed(1) + ' ';
+    }
+    d += 'L ' + (W + 40) + ' ' + (H + 40) + ' Z';
+    PHOTO.style.clipPath = 'path("' + d + '")';
+    bouclePhoto = enIntro ? requestAnimationFrame(animerPhoto) : 0;
+  }
   lire(); courant = cible; poser(); fiche(indexCible());
   // Intégré : la liste pour le menu Index de l'accueil, et ses ordres.
   if (EMBED && parent !== window) {
@@ -560,7 +740,8 @@
       if (d.type === 'projets-aller' && Number.isInteger(d.i)) allerVers(d.i);
       // Retour au tout début : on recale le compteur sur le tour le plus
       // proche (invisible, la boucle est identique), puis on revient au 1.
-      if (d.type === 'projets-debut') { const m = N * Math.floor((cible + N / 2 - .001) / N); cible -= m; courant -= m; aller(0); }
+      if (d.type === 'projets-retour') fermerIntro();
+      if (d.type === 'projets-debut') { fermerIntro(); const m = N * Math.floor((cible + N / 2 - .001) / N); cible -= m; courant -= m; aller(0); }
     });
   }
   relancer();
