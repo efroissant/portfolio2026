@@ -10466,10 +10466,8 @@
   .carrousel-projets { display: none; }
   @media (min-width: 1024px) {
     html body .stage .accueil-droite .carrousel-projets {
-      /* Deux colonnes de plus à gauche : les dossiers continuent d’y filer. */
-      display: block; position: absolute; top: 0;
-      left: calc(-2 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px));
-      width: calc(100% + 24px + 2 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px)); height: 100%;
+      /* Plein écran : les dossiers traversent tout l'écran et sortent à gauche. */
+      display: block; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       border: 0; background: transparent; transition: opacity 200ms ease;
     }
     html body .stage .accueil-droite.a-un-apercu .carrousel-projets { opacity: 0; pointer-events: none; }
@@ -10583,6 +10581,12 @@
     html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil {
       width: max(94px, (100vw - 48px - 11 * 24px) / 12); height: auto; aspect-ratio: 1;
     }
+  }
+  /* Dès qu'on fait défiler les dossiers : ma photo et « Manu » s'effacent,
+     la fiche du projet (dans le carrousel) prend leur place. */
+  @media (min-width: 1024px) {
+    html body .stage :is(img.avatar-accueil, .menubar .menuitem--app) { transition: opacity 400ms cubic-bezier(0.32, 0.72, 0, 1); }
+    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) :is(img.avatar-accueil, .menubar .menuitem--app) { opacity: 0 !important; pointer-events: none !important; }
   }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
@@ -11054,7 +11058,7 @@
       </dl>
     </div>
     <!-- Le carrousel de dossiers (projets.html), à la place de « En ce moment ». -->
-    <iframe class="carrousel-projets" src="projets.html?embed&amp;decal=2" title="Projets, un dossier à la fois"></iframe>
+    <iframe class="carrousel-projets" src="projets.html?embed&amp;plein" title="Projets, un dossier à la fois"></iframe>
     <div class="apercu" aria-hidden="true"></div>
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
@@ -19854,6 +19858,7 @@ document.addEventListener('click', (e) => {
     if (!f || e.source !== f.contentWindow) return;   // seul le carrousel du grand écran
     const d = e.data || {};
     if (d.type === 'projets-liste' && Array.isArray(d.liste)) { projets = d.liste; actif = d.actif || 0; construire(); }
+    if (d.type === 'projets-defile') { const st = document.getElementById('stage'); if (st) st.classList.toggle('carrousel-defile', !!d.on); }
     if (d.type === 'projets-actif') {
       actif = d.i;
       liste.querySelectorAll('.nav-index__projet').forEach((b, j) => b.classList.toggle('est-actif', j === actif));
