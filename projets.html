@@ -195,6 +195,10 @@
     font: 300 calc(var(--l) * .12)/1 var(--serif); letter-spacing: -.04em; color: #ECEAE6;
     text-shadow: -1px -1px 1px rgba(255, 255, 255, 1), 1px 2px 2px rgba(28, 25, 23, .14);
   }
+  /* Calques propres pour ce qui bouge : la feuille et la face s'animent sans
+     faire redessiner le dossier et ses grandes ombres. */
+  .dossier__feuille, .dossier__face { will-change: transform; backface-visibility: hidden; }
+  .dossier__dos { contain: paint; }
   .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-20deg); }
   .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-26%); }
 
@@ -404,20 +408,21 @@
   const filets = () => [...FICHE.querySelectorAll('.fiche__filet')];
   const ENTREE = 'cubic-bezier(.16, 1, .3, 1)', SORTIE = 'cubic-bezier(.7, 0, .84, 0)';
   const duree = (ms) => (calme ? 1 : ms);
-  const figer = (el) => el.getAnimations().forEach((a) => { try { a.commitStyles(); } catch (e) {} a.cancel(); });
+  // Pas de lecture des styles en cours d'animation (elle bloquait une image) :
+  // la sortie part de l'état courant, l'entrée remplace l'animation précédente.
   function sortieFiche() {
     const anims = [];
-    lignes().forEach((l, k) => { figer(l); anims.push(l.animate([{ transform: getComputedStyle(l).transform === 'none' ? 'translateY(0)' : getComputedStyle(l).transform }, { transform: 'translateY(-120%)' }], { duration: duree(380), delay: duree(k * 20), easing: SORTIE, fill: 'forwards' })); });
-    filets().forEach((f, k) => { figer(f); f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: getComputedStyle(f).transform === 'none' ? 'scaleX(1)' : getComputedStyle(f).transform }, { transform: 'scaleX(0)' }], { duration: duree(380), delay: duree(k * 30), easing: SORTIE, fill: 'forwards' })); });
+    lignes().forEach((l, k) => anims.push(l.animate([{ transform: 'translateY(-120%)' }], { duration: duree(380), delay: duree(k * 20), easing: SORTIE, fill: 'forwards' })));
+    filets().forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(380), delay: duree(k * 30), easing: SORTIE, fill: 'forwards' })); });
     return Promise.all(anims.map((a) => a.finished.catch(() => {})));
   }
   function entreeFiche() {
-    lignes().forEach((l, k) => { figer(l); l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(900), delay: duree(k * 45), easing: ENTREE, fill: 'both' }); });
-    filets().forEach((f, k) => { figer(f); f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(900), delay: duree(80 + k * 70), easing: ENTREE, fill: 'both' }); });
+    lignes().forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(900), delay: duree(k * 45), easing: ENTREE, fill: 'both' }));
+    filets().forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(900), delay: duree(80 + k * 70), easing: ENTREE, fill: 'both' }); });
   }
   function cacherFiche() {
-    lignes().forEach((l) => { figer(l); l.style.transform = 'translateY(120%)'; });
-    filets().forEach((f) => { figer(f); f.style.transform = 'scaleX(0)'; });
+    lignes().forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
+    filets().forEach((f) => f.animate([{ transform: 'scaleX(0)' }], { duration: 1, fill: 'forwards' }));
   }
   const PLEIN = document.documentElement.classList.contains('plein');
   const ficheVisible = () => !PLEIN || defile;
