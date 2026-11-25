@@ -10577,7 +10577,6 @@
      suffit) ; ma photo passe à une colonne de large. E.F retiré de la nav. */
   @media (min-width: 1024px) {
     html body .stage .arbo { display: none !important; }
-    html body .stage .menubar .nav-index li:has(> .nav-index__logo) { display: none; }
     html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil {
       width: max(94px, (100vw - 48px - 11 * 24px) / 12); height: auto; aspect-ratio: 1;
     }
@@ -10585,8 +10584,23 @@
   /* Dès qu'on fait défiler les dossiers : ma photo et « Manu » s'effacent,
      la fiche du projet (dans le carrousel) prend leur place. */
   @media (min-width: 1024px) {
-    html body .stage :is(img.avatar-accueil, .menubar .menuitem--app) { transition: opacity 400ms cubic-bezier(0.32, 0.72, 0, 1); }
-    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) :is(img.avatar-accueil, .menubar .menuitem--app) { opacity: 0 !important; pointer-events: none !important; }
+    /* La photo disparaît d'un coup ; « Manu » quitte le coin et rejoint la nav. */
+    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) img.avatar-accueil { visibility: hidden !important; }
+    html body .stage .menubar .menuitem--app { transition: opacity 200ms cubic-bezier(0.32, 0.72, 0, 1); }
+    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) .menubar .menuitem--app { opacity: 0 !important; pointer-events: none !important; }
+    /* « Manu », premier item de la nav centrale : replié tant qu'on n'a pas défilé. */
+    html body .stage .menubar .nav-index .nav-index__manu {
+      max-width: 0; margin-right: -24px; opacity: 0; overflow: hidden; pointer-events: none;
+      transition: max-width 460ms var(--ease-i), margin-right 460ms var(--ease-i), opacity 300ms var(--ease-i);
+    }
+    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) .menubar .nav-index .nav-index__manu {
+      max-width: 64px; margin-right: 0; opacity: 1; pointer-events: auto;
+      transition: max-width 460ms var(--ease-i), margin-right 460ms var(--ease-i), opacity 360ms var(--ease-i) 120ms;
+    }
+    /* « Manu » (coin gauche) à la taille de la nav : 12 Medium. */
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar .barre-logo { font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; position: relative; top: -2px; }
+    /* Le fond d'A24 : un gris très clair, sur l'accueil. */
+    html body .stage.stage:is([data-state="lock"], [data-state="desktop"]):not(.bio-ouverte):not(.a-un-doc) { background: #F0F0F0 !important; }
   }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
@@ -12215,7 +12229,7 @@
       <nav class="nav-index" aria-label="Navigation">
         <div class="nav-index__fond" aria-hidden="true"></div>
         <ul class="nav-index__liste">
-          <li><a class="nav-index__lien nav-index__logo" href="./" data-nav="accueil" aria-label="Accueil">E.F</a></li>
+          <li class="nav-index__manu"><a class="nav-index__lien nav-index__logo" href="./" data-nav="accueil" aria-label="Manu, accueil">Manu</a></li>
           <li><a class="nav-index__lien" href="./" data-nav="accueil">Projets</a></li>
           <li><a class="nav-index__lien" href="#profil" data-nav="bio">Bio</a></li>
           <li><button type="button" class="nav-index__lien nav-index__bouton" aria-expanded="false" aria-controls="nav-index-menu">
