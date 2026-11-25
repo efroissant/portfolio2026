@@ -10627,6 +10627,16 @@
      lecture automatique est déjà coupée : sans bouton, rien ne se lance. */
   html body .stage :is(#recto-play, #radio-bouton, #note-mobile, #radio),
   html body :is(#recto-play, #radio-bouton, #note-mobile, #radio) { display: none !important; }
+  /* Comme sur A24 : pas de fondu. Le fond blanc s'allonge et dévoile la
+     liste qu'il contient ; « Index » et « 06 » glissent sans changer d'opacité. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index .nav-index__fond { overflow: hidden; }
+    html body .stage .menubar .nav-index .nav-index__menu,
+    html body .stage .menubar .nav-index.est-ouvert .nav-index__menu {
+      opacity: 1; visibility: visible; transform: none; transition: none;
+    }
+    html body .stage .menubar .nav-index .nav-index__etiquette > span { opacity: 1 !important; transition: transform 460ms var(--ease-i); }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
@@ -12252,7 +12262,12 @@
            des projets dans un panneau blanc qui s'allonge. La liste vient du
            carrousel (projets.html) : une seule source. -->
       <nav class="nav-index" aria-label="Navigation">
-        <div class="nav-index__fond" aria-hidden="true"></div>
+        <!-- Le fond blanc contient le menu : en s'allongeant, il le dévoile (pas de fondu). -->
+        <div class="nav-index__fond">
+          <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
+            <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
+          </div>
+        </div>
         <ul class="nav-index__liste">
           <li class="nav-index__manu"><a class="nav-index__lien nav-index__logo" href="./" data-nav="accueil" aria-label="Manu, accueil">Manu</a></li>
           <li><a class="nav-index__lien" href="./" data-nav="accueil">Projets</a></li>
@@ -12262,9 +12277,6 @@
             <svg class="nav-index__chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
           </button></li>
         </ul>
-        <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
-          <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
-        </div>
       </nav>
       <div class="nav-index__voile" aria-hidden="true"></div>
 

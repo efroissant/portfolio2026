@@ -426,8 +426,8 @@
     filetsDe(r).forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(220), delay: duree(k * 16), easing: SORTIE, fill: 'forwards' })); });
     return Promise.all(anims.map((a) => a.finished.catch(() => {})));
   }
-  function entreeDe(r) {
-    lignesDe(r).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * 35), easing: ENTREE, fill: 'both' }));
+  function entreeDe(r, pas = 35) {
+    lignesDe(r).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * pas), easing: ENTREE, fill: 'both' }));
     filetsDe(r).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(620), delay: duree(40 + k * 50), easing: ENTREE, fill: 'both' }); });
   }
   const sortieFiche = () => sortieDe(FICHE), entreeFiche = () => entreeDe(FICHE);
@@ -467,8 +467,9 @@
       document.getElementById('compteur-n').textContent = String(i + 1).padStart(2, '0');
     };
     const tp = ++tourPied;
-    if (premier) { majPied(); entreeDe(PIED); }
-    else sortieDe(PIED).then(() => { if (tp !== tourPied) return; majPied(); entreeDe(PIED); });
+    // Ligne après ligne, du haut vers le bas, chacune montant depuis le bas de son masque.
+    if (premier) { majPied(); entreeDe(PIED, 90); }
+    else sortieDe(PIED).then(() => { if (tp !== tourPied) return; majPied(); entreeDe(PIED, 90); });
   }
   function aller(i) {
     if (glisse()) { cible = i; majDefile(); relancer(); return; }
