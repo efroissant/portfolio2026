@@ -10561,6 +10561,20 @@
     }
     html body .stage .menubar .nav-index__voile.est-ouvert { opacity: 1; pointer-events: auto; }
   }
+  /* Nav, menu Index et phrase du bas sur l'IA : 12 px Medium. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index { font: 500 12px/16px "Geist", "Helvetica Neue", Arial, sans-serif; width: 320px; margin-left: -160px; }
+    html body .stage .menubar .nav-index :is(.nav-index__lien, .nav-index__projet, .nav-index__projet span, .nav-index__etiquette span) { font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; white-space: nowrap; }
+    html body .stage .menubar .nav-index .nav-index__liste { gap: 24px; padding-top: 12px; height: 40px; }
+    html body .stage .menubar .nav-index .nav-index__etiquette { height: 16px; }
+    html body .stage .menubar .nav-index .nav-index__chevron { width: 10px; height: 10px; }
+    html body .stage .menubar .nav-index .nav-index__lien[aria-current]::after { bottom: -6px; }
+    html body .stage .menubar .nav-index .nav-index__menu { top: 48px; left: 24px; right: 16px; }
+    html body .stage .menubar .nav-index .nav-index__projets { max-height: 224px; padding-bottom: 16px; }
+    html body .stage .menubar .nav-index .nav-index__projet { padding: 4px 8px; }
+    html body .stage .menubar .nav-index .nav-index__annee { height: 16px; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) p.note-bas.note-bas { font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; }
+  }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
@@ -19785,7 +19799,7 @@ document.addEventListener('click', (e) => {
     bouton.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
     fond.style.height = (menu.offsetTop + menu.scrollHeight + 8) + 'px';
     const a = liste.querySelector('.est-actif');
-    if (a) liste.scrollTop = Math.max(0, a.offsetTop - 28);
+    if (a) liste.scrollTop = Math.max(0, a.offsetTop - 24);
   }
   function fermer() {
     nav.classList.remove('est-ouvert'); voile.classList.remove('est-ouvert');
