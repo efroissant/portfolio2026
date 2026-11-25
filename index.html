@@ -10471,6 +10471,13 @@
     }
     html body .stage .accueil-droite.a-un-apercu .carrousel-projets { opacity: 0; pointer-events: none; }
   }
+  .carrousel-mobile { display: none; }
+  @media (max-width: 1023px) {
+    html body .face-a-mobile .mob-accueil .carrousel-mobile {
+      display: block; grid-column: 1 / -1; grid-row: 2;
+      width: 100%; height: 560px; border: 0; background: transparent;
+    }
+  }
 </style>
 </head>
 <body>
@@ -10982,6 +10989,8 @@
     <div class="mob-accueil" id="mob-accueil">
       <img class="mob-portrait" src="portrait-capuche-600.jpg" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
       <p class="mob-titre"></p>
+      <!-- Le carrousel de dossiers, version téléphone : on glisse de côté. -->
+      <iframe class="carrousel-mobile" src="projets.html?embed" title="Projets, un dossier à la fois" loading="lazy"></iframe>
     </div>
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
          le script à partir des .dossier : une seule source. Un toucher

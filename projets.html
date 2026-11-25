@@ -147,7 +147,7 @@
   }
   /* Le nom du projet, posé sur le carton. */
   .dossier__etiquette { position: absolute; left: 8%; bottom: 10%; right: 8%; }
-  .dossier__etiquette b { display: block; font: 500 calc(var(--l) * .05)/1.05 var(--serif); text-transform: uppercase; letter-spacing: -.02em; color: var(--encre); }
+  .dossier__etiquette b { display: block; font: 400 calc(var(--l) * .056)/1.1 var(--serif); letter-spacing: -.01em; color: var(--encre); }
   .dossier__etiquette span { display: none; }
   /* Le numéro, embossé. */
   .dossier__numero {
@@ -161,6 +161,9 @@
   /* Intégré dans l’accueil. */
   .embed, .embed body { background: transparent; }
   .embed .tete, .embed .cote { display: none; }
+  .glisse, .glisse body { overflow: hidden; }
+  .glisse .piste { display: none; }
+  .glisse .scene { touch-action: pan-y; }
   .embed .fiche { top: 0; left: 0; }
   .embed .pied { bottom: 0; }
   .embed .compteur { right: 24px; bottom: 0; }
@@ -298,7 +301,9 @@
     return .5 * (2 * p1 + (p2 - p0) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (3 * p1 - p0 - 3 * p2 + p3) * u * u * u);
   }
   let cible = 0, courant = 0, actif = -1;
-  function lire() { const v = scrollY / Math.max(1, innerHeight); cible = Math.min(N - 1, Math.max(0, v || 0)); }
+  // Intégré sur téléphone : on glisse de côté, la page continue de défiler.
+  const glisse = () => EMBED && innerWidth < 1024;
+  function lire() { if (glisse()) return; const v = scrollY / Math.max(1, innerHeight); cible = Math.min(N - 1, Math.max(0, v || 0)); }
   function poser() {
     const W = innerWidth, H = innerHeight, c = W < 768 ? COURBE.mobile : COURBE.bureau;
     dossiers.forEach((d, i) => {
@@ -333,7 +338,10 @@
       blocs.forEach((b) => b.classList.remove('est-change'));
     }, actif === i && document.getElementById('fiche-titre').textContent ? 200 : 0);
   }
-  function aller(i) { scrollTo({ top: Math.max(0, Math.min(N - 1, i)) * innerHeight, behavior: calme ? 'auto' : 'smooth' }); }
+  function aller(i) {
+    if (glisse()) { cible = Math.max(0, Math.min(N - 1, i)); return; }
+    scrollTo({ top: Math.max(0, Math.min(N - 1, i)) * innerHeight, behavior: calme ? 'auto' : 'smooth' });
+  }
 
   function tic() {
     courant += (cible - courant) * (calme ? 1 : .09);
@@ -348,6 +356,18 @@
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); aller(Math.round(cible) + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); aller(Math.round(cible) - 1); }
   });
+  // Glisser horizontal (doigt ou souris) dans le mode intégré mobile.
+  const majGlisse = () => document.documentElement.classList.toggle('glisse', glisse());
+  majGlisse(); addEventListener('resize', majGlisse);
+  let x0 = null, y0 = 0, aGlisse = false;
+  scene.addEventListener('pointerdown', (e) => { x0 = e.clientX; y0 = e.clientY; aGlisse = false; });
+  addEventListener('pointerup', (e) => {
+    if (x0 === null || !glisse()) { x0 = null; return; }
+    const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { aGlisse = true; aller(Math.round(cible) + (dx < 0 ? 1 : -1)); }
+  });
+  // Un glisser n’est pas un clic.
+  scene.addEventListener('click', (e) => { if (aGlisse) { e.preventDefault(); e.stopPropagation(); aGlisse = false; } }, true);
   lire(); courant = cible; poser(); fiche(Math.round(cible));
   requestAnimationFrame(tic);
 })();
