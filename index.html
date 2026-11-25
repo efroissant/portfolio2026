@@ -10623,6 +10623,10 @@
     }
     html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil.avatar-accueil { top: 16px; }
   }
+  /* Lecteur de musique retiré pour le moment (toutes tailles d'écran). La
+     lecture automatique est déjà coupée : sans bouton, rien ne se lance. */
+  html body .stage :is(#recto-play, #radio-bouton, #note-mobile, #radio),
+  html body :is(#recto-play, #radio-bouton, #note-mobile, #radio) { display: none !important; }
   @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
     .nav-index *, .nav-index__voile { transition-duration: 1ms !important; transition-delay: 0s !important; }
   }
