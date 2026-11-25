@@ -10853,6 +10853,20 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise__phase { background: none !important; border: 0 !important; border-top: 1px solid rgba(28, 25, 23, .4) !important; border-radius: 0 !important; color: #1C1917 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise__phase * { color: #1C1917 !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .frise :is(.frise__point, .frise__tige) { background: #1C1917 !important; border-color: #1C1917 !important; }
+
+  /* ---- Sans photo plein écran ; tout est centré. ---- */
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__edito-hero { display: none !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { padding-top: 160px !important; text-align: center !important; }
+  @media (min-width: 768px) {
+    html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > [class] > :is(.uc__label, .uc__audit-label, .uc__surtitre)[class][class] { grid-column: 4 / 10 !important; grid-row: auto !important; }
+  }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(p, h2, h3, li, dt, dd, span, strong) { text-align: center !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .uc__flow, .conclusion__points, .uc__formulaire-liste) { justify-self: center !important; text-align: left !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__urgences, .uc__flow, .conclusion__points, .uc__formulaire-liste) * { text-align: left !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.dose, .sexe, .uc__tete-visuel, .uc__contexte-visuel, .lumiere__scene, .uc__formulaire-photo) { justify-self: center !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.dose, .sexe) * { text-align: left !important; }
+  html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { justify-content: flex-start !important; }
+  html body .stage.a-un-doc img.avatar-accueil { visibility: hidden !important; }
   /* Mobile : une colonne. */
   @media (max-width: 767px) {
     html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc { --m: 16px; }

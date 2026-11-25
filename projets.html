@@ -663,6 +663,7 @@
     enIntro = false; lecture = false;
     if (EMBED && parent !== window) parent.postMessage({ type: 'projets-intro', on: false }, '*');
     INTRO.classList.remove('est-la'); INTRO.setAttribute('aria-hidden', 'true');
+    [INTRO, PHOTO].forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
     PHOTO.classList.remove('est-la'); peek = peekCible = 0;
     cancelAnimationFrame(bouclePhoto); bouclePhoto = 0;
     dossiers.forEach((d) => d.getAnimations().forEach((a) => a.cancel()));
@@ -673,12 +674,14 @@
   // Défiler vers le bas : la forme s'ouvre sur toute la photo, puis l'étude.
   function lireEtude() {
     if (lecture) return;
-    lecture = true; peekCible = 1.6;
+    lecture = true;
     const p = PROJETS[introProjet];
+    // Plus de photo plein écran : l'intro s'efface et l'étude, centrée, apparaît.
+    [INTRO, PHOTO].forEach((el) => el.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-24px)' }], { duration: duree(420), easing: 'cubic-bezier(.7, 0, .84, 0)', fill: 'forwards' }));
     setTimeout(() => {
       if (!enIntro) return;
       if (EMBED && parent !== window) ouvrir(p); else location.href = lien(p);
-    }, calme ? 0 : 750);
+    }, calme ? 0 : 380);
   }
   // Défiler vers le bas fait monter la photo peu à peu, en parallaxe derrière
   // son bord ondulé ; une fois entièrement révélée, l'étude s'ouvre.
@@ -686,7 +689,7 @@
   const BASE = () => (innerWidth < 768 ? .12 : .17);
   function majAvance(v) {
     avance = Math.max(0, Math.min(1, v));
-    peekCible = BASE() + avance * (1.25 - BASE());
+    peekCible = BASE() + avance * (.55 - BASE());   // la photo monte, sans remplir l'écran
     if (avance >= 1) lireEtude();
   }
   function molletteIntro(d) {
@@ -741,7 +744,7 @@
     d += 'L ' + (W + 40) + ' ' + (H + 40) + ' Z';
     PHOTO.style.clipPath = 'path("' + d + '")';
     // Parallaxe : la photo monte moins vite que son bord.
-    const montee = Math.min(1, Math.max(0, (peek - BASE()) / (1.25 - BASE())));
+    const montee = Math.min(1, Math.max(0, (peek - BASE()) / (.55 - BASE())));
     PHOTO.firstElementChild.style.transform = 'translate3d(0,' + ((1 - montee) * 14).toFixed(2) + '%,0) scale(1.08)';
     bouclePhoto = enIntro ? requestAnimationFrame(animerPhoto) : 0;
   }
