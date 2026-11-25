@@ -16,7 +16,7 @@
     --filet: rgba(28, 25, 23, .16);
     --serif: "Geist", "Helvetica Neue", Arial, sans-serif;
     --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --l: min(36vw, 112vh);          /* largeur d’un dossier */
+    --l: min(31vw, 96vh);          /* largeur d’un dossier */
   }
   * { box-sizing: border-box; }
   html { scroll-snap-type: y mandatory; }
@@ -99,7 +99,7 @@
   }
   .dossier__pose {               /* l’inclinaison propre au dossier */
     position: absolute; inset: 0; transform-style: preserve-3d;
-    transform: rotateX(24deg) rotateY(-22deg) rotateZ(-8deg);
+    transform: rotateX(10deg) rotateY(-10deg) rotateZ(-7deg);
   }
   .dossier__dos, .dossier__face, .dossier__feuille { position: absolute; border-radius: 4px 12px 12px 12px; }
   /* Dossiers blancs, en relief doux (néomorphisme) : lumière en haut à
@@ -161,11 +161,11 @@
     font: 300 calc(var(--l) * .12)/1 var(--serif); letter-spacing: -.04em; color: #ECEAE6;
     text-shadow: -1px -1px 1px rgba(255, 255, 255, 1), 1px 2px 2px rgba(28, 25, 23, .14);
   }
-  .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-38deg); }
-  .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-34%); }
+  .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-20deg); }
+  .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-26%); }
 
   @media (max-width: 767px) {
-    :root { --l: 66vw; }
+    :root { --l: 60vw; }
     .fiche { width: auto; right: 16px; left: 16px; top: 48px; }
     .fiche__titre { font-size: 24px; line-height: 28px; }
     .fiche dl { display: none; }
