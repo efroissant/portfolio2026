@@ -188,7 +188,8 @@
   .embed .scene { -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%); mask-image: linear-gradient(90deg, transparent, #000 14%); }
   /* Plein écran sur l'accueil : les dossiers sortent par la gauche, la
      fiche prend la place de la photo et du nom au premier défilement. */
-  .embed.plein { --l: min(24vw, 72vh); }
+  .embed.plein { --l: min(20vw, 60vh); }
+  .embed.plein .pied { bottom: 80px; }
   .plein .scene { -webkit-mask-image: none; mask-image: none; }
   .plein .compteur { display: none; }
   .embed.plein .fiche {
