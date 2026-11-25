@@ -10466,7 +10466,10 @@
   .carrousel-projets { display: none; }
   @media (min-width: 1024px) {
     html body .stage .accueil-droite .carrousel-projets {
-      display: block; position: absolute; top: 0; left: 0; width: calc(100% + 24px); height: 100%;
+      /* Deux colonnes de plus à gauche : les dossiers continuent d’y filer. */
+      display: block; position: absolute; top: 0;
+      left: calc(-2 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px));
+      width: calc(100% + 24px + 2 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px)); height: 100%;
       border: 0; background: transparent; transition: opacity 200ms ease;
     }
     html body .stage .accueil-droite.a-un-apercu .carrousel-projets { opacity: 0; pointer-events: none; }
@@ -10945,7 +10948,7 @@
       </dl>
     </div>
     <!-- Le carrousel de dossiers (projets.html), à la place de « En ce moment ». -->
-    <iframe class="carrousel-projets" src="projets.html?embed" title="Projets, un dossier à la fois" loading="lazy"></iframe>
+    <iframe class="carrousel-projets" src="projets.html?embed&amp;decal=2" title="Projets, un dossier à la fois" loading="lazy"></iframe>
     <div class="apercu" aria-hidden="true"></div>
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
