@@ -19833,7 +19833,14 @@ document.addEventListener('click', (e) => {
     bouton.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true');
     fond.style.height = '0px';
   }
-  bouton.addEventListener('click', () => (ouvert() ? fermer() : ouvrir()));
+  let ouvertAuSurvol = 0;
+  bouton.addEventListener('click', () => { if (ouvert() && Date.now() - ouvertAuSurvol < 600) return; ouvert() ? fermer() : ouvrir(); });
+  // Au survol d'« Index », le menu s'ouvre (le fond blanc descend du haut) ;
+  // il se referme quand la souris quitte la nav et le menu.
+  let tempo = 0;
+  bouton.addEventListener('pointerenter', (e) => { if (e.pointerType === 'touch') return; clearTimeout(tempo); if (!ouvert()) { ouvrir(); ouvertAuSurvol = Date.now(); } });
+  nav.addEventListener('pointerenter', () => clearTimeout(tempo));
+  nav.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch') return; clearTimeout(tempo); tempo = setTimeout(() => { if (ouvert()) fermer(); }, 220); });
   voile.addEventListener('click', fermer);
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && ouvert()) { fermer(); bouton.focus(); } });
 
