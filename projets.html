@@ -654,7 +654,7 @@
       INTRO.classList.add('est-la'); INTRO.setAttribute('aria-hidden', 'false');
       filetsDe(INTRO).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(1000), delay: duree(k * 90), easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'both' }); });
       lignesDe(INTRO).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(800), delay: duree(260 + k * 55), easing: ENTREE, fill: 'both' }));
-      PHOTO.classList.add('est-la'); peek = 0; peekCible = innerWidth < 768 ? .12 : .17;
+      PHOTO.classList.add('est-la'); peek = 0; avance = 0; peekCible = BASE();
       if (!bouclePhoto) bouclePhoto = requestAnimationFrame(animerPhoto);
     }, calme ? 0 : 560);
   }
@@ -680,21 +680,35 @@
       if (EMBED && parent !== window) ouvrir(p); else location.href = lien(p);
     }, calme ? 0 : 750);
   }
-  let cumulIntro = 0, finIntro = 0;
+  // Défiler vers le bas fait monter la photo peu à peu, en parallaxe derrière
+  // son bord ondulé ; une fois entièrement révélée, l'étude s'ouvre.
+  let avance = 0, cumulIntro = 0, finIntro = 0;
+  const BASE = () => (innerWidth < 768 ? .12 : .17);
+  function majAvance(v) {
+    avance = Math.max(0, Math.min(1, v));
+    peekCible = BASE() + avance * (1.25 - BASE());
+    if (avance >= 1) lireEtude();
+  }
   function molletteIntro(d) {
-    cumulIntro += d; clearTimeout(finIntro); finIntro = setTimeout(() => { cumulIntro = 0; }, 200);
-    if (cumulIntro > 40) lireEtude();
-    else if (cumulIntro < -160 && !lecture) fermerIntro();   // remonter fort : retour aux dossiers
+    if (lecture) return;
+    if (avance <= 0 && d < 0) {                       // tout en haut et on remonte : retour aux dossiers
+      cumulIntro += d; clearTimeout(finIntro); finIntro = setTimeout(() => { cumulIntro = 0; }, 200);
+      if (cumulIntro < -160) fermerIntro();
+      return;
+    }
+    majAvance(avance + d / 900);
   }
   addEventListener('keydown', (e) => {
     if (!enIntro) return;
     if (/^Arrow| |Enter|Escape/.test(e.key)) e.stopPropagation();   // les flèches ne bougent plus les dossiers
-    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); lireEtude(); }
-    if (e.key === 'Escape' || e.key === 'ArrowUp') fermerIntro();
+    if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); majAvance(avance + .34); }
+    if (e.key === 'Enter') { e.preventDefault(); lireEtude(); }
+    if (e.key === 'ArrowUp') { if (avance > 0) majAvance(avance - .34); else fermerIntro(); }
+    if (e.key === 'Escape') fermerIntro();
   }, true);
   let yIntro = null;
   INTRO.addEventListener('pointerdown', (e) => { yIntro = e.clientY; });
-  INTRO.addEventListener('pointerup', (e) => { if (yIntro !== null && yIntro - e.clientY > 40) lireEtude(); yIntro = null; });
+  INTRO.addEventListener('pointerup', (e) => { if (yIntro !== null && Math.abs(yIntro - e.clientY) > 40) majAvance(avance + (yIntro - e.clientY) / innerHeight * 1.6); yIntro = null; });
   addEventListener('pointermove', (e) => { souris = { x: e.clientX, y: e.clientY }; }, { passive: true });
   addEventListener('pointerleave', () => { souris = null; });
   // La forme : un bord haut qui ondule (bruit lent), plus haut au centre,
@@ -704,7 +718,7 @@
     tIntro = now / 1000;
     peek += (peekCible - peek) * (lecture ? .07 : .06);
     const W = innerWidth, H = innerHeight;
-    const cx = W * (.5 + Math.sin(tIntro * .35) * .06);
+    const cx = W * (.5 + Math.sin(tIntro * .25) * .025);
     const portee = W * (W < 768 ? .55 : .36);
     // La souris attire la forme (adouci).
     const sx = souris ? souris.x / W : .5, sy = souris ? souris.y / H : 0;
@@ -714,8 +728,8 @@
     const pas = 24, pts = [];
     for (let x = -40; x <= W + 40; x += pas) {
       const g = Math.exp(-Math.pow((x - cx) / portee, 2) * 1.3);
-      const bruit = .82 + .12 * Math.sin(x * .011 + tIntro * 1.2) + .08 * Math.sin(x * .029 - tIntro * .8) + .05 * Math.sin(x * .061 + tIntro * 2.1);
-      const versSouris = Math.exp(-Math.pow((x - mx * W) / (W * .11), 2)) * attire * H * .09;
+      const bruit = .92 + .05 * Math.sin(x * .009 + tIntro * .7) + .03 * Math.sin(x * .023 - tIntro * .5) + .015 * Math.sin(x * .05 + tIntro * 1.1);   // ondulation légère
+      const versSouris = Math.exp(-Math.pow((x - mx * W) / (W * .13), 2)) * attire * H * .04;
       const h = peek >= 1.2 ? H * peek : peek * H * g * bruit + versSouris * Math.min(1, peek * 6);
       pts.push([x, H - h]);
     }
@@ -726,6 +740,9 @@
     }
     d += 'L ' + (W + 40) + ' ' + (H + 40) + ' Z';
     PHOTO.style.clipPath = 'path("' + d + '")';
+    // Parallaxe : la photo monte moins vite que son bord.
+    const montee = Math.min(1, Math.max(0, (peek - BASE()) / (1.25 - BASE())));
+    PHOTO.firstElementChild.style.transform = 'translate3d(0,' + ((1 - montee) * 14).toFixed(2) + '%,0) scale(1.08)';
     bouclePhoto = enIntro ? requestAnimationFrame(animerPhoto) : 0;
   }
   lire(); courant = cible; poser(); fiche(indexCible());
