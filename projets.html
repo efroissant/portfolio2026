@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projets — Emmanuel Froissant</title>
+<meta name="description" content="Les projets d’Emmanuel Froissant, un dossier à la fois.">
+<style>
+  @font-face {
+    font-family: "They Ruined Garamond";
+    src: url("they-ruined-garamond.woff2") format("woff2"), url("they-ruined-garamond.woff") format("woff");
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  :root {
+    --fond: #EFEEEC;
+    --encre: #1C1917;
+    --gris-texte: #666666;
+    --filet: rgba(28, 25, 23, .16);
+    --serif: "They Ruined Garamond", "Times New Roman", serif;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --l: min(44vw, 560px);          /* largeur d’un dossier */
+  }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; }
+  html, body { margin: 0; background: var(--fond); color: var(--encre); }
+  body { font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+
+  /* La piste : une hauteur d’écran par dossier ; la scène reste collée. */
+  .piste > i { display: block; height: 100vh; height: 100svh; scroll-snap-align: start; }
+  .scene {
+    position: fixed; inset: 0; overflow: hidden;
+    perspective: 1600px; perspective-origin: 50% 40%;
+  }
+
+  /* ---------- Habillage, façon affiche ---------- */
+  .tete {
+    position: fixed; top: 16px; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: center; align-items: center; gap: 24px;
+    font: 500 12px/16px var(--sans);
+  }
+  .tete__logo { font: 400 20px/24px var(--serif); letter-spacing: .02em; }
+  .tete nav { display: flex; gap: 16px; }
+  .tete nav a { color: var(--gris-texte); }
+  .tete nav a[aria-current] { color: var(--encre); }
+  .tete nav a:hover { color: var(--encre); }
+
+  .cote {
+    position: fixed; top: 50%; z-index: 5; transform: translateY(-50%);
+    font: 500 11px/16px var(--sans); color: var(--encre);
+  }
+  .cote--g { left: 24px; } .cote--d { right: 24px; }
+
+  .fiche {
+    position: fixed; top: 16px; left: 24px; z-index: 5; width: 256px;
+    transition: opacity .4s;
+  }
+  .fiche__titre {
+    margin: 0 0 8px; font: 400 32px/36px var(--serif); text-transform: uppercase;
+    letter-spacing: -.01em;
+  }
+  .fiche dl { margin: 0; }
+  .fiche dl div {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 4px 0; border-top: 1px solid var(--filet);
+  }
+  .fiche dl div:last-child { border-bottom: 1px solid var(--filet); }
+  .fiche dt { font: 500 8px/12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
+  .fiche dd { margin: 0; font: 500 11px/12px var(--sans); text-align: right; }
+  .fiche.est-change { opacity: 0; }
+
+  .pied {
+    position: fixed; left: 0; right: 0; bottom: 24px; z-index: 5;
+    display: flex; justify-content: center; text-align: center;
+    pointer-events: none;
+  }
+  .pied__bloc { max-width: 400px; transition: opacity .4s; }
+  .pied__bloc.est-change { opacity: 0; }
+  .pied__tags { margin: 0 0 8px; font: 500 8px/12px var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .pied__phrase { margin: 0 0 12px; font: 400 20px/24px var(--serif); text-transform: uppercase; }
+  .pied__cta {
+    pointer-events: auto; display: inline-block; padding: 8px 16px; border-radius: 999px;
+    border: 1px solid var(--encre); font: 500 11px/16px var(--sans);
+    transition: background .2s, color .2s;
+  }
+  .pied__cta:hover { background: var(--encre); color: var(--fond); }
+  .pied__cta[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+  .compteur {
+    position: fixed; right: 24px; bottom: 24px; z-index: 5;
+    font: 400 32px/32px var(--serif); font-variant-numeric: tabular-nums;
+  }
+  .compteur small { font: 500 11px/16px var(--sans); color: var(--gris-texte); }
+
+  /* ---------- Les dossiers ---------- */
+  .dossier {
+    position: absolute; left: 50%; top: 50%;
+    width: var(--l); height: calc(var(--l) * .74);
+    margin: calc(var(--l) * -.37) 0 0 calc(var(--l) * -.5);
+    transform-style: preserve-3d; will-change: transform, filter;
+    cursor: pointer; outline: none;
+  }
+  .dossier__pose {               /* l’inclinaison propre au dossier */
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transform: rotateX(24deg) rotateY(-22deg) rotateZ(-8deg);
+  }
+  .dossier__dos, .dossier__face, .dossier__feuille { position: absolute; border-radius: 4px 12px 12px 12px; }
+  /* Le dos, avec son onglet. */
+  .dossier__dos {
+    inset: 0; background: var(--c-fonce);
+    box-shadow: 0 40px 80px -24px rgba(28, 25, 23, .45);
+  }
+  .dossier__dos::before {
+    content: ""; position: absolute; left: 0; top: -24px; width: 38%; height: 32px;
+    background: var(--c-fonce); border-radius: 8px 12px 0 0;
+    clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%);
+  }
+  /* La feuille qui dépasse, avec le visuel du projet. */
+  .dossier__feuille {
+    left: 4%; right: 4%; top: 4%; bottom: 4%;
+    background: #FAFAF7 center / cover no-repeat;
+    border-radius: 4px; transform: translateZ(2px);
+    transition: transform .9s cubic-bezier(.22, 1, .36, 1);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .06);
+  }
+  .dossier__feuille--vide {
+    display: grid; place-items: center;
+    font: 400 24px/24px var(--serif); text-transform: uppercase; color: var(--gris-texte);
+  }
+  /* La face avant, articulée en bas : elle s’entrouvre au centre. */
+  .dossier__face {
+    left: 0; right: 0; bottom: 0; top: 12%;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 40%),
+      var(--c);
+    transform-origin: 50% 100%; transform: translateZ(4px);
+    transition: transform .9s cubic-bezier(.22, 1, .36, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+    border-radius: 8px 8px 12px 12px;
+  }
+  .dossier__etiquette {
+    position: absolute; left: 8%; bottom: 10%;
+    padding: 8px 12px 10px; min-width: 40%;
+    background: #FAFAF7; border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
+  }
+  .dossier__etiquette b { display: block; font: 400 calc(var(--l) * .054)/1 var(--serif); text-transform: uppercase; }
+  .dossier__etiquette span { display: block; margin-top: 4px; font: 500 calc(var(--l) * .018)/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gris-texte); }
+  .dossier__numero {
+    position: absolute; right: 8%; top: 10%;
+    font: 400 calc(var(--l) * .1)/1 var(--serif); color: rgba(255, 255, 255, .7);
+  }
+  .dossier.est-actif .dossier__face { transform: translateZ(4px) rotateX(-38deg); }
+  .dossier.est-actif .dossier__feuille { transform: translateZ(2px) translateY(-34%); }
+
+  @media (max-width: 767px) {
+    :root { --l: 80vw; }
+    .fiche { width: auto; right: 16px; left: 16px; top: 48px; }
+    .fiche__titre { font-size: 24px; line-height: 28px; }
+    .fiche dl { display: none; }
+    .tete { top: 12px; }
+    .cote { display: none; }
+    .pied { bottom: 16px; padding: 0 16px; }
+    .pied__phrase { font-size: 16px; line-height: 20px; }
+    .compteur { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dossier__face, .dossier__feuille { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <header class="tete">
+    <a class="tete__logo" href="index.html" aria-label="Retour au portfolio">E.F</a>
+    <nav aria-label="Navigation">
+      <a href="projets.html" aria-current="page">Projets</a>
+      <a href="index.html#profil">Bio</a>
+      <a href="index.html">Bureau</a>
+    </nav>
+  </header>
+
+  <div class="fiche" aria-live="polite">
+    <h1 class="fiche__titre" id="fiche-titre"></h1>
+    <dl>
+      <div><dt>Rôle</dt><dd id="fiche-role"></dd></div>
+      <div><dt>Année</dt><dd id="fiche-annee"></dd></div>
+      <div><dt>Secteur</dt><dd id="fiche-secteur"></dd></div>
+    </dl>
+  </div>
+
+  <p class="cote cote--g">Projets</p>
+  <p class="cote cote--d">2018–2026</p>
+
+  <main class="scene" id="scene" aria-label="Projets, un dossier à la fois"></main>
+  <div class="piste" id="piste" aria-hidden="true"></div>
+
+  <div class="pied">
+    <div class="pied__bloc">
+      <p class="pied__tags" id="pied-tags"></p>
+      <p class="pied__phrase" id="pied-phrase"></p>
+      <a class="pied__cta" id="pied-cta" href="#">Ouvrir le dossier ↗</a>
+    </div>
+  </div>
+  <p class="compteur" aria-hidden="true"><span id="compteur-n">01</span><small> / <span id="compteur-t">06</span></small></p>
+
+<script>
+(function carrousel() {
+  const PROJETS = [
+    { nom: 'Pharmaprix', id: 'loblaw', c: '#F05454', img: 'lob-pharmacienne.webp',
+      role: 'UX/UI, recherche', annee: '2021–23', secteur: 'Pharmacie',
+      tags: 'Design UX/UI · Recherche · Logiciel métier', phrase: 'Treize ans d’habitudes à redessiner.' },
+    { nom: 'Groupe Voyage Québec', id: 'gvq', c: '#F5C044', img: 'gvq-agenda-920.webp',
+      role: 'UX/UI', annee: '2024', secteur: 'Voyage',
+      tags: 'Design UX/UI · MVP · Parcours participant', phrase: 'Un MVP qui devait vendre avant d’exister.' },
+    { nom: 'Roche Diabetes Care', id: 'roche', c: '#5AA2F0', img: 'roche-strategy-1064.webp',
+      role: 'D.A, UX/UI', annee: '2018', secteur: 'Santé',
+      tags: 'Direction artistique · UX/UI · Campagne', phrase: 'Un selfie retourné, cinq dollars pour la recherche.' },
+    { nom: 'Aéroplan', c: '#A98BF5', role: 'Web design', annee: 'Bientôt', secteur: 'Fidélité',
+      tags: 'Web design', phrase: 'Étude à venir.' },
+    { nom: 'Budge Studios', c: '#F07FB7', role: 'Web design', annee: 'Bientôt', secteur: 'Jeux',
+      tags: 'Web design', phrase: 'Étude à venir.' },
+    { nom: 'Clinique Beaconsfield', c: '#29D177', role: 'Web design', annee: '2026', secteur: 'Santé',
+      tags: 'Web design', phrase: 'Étude à venir.' }
+  ];
+  const scene = document.getElementById('scene'), piste = document.getElementById('piste');
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N = PROJETS.length;
+  const fonce = (hex, k) => '#' + [1, 3, 5].map((i) => Math.round(parseInt(hex.substr(i, 2), 16) * k).toString(16).padStart(2, '0')).join('');
+  const lien = (p) => p.id ? 'index.html#case/' + p.id : null;
+
+  const dossiers = PROJETS.map((p, i) => {
+    piste.append(document.createElement('i'));
+    const d = document.createElement('a');
+    d.className = 'dossier';
+    d.style.setProperty('--c', p.c);
+    d.style.setProperty('--c-fonce', fonce(p.c, .8));
+    if (lien(p)) d.href = lien(p);
+    d.setAttribute('aria-label', p.nom + (p.id ? ', ouvrir l’étude' : ', étude à venir'));
+    const feuille = p.img
+      ? '<div class="dossier__feuille" style="background-image:url(\'' + p.img + '\')"></div>'
+      : '<div class="dossier__feuille dossier__feuille--vide">Bientôt</div>';
+    d.innerHTML = '<div class="dossier__pose"><div class="dossier__dos"></div>' + feuille +
+      '<div class="dossier__face"><span class="dossier__numero">' + String(i + 1).padStart(2, '0') + '</span>' +
+      '<span class="dossier__etiquette"><b></b><span></span></span></div></div>';
+    d.querySelector('b').textContent = p.nom;
+    d.querySelector('.dossier__etiquette span').textContent = p.secteur + ' · ' + p.annee;
+    d.addEventListener('click', (e) => {
+      // Un dossier qui n’est pas au centre y vient d’abord.
+      if (Math.round(cible) !== i || !p.id) { e.preventDefault(); aller(i); }
+    });
+    scene.append(d);
+    return d;
+  });
+  document.getElementById('compteur-t').textContent = String(N).padStart(2, '0');
+
+  // Le parcours : le suivant arrive en haut à droite, loin ; le précédent
+  // repart en bas à gauche. Distance = profondeur, flou et ombre.
+  let cible = 0, courant = 0, actif = -1;
+  function lire() { cible = Math.min(N - 1, Math.max(0, scrollY / innerHeight)); }
+  function poser() {
+    const W = innerWidth, H = innerHeight, mobile = W < 768;
+    const pasX = mobile ? W * .62 : W * .44, pasY = mobile ? H * .26 : H * .34;
+    dossiers.forEach((d, i) => {
+      const k = i - courant, a = Math.abs(k);
+      const x = k * pasX, y = -k * pasY + (mobile ? H * .02 : H * .04);
+      const z = -a * 520 + (a < 1 ? (1 - a) * 40 : 0);
+      const r = k * -6, ry = k * -10;
+      d.style.transform = 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px) rotateZ(' + r + 'deg) rotateY(' + ry + 'deg)';
+      d.style.filter = a < .05 ? 'none' : 'blur(' + Math.min(6, a * 3).toFixed(2) + 'px) brightness(' + (1 - Math.min(.25, a * .12)).toFixed(3) + ')';
+      d.style.opacity = a > 2.6 ? 0 : 1;
+      d.style.zIndex = String(100 - Math.round(a * 10));
+      d.tabIndex = Math.round(cible) === i ? 0 : -1;
+    });
+  }
+  function fiche(i) {
+    if (i === actif) return;
+    actif = i;
+    dossiers.forEach((d, j) => d.classList.toggle('est-actif', j === i));
+    const p = PROJETS[i];
+    const blocs = [document.querySelector('.fiche'), document.querySelector('.pied__bloc')];
+    blocs.forEach((b) => b.classList.add('est-change'));
+    setTimeout(() => {
+      document.getElementById('fiche-titre').textContent = p.nom;
+      document.getElementById('fiche-role').textContent = p.role;
+      document.getElementById('fiche-annee').textContent = p.annee;
+      document.getElementById('fiche-secteur').textContent = p.secteur;
+      document.getElementById('pied-tags').textContent = p.tags;
+      document.getElementById('pied-phrase').textContent = p.phrase;
+      const cta = document.getElementById('pied-cta');
+      if (p.id) { cta.href = lien(p); cta.removeAttribute('aria-disabled'); cta.textContent = 'Ouvrir le dossier ↗'; }
+      else { cta.removeAttribute('href'); cta.setAttribute('aria-disabled', 'true'); cta.textContent = 'Bientôt'; }
+      document.getElementById('compteur-n').textContent = String(i + 1).padStart(2, '0');
+      blocs.forEach((b) => b.classList.remove('est-change'));
+    }, actif === i && document.getElementById('fiche-titre').textContent ? 200 : 0);
+  }
+  function aller(i) { scrollTo({ top: Math.max(0, Math.min(N - 1, i)) * innerHeight, behavior: calme ? 'auto' : 'smooth' }); }
+
+  function tic() {
+    courant += (cible - courant) * (calme ? 1 : .09);
+    if (Math.abs(cible - courant) < .0005) courant = cible;
+    poser();
+    fiche(Math.round(courant));
+    requestAnimationFrame(tic);
+  }
+  addEventListener('scroll', lire, { passive: true });
+  addEventListener('resize', () => { lire(); poser(); });
+  addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); aller(Math.round(cible) + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); aller(Math.round(cible) - 1); }
+  });
+  lire(); courant = cible; poser(); fiche(Math.round(cible));
+  requestAnimationFrame(tic);
+})();
+</script>
+</body>
+</html>
