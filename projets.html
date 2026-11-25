@@ -242,7 +242,7 @@
   /* ===== Intro d'un projet ===== */
   .intro {
     position: fixed; inset: 0; z-index: 30; display: none;
-    padding: 64px 24px 0; background: var(--fond); color: var(--encre);
+    padding: 112px 24px 0; background: var(--fond); color: var(--encre);   /* le titre respire sous la nav */
   }
   .intro.est-la { display: block; }
   .intro .masque { display: block; overflow: hidden; }
@@ -268,7 +268,7 @@
   .intro__photo.est-la { display: block; }
   .intro__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (max-width: 767px) {
-    .intro { padding: 56px 16px 0; }
+    .intro { padding: 88px 16px 0; }
     .intro__titre { font-size: 44px; }
     .intro__infos dd { font-size: 13px; line-height: 18px; }
     .intro__contexte { font-size: 20px; line-height: 24px; }
