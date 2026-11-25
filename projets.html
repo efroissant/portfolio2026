@@ -86,8 +86,9 @@
   /* Le titre du projet : Instrument Serif, sur une seule ligne. */
   .fiche__titre { font: 400 24px/28px "Instrument Serif", Georgia, serif; letter-spacing: 0; white-space: nowrap; }
   /* Fiche façon A24 : chaque ligne dans un masque, les filets qui se tracent. */
-  .fiche .masque { display: block; overflow: hidden; }
-  .fiche .ligne { display: block; will-change: transform; }
+  :is(.fiche, .pied) .masque { display: block; overflow: hidden; }
+  :is(.fiche, .pied) .ligne { display: block; will-change: transform; }
+  .pied .masque--cta { display: inline-block; padding: 1px; vertical-align: top; }   /* la bordure du bouton reste entière */
   .fiche__titre .masque { width: max-content; padding-bottom: 4px; margin-bottom: -4px; }   /* les jambages restent visibles */
   .fiche dl div { position: relative; border: 0 !important; }
   .fiche__filet { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--filet); transform-origin: 0 50%; }
@@ -266,9 +267,9 @@
 
   <div class="pied">
     <div class="pied__bloc">
-      <p class="pied__tags" id="pied-tags"></p>
-      <p class="pied__phrase" id="pied-phrase"></p>
-      <a class="pied__cta" id="pied-cta" href="#">Ouvrir le dossier ↗</a>
+      <p class="pied__tags"><span class="masque"><span class="ligne" id="pied-tags"></span></span></p>
+      <p class="pied__phrase"><span class="masque"><span class="ligne" id="pied-phrase"></span></span></p>
+      <span class="masque masque--cta"><span class="ligne"><a class="pied__cta" id="pied-cta" href="#">Ouvrir le dossier ↗</a></span></span>
     </div>
   </div>
   <p class="compteur" aria-hidden="true"><span id="compteur-n">01</span><small> / <span id="compteur-t">06</span></small></p>
@@ -412,29 +413,32 @@
   // filets se rétractent vers la droite ; puis le nouveau texte monte depuis
   // le bas de son masque et les filets se retracent depuis la gauche.
   const FICHE = document.querySelector('.fiche');
-  const lignes = () => [...FICHE.querySelectorAll('.ligne')];
-  const filets = () => [...FICHE.querySelectorAll('.fiche__filet')];
+  const PIED = document.querySelector('.pied__bloc');
+  const lignesDe = (r) => [...r.querySelectorAll('.ligne')];
+  const filetsDe = (r) => [...r.querySelectorAll('.fiche__filet')];
   const ENTREE = 'cubic-bezier(.16, 1, .3, 1)', SORTIE = 'cubic-bezier(.7, 0, .84, 0)';
   const duree = (ms) => (calme ? 1 : ms);
   // Pas de lecture des styles en cours d'animation (elle bloquait une image) :
   // la sortie part de l'état courant, l'entrée remplace l'animation précédente.
-  function sortieFiche() {
+  function sortieDe(r) {
     const anims = [];
-    lignes().forEach((l, k) => anims.push(l.animate([{ transform: 'translateY(-120%)' }], { duration: duree(220), delay: duree(k * 12), easing: SORTIE, fill: 'forwards' })));
-    filets().forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(220), delay: duree(k * 16), easing: SORTIE, fill: 'forwards' })); });
+    lignesDe(r).forEach((l, k) => anims.push(l.animate([{ transform: 'translateY(-120%)' }], { duration: duree(220), delay: duree(k * 12), easing: SORTIE, fill: 'forwards' })));
+    filetsDe(r).forEach((f, k) => { f.style.transformOrigin = '100% 50%'; anims.push(f.animate([{ transform: 'scaleX(0)' }], { duration: duree(220), delay: duree(k * 16), easing: SORTIE, fill: 'forwards' })); });
     return Promise.all(anims.map((a) => a.finished.catch(() => {})));
   }
-  function entreeFiche() {
-    lignes().forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * 35), easing: ENTREE, fill: 'both' }));
-    filets().forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(620), delay: duree(40 + k * 50), easing: ENTREE, fill: 'both' }); });
+  function entreeDe(r) {
+    lignesDe(r).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(620), delay: duree(k * 35), easing: ENTREE, fill: 'both' }));
+    filetsDe(r).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(620), delay: duree(40 + k * 50), easing: ENTREE, fill: 'both' }); });
   }
+  const sortieFiche = () => sortieDe(FICHE), entreeFiche = () => entreeDe(FICHE);
+  const lignes = () => lignesDe(FICHE), filets = () => filetsDe(FICHE);
   function cacherFiche() {
     lignes().forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
     filets().forEach((f) => f.animate([{ transform: 'scaleX(0)' }], { duration: 1, fill: 'forwards' }));
   }
   const PLEIN = document.documentElement.classList.contains('plein');
   const ficheVisible = () => !PLEIN || defile;
-  let tour = 0, montre = -1;   // montre : le projet affiché dans la fiche
+  let tour = 0, tourPied = 0, montre = -1;   // montre : le projet affiché dans la fiche
   function remplir(j) {
     const p = PROJETS[j]; montre = j;
     document.getElementById('fiche-titre').textContent = p.nom;
@@ -453,18 +457,18 @@
     if (premier) { remplir(i); if (ficheVisible()) entreeFiche(); else cacherFiche(); }
     else if (!ficheVisible()) remplir(i);
     else if (montre !== i) sortieFiche().then(() => { if (t !== tour) return; remplir(actif); entreeFiche(); });
-    // Le bloc du bas, en fondu.
-    const bloc = document.querySelector('.pied__bloc');
-    bloc.classList.add('est-change');
-    setTimeout(() => {
+    // Le bloc du bas : même animation que la fiche.
+    const majPied = () => {
       document.getElementById('pied-tags').textContent = p.tags;
       document.getElementById('pied-phrase').textContent = p.phrase;
       const cta = document.getElementById('pied-cta');
       if (p.id) { cta.href = lien(p); cta.removeAttribute('aria-disabled'); cta.textContent = 'Ouvrir le dossier ↗'; }
       else { cta.removeAttribute('href'); cta.setAttribute('aria-disabled', 'true'); cta.textContent = 'Bientôt'; }
       document.getElementById('compteur-n').textContent = String(i + 1).padStart(2, '0');
-      bloc.classList.remove('est-change');
-    }, premier ? 0 : 200);
+    };
+    const tp = ++tourPied;
+    if (premier) { majPied(); entreeDe(PIED); }
+    else sortieDe(PIED).then(() => { if (tp !== tourPied) return; majPied(); entreeDe(PIED); });
   }
   function aller(i) {
     if (glisse()) { cible = i; majDefile(); relancer(); return; }
@@ -511,28 +515,26 @@
     else if (!telIntegre() && e.pointerType === 'touch' && Math.abs(dy) > 40) { aGlisse = true; aller(Math.round(cible) + (dy < 0 ? 1 : -1)); }
   });
   // Molette et trackpad : un cran par geste (l'inertie du trackpad est ignorée).
-  // Un pas dès le début d'un geste ; si le geste continue (molette qu'on
-  // tourne, trackpad qu'on pousse), d'autres pas suivent au fil du mouvement.
-  // L'élan du trackpad, plus faible, ne déclenche pas de pas en trop.
-  let cumul = 0, dernierPas = 0, dernierEv = 0, pasDuGeste = 0, dAvant = 0;
+  // Défilement continu, comme sur A24 : les dossiers suivent la molette ou le
+  // trackpad sans s'arrêter à chaque cran ; à la fin du geste, ils se calent
+  // sur le dossier suivant dans le sens du mouvement.
+  const PX_PAR_DOSSIER = 360;
+  let sensGeste = 0, finGeste = 0;
   addEventListener('wheel', (e) => {
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
-    const t = performance.now();
-    if (t - dernierEv > 160) { cumul = 0; pasDuGeste = 0; dAvant = 0; }   // nouveau geste
-    dernierEv = t;
-    const d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-    if (cumul && Math.sign(d) !== Math.sign(cumul)) cumul = 0;
-    // Après le premier pas, un mouvement qui ralentit est l'élan du trackpad : ignoré.
-    const elan = pasDuGeste > 0 && Math.abs(d) < dAvant * .97;
-    dAvant = Math.abs(d);
-    if (elan) return;
-    cumul += d;
-    const seuil = pasDuGeste === 0 ? 20 : 200;     // premier pas immédiat, suivants au fil du geste
-    if (Math.abs(cumul) > seuil && t - dernierPas > (pasDuGeste === 0 ? 0 : 300)) {
-      aller(Math.round(cible) + (cumul > 0 ? 1 : -1));
-      dernierPas = t; cumul = 0; pasDuGeste++;
-    }
+    let d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
+    if (!d) return;
+    sensGeste = Math.sign(d);
+    cible += Math.max(-1.5, Math.min(1.5, d / PX_PAR_DOSSIER));
+    majDefile(); relancer();
+    clearTimeout(finGeste);
+    finGeste = setTimeout(() => {
+      const bas = Math.floor(cible), frac = cible - bas;
+      cible = sensGeste > 0 ? (frac > .08 ? bas + 1 : bas) : (frac < .92 ? bas : bas + 1);
+      majDefile(); relancer();
+    }, 140);
   }, { passive: false });
   // Un glisser n’est pas un clic.
   scene.addEventListener('click', (e) => { if (aGlisse) { e.preventDefault(); e.stopPropagation(); aGlisse = false; } }, true);
