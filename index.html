@@ -11117,19 +11117,19 @@
     @keyframes bio2-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @media (prefers-reduced-motion: reduce) { .bio2__piste { animation: none; } .bio2__defile { overflow-x: auto; } }
     /* Pied de page : quatre colonnes de trois, sur la même grille. */
-    .bio2__pied { padding-top: max(var(--vide), 64px); padding-bottom: var(--m); }
+    .bio2__gouts { padding-top: var(--vide); }
+    .bio2__pied { padding-top: 32px; padding-bottom: var(--m); }
     .bio2__col { grid-column: span 3; display: block; }
   }
   /* Écrans peu hauts : la phrase et les espaces se resserrent pour que tout tienne sans défiler. */
   @media (min-width: 1024px) and (max-height: 860px) {
     html body .stage.bio-ouverte .bio2 { --fs: clamp(32px, min(3.6vw, 5.2vh), 64px); --vide: 32px; }
     html body .stage.bio-ouverte .bio2 .bio2__haut { padding-top: calc(16px + max(94px, var(--c)) + 40px); }
-    html body .stage.bio-ouverte .bio2 .bio2__pied { padding-top: 56px; padding-bottom: 16px; }
+    html body .stage.bio-ouverte .bio2 .bio2__pied { padding-bottom: 16px; }
     html body .stage.bio-ouverte .bio2 .bio2__cote { gap: 16px; }
   }
   @media (min-width: 1800px) {
     html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; }
-    .bio2__pied { padding-top: max(var(--vide), 80px); }
     .bio2__piste .shelf__slot img { height: 144px !important; }
     .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font-size: 14px !important; line-height: 20px !important; }
     .bio2__piste .shelf__meta { width: 200px; }
@@ -11522,9 +11522,10 @@
         <div class="bio2__bloc"><p class="bio2__etiquette">Liens</p><p><a href="mailto:efroissant@outlook.com" data-ecrire>Email</a><br><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">LinkedIn</a></p></div>
       </div>
     </div>
-    <div class="bio2__biblio">
-      <p class="bio2__etiquette">Bibliothèque — ce que je regarde, écoute et lis en ce moment</p>
-      <div class="bio2__defile" aria-label="Films, musiques, séries et livres"><div class="bio2__piste"></div></div>
+    <div class="bio2__grille bio2__gouts">
+      <div class="bio2__col"><span class="bio2__etiquette">Ce que je lis en ce moment</span><span>Les hommes hétéros le sont-ils vraiment&nbsp;?</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">Ce que j’écoute en boucle</span><span>Ava Max</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">Mes boissons préférées</span><span>Un London Fog<br>Un thé chaï glacé</span></div>
     </div>
     <footer class="bio2__grille bio2__pied">
       <div class="bio2__col"><span class="bio2__etiquette">Pages</span><span><a href="./" data-bio2="accueil">projets</a><br><a href="#profil" data-bio2="bio">bio</a></span></div>
@@ -20687,7 +20688,7 @@ document.addEventListener('click', (e) => {
     piste.style.setProperty('--duree', Math.max(40, items.length * 6) + 's');
     return true;
   }
-  if (!remplir()) addEventListener('load', remplir);
+  if (piste && !remplir()) addEventListener('load', remplir);
   bio.querySelectorAll('[data-bio2="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); const l = document.querySelector('.nav-index__logo'); if (l) l.click(); }));
   bio.querySelectorAll('[data-bio2="bio"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); bio.scrollTo({ top: 0, behavior: 'smooth' }); }));
   // À chaque ouverture, la bio repart du haut.
