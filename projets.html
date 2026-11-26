@@ -567,6 +567,7 @@
   const sortieFiche = () => { ficheOuverte = false; return sortieDe(FICHE); }, entreeFiche = () => { ficheOuverte = true; entreeDe(FICHE); };
   const lignes = () => lignesDe(FICHE), filets = () => filetsDe(FICHE);
   function cacherFiche() {
+    ficheOuverte = false;
     lignes().forEach((l) => l.animate([{ transform: 'translateY(120%)' }], { duration: 1, fill: 'forwards' }));
     filets().forEach((f) => f.animate([{ transform: 'scaleX(0)' }], { duration: 1, fill: 'forwards' }));
   }
@@ -820,10 +821,13 @@
     clearTimeout(tSurvol);
     if (!survolOn) { survolOn = true; if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: true }, '*'); }
     if (!ficheOuverte) {
-      actif = i; montre = -1; ++tour;
+      actif = i; montre = -1; const t = ++tour;
       dossiers.forEach((d, j) => d.classList.toggle('est-actif', j === i));
       if (EMBED && parent !== window) parent.postMessage({ type: 'projets-actif', i }, '*');
-      remplir(i); entreeFiche();
+      remplir(i);
+      // La fiche attend que ma photo soit sortie (pas de superposition).
+      cacherFiche();
+      setTimeout(() => { if (survolOn && t === tour && !ficheOuverte) entreeFiche(); }, calme ? 0 : 240);
     } else if (actif !== i) fiche(i);
   }
   function finSurvol() {
@@ -831,10 +835,11 @@
     clearTimeout(tSurvol);
     tSurvol = setTimeout(() => {
       if (enIntro) return;
-      survolOn = false; ++tour;
-      if (ficheOuverte) sortieFiche();
+      survolOn = false; const t = ++tour;
       dossiers.forEach((d) => d.classList.remove('est-actif'));
-      if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: false }, '*');
+      // La fiche sort d'abord ; ma photo revient ensuite, depuis le bas.
+      const rendre = () => { if (!survolOn && t === tour && EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: false }, '*'); };
+      if (ficheOuverte) sortieFiche().then(rendre); else rendre();
     }, 220);
   }
   dossiers.forEach((d, i) => { d.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') survol(i); }); d.addEventListener('pointerleave', finSurvol); });
