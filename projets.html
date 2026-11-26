@@ -736,6 +736,17 @@
     cancelAnimationFrame(bouclePhoto); bouclePhoto = 0;
     dossiers.forEach((d) => d.getAnimations().forEach((a) => a.cancel()));
     poser();
+    if (STATIQUE) {
+      // Retour à l'accueil : pas de fiche derrière, tous les dossiers fermés,
+      // ma photo revient (l'accueil la fait remonter).
+      survolOn = false; ++tour; clearTimeout(tSurvol);
+      cacherFiche();
+      dossiers.forEach((d) => d.classList.remove('est-actif'));
+      dossiers.forEach((_, i) => { vagueCible[i] = 0; vague[i] = 0; });
+      poser();
+      if (EMBED && parent !== window) parent.postMessage({ type: 'projets-defile', on: false }, '*');
+      return;
+    }
     if (ficheVisible()) entreeFiche();
     entreeDe(PIED, 90);
   }

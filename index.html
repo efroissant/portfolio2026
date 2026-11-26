@@ -10888,10 +10888,20 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { justify-content: flex-start !important; }
   /* Projet ouvert (intro ou étude) : ma photo reste en haut à gauche, au-dessus
      de tout, et ramène à l'accueil. */
+  /* Projet ouvert (intro ou étude) : ma photo cède la place à « Home »,
+     dans le style de la nav, qui ramène à l'accueil. */
+  .lien-home { display: none; }
   @media (min-width: 1024px) {
-    html body .stage:is(.a-un-doc, .carrousel-intro) img.avatar-accueil.avatar-accueil {
-      display: block !important; visibility: visible !important; opacity: 1 !important; z-index: 45 !important; cursor: pointer;
+    html body .stage:is(.a-un-doc, .carrousel-intro) img.avatar-accueil.avatar-accueil { visibility: hidden !important; }
+    html body .stage:is(.a-un-doc, .carrousel-intro) .lien-home {
+      display: block; position: absolute; left: 24px; top: 12px; z-index: 45;
+      font: 500 14px/20px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; text-decoration: none; cursor: pointer;
+      background: none; border: 0; padding: 0;
     }
+    html body .stage:is(.a-un-doc, .carrousel-intro) .lien-home:hover { color: #666666; }
+  }
+  @media (min-width: 1800px) {
+    html body .stage:is(.a-un-doc, .carrousel-intro) .lien-home { font-size: 18px; line-height: 24px; top: 10px; }
   }
 
   /* ===================================================================
@@ -11475,6 +11485,7 @@
   </section>
   <!-- Accueil : mon portrait sous « Manu », au-dessus des dossiers. -->
   <img class="avatar-accueil" src="portrait-capuche-600.jpg" srcset="portrait-capuche-1163.jpg 2x" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
+  <a class="lien-home" href="./" aria-label="Retour à l’accueil">Home</a>
   <nav class="arbo arbo--trait" aria-label="Projets"><ul class="arbo__dossiers"></ul></nav>
   <!-- Accueil : toile infinie de cartes de projets, à faire glisser. -->
   <div class="toile" role="region" aria-label="Projets : faire glisser pour explorer, cliquer pour ouvrir"><p class="toile__aide">Glisse, survole et clique pour explorer.</p></div>
@@ -20282,11 +20293,8 @@ document.addEventListener('click', (e) => {
   }
   nav.querySelectorAll('[data-nav="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); fermer(); accueil(); }));
   // Projet ouvert : ma photo ramène à l'accueil, comme « Manu ».
-  const portrait = document.querySelector('img.avatar-accueil');
-  if (portrait) portrait.addEventListener('click', () => {
-    const st = document.getElementById('stage');
-    if (st && (st.classList.contains('a-un-doc') || st.classList.contains('carrousel-intro'))) nav.querySelector('.nav-index__logo').click();
-  });
+  const home = document.querySelector('.lien-home');
+  if (home) home.addEventListener('click', (e) => { e.preventDefault(); nav.querySelector('.nav-index__logo').click(); });
   // « Manu » : l'accueil comme à l'arrivée, premier dossier et photo.
   nav.querySelector('.nav-index__logo').addEventListener('click', () => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-debut' }, '*'); }, 60);
