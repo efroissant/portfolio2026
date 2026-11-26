@@ -684,9 +684,10 @@
     if (telIntegre()) return;                       // la page autour défile
     e.preventDefault();
     if (enIntro) { molletteIntro(e.deltaY); return; }
-    if (STATIQUE) return;
     let d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
     if (e.deltaMode === 1) d *= 16; else if (e.deltaMode === 2) d *= innerHeight;
+    // Dossiers fixes : la molette fait monter le pied de page de la page autour.
+    if (STATIQUE) { if (EMBED && parent !== window && Math.abs(e.deltaY) >= Math.abs(e.deltaX)) parent.postMessage({ type: 'projets-molette', dy: d }, '*'); return; }
     if (!d) return;
     if (!finGeste) { nbEv = 0; total = 0; departGeste = Math.round(cible); }
     nbEv++; total += d;

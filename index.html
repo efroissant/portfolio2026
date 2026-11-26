@@ -11149,6 +11149,29 @@
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) { color: #1C1917 !important; }
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible)::before { transform: scaleY(0) !important; }
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) .nav-index__annee > span { transform: translateY(100%) !important; }
+  /* ===== Pied de page : la « page suivante », au même gabarit que la référence ===== */
+  .pied { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage .pied {
+      --p: 0;
+      display: flex; align-items: center; position: absolute; inset: 0; z-index: 38;
+      background: #FFFFFF; color: #000000;
+      transform: translateY(calc((1 - var(--p)) * 100%)); visibility: hidden;
+      font: 400 clamp(24px, 2.2vw, 40px)/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -.01em;
+    }
+    html body .stage.pied-visible .pied { visibility: visible; }
+    /* La page en cours monte avec lui, comme un vrai défilement. */
+    html body .stage.pied-visible :is(.carrousel-projets, .bio2, .doc, img.avatar-accueil) { translate: 0 calc(var(--pied, 0) * -100vh); }
+    .pied__grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; width: 100%; padding: 0 24px; box-sizing: border-box; }
+    .pied__groupe { grid-column: span 3; display: flex; align-items: baseline; gap: 16px; }
+    .pied__etiquette { flex: 0 0 auto; font-size: 14px; line-height: 20px; letter-spacing: 0; }
+    .pied__valeur { min-width: 0; }
+    .pied a { color: inherit; text-decoration: none; }
+    .pied a:hover { color: #666666; }
+  }
+  @media (min-width: 1800px) {
+    .pied__etiquette { font-size: 16px; line-height: 24px; }
+  }
 </style>
 </head>
 <body>
@@ -11522,6 +11545,15 @@
   <!-- La bio, version 2 (grand écran) : une grande phrase à gauche, de petits
        blocs à droite, la bibliothèque qui défile sur une seule rangée, puis un
        pied de page. Ma nav et ma photo restent en place. -->
+  <!-- Pied de page : une « page suivante » qui monte quand on continue à défiler au bout d'une page. -->
+  <section class="pied" id="pied" aria-label="Pied de page" aria-hidden="true">
+    <div class="pied__grille">
+      <div class="pied__groupe"><span class="pied__etiquette">Pages</span><span class="pied__valeur"><a href="./" data-pied="accueil">Projets</a><br><a href="#profil" data-pied="bio">Bio</a></span></div>
+      <div class="pied__groupe"><span class="pied__etiquette">Courriel</span><span class="pied__valeur"><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant<br>@outlook.com</a></span></div>
+      <div class="pied__groupe"><span class="pied__etiquette">Adresse</span><span class="pied__valeur">Montréal,<br>Québec</span></div>
+      <div class="pied__groupe"><span class="pied__etiquette">Disponibilité</span><span class="pied__valeur">Dès maintenant</span></div>
+    </div>
+  </section>
   <section class="bio2" id="bio2" aria-label="Bio">
     <div class="bio2__grille bio2__haut">
       <p class="bio2__phrase">Designer UX/UI à Montréal, je travaille à la croisée du design, de la psychologie cognitive et des arts visuels.</p>
@@ -20688,6 +20720,79 @@ document.addEventListener('click', (e) => {
   const stage = document.getElementById('stage');
   let ouverte = false;
   if (stage) new MutationObserver(() => { const o = stage.classList.contains('bio-ouverte'); if (o && !ouverte) bio.scrollTop = 0; ouverte = o; }).observe(stage, { attributes: true, attributeFilter: ['class'] });
+})();
+
+/* Pied de page : arrivé au bout d'une page, on continue à défiler et la page
+   suivante monte, avec le pied de page au milieu. On redescend pour revenir. */
+(function piedDePage() {
+  const pied = document.getElementById('pied'), stage = document.getElementById('stage');
+  if (!pied || !stage) return;
+  const grand = () => matchMedia('(min-width: 1024px)').matches;
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let p = 0, cible = 0, raf = 0, fin = 0, sens = 0;
+  function poser(v) {
+    p = v;
+    pied.style.setProperty('--p', v.toFixed(4));
+    stage.style.setProperty('--pied', v.toFixed(4));
+    stage.classList.toggle('pied-visible', v > 0.001);
+    pied.setAttribute('aria-hidden', v > 0.5 ? 'false' : 'true');
+  }
+  function boucle() {
+    const v = Math.abs(cible - p) < 0.001 ? cible : p + (cible - p) * 0.18;
+    poser(v);
+    raf = v === cible ? 0 : requestAnimationFrame(boucle);
+  }
+  function aller(v) { cible = Math.max(0, Math.min(1, v)); if (calme) { poser(cible); return; } if (!raf) raf = requestAnimationFrame(boucle); }
+  function fermer() { cancelAnimationFrame(raf); raf = 0; cible = 0; poser(0); }
+  function molette(dy) {
+    if (!dy) return;
+    sens = Math.sign(dy);
+    aller(cible + dy / (innerHeight * 0.9));
+    clearTimeout(fin);
+    // À la fin du geste : on se cale sur la page entière ou on revient.
+    fin = setTimeout(() => aller(sens > 0 ? (cible > 0.15 ? 1 : 0) : (cible < 0.85 ? 0 : 1)), 160);
+  }
+  // Le bout de la page en cours.
+  function auBout() {
+    if (stage.classList.contains('bio-ouverte') && !/^#case\//.test(location.hash)) {
+      const b = document.getElementById('bio2');
+      return !b || b.scrollTop + b.clientHeight >= b.scrollHeight - 2;
+    }
+    const m = /^#case\/([\w-]+)/.exec(location.hash);
+    if (m) {
+      const doc = document.getElementById('doc-' + m[1]);
+      if (!doc) return false;
+      // Les cartes glissent dans la page : on est au bout quand la dernière est entrée à l'écran.
+      if (doc.querySelector('.parcours-rail')) {
+        const cartes = [...doc.querySelectorAll('.doc__page > *')].filter((e) => e.offsetParent && !e.matches('svg, .uc__fil, .uc__guide, .uc__etape-num'));
+        if (!cartes.length) return true;
+        return Math.max(...cartes.map((e) => e.getBoundingClientRect().right)) <= innerWidth + 2;
+      }
+      // Paquet de cartes (qui tourne en boucle) : le bout, c'est la dernière carte devant.
+      const points = [...doc.querySelectorAll('.pile-nav__points i')];
+      if (points.length) return points[points.length - 1].classList.contains('est-actif');
+      const sc = doc.querySelector('.doc__scroll');
+      return !sc || sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2;
+    }
+    return true;
+  }
+  const unite = (e) => (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+  addEventListener('wheel', (e) => {
+    if (!grand() || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    if (document.querySelector('.nav-index.est-ouvert')) return;
+    const dy = e.deltaY * unite(e);
+    if (p > 0.001 || cible > 0) { e.preventDefault(); e.stopPropagation(); molette(dy); return; }
+    if (dy > 0 && auBout()) { e.preventDefault(); e.stopPropagation(); molette(dy); }
+  }, { capture: true, passive: false });
+  // L'accueil : la page des dossiers nous passe sa molette.
+  addEventListener('message', (e) => { const d = e.data; if (d && d.type === 'projets-molette' && grand() && (d.dy < 0 ? cible > 0 : true)) molette(d.dy); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && p > 0) fermer(); });
+  // Changer de page referme le pied de page.
+  addEventListener('popstate', fermer); addEventListener('hashchange', fermer);
+  let bio = stage.classList.contains('bio-ouverte');
+  new MutationObserver(() => { const b = stage.classList.contains('bio-ouverte'); if (b !== bio) { bio = b; fermer(); } }).observe(stage, { attributes: true, attributeFilter: ['class'] });
+  pied.querySelector('[data-pied="accueil"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); const l = document.querySelector('.nav-index__logo'); if (l) l.click(); });
+  pied.querySelector('[data-pied="bio"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); const l = document.querySelector('.nav-index [data-nav="bio"]'); if (l) l.click(); });
 })();
 </script>
 </body>
