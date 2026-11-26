@@ -11119,6 +11119,11 @@
     html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; --vide: 160px; }
     .bio2__piste .shelf__slot img { height: 200px !important; }
   }
+  /* « Manu » quitte la nav : ma photo, en haut à gauche, ramène à l'accueil. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index .nav-index__manu.nav-index__manu.nav-index__manu { display: none !important; }
+    html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil.avatar-accueil { cursor: pointer; pointer-events: auto; }
+  }
 </style>
 </head>
 <body>
@@ -20533,6 +20538,8 @@ document.addEventListener('click', (e) => {
   nav.querySelectorAll('[data-nav="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); fermer(); accueil(); }));
   // Projet ouvert : ma photo ramène à l'accueil, comme « Manu ».
   const home = document.querySelector('.lien-home');
+  const photo = document.querySelector('img.avatar-accueil');
+  if (photo) photo.addEventListener('click', () => { if (matchMedia('(min-width: 1024px)').matches) nav.querySelector('.nav-index__logo').click(); });
   if (home) home.addEventListener('click', (e) => { e.preventDefault(); nav.querySelector('.nav-index__logo').click(); });
   // « Manu » : l'accueil comme à l'arrivée, premier dossier et photo.
   nav.querySelector('.nav-index__logo').addEventListener('click', () => {
