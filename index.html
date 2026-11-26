@@ -11057,6 +11057,21 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide button:disabled { opacity: .3; cursor: default; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide-compte { font-variant-numeric: tabular-nums; color: #666666; }
   }
+  /* Étude Shoppers : plus de cadre dessiné par les pseudo-éléments ; les cartes
+     noires passent en blanc, texte noir. */
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > *::before, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > *::after, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > *::before, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > *::after { outline: 0 !important; border: 0 !important; box-shadow: none !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__audit, .uc__lumiere, .uc__bloc:has(> .sexe), .uc__conclusion) { background: #FFFFFF !important; color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__audit, .uc__lumiere, .uc__bloc:has(> .sexe), .uc__conclusion) *:not(.sexe *):not(img) { color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-tags li { border-color: rgba(28, 25, 23, .25) !important; background: none !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro :is(dt, .uc__intro-texte), html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__intro, .uc__audit, .uc__lumiere, .uc__bloc:has(> .sexe), .uc__conclusion) :is(.uc__petit, .uc__label) { color: #666666 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i { border-color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit .uc__urgence-points i.est-plein { background: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit :is(li, .uc__urgence-detail) { border-color: rgba(28, 25, 23, .15) !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { border-color: rgba(28, 25, 23, .15) !important; background: none !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li span { color: #666666 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) .cs__jauge * { color: #1C1917 !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__voile { display: none !important; }
+  html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene { background: #FFFFFF !important; }
 </style>
 </head>
 <body>
