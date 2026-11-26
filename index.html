@@ -11013,7 +11013,15 @@
   /* Étude Shoppers en cartes : les cartes 20 % plus petites (tout le plan est
      réduit depuis le bord gauche, la caméra reste juste). */
   @media (min-width: 1024px) {
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .parcours-rail { transform: scale(.8) !important; transform-origin: 0 var(--echelle-y, 50%) !important; }
+    /* La zone s'étend d'un bord à l'autre de l'écran : les cartes entrent par
+       le bord droit et sortent par le bord gauche. La première carte part de
+       la même place qu'avant (colonne 4). */
+    html body .stage #doc-loblaw.doc.doc:not(.doc--edito) { left: 0 !important; right: 0 !important; width: auto !important; max-width: none !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .parcours-rail {
+      transform: translateX(calc(24px + 3 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px))) scale(.8) !important;
+      transform-origin: 0 var(--echelle-y, 50%) !important;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__win.doc__win { -webkit-mask-image: none !important; mask-image: none !important; }
   }
   /* Fond du site : un gris un peu plus soutenu, comme la référence, avec un
      grain très léger par-dessus tout (il ne capte aucun clic). */
@@ -11023,6 +11031,8 @@
     content: ""; position: fixed; inset: 0; z-index: 2147483000; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); background-size: 160px 160px; opacity: .07; mix-blend-mode: multiply;
   }
+  /* Étude Shoppers : les cartes bleues passent au noir du site. */
+  html body .stage #doc-loblaw.doc { --cobalt: #1C1917 !important; }
 </style>
 </head>
 <body>
