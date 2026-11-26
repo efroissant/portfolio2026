@@ -11097,8 +11097,9 @@
     .bio2__haut { flex: 1 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
     .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 400 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
     /* La colonne de droite commence au haut des majuscules de la phrase. */
-    .bio2__cote { grid-column: 9 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
+    .bio2__cote { grid-column: 10 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
     .bio2__bloc p { margin: 0; }
+    .bio2 :is(.bio2__cote, .bio2__biblio) > * > .bio2__etiquette, .bio2 .bio2__biblio > .bio2__etiquette { text-transform: none; }
     /* Bibliothèque : l'étiquette sur la marge, une rangée qui défile de droite à gauche. */
     .bio2__biblio { padding-top: var(--vide); }
     .bio2__biblio > .bio2__etiquette { padding: 0 var(--m); margin-bottom: 8px; }
@@ -11124,6 +11125,7 @@
     html body .stage.bio-ouverte .bio2 { --fs: clamp(32px, min(3.6vw, 5.2vh), 64px); --vide: 32px; }
     html body .stage.bio-ouverte .bio2 .bio2__haut { padding-top: calc(16px + max(94px, var(--c)) + 40px); }
     html body .stage.bio-ouverte .bio2 .bio2__pied { padding-top: 56px; padding-bottom: 16px; }
+    html body .stage.bio-ouverte .bio2 .bio2__cote { gap: 16px; }
   }
   @media (min-width: 1800px) {
     html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; }
@@ -11514,14 +11516,14 @@
     <div class="bio2__grille bio2__haut">
       <p class="bio2__phrase">Designer UX/UI à Montréal, je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Je conçois surtout des interfaces et des produits SaaS, avec un peu d’analyse, de rédaction et d’illustration.</p>
       <div class="bio2__cote">
-        <div class="bio2__bloc"><p class="bio2__etiquette">expertises</p><p>— Design UX/UI<br>— Produits SaaS<br>— Recherche et audit<br>— Direction artistique<br>— Illustration</p></div>
-        <div class="bio2__bloc"><p class="bio2__etiquette">en ce moment</p><p>J’explore l’IA et le vibe coding.</p></div>
-        <div class="bio2__bloc"><p class="bio2__etiquette">disponibilité</p><p>Ouvert aux nouvelles opportunités.</p></div>
-        <div class="bio2__bloc"><p class="bio2__etiquette">liens</p><p><a href="mailto:efroissant@outlook.com" data-ecrire>Email</a><br><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">LinkedIn</a></p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">Expertises</p><p>— Design UX/UI<br>— Produits SaaS<br>— Recherche et audit<br>— Direction artistique<br>— Illustration</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">En ce moment</p><p>J’explore l’IA et le vibe coding.</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">Disponibilité</p><p>Ouvert aux nouvelles opportunités.</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">Liens</p><p><a href="mailto:efroissant@outlook.com" data-ecrire>Email</a><br><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">LinkedIn</a></p></div>
       </div>
     </div>
     <div class="bio2__biblio">
-      <p class="bio2__etiquette">bibliothèque — ce que je regarde, écoute et lis en ce moment</p>
+      <p class="bio2__etiquette">Bibliothèque — ce que je regarde, écoute et lis en ce moment</p>
       <div class="bio2__defile" aria-label="Films, musiques, séries et livres"><div class="bio2__piste"></div></div>
     </div>
     <footer class="bio2__grille bio2__pied">
