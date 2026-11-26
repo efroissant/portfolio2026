@@ -290,7 +290,7 @@
   html.statique.statique { --l: min(11vw, 176px); }
   .statique .pied, .statique .compteur { display: none !important; }
   .statique:not(.plein) .fiche { display: none; }
-  .statique .dossier { transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+  .statique .dossier { transition: none; }
   @media (max-width: 767px) { html.statique.statique { --l: 36vw; } }
 </style>
 </head>
@@ -483,10 +483,39 @@
     dossiers.forEach((d, i) => {
       const c = i % cols, r = Math.floor(i / cols);
       const x = -largeur / 2 + w / 2 + c * (w + gx), y = (r - (rows - 1) / 2) * (h + gy) + (mob ? 0 : H * .04);
-      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
-      d.style.opacity = '1'; d.style.zIndex = String(10 + i); d.tabIndex = 0;
+      // La vague du dock : le dossier sous la souris se soulève et grandit,
+      // ses voisins un peu moins.
+      const v = vague[i] || 0;
+      d.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + (y - v * h * .28).toFixed(1) + 'px,0) scale(' + (1 + v * .32).toFixed(4) + ')';
+      d.style.opacity = '1'; d.style.zIndex = String(10 + Math.round(v * 20)); d.tabIndex = 0;
     });
   }
+  const vague = [], vagueCible = [];
+  let boucleVague = 0;
+  function animerVague() {
+    let bouge = false;
+    dossiers.forEach((_, i) => {
+      const a = vague[i] || 0, b = vagueCible[i] || 0;
+      vague[i] = a + (b - a) * (calme ? 1 : .18);
+      if (Math.abs(b - vague[i]) > .001) bouge = true; else vague[i] = b;
+    });
+    poserFixe();
+    boucleVague = bouge ? requestAnimationFrame(animerVague) : 0;
+  }
+  function majVague(mx, my) {
+    if (!STATIQUE || enIntro || innerWidth < 768) return;
+    const w = dossiers[0].offsetWidth;
+    dossiers.forEach((d, i) => {
+      if (mx === null) { vagueCible[i] = 0; return; }
+      const r = d.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const proche = Math.abs(my - cy) < r.height * 1.6;   // la souris est sur la rangée
+      const dist = (mx - cx) / (w * 1.25);
+      vagueCible[i] = proche ? Math.exp(-dist * dist) : 0;
+    });
+    if (!boucleVague) boucleVague = requestAnimationFrame(animerVague);
+  }
+  addEventListener('pointermove', (e) => { if (e.pointerType !== 'touch') majVague(e.clientX, e.clientY); }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => majVague(null, null));
   function poser() {
     if (STATIQUE) { poserFixe(); return; }
     const vitesse = Math.max(-1.2, Math.min(1.2, cible - courant));   // ce qu'il reste à parcourir
