@@ -11094,7 +11094,7 @@
     .bio2 .bio2__etiquette { display: block; margin: 0 0 4px; font: 400 var(--e)/calc(var(--e) + 4px) "Geist", Arial, sans-serif; letter-spacing: 0; text-transform: none; color: #000; }
     .bio2__grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--m); box-sizing: border-box; }
     /* Haut : la phrase part sous la photo (une colonne de haut + 16 px de marge haute + 64 px d'air). */
-    .bio2__haut { flex: 1 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
+    .bio2__haut { flex: 0 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
     .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 400 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
     /* La colonne de droite commence au haut des majuscules de la phrase. */
     .bio2__cote { grid-column: 10 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
@@ -11117,7 +11117,8 @@
     @keyframes bio2-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @media (prefers-reduced-motion: reduce) { .bio2__piste { animation: none; } .bio2__defile { overflow-x: auto; } }
     /* Pied de page : quatre colonnes de trois, sur la même grille. */
-    .bio2__gouts { padding-top: var(--vide); padding-bottom: 32px; }
+    .bio2__gouts { padding-top: 64px; padding-bottom: 32px; }
+    .bio2__resume { display: block; margin-top: 8px; font-size: 14px; line-height: 20px; color: rgba(0, 0, 0, .5); }
     .bio2__pied { padding-top: 32px; padding-bottom: var(--m); }
     .bio2__col { grid-column: span 3; display: block; }
   }
@@ -11130,6 +11131,7 @@
   }
   @media (min-width: 1800px) {
     html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; }
+    .bio2__resume { font-size: 16px; line-height: 22px; }
     .bio2__piste .shelf__slot img { height: 144px !important; }
     .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font-size: 14px !important; line-height: 20px !important; }
     .bio2__piste .shelf__meta { width: 200px; }
@@ -11523,7 +11525,7 @@
       </div>
     </div>
     <div class="bio2__grille bio2__gouts">
-      <div class="bio2__col"><span class="bio2__etiquette">Ce que je lis en ce moment</span><span>Les hommes hétéros le sont-ils vraiment&nbsp;?</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">Ce que je lis en ce moment</span><span>Les hommes hétéros le sont-ils vraiment&nbsp;?<span class="bio2__resume">Étude sur l’hétérosexualité et la virilité masculines, qui seraient avant tout des constructions sociales visant à obtenir la validation des autres hommes.</span></span></div>
       <div class="bio2__col"><span class="bio2__etiquette">Ce que j’écoute en boucle</span><span>Ava Max</span></div>
       <div class="bio2__col"><span class="bio2__etiquette">Mes boissons préférées</span><span>Un London Fog<br>Un thé chaï glacé</span></div>
     </div>
