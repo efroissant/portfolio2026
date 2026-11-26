@@ -10558,6 +10558,9 @@
       transition: opacity 460ms var(--ease-i);
     }
     html body .stage .menubar .nav-index__voile.est-ouvert { opacity: 1; pointer-events: auto; }
+    /* Plus doux : il monte lentement, moins sombre, et se retire plus vite. */
+    html body .stage .menubar .nav-index__voile { background: rgba(28, 25, 23, .18) !important; transition: opacity 380ms cubic-bezier(.4, 0, .2, 1) !important; }
+    html body .stage .menubar .nav-index__voile.est-ouvert { transition: opacity 900ms cubic-bezier(.4, 0, .2, 1) 80ms !important; }
   }
   /* Nav, menu Index et phrase du bas sur l'IA : 12 px Medium. */
   @media (min-width: 1024px) {
