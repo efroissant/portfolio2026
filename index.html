@@ -10608,7 +10608,7 @@
     /* « Manu » (coin gauche) à la taille de la nav : 12 Medium. */
     html body .stage:is([data-state="lock"], [data-state="desktop"]) .menubar .barre-logo { font-size: 12px !important; line-height: 16px !important; font-weight: 500 !important; letter-spacing: 0 !important; position: relative; top: -2px; }
     /* Le fond d'A24 : un gris très clair, sur l'accueil. */
-    html body .stage.stage:is([data-state="lock"], [data-state="desktop"]):not(.bio-ouverte):not(.a-un-doc) { background: #ECECEA !important; }
+    html body .stage.stage:is([data-state="lock"], [data-state="desktop"]):not(.bio-ouverte):not(.a-un-doc) { background: #FAF9F6 !important; }
   }
   /* Index : en Medium noir en tout temps ; le fond descend plus lentement et
      le chevron se retourne au même rythme. */
@@ -11025,8 +11025,8 @@
   }
   /* Fond du site : un gris un peu plus soutenu, comme la référence, avec un
      grain très léger par-dessus tout (il ne capte aucun clic). */
-  html body .stage.stage.stage:is([data-state="lock"], [data-state="desktop"]) { background-color: #ECECEA !important; }
-  html body { background-color: #ECECEA; }
+  html body .stage.stage.stage:is([data-state="lock"], [data-state="desktop"]) { background-color: #FAF9F6 !important; }
+  html body { background-color: #FAF9F6; }
   html body::after {
     content: ""; position: fixed; inset: 0; z-index: 2147483000; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); background-size: 160px 160px; opacity: .07; mix-blend-mode: multiply;
@@ -11084,7 +11084,7 @@
       --t: 16px; --lh: 20px; --e: 8px;
       --vide: clamp(32px, 6vh, 64px);
       display: flex; flex-direction: column; position: absolute; inset: 0; z-index: 35; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
-      background: #ECECEA; color: #000000; font: 400 var(--t)/var(--lh) "Geist", "Helvetica Neue", Arial, sans-serif;
+      background: #FAF9F6; color: #000000; font: 400 var(--t)/var(--lh) "Geist", "Helvetica Neue", Arial, sans-serif;
     }
     html body .stage.bio-ouverte .bio2::-webkit-scrollbar { display: none; }
     html body .stage.bio-ouverte img.avatar-accueil.avatar-accueil { visibility: visible !important; opacity: 1 !important; z-index: 45 !important; }
@@ -11528,8 +11528,8 @@
     </div>
     <div class="bio2__grille bio2__gouts">
       <div class="bio2__col"><span class="bio2__etiquette">Ce que je lis en ce moment</span><span>Les hommes hétéros le sont-ils vraiment&nbsp;?<span class="bio2__resume">Étude sur l’hétérosexualité et la virilité masculines, qui seraient avant tout des constructions sociales visant à obtenir la validation des autres hommes.</span></span></div>
-      <div class="bio2__col"><span class="bio2__etiquette">Si j’étais une scène de film…</span><span>Celle où quelqu’un dit «&nbsp;ça va&nbsp;» en repliant trois fois sa serviette. J’aurais envie de savoir ce qu’il allait dire avant de répondre.</span></div>
-      <div class="bio2__col"><span class="bio2__etiquette">Si j’étais un bouton sur une télécommande…</span><span>Pause. J’ai vu un truc à l’arrière-plan. Oui, on peut reprendre.</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">Si j’étais une scène de film…</span><span class="bio2__resume">Celle où quelqu’un dit «&nbsp;ça va&nbsp;» en repliant trois fois sa serviette. J’aurais envie de savoir ce qu’il allait dire avant de répondre.</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">Si j’étais un bouton sur une télécommande…</span><span class="bio2__resume">Pause. J’ai vu un truc à l’arrière-plan. Oui, on peut reprendre.</span></div>
     </div>
   </section>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
