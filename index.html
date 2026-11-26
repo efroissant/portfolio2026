@@ -20307,7 +20307,10 @@ document.addEventListener('click', (e) => {
     if (d.type === 'projets-intro') { const st = document.getElementById('stage'); if (st) st.classList.toggle('carrousel-intro', !!d.on); const av = document.querySelector('img.avatar-accueil'); if (av && d.on) av.getAnimations().forEach((a) => a.cancel()); }
     if (d.type === 'projets-defile') {
       const st = document.getElementById('stage');
-      if (st) st.classList.toggle('carrousel-defile', !!d.on);
+      // Seulement si l'état change : au chargement, le carrousel envoie « non »
+      // une première fois, ce qui faisait sauter ma photo.
+      if (!st || st.classList.contains('carrousel-defile') === !!d.on) return;
+      st.classList.toggle('carrousel-defile', !!d.on);
       // Ma photo, comme une ligne de la fiche : elle sort vers le haut, revient du bas.
       const av = document.querySelector('img.avatar-accueil');
       if (av && av.animate) {
