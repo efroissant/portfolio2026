@@ -277,9 +277,29 @@
   .intro__photo { position: fixed; inset: 0; z-index: 31; display: none; pointer-events: none; clip-path: path("M 0 0 Z"); }
   .intro__photo.est-la { display: block; }
   .intro__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Intro, tailles de la fiche de l'accueil ; contexte remonté sous les infos, en 18. */
+  .intro__titre { font: 400 24px/32px "Instrument Serif", Georgia, serif; text-transform: uppercase; letter-spacing: 0; text-align: left; margin: 0 0 12px; }
+  .intro__tete { text-align: left; }
+  .intro__credits { display: flex; justify-content: space-between; align-items: baseline; margin: 0; padding: 4px 0; font: 500 14px/20px var(--serif); }
+  .intro__credits .ligne { display: flex !important; justify-content: space-between; align-items: baseline; width: 100%; }
+  .intro__credits small { margin: 0; font: 500 8px/12px var(--sans); letter-spacing: .12em; }
+  .intro__infos div { padding: 4px 0; }
+  .intro__infos dt { font: 500 8px/12px var(--sans); letter-spacing: .12em; }
+  .intro__infos dd { font: 500 14px/20px var(--serif); }
+  .intro__croix { display: none; }
+  .intro__bas { position: static; text-align: left; padding: 0; margin-top: 48px; }
+  .intro__contexte { max-width: 640px; margin: 0 0 16px; font: 400 18px/26px var(--serif); }
+  @media (min-width: 1800px) {
+    .intro__titre { font: 500 24px/32px var(--serif); letter-spacing: -.01em; }
+    .intro__infos dt { font: 400 16px/24px var(--serif); letter-spacing: 0; text-transform: none; }
+    .intro__infos dd { font: 500 18px/24px var(--serif); }
+    .intro__credits { font: 500 18px/24px var(--serif); }
+    .intro__credits small { font: 400 16px/24px var(--serif); letter-spacing: 0; text-transform: none; }
+  }
   @media (max-width: 767px) {
     .intro { padding: 88px 16px 0; }
-    .intro__titre { font-size: 44px; }
+    .intro__titre { font-size: 24px; line-height: 32px; }
     .intro__infos dd { font-size: 13px; line-height: 18px; }
     .intro__contexte { font-size: 16px; line-height: 24px; }
     .intro__bas { bottom: 20vh; padding: 0 16px; }
@@ -722,7 +742,7 @@
       INTRO.classList.add('est-la'); INTRO.setAttribute('aria-hidden', 'false');
       filetsDe(INTRO).forEach((f, k) => { f.style.transformOrigin = '0 50%'; f.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: duree(1000), delay: duree(k * 90), easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'both' }); });
       lignesDe(INTRO).forEach((l, k) => l.animate([{ transform: 'translateY(120%)' }, { transform: 'translateY(0)' }], { duration: duree(800), delay: duree(260 + k * 55), easing: ENTREE, fill: 'both' }));
-      PHOTO.classList.add('est-la'); peek = 0; avance = 0; peekCible = BASE();
+      avance = 0;   // plus de photo ni de bord ondulé
       if (!bouclePhoto) bouclePhoto = requestAnimationFrame(animerPhoto);
     }, calme ? 0 : 560);
   }
@@ -756,11 +776,13 @@
     lecture = true;
     const p = PROJETS[introProjet];
     // Plus de photo plein écran : l'intro s'efface et l'étude, centrée, apparaît.
-    [INTRO, PHOTO].forEach((el) => el.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-24px)' }], { duration: duree(420), easing: 'cubic-bezier(.7, 0, .84, 0)', fill: 'forwards' }));
+    // L'intro part vers la gauche ; les cartes de l'étude arrivent de la droite.
+    INTRO.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateX(-30vw)' }], { duration: duree(560), easing: 'cubic-bezier(.7, 0, .84, 0)', fill: 'forwards' });
+    if (EMBED && parent !== window) parent.postMessage({ type: 'projets-entree-droite', id: p.id }, '*');
     setTimeout(() => {
       if (!enIntro) return;
       if (EMBED && parent !== window) ouvrir(p); else location.href = lien(p);
-    }, calme ? 0 : 380);
+    }, calme ? 0 : 260);
   }
   // Défiler vers le bas fait monter la photo peu à peu, en parallaxe derrière
   // son bord ondulé ; une fois entièrement révélée, l'étude s'ouvre.
@@ -768,8 +790,7 @@
   const BASE = () => (innerWidth < 768 ? .12 : .17);
   function majAvance(v) {
     avance = Math.max(0, Math.min(1, v));
-    peekCible = BASE() + avance * (.55 - BASE());   // la photo monte, sans remplir l'écran
-    if (avance >= 1) lireEtude();
+    if (avance >= .12) lireEtude();   // un geste vers le bas suffit
   }
   function molletteIntro(d) {
     if (lecture) return;

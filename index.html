@@ -20321,6 +20321,16 @@ document.addEventListener('click', (e) => {
     if (!f || e.source !== f.contentWindow) return;   // seul le carrousel du grand écran
     const d = e.data || {};
     if (d.type === 'projets-liste' && Array.isArray(d.liste)) { projets = d.liste; actif = d.actif || 0; construire(); }
+    // Depuis l'intro : les cartes de l'étude arrivent de la droite.
+    if (d.type === 'projets-entree-droite' && d.id) {
+      setTimeout(() => {
+        const doc = document.getElementById('doc-' + d.id);
+        const cible = doc && (doc.querySelector('.parcours-rail') || doc.querySelector('.doc__scroll'));
+        if (cible && cible.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          cible.animate([{ transform: 'translateX(70vw)', opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }], { duration: 900, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+        }
+      }, 300);
+    }
     if (d.type === 'projets-intro') { const st = document.getElementById('stage'); if (st) st.classList.toggle('carrousel-intro', !!d.on); const av = document.querySelector('img.avatar-accueil'); if (av && d.on) av.getAnimations().forEach((a) => a.cancel()); }
     if (d.type === 'projets-defile') {
       const st = document.getElementById('stage');
