@@ -11157,20 +11157,19 @@
       display: flex; align-items: center; position: absolute; inset: 0; z-index: 38;
       background: #FFFFFF; color: #000000;
       transform: translateY(calc((1 - var(--p)) * 100%)); visibility: hidden;
-      font: 400 clamp(24px, 2.2vw, 40px)/1.2 "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -.01em;
+      font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0;
     }
     html body .stage.pied-visible .pied { visibility: visible; }
     /* La page en cours monte avec lui, comme un vrai défilement. */
     html body .stage.pied-visible :is(.carrousel-projets, .bio2, .doc, img.avatar-accueil) { translate: 0 calc(var(--pied, 0) * -100vh); }
-    .pied__grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; width: 100%; padding: 0 24px; box-sizing: border-box; }
-    .pied__groupe { grid-column: span 3; display: flex; align-items: baseline; gap: 16px; }
-    .pied__etiquette { flex: 0 0 auto; font-size: 14px; line-height: 20px; letter-spacing: 0; }
+    .pied__grille { display: flex; justify-content: center; align-items: flex-start; gap: 80px; width: 100%; padding: 0 24px; box-sizing: border-box; }
+    .pied__groupe { display: flex; align-items: baseline; gap: 16px; }
+    .pied__etiquette { flex: 0 0 auto; font-size: 12px; line-height: 16px; letter-spacing: 0; }
     .pied__valeur { min-width: 0; }
     .pied a { color: inherit; text-decoration: none; }
     .pied a:hover { color: #666666; }
   }
   @media (min-width: 1800px) {
-    .pied__etiquette { font-size: 16px; line-height: 24px; }
   }
 </style>
 </head>
