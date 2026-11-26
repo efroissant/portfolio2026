@@ -11080,10 +11080,10 @@
     html body .stage.bio-ouverte .bio2 {
       --m: 24px; --g: 24px;
       --c: calc((100vw - 2 * var(--m) - 11 * var(--g)) / 12);
-      --fs: clamp(40px, 3.6vw, 64px);
+      --fs: clamp(36px, min(3.6vw, 5.6vh), 64px);
       --t: 16px; --lh: 20px; --e: 8px;
-      --vide: 128px;
-      display: block; position: absolute; inset: 0; z-index: 35; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+      --vide: clamp(32px, 6vh, 64px);
+      display: flex; flex-direction: column; position: absolute; inset: 0; z-index: 35; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
       background: #ECECEA; color: #000000; font: 400 var(--t)/var(--lh) "Geist", "Helvetica Neue", Arial, sans-serif;
     }
     html body .stage.bio-ouverte .bio2::-webkit-scrollbar { display: none; }
@@ -11094,7 +11094,7 @@
     .bio2 .bio2__etiquette { display: block; margin: 0 0 4px; font: 400 var(--e)/calc(var(--e) + 4px) "Geist", Arial, sans-serif; letter-spacing: 0; text-transform: lowercase; color: #000; }
     .bio2__grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--m); box-sizing: border-box; }
     /* Haut : la phrase part sous la photo (une colonne de haut + 16 px de marge haute + 64 px d'air). */
-    .bio2__haut { padding-top: calc(16px + max(94px, var(--c)) + 64px); align-items: start; }
+    .bio2__haut { flex: 1 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
     .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 400 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
     /* La colonne de droite commence au haut des majuscules de la phrase. */
     .bio2__cote { grid-column: 9 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
@@ -11102,22 +11102,35 @@
     /* Bibliothèque : l'étiquette sur la marge, une rangée qui défile de droite à gauche. */
     .bio2__biblio { padding-top: var(--vide); }
     .bio2__biblio > .bio2__etiquette { padding: 0 var(--m); margin-bottom: 8px; }
-    .bio2__defile { overflow: hidden; width: 100%; }
-    .bio2__piste { display: flex; gap: var(--g); width: max-content; animation: bio2-defile var(--duree, 80s) linear infinite; }
+    .bio2__defile { overflow-x: clip; overflow-y: visible; width: 100%; position: relative; z-index: 1; }
+    .bio2__piste { display: flex; align-items: flex-start; gap: var(--g); width: max-content; animation: bio2-defile var(--duree, 80s) linear infinite; }
     .bio2__defile:hover .bio2__piste { animation-play-state: paused; }
     .bio2__piste .shelf__slot { flex: 0 0 auto; width: auto !important; display: flex; flex-direction: column; gap: 8px; margin: 0 !important; }
-    .bio2__piste .shelf__slot img { display: block; height: 160px !important; width: auto !important; max-width: none !important; aspect-ratio: auto !important; object-fit: contain; border-radius: 4px; box-shadow: none; }
-    .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font: 400 12px/16px "Geist", Arial, sans-serif !important; color: #000 !important; max-width: 160px; }
+    .bio2__piste .shelf__slot img { display: block; height: 112px !important; width: auto !important; max-width: none !important; aspect-ratio: auto !important; object-fit: contain; border-radius: 4px; box-shadow: none; }
+    .bio2__piste .shelf__slot { position: relative; }
+    .bio2__piste .shelf__meta { position: absolute; top: calc(100% + 8px); left: 0; width: 160px; min-height: 0; gap: 0; opacity: 0; transform: translateY(4px); transition: opacity 160ms ease, transform 160ms ease; pointer-events: none; }
+    .bio2__piste .shelf__slot:hover .shelf__meta { opacity: 1; transform: none; }
+    .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font: 400 12px/16px "Geist", Arial, sans-serif !important; color: #000 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bio2__piste .shelf__meta .shelf__metaAuteur { color: rgba(0, 0, 0, .5) !important; }
+    .bio2__piste .shelf__art { transform: none !important; box-shadow: none !important; }
     @keyframes bio2-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @media (prefers-reduced-motion: reduce) { .bio2__piste { animation: none; } .bio2__defile { overflow-x: auto; } }
     /* Pied de page : quatre colonnes de trois, sur la même grille. */
-    .bio2__pied { padding-top: var(--vide); padding-bottom: var(--m); row-gap: 64px; }
+    .bio2__pied { padding-top: max(var(--vide), 64px); padding-bottom: var(--m); }
     .bio2__col { grid-column: span 3; display: block; }
-    .bio2__copy { grid-column: 1 / -1; margin: 0; font: 400 12px/16px "Geist", Arial, sans-serif; color: rgba(0, 0, 0, .4); }
+  }
+  /* Écrans peu hauts : la phrase et les espaces se resserrent pour que tout tienne sans défiler. */
+  @media (min-width: 1024px) and (max-height: 860px) {
+    html body .stage.bio-ouverte .bio2 { --fs: clamp(32px, min(3.6vw, 5.2vh), 64px); --vide: 32px; }
+    html body .stage.bio-ouverte .bio2 .bio2__haut { padding-top: calc(16px + max(94px, var(--c)) + 40px); }
+    html body .stage.bio-ouverte .bio2 .bio2__pied { padding-top: 56px; padding-bottom: 16px; }
   }
   @media (min-width: 1800px) {
-    html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; --vide: 160px; }
-    .bio2__piste .shelf__slot img { height: 200px !important; }
+    html body .stage.bio-ouverte .bio2 { --t: 18px; --lh: 24px; --e: 10px; }
+    .bio2__pied { padding-top: max(var(--vide), 80px); }
+    .bio2__piste .shelf__slot img { height: 144px !important; }
+    .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font-size: 14px !important; line-height: 20px !important; }
+    .bio2__piste .shelf__meta { width: 200px; }
   }
   /* « Manu » quitte la nav : ma photo, en haut à gauche, ramène à l'accueil. */
   @media (min-width: 1024px) {
@@ -11516,7 +11529,6 @@
       <div class="bio2__col"><span class="bio2__etiquette">contact</span><span><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant@outlook.com</a></span></div>
       <div class="bio2__col"><span class="bio2__etiquette">basé à</span><span>Montréal,<br>Québec</span></div>
       <div class="bio2__col"><span class="bio2__etiquette">actuellement</span><span>ouvert aux opportunités</span></div>
-      <p class="bio2__copy">© 2026 Emmanuel Froissant. Fait avec Figma, Claude et beaucoup de café.</p>
     </footer>
   </section>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
@@ -20654,13 +20666,20 @@ document.addEventListener('click', (e) => {
   const bio = document.getElementById('bio2');
   if (!bio) return;
   const piste = bio.querySelector('.bio2__piste');
-  const ORDRE = [/film/i, /musique|album|disque/i, /s[ée]rie/i, /livre|lecture/i];
+  // Catégorie lue dans le nom du fichier : film-, disque-, serie-, livre-.
+  const CATS = [['film', 'film'], ['disque', 'musique'], ['serie', 'série'], ['livre', 'livre']];
+  const cat = (sl) => { const f = (sl.querySelector('img').getAttribute('src') || '').split('/').pop(); const k = CATS.findIndex(([p]) => f.startsWith(p + '-')); return k < 0 ? 9 : k; };
   function remplir() {
-    const rayons = [...document.querySelectorAll('.bio-biblio .bio-rayon')];
-    if (!rayons.length) return false;
-    const rang = (r) => { const t = r.querySelector('.bio-rayon__titre').textContent; const k = ORDRE.findIndex((re) => re.test(t)); return k < 0 ? 9 : k; };
-    const slots = rayons.sort((a, b) => rang(a) - rang(b)).flatMap((r) => [...r.querySelectorAll('.shelf__slot')].filter((sl) => sl.querySelector('img')));
-    const items = slots.map((sl) => { const c = sl.cloneNode(true); c.querySelectorAll('img').forEach((im) => { im.loading = 'eager'; }); return c; });
+    const slots = [...document.querySelectorAll('.bio-biblio .bio-rayon .shelf__slot')].filter((sl) => sl.querySelector('img'));
+    if (!slots.length) return false;
+    const tries = slots.map((sl, i) => ({ sl, i, k: cat(sl) })).sort((x, y) => x.k - y.k || x.i - y.i);
+    const items = tries.map(({ sl, k }) => {
+      const c = sl.cloneNode(true);
+      c.querySelectorAll('img').forEach((im) => { im.loading = 'eager'; });
+      const m = c.querySelector('.shelf__meta');
+      if (m && CATS[k]) { const a = m.querySelector('.shelf__metaAuteur'); const t = CATS[k][1]; if (a) a.textContent = t + ' · ' + a.textContent; else { const e = document.createElement('span'); e.className = 'shelf__metaAuteur'; e.textContent = t; m.append(e); } }
+      return c;
+    });
     // Deux fois la même suite : la boucle est sans couture.
     piste.replaceChildren(...items, ...items.map((c) => { const d = c.cloneNode(true); d.setAttribute('aria-hidden', 'true'); return d; }));
     piste.style.setProperty('--duree', Math.max(40, items.length * 6) + 's');
