@@ -291,6 +291,8 @@
   .statique .pied, .statique .compteur { display: none !important; }
   .statique:not(.plein) .fiche { display: none; }
   .statique .dossier { transition: none; }
+  /* Droits, comme des icônes du dock : plus d'inclinaison ni de bascule. */
+  .statique .dossier__pose { transform: none !important; }
   @media (max-width: 767px) { html.statique.statique { --l: 36vw; } }
 </style>
 </head>
@@ -423,7 +425,7 @@
     // Au survol, le dossier pivote vers la souris (jusqu’à 20° de chaque côté).
     const pose = d.querySelector('.dossier__pose');
     d.addEventListener('pointermove', (e) => {
-      if (e.pointerType === 'touch' || calme) return;
+      if (e.pointerType === 'touch' || calme || STATIQUE) return;
       const r = d.getBoundingClientRect();
       const u = (e.clientX - r.left) / r.width - .5, v = (e.clientY - r.top) / r.height - .5;
       pose.style.setProperty('--ry', (u * 40).toFixed(2) + 'deg');
