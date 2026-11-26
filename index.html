@@ -11035,6 +11035,28 @@
   html body .stage #doc-loblaw.doc { --cobalt: #1C1917 !important; }
   /* Étude Shoppers : plus aucun contour sur les cartes. */
   html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > *, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > * { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
+  /* Étude Shoppers : le fil entre les cartes, les numéros d'étape, le guide. */
+  .uc__fil, .uc__etape-num, .uc__guide { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.doc__page > svg.uc__fil { display: block !important; position: absolute !important; left: 0 !important; top: 0 !important; z-index: 0 !important; pointer-events: none; overflow: visible !important; fill: none; background: none !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; box-shadow: none !important; width: auto; height: auto; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__fil-fond { stroke: rgba(28, 25, 23, .14); stroke-width: 1.5; stroke-dasharray: 4 6; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__fil-trace { stroke: #1C1917; stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .3s linear; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page > :not(.uc__fil) { z-index: 1; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.doc__page > .uc__etape-num {
+      display: block !important; position: absolute !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; z-index: 2 !important; width: max-content !important; height: auto !important; white-space: nowrap !important;
+      font: 500 12px/16px "Geist", Arial, sans-serif !important; letter-spacing: .04em !important; color: rgba(28, 25, 23, .5) !important; background: none !important; pointer-events: none;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide {
+      display: flex; align-items: center; gap: 16px; position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 20;
+      font: 500 14px/20px "Geist", Arial, sans-serif; color: #1C1917;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide button {
+      border: 0; background: none; padding: 8px 4px; font: inherit; color: inherit; cursor: pointer;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide .uc__guide-suiv { padding: 8px 16px; border-radius: 999px; background: #1C1917; color: #FFFFFF; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide button:disabled { opacity: .3; cursor: default; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide-compte { font-variant-numeric: tabular-nums; color: #666666; }
+  }
 </style>
 </head>
 <body>
@@ -19820,11 +19842,73 @@ document.addEventListener('click', (e) => {
     const d = coins.reduce((m, c) => Math.min(m, Math.abs(p - c)), Infinity);
     return 0.3 + 0.7 * Math.min(1, d / 180);
   };
+  // Exploration libre : un décalage qui s'ajoute au chemin (glisser dans tous
+  // les sens) ; la molette le ramène en douceur sur le fil.
+  const libre = { x: 0, y: 0 };
   function camera() {
     if (!grand()) return;
     const q = surChemin(progres);
-    page.style.setProperty('transform', 'translate3d(' + (-q.x).toFixed(2) + 'px,' + (-q.y).toFixed(2) + 'px,0)', 'important');
+    page.style.setProperty('transform', 'translate3d(' + (-(q.x + libre.x)).toFixed(2) + 'px,' + (-(q.y + libre.y)).toFixed(2) + 'px,0)', 'important');
+    majFil();
     if (suivi) suivi();
+  }
+  // Les étapes : les cartes dans l'ordre de lecture, numérotées, reliées par un fil.
+  let etapes = [];
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const fil = document.createElementNS(SVGNS, 'svg');
+  fil.setAttribute('class', 'uc__fil'); fil.setAttribute('aria-hidden', 'true');
+  fil.innerHTML = '<path class="uc__fil-fond"/><path class="uc__fil-trace" pathLength="1"/>';
+  page.prepend(fil);
+  function majFil() {
+    const t = fil.querySelector('.uc__fil-trace');
+    if (!t || !etapes.length) return;
+    const n = etapes.length - 1, k = etapeCourante();
+    // Le fil est tracé jusqu'à l'étape en cours, et file vers la suivante.
+    const a = etapes[k], b = etapes[Math.min(n, k + 1)];
+    const f = b === a ? 1 : Math.max(0, Math.min(1, (progres - a.l) / Math.max(1, b.l - a.l)));
+    t.style.strokeDashoffset = String(1 - (k + f) / Math.max(1, n) * 1);
+  }
+  function etapeCourante() {
+    let k = 0;
+    etapes.forEach((e, i) => { if (progres >= e.l - 4) k = i; });
+    return k;
+  }
+  function calculerEtapes(ordre, haut) {
+    etapes = [];
+    const pts = [];
+    ordre.forEach((el) => {
+      if (!el || getComputedStyle(el).display === 'none') return;
+      const x = parseFloat(el.style.left) || 0, y = parseFloat(el.style.top) || 0, w = parseFloat(el.style.width) || el.offsetWidth, h = parseFloat(el.style.height) || el.offsetHeight;
+      // La position de caméra qui montre la carte à la place de la première.
+      // Projection sur les segments du chemin (pas seulement ses sommets).
+      let mieux = 0, d = Infinity;
+      const tx = x, ty = y - haut;
+      for (let i = 1; i < chemin.length; i++) {
+        const a = chemin[i - 1], b = chemin[i], vx = b.x - a.x, vy = b.y - a.y, n2 = vx * vx + vy * vy || 1;
+        const t = Math.max(0, Math.min(1, ((tx - a.x) * vx + (ty - a.y) * vy) / n2));
+        const px = a.x + vx * t, py = a.y + vy * t, dd = Math.hypot(px - tx, py - ty);
+        if (dd < d - .5) { d = dd; mieux = a.l + (b.l - a.l) * t; }
+      }
+      etapes.push({ el, l: mieux });
+      pts.push([x + w / 2, y + h / 2]);
+      // Le numéro d'étape, posé au-dessus de la carte (hors de la carte, pour ne pas être coupé).
+      let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
+      if (!num) { num = document.createElement('span'); num.className = 'uc__etape-num'; num.dataset.n = etapes.length; num.setAttribute('aria-hidden', 'true'); page.append(num); }
+      num.textContent = String(etapes.length).padStart(2, '0');
+      num.style.setProperty('left', (x + 4) + 'px', 'important'); num.style.setProperty('top', (y - 28) + 'px', 'important');
+    });
+    // Le fil : des segments droits, aux virages arrondis.
+    let d = '';
+    pts.forEach((p, i) => {
+      if (!i) { d = 'M' + p[0] + ' ' + p[1]; return; }
+      const a = pts[i - 1];
+      if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
+      else { const mx = (a[0] + p[0]) / 2; d += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + p[1] + ' ' + p[0] + ' ' + p[1]; }
+    });
+    fil.querySelectorAll('path').forEach((pa) => pa.setAttribute('d', d));
+    const maxX = Math.max(...pts.map((p) => p[0])) + 400, maxY = Math.max(...pts.map((p) => p[1])) + 400;
+    fil.setAttribute('width', maxX); fil.setAttribute('height', maxY);
+    majCompteur();
   }
   function composer(H, haut) {
     const c = cartes();
@@ -19906,6 +19990,7 @@ document.addEventListener('click', (e) => {
     ], 0);
     coins = [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2];
     progres = avance * total();
+    calculerEtapes([c.intro, c.contexte, c.mot, c.tete, c.audit, c.terrain, c.motTerrain, c.passerelle, c.lumiere, c.chaine, c.motPrevenir, c.dose, c.formulaire, c.sexe, c.resistance, c.frise, c.bilan1, c.conclusion], haut);
     camera();
   }
   // La carte : environ deux tiers de la hauteur de l'écran, centrée.
@@ -19956,7 +20041,16 @@ document.addEventListener('click', (e) => {
     nav.querySelector('[data-panneau="-1"]').disabled = k === 0;
     nav.querySelector('[data-panneau="1"]').disabled = k >= n - 1;
   }
-  let tir = null, bouge = false;
+  let tir = null, bouge = false, rappelRaf = 0;
+  const ECHELLE = 0.8;   // le plan est réduit à 80 % (voir le CSS)
+  function majCompteur() {
+    const c = doc.querySelector('.uc__guide-compte');
+    if (!c || !etapes.length) return;
+    const k = etapeCourante();
+    c.textContent = String(k + 1).padStart(2, '0') + ' / ' + String(etapes.length).padStart(2, '0');
+    doc.querySelector('.uc__guide-suiv').disabled = k >= etapes.length - 1;
+    doc.querySelector('.uc__guide-prec').disabled = k === 0 && progres < 8;
+  }
   // Défilement horizontal libre et lissé : aucune position imposée, la rangée
   // rejoint en continu une position visée, avec un amorti indépendant de l'écran.
   const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -19990,6 +20084,7 @@ document.addEventListener('click', (e) => {
     if (!axeGeste || t - dernierGeste > 180) axeGeste = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
     dernierGeste = t;
     const delta = axeGeste === 'x' ? e.deltaX : e.deltaY;
+    rappel();
     vers(base() + delta * unite * 0.7 * frein(base()));
   }, { passive: false });
   document.addEventListener('keydown', (e) => {
@@ -20008,7 +20103,7 @@ document.addEventListener('click', (e) => {
   sc.addEventListener('pointerdown', (e) => {
     if (!grand() || e.button !== 0 || interactif(e.target)) return;   // souris, doigt ou stylet
     arret();
-    tir = { x: e.clientX, y: e.clientY, p: progres, total: 0, traces: [[performance.now(), progres]] }; bouge = false;
+    tir = { x: e.clientX, y: e.clientY, p: progres, total: 0, traces: [[performance.now(), libre.x, libre.y]] }; bouge = false;
   });
   addEventListener('pointermove', (e) => {
     if (curseur && !aGlisse) {
@@ -20017,30 +20112,62 @@ document.addEventListener('click', (e) => {
       curseur.style.transform = 'translate(' + (e.clientX - doc.getBoundingClientRect().left + 14) + 'px,' + (e.clientY - doc.getBoundingClientRect().top + 14) + 'px)';
     }
     if (!tir) return;
-    // Tirer vers la gauche ou vers le haut avance, partout sur le parcours.
+    // Glisser : exploration libre dans tous les sens (le plan suit la main).
     const mx = e.clientX - tir.x, my = e.clientY - tir.y;
     tir.x = e.clientX; tir.y = e.clientY; tir.total += Math.abs(mx) + Math.abs(my);
-    tir.p = borne(tir.p - (Math.abs(mx) >= Math.abs(my) ? mx : my));
-    if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); }
-    if (bouge) { vers(tir.p); e.preventDefault(); }
-    tir.traces.push([performance.now(), tir.p]); if (tir.traces.length > 6) tir.traces.shift();
+    if (!bouge && tir.total > 4) { bouge = true; sc.classList.add('est-tire'); cancelAnimationFrame(rappelRaf); rappelRaf = 0; }
+    if (bouge) {
+      libre.x = Math.max(-3000, Math.min(3000, libre.x - mx / ECHELLE));
+      libre.y = Math.max(-1600, Math.min(1600, libre.y - my / ECHELLE));
+      camera(); e.preventDefault();
+    }
+    tir.traces.push([performance.now(), libre.x, libre.y]); if (tir.traces.length > 6) tir.traces.shift();
   });
   addEventListener('pointerup', (e) => {
     if (!tir) return;
     const t = tir; tir = null;
     if (!bouge) return;
     glisse(); sc.classList.remove('est-tire'); clicBloque = true; setTimeout(() => { clicBloque = false; }, 0);
-    // Élan : la rangée continue sur sa lancée et ralentit, sans se caler sur une carte.
+    // Élan : le plan continue sur sa lancée et ralentit.
     const maintenant = performance.now(), tr = t.traces.filter((q) => maintenant - q[0] < 100);
-    const a = tr[0], vitesse = tr.length > 1 ? (tr[tr.length - 1][1] - a[1]) / Math.max(16, tr[tr.length - 1][0] - a[0]) : 0;
-    vers(t.p + vitesse * 420);
+    if (tr.length > 1) {
+      const a = tr[0], z = tr[tr.length - 1], dt = Math.max(16, z[0] - a[0]);
+      let vx = (z[1] - a[1]) / dt * 16, vy = (z[2] - a[2]) / dt * 16;
+      const elan = () => { vx *= .92; vy *= .92; libre.x += vx; libre.y += vy; camera(); if (Math.abs(vx) + Math.abs(vy) > .3) rappelRaf = requestAnimationFrame(elan); else rappelRaf = 0; };
+      cancelAnimationFrame(rappelRaf); rappelRaf = requestAnimationFrame(elan);
+    }
   });
   sc.addEventListener('click', (e) => { if (clicBloque) { e.preventDefault(); e.stopPropagation(); } }, true);
   sc.addEventListener('dragstart', (e) => e.preventDefault());
   // Le voile flou du bord droit s'efface quand on arrive au bout.
   const bout = () => voile && voile.classList.toggle('est-cache', progres >= total() - 4);
-  suivi = () => { maj(); bout(); if (!tir && progres > 20) glisse(); };
-  new MutationObserver(() => { if (!doc.hidden) { arret(); caler(); progres = 0; camera(); setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  suivi = () => { maj(); bout(); majCompteur(); if (!tir && progres > 20) glisse(); };
+  new MutationObserver(() => { if (!doc.hidden) { arret(); libre.x = libre.y = 0; caler(); progres = 0; camera(); setTimeout(maj, 50); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
+  // Rappel : le décalage libre revient doucement à zéro (retour sur le fil).
+  function rappel() {
+    if (rappelRaf || (!libre.x && !libre.y)) return;
+    const pas = () => {
+      libre.x *= .86; libre.y *= .86;
+      if (Math.abs(libre.x) + Math.abs(libre.y) < .5) { libre.x = libre.y = 0; camera(); rappelRaf = 0; return; }
+      camera(); rappelRaf = requestAnimationFrame(pas);
+    };
+    rappelRaf = requestAnimationFrame(pas);
+  }
+  // Le bouton « Suivant » et le compteur d'étapes.
+  const guide = document.createElement('div');
+  guide.className = 'uc__guide';
+  guide.innerHTML = '<button type="button" class="uc__guide-prec" aria-label="Étape précédente">←</button><span class="uc__guide-compte"></span><button type="button" class="uc__guide-suiv">Suivant <span aria-hidden="true">→</span></button>';
+  doc.querySelector('.doc__win').append(guide);
+  let visee = -1;
+  const etapeBase = () => (raf && visee >= 0 ? visee : etapeCourante());
+  function allerEtape(k) {
+    if (!etapes.length) return;
+    k = Math.max(0, Math.min(etapes.length - 1, k)); visee = k;
+    cancelAnimationFrame(rappelRaf); rappelRaf = 0; rappel();
+    vers(etapes[k].l);
+  }
+  guide.querySelector('.uc__guide-suiv').addEventListener('click', () => allerEtape(etapeBase() + 1));
+  guide.querySelector('.uc__guide-prec').addEventListener('click', () => { const k = etapeBase(); allerEtape(k - (!raf && progres > etapes[k].l + 8 ? 0 : 1)); });
   maj();
 })();
 
