@@ -11142,14 +11142,13 @@
     html body .stage:is([data-state="lock"], [data-state="desktop"]) img.avatar-accueil.avatar-accueil { cursor: pointer; pointer-events: auto; }
   }
   /* Index : un seul sélecteur, noir avec texte blanc, sur la ligne survolée ;
-     les autres lignes, projet en cours compris, n'ont aucun fond. Sans survol,
-     le sélecteur reste sur le projet en cours. */
+     les autres lignes, projet en cours compris, n'ont jamais de fond. */
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet:is(:hover, :focus-visible) { color: #FFFFFF !important; }
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet:is(:hover, :focus-visible)::before { background: #1C1917 !important; transform: scaleY(1) !important; }
   html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet:is(:hover, :focus-visible) .nav-index__annee > span { color: rgba(255, 255, 255, .6) !important; transform: none !important; }
-  html body .stage .menubar .nav-index .nav-index__projets:is(:hover, :focus-within) .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) { color: #1C1917 !important; }
-  html body .stage .menubar .nav-index .nav-index__projets:is(:hover, :focus-within) .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible)::before { transform: scaleY(0) !important; }
-  html body .stage .menubar .nav-index .nav-index__projets:is(:hover, :focus-within) .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) .nav-index__annee > span { transform: translateY(100%) !important; }
+  html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) { color: #1C1917 !important; }
+  html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible)::before { transform: scaleY(0) !important; }
+  html body .stage .menubar .nav-index .nav-index__projets .nav-index__projet.nav-index__projet.est-actif:not(:hover, :focus-visible) .nav-index__annee > span { transform: translateY(100%) !important; }
 </style>
 </head>
 <body>
