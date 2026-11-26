@@ -10551,6 +10551,7 @@
     .nav-index__projet:is(:hover, :focus-visible, .est-actif) { color: #FFFFFF; outline: none; }
     /* Au survol : fond gris pâle, texte qui reste noir (le noir est réservé au projet en cours). */
     .nav-index__projet:is(:hover, :focus-visible):not(.est-actif) { color: #1C1917; }
+    .nav-index__projet[aria-disabled="true"]:is(:hover, :focus-visible):not(.est-actif) { color: #A8A5A1; }
     .nav-index__projet:is(:hover, :focus-visible):not(.est-actif)::before { background: #ECEBE8; }
     .nav-index__projet:is(:hover, :focus-visible):not(.est-actif) .nav-index__annee > span { color: #666666; }
     .nav-index__projet:is(:hover, :focus-visible, .est-actif)::before { transform: scaleY(1); }
