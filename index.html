@@ -11117,7 +11117,7 @@
     @keyframes bio2-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @media (prefers-reduced-motion: reduce) { .bio2__piste { animation: none; } .bio2__defile { overflow-x: auto; } }
     /* Pied de page : quatre colonnes de trois, sur la même grille. */
-    .bio2__gouts { padding-top: var(--vide); }
+    .bio2__gouts { padding-top: var(--vide); padding-bottom: 32px; }
     .bio2__pied { padding-top: 32px; padding-bottom: var(--m); }
     .bio2__col { grid-column: span 3; display: block; }
   }
@@ -11527,12 +11527,6 @@
       <div class="bio2__col"><span class="bio2__etiquette">Ce que j’écoute en boucle</span><span>Ava Max</span></div>
       <div class="bio2__col"><span class="bio2__etiquette">Mes boissons préférées</span><span>Un London Fog<br>Un thé chaï glacé</span></div>
     </div>
-    <footer class="bio2__grille bio2__pied">
-      <div class="bio2__col"><span class="bio2__etiquette">Pages</span><span><a href="./" data-bio2="accueil">projets</a><br><a href="#profil" data-bio2="bio">bio</a></span></div>
-      <div class="bio2__col"><span class="bio2__etiquette">Contact</span><span><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant@outlook.com</a></span></div>
-      <div class="bio2__col"><span class="bio2__etiquette">Basé à</span><span>Montréal,<br>Québec</span></div>
-      <div class="bio2__col"><span class="bio2__etiquette">Actuellement</span><span>ouvert aux opportunités</span></div>
-    </footer>
   </section>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
   <div class="dossier dossier--cartes" id="dossier" role="group" aria-label="Dossier Use Case">
