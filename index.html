@@ -10585,7 +10585,7 @@
      la fiche du projet (dans le carrousel) prend leur place. */
   @media (min-width: 1024px) {
     /* La photo disparaît d'un coup ; « Manu » quitte le coin et rejoint la nav. */
-    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) img.avatar-accueil { visibility: hidden !important; }
+    html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc):not(.carrousel-intro) img.avatar-accueil { visibility: hidden !important; }
     html body .stage .menubar .menuitem--app { transition: opacity 200ms cubic-bezier(0.32, 0.72, 0, 1); }
     html body .stage.carrousel-defile:not(.bio-ouverte):not(.a-un-doc) .menubar .menuitem--app { opacity: 0 !important; pointer-events: none !important; }
     /* « Manu », premier item de la nav centrale : replié tant qu'on n'a pas défilé. */
@@ -10639,7 +10639,7 @@
   }
   /* Intro d'un projet ouverte dans le carrousel : ma photo se cache. */
   @media (min-width: 1024px) {
-    html body .stage.carrousel-intro :is(img.avatar-accueil, .note-bas) { visibility: hidden !important; }
+    html body .stage.carrousel-intro .note-bas { visibility: hidden !important; }
   }
   /* Grands écrans (iMac) : nav en 18 Medium, menu Index en 16 Medium. */
   @media (min-width: 1800px) {
@@ -10878,7 +10878,13 @@
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.dose, .sexe, .uc__tete-visuel, .uc__contexte-visuel, .lumiere__scene, .uc__formulaire-photo) { justify-self: center !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.dose, .sexe) * { text-align: left !important; }
   html body .stage #doc-loblaw.doc.doc--edito .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion .conclusion__points li { justify-content: flex-start !important; }
-  html body .stage.a-un-doc img.avatar-accueil { visibility: hidden !important; }
+  /* Projet ouvert (intro ou étude) : ma photo reste en haut à gauche, au-dessus
+     de tout, et ramène à l'accueil. */
+  @media (min-width: 1024px) {
+    html body .stage:is(.a-un-doc, .carrousel-intro) img.avatar-accueil.avatar-accueil {
+      display: block !important; visibility: visible !important; opacity: 1 !important; z-index: 45 !important; cursor: pointer;
+    }
+  }
 
   /* ===================================================================
      Étude, présentation v2 (référence : études de cas sur colonne étroite) :
@@ -20263,6 +20269,12 @@ document.addEventListener('click', (e) => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-aller', i }, '*'); }, 60);
   }
   nav.querySelectorAll('[data-nav="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); fermer(); accueil(); }));
+  // Projet ouvert : ma photo ramène à l'accueil, comme « Manu ».
+  const portrait = document.querySelector('img.avatar-accueil');
+  if (portrait) portrait.addEventListener('click', () => {
+    const st = document.getElementById('stage');
+    if (st && (st.classList.contains('a-un-doc') || st.classList.contains('carrousel-intro'))) nav.querySelector('.nav-index__logo').click();
+  });
   // « Manu » : l'accueil comme à l'arrivée, premier dossier et photo.
   nav.querySelector('.nav-index__logo').addEventListener('click', () => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-debut' }, '*'); }, 60);
