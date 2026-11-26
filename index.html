@@ -11072,6 +11072,49 @@
   html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc:has(> .sexe) .cs__jauge * { color: #1C1917 !important; }
   html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__voile { display: none !important; }
   html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere .lumiere__scene { background: #FFFFFF !important; }
+
+  /* ===== Bio v2 (grand écran) ===== */
+  .bio2 { display: none; }
+  @media (min-width: 1024px) {
+    html body .stage.bio-ouverte .profil { display: none !important; }
+    html body .stage.bio-ouverte .bio2 {
+      --c: max(94px, (100vw - 48px - 11 * 24px) / 12);
+      display: block; position: absolute; inset: 0; z-index: 35; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+      background: #ECECEA; color: #000000; font: 400 16px/19.2px "Geist", "Helvetica Neue", Arial, sans-serif;
+    }
+    html body .stage.bio-ouverte .bio2::-webkit-scrollbar { display: none; }
+    html body .stage.bio-ouverte img.avatar-accueil.avatar-accueil { visibility: visible !important; opacity: 1 !important; z-index: 45 !important; }
+    html body .stage.bio-ouverte .note-bas { visibility: hidden !important; }
+    .bio2 a { color: inherit; text-decoration: none; }
+    .bio2 a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .bio2__etiquette { margin: 0 0 2px; font: 400 8px/10px "Geist", Arial, sans-serif; letter-spacing: 0; text-transform: lowercase; color: #000; }
+    .bio2__haut { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; padding: 144px 24px 0; min-height: calc(100vh - 24px); box-sizing: border-box; align-content: start; }
+    .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 400 52px/57.2px "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
+    .bio2__cote { grid-column: 9 / 13; padding-top: 16px; display: grid; gap: 26px; align-content: start; }
+    .bio2__bloc p { margin: 0; }
+    /* La bibliothèque : une rangée qui défile seule, de droite à gauche. */
+    .bio2__biblio { padding: 0 0 160px; }
+    .bio2__biblio > .bio2__etiquette { padding: 0 24px 12px; }
+    .bio2__defile { overflow: hidden; width: 100%; }
+    .bio2__piste { display: flex; gap: 24px; width: max-content; animation: bio2-defile var(--duree, 80s) linear infinite; }
+    .bio2__defile:hover .bio2__piste { animation-play-state: paused; }
+    .bio2__piste .shelf__slot { flex: 0 0 auto; width: auto !important; display: flex; flex-direction: column; gap: 8px; margin: 0 !important; }
+    .bio2__piste .shelf__slot img { display: block; height: 320px !important; width: auto !important; max-width: none !important; aspect-ratio: auto !important; object-fit: contain; border-radius: 4px; box-shadow: none; }
+    .bio2__piste .shelf__meta, .bio2__piste .shelf__meta * { font: 400 12px/16px "Geist", Arial, sans-serif !important; color: #000 !important; max-width: 220px; }
+    @keyframes bio2-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .bio2__piste { animation: none; } .bio2__defile { overflow-x: auto; } }
+    /* Pied de page : quatre petites colonnes centrées. */
+    .bio2__pied { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px 56px; padding: 0 24px 40px; min-height: 60vh; align-content: center; position: relative; }
+    .bio2__col { display: flex; gap: 14px; align-items: flex-start; }
+    .bio2__col .bio2__etiquette { margin: 4px 0 0; }
+    .bio2__copy { position: absolute; left: 0; right: 0; bottom: 24px; margin: 0; text-align: center; font: 400 12px/16px "Geist", Arial, sans-serif; color: rgba(0, 0, 0, .35); }
+  }
+  @media (min-width: 1800px) {
+    html body .stage.bio-ouverte .bio2 { font-size: 18px; line-height: 22px; }
+    .bio2__phrase { font-size: 64px; line-height: 70px; }
+    .bio2__etiquette { font-size: 10px; line-height: 12px; }
+    .bio2__piste .shelf__slot img { height: 400px !important; }
+  }
 </style>
 </head>
 <body>
@@ -11442,6 +11485,31 @@
       </div>
     </div>
   </aside>
+  <!-- La bio, version 2 (grand écran) : une grande phrase à gauche, de petits
+       blocs à droite, la bibliothèque qui défile sur une seule rangée, puis un
+       pied de page. Ma nav et ma photo restent en place. -->
+  <section class="bio2" id="bio2" aria-label="Bio">
+    <div class="bio2__haut">
+      <p class="bio2__phrase">Designer UX/UI à Montréal, je travaille à la croisée du design, de la psychologie cognitive et des arts visuels. Je conçois surtout des interfaces et des produits SaaS, avec un peu d’analyse, de rédaction et d’illustration.</p>
+      <div class="bio2__cote">
+        <div class="bio2__bloc"><p class="bio2__etiquette">expertises</p><p>— Design UX/UI<br>— Produits SaaS<br>— Recherche et audit<br>— Direction artistique<br>— Illustration</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">en ce moment</p><p>J’explore l’IA et le vibe coding.</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">disponibilité</p><p>Ouvert aux nouvelles opportunités.</p></div>
+        <div class="bio2__bloc"><p class="bio2__etiquette">liens</p><p><a href="mailto:efroissant@outlook.com" data-ecrire>Email</a><br><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener">LinkedIn</a></p></div>
+      </div>
+    </div>
+    <div class="bio2__biblio">
+      <p class="bio2__etiquette">bibliothèque — ce que je regarde, écoute et lis en ce moment</p>
+      <div class="bio2__defile" aria-label="Films, musiques, séries et livres"><div class="bio2__piste"></div></div>
+    </div>
+    <footer class="bio2__pied">
+      <div class="bio2__col"><span class="bio2__etiquette">pages</span><span><a href="./" data-bio2="accueil">projets</a><br><a href="#profil" data-bio2="bio">bio</a></span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">contact</span><span><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant@outlook.com</a></span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">basé à</span><span>Montréal,<br>Québec</span></div>
+      <div class="bio2__col"><span class="bio2__etiquette">actuellement</span><span>ouvert aux opportunités</span></div>
+      <p class="bio2__copy">© 2026 Emmanuel Froissant. Fait avec Figma, Claude et beaucoup de café.</p>
+    </footer>
+  </section>
   <!-- Le dossier « Use Case », en bas à droite de ma photo (voir le script). -->
   <div class="dossier dossier--cartes" id="dossier" role="group" aria-label="Dossier Use Case">
     <div class="dossier__fond"></div>
@@ -20566,6 +20634,34 @@ document.addEventListener('click', (e) => {
   new MutationObserver(() => { if (!doc.hidden) { caler(); suivre(); } }).observe(doc, { attributes: true, attributeFilter: ['hidden'] });
   if (document.fonts) document.fonts.ready.then(caler);
   caler(); suivre();
+})();
+</script>
+<script>
+/* Bio v2 : la bibliothèque sur une seule rangée qui défile (films, musiques,
+   séries, livres), à partir de l'étagère existante ; les liens du pied. */
+(function bio2() {
+  const bio = document.getElementById('bio2');
+  if (!bio) return;
+  const piste = bio.querySelector('.bio2__piste');
+  const ORDRE = [/film/i, /musique|album|disque/i, /s[ée]rie/i, /livre|lecture/i];
+  function remplir() {
+    const rayons = [...document.querySelectorAll('.bio-biblio .bio-rayon')];
+    if (!rayons.length) return false;
+    const rang = (r) => { const t = r.querySelector('.bio-rayon__titre').textContent; const k = ORDRE.findIndex((re) => re.test(t)); return k < 0 ? 9 : k; };
+    const slots = rayons.sort((a, b) => rang(a) - rang(b)).flatMap((r) => [...r.querySelectorAll('.shelf__slot')].filter((sl) => sl.querySelector('img')));
+    const items = slots.map((sl) => { const c = sl.cloneNode(true); c.querySelectorAll('img').forEach((im) => { im.loading = 'eager'; }); return c; });
+    // Deux fois la même suite : la boucle est sans couture.
+    piste.replaceChildren(...items, ...items.map((c) => { const d = c.cloneNode(true); d.setAttribute('aria-hidden', 'true'); return d; }));
+    piste.style.setProperty('--duree', Math.max(40, items.length * 6) + 's');
+    return true;
+  }
+  if (!remplir()) addEventListener('load', remplir);
+  bio.querySelectorAll('[data-bio2="accueil"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); const l = document.querySelector('.nav-index__logo'); if (l) l.click(); }));
+  bio.querySelectorAll('[data-bio2="bio"]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); bio.scrollTo({ top: 0, behavior: 'smooth' }); }));
+  // À chaque ouverture, la bio repart du haut.
+  const stage = document.getElementById('stage');
+  let ouverte = false;
+  if (stage) new MutationObserver(() => { const o = stage.classList.contains('bio-ouverte'); if (o && !ouverte) bio.scrollTop = 0; ouverte = o; }).observe(stage, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 </body>
