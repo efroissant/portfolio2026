@@ -12855,6 +12855,7 @@
             <ul class="nav-index__pages nav-index__pages--haut" aria-label="Pages">
               <li><a class="nav-index__projet nav-index__page" href="#profil" data-nav="bio"><span class="nav-index__nom">Bio</span></a></li>
               <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom"><sup class="nav-index__compte">00</sup>Projets</span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="#" data-nav="illustration"><span class="nav-index__nom"><sup class="nav-index__compte nav-index__compte--fixe">5</sup>Illustration</span></a></li>
             </ul>
             <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
             <ul class="nav-index__pages nav-index__pages--bas">
@@ -20557,7 +20558,7 @@ document.addEventListener('click', (e) => {
       return li;
     }));
     nb.textContent = String(projets.length).padStart(2, '0');
-    nav.querySelectorAll('.nav-index__compte').forEach((c) => { c.textContent = projets.length; });
+    nav.querySelectorAll('.nav-index__compte:not(.nav-index__compte--fixe)').forEach((c) => { c.textContent = projets.length; });
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
   function ouvrir() {
@@ -20609,6 +20610,7 @@ document.addEventListener('click', (e) => {
   nav.querySelector('.nav-index__logo').addEventListener('click', () => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-debut' }, '*'); }, 60);
   });
+  nav.querySelector('[data-nav="illustration"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); });
   nav.querySelector('[data-nav="bio"]').addEventListener('click', (e) => {
     const f = document.querySelector('.arbo__fichier[href="#profil"]');
     if (f) { e.preventDefault(); fermer(); f.click(); setTimeout(majCourant, 0); }
