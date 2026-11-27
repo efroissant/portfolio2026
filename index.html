@@ -11173,9 +11173,10 @@
   }
   @media (min-width: 1800px) {
   }
-  /* Menu Index : Bio, Projets (les projets en retrait dessous), Contact. Même survol noir, pas de fond pour la page en cours. */
+  /* Menu Index : Bio, Projets (avec leur nombre en exposant), Contact. Même survol noir, pas de fond pour la page en cours. */
   @media (min-width: 1024px) {
-    html body .stage .menubar .nav-index .nav-index__projets { padding-bottom: 0 !important; padding-left: 24px !important; }
+    html body .stage .menubar .nav-index .nav-index__projets { display: none !important; }
+    html body .stage .menubar .nav-index .nav-index__compte { position: absolute; right: 100%; top: 2px; margin-right: 3px; font-size: 10px; line-height: 12px; font-variant-numeric: tabular-nums; }
     html body .stage .menubar .nav-index .nav-index__pages { margin: 0; padding: 0 16px 0 0; list-style: none; }
     html body .stage .menubar .nav-index .nav-index__pages--bas { padding-bottom: 16px; }
     html body .stage .menubar .nav-index .nav-index__page { text-decoration: none; color: #1C1917 !important; }
@@ -12853,7 +12854,7 @@
           <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
             <ul class="nav-index__pages nav-index__pages--haut" aria-label="Pages">
               <li><a class="nav-index__projet nav-index__page" href="#profil" data-nav="bio"><span class="nav-index__nom">Bio</span></a></li>
-              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom">Projets</span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom"><sup class="nav-index__compte">00</sup>Projets</span></a></li>
             </ul>
             <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
             <ul class="nav-index__pages nav-index__pages--bas">
@@ -20556,6 +20557,7 @@ document.addEventListener('click', (e) => {
       return li;
     }));
     nb.textContent = String(projets.length).padStart(2, '0');
+    nav.querySelectorAll('.nav-index__compte').forEach((c) => { c.textContent = projets.length; });
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
   function ouvrir() {
