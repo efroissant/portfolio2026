@@ -11053,7 +11053,7 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide button {
       border: 0; background: none; padding: 8px 4px; font: inherit; color: inherit; cursor: pointer;
     }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide .uc__guide-suiv { padding: 8px 16px; border-radius: 999px; background: #1C1917; color: #FFFFFF; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide .uc__guide-suiv { padding: 8px 4px; border-radius: 0; background: none; }   /* juste la flèche, comme « ← » */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide button:disabled { opacity: .3; cursor: default; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__guide-compte { font-variant-numeric: tabular-nums; color: #666666; }
   }
@@ -20496,7 +20496,7 @@ document.addEventListener('click', (e) => {
   // Le bouton « Suivant » et le compteur d'étapes.
   const guide = document.createElement('div');
   guide.className = 'uc__guide';
-  guide.innerHTML = '<button type="button" class="uc__guide-prec" aria-label="Étape précédente">←</button><span class="uc__guide-compte"></span><button type="button" class="uc__guide-suiv">Suivant <span aria-hidden="true">→</span></button>';
+  guide.innerHTML = '<button type="button" class="uc__guide-prec" aria-label="Étape précédente">←</button><span class="uc__guide-compte"></span><button type="button" class="uc__guide-suiv" aria-label="Étape suivante">→</button>';
   doc.querySelector('.doc__win').append(guide);
   let visee = -1;
   const etapeBase = () => (raf && visee >= 0 ? visee : etapeCourante());
