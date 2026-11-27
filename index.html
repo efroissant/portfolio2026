@@ -11194,6 +11194,11 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__chaine .uc__fleche { display: none !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__chaine .uc__etape { white-space: nowrap; }
   }
+  /* « Menu » reste affiché à l'ouverture : plus de nombre de projets à sa place. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index .nav-index__bouton .nav-index__mot { transform: none !important; opacity: 1 !important; }
+    html body .stage .menubar .nav-index .nav-index__bouton .nav-index__nb { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -20615,7 +20620,16 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('[data-compte="projets"]').forEach((c) => { c.textContent = projets.length; });
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
+  // À l'ouverture, « Menu » devient « Unem » une fraction de seconde, puis revient.
+  const mot = nav.querySelector('.nav-index__mot');
+  let clin = 0;
+  function cligner() {
+    if (!mot || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    clearTimeout(clin); mot.textContent = 'Unem';
+    clin = setTimeout(() => { mot.textContent = 'Menu'; }, 160);
+  }
   function ouvrir() {
+    cligner();
     nav.classList.add('est-ouvert'); voile.classList.add('est-ouvert');
     bouton.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
     fond.style.height = (menu.offsetTop + menu.scrollHeight + 8) + 'px';
