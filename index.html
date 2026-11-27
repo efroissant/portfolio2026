@@ -7464,6 +7464,8 @@
       font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; color: #1C1917;
     }
   }
+  /* Tablette : l'accueil mobile a déjà cette phrase (.mob-note) ; pas de doublon en bas. */
+  @media (min-width: 768px) and (max-width: 1023px) { .stage .note-bas.note-bas { display: none; } }
 
   /* Lecteur : ne bouge plus quand le morceau change. Le titre a une largeur
      fixe (texte calé à gauche, abrégé si trop long) ; le bloc est calé sur
@@ -11316,6 +11318,19 @@
   .bio2__phrase .bio-masque { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
   .bio2__phrase .bio-ligne { display: block; will-change: transform; }
   .bio2__phrase .bio-gris { color: #8A8784; }
+  /* Pied de page mobile (voir piedMobile) : grille de 2 colonnes, filet en
+     haut, intitulés en 16 gris, infos en 16/24. */
+  .pied-mob { display: none; }
+  @media (max-width: 1023px) {
+    .face-a-mobile .pied-mob {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px 16px;
+      margin: 64px 0 0; padding: 32px 0 calc(32px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgba(28,25,23,0.12);
+      font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; text-align: left;
+    }
+    .pied-mob .pied__groupe { display: flex; flex-direction: column; gap: 8px; }
+    .pied-mob .pied__etiquette { color: #8A8784; }
+    .pied-mob a { color: #1C1917; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  }
   /* Bio sur téléphone et tablette : le texte de l'ordinateur (voir bioMobile).
      Phrase en Geist 24/32, partie grise à la ligne ; puis Services,
      Recommandations, Liens : intitulés en 16 gris, contenu en 20/28. */
@@ -21119,6 +21134,25 @@ document.addEventListener('click', (e) => {
 /* Bio : le texte apparaît ligne par ligne, du bas vers le haut, comme les
    infos de la fiche des dossiers. Les lignes sont mesurées à l'affichage
    (elles changent avec la largeur), chacune glisse dans son masque. */
+/* Pied de page sur téléphone et tablette : sous la note de l'accueil, les
+   infos du pied de page de l'ordinateur (une seule source : #pied). Pas de
+   groupe « Pages » : le menu les donne déjà, et Illustration n'existe pas
+   encore. */
+(function piedMobile() {
+  const src = document.querySelector('#pied .pied__grille');
+  const note = document.querySelector('.face-a-mobile .mob-note');
+  if (!src || !note) return;
+  const pied = document.createElement('footer');
+  pied.className = 'pied-mob';
+  src.querySelectorAll('.pied__groupe').forEach((g) => {
+    if (g.querySelector('[data-pied]')) return;   // le groupe Pages
+    const c = g.cloneNode(true);
+    // Sur l'ordinateur, les colonnes sont étroites : les retours à la ligne y sont forcés. Ici, le texte coule.
+    c.querySelectorAll('br').forEach((br) => br.replaceWith(br.closest('a') ? '' : ' '));
+    pied.append(c);
+  });
+  note.after(pied);
+})();
 /* Bio sur téléphone et tablette : le texte de l'ordinateur (bio2) est la
    seule source. On le copie dans la bio plein écran à la place de l'ancien
    « Hello, », puis, à chaque ouverture, il apparaît ligne par ligne du bas
