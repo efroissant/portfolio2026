@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grille</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  /* Grille sans fin : des cases carrées qui glissent avec de l'inertie au
+     défilement (molette, trackpad, glisser, flèches). Plus ça va vite, plus
+     les visuels se courbent sur les côtés, puis tout se remet en place. */
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #FFFFFF; }
+  body { font: 500 12px/16px "Geist", "Helvetica Neue", Arial, sans-serif; color: #1C1917; overscroll-behavior: none; }
+  .grille { position: fixed; inset: 0; overflow: hidden; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .grille.tire { cursor: grabbing; }
+  .case { position: absolute; left: 0; top: 0; will-change: transform; }
+  .case__objet { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+  .case__objet img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+  /* Un objet détouré (sticker, objet) : posé au centre, sans recadrage. */
+  .case__objet.est-objet img { object-fit: contain; padding: 16%; box-sizing: border-box; }
+  .case__objet.est-gris { background: #F2F1EF; }
+  .case:not(.a-contenu) .case__objet { display: none; }
+</style>
+</head>
+<body>
+<div class="grille" id="grille" aria-label="Grille de visuels"></div>
+<script>
+(function grilleInfinie() {
+  /* La tuile : COLS × LIGNES cases, répétée à l'infini dans les deux sens.
+     Pour ajouter un visuel : une ligne { c: colonne, l: ligne, src: 'fichier' }
+     (c de 0 à COLS-1, l de 0 à LIGNES-1). objet: true pour un objet détouré,
+     gris: true pour un fond gris pâle derrière. */
+  const COLS = 7, LIGNES = 8;
+  const VISUELS = [
+    { c: 0, l: 0, src: 'gvq-agenda-920.webp' },
+    { c: 3, l: 0, src: 'sticker-citron-360.webp', objet: true },
+    { c: 5, l: 1, src: 'roche-landing-1750.webp' },
+    { c: 1, l: 2, src: 'lob-pharmacienne.webp' },
+    { c: 4, l: 2, src: 'sticker-grenouille-360.webp', objet: true, gris: true },
+    { c: 6, l: 3, src: 'gvq-resultats-920.webp' },
+    { c: 2, l: 3, src: 'roche-pub-1145.webp' },
+    { c: 0, l: 4, src: 'sticker-plantes-360.webp', objet: true },
+    { c: 4, l: 4, src: 'lob-observation-terrain.webp' },
+    { c: 1, l: 5, src: 'gvq-tags-920.webp' },
+    { c: 5, l: 5, src: 'sticker-slow-360.webp', objet: true },
+    { c: 3, l: 6, src: 'roche-strategy-1064.webp' },
+    { c: 6, l: 6, src: 'lob-terrain-ecran.webp' },
+    { c: 0, l: 7, src: 'gvq-detail-920.webp' },
+    { c: 4, l: 7, src: 'sticker-orange-360.webp', objet: true, gris: true },
+  ];
+  const carte = new Map(VISUELS.map((v) => [v.c + ',' + v.l, v]));
+  const mod = (n, m) => ((n % m) + m) % m;
+
+  const grille = document.getElementById('grille');
+  const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, taille = 0, nc = 0, nl = 0, cases = [];
+
+  // Assez de cases pour couvrir l'écran, plus une rangée de marge de chaque côté.
+  function construire() {
+    W = innerWidth; H = innerHeight;
+    const colsEcran = W >= 1024 ? 7 : W >= 640 ? 5 : 3;
+    taille = W / colsEcran;
+    nc = colsEcran + 2; nl = Math.ceil(H / taille) + 2;
+    grille.replaceChildren(); cases = [];
+    for (let i = 0; i < nc * nl; i++) {
+      const el = document.createElement('div'); el.className = 'case';
+      el.style.width = el.style.height = taille + 'px';
+      const o = document.createElement('div'); o.className = 'case__objet';
+      const img = document.createElement('img'); img.alt = ''; img.decoding = 'async';
+      o.append(img); el.append(o); grille.append(el);
+      cases.push({ el, o, img, cle: '' });
+    }
+  }
+
+  // Position : la cible bouge tout de suite, la vue la rattrape en douceur.
+  const cible = { x: 0, y: 0 }, vue = { x: 0, y: 0 }, vitesse = { x: 0, y: 0 };
+  let boucle = 0, avant = 0;
+  function dessiner(t) {
+    // Pas de temps en « images à 60 Hz » : même rythme sur un écran à 120 Hz.
+    const pas = avant ? Math.min(4, (t - avant) / 16.667) : 1; avant = t;
+    const k = calme ? 1 : 1 - Math.pow(1 - 0.085, pas);
+    const ax = vue.x, ay = vue.y;
+    vue.x += (cible.x - vue.x) * k; vue.y += (cible.y - vue.y) * k;
+    // Vitesse lissée (px par image à 60 Hz), elle commande la courbure.
+    const kv = 1 - Math.pow(1 - 0.25, pas);
+    vitesse.x += ((vue.x - ax) / pas - vitesse.x) * kv;
+    vitesse.y += ((vue.y - ay) / pas - vitesse.y) * kv;
+
+    const c0 = Math.floor(vue.x / taille) - 1, l0 = Math.floor(vue.y / taille) - 1;
+    const dx = -(vue.x - (c0 + 1) * taille) - taille, dy = -(vue.y - (l0 + 1) * taille) - taille;
+    const vx = calme ? 0 : Math.max(-40, Math.min(40, vitesse.x));
+    const vy = calme ? 0 : Math.max(-40, Math.min(40, vitesse.y));
+    for (let j = 0; j < nl; j++) for (let i = 0; i < nc; i++) {
+      const c = cases[j * nc + i];
+      const x = dx + i * taille, y = dy + j * taille;
+      c.el.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0)';
+      // Le contenu de la case vient de la tuile, à l'infini.
+      const cle = mod(c0 + i, COLS) + ',' + mod(l0 + j, LIGNES);
+      if (cle !== c.cle) {
+        c.cle = cle; const v = carte.get(cle);
+        c.el.classList.toggle('a-contenu', !!v);
+        if (v) {
+          c.o.classList.toggle('est-objet', !!v.objet); c.o.classList.toggle('est-gris', !!v.gris);
+          if (c.img.getAttribute('src') !== v.src) c.img.src = v.src;
+        }
+      }
+      if (!c.el.classList.contains('a-contenu')) continue;
+      // Courbure : plus la case est loin du centre, plus elle se décale et
+      // s'étire dans le sens du mouvement (un léger effet de lentille).
+      const nx = (x + taille / 2 - W / 2) / (W / 2), ny = (y + taille / 2 - H / 2) / (H / 2);
+      const bx = Math.min(1, nx * nx), by = Math.min(1, ny * ny);
+      const ty = -vy * bx * 0.8, tx = -vx * by * 0.8;
+      const sy = 1 + Math.abs(vy) * bx * 0.0025, sx = 1 + Math.abs(vx) * by * 0.0025;
+      c.o.style.transform = (tx || ty || sx !== 1 || sy !== 1)
+        ? 'translate3d(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px,0) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')'
+        : '';
+    }
+    const repos = Math.abs(cible.x - vue.x) < 0.05 && Math.abs(cible.y - vue.y) < 0.05 && Math.abs(vitesse.x) < 0.02 && Math.abs(vitesse.y) < 0.02;
+    if (repos) { avant = 0; boucle = 0; } else boucle = requestAnimationFrame(dessiner);
+  }
+  const relancer = () => { if (!boucle) boucle = requestAnimationFrame(dessiner); };
+
+  // Molette et trackpad.
+  addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const f = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? H : 1;
+    cible.x += e.deltaX * f; cible.y += e.deltaY * f; relancer();
+  }, { passive: false });
+  // Glisser (souris et doigt), avec un élan au relâchement.
+  let tire = null;
+  grille.addEventListener('pointerdown', (e) => {
+    tire = { x: e.clientX, y: e.clientY, t: performance.now(), vx: 0, vy: 0 };
+    grille.setPointerCapture(e.pointerId); grille.classList.add('tire');
+  });
+  grille.addEventListener('pointermove', (e) => {
+    if (!tire) return;
+    const ddx = e.clientX - tire.x, ddy = e.clientY - tire.y, t = performance.now(), dt = Math.max(1, t - tire.t);
+    cible.x -= ddx; cible.y -= ddy;
+    tire.vx = ddx / dt; tire.vy = ddy / dt; tire.x = e.clientX; tire.y = e.clientY; tire.t = t;
+    relancer();
+  });
+  const lacher = () => {
+    if (!tire) return;
+    cible.x -= tire.vx * 220; cible.y -= tire.vy * 220;
+    tire = null; grille.classList.remove('tire'); relancer();
+  };
+  grille.addEventListener('pointerup', lacher); grille.addEventListener('pointercancel', lacher);
+  // Flèches du clavier : une case à la fois.
+  addEventListener('keydown', (e) => {
+    const p = { ArrowDown: [0, 1], ArrowUp: [0, -1], ArrowRight: [1, 0], ArrowLeft: [-1, 0] }[e.key];
+    if (!p) return; e.preventDefault();
+    cible.x += p[0] * taille; cible.y += p[1] * taille; relancer();
+  });
+  addEventListener('resize', () => { construire(); relancer(); });
+  construire(); relancer();
+})();
+</script>
+</body>
+</html>
