@@ -11255,8 +11255,10 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-texte.uc__intro-texte { white-space: nowrap !important; max-width: none !important; }
     /* Les titres près de la ligne : en haut de chaque carte. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro.uc__intro { display: flex !important; flex-direction: column !important; justify-content: flex-start !important; }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu { order: 0 !important; margin-top: 0 !important; }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-tags { order: 1 !important; margin-top: auto !important; }
+    /* Carte 1 : les tags en premier, en haut ; le titre et le sous-titre ; les infos (rôle, équipe…) en bas. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-tags { order: 0 !important; margin-top: 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu { order: 1 !important; margin-top: 24px !important; flex: 1 1 auto !important; display: flex !important; flex-direction: column !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu > .uc__intro-fiche { margin-top: auto !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot.uc__grand-mot { display: flex !important; flex-direction: column !important; justify-content: flex-start !important; align-items: flex-start !important; padding-top: 24px !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
@@ -20152,7 +20154,12 @@ document.addEventListener('click', (e) => {
         const ws = lis.map((li) => li.offsetWidth), hs = lis.map((li) => li.offsetHeight);
         // De la photo (son bord droit + 48) au bord droit de la carte, en arc qui monte de plus en plus.
         const photo = page.querySelector(':scope > .uc__lumiere'), debut = photo ? (parseFloat(photo.style.left) || 0) + (parseFloat(photo.style.width) || photo.offsetWidth) + 48 : x;
-        const n = lis.length, total = ws.reduce((a, b) => a + b, 0), ecart = Math.max(24, (x + w - debut - total) / Math.max(1, n - 1));
+        // Le dernier tag (« Erreur de saisie ») est centré sous le bord gauche de
+        // « Sécuriser la saisie » : le fil monte tout droit, sans traverser le mot.
+        const mot = page.querySelector(':scope > .uc__grand-mot--prevenir');
+        const cxMot = mot ? (parseFloat(mot.style.left) || 0) - 24 : x + w - ws[ws.length - 1] / 2;   // le fil monte juste à gauche du mot
+        const n = lis.length, total = ws.reduce((a, b) => a + b, 0), avantDernier = total - ws[n - 1];
+        const ecart = Math.max(24, (cxMot - ws[n - 1] / 2 - debut - avantDernier) / Math.max(1, n - 1));
         let gauche = debut;
         lis.forEach((li, i) => {
           const t = n > 1 ? i / (n - 1) : 0, cx = gauche + ws[i] / 2, cy = cyRef - 200 * Math.pow(t, 1.6);
@@ -20161,7 +20168,12 @@ document.addEventListener('click', (e) => {
           const pt = [cx, cy]; pt.lisse = true; pts.push(pt);
           gauche += ws[i] + ecart;
         });
-      } else pts.push([x + w / 2, y - 8]);   // la ligne passe juste au-dessus des cartes, près des titres
+      } else if (el.matches('.uc__grand-mot--prevenir')) {
+        // Arrivée par la gauche du mot, exactement au-dessus du dernier tag : un trait vertical.
+        const prec = pts[pts.length - 1];
+        pts.push([prec && prec.lisse ? prec[0] : x - 24, y - 8]);
+      }
+      else pts.push([x + w / 2, y - 8]);   // la ligne passe juste au-dessus des cartes, près des titres
       // Le numéro d'étape, posé au-dessus de la carte (hors de la carte, pour ne pas être coupé).
       let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
       if (!num) { num = document.createElement('span'); num.className = 'uc__etape-num'; num.dataset.n = etapes.length; num.setAttribute('aria-hidden', 'true'); page.append(num); }
@@ -20176,7 +20188,8 @@ document.addEventListener('click', (e) => {
       if (!i) d = 'M' + p[0] + ' ' + p[1];
       else {
         const a = pts[i - 1], ax = a[2] != null ? a[2] : a[0];
-        if (a.lisse || p.lisse) {
+        if (Math.abs(a[0] - p[0]) < 2) d += ' L' + p[0] + ' ' + p[1];   // même axe : tout droit
+        else if (a.lisse || p.lisse) {
           // Courbe douce (Catmull-Rom) qui passe par le centre des tags.
           const p0 = pts[i - 2] || a, p3 = pts[i + 1] || p;
           d += ' C' + (a[0] + (p[0] - p0[0]) / 6) + ' ' + (a[1] + (p[1] - p0[1]) / 6) + ' ' + (p[0] - (p3[0] - a[0]) / 6) + ' ' + (p[1] - (p3[1] - a[1]) / 6) + ' ' + p[0] + ' ' + p[1];
