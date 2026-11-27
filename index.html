@@ -11325,6 +11325,10 @@
       font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; color: #8A8784 !important;
     }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot { justify-content: center !important; text-align: center !important; margin-bottom: 0 !important; }
+    /* Carte 2 : la vidéo garde son format d'origine (16:9) sur toute la largeur,
+       au lieu d'un recadrage vertical qui ne montrait qu'un mur gris. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__contexte-visuel.uc__contexte-visuel { height: auto !important; aspect-ratio: 16 / 9 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__contexte-visuel .uc__contexte-video.uc__contexte-video { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; object-fit: cover !important; }
   }
 </style>
 </head>
