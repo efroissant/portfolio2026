@@ -11281,8 +11281,10 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > :not(.uc__dosage-photo) { grid-column: 1 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo { position: absolute !important; top: 24px; bottom: 24px; right: 24px; width: 448px; margin: 0 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; border-radius: var(--r-carte); }
-    /* Cartes 15 et 16 : sans le petit titre gris. */
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc) > .uc__label { display: none !important; }
+    /* Cartes 15 à 18 : sans le petit titre gris. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) > .uc__label, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc > .uc__label { display: none !important; }
+    /* Carte 1 : un dégradé très léger, chaud, du coin haut gauche vers le blanc. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro.uc__intro { background: linear-gradient(150deg, #F2EFEA 0%, #F8F6F3 45%, #FFFFFF 100%) !important; border-radius: var(--r-carte) !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
