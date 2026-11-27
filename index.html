@@ -11308,6 +11308,17 @@
   .bio2__phrase .bio-masque { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
   .bio2__phrase .bio-ligne { display: block; will-change: transform; }
   .bio2__phrase .bio-gris { color: #8A8784; }
+  /* Études (téléphone et tablette) : la typo des titres suit l'ordinateur.
+     Le nom du projet en Geist 40 (Shoppers, GVQ, Roche) ; les titres de
+     section de Shoppers en Geist 32. Multiples de 8. */
+  @media (max-width: 1023px) {
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre {
+      font: 400 40px/48px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__titre, .uc__audit-titre, .uc__passerelle-titre, .uc__fort, .uc__formulaire-titre) {
+      font: 400 32px/40px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important;
+    }
+  }
 </style>
 </head>
 <body>
