@@ -11040,7 +11040,7 @@
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.doc__page > svg.uc__fil { display: block !important; position: absolute !important; left: 0 !important; top: 0 !important; z-index: 0 !important; pointer-events: none; overflow: visible !important; fill: none; background: none !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; box-shadow: none !important; width: auto; height: auto; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__fil-fond { stroke: rgba(28, 25, 23, .14); stroke-width: 1.5; stroke-dasharray: 4 6; }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__fil-trace { stroke: #1C1917; stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .3s linear; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__fil-trace { stroke: #57534E; stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .3s linear; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page > :not(.uc__fil) { z-index: 1; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.doc__page > .uc__etape-num {
       display: block !important; position: absolute !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; z-index: 2 !important; width: max-content !important; height: auto !important; white-space: nowrap !important;
@@ -20046,7 +20046,17 @@ document.addEventListener('click', (e) => {
         if (dd < d - .5) { d = dd; mieux = a.l + (b.l - a.l) * t; }
       }
       etapes.push({ el, l: mieux });
-      pts.push([x + w / 2, y + h / 2]);
+      // La chaîne de tags : le fil ne la traverse pas. Il arrive par la gauche
+      // sur « Erreur de saisie » (le dernier tag), au-dessus des autres, et repart de là.
+      const fin = el.matches('.uc__chaine') && [...el.querySelectorAll('.uc__etape')].pop();
+      if (fin) {
+        let ox = 0, oy = 0, n = fin;
+        while (n && n !== el) { ox += n.offsetLeft; oy += n.offsetTop; n = n.offsetParent; }
+        if (n === el) {
+          const cy = y + oy + fin.offsetHeight / 2;
+          pts.push([x + ox, cy, x + ox + fin.offsetWidth]);
+        } else pts.push([x + w / 2, y + h / 2]);
+      } else pts.push([x + w / 2, y + h / 2]);
       // Le numéro d'étape, posé au-dessus de la carte (hors de la carte, pour ne pas être coupé).
       let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
       if (!num) { num = document.createElement('span'); num.className = 'uc__etape-num'; num.dataset.n = etapes.length; num.setAttribute('aria-hidden', 'true'); page.append(num); }
@@ -20055,11 +20065,16 @@ document.addEventListener('click', (e) => {
     });
     // Le fil : des segments droits, aux virages arrondis.
     let d = '';
+    // Un point peut avoir une sortie plus à droite que son entrée (p[2]) :
+    // le fil passe derrière l'élément, de l'entrée à la sortie.
     pts.forEach((p, i) => {
-      if (!i) { d = 'M' + p[0] + ' ' + p[1]; return; }
-      const a = pts[i - 1];
-      if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
-      else { const mx = (a[0] + p[0]) / 2; d += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + p[1] + ' ' + p[0] + ' ' + p[1]; }
+      if (!i) d = 'M' + p[0] + ' ' + p[1];
+      else {
+        const a = pts[i - 1], ax = a[2] != null ? a[2] : a[0];
+        if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
+        else { const mx = (ax + p[0]) / 2; d += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + p[1] + ' ' + p[0] + ' ' + p[1]; }
+      }
+      if (p[2] != null) d += ' L' + p[2] + ' ' + p[1];
     });
     fil.querySelectorAll('path').forEach((pa) => pa.setAttribute('d', d));
     const maxX = Math.max(...pts.map((p) => p[0])) + 400, maxY = Math.max(...pts.map((p) => p[1])) + 400;
