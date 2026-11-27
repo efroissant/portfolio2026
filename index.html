@@ -11215,9 +11215,9 @@
   @media (min-width: 1024px) and (max-height: 860px) {
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro { --fs-titre: clamp(28px, min(3.2vw, 4.4vh), 56px); }
   }
-  /* La photo du comptoir dans la carte du dosage : seulement dans le parcours sur ordinateur. */
-  #doc-loblaw .uc__dosage-photo { display: none; }
-  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__dosage-photo { display: block; } }
+  /* La vidéo de la carte du dosage et la photo de la carte 1 : seulement dans le parcours sur ordinateur. */
+  #doc-loblaw :is(.uc__dosage-photo, .uc__intro-photo) { display: none; }
+  @media (min-width: 1024px) { html body .stage #doc-loblaw.doc:not(.doc--edito) :is(.uc__dosage-photo, .uc__intro-photo) { display: block; } }
   /* Étude Shoppers (ordinateur) : tous les titres en Geist 44, tout le texte
      courant en 20. Carte 2 sur une colonne ; carte 4 sans fond, titre sur
      plusieurs lignes, écran agrandi. */
@@ -11280,13 +11280,19 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage.uc__dosage { grid-template-columns: minmax(0, 1fr) 448px !important; column-gap: 24px !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > :not(.uc__dosage-photo) { grid-column: 1 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo { position: absolute !important; top: 24px; bottom: 24px; right: 24px; width: 448px; margin: 0 !important; }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; border-radius: var(--r-carte); }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; border-radius: var(--r-carte); }
     /* Cartes 15 à 18 : sans le petit titre gris. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__resistance, .uc__frise-bloc, .uc__conclusion) > .uc__label, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc > .uc__label { display: none !important; }
     /* Carte 1 : un dégradé très léger, gris bleu pâle, du coin haut gauche vers le blanc. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro.uc__intro { background: linear-gradient(150deg, #E8EEF7 0%, #F2F5FA 45%, #FFFFFF 100%) !important; border-radius: var(--r-carte) !important; }
     /* Carte 14 : le même dégradé léger que la carte 1 (marges intérieures rétablies). */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc.uc__bloc:has(> .sexe).uc__bloc { background: linear-gradient(150deg, #E8EEF7 0%, #F2F5FA 45%, #FFFFFF 100%) !important; border-radius: var(--r-carte) !important; padding: 24px !important; }
+    /* Carte 1 : la photo du comptoir entre le sous-titre et les infos, sur la place libre. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-photo { position: relative; flex: 1 1 auto; min-height: 0; margin: 24px 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; border-radius: var(--r-carte); }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu > .uc__intro-fiche.uc__intro-fiche { margin-top: 0 !important; }
+    /* Carte 12 : la vidéo cadrée sur l'œil. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo video { object-position: 42% 40% !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
@@ -12593,6 +12599,7 @@
           <div class="uc__intro-contenu">
             <h2 class="uc__intro-titre">Shoppers Drug Mart</h2>
             <p class="uc__intro-texte">Refonte de Healthwatch, le logiciel des pharmaciens depuis 13&nbsp;ans.</p>
+            <figure class="uc__intro-photo"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"></figure>
             <dl class="uc__intro-fiche">
               <div><dt>Mon rôle</dt><dd>Designer UX/UI<br>Audit<br>Recherche terrain</dd></div>
               <div><dt>Équipe</dt><dd>3 designers<br>1 lead<br>8 PO/PA, devs</dd></div>
@@ -12685,7 +12692,7 @@
             <p class="dose__message"><svg class="dose__icone dose__icone--orange" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 2.5 20h19L12 3.5ZM12 10v4.5M12 17.5v.01"/></svg><svg class="dose__icone dose__icone--rouge" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM9 9l6 6M15 9l-6 6"/></svg><svg class="dose__icone dose__icone--vert" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM8 12.5l2.7 2.7L16 9.5"/></svg><span class="dose__phrase"><strong class="dose__statut"></strong> <span class="dose__texte"></span></span></p>
           </div>
           <p class="uc__petit"><strong>Orange</strong>&nbsp;: erreur probable, on alerte sans bloquer.<br><span class="dose-ligne"><strong>Rouge</strong>&nbsp;: dose incohérente, on fait retaper. Différencier les</span> niveaux d’erreur, c’est empêcher celle qui peut nuire à la santé du patient.</p>
-          <figure class="uc__dosage-photo"><img src="lob-terrain-ecran.webp" alt="Une pharmacienne vérifie un flacon devant l’écran de Healthwatch, au comptoir." width="1536" height="1024" loading="lazy" draggable="false"></figure>
+          <figure class="uc__dosage-photo"><video src="lob-dosage-1280.mp4" poster="lob-dosage-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Gros plan sur l’œil d’une personne qui lit un écran à travers ses lunettes." width="1280" height="720"></video></figure>
         </section>
 
         <div class="uc__formulaire">
