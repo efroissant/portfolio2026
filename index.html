@@ -14246,6 +14246,14 @@ const dire = (function () {
   document.getElementById('mail-cancel').addEventListener('click', closeMail);
   mBack.addEventListener('pointerdown', (e) => { if (e.target === mBack) closeMail(); });
   document.addEventListener('portfolio:contact', (e) => openMail(e.detail && e.detail.opener));
+  // Tous les liens de courriel (Contact du menu, pied de page, bio) ouvrent
+  // ce composeur au lieu de quitter le site pour le logiciel de messagerie.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[data-ecrire]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    openMail(a);
+  });
 
   mailWin.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -20657,6 +20665,7 @@ document.addEventListener('click', (e) => {
     setTimeout(() => { const f = cadre(); if (f) f.contentWindow.postMessage({ type: 'projets-debut' }, '*'); }, 60);
   });
   nav.querySelector('[data-nav="illustration"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); });
+  nav.querySelectorAll('[data-ecrire]').forEach((a) => a.addEventListener('click', fermer));
   nav.querySelector('[data-nav="bio"]').addEventListener('click', (e) => {
     const f = document.querySelector('.arbo__fichier[href="#profil"]');
     if (f) { e.preventDefault(); fermer(); f.click(); setTimeout(majCourant, 0); }
