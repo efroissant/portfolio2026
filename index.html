@@ -11168,6 +11168,8 @@
     .pied__groupe { display: flex; align-items: baseline; gap: 16px; }
     .pied__etiquette { flex: 0 0 auto; font-size: 12px; line-height: 16px; letter-spacing: 0; }
     .pied__valeur { min-width: 0; }
+    .pied__valeur a { position: relative; }
+    .pied__compte { position: absolute; right: 100%; top: 2px; margin-right: 3px; font-size: 10px; line-height: 12px; font-variant-numeric: tabular-nums; }
     .pied a { color: inherit; text-decoration: none; }
     .pied a:hover { color: #666666; }
   }
@@ -11566,7 +11568,7 @@
   <!-- Pied de page : une « page suivante » qui monte quand on continue à défiler au bout d'une page. -->
   <section class="pied" id="pied" aria-label="Pied de page" aria-hidden="true">
     <div class="pied__grille">
-      <div class="pied__groupe"><span class="pied__etiquette">Pages</span><span class="pied__valeur"><a href="./" data-pied="accueil">Projets</a><br><a href="#profil" data-pied="bio">Bio</a></span></div>
+      <div class="pied__groupe"><span class="pied__etiquette">Pages</span><span class="pied__valeur"><a href="./" data-pied="accueil"><sup class="pied__compte" data-compte="projets">6</sup>Projets</a><br><a href="#" data-pied="illustration"><sup class="pied__compte">5</sup>Illustration</a><br><a href="#profil" data-pied="bio">Bio</a></span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Courriel</span><span class="pied__valeur"><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant<br>@outlook.com</a></span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Adresse</span><span class="pied__valeur">Montréal,<br>Québec</span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Disponibilité</span><span class="pied__valeur">Décembre</span></div>
@@ -20600,6 +20602,7 @@ document.addEventListener('click', (e) => {
     }));
     nb.textContent = String(projets.length).padStart(2, '0');
     nav.querySelectorAll('.nav-index__compte:not(.nav-index__compte--fixe)').forEach((c) => { c.textContent = projets.length; });
+    document.querySelectorAll('[data-compte="projets"]').forEach((c) => { c.textContent = projets.length; });
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
   function ouvrir() {
@@ -20859,6 +20862,7 @@ document.addEventListener('click', (e) => {
   let bio = stage.classList.contains('bio-ouverte');
   new MutationObserver(() => { const b = stage.classList.contains('bio-ouverte'); if (b !== bio) { bio = b; fermer(); } }).observe(stage, { attributes: true, attributeFilter: ['class'] });
   pied.querySelector('[data-pied="accueil"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); const l = document.querySelector('.nav-index__logo'); if (l) l.click(); });
+  pied.querySelector('[data-pied="illustration"]').addEventListener('click', (e) => { e.preventDefault(); });   // pas encore de page
   pied.querySelector('[data-pied="bio"]').addEventListener('click', (e) => { e.preventDefault(); fermer(); const l = document.querySelector('.nav-index [data-nav="bio"]'); if (l) l.click(); });
 })();
 </script>
