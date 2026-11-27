@@ -20621,7 +20621,7 @@ document.addEventListener('click', (e) => {
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
   // Au survol, les lettres se mélangent puis se recomposent de gauche à droite
-  // (comme sur locomotive.ca) : sur « Menu » et sur les liens du menu.
+  // (comme sur locomotive.ca), sur « Menu » seulement.
   const SIGNES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>/=+*#%';
   const calmeNav = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   function melanger(el) {
@@ -20630,10 +20630,14 @@ document.addEventListener('click', (e) => {
     if (!t || calmeNav()) return;
     const mot = t.__mot || (t.__mot = t.textContent);
     cancelAnimationFrame(t.__boucle);
-    const debut = performance.now(), duree = 420;
+    const debut = performance.now(), duree = 900;
+    let dernier = 0;
     const pas = (now) => {
       const p = (now - debut) / duree;
       if (p >= 1) { t.textContent = mot; return; }
+      // Les lettres changent toutes les 70 ms, pas à chaque image : on a le temps de les voir.
+      if (now - dernier < 70) { t.__boucle = requestAnimationFrame(pas); return; }
+      dernier = now;
       t.textContent = [...mot].map((c, i) => (c === ' ' || p > (i + 1) / (mot.length + 1)) ? c : SIGNES[Math.floor(Math.random() * SIGNES.length)]).join('');
       t.__boucle = requestAnimationFrame(pas);
     };
@@ -20642,7 +20646,6 @@ document.addEventListener('click', (e) => {
   const motMenu = nav.querySelector('.nav-index__mot');
   const cligner = () => motMenu && melanger(motMenu);
   bouton.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') cligner(); });
-  nav.querySelectorAll('.nav-index__page .nav-index__nom').forEach((n) => n.closest('a').addEventListener('pointerenter', () => melanger(n)));
   function ouvrir() {
     nav.classList.add('est-ouvert'); voile.classList.add('est-ouvert');
     bouton.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
