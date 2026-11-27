@@ -11316,6 +11316,26 @@
   .bio2__phrase .bio-masque { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
   .bio2__phrase .bio-ligne { display: block; will-change: transform; }
   .bio2__phrase .bio-gris { color: #8A8784; }
+  /* Bio sur téléphone et tablette : le texte de l'ordinateur (voir bioMobile).
+     Phrase en Geist 24/32, partie grise à la ligne ; puis Services,
+     Recommandations, Liens : intitulés en 16 gris, contenu en 20/28. */
+  .bio-mob { display: none; }
+  @media (max-width: 1023px) {
+    .stage.profil-mobile .profil__bio > :is(.bio-hello, p, .bio-initiale) { display: none !important; }
+    .stage.profil-mobile .profil__bio > .bio-mob { display: block; margin: 0 0 64px; }
+    .stage.profil-mobile .bio-mob__phrase.bio-mob__phrase {
+      display: block; margin: 0; max-width: none;
+      font: 400 24px/32px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em; color: #1C1917;
+    }
+    .bio-mob__phrase .bio-masque { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+    .bio-mob__phrase .bio-ligne { display: block; will-change: transform; }
+    .bio-mob__phrase .bio-gris { color: #8A8784; }
+    .stage.profil-mobile .bio-mob__cote { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 16px; margin-top: 48px; }
+    .stage.profil-mobile .bio-mob__cote .bio2__bloc:first-child { grid-column: 1 / -1; }
+    .stage.profil-mobile .bio-mob__cote p.bio2__etiquette.bio2__etiquette { margin: 0 0 8px; font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif !important; color: #8A8784; }
+    .stage.profil-mobile .bio-mob__cote p.bio2__etiquette ~ p { display: block; margin: 0; font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif !important; color: #1C1917; }
+    .stage.profil-mobile .bio-mob__cote a { color: #1C1917; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  }
   /* Études (téléphone et tablette) : la typo des titres suit l'ordinateur.
      Le nom du projet en Geist 40 (Shoppers, GVQ, Roche) ; les titres de
      section de Shoppers en Geist 32. Multiples de 8. */
@@ -21099,6 +21119,64 @@ document.addEventListener('click', (e) => {
 /* Bio : le texte apparaît ligne par ligne, du bas vers le haut, comme les
    infos de la fiche des dossiers. Les lignes sont mesurées à l'affichage
    (elles changent avec la largeur), chacune glisse dans son masque. */
+/* Bio sur téléphone et tablette : le texte de l'ordinateur (bio2) est la
+   seule source. On le copie dans la bio plein écran à la place de l'ancien
+   « Hello, », puis, à chaque ouverture, il apparaît ligne par ligne du bas
+   vers le haut, comme sur ordinateur. */
+(function bioMobile() {
+  const bio = document.querySelector('.profil .profil__bio');
+  const phrase = document.querySelector('.bio2__phrase p');
+  const cote = document.querySelector('.bio2__cote');
+  const stage = document.getElementById('stage');
+  if (!bio || !phrase || !stage) return;
+  // Les mots et leur couleur, lus avant que la version ordinateur ne découpe son texte.
+  const mots = [];
+  [...phrase.childNodes].forEach((n) => {
+    const gris = n.nodeType === 1 && n.classList.contains('bio2__second');
+    n.textContent.split(/[ \t\n]+/).forEach((w) => { if (w) mots.push({ w, gris }); });   // les espaces insécables restent dans le mot
+  });
+  const bloc = document.createElement('div');
+  bloc.className = 'bio-mob';
+  const p = document.createElement('p');
+  p.className = 'bio-mob__phrase';
+  bloc.append(p);
+  if (cote) { const c = cote.cloneNode(true); c.className = 'bio-mob__cote'; bloc.append(c); }
+  bio.prepend(bloc);
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  function decouper() {
+    let html = '', avantGris = true;
+    mots.forEach((m, k) => {
+      if (m.gris && avantGris) { html += '<br>'; avantGris = false; }
+      html += (k ? ' ' : '') + '<span class="bio-mot' + (m.gris ? ' bio-gris' : '') + '">' + esc(m.w) + '</span>';
+    });
+    p.innerHTML = html;
+    const groupes = []; let haut = null;
+    p.querySelectorAll('.bio-mot').forEach((sp) => {
+      const t = sp.offsetTop;
+      if (haut === null || Math.abs(t - haut) > 4) { groupes.push([]); haut = t; }
+      groupes[groupes.length - 1].push(sp.outerHTML);
+    });
+    if (!groupes.length) return [];
+    p.innerHTML = groupes.map((g) => '<span class="bio-masque"><span class="bio-ligne">' + g.join(' ') + '</span></span>').join('');
+    return [...p.querySelectorAll('.bio-ligne')];
+  }
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function entrer() {
+    const lignes = decouper();
+    if (calme()) return;
+    lignes.forEach((l, k) => l.animate([{ transform: 'translateY(110%)' }, { transform: 'none' }],
+      { duration: 800, delay: 120 + k * 60, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'both' }));
+  }
+  let ouverte = stage.classList.contains('profil-mobile');
+  new MutationObserver(() => {
+    const o = stage.classList.contains('profil-mobile');
+    if (o && !ouverte) requestAnimationFrame(entrer);
+    ouverte = o;
+  }).observe(stage, { attributes: true, attributeFilter: ['class'] });
+  let tempo = 0;
+  addEventListener('resize', () => { clearTimeout(tempo); tempo = setTimeout(() => { if (stage.classList.contains('profil-mobile')) decouper(); }, 150); });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (ouverte) entrer(); });
+})();
 (function bioLignes() {
   const ph = document.querySelector('.bio2__phrase p');
   const stage = document.getElementById('stage');
