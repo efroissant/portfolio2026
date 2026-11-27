@@ -20225,7 +20225,8 @@ document.addEventListener('click', (e) => {
     // La carte de l'audit s'élargit pour que son titre tienne sur une ligne.
     const titreAudit = c.audit && c.audit.querySelector('.uc__audit-titre');
     const lAuditCarte = Math.max(lAudit, titreAudit ? Math.ceil(titreAudit.scrollWidth) + 48 + 8 : 0);
-    poser(c.audit, x, haut, lAuditCarte, H);
+    // Centrée au-dessus de la photo du terrain (deux fois lAudit) : le fil qui descend est vertical.
+    poser(c.audit, x + Math.max(0, (lAudit * 2 - lAuditCarte) / 2), haut, lAuditCarte, H);
     const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
