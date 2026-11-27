@@ -11097,6 +11097,8 @@
     .bio2__haut { flex: 0 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
     .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 500 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
     /* La colonne de droite commence au haut des majuscules de la phrase. */
+    .bio2__phrase p { margin: 0; }
+    .bio2__phrase p + p { margin-top: .5em; }
     .bio2__cote { grid-column: 10 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
     .bio2__bloc p { margin: 0; }
     .bio2 :is(.bio2__cote, .bio2__biblio) > * > .bio2__etiquette, .bio2 .bio2__biblio > .bio2__etiquette { text-transform: none; }
@@ -11555,7 +11557,7 @@
   </section>
   <section class="bio2" id="bio2" aria-label="Bio">
     <div class="bio2__grille bio2__haut">
-      <p class="bio2__phrase">Designer UX/UI à Montréal, je travaille à la croisée du design, de la psychologie cognitive et des arts visuels.</p>
+      <div class="bio2__phrase"><p>Quand on me dit «&nbsp;c’est intuitif&nbsp;», je demande «&nbsp;intuitif pour qui&nbsp;?&nbsp;» On n’a pas tous les mêmes habitudes, et j’ai envie que chacun puisse trouver ce qu’il cherche. Je m’appelle Emmanuel. Je suis designer UX/UI à Montréal et j’étudie la psychologie.</p></div>
       <div class="bio2__cote">
         <div class="bio2__bloc"><p class="bio2__etiquette">Services</p><p>— Design UX/UI<br>— Audit et analyse heuristique<br>— Illustration<br>— Animation</p></div>
         <div class="bio2__bloc"><p class="bio2__etiquette">Recommandations</p><p>Sur demande</p></div>
