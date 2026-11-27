@@ -11199,19 +11199,43 @@
     html body .stage .menubar .nav-index .nav-index__bouton .nav-index__mot { transform: none !important; opacity: 1 !important; }
     html body .stage .menubar .nav-index .nav-index__bouton .nav-index__nb { display: none !important; }
   }
-  /* Études, carte 1 : le titre en Geist à la taille de la bio ; les infos en
-     16 Regular, leurs intitulés en 12 (comme le pied de page). */
+  /* Études, carte 1 : le titre en Geist à la taille de la bio ; tout le reste
+     en 16 Regular (les intitulés en gris pour les distinguer). */
   @media (min-width: 1024px) {
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro { --fs-titre: clamp(32px, min(3.2vw, 4.8vh), 56px); }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre.uc__intro-titre { font: 400 var(--fs-titre)/1.1 "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important; }
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche dd { font: 400 16px/20px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; }
-    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche dt { font: 400 12px/16px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; }
+    html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche.uc__intro-fiche dt { font: 400 16px/20px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; color: #8A8784 !important; }
   }
   @media (min-width: 1024px) {
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro .uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte.uc__intro-texte { font: 400 16px/20px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; }
   }
   @media (min-width: 1024px) and (max-height: 860px) {
     html body .stage :is(#doc-loblaw, #doc-gvq, #doc-roche).doc:not(.doc--edito) .uc__intro { --fs-titre: clamp(28px, min(3.2vw, 4.4vh), 56px); }
+  }
+  /* Étude Shoppers (ordinateur) : tous les titres en Geist 44, tout le texte
+     courant en 16. Carte 2 sur une colonne ; carte 4 sans fond, titre sur
+     plusieurs lignes, écran agrandi. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__titre, .uc__audit-titre, .uc__passerelle-titre, .uc__fort, .uc__formulaire-titre),
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot:not(.uc__grand-mot--terrain) {
+      font: 400 44px/48px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important; white-space: normal !important;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :not(.uc__grand-mot) :is(p, li, dd, figcaption, .uc__etape, .uc__label, .uc__audit-label):not(.uc__fort, .uc__intro-titre, .uc__grand-mot) {
+      font-size: 16px !important; line-height: 24px !important;
+    }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot:not(.uc__grand-mot--terrain) { white-space: nowrap !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .dose-ligne { white-space: normal !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__fort { margin-bottom: 16px !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro :is(li, p, dd) { font-size: 16px !important; line-height: 20px !important; }
+    /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
+    /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete { background: transparent !important; box-shadow: none !important; display: grid !important; grid-template-columns: auto minmax(0, 1fr) !important; grid-template-rows: auto minmax(0, 1fr) !important; column-gap: 24px !important; row-gap: 24px !important; align-content: start !important; justify-content: stretch !important; justify-items: stretch !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__titre { grid-column: 1 / -1 !important; grid-row: 1 !important; order: 0 !important; width: auto !important; max-width: none !important; text-align: left !important; margin: 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-visuel { grid-column: 1 !important; grid-row: 2 !important; order: 0 !important; align-self: start !important; justify-self: start !important; margin: 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { grid-column: 2 !important; grid-row: 2 !important; order: 0 !important; align-self: end !important; width: auto !important; text-align: left !important; margin: 0 !important; max-width: none !important; }
   }
 </style>
 </head>
@@ -20172,14 +20196,18 @@ document.addEventListener('click', (e) => {
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
-    const lContexte = Math.round(L(7) * 0.75 / 8) * 8;   // trois quarts de l'ancienne largeur
+    const lContexte = Math.round(L(7) * 0.85 / 8) * 8;   // une seule colonne : un peu plus large
     poser(c.contexte, x, haut, lContexte, H); x += lContexte + G;
     poser(c.mot, x, haut, lMot, H); x += lMot + G;
     // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
     // garde ses proportions dans la hauteur qui reste.
-    const lTete = lTitre + 48;
-    doc.style.setProperty('--ecran-l', Math.round(Math.min(lTete - 48, (H - 48 - 36 - 16 - 12 - 56) * 869 / 580)) + 'px');
-    poser(c.tete, x, haut, lTete, H); x += lTete + G;
+    // Le titre passe sur plusieurs lignes : largeur fixe.
+    const lTete = L(8);
+    poser(c.tete, x, haut, lTete, H);
+    const hTitre = c.tete ? (c.tete.querySelector('.uc__titre') || {}).offsetHeight || 0 : 0;
+    // La note passe à droite de l'écran (au moins 200 px) : l'écran prend toute la hauteur sous le titre.
+    doc.style.setProperty('--ecran-l', Math.round(Math.max(320, Math.min(lTete - 48 - 24 - 200, (H - 48 - hTitre - 24) * 869 / 580))) + 'px');
+    x += lTete + G;
     const xAudit = x;
     // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
     const lAudit = Math.max(472, L(3));   // reste étroite sur grand écran
@@ -20205,7 +20233,7 @@ document.addEventListener('click', (e) => {
     const ligneDose = c.dose && c.dose.querySelector('.dose-ligne');
     const lDose = ligneDose ? Math.ceil((ligneDose.getBoundingClientRect().width + 48) / 8) * 8 : L(5);
     poser(c.dose, x, haut, lDose, H); x += lDose + G;
-    poser(c.formulaire, x, haut, L(7), H); x += L(7) + G;
+    poser(c.formulaire, x, haut, L(8), H); x += L(8) + G;   // le texte (titre en 44) prend plus de place
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
     poser(c.frise, x, haut, L(8), H); x += L(8) + G;
