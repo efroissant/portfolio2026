@@ -11080,7 +11080,7 @@
     html body .stage.bio-ouverte .bio2 {
       --m: 24px; --g: 24px;
       --c: calc((100vw - 2 * var(--m) - 11 * var(--g)) / 12);
-      --fs: clamp(36px, min(3.6vw, 5.6vh), 64px);
+      --fs: clamp(32px, min(3.2vw, 4.8vh), 56px);
       --t: 16px; --lh: 20px; --e: 8px;
       --vide: clamp(32px, 6vh, 64px);
       display: flex; flex-direction: column; position: absolute; inset: 0; z-index: 35; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
@@ -11095,7 +11095,7 @@
     .bio2__grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--m); box-sizing: border-box; }
     /* Haut : la phrase part sous la photo (une colonne de haut + 16 px de marge haute + 64 px d'air). */
     .bio2__haut { flex: 0 0 auto; padding-top: calc(16px + max(94px, var(--c)) + clamp(32px, 6vh, 64px)); align-items: start; align-content: start; }
-    .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 500 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
+    .bio2__phrase { grid-column: 1 / 8; margin: 0; font: 400 var(--fs)/1.1 "Geist", Arial, sans-serif; letter-spacing: -.02em; color: #000; }
     /* La colonne de droite commence au haut des majuscules de la phrase. */
     .bio2__phrase p { margin: 0; }
     .bio2__phrase p + p { margin-top: .5em; }
@@ -11126,7 +11126,7 @@
   }
   /* Écrans peu hauts : la phrase et les espaces se resserrent pour que tout tienne sans défiler. */
   @media (min-width: 1024px) and (max-height: 860px) {
-    html body .stage.bio-ouverte .bio2 { --fs: clamp(32px, min(3.6vw, 5.2vh), 64px); --vide: 32px; }
+    html body .stage.bio-ouverte .bio2 { --fs: clamp(28px, min(3.2vw, 4.4vh), 56px); --vide: 32px; }
     html body .stage.bio-ouverte .bio2 .bio2__haut { padding-top: calc(16px + max(94px, var(--c)) + 40px); }
     html body .stage.bio-ouverte .bio2 .bio2__pied { padding-bottom: 16px; }
     html body .stage.bio-ouverte .bio2 .bio2__cote { gap: 16px; }
