@@ -11218,17 +11218,19 @@
      plusieurs lignes, écran agrandi. */
   @media (min-width: 1024px) {
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__contexte-titre, .uc__titre, .uc__audit-titre, .uc__passerelle-titre, .uc__fort, .uc__formulaire-titre),
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot:not(.uc__grand-mot--terrain) {
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot :is(span, .tape__texte, .tape__fond) {
       font: 400 44px/48px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important; white-space: normal !important;
     }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :not(.uc__grand-mot) :is(p, li, dd, figcaption, .uc__etape, .uc__label, .uc__audit-label):not(.uc__fort, .uc__intro-titre, .uc__grand-mot) {
       font-size: 16px !important; line-height: 24px !important;
     }
-    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot:not(.uc__grand-mot--terrain) { white-space: nowrap !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot.uc__grand-mot, html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot.uc__grand-mot * { white-space: nowrap !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__formulaire { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .dose-ligne { white-space: normal !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__fort { margin-bottom: 16px !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro :is(li, p, dd) { font-size: 16px !important; line-height: 20px !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose { width: 100% !important; max-width: none !important; box-sizing: border-box; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose__message :is(.dose__phrase, .dose__phrase *) { font-size: 16px !important; line-height: 24px !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
