@@ -11173,6 +11173,17 @@
   }
   @media (min-width: 1800px) {
   }
+  /* Projets et Bio passent sous Index : en bas du menu, après la liste des
+     projets, séparés par un filet. Même survol noir, pas de fond pour la page en cours. */
+  @media (min-width: 1024px) {
+    html body .stage .menubar .nav-index .nav-index__projets { padding-bottom: 8px !important; }
+    html body .stage .menubar .nav-index .nav-index__pages { margin: 0; padding: 8px 16px 16px 0; list-style: none; border-top: 1px solid #ECEBE8; }
+    html body .stage .menubar .nav-index .nav-index__page { text-decoration: none; color: #1C1917 !important; }
+    html body .stage .menubar .nav-index .nav-index__page::before { transform: scaleY(0) !important; }
+    html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible) { color: #FFFFFF !important; }
+    html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible)::before { background: #1C1917 !important; transform: scaleY(1) !important; }
+    html body .stage .menubar .nav-index .nav-index__page[aria-current]::after { content: none; }
+  }
 </style>
 </head>
 <body>
@@ -12841,12 +12852,14 @@
         <div class="nav-index__fond">
           <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
             <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
+            <ul class="nav-index__pages" aria-label="Pages">
+              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom">Projets</span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="#profil" data-nav="bio"><span class="nav-index__nom">Bio</span></a></li>
+            </ul>
           </div>
         </div>
         <ul class="nav-index__liste">
           <li class="nav-index__manu"><a class="nav-index__lien nav-index__logo" href="./" data-nav="accueil" aria-label="Manu, accueil">Manu</a></li>
-          <li><a class="nav-index__lien" href="./" data-nav="accueil">Projets</a></li>
-          <li><a class="nav-index__lien" href="#profil" data-nav="bio">Bio</a></li>
           <li><button type="button" class="nav-index__lien nav-index__bouton" aria-expanded="false" aria-controls="nav-index-menu">
             <span class="nav-index__etiquette"><span class="nav-index__mot">Index</span><span class="nav-index__nb" aria-hidden="true">00</span></span>
             <svg class="nav-index__chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
@@ -20599,7 +20612,7 @@ document.addEventListener('click', (e) => {
   function majCourant() {
     const h = location.hash, stage = document.getElementById('stage');
     const bio = !!(stage && stage.classList.contains('bio-ouverte')) && !/^#case\//.test(h);
-    nav.querySelector('.nav-index__lien[data-nav="accueil"]:not(.nav-index__logo)').toggleAttribute('aria-current', !bio && !/^#case\//.test(h));
+    nav.querySelector('.nav-index__page[data-nav="accueil"]').toggleAttribute('aria-current', !bio && !/^#case\//.test(h));
     nav.querySelector('[data-nav="bio"]').toggleAttribute('aria-current', bio);
   }
   addEventListener('popstate', majCourant); addEventListener('hashchange', majCourant); majCourant();
