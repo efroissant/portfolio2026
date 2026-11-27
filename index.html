@@ -11181,7 +11181,7 @@
     .pied__etiquette { flex: 0 0 auto; font-size: 12px; line-height: 16px; letter-spacing: 0; }
     .pied__valeur { min-width: 0; }
     .pied__valeur a { position: relative; }
-    .pied__compte { position: absolute; right: 100%; top: 2px; margin-right: 3px; font-size: 10px; line-height: 12px; font-variant-numeric: tabular-nums; }
+    .pied__compte { position: relative; top: -0.45em; margin-left: 3px; font-size: 10px; line-height: 0; font-variant-numeric: tabular-nums; }
     .pied a { color: inherit; text-decoration: none; }
     .pied a:hover { color: #666666; }
   }
@@ -11190,7 +11190,7 @@
   /* Menu Index : Bio, Projets (avec leur nombre en exposant), Contact. Même survol noir, pas de fond pour la page en cours. */
   @media (min-width: 1024px) {
     html body .stage .menubar .nav-index .nav-index__projets { display: none !important; }
-    html body .stage .menubar .nav-index .nav-index__compte { position: absolute; right: 100%; top: 2px; margin-right: 3px; font-size: 10px; line-height: 12px; font-variant-numeric: tabular-nums; }
+    html body .stage .menubar .nav-index .nav-index__compte { position: relative; top: -0.45em; margin-left: 3px; font-size: 10px; line-height: 0; font-variant-numeric: tabular-nums; }   /* en exposant, après le mot */
     html body .stage .menubar .nav-index .nav-index__pages { margin: 0; padding: 0 16px 0 0; list-style: none; }
     html body .stage .menubar .nav-index .nav-index__pages--bas { padding-bottom: 16px; }
     html body .stage .menubar .nav-index .nav-index__page { text-decoration: none; color: #1C1917 !important; }
@@ -11303,6 +11303,8 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu > .uc__intro-fiche.uc__intro-fiche { margin-top: 0 !important; }
     /* Carte 12 : la vidéo cadrée sur l'œil. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__dosage-photo video { object-position: 42% 40% !important; }
+    /* Carte 18 (conclusion) retirée du parcours. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__conclusion { display: none !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
@@ -11754,7 +11756,7 @@
   <!-- Pied de page : une « page suivante » qui monte quand on continue à défiler au bout d'une page. -->
   <section class="pied" id="pied" aria-label="Pied de page" aria-hidden="true">
     <div class="pied__grille">
-      <div class="pied__groupe"><span class="pied__etiquette">Pages</span><span class="pied__valeur"><a href="./" data-pied="accueil"><sup class="pied__compte" data-compte="projets">6</sup>Projets</a><br><a href="#" data-pied="illustration"><sup class="pied__compte">5</sup>Illustration</a><br><a href="#profil" data-pied="bio">Bio</a></span></div>
+      <div class="pied__groupe"><span class="pied__etiquette">Pages</span><span class="pied__valeur"><a href="./" data-pied="accueil">Projets<sup class="pied__compte" data-compte="projets">6</sup></a><br><a href="#" data-pied="illustration">Illustration<sup class="pied__compte">5</sup></a><br><a href="#profil" data-pied="bio">Bio</a></span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Courriel</span><span class="pied__valeur"><a href="mailto:efroissant@outlook.com" data-ecrire>efroissant<br>@outlook.com</a></span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Adresse</span><span class="pied__valeur">Montréal,<br>Québec</span></div>
       <div class="pied__groupe"><span class="pied__etiquette">Disponibilité</span><span class="pied__valeur">À partir de<br>décembre<br>2026</span></div>
@@ -13049,8 +13051,8 @@
           <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
             <ul class="nav-index__pages nav-index__pages--haut" aria-label="Pages">
               <li><a class="nav-index__projet nav-index__page" href="#profil" data-nav="bio"><span class="nav-index__nom">Bio</span></a></li>
-              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom"><sup class="nav-index__compte">00</sup>Projets</span></a></li>
-              <li><a class="nav-index__projet nav-index__page" href="#" data-nav="illustration"><span class="nav-index__nom"><sup class="nav-index__compte nav-index__compte--fixe">5</sup>Illustration</span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom">Projets<sup class="nav-index__compte">00</sup></span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="#" data-nav="illustration"><span class="nav-index__nom">Illustration<sup class="nav-index__compte nav-index__compte--fixe">5</sup></span></a></li>
             </ul>
             <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
             <ul class="nav-index__pages nav-index__pages--bas">
@@ -20487,8 +20489,7 @@ document.addEventListener('click', (e) => {
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
     poser(c.frise, x, haut, L(8), H); x += L(8) + G;
-    poser(c.bilan1, x, haut, L(4), H); x += L(4) + G;
-    poser(c.conclusion, x, haut, L(6), H); x += L(6);   // texte en 20 : une colonne de plus
+    poser(c.bilan1, x, haut, L(4), H); x += L(4);   // dernière carte : la conclusion est retirée du parcours
     const cam3 = Math.max(cam2, x - W, xFinal);
     chemin = tracer([
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
