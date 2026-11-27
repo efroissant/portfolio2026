@@ -20127,10 +20127,29 @@ document.addEventListener('click', (e) => {
   // Exploration libre : un décalage qui s'ajoute au chemin (glisser dans tous
   // les sens) ; la molette le ramène en douceur sur le fil.
   const libre = { x: 0, y: 0 };
+  // Défilement courbe : une carte qui entre par la droite (ou sort par la
+  // gauche) est un peu plus grande et floue ; elle devient nette dans la
+  // plus grande partie de l'écran. On mesure la partie visible de chaque carte.
+  const sansMouvement = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function courber(camX) {
+    const W = sc.clientWidth || innerWidth, cartesVues = page.querySelectorAll(':scope > :not(svg):not(.uc__etape-num):not(.uc__guide)');
+    cartesVues.forEach((el) => {
+      const l = parseFloat(el.style.left), w = parseFloat(el.style.width);
+      if (isNaN(l) || isNaN(w)) return;
+      if (sansMouvement()) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
+      const a = Math.max(0, l - camX), b = Math.min(W, l - camX + w);
+      let f = 1;
+      if (b > a) { const d = Math.abs((a + b) / 2 - W / 2) / (W / 2); f = Math.max(0, Math.min(1, (d - 0.4) / 0.6)); f *= f; }
+      if (f < 0.005) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
+      el.style.setProperty('scale', (1 + 0.07 * f).toFixed(4));
+      el.style.setProperty('filter', 'blur(' + (6 * f).toFixed(2) + 'px)');
+    });
+  }
   function camera() {
     if (!grand()) return;
     const q = surChemin(progres);
     page.style.setProperty('transform', 'translate3d(' + (-(q.x + libre.x)).toFixed(2) + 'px,' + (-(q.y + libre.y)).toFixed(2) + 'px,0)', 'important');
+    courber(q.x + libre.x);
     majFil();
     if (suivi) suivi();
   }
@@ -20239,7 +20258,7 @@ document.addEventListener('click', (e) => {
   function composer(H, haut) {
     const c = cartes();
     if (!grand()) {
-      Object.values(c).forEach((el) => el && COTES.forEach((k) => el.style.removeProperty(k)));
+      Object.values(c).forEach((el) => el && COTES.concat(['scale', 'filter']).forEach((k) => el.style.removeProperty(k)));
       page.style.removeProperty('transform');
       if (c.chaine) [...c.chaine.children].forEach((li) => ['position', 'width', 'height', 'right', 'bottom', 'grid-area', 'margin', 'left', 'top'].forEach((k) => li.style.removeProperty(k)));
       chemin = [];
