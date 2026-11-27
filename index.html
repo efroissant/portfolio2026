@@ -20131,15 +20131,17 @@ document.addEventListener('click', (e) => {
   // gauche) est un peu plus grande et floue ; elle devient nette dans la
   // plus grande partie de l'écran. On mesure la partie visible de chaque carte.
   const sansMouvement = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function courber(camX) {
-    const W = sc.clientWidth || innerWidth, cartesVues = page.querySelectorAll(':scope > :not(svg):not(.uc__etape-num):not(.uc__guide)');
+  function courber(camX, camY) {
+    const W = sc.clientWidth || innerWidth, Hv = sc.clientHeight || innerHeight, cartesVues = page.querySelectorAll(':scope > :not(svg):not(.uc__etape-num):not(.uc__guide)');
     cartesVues.forEach((el) => {
-      const l = parseFloat(el.style.left), w = parseFloat(el.style.width);
+      const l = parseFloat(el.style.left), w = parseFloat(el.style.width), t = parseFloat(el.style.top), h = parseFloat(el.style.height);
       if (isNaN(l) || isNaN(w)) return;
       if (sansMouvement()) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
       const a = Math.max(0, l - camX), b = Math.min(W, l - camX + w);
-      let f = 1;
-      if (b > a) { const d = Math.abs((a + b) / 2 - W / 2) / (W / 2); f = Math.max(0, Math.min(1, (d - 0.4) / 0.6)); f *= f; }
+      // Même effet à la verticale, quand la caméra monte ou descend d'une rangée.
+      const hA = Math.max(0, t - camY), hB = Math.min(Hv, t - camY + h);
+      const courbe = (lo, hi, L) => { if (hi <= lo) return 1; const d = Math.abs((lo + hi) / 2 - L / 2) / (L / 2); const g = Math.max(0, Math.min(1, (d - 0.4) / 0.6)); return g * g; };
+      const f = isNaN(t) || isNaN(h) ? courbe(a, b, W) : Math.max(courbe(a, b, W), courbe(hA, hB, Hv));
       if (f < 0.005) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
       el.style.setProperty('scale', (1 + 0.07 * f).toFixed(4));
       el.style.setProperty('filter', 'blur(' + (6 * f).toFixed(2) + 'px)');
@@ -20149,7 +20151,7 @@ document.addEventListener('click', (e) => {
     if (!grand()) return;
     const q = surChemin(progres);
     page.style.setProperty('transform', 'translate3d(' + (-(q.x + libre.x)).toFixed(2) + 'px,' + (-(q.y + libre.y)).toFixed(2) + 'px,0)', 'important');
-    courber(q.x + libre.x);
+    courber(q.x + libre.x, q.y + libre.y);
     majFil();
     if (suivi) suivi();
   }
