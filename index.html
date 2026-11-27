@@ -11240,6 +11240,24 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-label { display: none !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-titre.uc__audit-titre { white-space: nowrap !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte .uc__contexte-titre.uc__contexte-titre { white-space: nowrap !important; }
+    /* Carte 8 : sans marge intérieure sur les côtés, l'écart visible avec la photo suivante fait bien 200 px. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__passerelle { padding-left: 0 !important; padding-right: 0 !important; }
+    /* Carte 9 : plus d'étiquette ; les néons s'allument tout de suite, puis le texte apparaît en blanc. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere > .uc__label { display: none !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere .lumiere__voile.lumiere__voile { display: block !important; position: absolute !important; inset: 0 !important; z-index: 1 !important; opacity: 0; background: linear-gradient(90deg, rgba(28, 25, 23, .78) 0, rgba(28, 25, 23, .55) 32%, rgba(28, 25, 23, 0) 62%) !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere.est-vu .lumiere__voile.lumiere__voile { opacity: 1; transition: opacity 600ms ease 1000ms; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere > :is(.uc__fort, .uc__petit) { color: #FFFFFF !important; margin-top: 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere > .uc__petit { margin-top: auto !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere.est-vu .lumiere__scene canvas { animation-duration: 700ms !important; animation-delay: calc(150ms + var(--n) * 110ms) !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere.est-vu .lumiere__scene img { transition: filter 900ms ease 500ms !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere.est-vu > .uc__fort { transition-delay: 1300ms !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__lumiere.uc__lumiere.est-vu > .uc__petit { transition-delay: 1700ms !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-texte.uc__intro-texte { white-space: nowrap !important; max-width: none !important; }
+    /* Les titres près de la ligne : en haut de chaque carte. */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro.uc__intro { display: flex !important; flex-direction: column !important; justify-content: flex-start !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu { order: 0 !important; margin-top: 0 !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-tags { order: 1 !important; margin-top: auto !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot.uc__grand-mot { display: flex !important; flex-direction: column !important; justify-content: flex-start !important; align-items: flex-start !important; padding-top: 24px !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
@@ -20137,13 +20155,13 @@ document.addEventListener('click', (e) => {
         const n = lis.length, total = ws.reduce((a, b) => a + b, 0), ecart = Math.max(24, (x + w - debut - total) / Math.max(1, n - 1));
         let gauche = debut;
         lis.forEach((li, i) => {
-          const t = n > 1 ? i / (n - 1) : 0, cx = gauche + ws[i] / 2, cy = cyRef - 220 * Math.pow(t, 1.6);
+          const t = n > 1 ? i / (n - 1) : 0, cx = gauche + ws[i] / 2, cy = cyRef - 200 * Math.pow(t, 1.6);
           li.style.setProperty('left', (gauche - x) + 'px', 'important');
           li.style.setProperty('top', (cy - y - hs[i] / 2) + 'px', 'important');
           const pt = [cx, cy]; pt.lisse = true; pts.push(pt);
           gauche += ws[i] + ecart;
         });
-      } else pts.push([x + w / 2, y + h / 2]);
+      } else pts.push([x + w / 2, y - 8]);   // la ligne passe juste au-dessus des cartes, près des titres
       // Le numéro d'étape, posé au-dessus de la carte (hors de la carte, pour ne pas être coupé).
       let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
       if (!num) { num = document.createElement('span'); num.className = 'uc__etape-num'; num.dataset.n = etapes.length; num.setAttribute('aria-hidden', 'true'); page.append(num); }
@@ -20197,7 +20215,8 @@ document.addEventListener('click', (e) => {
     const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
     const lTitreAudit = c.audit && c.audit.querySelector('.uc__audit-titre') ? c.audit.querySelector('.uc__audit-titre').scrollWidth : 0;
     const lTitreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre') ? c.contexte.querySelector('.uc__contexte-titre').scrollWidth : 0;
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit, lTitreContexte].join('|');
+    const lSousTitre = c.intro && c.intro.querySelector('.uc__intro-texte') ? c.intro.querySelector('.uc__intro-texte').scrollWidth : 0;
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit, lTitreContexte, lSousTitre].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -20208,7 +20227,10 @@ document.addEventListener('click', (e) => {
     const G = 200, pas = H + 128;   // 200 px entre chaque carte
     // Rangée 1, on avance vers la droite.
     let x = 0;
-    poser(c.intro, x, haut, L(5), H); x += L(5) + G;
+    // Carte 1 : assez large pour que le sous-titre tienne sur une ligne.
+    const sousTitre = c.intro && c.intro.querySelector('.uc__intro-texte');
+    const lIntro = Math.max(L(5), sousTitre ? Math.ceil(sousTitre.scrollWidth) + 48 + 8 : 0);
+    poser(c.intro, x, haut, lIntro, H); x += lIntro + G;
     // Une seule colonne, et la carte s'élargit pour que le titre tienne sur une ligne.
     const titreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre');
     const lContexte = Math.max(Math.round(L(7) * 0.85 / 8) * 8, titreContexte ? Math.ceil(titreContexte.scrollWidth) + 48 + 8 : 0);
@@ -20238,7 +20260,7 @@ document.addEventListener('click', (e) => {
     poser(c.terrain, x, y2, lAudit * 2, H); x += lAudit * 2 + G;   // part sous l'audit, deux fois plus large
     poser(c.motTerrain, x, y2, lMotTerrain, H); x += lMotTerrain + G;
     poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
-    poser(c.lumiere, x, y2, L(8), H); x += L(8) + G;
+    poser(c.lumiere, x, y2, L(9), H); x += L(9) + G;   // un peu plus large
     const xChaine = x;
     poser(c.chaine, x, y2, L(7), H);
     const cam2 = xChaine;   // même chose avant de remonter
