@@ -11683,7 +11683,7 @@
       </dl>
     </div>
     <!-- Le carrousel de dossiers (projets.html), à la place de « En ce moment ». -->
-    <iframe class="carrousel-projets" data-src="projets.html?embed&amp;plein" title="Projets, un dossier à la fois"></iframe>
+    <iframe class="carrousel-projets" data-src="projets.html?embed&amp;plein" aria-label="Projets, un dossier à la fois"></iframe>
     <!-- La page des dossiers est toujours chargée fraîche : sans cela, le
          navigateur gardait jusqu'à 10 minutes une ancienne version en mémoire. -->
     <script>document.querySelectorAll('iframe[data-src]').forEach(function (f) { if (!f.src) f.src = f.dataset.src + '&v=' + Date.now(); });</script>
@@ -11732,7 +11732,7 @@
       <img class="mob-portrait" src="portrait-capuche-600.jpg" alt="Emmanuel de profil, en sweat à capuche bleu marine" width="600" height="1032" draggable="false">
       <p class="mob-titre"></p>
       <!-- Le carrousel de dossiers, version téléphone : on glisse de côté. -->
-      <iframe class="carrousel-mobile" data-src="projets.html?embed" title="Projets, un dossier à la fois" loading="lazy"></iframe>
+      <iframe class="carrousel-mobile" data-src="projets.html?embed" aria-label="Projets, un dossier à la fois" loading="lazy"></iframe>
       <script>document.querySelectorAll('iframe[data-src]').forEach(function (f) { if (!f.src) f.src = f.dataset.src + '&v=' + Date.now(); });</script>
     </div>
     <!-- Les quatre dossiers du grand écran, en deux rangées. Construits par
