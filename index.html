@@ -20199,11 +20199,7 @@ document.addEventListener('click', (e) => {
       else {
         const a = pts[i - 1], ax = a[2] != null ? a[2] : a[0];
         if (Math.abs(a[0] - p[0]) < 2) d += ' L' + p[0] + ' ' + p[1];   // même axe : tout droit
-        else if (a.lisse || p.lisse) {
-          // Courbe douce (Catmull-Rom) qui passe par le centre des tags.
-          const p0 = pts[i - 2] || a, p3 = pts[i + 1] || p;
-          d += ' C' + (a[0] + (p[0] - p0[0]) / 6) + ' ' + (a[1] + (p[1] - p0[1]) / 6) + ' ' + (p[0] - (p3[0] - a[0]) / 6) + ' ' + (p[1] - (p3[1] - a[1]) / 6) + ' ' + p[0] + ' ' + p[1];
-        } else if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
+        else if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
         else { const mx = (ax + p[0]) / 2; d += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + p[1] + ' ' + p[0] + ' ' + p[1]; }
       }
       if (p[2] != null) d += ' L' + p[2] + ' ' + p[1];
