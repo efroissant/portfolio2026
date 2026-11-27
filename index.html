@@ -20620,16 +20620,30 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('[data-compte="projets"]').forEach((c) => { c.textContent = projets.length; });
   }
   const ouvert = () => nav.classList.contains('est-ouvert');
-  // À l'ouverture, « Menu » devient « Unem » une fraction de seconde, puis revient.
-  const mot = nav.querySelector('.nav-index__mot');
-  let clin = 0;
-  function cligner() {
-    if (!mot || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    clearTimeout(clin); mot.textContent = 'Unem';
-    clin = setTimeout(() => { mot.textContent = 'Menu'; }, 160);
+  // Au survol, les lettres se mélangent puis se recomposent de gauche à droite
+  // (comme sur locomotive.ca) : sur « Menu » et sur les liens du menu.
+  const SIGNES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>/=+*#%';
+  const calmeNav = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function melanger(el) {
+    // Le dernier nœud de texte (après un éventuel exposant).
+    const t = [...el.childNodes].reverse().find((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!t || calmeNav()) return;
+    const mot = t.__mot || (t.__mot = t.textContent);
+    cancelAnimationFrame(t.__boucle);
+    const debut = performance.now(), duree = 420;
+    const pas = (now) => {
+      const p = (now - debut) / duree;
+      if (p >= 1) { t.textContent = mot; return; }
+      t.textContent = [...mot].map((c, i) => (c === ' ' || p > (i + 1) / (mot.length + 1)) ? c : SIGNES[Math.floor(Math.random() * SIGNES.length)]).join('');
+      t.__boucle = requestAnimationFrame(pas);
+    };
+    t.__boucle = requestAnimationFrame(pas);
   }
+  const motMenu = nav.querySelector('.nav-index__mot');
+  const cligner = () => motMenu && melanger(motMenu);
+  bouton.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') cligner(); });
+  nav.querySelectorAll('.nav-index__page .nav-index__nom').forEach((n) => n.closest('a').addEventListener('pointerenter', () => melanger(n)));
   function ouvrir() {
-    cligner();
     nav.classList.add('est-ouvert'); voile.classList.add('est-ouvert');
     bouton.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
     fond.style.height = (menu.offsetTop + menu.scrollHeight + 8) + 'px';
