@@ -11235,6 +11235,8 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage > .uc__petit { margin-top: 16px !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__dosage .dose__message :is(.dose__phrase, .dose__phrase *) { font-size: 20px !important; line-height: 28px !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc :is(.frise__txt, .frise__evt *) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-label { display: none !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-titre.uc__audit-titre { white-space: nowrap !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
@@ -20190,7 +20192,8 @@ document.addEventListener('click', (e) => {
     };
     const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain), lMotPrevenir = largeurMot(c.motPrevenir);
     const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre].join('|');
+    const lTitreAudit = c.audit && c.audit.querySelector('.uc__audit-titre') ? c.audit.querySelector('.uc__audit-titre').scrollWidth : 0;
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -20216,8 +20219,11 @@ document.addEventListener('click', (e) => {
     x += lTete + G;
     const xAudit = x;
     // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
-    const lAudit = Math.max(472, L(3));   // reste étroite sur grand écran
-    poser(c.audit, x, haut, lAudit, H);
+    const lAudit = Math.max(472, L(3));   // largeur de référence (la photo du terrain dessous)
+    // La carte de l'audit s'élargit pour que son titre tienne sur une ligne.
+    const titreAudit = c.audit && c.audit.querySelector('.uc__audit-titre');
+    const lAuditCarte = Math.max(lAudit, titreAudit ? Math.ceil(titreAudit.scrollWidth) + 48 + 8 : 0);
+    poser(c.audit, x, haut, lAuditCarte, H);
     const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
     // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
     const y2 = haut + pas;
