@@ -6754,20 +6754,28 @@
     .radio.est-ouvert .radio__liste button { padding: 10px 0; }
     /* La jauge fait déjà le trait : pas de second filet au-dessus de la liste. */
     .radio.est-ouvert .radio__liste { border-top: 0; }
-    /* Say Hi! : un bouton qui ressemble au lien, et son petit menu en traits. */
+    /* Menu : un bouton qui ressemble au lien ; il ouvre un écran blanc plein,
+       sous la barre. Pages en Geist 40, contact en 24, intitulé en 16 gris. */
     .stage .sayhi-mobile { border: 0; background: none; cursor: pointer; }
-    .stage[data-state="lock"] .sayhi-menu:not([hidden]) {
-      display: block; position: fixed; z-index: 40;
-      top: calc(var(--nav-h) + 4px); right: 16px; min-width: 168px; padding: 4px 14px;
-      background: #FFFFFF; border: 1px solid #1C1917; border-radius: var(--r-controle);
+    .stage .sayhi-menu:not([hidden]) {
+      display: block; position: fixed; z-index: 8999; left: 0; right: 0; bottom: 0;
+      top: var(--nav-h, 44px); overflow-y: auto; overscroll-behavior: contain;
+      padding: 32px 16px calc(32px + env(safe-area-inset-bottom, 0px)); background: #FFFFFF;
     }
-    .sayhi-menu a {
-      /* Même corps que le lecteur : 16/20. */
-      display: block; padding: 10px 0; color: #1C1917; text-decoration: none;
-      font: 400 20px/28px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em;
+    html.menu-mob-ouvert, html.menu-mob-ouvert body { overflow: hidden; }
+    .menu-mob ul { margin: 0; padding: 0; list-style: none; }
+    .menu-mob a { color: #1C1917; text-decoration: none; }
+    .menu-mob a:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
+    .menu-mob__pages a {
+      display: block; padding: 8px 0;
+      font: 400 40px/48px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.02em;
     }
-    .sayhi-menu a + a { border-top: 1px solid rgba(28,25,23,0.12); }
-    .sayhi-menu a:focus-visible { outline: 1px solid #1C1917; outline-offset: 2px; }
+    .menu-mob__compte { margin-right: 4px; vertical-align: top; position: relative; top: 4px; font: 400 12px/16px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; }
+    .menu-mob__etiquette { margin: 48px 0 8px; font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif; color: #8A8784; }
+    .menu-mob__contact a {
+      display: block; padding: 8px 0;
+      font: 400 24px/32px "Geist", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em;
+    }
     /* En lecture, la note devient une petite onde qui ondule. */
     .note-mobile .note-mobile__onde { display: none; }
     .note-mobile.joue .note-mobile__note { display: none; }
@@ -13051,11 +13059,22 @@
   <!-- SAY HI au téléphone, où la barre est masquée : en haut à droite,
        en face de VERSO/RECTO. -->
   <div class="nav-fond-mobile" aria-hidden="true"></div>
-  <button type="button" class="sayhi-mobile" id="sayhi-mobile" aria-expanded="false" aria-controls="sayhi-menu">Say Hi!</button>
-  <!-- Téléphone : Say Hi! ouvre un petit menu, Email puis LinkedIn. -->
+  <button type="button" class="sayhi-mobile" id="sayhi-mobile" aria-expanded="false" aria-controls="sayhi-menu">Menu</button>
+  <!-- Téléphone : « Menu » ouvre un écran blanc plein — Bio, Projets, puis
+       Say Hi! (Email, LinkedIn). Même structure que le menu de l'ordinateur ;
+       Illustration n'y est pas tant que sa page n'existe pas. -->
   <div class="sayhi-menu" id="sayhi-menu" hidden>
-    <a href="mailto:efroissant@outlook.com" data-ecrire>Email</a>
-    <a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LinkedIn</a>
+    <nav class="menu-mob" aria-label="Navigation">
+      <ul class="menu-mob__pages">
+        <li><a href="#profil">Bio</a></li>
+        <li><a href="./"><sup class="menu-mob__compte" data-compte="projets">6</sup>Projets</a></li>
+      </ul>
+      <p class="menu-mob__etiquette">Say Hi!</p>
+      <ul class="menu-mob__contact">
+        <li><a href="mailto:efroissant@outlook.com" data-ecrire>Email</a></li>
+        <li><a href="https://www.linkedin.com/in/efroissant/" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)">LinkedIn</a></li>
+      </ul>
+    </nav>
   </div>
   <script>
   // Clavier du téléphone ouvert ? (l'écran visible rétrécit) — sert au courriel.
@@ -13073,9 +13092,31 @@
   (function sayHiMenu() {
     const b = document.getElementById('sayhi-mobile'), m = document.getElementById('sayhi-menu');
     if (!b || !m) return;
-    const ouvrir = (oui) => { m.hidden = !oui; b.setAttribute('aria-expanded', String(oui)); };
+    const ouvrir = (oui) => {
+      m.hidden = !oui; b.setAttribute('aria-expanded', String(oui));
+      b.textContent = oui ? 'Fermer' : 'Menu';
+      document.documentElement.classList.toggle('menu-mob-ouvert', oui);
+    };
     b.addEventListener('click', () => { ouvrir(m.hidden); if (!m.hidden) m.querySelector('a').focus({ preventScroll: true }); });
     m.addEventListener('click', (e) => { if (e.target.closest('a')) ouvrir(false); });
+    // Bio et Projets passent par l'accueil : on referme l'étude ou la bio
+    // ouverte sans recharger, puis Bio ouvre la bio plein écran (le même
+    // chemin que « Profil » dans la liste des dossiers).
+    m.addEventListener('click', (e) => {
+      const a = e.target.closest('.menu-mob__pages a');
+      if (!a) return;
+      e.preventDefault();
+      const stage = document.getElementById('stage');
+      if (stage) stage.classList.remove('profil-mobile');
+      document.documentElement.classList.remove('profil-mobile-ouvert');
+      if (location.hash) { history.pushState(null, '', location.pathname + location.search); dispatchEvent(new PopStateEvent('popstate')); }
+      if (a.getAttribute('href') === '#profil') {
+        const profil = document.querySelector('#mob-dossiers a.mob-ligne[href="#profil"]');
+        if (profil) setTimeout(() => profil.click(), 30);
+      } else {
+        scrollTo({ top: 0 });
+      }
+    });
     document.addEventListener('click', (e) => { if (!m.hidden && !m.contains(e.target) && !b.contains(e.target)) ouvrir(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !m.hidden) { ouvrir(false); b.focus(); } });
   })();
