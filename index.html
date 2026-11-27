@@ -11100,7 +11100,7 @@
     .bio2__phrase p { margin: 0; }
     .bio2__phrase p + p { margin-top: .5em; }
     /* Hiérarchie : la présentation suit dans la même phrase, en gris ; le changement de couleur fait la pause. */
-    .bio2__second { color: #8A8784; }
+    .bio2__second { display: block; color: #8A8784; }
     .bio2__cote { grid-column: 10 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
     .bio2__bloc p { margin: 0; }
     .bio2 :is(.bio2__cote, .bio2__biblio) > * > .bio2__etiquette, .bio2 .bio2__biblio > .bio2__etiquette { text-transform: none; }
@@ -12711,7 +12711,7 @@
   <div class="modal-backdrop" id="mail-backdrop" hidden>
     <form class="mail" id="mail" role="dialog" aria-modal="true" aria-labelledby="mail-bartitle" novalidate>
       <div class="mail__bar" id="mail-bar">
-        <span class="mail__bartitle" id="mail-bartitle">Say Hi!</span>
+        <span class="mail__bartitle" id="mail-bartitle">Contact</span>
         <button type="button" class="mail__fermer" id="mail-close" aria-label="Fermer le message">Fermer</button>
       </div>
 
