@@ -11239,6 +11239,7 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__frise-bloc :is(.frise__txt, .frise__evt *) { font-size: 20px !important; line-height: 28px !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-label { display: none !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__audit > .uc__audit-titre.uc__audit-titre { white-space: nowrap !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte .uc__contexte-titre.uc__contexte-titre { white-space: nowrap !important; }
     /* Carte 2 : une seule colonne de texte, au-dessus de la photo. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__contexte > .uc__contexte-texte { display: flex !important; flex-direction: column !important; gap: 12px !important; width: 100% !important; }
     /* Carte 4 : plus de fond ; titre sur plusieurs lignes. */
@@ -20195,7 +20196,8 @@ document.addEventListener('click', (e) => {
     const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain), lMotPrevenir = largeurMot(c.motPrevenir);
     const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
     const lTitreAudit = c.audit && c.audit.querySelector('.uc__audit-titre') ? c.audit.querySelector('.uc__audit-titre').scrollWidth : 0;
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit].join('|');
+    const lTitreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre') ? c.contexte.querySelector('.uc__contexte-titre').scrollWidth : 0;
+    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit, lTitreContexte].join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -20207,7 +20209,9 @@ document.addEventListener('click', (e) => {
     // Rangée 1, on avance vers la droite.
     let x = 0;
     poser(c.intro, x, haut, L(5), H); x += L(5) + G;
-    const lContexte = Math.round(L(7) * 0.85 / 8) * 8;   // une seule colonne : un peu plus large
+    // Une seule colonne, et la carte s'élargit pour que le titre tienne sur une ligne.
+    const titreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre');
+    const lContexte = Math.max(Math.round(L(7) * 0.85 / 8) * 8, titreContexte ? Math.ceil(titreContexte.scrollWidth) + 48 + 8 : 0);
     poser(c.contexte, x, haut, lContexte, H); x += lContexte + G;
     poser(c.mot, x, haut, lMot, H); x += lMot + G;
     // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
