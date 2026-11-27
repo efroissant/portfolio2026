@@ -735,6 +735,18 @@
       else d.animate([{ opacity: 0 }], { duration: duree(260), easing: 'ease-out', fill: 'forwards' });
     });
     sortieDe(FICHE); sortieDe(PIED);
+    // Le premier écran de l'étude contient déjà ces infos (titre, rôle, équipe,
+    // durée, outils) avec les premières cartes : on y va directement, sans
+    // écran d'info intermédiaire. Le dossier recule, l'étude arrive de la droite.
+    if (p.id) {
+      lecture = true;
+      setTimeout(() => {
+        if (!enIntro) return;
+        if (EMBED && parent !== window) { parent.postMessage({ type: 'projets-entree-droite', id: p.id }, '*'); ouvrir(p); }
+        else location.href = lien(p);
+      }, calme ? 0 : 420);
+      return;
+    }
     // Les lignes et les infos, puis la photo.
     setTimeout(() => {
       if (!enIntro) return;
