@@ -11173,11 +11173,11 @@
   }
   @media (min-width: 1800px) {
   }
-  /* Projets et Bio passent sous Index : en bas du menu, après la liste des
-     projets, séparés par un filet. Même survol noir, pas de fond pour la page en cours. */
+  /* Menu Index : Bio, Projets (les projets en retrait dessous), Contact. Même survol noir, pas de fond pour la page en cours. */
   @media (min-width: 1024px) {
-    html body .stage .menubar .nav-index .nav-index__projets { padding-bottom: 8px !important; }
-    html body .stage .menubar .nav-index .nav-index__pages { margin: 0; padding: 8px 16px 16px 0; list-style: none; border-top: 1px solid #ECEBE8; }
+    html body .stage .menubar .nav-index .nav-index__projets { padding-bottom: 0 !important; padding-left: 24px !important; }
+    html body .stage .menubar .nav-index .nav-index__pages { margin: 0; padding: 0 16px 0 0; list-style: none; }
+    html body .stage .menubar .nav-index .nav-index__pages--bas { padding-bottom: 16px; }
     html body .stage .menubar .nav-index .nav-index__page { text-decoration: none; color: #1C1917 !important; }
     html body .stage .menubar .nav-index .nav-index__page::before { transform: scaleY(0) !important; }
     html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible) { color: #FFFFFF !important; }
@@ -12851,10 +12851,13 @@
         <!-- Le fond blanc contient le menu : en s'allongeant, il le dévoile (pas de fondu). -->
         <div class="nav-index__fond">
           <div class="nav-index__menu" id="nav-index-menu" aria-hidden="true">
-            <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
-            <ul class="nav-index__pages" aria-label="Pages">
-              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom">Projets</span></a></li>
+            <ul class="nav-index__pages nav-index__pages--haut" aria-label="Pages">
               <li><a class="nav-index__projet nav-index__page" href="#profil" data-nav="bio"><span class="nav-index__nom">Bio</span></a></li>
+              <li><a class="nav-index__projet nav-index__page" href="./" data-nav="accueil"><span class="nav-index__nom">Projets</span></a></li>
+            </ul>
+            <ul class="nav-index__projets" aria-label="Tous les projets"></ul>
+            <ul class="nav-index__pages nav-index__pages--bas">
+              <li><a class="nav-index__projet nav-index__page" href="mailto:efroissant@outlook.com" data-ecrire><span class="nav-index__nom">Contact</span></a></li>
             </ul>
           </div>
         </div>
