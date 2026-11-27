@@ -11188,6 +11188,8 @@
     html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible) { color: #FFFFFF !important; }
     html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible)::before { background: #1C1917 !important; transform: scaleY(1) !important; }
     html body .stage .menubar .nav-index .nav-index__page[aria-current]::after { content: none; }
+    /* Retrait : le nombre en exposant tient dans le fond noir au survol, avec de l'air. */
+    html body .stage .menubar .nav-index .nav-index__page.nav-index__page { padding-left: 24px !important; }
   }
   /* Shoppers : la chaîne de la lumière sans flèches, ses tags posés sur le fil. */
   @media (min-width: 1024px) {
