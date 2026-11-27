@@ -11298,6 +11298,10 @@
   /* Plus de grain : un blanc pur partout. */
   html body::after { content: none !important; display: none !important; }
   html, html body { background-color: #FFFFFF !important; }
+  /* Bio ligne par ligne : chaque ligne dans un masque (les jambages restent visibles). */
+  .bio2__phrase .bio-masque { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+  .bio2__phrase .bio-ligne { display: block; will-change: transform; }
+  .bio2__phrase .bio-gris { color: #8A8784; }
 </style>
 </head>
 <body>
@@ -20965,6 +20969,58 @@ document.addEventListener('click', (e) => {
 
 /* Pied de page : arrivé au bout d'une page, on continue à défiler et la page
    suivante monte, avec le pied de page au milieu. On redescend pour revenir. */
+/* Bio : le texte apparaît ligne par ligne, du bas vers le haut, comme les
+   infos de la fiche des dossiers. Les lignes sont mesurées à l'affichage
+   (elles changent avec la largeur), chacune glisse dans son masque. */
+(function bioLignes() {
+  const ph = document.querySelector('.bio2__phrase p');
+  const stage = document.getElementById('stage');
+  if (!ph || !stage) return;
+  const source = ph.innerHTML;
+  const calme = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  let lignes = [];
+  function decouper() {
+    ph.innerHTML = source;
+    const mots = [];
+    [...ph.childNodes].forEach((n) => {
+      const gris = n.nodeType === 1 && n.classList.contains('bio2__second');
+      n.textContent.split(' ').forEach((w) => { if (w.trim()) mots.push({ w, gris }); });
+    });
+    // Les mots, mesurés : la partie grise commence toujours sur une nouvelle ligne.
+    let html = '', avantGris = true;
+    mots.forEach((m, i) => {
+      if (m.gris && avantGris) { html += '<br>'; avantGris = false; }
+      html += (i ? ' ' : '') + '<span class="bio-mot' + (m.gris ? ' bio-gris' : '') + '">' + esc(m.w) + '</span>';
+    });
+    ph.innerHTML = html;
+    const groupes = [];
+    let haut = null;
+    ph.querySelectorAll('.bio-mot').forEach((sp) => {
+      const t = sp.offsetTop;
+      if (haut === null || Math.abs(t - haut) > 4) { groupes.push([]); haut = t; }
+      groupes[groupes.length - 1].push(sp.outerHTML);
+    });
+    ph.innerHTML = groupes.map((g) => '<span class="bio-masque"><span class="bio-ligne">' + g.join(' ') + '</span></span>').join('');
+    lignes = [...ph.querySelectorAll('.bio-ligne')];
+  }
+  function entrer() {
+    decouper();
+    if (calme()) return;
+    lignes.forEach((l, k) => l.animate([{ transform: 'translateY(110%)' }, { transform: 'none' }],
+      { duration: 800, delay: 120 + k * 60, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'both' }));
+  }
+  let ouverte = stage.classList.contains('bio-ouverte');
+  new MutationObserver(() => {
+    const o = stage.classList.contains('bio-ouverte');
+    if (o && !ouverte) entrer();
+    ouverte = o;
+  }).observe(stage, { attributes: true, attributeFilter: ['class'] });
+  let tempo = 0;
+  addEventListener('resize', () => { clearTimeout(tempo); tempo = setTimeout(decouper, 150); });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (ouverte) entrer(); else decouper(); });
+})();
+
 (function piedDePage() {
   const pied = document.getElementById('pied'), stage = document.getElementById('stage');
   if (!pied || !stage) return;
