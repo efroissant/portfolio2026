@@ -20338,6 +20338,7 @@ document.addEventListener('click', (e) => {
       etapes.push({ el, l: mieux });
       // La chaîne de tags : sans flèches, posés sur une seule courbe du fil,
       // de la photo des néons jusqu'à « Erreur de saisie ».
+      let posNum = null;
       if (el.matches('.uc__chaine')) {
         const lis = [...el.children], prec = pts[pts.length - 1], cyRef = prec ? prec[1] : y + h / 2;
         lis.forEach((li) => {
@@ -20365,6 +20366,8 @@ document.addEventListener('click', (e) => {
           const [cx, cy] = B(ts[Math.min(n, ts.length - 1)]);
           li.style.setProperty('left', (cx - ws[n] / 2 - x) + 'px', 'important');
           li.style.setProperty('top', (cy - hs[n] / 2 - y) + 'px', 'important');
+          // Le numéro de la carte se pose au-dessus du premier tag (sinon le tag le recouvre).
+          if (!n) posNum = [cx - ws[n] / 2 + 4, cy - hs[n] / 2 - 24];
         });
         const fin = [...E]; fin.courbe = [C1, C2]; fin.lisse = true;
         pts.push(S, fin);
@@ -20378,7 +20381,7 @@ document.addEventListener('click', (e) => {
       let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
       if (!num) { num = document.createElement('span'); num.className = 'uc__etape-num'; num.dataset.n = etapes.length; num.setAttribute('aria-hidden', 'true'); page.append(num); }
       num.textContent = String(etapes.length).padStart(2, '0');
-      num.style.setProperty('left', (x + 4) + 'px', 'important'); num.style.setProperty('top', (y - 28) + 'px', 'important');
+      num.style.setProperty('left', (posNum ? posNum[0] : x + 4) + 'px', 'important'); num.style.setProperty('top', (posNum ? posNum[1] : y - 28) + 'px', 'important');
     });
     // Le fil : des segments droits, aux virages arrondis.
     let d = '';
