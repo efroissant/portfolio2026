@@ -11185,6 +11185,11 @@
     html body .stage .menubar .nav-index .nav-index__page:is(:hover, :focus-visible)::before { background: #1C1917 !important; transform: scaleY(1) !important; }
     html body .stage .menubar .nav-index .nav-index__page[aria-current]::after { content: none; }
   }
+  /* Shoppers : la chaîne de la lumière sans flèches, ses tags posés sur le fil. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__chaine .uc__fleche { display: none !important; }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .uc__chaine .uc__etape { white-space: nowrap; }
+  }
 </style>
 </head>
 <body>
@@ -20046,16 +20051,32 @@ document.addEventListener('click', (e) => {
         if (dd < d - .5) { d = dd; mieux = a.l + (b.l - a.l) * t; }
       }
       etapes.push({ el, l: mieux });
-      // La chaîne de tags : le fil ne la traverse pas. Il arrive par la gauche
-      // sur « Erreur de saisie » (le dernier tag), au-dessus des autres, et repart de là.
-      const fin = el.matches('.uc__chaine') && [...el.querySelectorAll('.uc__etape')].pop();
-      if (fin) {
-        let ox = 0, oy = 0, n = fin;
-        while (n && n !== el) { ox += n.offsetLeft; oy += n.offsetTop; n = n.offsetParent; }
-        if (n === el) {
-          const cy = y + oy + fin.offsetHeight / 2;
-          pts.push([x + ox, cy, x + ox + fin.offsetWidth]);
-        } else pts.push([x + w / 2, y + h / 2]);
+      // La chaîne de tags : sans flèches, les tags sont posés sur la courbe du
+      // fil, de la photo des néons jusqu'à « Erreur de saisie », en montant.
+      // Le fil, une courbe douce, passe derrière le centre de chaque tag.
+      if (el.matches('.uc__chaine')) {
+        const lis = [...el.children], prec = pts[pts.length - 1], cyRef = prec ? prec[1] : y + h / 2;
+        lis.forEach((li) => {
+          li.style.setProperty('position', 'absolute', 'important');
+          li.style.setProperty('width', 'auto', 'important');
+          li.style.setProperty('height', 'auto', 'important');
+          li.style.setProperty('right', 'auto', 'important');
+          li.style.setProperty('grid-area', 'auto', 'important');   // sinon la case de grille sert de repère
+          li.style.setProperty('bottom', 'auto', 'important');
+          li.style.setProperty('margin', '0', 'important');
+        });
+        const ws = lis.map((li) => li.offsetWidth), hs = lis.map((li) => li.offsetHeight);
+        // De la photo (son bord droit + 48) au bord droit de la carte, en arc qui monte de plus en plus.
+        const photo = page.querySelector(':scope > .uc__lumiere'), debut = photo ? (parseFloat(photo.style.left) || 0) + (parseFloat(photo.style.width) || photo.offsetWidth) + 48 : x;
+        const n = lis.length, total = ws.reduce((a, b) => a + b, 0), ecart = Math.max(24, (x + w - debut - total) / Math.max(1, n - 1));
+        let gauche = debut;
+        lis.forEach((li, i) => {
+          const t = n > 1 ? i / (n - 1) : 0, cx = gauche + ws[i] / 2, cy = cyRef - 220 * Math.pow(t, 1.6);
+          li.style.setProperty('left', (gauche - x) + 'px', 'important');
+          li.style.setProperty('top', (cy - y - hs[i] / 2) + 'px', 'important');
+          const pt = [cx, cy]; pt.lisse = true; pts.push(pt);
+          gauche += ws[i] + ecart;
+        });
       } else pts.push([x + w / 2, y + h / 2]);
       // Le numéro d'étape, posé au-dessus de la carte (hors de la carte, pour ne pas être coupé).
       let num = page.querySelector(':scope > .uc__etape-num[data-n="' + etapes.length + '"]');
@@ -20071,7 +20092,11 @@ document.addEventListener('click', (e) => {
       if (!i) d = 'M' + p[0] + ' ' + p[1];
       else {
         const a = pts[i - 1], ax = a[2] != null ? a[2] : a[0];
-        if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
+        if (a.lisse || p.lisse) {
+          // Courbe douce (Catmull-Rom) qui passe par le centre des tags.
+          const p0 = pts[i - 2] || a, p3 = pts[i + 1] || p;
+          d += ' C' + (a[0] + (p[0] - p0[0]) / 6) + ' ' + (a[1] + (p[1] - p0[1]) / 6) + ' ' + (p[0] - (p3[0] - a[0]) / 6) + ' ' + (p[1] - (p3[1] - a[1]) / 6) + ' ' + p[0] + ' ' + p[1];
+        } else if (Math.abs(a[1] - p[1]) < 2) d += ' L' + p[0] + ' ' + p[1];
         else { const mx = (ax + p[0]) / 2; d += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + p[1] + ' ' + p[0] + ' ' + p[1]; }
       }
       if (p[2] != null) d += ' L' + p[2] + ' ' + p[1];
@@ -20086,6 +20111,7 @@ document.addEventListener('click', (e) => {
     if (!grand()) {
       Object.values(c).forEach((el) => el && COTES.forEach((k) => el.style.removeProperty(k)));
       page.style.removeProperty('transform');
+      if (c.chaine) [...c.chaine.children].forEach((li) => ['position', 'width', 'height', 'right', 'bottom', 'grid-area', 'margin', 'left', 'top'].forEach((k) => li.style.removeProperty(k)));
       chemin = [];
       progres = 0;
       signature = '';
