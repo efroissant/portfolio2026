@@ -733,24 +733,34 @@
     enIntro = true; introProjet = i; lecture = false;
     if (EMBED && parent !== window) parent.postMessage({ type: 'projets-intro', on: true }, '*');
     remplirIntro(p);
-    // Les autres dossiers s'effacent ; celui-ci recule très vite au loin.
-    dossiers.forEach((d, j) => {
-      if (j === i) d.animate([{ transform: d.style.transform, opacity: 1 }, { transform: d.style.transform + ' translateZ(-4200px)', opacity: 0 }], { duration: duree(650), easing: 'cubic-bezier(.6, 0, .9, .3)', fill: 'forwards' });
-      else d.animate([{ opacity: 0 }], { duration: duree(260), easing: 'ease-out', fill: 'forwards' });
-    });
     sortieDe(FICHE); sortieDe(PIED);
-    // Le premier écran de l'étude contient déjà ces infos (titre, rôle, équipe,
-    // durée, outils) avec les premières cartes : on y va directement, sans
-    // écran d'info intermédiaire. Le dossier recule, l'étude arrive de la droite.
     if (p.id) {
+      // 1. Les autres dossiers viennent se ranger derrière celui qu'on a cliqué.
+      // 2. Puis toute la pile recule et disparaît, et l'étude s'ouvre.
+      const tCible = dossiers[i].style.transform;
+      dossiers.forEach((d, j) => {
+        d.style.zIndex = String(j === i ? 60 : 40 - Math.abs(j - i));
+        if (j !== i) d.animate([{ transform: d.style.transform }, { transform: tCible + ' translate3d(0, ' + (Math.abs(j - i) * -6) + 'px, 0) scale(' + (1 - Math.abs(j - i) * .03).toFixed(3) + ')' }],
+          { duration: duree(520), delay: duree(Math.abs(j - i) * 40), easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' });
+      });
+      const range = duree(520 + 40 * (N - 1));
+      setTimeout(() => {
+        if (!enIntro) return;
+        dossiers.forEach((d) => d.animate([{ transform: tCible + ' translateZ(-2400px)', opacity: 0 }], { duration: duree(480), easing: 'cubic-bezier(.6, 0, .9, .3)', fill: 'forwards' }));
+      }, range);
       lecture = true;
       setTimeout(() => {
         if (!enIntro) return;
         if (EMBED && parent !== window) { parent.postMessage({ type: 'projets-entree-droite', id: p.id }, '*'); ouvrir(p); }
         else location.href = lien(p);
-      }, calme ? 0 : 420);
+      }, calme ? 0 : range + duree(380));
       return;
     }
+    // Les autres dossiers s'effacent ; celui-ci recule très vite au loin.
+    dossiers.forEach((d, j) => {
+      if (j === i) d.animate([{ transform: d.style.transform, opacity: 1 }, { transform: d.style.transform + ' translateZ(-4200px)', opacity: 0 }], { duration: duree(650), easing: 'cubic-bezier(.6, 0, .9, .3)', fill: 'forwards' });
+      else d.animate([{ opacity: 0 }], { duration: duree(260), easing: 'ease-out', fill: 'forwards' });
+    });
     // Les lignes et les infos, puis la photo.
     setTimeout(() => {
       if (!enIntro) return;
