@@ -20127,25 +20127,56 @@ document.addEventListener('click', (e) => {
   // Exploration libre : un décalage qui s'ajoute au chemin (glisser dans tous
   // les sens) ; la molette le ramène en douceur sur le fil.
   const libre = { x: 0, y: 0 };
-  // Défilement courbe : une carte qui entre par la droite (ou sort par la
-  // gauche) est un peu plus grande et floue ; elle devient nette dans la
-  // plus grande partie de l'écran. On mesure la partie visible de chaque carte.
+  // Défilement inspiré d'axeldurand.eu :
+  // 1. un léger effet « fisheye » piloté par la vitesse : pendant le
+  //    mouvement, les cartes s'écartent du centre et grossissent un peu,
+  //    plus fort vers les bords ; tout revient à plat à l'arrêt ;
+  // 2. une carte qui entre dans l'écran part du blanc et du flou, et devient
+  //    nette à mesure qu'elle se dévoile.
   const sansMouvement = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function courber(camX, camY) {
-    const W = sc.clientWidth || innerWidth, Hv = sc.clientHeight || innerHeight, cartesVues = page.querySelectorAll(':scope > :not(svg):not(.uc__etape-num):not(.uc__guide)');
-    cartesVues.forEach((el) => {
+  const fe = { cam: null, cible: 0, fish: 0, raf: 0 };
+  function appliquer(camX, camY) {
+    const W = sc.clientWidth || innerWidth, Hv = sc.clientHeight || innerHeight;
+    page.querySelectorAll(':scope > :not(svg):not(.uc__etape-num):not(.uc__guide)').forEach((el) => {
       const l = parseFloat(el.style.left), w = parseFloat(el.style.width), t = parseFloat(el.style.top), h = parseFloat(el.style.height);
-      if (isNaN(l) || isNaN(w)) return;
-      if (sansMouvement()) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
-      const a = Math.max(0, l - camX), b = Math.min(W, l - camX + w);
-      // Même effet à la verticale, quand la caméra monte ou descend d'une rangée.
-      const hA = Math.max(0, t - camY), hB = Math.min(Hv, t - camY + h);
-      const courbe = (lo, hi, L) => { if (hi <= lo) return 1; const d = Math.abs((lo + hi) / 2 - L / 2) / (L / 2); const g = Math.max(0, Math.min(1, (d - 0.4) / 0.6)); return g * g; };
-      const f = isNaN(t) || isNaN(h) ? courbe(a, b, W) : Math.max(courbe(a, b, W), courbe(hA, hB, Hv));
-      if (f < 0.005) { el.style.removeProperty('scale'); el.style.removeProperty('filter'); return; }
-      el.style.setProperty('scale', (1 + 0.07 * f).toFixed(4));
-      el.style.setProperty('filter', 'blur(' + (6 * f).toFixed(2) + 'px)');
+      if (isNaN(l) || isNaN(w) || isNaN(t) || isNaN(h) || sansMouvement()) { ['scale', 'translate', 'filter'].forEach((k) => el.style.removeProperty(k)); return; }
+      // Partie visible de la carte, en coordonnées d'écran.
+      const a = Math.max(0, l - camX), b = Math.min(W, l - camX + w), c = Math.max(0, t - camY), d = Math.min(Hv, t - camY + h);
+      // Révélée selon la part visible : nette dès qu'elle montre 35 % de la
+      // largeur de l'écran (ou toute sa largeur si elle est plus petite), idem en hauteur.
+      let revele = 0;
+      if (b > a && d > c) revele = Math.min(1, (b - a) / Math.min(w, W * 0.35), (d - c) / Math.min(h, Hv * 0.5));
+      const op = Math.min(1, revele / 0.35), opDoux = op * op * (3 - 2 * op);
+      const net = Math.max(0, Math.min(1, (revele - 0.35) / 0.65));
+      const flou = (1 - net) * 8;
+      // Fisheye : le centre de la carte, en coordonnées normalisées (-1 à 1).
+      const nx = ((l - camX + w / 2) / W) * 2 - 1, ny = ((t - camY + h / 2) / Hv) * 2 - 1, r2 = Math.min(2, nx * nx + ny * ny);
+      const k = fe.fish * r2;
+      if (k > 0.0005) {
+        el.style.setProperty('translate', (nx * k * W / 2).toFixed(1) + 'px ' + (ny * k * Hv / 2).toFixed(1) + 'px');
+        el.style.setProperty('scale', (1 + 2 * k).toFixed(4));
+      } else { el.style.removeProperty('translate'); el.style.removeProperty('scale'); }
+      if (flou > 0.05 || opDoux < 0.995) el.style.setProperty('filter', 'blur(' + flou.toFixed(2) + 'px) opacity(' + opDoux.toFixed(3) + ')');
+      else el.style.removeProperty('filter');
     });
+  }
+  function courber(camX, camY) {
+    const W = sc.clientWidth || innerWidth;
+    if (fe.cam) {
+      const v = Math.hypot(camX - fe.cam[0], camY - fe.cam[1]) / W;   // part de l'écran parcourue depuis l'image précédente
+      fe.cible = Math.max(fe.cible, Math.min(0.04, v * 1.2));
+    }
+    fe.cam = [camX, camY];
+    appliquer(camX, camY);
+    if (!fe.raf && !sansMouvement()) fe.raf = requestAnimationFrame(amortir);
+  }
+  // Le fisheye suit la vitesse en douceur, et retombe à zéro à l'arrêt.
+  function amortir() {
+    fe.fish += (fe.cible - fe.fish) * 0.12;
+    fe.cible *= 0.82;
+    if (fe.cam) appliquer(fe.cam[0], fe.cam[1]);
+    fe.raf = (fe.fish > 0.0005 || fe.cible > 0.0005) ? requestAnimationFrame(amortir) : 0;
+    if (!fe.raf) { fe.fish = 0; if (fe.cam) appliquer(fe.cam[0], fe.cam[1]); }
   }
   function camera() {
     if (!grand()) return;
@@ -20260,7 +20291,7 @@ document.addEventListener('click', (e) => {
   function composer(H, haut) {
     const c = cartes();
     if (!grand()) {
-      Object.values(c).forEach((el) => el && COTES.concat(['scale', 'filter']).forEach((k) => el.style.removeProperty(k)));
+      Object.values(c).forEach((el) => el && COTES.concat(['scale', 'filter', 'translate']).forEach((k) => el.style.removeProperty(k)));
       page.style.removeProperty('transform');
       if (c.chaine) [...c.chaine.children].forEach((li) => ['position', 'width', 'height', 'right', 'bottom', 'grid-area', 'margin', 'left', 'top'].forEach((k) => li.style.removeProperty(k)));
       chemin = [];
