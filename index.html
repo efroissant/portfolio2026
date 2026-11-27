@@ -11293,6 +11293,9 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-visuel { grid-column: 1 !important; grid-row: 2 !important; order: 0 !important; align-self: start !important; justify-self: start !important; margin: 0 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { grid-column: 2 !important; grid-row: 2 !important; order: 0 !important; align-self: end !important; width: auto !important; text-align: left !important; margin: 0 !important; max-width: none !important; }
   }
+  /* Plus de grain : un blanc pur partout. */
+  html body::after { content: none !important; display: none !important; }
+  html, html body { background-color: #FFFFFF !important; }
 </style>
 </head>
 <body>
