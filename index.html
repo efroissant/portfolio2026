@@ -11099,6 +11099,9 @@
     /* La colonne de droite commence au haut des majuscules de la phrase. */
     .bio2__phrase p { margin: 0; }
     .bio2__phrase p + p { margin-top: .5em; }
+    /* Hiérarchie : la présentation, en second, plus petite et en gris, sur une
+       mesure plus courte (environ 60 signes par ligne). */
+    .bio2__phrase p + p { margin-top: calc(var(--fs) * .8); max-width: 30em; font-size: max(18px, calc(var(--fs) * .5)); line-height: 1.35; letter-spacing: -.01em; color: #716E6B; text-wrap: pretty; }
     .bio2__cote { grid-column: 10 / 13; padding-top: calc(var(--fs) * .2); display: grid; gap: 24px; align-content: start; }
     .bio2__bloc p { margin: 0; }
     .bio2 :is(.bio2__cote, .bio2__biblio) > * > .bio2__etiquette, .bio2 .bio2__biblio > .bio2__etiquette { text-transform: none; }
