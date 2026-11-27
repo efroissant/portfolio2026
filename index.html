@@ -11313,6 +11313,49 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-visuel { grid-column: 1 !important; grid-row: 2 !important; order: 0 !important; align-self: start !important; justify-self: start !important; margin: 0 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete > .uc__tete-note { grid-column: 2 !important; grid-row: 2 !important; order: 0 !important; align-self: end !important; width: auto !important; text-align: left !important; margin: 0 !important; max-width: none !important; }
   }
+  /* Roche (ordinateur) : le même parcours que Shoppers — plan réduit à 80 %,
+     fil entre les cartes, numéros d'étape, flèches, titres en Geist 44, texte en 20. */
+  @media (min-width: 1024px) {
+    html body .stage #doc-roche.doc.doc.doc { left: 0 !important; right: 0 !important; width: auto !important; max-width: none !important; --cobalt: #1C1917 !important; }
+    html body .stage #doc-roche.doc .parcours-rail { transform: translateX(calc(24px + 3 * (max(94px, (100vw - 48px - 11 * 24px) / 12) + 24px))) scale(.8) !important; transform-origin: 0 50% !important; }
+    html body .stage #doc-roche.doc .doc__win.doc__win { -webkit-mask-image: none !important; mask-image: none !important; }
+    html body .stage #doc-roche.doc .panneaux-voile, html body .stage #doc-roche.doc .panneaux-curseur { display: none !important; }
+    html body .stage #doc-roche.doc .doc__page.doc__page > svg.uc__fil { display: block !important; position: absolute !important; left: 0 !important; top: 0 !important; z-index: 0 !important; pointer-events: none; overflow: visible !important; fill: none; background: none !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; box-shadow: none !important; width: auto; height: auto; }
+    html body .stage #doc-roche.doc .uc__fil-fond { stroke: rgba(28, 25, 23, .14); stroke-width: 1.5; stroke-dasharray: 4 6; }
+    html body .stage #doc-roche.doc .uc__fil-trace { stroke: #B5B2AE; stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .3s linear; }
+    html body .stage #doc-roche.doc .doc__page > :not(.uc__fil) { z-index: 1; }
+    html body .stage #doc-roche.doc .doc__page.doc__page > .uc__etape-num { display: block !important; position: absolute !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; z-index: 2 !important; width: max-content !important; height: auto !important; white-space: nowrap !important; font: 500 12px/16px "Geist", Arial, sans-serif !important; letter-spacing: .04em !important; color: rgba(28, 25, 23, .5) !important; background: none !important; pointer-events: none; }
+    html body .stage #doc-roche.doc .uc__guide { display: flex; align-items: center; gap: 16px; position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 20; font: 500 14px/20px "Geist", Arial, sans-serif; color: #1C1917; }
+    html body .stage #doc-roche.doc .uc__guide button { border: 0; background: none; padding: 8px 4px; font: inherit; color: inherit; cursor: pointer; }
+    html body .stage #doc-roche.doc .uc__guide button:disabled { opacity: .3; cursor: default; }
+    html body .stage #doc-roche.doc .uc__guide-compte { font-variant-numeric: tabular-nums; color: #666666; }
+    /* Les cartes : blanches, sans contour, 24 px de marge intérieure. */
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :not(.cartep__barre, .uc__bilan, svg, .uc__etape-num), html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__bloc { position: absolute !important; margin: 0 !important; box-sizing: border-box !important; padding: 24px !important; background: #FFFFFF !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; border-radius: var(--r-carte) !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; gap: 16px !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > *::before, html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > *::after, html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > *::before, html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > *::after { content: none !important; display: none !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__bloc, .uc__tete) > * { margin: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > :is(.uc__bloc, .uc__tete) > .uc__petit { margin-top: auto !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__label, html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__surtitre { display: none !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__titre, .uc__fort) { font: 400 44px/48px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; text-transform: none !important; color: #1C1917 !important; max-width: none !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > * :is(p, li, dd, figcaption):not(.uc__fort, .uc__intro-titre, .postit, .don__total) { font-size: 20px !important; line-height: 28px !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc :is(.uc__petit, .uc__enonce, .uc__corps) { font-family: "Geist", "Helvetica Neue", Arial, sans-serif !important; font-weight: 400 !important; color: #666666 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete { background: transparent !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__tete .uc__enonce { color: #1C1917 !important; margin-top: auto !important; }
+    /* Carte 1 : les tags en haut, le titre et le sous-titre, la fiche en bas, sur un dégradé gris bleu pâle. */
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro.uc__intro { justify-content: flex-start !important; gap: 0 !important; background: linear-gradient(150deg, #E8EEF7 0%, #F2F5FA 45%, #FFFFFF 100%) !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-tags { order: 0 !important; margin: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-tags li { border-color: rgba(28, 25, 23, .25) !important; background: none !important; color: #1C1917 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu { order: 1 !important; margin-top: 24px !important; flex: 1 1 auto !important; display: flex !important; flex-direction: column !important; gap: 8px !important; padding: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-titre { font: 400 var(--fs-titre, clamp(32px, min(3.2vw, 4.8vh), 56px))/1.1 "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: -.02em !important; color: #1C1917 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-texte.uc__intro-texte { white-space: nowrap !important; max-width: none !important; color: #666666 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro > .uc__intro-contenu > .uc__intro-fiche { margin-top: auto !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche dt { color: #666666 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-fiche dd { color: #1C1917 !important; }
+    /* Les schémas et écrans prennent la place qui reste dans la carte. */
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bloc > :is(.postits, .appareil, .don, .archi, .flux, .form-reduit, .pub, .navigateur) { flex: 1 1 auto !important; min-height: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__ecran-site .navigateur img { width: 100% !important; height: 100% !important; object-fit: cover; object-position: 50% 0; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat .uc__magazine { flex: 1 1 auto; min-height: 0; margin: 0 !important; }
+    html body .stage #doc-roche.doc .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__bilan > .uc__resultat .uc__magazine img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+  }
   /* Plus de grain : un blanc pur partout. */
   html body::after { content: none !important; display: none !important; }
   html, html body { background-color: #FFFFFF !important; }
@@ -19731,6 +19774,8 @@ document.addEventListener('click', (e) => {
    qui défile de droite à gauche ; ensuite seulement, on passe à la suivante.
    Sur mobile, les cartes restent en colonne. */
 (function pileRoche() {
+  // Remplacé par le parcours de cartes de Shoppers (voir moteurParcours) : le paquet n'est plus monté.
+  if (true) return;
   const doc = document.getElementById('doc-roche');
   if (!doc) return;
   const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
@@ -20164,8 +20209,7 @@ document.addEventListener('click', (e) => {
 })();
 /* Pharmaprix en panneaux horizontaux : hauteur calée sur le menu, navigation
    à la molette, au trackpad, aux flèches du clavier et aux boutons. */
-(function panneauxPharmaprix() {
-  const doc = document.getElementById('doc-loblaw');
+function moteurParcours(doc, plan) {
   if (!doc) return;
   const sc = doc.querySelector('.doc__scroll'), page = doc.querySelector('.doc__page');
   const nav = doc.querySelector('.panneaux-nav'), compte = doc.querySelector('.panneaux-compte');
@@ -20183,27 +20227,7 @@ document.addEventListener('click', (e) => {
   page.before(rail);
   rail.append(page);
   let chemin = [];
-  const cartes = () => ({
-    intro: page.querySelector(':scope > .uc__intro'),
-    contexte: page.querySelector(':scope > .uc__contexte'),
-    mot: page.querySelector(':scope > .uc__grand-mot:not(.uc__grand-mot--terrain)'),
-    motTerrain: page.querySelector(':scope > .uc__grand-mot--terrain:not(.uc__grand-mot--prevenir)'),
-    motPrevenir: page.querySelector(':scope > .uc__grand-mot--prevenir'),
-    tete: page.querySelector(':scope > .uc__tete'),
-    audit: page.querySelector(':scope > .uc__audit'),
-    passerelle: page.querySelector(':scope > .uc__passerelle'),
-    chiffres: page.querySelector(':scope > .uc__chiffres'),
-    terrain: page.querySelector(':scope > .uc__photo--terrain'),
-    formulaire: page.querySelector(':scope > .uc__formulaire'),
-    chaine: page.querySelector(':scope > .uc__chaine'),
-    lumiere: page.querySelector(':scope > .uc__lumiere'),
-    dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
-    sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
-    resistance: page.querySelector(':scope > .uc__resistance'),
-    conclusion: page.querySelector(':scope > .uc__conclusion'),
-    frise: page.querySelector(':scope > .uc__frise-bloc'),
-    bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
-  });
+  const cartes = () => plan.cartes(page);
   const COTES = ['left', 'top', 'width', 'height'];
   const poser = (el, x, y, w, h) => { if (el) [x, y, w, h].forEach((v, i) => el.style.setProperty(COTES[i], Math.round(v) + 'px', 'important')); };
   // Les virages sont arrondis pour que la caméra ne casse jamais sa trajectoire.
@@ -20424,12 +20448,7 @@ document.addEventListener('click', (e) => {
       mesure.selectNodeContents(el);
       return Math.ceil(mesure.getBoundingClientRect().width) + 8;
     };
-    const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain), lMotPrevenir = largeurMot(c.motPrevenir);
-    const lTitre = c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0;
-    const lTitreAudit = c.audit && c.audit.querySelector('.uc__audit-titre') ? c.audit.querySelector('.uc__audit-titre').scrollWidth : 0;
-    const lTitreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre') ? c.contexte.querySelector('.uc__contexte-titre').scrollWidth : 0;
-    const lSousTitre = c.intro && c.intro.querySelector('.uc__intro-texte') ? c.intro.querySelector('.uc__intro-texte').scrollWidth : 0;
-    const sig = [W, H, haut, innerWidth, lMot, lMotTerrain, lMotPrevenir, lTitre, lTitreAudit, lTitreContexte, lSousTitre].join('|');
+    const sig = [W, H, haut, innerWidth].concat(plan.mesures(c, largeurMot)).join('|');
     if (sig === signature && chemin.length) return;
     signature = sig;
     cancelAnimationFrame(raf); raf = 0;
@@ -20437,70 +20456,11 @@ document.addEventListener('click', (e) => {
     doc.style.setProperty('--fenetre', W + 'px');
     // Sur les ordinateurs étroits, les cartes gardent leur largeur : le parcours défile de toute façon.
     const col = Math.max(94, (innerWidth - 48 - 11 * 24) / 12), L = (n) => col * n + 24 * (n - 1);
-    const G = 200, pas = H + 128;   // 200 px entre chaque carte
-    // Rangée 1, on avance vers la droite.
-    let x = 0;
-    // Carte 1 : assez large pour que le sous-titre tienne sur une ligne.
-    const sousTitre = c.intro && c.intro.querySelector('.uc__intro-texte');
-    const lIntro = Math.max(L(5), sousTitre ? Math.ceil(sousTitre.scrollWidth) + 48 + 8 : 0);
-    poser(c.intro, x, haut, lIntro, H); x += lIntro + G;
-    // Une seule colonne, et la carte s'élargit pour que le titre tienne sur une ligne.
-    const titreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre');
-    const lContexte = Math.max(Math.round(L(7) * 0.85 / 8) * 8, titreContexte ? Math.ceil(titreContexte.scrollWidth) + 48 + 8 : 0);
-    poser(c.contexte, x, haut, lContexte, H); x += lContexte + G;
-    poser(c.mot, x, haut, lMot, H); x += lMot + G;
-    // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
-    // garde ses proportions dans la hauteur qui reste.
-    // Le titre passe sur plusieurs lignes : largeur fixe.
-    const lTete = L(8);
-    poser(c.tete, x, haut, lTete, H);
-    const hTitre = c.tete ? (c.tete.querySelector('.uc__titre') || {}).offsetHeight || 0 : 0;
-    // La note passe à droite de l'écran (au moins 200 px) : l'écran prend toute la hauteur sous le titre.
-    doc.style.setProperty('--ecran-l', Math.round(Math.max(320, Math.min(lTete - 48 - 24 - 200, (H - 48 - hTitre - 24) * 869 / 580))) + 'px');
-    x += lTete + G;
-    const xAudit = x;
-    // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
-    const lAudit = Math.max(472, L(3));   // largeur de référence (la photo du terrain dessous)
-    // La carte de l'audit s'élargit pour que son titre tienne sur une ligne.
-    const titreAudit = c.audit && c.audit.querySelector('.uc__audit-titre');
-    const lAuditCarte = Math.max(lAudit, titreAudit ? Math.ceil(titreAudit.scrollWidth) + 48 + 8 : 0);
-    // Centrée au-dessus de la photo du terrain (deux fois lAudit) : le fil qui descend est vertical.
-    poser(c.audit, x + Math.max(0, (lAudit * 2 - lAuditCarte) / 2), haut, lAuditCarte, H);
-    const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
-    // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
-    const y2 = haut + pas;
-    x = cam1;
-    poser(c.terrain, x, y2, lAudit * 2, H); x += lAudit * 2 + G;   // part sous l'audit, deux fois plus large
-    poser(c.motTerrain, x, y2, lMotTerrain, H); x += lMotTerrain + G;
-    poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
-    poser(c.lumiere, x, y2, L(9), H); x += L(9) + G;   // un peu plus large
-    const xChaine = x;
-    poser(c.chaine, x, y2, L(7), H);
-    const cam2 = xChaine;   // même chose avant de remonter
-    // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
-    x = cam2;   // la carte suivante arrive exactement au-dessus, à la même largeur
-    const xFinal = x;
-    // Le titre commence exactement sur l'axe de la flèche qui monte des tags (tag de 232 px).
-    x += Math.round(L(7) / 2 + 12 + 116 - 4);   // - 4 : compense l'approche de la lettre
-    poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;
-    // La carte prend la largeur de la ligne « Rouge … Différencier les », padding compris.
-    const ligneDose = c.dose && c.dose.querySelector('.dose-ligne');
-    const lDose = ligneDose ? Math.ceil((ligneDose.getBoundingClientRect().width + 48) / 8) * 8 : L(5);
-    const lDose2 = Math.max(lDose, L(5)) + 24 + L(4);   // texte en 20, et la photo du comptoir dans une colonne à droite
-    poser(c.dose, x, haut, lDose2, H); x += lDose2 + G;
-    poser(c.formulaire, x, haut, L(8), H); x += L(8) + G;   // le texte (titre en 44) prend plus de place
-    poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
-    poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
-    poser(c.frise, x, haut, L(8), H); x += L(8) + G;
-    poser(c.bilan1, x, haut, L(4), H); x += L(4);   // dernière carte : la conclusion est retirée du parcours
-    const cam3 = Math.max(cam2, x - W, xFinal);
-    chemin = tracer([
-      { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
-      { x: cam2, y: 0 }, { x: cam3, y: 0 },
-    ], 0);
-    coins = [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2];
+    const plan_ = plan.placer({ c, W, H, haut, L, poser, largeurMot, doc });
+    chemin = tracer(plan_.points, 0);
+    coins = plan_.coins;
     progres = avance * total();
-    calculerEtapes([c.intro, c.contexte, c.mot, c.tete, c.audit, c.terrain, c.motTerrain, c.passerelle, c.lumiere, c.chaine, c.motPrevenir, c.dose, c.formulaire, c.sexe, c.resistance, c.frise, c.bilan1, c.conclusion], haut);
+    calculerEtapes(plan_.ordre, haut);
     camera();
   }
   // La carte : environ deux tiers de la hauteur de l'écran, centrée.
@@ -20679,7 +20639,156 @@ document.addEventListener('click', (e) => {
   guide.querySelector('.uc__guide-suiv').addEventListener('click', () => allerEtape(etapeBase() + 1));
   guide.querySelector('.uc__guide-prec').addEventListener('click', () => { const k = etapeBase(); allerEtape(k - (!raf && progres > etapes[k].l + 8 ? 0 : 1)); });
   maj();
-})();
+}
+// Shoppers : la disposition faite à la main, carte par carte.
+moteurParcours(document.getElementById('doc-loblaw'), {
+  cartes: (page) => ({
+    intro: page.querySelector(':scope > .uc__intro'),
+    contexte: page.querySelector(':scope > .uc__contexte'),
+    mot: page.querySelector(':scope > .uc__grand-mot:not(.uc__grand-mot--terrain)'),
+    motTerrain: page.querySelector(':scope > .uc__grand-mot--terrain:not(.uc__grand-mot--prevenir)'),
+    motPrevenir: page.querySelector(':scope > .uc__grand-mot--prevenir'),
+    tete: page.querySelector(':scope > .uc__tete'),
+    audit: page.querySelector(':scope > .uc__audit'),
+    passerelle: page.querySelector(':scope > .uc__passerelle'),
+    chiffres: page.querySelector(':scope > .uc__chiffres'),
+    terrain: page.querySelector(':scope > .uc__photo--terrain'),
+    formulaire: page.querySelector(':scope > .uc__formulaire'),
+    chaine: page.querySelector(':scope > .uc__chaine'),
+    lumiere: page.querySelector(':scope > .uc__lumiere'),
+    dose: page.querySelector(':scope > .uc__bloc:has(> .dose)'),
+    sexe: page.querySelector(':scope > .uc__bloc:has(> .sexe)'),
+    resistance: page.querySelector(':scope > .uc__resistance'),
+    conclusion: page.querySelector(':scope > .uc__conclusion'),
+    frise: page.querySelector(':scope > .uc__frise-bloc'),
+    bilan1: page.querySelector(':scope > .uc__bilan > :nth-child(1)'),
+  }),
+  // Les largeurs mesurées : la disposition est refaite si l'une change.
+  mesures: (c, largeurMot) => [largeurMot(c.mot), largeurMot(c.motTerrain), largeurMot(c.motPrevenir),
+    c.tete ? largeurMot(c.tete.querySelector('.uc__titre')) : 0,
+    c.audit && c.audit.querySelector('.uc__audit-titre') ? c.audit.querySelector('.uc__audit-titre').scrollWidth : 0,
+    c.contexte && c.contexte.querySelector('.uc__contexte-titre') ? c.contexte.querySelector('.uc__contexte-titre').scrollWidth : 0,
+    c.intro && c.intro.querySelector('.uc__intro-texte') ? c.intro.querySelector('.uc__intro-texte').scrollWidth : 0],
+  placer({ c, W, H, haut, L, poser, largeurMot, doc }) {
+    const lMot = largeurMot(c.mot), lMotTerrain = largeurMot(c.motTerrain), lMotPrevenir = largeurMot(c.motPrevenir);
+    const G = 200, pas = H + 128;   // 200 px entre chaque carte
+    // Rangée 1, on avance vers la droite.
+    let x = 0;
+    // Carte 1 : assez large pour que le sous-titre tienne sur une ligne.
+    const sousTitre = c.intro && c.intro.querySelector('.uc__intro-texte');
+    const lIntro = Math.max(L(5), sousTitre ? Math.ceil(sousTitre.scrollWidth) + 48 + 8 : 0);
+    poser(c.intro, x, haut, lIntro, H); x += lIntro + G;
+    // Une seule colonne, et la carte s'élargit pour que le titre tienne sur une ligne.
+    const titreContexte = c.contexte && c.contexte.querySelector('.uc__contexte-titre');
+    const lContexte = Math.max(Math.round(L(7) * 0.85 / 8) * 8, titreContexte ? Math.ceil(titreContexte.scrollWidth) + 48 + 8 : 0);
+    poser(c.contexte, x, haut, lContexte, H); x += lContexte + G;
+    poser(c.mot, x, haut, lMot, H); x += lMot + G;
+    // La carte prend la largeur de son titre, sur une ligne. L'écran, centré dessous,
+    // garde ses proportions dans la hauteur qui reste.
+    // Le titre passe sur plusieurs lignes : largeur fixe.
+    const lTete = L(8);
+    poser(c.tete, x, haut, lTete, H);
+    const hTitre = c.tete ? (c.tete.querySelector('.uc__titre') || {}).offsetHeight || 0 : 0;
+    // La note passe à droite de l'écran (au moins 200 px) : l'écran prend toute la hauteur sous le titre.
+    doc.style.setProperty('--ecran-l', Math.round(Math.max(320, Math.min(lTete - 48 - 24 - 200, (H - 48 - hTitre - 24) * 869 / 580))) + 'px');
+    x += lTete + G;
+    const xAudit = x;
+    // Légèrement hors grille : chaque degré d'urgence et son problème tiennent sur une ligne.
+    const lAudit = Math.max(472, L(3));   // largeur de référence (la photo du terrain dessous)
+    // La carte de l'audit s'élargit pour que son titre tienne sur une ligne.
+    const titreAudit = c.audit && c.audit.querySelector('.uc__audit-titre');
+    const lAuditCarte = Math.max(lAudit, titreAudit ? Math.ceil(titreAudit.scrollWidth) + 48 + 8 : 0);
+    // Centrée au-dessus de la photo du terrain (deux fois lAudit) : le fil qui descend est vertical.
+    poser(c.audit, x + Math.max(0, (lAudit * 2 - lAuditCarte) / 2), haut, lAuditCarte, H);
+    const cam1 = xAudit;   // la caméra se cale sur le bord gauche de la carte avant de descendre
+    // Rangée 2, sous la fin de la première : on descend puis on repart vers la droite.
+    const y2 = haut + pas;
+    x = cam1;
+    poser(c.terrain, x, y2, lAudit * 2, H); x += lAudit * 2 + G;   // part sous l'audit, deux fois plus large
+    poser(c.motTerrain, x, y2, lMotTerrain, H); x += lMotTerrain + G;
+    poser(c.passerelle, x, y2, L(4), H); x += L(4) + G;
+    poser(c.lumiere, x, y2, L(9), H); x += L(9) + G;   // un peu plus large
+    const xChaine = x;
+    poser(c.chaine, x, y2, L(7), H);
+    const cam2 = xChaine;   // même chose avant de remonter
+    // Troisième temps, on remonte sur la rangée du haut et on finit vers la droite.
+    x = cam2;   // la carte suivante arrive exactement au-dessus, à la même largeur
+    const xFinal = x;
+    // Le titre commence exactement sur l'axe de la flèche qui monte des tags (tag de 232 px).
+    x += Math.round(L(7) / 2 + 12 + 116 - 4);   // - 4 : compense l'approche de la lettre
+    poser(c.motPrevenir, x, haut, lMotPrevenir, H); x += lMotPrevenir + G;
+    // La carte prend la largeur de la ligne « Rouge … Différencier les », padding compris.
+    const ligneDose = c.dose && c.dose.querySelector('.dose-ligne');
+    const lDose = ligneDose ? Math.ceil((ligneDose.getBoundingClientRect().width + 48) / 8) * 8 : L(5);
+    const lDose2 = Math.max(lDose, L(5)) + 24 + L(4);   // texte en 20, et la photo du comptoir dans une colonne à droite
+    poser(c.dose, x, haut, lDose2, H); x += lDose2 + G;
+    poser(c.formulaire, x, haut, L(8), H); x += L(8) + G;   // le texte (titre en 44) prend plus de place
+    poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
+    poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
+    poser(c.frise, x, haut, L(8), H); x += L(8) + G;
+    poser(c.bilan1, x, haut, L(4), H); x += L(4);   // dernière carte : la conclusion est retirée du parcours
+    const cam3 = Math.max(cam2, x - W, xFinal);
+    return { points: [
+      { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
+      { x: cam2, y: 0 }, { x: cam3, y: 0 },
+    ], coins: [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2],
+    ordre: [c.intro, c.contexte, c.mot, c.tete, c.audit, c.terrain, c.motTerrain, c.passerelle, c.lumiere, c.chaine, c.motPrevenir, c.dose, c.formulaire, c.sexe, c.resistance, c.frise, c.bilan1, c.conclusion] };
+  },
+});
+// Roche : le même parcours (droite, bas, droite, haut, droite), 200 px entre les cartes.
+moteurParcours(document.getElementById('doc-roche'), {
+  cartes: (page) => ({
+    intro: page.querySelector(':scope > .uc__intro'),
+    tete: page.querySelector(':scope > .uc__tete'),
+    contexte: page.querySelector(':scope > .uc__contexte-roche'),
+    concepts: page.querySelector(':scope > .uc__concepts'),
+    benchmark: page.querySelector(':scope > .uc__selfie-texte'),
+    selfie: page.querySelector(':scope > .uc__selfie'),
+    don: page.querySelector(':scope > .uc__don'),
+    archi: page.querySelector(':scope > .uc__archi'),
+    flux: page.querySelector(':scope > .uc__flux'),
+    formulaire: page.querySelector(':scope > .uc__autrement'),
+    pub: page.querySelector(':scope > .uc__pub'),
+    site: page.querySelector(':scope > .uc__ecran-site'),
+    resultat: page.querySelector(':scope > .uc__bilan > .uc__resultat'),
+  }),
+  mesures: (c) => [c.intro && c.intro.querySelector('.uc__intro-texte') ? c.intro.querySelector('.uc__intro-texte').scrollWidth : 0],
+  placer({ c, W, H, haut, L, poser }) {
+    const G = 200, pas = H + 128;
+    let x = 0;
+    // Rangée 1 : la carte 1 assez large pour que le sous-titre tienne sur une ligne.
+    const sousTitre = c.intro && c.intro.querySelector('.uc__intro-texte');
+    const lIntro = Math.max(L(5), sousTitre ? Math.ceil(sousTitre.scrollWidth) + 48 + 8 : 0);
+    poser(c.intro, x, haut, lIntro, H); x += lIntro + G;
+    poser(c.tete, x, haut, L(6), H); x += L(6) + G;
+    const cam1 = x;   // la caméra se cale sur cette carte avant de descendre
+    poser(c.contexte, x, haut, L(5), H);
+    // Rangée 2 : on descend, puis on repart vers la droite.
+    const y2 = haut + pas;
+    x = cam1;
+    poser(c.concepts, x, y2, L(8), H); x += L(8) + G;
+    poser(c.benchmark, x, y2, L(4), H); x += L(4) + G;
+    poser(c.selfie, x, y2, L(4), H); x += L(4) + G;
+    const cam2 = x;   // même chose avant de remonter
+    poser(c.don, x, y2, L(5), H);
+    // Rangée 3 : on remonte au-dessus de la dernière carte et on finit vers la droite.
+    x = cam2;
+    poser(c.archi, x, haut, L(12), H); x += L(12) + G;
+    poser(c.flux, x, haut, L(12), H); x += L(12) + G;
+    poser(c.formulaire, x, haut, L(6), H); x += L(6) + G;
+    poser(c.pub, x, haut, L(9), H); x += L(9) + G;
+    // La capture du site garde ses proportions : la carte prend sa largeur (barre de 28 px comprise).
+    const lSite = Math.round((H - 48 - 28) * 1750 / 980) + 48;
+    poser(c.site, x, haut, lSite, H); x += lSite + G;
+    poser(c.resultat, x, haut, L(5), H); x += L(5);
+    const cam3 = Math.max(cam2, x - W);
+    return {
+      points: [{ x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas }, { x: cam2, y: 0 }, { x: cam3, y: 0 }],
+      coins: [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2],
+      ordre: [c.intro, c.tete, c.contexte, c.concepts, c.benchmark, c.selfie, c.don, c.archi, c.flux, c.formulaire, c.pub, c.site, c.resultat],
+    };
+  },
+});
 
 // GVQ, Roche et Le démarrage : le même parcours de cartes que Pharmaprix.
 // Droite, bas, droite, haut, droite. La caméra ne suit qu'une seule valeur, la progression.
