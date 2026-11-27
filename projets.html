@@ -736,7 +736,7 @@
     sortieDe(FICHE); sortieDe(PIED);
     if (p.id) {
       // 1. Les autres dossiers viennent se ranger derrière celui qu'on a cliqué.
-      // 2. Puis toute la pile recule et disparaît, et l'étude s'ouvre.
+      // 2. Puis toute la pile disparaît en fondu, et l'étude s'ouvre.
       const tCible = dossiers[i].style.transform;
       dossiers.forEach((d, j) => {
         d.style.zIndex = String(j === i ? 60 : 40 - Math.abs(j - i));
@@ -746,14 +746,14 @@
       const range = duree(520 + 40 * (N - 1));
       setTimeout(() => {
         if (!enIntro) return;
-        dossiers.forEach((d) => d.animate([{ transform: tCible + ' translateZ(-2400px)', opacity: 0 }], { duration: duree(480), easing: 'cubic-bezier(.6, 0, .9, .3)', fill: 'forwards' }));
+        dossiers.forEach((d) => d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: duree(420), easing: 'ease', fill: 'forwards' }));
       }, range);
       lecture = true;
       setTimeout(() => {
         if (!enIntro) return;
         if (EMBED && parent !== window) { parent.postMessage({ type: 'projets-entree-droite', id: p.id }, '*'); ouvrir(p); }
         else location.href = lien(p);
-      }, calme ? 0 : range + duree(380));
+      }, calme ? 0 : range + duree(400));
       return;
     }
     // Les autres dossiers s'effacent ; celui-ci recule très vite au loin.
