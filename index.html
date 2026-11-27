@@ -11325,6 +11325,11 @@
       font: 400 16px/24px "Geist", "Helvetica Neue", Arial, sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; color: #8A8784 !important;
     }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__grand-mot.uc__grand-mot { justify-content: center !important; text-align: center !important; margin-bottom: 0 !important; }
+    /* Carte 1 : la photo du comptoir s'affiche aussi sur mobile, entre la phrase
+       et la fiche, en 16:9 comme la vidéo de la carte 2. (La vidéo de l'œil,
+       carte 12, reste réservée à l'ordinateur.) */
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-photo { display: block !important; width: 100% !important; aspect-ratio: 16 / 9; margin: 32px 0 !important; overflow: hidden; border-radius: var(--r-carte); }
+    html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > .uc__intro .uc__intro-photo img { display: block; width: 100% !important; height: 100% !important; object-fit: cover; object-position: 50% 40%; border-radius: var(--r-carte); }
     /* Carte 2 : la vidéo garde son format d'origine (16:9) sur toute la largeur,
        au lieu d'un recadrage vertical qui ne montrait qu'un mur gris. */
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__contexte-visuel.uc__contexte-visuel { height: auto !important; aspect-ratio: 16 / 9 !important; }
