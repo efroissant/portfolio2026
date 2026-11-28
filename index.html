@@ -20736,8 +20736,11 @@ moteurParcours(document.getElementById('doc-loblaw'), {
     poser(c.sexe, x, haut, L(4), H); x += L(4) + G;
     poser(c.resistance, x, haut, L(5), H); x += L(5) + G;
     poser(c.frise, x, haut, L(8), H); x += L(8) + G;
+    const xBilan = x;
     poser(c.bilan1, x, haut, L(4), H); x += L(4);   // dernière carte : la conclusion est retirée du parcours
-    const cam3 = Math.max(cam2, x - W, xFinal);
+    // Le parcours va jusqu'à ce que la dernière carte arrive à gauche, à la
+    // place des autres (et pas seulement à ce que son bord touche l'écran).
+    const cam3 = Math.max(cam2, x - W, xFinal, xBilan);
     return { points: [
       { x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas },
       { x: cam2, y: 0 }, { x: cam3, y: 0 },
