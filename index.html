@@ -11426,6 +11426,13 @@
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__contexte-visuel.uc__contexte-visuel { height: auto !important; aspect-ratio: 16 / 9 !important; }
     html body .stage #doc-loblaw.doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc .uc__contexte-visuel .uc__contexte-video.uc__contexte-video { display: block !important; width: 100% !important; height: 100% !important; max-width: 100% !important; object-fit: cover !important; }
   }
+  /* Extraits d'écran : dès qu'il y a des champs (dose, sexe/genre/pronoms,
+     formulaire réduit de Roche), ils sont posés sur une plaque crème qui
+     flotte au-dessus de la carte, comme un morceau d'interface découpé. */
+  html body .stage :is(#doc-loblaw, #doc-roche).doc:not(.doc--edito) .doc__page.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc.uc > * > :is(.dose, .sexe, .form-reduit)[class][class][class][class] {
+    background: #FAF6EE !important; border-radius: var(--r-carte) !important; padding: 24px !important; box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(28, 25, 23, .06), 0 12px 32px -8px rgba(28, 25, 23, .16) !important;
+  }
 </style>
 </head>
 <body>
