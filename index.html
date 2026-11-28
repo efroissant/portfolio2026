@@ -20793,8 +20793,10 @@ moteurParcours(document.getElementById('doc-roche'), {
     // La capture du site garde ses proportions : la carte prend sa largeur (barre de 28 px comprise).
     const lSite = Math.round((H - 48 - 28) * 1750 / 980) + 48;
     poser(c.site, x, haut, lSite, H); x += lSite + G;
+    const xResultat = x;
     poser(c.resultat, x, haut, L(5), H); x += L(5);
-    const cam3 = Math.max(cam2, x - W);
+    // Comme Shoppers : la dernière carte vient à gauche, à la place des autres.
+    const cam3 = Math.max(cam2, x - W, xResultat);
     return {
       points: [{ x: 0, y: 0 }, { x: cam1, y: 0 }, { x: cam1, y: pas }, { x: cam2, y: pas }, { x: cam2, y: 0 }, { x: cam3, y: 0 }],
       coins: [cam1, cam1 + pas, cam2 + pas, cam2 + pas * 2],
